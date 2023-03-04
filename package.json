@@ -7,6 +7,7 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
+		"generate": "plop",
 		"format": "prettier --write .",
 		"check-format": "prettier --check ."
 	},
@@ -20,6 +21,7 @@
 		"sass": "^1.58.3"
 	},
 	"devDependencies": {
+		"plop": "^3.1.2",
 		"prettier": "^2.8.4"
 	}
 }
