@@ -1,20 +1,40 @@
 {
-  "name": "portfolio-nithin",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "eslint": "8.35.0",
-    "eslint-config-next": "13.2.3",
-    "next": "13.2.3",
-    "prop-types": "^15.8.1",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "sass": "^1.58.3"
-  }
+	"name": "portfolio-nithin",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "eslint . --ext .js,.jsx",
+		"generate": "plop",
+		"format": "prettier --write .",
+		"check-format": "prettier --check ."
+	},
+	"dependencies": {
+		"eslint": "8.35.0",
+		"eslint-config-next": "13.2.3",
+		"next": "13.2.3",
+		"prop-types": "^15.8.1",
+		"react": "18.2.0",
+		"react-dom": "18.2.0",
+		"sass": "^1.58.3"
+	},
+	"devDependencies": {
+		"husky": "^8.0.3",
+		"lint-staged": "^13.1.2",
+		"plop": "^3.1.2",
+		"prettier": "^2.8.4"
+	},
+	"husky": {
+		"hooks": {
+		  "pre-commit": "npm run lint"
+		}
+	  },
+	"lint-staged": {
+		"*.{js,jsx}": [
+			"eslint --fix",
+			"git add"
+		]
+	}
 }

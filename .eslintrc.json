@@ -1,3 +1,30 @@
 {
-  "extends": ["next/babel","next/core-web-vitals"]
+	"env": {
+		"browser": true,
+		"es2022": true
+	},
+	"parserOptions": {
+		"ecmaFeatures": {
+			"jsx": true
+		},
+		"ecmaVersion": "latest",
+		"sourceType": "module"
+	},
+	"extends": ["next/core-web-vitals", "prettier"],
+	"plugins": ["prettier", "react"],
+	"rules": {
+		"react/prop-types": "error",
+		"prettier/prettier": [
+			"error",
+			{
+				"tabWidth": 2,
+				"useTabs": true,
+				"printWidth": 80,
+				"semi": true,
+				"trailingComma": "es5",
+				"singleQuote": true,
+				"endOfLine": "lf"
+			}
+		]
+	}
 }

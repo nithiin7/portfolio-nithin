@@ -2,8 +2,8 @@ $bodySize: 16;
 $bodyFontSize: 16px;
 
 @function rem($value) {
-    $newValue: $value / $bodySize * 1rem;
-    @return $newValue;
+	$newValue: $value / $bodySize * 1rem;
+	@return $newValue;
 }
 
 $xs: 'screen and (min-width:' + (320px) + ')';
