@@ -5,13 +5,13 @@
 	width: max-content;
 	display: inline-block;
 	color: $color-primary;
-	padding: 0.5rem 1rem;
-	border-radius: 0.4rem;
+	padding: rem(8) rem(16);
+	border-radius: rem(6.4);
 	cursor: pointer;
-	border: 1px solid $color-primary;
+	border: rem(1) solid $color-primary;
 	transition: $transition;
 	@media #{$md} {
-		padding: 0.75rem 1.2rem;
+		padding: rem(12) rem(19.2);
 	}
 	&:hover {
 		background: $color-white;
@@ -22,16 +22,16 @@
 		width: max-content;
 		display: inline-block;
 		color: $color-primary;
-		padding: 0.5rem 1rem;
+		padding: rem(8) rem(16);
 
-		border-radius: 0.4rem;
+		border-radius: rem(6.4);
 		cursor: pointer;
-		border: 1px solid $color-primary;
+		border: rem(1) solid $color-primary;
 		transition: $transition;
 		background: $color-primary;
 		color: $color-bg;
 		@media #{$md} {
-			padding: 0.75rem 1.2rem;
+			padding: rem(12) rem(19.2);
 		}
 	}
 }

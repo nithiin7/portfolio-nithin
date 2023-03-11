@@ -1,4 +1,5 @@
 @use './variables' as *;
+@use './mixin' as *;
 
 * {
     margin: 0;
@@ -18,7 +19,7 @@ html {
     display: none;
 }
 body {
-    font-family: "Poppins", sans-serif;
+    font-family: $font-primary, $font-secondary;
     background: $color-bg;
     color: $color-white;
     line-height: 1.7;
@@ -36,8 +37,8 @@ h5 {
 }
 
 section {
-    margin-top: 10em;
-    margin-bottom: 16rem;
+    margin-top: rem(160);
+    margin-bottom: rem(256);
 }
 
 section > h2,
@@ -48,7 +49,7 @@ section > h5 {
 
 section > h2 {
     color: $color-primary;
-    margin-bottom: 3rem;
+    margin-bottom: rem(48);
 }
 .text-light {
     color: $color-light;
