@@ -63,11 +63,20 @@
     .header__img {
         background: linear-gradient($color-primary, transparent);
         overflow: hidden;
-        padding: rem(80) rem(24) rem(24) rem(24);
+        padding: rem(80) rem(0) rem(48) rem(0);
         left: calc(50% - rem(152));
         margin-top: rem(16);
         border-radius: rem(192) rem(192) 0 0;
+        @media #{$sm} {
+            padding: rem(80) rem(24) rem(48) rem(24);
+        }
         @media #{$md} {
+            margin: rem(32);
+        }
+        @media #{$xl} {
+            padding: rem(80) rem(24) rem(24) rem(24);
+        }
+        @media #{$xxxl} {
             margin-top: rem(64);
         }
         img{
@@ -79,7 +88,7 @@
     }
     .header__scroll-down {
         position: absolute;
-        right: rem(-28.8);
+        right: rem(-33.6);
         bottom: rem(80);
         transform: rotate(90deg);
         font-weight: 300;
