@@ -18,7 +18,9 @@
 		"prop-types": "^15.8.1",
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
-		"sass": "^1.58.3"
+		"react-icons": "^4.8.0",
+		"sass": "^1.58.3",
+		"typewriter-effect": "^2.19.0"
 	},
 	"devDependencies": {
 		"husky": "^8.0.3",
@@ -28,9 +30,9 @@
 	},
 	"husky": {
 		"hooks": {
-		  "pre-commit": "npm run lint"
+			"pre-commit": "npm run lint"
 		}
-	  },
+	},
 	"lint-staged": {
 		"*.{js,jsx}": [
 			"eslint --fix",

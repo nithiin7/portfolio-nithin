@@ -6,7 +6,7 @@ $bodyFontSize: 16px;
 	@return $newValue;
 }
 
-$xs: 'screen and (min-width:' + (320px) + ')';
+$xs: 'screen and (min-width:' + (375px) + ')';
 $sm: 'screen and (min-width:' + (425px) + ')';
 $md: 'screen and (min-width:' + (768px) + ')';
 $lg: 'screen and (min-width:' + (1024px) + ')';

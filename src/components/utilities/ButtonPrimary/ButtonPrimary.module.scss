@@ -1,0 +1,37 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.button {
+	width: max-content;
+	display: inline-block;
+	color: $color-primary;
+	padding: 0.5rem 1rem;
+	border-radius: 0.4rem;
+	cursor: pointer;
+	border: 1px solid $color-primary;
+	transition: $transition;
+	@media #{$md} {
+		padding: 0.75rem 1.2rem;
+	}
+	&:hover {
+		background: $color-white;
+		color: $color-bg;
+		border-color: transparent;
+	}
+	&--primary {
+		width: max-content;
+		display: inline-block;
+		color: $color-primary;
+		padding: 0.5rem 1rem;
+
+		border-radius: 0.4rem;
+		cursor: pointer;
+		border: 1px solid $color-primary;
+		transition: $transition;
+		background: $color-primary;
+		color: $color-bg;
+		@media #{$md} {
+			padding: 0.75rem 1.2rem;
+		}
+	}
+}
