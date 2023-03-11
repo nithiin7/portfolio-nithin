@@ -23,7 +23,7 @@ export default function Home() {
 			</Head>
 			<header className={styles['portfolio__header']}>
 				<div className={styles['header__container']}>
-					<h5 data-aos="fade-up" data-aos-duration="500">
+					<h5 data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
 						Hello I'm
 					</h5>
 					<h1 data-aos="fade-up" data-aos-duration="1000">
@@ -32,6 +32,7 @@ export default function Home() {
 					<h5
 						data-aos="fade-up"
 						data-aos-duration="1200"
+						data-aos-once="true"
 						className="text-light"
 					>
 						<Typewriter
@@ -46,7 +47,12 @@ export default function Home() {
 							}}
 						/>
 					</h5>
-					<div className={styles['header__cta']}>
+					<div
+						data-aos="fade-up"
+						data-aos-duration="1200"
+						data-aos-once="true"
+						className={styles['header__cta']}
+					>
 						<ButtonPrimary
 							classModifier="button"
 							href={'/cv'}
@@ -63,6 +69,7 @@ export default function Home() {
 						<a
 							data-aos="fade-up"
 							data-aos-duration="1000"
+							data-aos-once="true"
 							href="#linkedin"
 							target="_blank"
 						>
@@ -71,6 +78,7 @@ export default function Home() {
 						<a
 							data-aos="fade-up"
 							data-aos-duration="1200"
+							data-aos-once="true"
 							href="#github"
 							target="_blank"
 						>
@@ -79,6 +87,7 @@ export default function Home() {
 						<a
 							data-aos="fade-up"
 							data-aos-duration="1400"
+							data-aos-once="true"
 							href="#instagram"
 							target="_blank"
 						>
@@ -88,6 +97,7 @@ export default function Home() {
 					<div
 						data-aos="fade-up"
 						data-aos-duration="1200"
+						data-aos-once="true"
 						className={styles['header__img']}
 					>
 						<Image
