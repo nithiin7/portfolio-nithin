@@ -18,7 +18,7 @@ import ServiceCard from 'components/pages/ServiceCard';
 import PortfolioCard from 'components/pages/PortfolioCard';
 import experience_settings from 'helpers/config';
 
-// import CV from '../../assets/cv.pdf'
+// import CV from 'assets/documents/cv.pdf'
 import Avatar from 'assets/images/avatar-nithin.png';
 
 import { BsLinkedin } from 'react-icons/bs';
@@ -126,7 +126,6 @@ export default function Home() {
 					content="A Portfolio Website Created by Nithin Pradeep"
 				/>
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
-				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<header className={styles['portfolio__header']}>
 				<div className={styles['header__container']}>
@@ -160,16 +159,13 @@ export default function Home() {
 						data-aos-once="true"
 						className={styles['header__cta']}
 					>
-						<ButtonPrimary
-							classModifier="button"
-							href={'/cv'}
-							download={'yes'}
-							data={'Download CV'}
-						/>
+						<a className={styles['header__button']} href={'/cv'} download>
+							Download CV
+						</a>
 						<ButtonPrimary
 							classModifier={'button--primary'}
 							href={'#contact'}
-							data={'Lets Talk'}
+							data={"Let's Talk"}
 						/>
 					</div>
 					<div className={styles['header__socials']}>
@@ -239,16 +235,17 @@ export default function Home() {
 						data-aos-once="true"
 					>
 						<div className={styles['about__me-image']}>
-							<img
+							<Image
 								src=""
 								alt="about-me"
+								height={1000}
+								width={1000}
 								data-aos="fade-up"
 								data-aos-duration="1400"
 								data-aos-once="true"
 							/>
 						</div>
 					</div>
-
 					<div className={styles['about__content']}>
 						<div className={styles['about__cards']}>
 							<article

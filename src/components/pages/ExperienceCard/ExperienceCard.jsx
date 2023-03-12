@@ -1,4 +1,6 @@
 import styles from './ExperienceCard.module.scss';
+import PropTypes from 'prop-types';
+
 import { BsPatchCheckFill } from 'react-icons/bs';
 
 function ExperienceCard({ tech, experience }) {
@@ -17,5 +19,10 @@ function ExperienceCard({ tech, experience }) {
 		</article>
 	);
 }
+
+ExperienceCard.propTypes = {
+	tech: PropTypes.string.isRequired,
+	experience: PropTypes.string.isRequired,
+};
 
 export default ExperienceCard;

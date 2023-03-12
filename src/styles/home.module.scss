@@ -94,6 +94,24 @@
 		font-weight: 300;
 		font-size: rem(14.4);
 	}
+	.header__button {
+		width: max-content;
+		display: inline-block;
+		color: $color-primary;
+		padding: rem(8) rem(16);
+		border-radius: rem(6.4);
+		cursor: pointer;
+		border: rem(1) solid $color-primary;
+		transition: $transition;
+		@media #{$md} {
+			padding: rem(12) rem(19.2);
+		}
+		&:hover {
+			background: $color-white;
+			color: $color-bg;
+			border-color: transparent;
+		}
+	}
 }
 
 .portfolio__about {

@@ -1,7 +1,7 @@
 import styles from './ButtonPrimary.module.scss';
 import PropTypes from 'prop-types';
 
-function ButtonPrimary({ classModifier, href, download, data }) {
+function ButtonPrimary({ classModifier, href, data }) {
 	return (
 		<a className={styles[`${classModifier}`]} href={href}>
 			{data}
@@ -12,7 +12,6 @@ function ButtonPrimary({ classModifier, href, download, data }) {
 ButtonPrimary.propTypes = {
 	classModifier: PropTypes.string.isRequired,
 	href: PropTypes.string.isRequired,
-	download: PropTypes.string,
 	data: PropTypes.string.isRequired,
 };
 

@@ -1,7 +1,7 @@
 @use 'styles/shared/mixin' as *;
 @use 'styles/shared/variables' as *;
 
-.portfolio__item {
+.portfolio-card__item {
 	background: $color-bg-variant;
 	padding: rem(20.8);
 	border-radius: rem(32);
@@ -15,15 +15,14 @@
 	h3 {
 		margin: rem(19.2) 0 rem(32);
 	}
-}
+	.portfolio-card__image {
+		border-radius: rem(24);
+		overflow: hidden;
+	}
 
-.portfolio__item-image {
-	border-radius: rem(24);
-	overflow: hidden;
-}
-
-.portfolio__item-cta {
-	display: flex;
-	gap: rem(16);
-	margin-bottom: rem(16);
+	.portfolio-card__cta {
+		display: flex;
+		gap: rem(16);
+		margin-bottom: rem(16);
+	}
 }

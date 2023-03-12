@@ -1,11 +1,13 @@
+import Image from 'next/image';
+
 import styles from './Footer.module.scss';
 import Logo from 'assets/images/Logo.png';
+
 import { FaFacebookF } from 'react-icons/fa';
 import { FiInstagram } from 'react-icons/fi';
 import { IoLogoTwitter } from 'react-icons/io';
 import { FaRedditAlien } from 'react-icons/fa';
 import { RiSnapchatLine } from 'react-icons/ri';
-import Image from 'next/image';
 
 function Footer() {
 	return (
@@ -14,11 +16,11 @@ function Footer() {
 				data-aos="fade-up"
 				data-aos-duration="900"
 				data-aos-once="true"
-				className={styles['logo']}
+				className={styles['footer__logo']}
 			>
 				<Image src={Logo} alt="logo" width={1000} height={1000} />
 			</div>
-			<ul className={styles['permalinks']}>
+			<ul className={styles['footer__permalinks']}>
 				<li data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
 					<a href="#">Home</a>
 				</li>
