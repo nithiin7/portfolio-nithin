@@ -4,6 +4,9 @@ import Typewriter from 'typewriter-effect';
 import { BsLinkedin } from 'react-icons/bs';
 import { FaGithub } from 'react-icons/fa';
 import { RiInstagramFill } from 'react-icons/ri';
+import { FaAward } from 'react-icons/fa';
+import { FiUsers } from 'react-icons/fi';
+import { VscFolderLibrary } from 'react-icons/vsc';
 import ButtonPrimary from 'components/utilities/ButtonPrimary';
 // import CV from '../../assets/cv.pdf'
 import Avatar from 'assets/images/avatar-nithin.png';
@@ -112,6 +115,90 @@ export default function Home() {
 					</a>
 				</div>
 			</header>
+			<section id="about">
+				<h5 data-aos="fade-up" data-aos-duration="1100" data-aos-once="true">
+					Get to Know
+				</h5>
+				<h2 data-aos="fade-up" data-aos-duration="1200" data-aos-once="true">
+					About Me
+				</h2>
+				<div
+					data-aos="fade-up"
+					data-aos-duration="1300"
+					data-aos-once="true"
+					className={styles['portfolio__about']}
+				>
+					<div
+						className={styles['about__me']}
+						data-aos="fade-up"
+						data-aos-duration="1200"
+						data-aos-once="true"
+					>
+						<div className={styles['about__me-image']}>
+							<img
+								src=""
+								alt="about-me"
+								data-aos="fade-up"
+								data-aos-duration="1400"
+								data-aos-once="true"
+							/>
+						</div>
+					</div>
+
+					<div className={styles['about__content']}>
+						<div className={styles['about__cards']}>
+							<article
+								className={styles['about__card']}
+								data-aos="fade-up"
+								data-aos-duration="1000"
+								data-aos-once="true"
+							>
+								<FaAward className={styles['about__icon']} />
+								<h5>Clients</h5>
+								<small>0+ Clients</small>
+							</article>
+							<article
+								className={styles['about__card']}
+								data-aos="fade-up"
+								data-aos-duration="1100"
+								data-aos-once="true"
+							>
+								<FiUsers className={styles['about__icon']} />
+								<h5>Work</h5>
+								<small>3+ Months Working</small>
+							</article>
+							<article
+								className={styles['about__card']}
+								data-aos="fade-up"
+								data-aos-duration="1200"
+								data-aos-once="true"
+							>
+								<VscFolderLibrary className={styles['about__icon']} />
+								<h5>Projects</h5>
+								<small>10+ Completed</small>
+							</article>
+						</div>
+						<p data-aos="fade-up" data-aos-duration="1200" data-aos-once="true">
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic quo
+							vero incidunt facere, ex rem cum odio sint. Quisquam tempora
+							accusamus numquam porro temporibus fugit. Praesentium inventore
+							ullam vero accusantium!
+						</p>
+						<div
+							data-aos="fade-up"
+							data-aos-duration="1300"
+							data-aos-once="true"
+							className={styles['about__icon']}
+						>
+							<ButtonPrimary
+								href={'#contact'}
+								classModifier={'button--primary'}
+								data={"Let's Talk"}
+							/>
+						</div>
+					</div>
+				</div>
+			</section>
 		</>
 	);
 }
