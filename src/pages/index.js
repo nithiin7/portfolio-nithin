@@ -15,6 +15,7 @@ import experience_settings from 'helpers/config';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import ExperienceCard from 'components/pages/ExperienceCard';
 import { BsPatchCheckFill } from 'react-icons/bs';
 
 export default function Home() {
@@ -205,193 +206,60 @@ export default function Home() {
 				</div>
 			</section>
 			<section id="experience">
-				<h5 data-aos="fade-up" data-aos-duration="1000">
+				<h5 data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
 					What Skills I Have
 				</h5>
-				<h2 data-aos="fade-up" data-aos-duration="1100">
+				<h2 data-aos="fade-up" data-aos-duration="1100" data-aos-once="true">
 					My Experience
 				</h2>
 				<div className={styles['portfolio__experience']}>
 					<div
 						data-aos="fade-up"
 						data-aos-duration="1200"
+						data-aos-once="true"
 						className={styles['experience__frontend']}
 					>
-						<h3 data-aos="fade-up" data-aos-duration="1200">
+						<h3
+							data-aos="fade-up"
+							data-aos-duration="1200"
+							data-aos-once="true"
+						>
 							Frontend Development
 						</h3>
 						<div
 							data-aos="fade-up"
 							data-aos-duration="1300"
+							data-aos-once="true"
 							className={styles['experience__content']}
 						>
-							<article
-								className={styles['experience__details']}
-								data-aos="fade-up"
-								data-aos-duration="1400"
-							>
-								<BsPatchCheckFill
-									className={styles['experience__details-icon']}
-								/>
-								<div>
-									<h4>HTML</h4>
-									<small className={styles['text-light']}>Intermediate</small>
-								</div>
-							</article>
-							<article
-								data-aos="fade-up"
-								data-aos-duration="1500"
-								className={styles['experience__details']}
-							>
-								<BsPatchCheckFill
-									className={styles['experience__details-icon']}
-								/>
-								<div>
-									<h4>JavaScript</h4>
-									<small className={styles['text-light']}>Intermediate</small>
-								</div>
-							</article>
-							<article
-								data-aos="fade-up"
-								data-aos-duration="1600"
-								className={styles['experience__details']}
-							>
-								<BsPatchCheckFill
-									className={styles['experience__details-icon']}
-								/>
-								<div>
-									<h4>Bootstrap</h4>
-									<small className={styles['text-light']}>Intermediate</small>
-								</div>
-							</article>
-							<article
-								data-aos="fade-up"
-								data-aos-duration="1700"
-								className={styles['experience__details']}
-							>
-								<BsPatchCheckFill
-									className={styles['experience__details-icon']}
-								/>
-								<div>
-									<h4>PUG</h4>
-									<small className={styles['text-light']}>Intermediate</small>
-								</div>
-							</article>
-							<article
-								data-aos="fade-up"
-								data-aos-duration="1800"
-								className={styles['experience__details']}
-							>
-								<BsPatchCheckFill
-									className={styles['experience__details-icon']}
-								/>
-								<div>
-									<h4>React</h4>
-									<small className={styles['text-light']}>Intermediate</small>
-								</div>
-							</article>
-							<article
-								data-aos="fade-up"
-								data-aos-duration="1900"
-								className={styles['experience__details']}
-							>
-								<BsPatchCheckFill
-									className={styles['experience__details-icon']}
-								/>
-								<div>
-									<h4>Flutter</h4>
-									<small className={styles['text-light']}>Intermediate</small>
-								</div>
-							</article>
+							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
+							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
+							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
+							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
+							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
+							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
 						</div>
 					</div>
 					<div className={styles['experience__backend']}>
-						<h3 data-aos="fade-up" data-aos-duration="1200">
+						<h3
+							data-aos="fade-up"
+							data-aos-duration="1200"
+							data-aos-once="true"
+						>
 							Backend Development
 						</h3>
 						<div
 							data-aos="fade-up"
 							data-aos-duration="1300"
+							data-aos-once="true"
 							className={styles['experience__content']}
 						>
-							<article
-								data-aos="fade-up"
-								data-aos-duration="1400"
-								className={styles['experience__details']}
-							>
-								<BsPatchCheckFill
-									className={styles['experience__details-icon']}
-								/>
-								<div>
-									<h4>NodeJS</h4>
-									<small className={styles['text-light']}>Intermediate</small>
-								</div>
-							</article>
-							<article
-								data-aos="fade-up"
-								data-aos-duration="1500"
-								className={styles['experience__details']}
-							>
-								<BsPatchCheckFill
-									className={styles['experience__details-icon']}
-								/>
-								<div>
-									<h4>MySQL</h4>
-									<small className={styles['text-light']}>Intermediate</small>
-								</div>
-							</article>
-							<article
-								data-aos="fade-up"
-								data-aos-duration="1600"
-								className={styles['experience__details']}
-							>
-								<BsPatchCheckFill
-									className={styles['experience__details-icon']}
-								/>
-								<div>
-									<h4>PHP</h4>
-									<small className={styles['text-light']}>Intermediate</small>
-								</div>
-							</article>
-							<article
-								data-aos="fade-up"
-								data-aos-duration="1700"
-								className={styles['experience__details']}
-							>
-								<BsPatchCheckFill
-									className={styles['experience__details-icon']}
-								/>
-								<div>
-									<h4>MongoDB</h4>
-									<small className={styles['text-light']}>Intermediate</small>
-								</div>
-							</article>
-							<article
-								data-aos="fade-up"
-								data-aos-duration="1800"
-								className={styles['experience__details']}
-							>
-								<BsPatchCheckFill
-									className={styles['experience__details-icon']}
-								/>
-								<div>
-									<h4>Java</h4>
-									<small className={styles['text-light']}>Intermediate</small>
-								</div>
-							</article>
-							<article
-								data-aos="fade-up"
-								data-aos-duration="1900"
-								className={styles['experience__details']}
-							>
-								<BsPatchCheckFill
-									className={styles['experience__details-icon']}
-								/>
-								<div>
-									<h4>Python</h4>
-									<small className={styles['text-light']}>Basic</small>
-								</div>
-							</article>
+							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
+							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
+							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
+							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
+							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
+							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
 						</div>
 					</div>
 				</div>
