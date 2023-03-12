@@ -253,3 +253,21 @@
 		}
 	}
 }
+
+.portfolio__services {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: rem(32);
+	width: $container-width-sm;
+	margin: 0 auto;
+	@media #{$md} {
+		width: $container-width-md;
+	}
+	@media #{$lg} {
+		grid-template-columns: repeat(3, 1fr);
+		gap: rem(48);
+	}
+	@media #{$xl} {
+		width: $container-width-xl;
+	}
+}

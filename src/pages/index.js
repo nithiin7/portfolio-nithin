@@ -16,7 +16,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import ExperienceCard from 'components/pages/ExperienceCard';
-import { BsPatchCheckFill } from 'react-icons/bs';
+import ServiceCard from 'components/pages/ServiceCard';
 
 export default function Home() {
 	return (
@@ -267,6 +267,25 @@ export default function Home() {
 					<Slider {...experience_settings}>
 						<div></div>
 					</Slider>
+				</div>
+			</section>
+			<section id="services">
+				<h5 data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
+					What I Offer
+				</h5>
+				<h2 data-aos="fade-up" data-aos-duration="1100" data-aos-once="true">
+					Services
+				</h2>
+
+				<div
+					data-aos="fade-up"
+					data-aos-duration="1200"
+					data-aos-once="true"
+					className={styles['portfolio__services']}
+				>
+					<ServiceCard heading={'UI/UX Design'} />
+					<ServiceCard heading={'Web Development'} />
+					<ServiceCard heading={'Content Creation'} />
 				</div>
 			</section>
 		</>
