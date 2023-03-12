@@ -1,0 +1,29 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.portfolio__item {
+	background: $color-bg-variant;
+	padding: rem(20.8);
+	border-radius: rem(32);
+	border: rem(1) solid transparent;
+	overflow: hidden;
+	transition: $transition;
+	&:hover {
+		border-color: $color-primary-variant;
+		background: transparent;
+	}
+	h3 {
+		margin: rem(19.2) 0 rem(32);
+	}
+}
+
+.portfolio__item-image {
+	border-radius: rem(24);
+	overflow: hidden;
+}
+
+.portfolio__item-cta {
+	display: flex;
+	gap: rem(16);
+	margin-bottom: rem(16);
+}

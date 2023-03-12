@@ -17,8 +17,53 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import ExperienceCard from 'components/pages/ExperienceCard';
 import ServiceCard from 'components/pages/ServiceCard';
+import PortfolioCard from 'components/pages/PortfolioCard';
 
 export default function Home() {
+	const data = [
+		{
+			id: 1,
+			image: '',
+			title: 'Github',
+			github: '',
+			demo: '',
+		},
+		{
+			id: 2,
+			image: '',
+			title: 'Github',
+			github: '',
+			demo: '',
+		},
+		{
+			id: 3,
+			image: '',
+			title: 'Github',
+			github: '',
+			demo: '',
+		},
+		{
+			id: 4,
+			image: '',
+			title: 'Github',
+			github: '',
+			demo: '',
+		},
+		{
+			id: 5,
+			image: '',
+			title: 'Github',
+			github: '',
+			demo: '',
+		},
+		{
+			id: 6,
+			image: '',
+			title: 'Github',
+			github: '',
+			demo: '',
+		},
+	];
 	return (
 		<>
 			<Head>
@@ -286,6 +331,27 @@ export default function Home() {
 					<ServiceCard heading={'UI/UX Design'} />
 					<ServiceCard heading={'Web Development'} />
 					<ServiceCard heading={'Content Creation'} />
+				</div>
+			</section>
+			<section id="portfolio">
+				<h5 data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
+					My Recent Work
+				</h5>
+				<h2 data-aos="fade-up" data-aos-duration="1100" data-aos-once="true">
+					Portfolio
+				</h2>
+				<div className={styles['portfolio__portfolio']}>
+					{data.map(({ id, image, title, github, demo }) => {
+						return (
+							<PortfolioCard
+								id={id}
+								image={image}
+								title={title}
+								github={github}
+								demo={demo}
+							/>
+						);
+					})}
 				</div>
 			</section>
 		</>
