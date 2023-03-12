@@ -18,6 +18,11 @@ import 'slick-carousel/slick/slick-theme.css';
 import ExperienceCard from 'components/pages/ExperienceCard';
 import ServiceCard from 'components/pages/ServiceCard';
 import PortfolioCard from 'components/pages/PortfolioCard';
+import { Pagination } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+import 'swiper/css';
+import 'swiper/css/pagination';
 
 export default function Home() {
 	const data = [
@@ -62,6 +67,33 @@ export default function Home() {
 			title: 'Github',
 			github: '',
 			demo: '',
+		},
+	];
+
+	const data_testimonials = [
+		{
+			avatar: '',
+			name: 'Name',
+			review:
+				'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas a aliquam esse sint. Illo beatae veritatis iure sequi aspernatur ut, cum accusamus architecto ipsam repellendus, commodi, dolores eum provident cupiditate.',
+		},
+		{
+			avatar: '',
+			name: 'Name',
+			review:
+				'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas a aliquam esse sint. Illo beatae veritatis iure sequi aspernatur ut, cum accusamus architecto ipsam repellendus, commodi, dolores eum provident cupiditate.',
+		},
+		{
+			avatar: '',
+			name: 'Name',
+			review:
+				'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas a aliquam esse sint. Illo beatae veritatis iure sequi aspernatur ut, cum accusamus architecto ipsam repellendus, commodi, dolores eum provident cupiditate.',
+		},
+		{
+			avatar: '',
+			name: 'Name',
+			review:
+				'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas a aliquam esse sint. Illo beatae veritatis iure sequi aspernatur ut, cum accusamus architecto ipsam repellendus, commodi, dolores eum provident cupiditate.',
 		},
 	];
 	return (
@@ -352,6 +384,41 @@ export default function Home() {
 							/>
 						);
 					})}
+				</div>
+			</section>
+			<section id="testimonials">
+				<h5 data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
+					Review from clients
+				</h5>
+				<h2 data-aos="fade-up" data-aos-duration="1100" data-aos-once="true">
+					Testimonials
+				</h2>
+				<div data-aos="fade-up" data-aos-duration="1200" data-aos-once="true">
+					<Swiper
+						className={styles['portfolio__testimonials']}
+						modules={[Pagination]}
+						navigation
+						spaceBetween={40}
+						slidesPerView={1}
+						pagination={{ clickable: true }}
+					>
+						{data_testimonials.map(({ avatar, name, review }, index) => {
+							return (
+								<SwiperSlide
+									key={index}
+									className={styles['testimonial__container']}
+								>
+									<div className={styles['testimonial__avatar']}>
+										<img src={avatar} alt="Avatar" />
+									</div>
+									<h5 className={styles['testimonial__name']}>{name}</h5>
+									<small className={styles['testimonial__review']}>
+										{review}
+									</small>
+								</SwiperSlide>
+							);
+						})}
+					</Swiper>
 				</div>
 			</section>
 		</>
