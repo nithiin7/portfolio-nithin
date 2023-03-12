@@ -1,16 +1,16 @@
 @use 'styles/shared/mixin' as *;
 @use 'styles/shared/variables' as *;
 
-footer {
-	background: var(--color-primary);
+.footer {
+	background: $color-primary;
 	padding: 3rem 0;
 	text-align: center;
 	font-size: 0.9rem;
 	margin-top: 7rem;
 }
 
-footer a {
-	color: var(--color-bg);
+.footer a {
+	color: $color-bg;
 }
 
 .permalinks {
@@ -29,8 +29,8 @@ footer a {
 }
 
 .footer__socials a {
-	background: var(--color-bg);
-	color: var(--color-white);
+	background: $color-bg;
+	color: $color-white;
 	padding: 0.8rem;
 	border-radius: 0.7rem;
 	display: flex;
@@ -39,13 +39,13 @@ footer a {
 
 .footer__socials a:hover {
 	background: transparent;
-	color: var(--color-bg);
-	border-color: var(--color-bg);
+	color: $color-bg;
+	border-color: $color-bg;
 }
 
 .footer__copyright {
 	margin-bottom: 4rem;
-	color: var(--color-bg);
+	color: $color-bg;
 }
 
 .logo {

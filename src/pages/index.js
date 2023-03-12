@@ -1,32 +1,35 @@
 import Head from 'next/head';
+import { useRef } from 'react';
+import Image from 'next/image';
 import styles from 'styles/home.module.scss';
 import Typewriter from 'typewriter-effect';
+import emailjs from 'emailjs-com';
+import { Pagination } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+
+import ButtonPrimary from 'components/utilities/ButtonPrimary';
+import ExperienceCard from 'components/pages/ExperienceCard';
+import ServiceCard from 'components/pages/ServiceCard';
+import PortfolioCard from 'components/pages/PortfolioCard';
+import experience_settings from 'helpers/config';
+
+// import CV from '../../assets/cv.pdf'
+import Avatar from 'assets/images/avatar-nithin.png';
+
 import { BsLinkedin } from 'react-icons/bs';
 import { FaGithub } from 'react-icons/fa';
 import { RiInstagramFill } from 'react-icons/ri';
 import { FaAward } from 'react-icons/fa';
 import { FiUsers } from 'react-icons/fi';
 import { VscFolderLibrary } from 'react-icons/vsc';
-import ButtonPrimary from 'components/utilities/ButtonPrimary';
-// import CV from '../../assets/cv.pdf'
-import Avatar from 'assets/images/avatar-nithin.png';
-import Image from 'next/image';
-import experience_settings from 'helpers/config';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import ExperienceCard from 'components/pages/ExperienceCard';
-import ServiceCard from 'components/pages/ServiceCard';
-import PortfolioCard from 'components/pages/PortfolioCard';
-import { Pagination } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { useRef } from 'react';
-import 'swiper/css';
-import 'swiper/css/pagination';
 import { MdOutlineMail } from 'react-icons/md';
 import { RiMessengerLine } from 'react-icons/ri';
 import { BsWhatsapp } from 'react-icons/bs';
-import emailjs from 'emailjs-com';
 
 export default function Home() {
 	const form = useRef();
@@ -440,29 +443,32 @@ export default function Home() {
 				</div>
 			</section>
 			<section id="contact">
-				<h5 data-aos="fade-up" data-aos-duration="1000">
+				<h5 data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
 					Get In Touch
 				</h5>
-				<h2 data-aos="fade-up" data-aos-duration="1100">
+				<h2 data-aos="fade-up" data-aos-duration="1100" data-aos-once="true">
 					Contact Me
 				</h2>
 
 				<div
 					data-aos="fade-up"
 					data-aos-duration="1200"
-					className="container contact__container"
+					data-aos-once="true"
+					className={styles['contact__container']}
 				>
 					<div
 						data-aos="fade-up"
 						data-aos-duration="1300"
-						className="contact__options"
+						data-aos-once="true"
+						className={styles['contact__options']}
 					>
 						<article
 							data-aos="fade-up"
 							data-aos-duration="1400"
-							className="contact__option"
+							data-aos-once="true"
+							className={styles['contact__option']}
 						>
-							<MdOutlineMail className="contact__option-icon" />
+							<MdOutlineMail className={styles['contact__option-icon']} />
 							<h4>Email</h4>
 							<h5>nithinp150@gmail.com</h5>
 							<a href="mailto:nithinp150@gmail.com">Send a Message</a>
@@ -470,9 +476,10 @@ export default function Home() {
 						<article
 							data-aos="fade-up"
 							data-aos-duration="1500"
-							className="contact__option"
+							data-aos-once="true"
+							className={styles['contact__option']}
 						>
-							<BsWhatsapp className="contact__option-icon" />
+							<BsWhatsapp className={styles['contact__option-icon']} />
 							<h4>WhatsApp</h4>
 							<h5>+91-9645018007</h5>
 							<a href="https://api.whatsapp.com/send?phone=+919645018007">
@@ -482,34 +489,45 @@ export default function Home() {
 						<article
 							data-aos="fade-up"
 							data-aos-duration="1600"
-							className="contact__option"
+							data-aos-once="true"
+							className={styles['contact__option']}
 						>
-							<RiMessengerLine className="contact__option-icon" />
+							<RiMessengerLine className={styles['contact__option-icon']} />
 							<h4>Messenger</h4>
 							<h5>Nithin Pradeep</h5>
 							<a href="https://facebook.com">Send a Message</a>
 						</article>
 					</div>
-					<form ref={form} onSubmit={sendEmail}>
+					<form
+						className={styles['contact__form']}
+						ref={form}
+						onSubmit={sendEmail}
+					>
 						<input
+							className={styles['contact__input']}
 							data-aos="fade-up"
 							data-aos-duration="1200"
+							data-aos-once="true"
 							type="text"
 							name="name"
 							placeholder="Your Full Name"
 							required
 						/>
 						<input
+							className={styles['contact__input']}
 							data-aos="fade-up"
 							data-aos-duration="1300"
+							data-aos-once="true"
 							type="email"
 							name="email"
 							placeholder="Your Email"
 							required
 						/>
 						<textarea
+							className={styles['contact__textarea']}
 							data-aos="fade-up"
 							data-aos-duration="1400"
+							data-aos-once="true"
 							name="message"
 							rows="7"
 							placeholder="Your Message"
@@ -518,8 +536,9 @@ export default function Home() {
 						<button
 							data-aos="fade-up"
 							data-aos-duration="1500"
+							data-aos-once="true"
 							type="submit"
-							className="btn btn-primary"
+							className={styles['contact__button']}
 						>
 							Send Message
 						</button>
