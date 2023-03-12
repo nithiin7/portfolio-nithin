@@ -11,6 +11,12 @@ import ButtonPrimary from 'components/utilities/ButtonPrimary';
 // import CV from '../../assets/cv.pdf'
 import Avatar from 'assets/images/avatar-nithin.png';
 import Image from 'next/image';
+import experience_settings from 'helpers/config';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import ExperienceCard from 'components/pages/ExperienceCard';
+import { BsPatchCheckFill } from 'react-icons/bs';
 
 export default function Home() {
 	return (
@@ -197,6 +203,70 @@ export default function Home() {
 							/>
 						</div>
 					</div>
+				</div>
+			</section>
+			<section id="experience">
+				<h5 data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
+					What Skills I Have
+				</h5>
+				<h2 data-aos="fade-up" data-aos-duration="1100" data-aos-once="true">
+					My Experience
+				</h2>
+				<div className={styles['portfolio__experience']}>
+					<div
+						data-aos="fade-up"
+						data-aos-duration="1200"
+						data-aos-once="true"
+						className={styles['experience__frontend']}
+					>
+						<h3
+							data-aos="fade-up"
+							data-aos-duration="1200"
+							data-aos-once="true"
+						>
+							Frontend Development
+						</h3>
+						<div
+							data-aos="fade-up"
+							data-aos-duration="1300"
+							data-aos-once="true"
+							className={styles['experience__content']}
+						>
+							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
+							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
+							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
+							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
+							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
+							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
+						</div>
+					</div>
+					<div className={styles['experience__backend']}>
+						<h3
+							data-aos="fade-up"
+							data-aos-duration="1200"
+							data-aos-once="true"
+						>
+							Backend Development
+						</h3>
+						<div
+							data-aos="fade-up"
+							data-aos-duration="1300"
+							data-aos-once="true"
+							className={styles['experience__content']}
+						>
+							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
+							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
+							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
+							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
+							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
+							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
+						</div>
+					</div>
+				</div>
+				<div className={styles['experience__slider']}>
+					<Slider {...experience_settings}>
+						<div></div>
+					</Slider>
 				</div>
 			</section>
 		</>
