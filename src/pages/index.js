@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import { useRef } from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 import styles from 'styles/home.module.scss';
 import Typewriter from 'typewriter-effect';
@@ -18,15 +19,12 @@ import ServiceCard from 'components/pages/ServiceCard';
 import PortfolioCard from 'components/pages/PortfolioCard';
 import experience_settings from 'helpers/config';
 
+import { socialMediaLinks } from 'helpers/constants';
 // import CV from 'assets/documents/cv.pdf'
-import Avatar from 'assets/images/avatar-nithin.png';
 import myAvatar from 'assets/images/myAvatar.png';
 import portfolio from 'assets/images/portfolio1.jpg';
 import IMGTEST from 'assets/images/avatar2.jpg';
 
-import { BsLinkedin } from 'react-icons/bs';
-import { FaGithub } from 'react-icons/fa';
-import { RiInstagramFill } from 'react-icons/ri';
 import { FaAward } from 'react-icons/fa';
 import { FiUsers } from 'react-icons/fi';
 import { VscFolderLibrary } from 'react-icons/vsc';
@@ -52,8 +50,10 @@ export async function getStaticProps() {
 }
 
 export default function Home(props) {
-	console.log(props);
 	const path = props?.data.data.pageCollection.items[0];
+	const path_header = path?.sectionCollection.items[0].contentsCollection;
+	const header_list = path_header?.items[1].contentsCollection.items[0].list;
+
 	const form = useRef();
 
 	const sendEmail = (e) => {
@@ -139,37 +139,34 @@ export default function Home(props) {
 				'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas a aliquam esse sint. Illo beatae veritatis iure sequi aspernatur ut, cum accusamus architecto ipsam repellendus, commodi, dolores eum provident cupiditate.',
 		},
 	];
+
 	return (
 		<>
 			<Head>
 				<title>{path.title}</title>
-				<meta
-					name="Portfolio Website - Nithin Pradeep"
-					content={path.description}
-				/>
+				<meta name={path?.title} content={path?.description} />
+				<meta property="og:title" content={path?.ogtitle}></meta>
+				<meta property="og:description" content={path?.description}></meta>
+				<meta property="og:url" content={path?.ogurl}></meta>
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 			</Head>
 			<header className={styles['portfolio__header']}>
 				<div className={styles['header__container']}>
 					<h5 data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
-						Hello I'm
+						{path_header?.items[0].title}
 					</h5>
 					<h1 data-aos="fade-up" data-aos-duration="1000">
-						Nithin Pradeep
+						{path_header?.items[0].subTitle}
 					</h1>
 					<h5
 						data-aos="fade-up"
 						data-aos-duration="1200"
 						data-aos-once="true"
-						className="text-light"
+						className={styles['text-light']}
 					>
 						<Typewriter
 							options={{
-								strings: [
-									'Enthusiastic Dev',
-									'Fullstack Developer',
-									'Cross-Platform Dev',
-								],
+								strings: header_list.map((item) => item),
 								autoStart: true,
 								loop: true,
 							}}
@@ -181,43 +178,34 @@ export default function Home(props) {
 						data-aos-once="true"
 						className={styles['header__cta']}
 					>
-						<a className={styles['header__button']} href={'/cv'} download>
+						<Link className={styles['header__button']} href={'/cv'} download>
 							Download CV
-						</a>
+						</Link>
 						<ButtonPrimary
 							classModifier={'button--primary'}
 							href={'#contact'}
 							data={"Let's Talk"}
 						/>
 					</div>
-					<div className={styles['header__socials']}>
-						<a
-							data-aos="fade-up"
-							data-aos-duration="1000"
-							data-aos-once="true"
-							href="https://www.linkedin.com/in/nithin-p7/"
-							target="_blank"
-						>
-							<BsLinkedin />
-						</a>
-						<a
-							data-aos="fade-up"
-							data-aos-duration="1200"
-							data-aos-once="true"
-							href="https://github.com/nithiin7"
-							target="_blank"
-						>
-							<FaGithub />
-						</a>
-						<a
-							data-aos="fade-up"
-							data-aos-duration="1400"
-							data-aos-once="true"
-							href="https://www.instagram.com/__nithiin__/"
-							target="_blank"
-						>
-							<RiInstagramFill />
-						</a>
+					<div
+						data-aos="fade-up"
+						data-aos-duration="1400"
+						data-aos-once="true"
+						className={styles['header__socials']}
+					>
+						{socialMediaLinks.map((link) => (
+							<Link
+								key={link.title}
+								data-aos="fade-up"
+								data-aos-duration={link.duration}
+								data-aos-once="true"
+								title={link.title}
+								href={link.href}
+								target={link.target}
+							>
+								{link.icon}
+							</Link>
+						))}
 					</div>
 					<div
 						data-aos="fade-up"
@@ -226,15 +214,23 @@ export default function Home(props) {
 						className={styles['header__img']}
 					>
 						<Image
-							src={Avatar}
-							alt="avatar-nithin"
+							src={
+								path.sectionCollection.items[0].contentsCollection.items[3]
+									.contentsCollection.items[0].image.url
+							}
+							alt={
+								path.sectionCollection.items[0].contentsCollection.items[3]
+									.contentsCollection.items[0].image.title
+							}
 							height={1000}
 							width={1000}
+							quality={100}
+							priority
 						/>
 					</div>
-					<a href="#contact" className={styles['header__scroll-down']}>
+					<Link href="#contact" className={styles['header__scroll-down']}>
 						ScrollDown
-					</a>
+					</Link>
 				</div>
 			</header>
 			<section id="about">
@@ -468,6 +464,7 @@ export default function Home(props) {
 											alt="Avatar"
 											width={1000}
 											height={1000}
+											priority
 										/>
 									</div>
 									<h5 className={styles['testimonial__name']}>{name}</h5>
