@@ -1,5 +1,6 @@
 import styles from './ServiceCard.module.scss';
 import { BiCheck } from 'react-icons/bi';
+import PropTypes from 'prop-types';
 
 function ServiceCard({ heading, list }) {
 	return (
@@ -38,5 +39,10 @@ function ServiceCard({ heading, list }) {
 		</article>
 	);
 }
+
+ServiceCard.propTypes = {
+	heading: PropTypes.string.isRequired,
+	list: PropTypes.array.isRequired,
+};
 
 export default ServiceCard;

@@ -18,6 +18,10 @@
 	.portfolio-card__image {
 		border-radius: rem(24);
 		overflow: hidden;
+		img {
+			height: auto;
+			width: 100%;
+		}
 	}
 
 	.portfolio-card__cta {

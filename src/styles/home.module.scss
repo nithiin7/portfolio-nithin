@@ -160,6 +160,10 @@
 			&:hover {
 				transform: rotate(0);
 			}
+			img {
+				height: auto;
+				width: 100%;
+			}
 		}
 	}
 
@@ -336,6 +340,10 @@
 		border-radius: 50%;
 		margin: 0 auto rem(16);
 		border: rem(6.4) solid $color-bg-variant;
+		img {
+			height: auto;
+			width: 100%;
+		}
 	}
 
 	.testimonial__container {

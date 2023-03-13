@@ -20,6 +20,9 @@ import experience_settings from 'helpers/config';
 
 // import CV from 'assets/documents/cv.pdf'
 import Avatar from 'assets/images/avatar-nithin.png';
+import myAvatar from 'assets/images/myAvatar.png';
+import portfolio from 'assets/images/portfolio1.jpg';
+import IMGTEST from 'assets/images/avatar2.jpg';
 
 import { BsLinkedin } from 'react-icons/bs';
 import { FaGithub } from 'react-icons/fa';
@@ -31,7 +34,26 @@ import { MdOutlineMail } from 'react-icons/md';
 import { RiMessengerLine } from 'react-icons/ri';
 import { BsWhatsapp } from 'react-icons/bs';
 
-export default function Home() {
+import { initializeApollo } from '/lib/apolloClient';
+import { HOME_PAGE } from 'queries';
+
+export async function getStaticProps() {
+	const apolloClient = initializeApollo();
+
+	const data = await apolloClient.query({
+		query: HOME_PAGE,
+	});
+
+	return {
+		props: {
+			data,
+		},
+	};
+}
+
+export default function Home(props) {
+	console.log(props);
+	const path = props?.data.data.pageCollection.items[0];
 	const form = useRef();
 
 	const sendEmail = (e) => {
@@ -49,42 +71,42 @@ export default function Home() {
 	const data = [
 		{
 			id: 1,
-			image: '',
+			image: portfolio,
 			title: 'Github',
 			github: '',
 			demo: '',
 		},
 		{
 			id: 2,
-			image: '',
+			image: portfolio,
 			title: 'Github',
 			github: '',
 			demo: '',
 		},
 		{
 			id: 3,
-			image: '',
+			image: portfolio,
 			title: 'Github',
 			github: '',
 			demo: '',
 		},
 		{
 			id: 4,
-			image: '',
+			image: portfolio,
 			title: 'Github',
 			github: '',
 			demo: '',
 		},
 		{
 			id: 5,
-			image: '',
+			image: portfolio,
 			title: 'Github',
 			github: '',
 			demo: '',
 		},
 		{
 			id: 6,
-			image: '',
+			image: portfolio,
 			title: 'Github',
 			github: '',
 			demo: '',
@@ -93,25 +115,25 @@ export default function Home() {
 
 	const data_testimonials = [
 		{
-			avatar: '',
+			avatar: IMGTEST,
 			name: 'Name',
 			review:
 				'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas a aliquam esse sint. Illo beatae veritatis iure sequi aspernatur ut, cum accusamus architecto ipsam repellendus, commodi, dolores eum provident cupiditate.',
 		},
 		{
-			avatar: '',
+			avatar: IMGTEST,
 			name: 'Name',
 			review:
 				'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas a aliquam esse sint. Illo beatae veritatis iure sequi aspernatur ut, cum accusamus architecto ipsam repellendus, commodi, dolores eum provident cupiditate.',
 		},
 		{
-			avatar: '',
+			avatar: IMGTEST,
 			name: 'Name',
 			review:
 				'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas a aliquam esse sint. Illo beatae veritatis iure sequi aspernatur ut, cum accusamus architecto ipsam repellendus, commodi, dolores eum provident cupiditate.',
 		},
 		{
-			avatar: '',
+			avatar: IMGTEST,
 			name: 'Name',
 			review:
 				'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas a aliquam esse sint. Illo beatae veritatis iure sequi aspernatur ut, cum accusamus architecto ipsam repellendus, commodi, dolores eum provident cupiditate.',
@@ -120,10 +142,10 @@ export default function Home() {
 	return (
 		<>
 			<Head>
-				<title>Portfolio Nithin</title>
+				<title>{path.title}</title>
 				<meta
 					name="Portfolio Website - Nithin Pradeep"
-					content="A Portfolio Website Created by Nithin Pradeep"
+					content={path.description}
 				/>
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 			</Head>
@@ -173,7 +195,7 @@ export default function Home() {
 							data-aos="fade-up"
 							data-aos-duration="1000"
 							data-aos-once="true"
-							href="#linkedin"
+							href="https://www.linkedin.com/in/nithin-p7/"
 							target="_blank"
 						>
 							<BsLinkedin />
@@ -182,7 +204,7 @@ export default function Home() {
 							data-aos="fade-up"
 							data-aos-duration="1200"
 							data-aos-once="true"
-							href="#github"
+							href="https://github.com/nithiin7"
 							target="_blank"
 						>
 							<FaGithub />
@@ -191,7 +213,7 @@ export default function Home() {
 							data-aos="fade-up"
 							data-aos-duration="1400"
 							data-aos-once="true"
-							href="#instagram"
+							href="https://www.instagram.com/__nithiin__/"
 							target="_blank"
 						>
 							<RiInstagramFill />
@@ -236,7 +258,7 @@ export default function Home() {
 					>
 						<div className={styles['about__me-image']}>
 							<Image
-								src=""
+								src={myAvatar}
 								alt="about-me"
 								height={1000}
 								width={1000}
@@ -255,8 +277,8 @@ export default function Home() {
 								data-aos-once="true"
 							>
 								<FaAward className={styles['about__icon']} />
-								<h5>Clients</h5>
-								<small>0+ Clients</small>
+								<h5>Tech Stacks</h5>
+								<small>10+ Stacks</small>
 							</article>
 							<article
 								className={styles['about__card']}
@@ -265,8 +287,8 @@ export default function Home() {
 								data-aos-once="true"
 							>
 								<FiUsers className={styles['about__icon']} />
-								<h5>Work</h5>
-								<small>3+ Months Working</small>
+								<h5>Experience</h5>
+								<small>7 Months</small>
 							</article>
 							<article
 								className={styles['about__card']}
@@ -276,14 +298,22 @@ export default function Home() {
 							>
 								<VscFolderLibrary className={styles['about__icon']} />
 								<h5>Projects</h5>
-								<small>10+ Completed</small>
+								<small>5+ Completed</small>
 							</article>
 						</div>
 						<p data-aos="fade-up" data-aos-duration="1200" data-aos-once="true">
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic quo
-							vero incidunt facere, ex rem cum odio sint. Quisquam tempora
-							accusamus numquam porro temporibus fugit. Praesentium inventore
-							ullam vero accusantium!
+							I'm a Full Stack Developer located in Kochi, Kerala. I have
+							serious passion for UI Effects, animations and creating creating
+							intuitive, dynamic user experiences.
+						</p>
+						<p>
+							Well-organized person, problem solver, employee with high
+							attention to detail. Fan of Football, gaming, TV series and
+							Automobile.
+						</p>
+						<p>
+							Interested in the entire Full-Stack spectrum and working on
+							ambitious projects with positive people.
 						</p>
 						<div
 							data-aos="fade-up"
@@ -294,7 +324,7 @@ export default function Home() {
 							<ButtonPrimary
 								href={'#contact'}
 								classModifier={'button--primary'}
-								data={"Let's Talk"}
+								data={'Let’s make something special.'}
 							/>
 						</div>
 					</div>
@@ -328,11 +358,15 @@ export default function Home() {
 							className={styles['experience__content']}
 						>
 							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
-							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
-							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
-							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
-							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
-							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
+							<ExperienceCard tech={'CSS'} experience={'Intermediate'} />
+							<ExperienceCard tech={'SASS'} experience={'Intermediate'} />
+							<ExperienceCard tech={'NextJS'} experience={'Intermediate'} />
+							<ExperienceCard tech={'ReactJS'} experience={'Intermediate'} />
+							<ExperienceCard tech={'Angular'} experience={'Beginner'} />
+							<ExperienceCard tech={'.NET'} experience={'Beginner'} />
+							<ExperienceCard tech={'Unity'} experience={'Beginner'} />
+							<ExperienceCard tech={'Flutter'} experience={'Beginner'} />
+							<ExperienceCard tech={'Wordpress'} experience={'Beginner'} />
 						</div>
 					</div>
 					<div className={styles['experience__backend']}>
@@ -349,12 +383,14 @@ export default function Home() {
 							data-aos-once="true"
 							className={styles['experience__content']}
 						>
-							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
-							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
-							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
-							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
-							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
-							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
+							<ExperienceCard tech={'PHP'} experience={'Intermediate'} />
+							<ExperienceCard tech={'JavaScript'} experience={'Intermediate'} />
+							<ExperienceCard tech={'C#'} experience={'Intermediate'} />
+							<ExperienceCard tech={'C++'} experience={'Intermediate'} />
+							<ExperienceCard tech={'Laravel'} experience={'Intermediate'} />
+							<ExperienceCard tech={'Contentful'} experience={'Intermediate'} />
+							<ExperienceCard tech={'MySQL'} experience={'Intermediate'} />
+							<ExperienceCard tech={'MongoDB'} experience={'Beginner'} />
 						</div>
 					</div>
 				</div>
@@ -378,9 +414,9 @@ export default function Home() {
 					data-aos-once="true"
 					className={styles['portfolio__services']}
 				>
-					<ServiceCard heading={'UI/UX Design'} />
 					<ServiceCard heading={'Web Development'} />
-					<ServiceCard heading={'Content Creation'} />
+					<ServiceCard heading={'API Creation'} />
+					<ServiceCard heading={'Headless CMS Integration'} />
 				</div>
 			</section>
 			<section id="portfolio">
@@ -427,7 +463,12 @@ export default function Home() {
 									className={styles['testimonial__container']}
 								>
 									<div className={styles['testimonial__avatar']}>
-										<img src={avatar} alt="Avatar" />
+										<Image
+											src={avatar}
+											alt="Avatar"
+											width={1000}
+											height={1000}
+										/>
 									</div>
 									<h5 className={styles['testimonial__name']}>{name}</h5>
 									<small className={styles['testimonial__review']}>

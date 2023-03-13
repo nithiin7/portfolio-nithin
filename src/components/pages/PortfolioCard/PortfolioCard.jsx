@@ -2,6 +2,7 @@ import styles from './PortfolioCard.module.scss';
 import PropTypes from 'prop-types';
 
 import ButtonPrimary from 'components/utilities/ButtonPrimary';
+import Image from 'next/image';
 
 function PortfolioCard({ id, image, title, github, demo }) {
 	return (
@@ -13,7 +14,7 @@ function PortfolioCard({ id, image, title, github, demo }) {
 			className={styles['portfolio-card__item']}
 		>
 			<div className={styles['portfolio-card__image']}>
-				<img src={image} alt={title}></img>
+				<Image src={image} alt={title} width={1000} height={1000} />
 			</div>
 			<h3>{title}</h3>
 			<div className={styles['portfolio-card__cta']}>
