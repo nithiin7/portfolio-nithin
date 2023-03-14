@@ -9,7 +9,6 @@ import { Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
@@ -18,7 +17,6 @@ import ButtonPrimary from 'components/utilities/ButtonPrimary';
 import ExperienceCard from 'components/pages/ExperienceCard';
 import ServiceCard from 'components/pages/ServiceCard';
 import PortfolioCard from 'components/pages/PortfolioCard';
-import experience_settings from 'helpers/config';
 
 import { socialMediaLinks, cardData } from 'helpers/constants';
 // import CV from 'assets/documents/cv.pdf'
@@ -51,7 +49,7 @@ export default function Home(props) {
 	const path_header = path?.sectionCollection.items[0].contentsCollection;
 	const header_list = path_header?.items[1].contentsCollection.items[0].list;
 	console.log(
-		path.sectionCollection.items[1].contentsCollection.items[1].image.url
+		path.sectionCollection.items[2].contentsCollection.items[1].title
 	);
 	const form = useRef();
 
@@ -310,10 +308,10 @@ export default function Home(props) {
 			</section>
 			<section id="experience">
 				<h5 data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
-					What Skills I Have
+					{path.sectionCollection.items[2].contentsCollection.items[0].title}
 				</h5>
 				<h2 data-aos="fade-up" data-aos-duration="1100" data-aos-once="true">
-					My Experience
+					{path.sectionCollection.items[2].contentsCollection.items[0].subTitle}
 				</h2>
 				<div className={styles['portfolio__experience']}>
 					<div
@@ -327,7 +325,10 @@ export default function Home(props) {
 							data-aos-duration="1200"
 							data-aos-once="true"
 						>
-							Frontend Development
+							{
+								path.sectionCollection.items[2].contentsCollection.items[1]
+									.title
+							}
 						</h3>
 						<div
 							data-aos="fade-up"
@@ -335,16 +336,15 @@ export default function Home(props) {
 							data-aos-once="true"
 							className={styles['experience__content']}
 						>
-							<ExperienceCard tech={'HTML'} experience={'Intermediate'} />
-							<ExperienceCard tech={'CSS'} experience={'Intermediate'} />
-							<ExperienceCard tech={'SASS'} experience={'Intermediate'} />
-							<ExperienceCard tech={'NextJS'} experience={'Intermediate'} />
-							<ExperienceCard tech={'ReactJS'} experience={'Intermediate'} />
-							<ExperienceCard tech={'Angular'} experience={'Beginner'} />
-							<ExperienceCard tech={'.NET'} experience={'Beginner'} />
-							<ExperienceCard tech={'Unity'} experience={'Beginner'} />
-							<ExperienceCard tech={'Flutter'} experience={'Beginner'} />
-							<ExperienceCard tech={'Wordpress'} experience={'Beginner'} />
+							{path.sectionCollection.items[2].contentsCollection.items[1].contentsCollection.items?.map(
+								(item) => (
+									<ExperienceCard
+										key={item.title}
+										tech={item.title}
+										experience={item.description}
+									/>
+								)
+							)}
 						</div>
 					</div>
 					<div className={styles['experience__backend']}>
@@ -353,7 +353,10 @@ export default function Home(props) {
 							data-aos-duration="1200"
 							data-aos-once="true"
 						>
-							Backend Development
+							{
+								path.sectionCollection.items[2].contentsCollection.items[2]
+									.title
+							}
 						</h3>
 						<div
 							data-aos="fade-up"
@@ -361,21 +364,17 @@ export default function Home(props) {
 							data-aos-once="true"
 							className={styles['experience__content']}
 						>
-							<ExperienceCard tech={'PHP'} experience={'Intermediate'} />
-							<ExperienceCard tech={'JavaScript'} experience={'Intermediate'} />
-							<ExperienceCard tech={'C#'} experience={'Intermediate'} />
-							<ExperienceCard tech={'C++'} experience={'Intermediate'} />
-							<ExperienceCard tech={'Laravel'} experience={'Intermediate'} />
-							<ExperienceCard tech={'Contentful'} experience={'Intermediate'} />
-							<ExperienceCard tech={'MySQL'} experience={'Intermediate'} />
-							<ExperienceCard tech={'MongoDB'} experience={'Beginner'} />
+							{path.sectionCollection.items[2].contentsCollection.items[2].contentsCollection.items?.map(
+								(item) => (
+									<ExperienceCard
+										key={item.title}
+										tech={item.title}
+										experience={item.description}
+									/>
+								)
+							)}
 						</div>
 					</div>
-				</div>
-				<div className={styles['experience__slider']}>
-					<Slider {...experience_settings}>
-						<div></div>
-					</Slider>
 				</div>
 			</section>
 			<section id="services">

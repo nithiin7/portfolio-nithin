@@ -26,6 +26,19 @@ export const HOME_PAGE = gql`
 											url
 										}
 									}
+									... on ExperienceCard {
+										name
+										title
+										contentsCollection {
+											items {
+												... on ImageCard {
+													name
+													title
+													description
+												}
+											}
+										}
+									}
 									... on Section {
 										name
 										contentsCollection(limit: 10) {
