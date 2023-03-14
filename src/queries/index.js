@@ -20,6 +20,12 @@ export const HOME_PAGE = gql`
 										title
 										subTitle
 									}
+									... on ImageCard {
+										image {
+											title
+											url
+										}
+									}
 									... on Section {
 										name
 										contentsCollection(limit: 10) {
@@ -40,7 +46,22 @@ export const HOME_PAGE = gql`
 														url
 													}
 												}
+												... on AboutCard {
+													name
+													icon {
+														url
+													}
+													title
+													description
+													duration
+												}
 											}
+										}
+									}
+									... on Description {
+										name
+										descriptionLong {
+											json
 										}
 									}
 								}

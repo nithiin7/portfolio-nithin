@@ -12,6 +12,7 @@ import 'swiper/css/pagination';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 
 import ButtonPrimary from 'components/utilities/ButtonPrimary';
 import ExperienceCard from 'components/pages/ExperienceCard';
@@ -19,15 +20,11 @@ import ServiceCard from 'components/pages/ServiceCard';
 import PortfolioCard from 'components/pages/PortfolioCard';
 import experience_settings from 'helpers/config';
 
-import { socialMediaLinks } from 'helpers/constants';
+import { socialMediaLinks, cardData } from 'helpers/constants';
 // import CV from 'assets/documents/cv.pdf'
-import myAvatar from 'assets/images/myAvatar.png';
 import portfolio from 'assets/images/portfolio1.jpg';
 import IMGTEST from 'assets/images/avatar2.jpg';
 
-import { FaAward } from 'react-icons/fa';
-import { FiUsers } from 'react-icons/fi';
-import { VscFolderLibrary } from 'react-icons/vsc';
 import { MdOutlineMail } from 'react-icons/md';
 import { RiMessengerLine } from 'react-icons/ri';
 import { BsWhatsapp } from 'react-icons/bs';
@@ -53,7 +50,9 @@ export default function Home(props) {
 	const path = props?.data.data.pageCollection.items[0];
 	const path_header = path?.sectionCollection.items[0].contentsCollection;
 	const header_list = path_header?.items[1].contentsCollection.items[0].list;
-
+	console.log(
+		path.sectionCollection.items[1].contentsCollection.items[1].image.url
+	);
 	const form = useRef();
 
 	const sendEmail = (e) => {
@@ -235,10 +234,10 @@ export default function Home(props) {
 			</header>
 			<section id="about">
 				<h5 data-aos="fade-up" data-aos-duration="1100" data-aos-once="true">
-					Get to Know
+					{path.sectionCollection.items[1].contentsCollection.items[0].title}
 				</h5>
 				<h2 data-aos="fade-up" data-aos-duration="1200" data-aos-once="true">
-					About Me
+					{path.sectionCollection.items[1].contentsCollection.items[0].subTitle}
 				</h2>
 				<div
 					data-aos="fade-up"
@@ -254,10 +253,14 @@ export default function Home(props) {
 					>
 						<div className={styles['about__me-image']}>
 							<Image
-								src={myAvatar}
+								src={
+									path.sectionCollection.items[1].contentsCollection.items[1]
+										.image.url
+								}
 								alt="about-me"
 								height={1000}
 								width={1000}
+								quality={100}
 								data-aos="fade-up"
 								data-aos-duration="1400"
 								data-aos-once="true"
@@ -266,51 +269,30 @@ export default function Home(props) {
 					</div>
 					<div className={styles['about__content']}>
 						<div className={styles['about__cards']}>
-							<article
-								className={styles['about__card']}
-								data-aos="fade-up"
-								data-aos-duration="1000"
-								data-aos-once="true"
-							>
-								<FaAward className={styles['about__icon']} />
-								<h5>Tech Stacks</h5>
-								<small>10+ Stacks</small>
-							</article>
-							<article
-								className={styles['about__card']}
-								data-aos="fade-up"
-								data-aos-duration="1100"
-								data-aos-once="true"
-							>
-								<FiUsers className={styles['about__icon']} />
-								<h5>Experience</h5>
-								<small>7 Months</small>
-							</article>
-							<article
-								className={styles['about__card']}
-								data-aos="fade-up"
-								data-aos-duration="1200"
-								data-aos-once="true"
-							>
-								<VscFolderLibrary className={styles['about__icon']} />
-								<h5>Projects</h5>
-								<small>5+ Completed</small>
-							</article>
+							{cardData.map((card, index) => (
+								<article
+									key={index}
+									className={styles['about__card']}
+									data-aos="fade-up"
+									data-aos-duration={card.duration}
+									data-aos-once="true"
+								>
+									{card.icon}
+									<h5>{card.title}</h5>
+									<small>{card.description}</small>
+								</article>
+							))}
 						</div>
-						<p data-aos="fade-up" data-aos-duration="1200" data-aos-once="true">
-							I'm a Full Stack Developer located in Kochi, Kerala. I have
-							serious passion for UI Effects, animations and creating creating
-							intuitive, dynamic user experiences.
-						</p>
-						<p>
-							Well-organized person, problem solver, employee with high
-							attention to detail. Fan of Football, gaming, TV series and
-							Automobile.
-						</p>
-						<p>
-							Interested in the entire Full-Stack spectrum and working on
-							ambitious projects with positive people.
-						</p>
+						<div
+							data-aos="fade-up"
+							data-aos-duration="1200"
+							data-aos-once="true"
+						>
+							{documentToReactComponents(
+								path.sectionCollection.items[1].contentsCollection.items[3]
+									.descriptionLong.json
+							)}
+						</div>
 						<div
 							data-aos="fade-up"
 							data-aos-duration="1300"

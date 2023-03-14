@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 import styles from './Footer.module.scss';
 import Logo from 'assets/images/Logo.png';
@@ -21,69 +22,104 @@ function Footer() {
 				<Image src={Logo} alt="logo" width={1000} height={1000} />
 			</div>
 			<ul className={styles['footer__permalinks']}>
-				<li data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
-					<a href="#">Home</a>
+				<li
+					key={'home'}
+					data-aos="fade-up"
+					data-aos-duration="1000"
+					data-aos-once="true"
+				>
+					<Link href="#">Home</Link>
 				</li>
-				<li data-aos="fade-up" data-aos-duration="1100" data-aos-once="true">
-					<a href="#about">About</a>
+				<li
+					key={'about'}
+					data-aos="fade-up"
+					data-aos-duration="1100"
+					data-aos-once="true"
+				>
+					<Link href="#about">About</Link>
 				</li>
-				<li data-aos="fade-up" data-aos-duration="1200" data-aos-once="true">
-					<a href="#experience">Experience</a>
+				<li
+					key={'experience'}
+					data-aos="fade-up"
+					data-aos-duration="1200"
+					data-aos-once="true"
+				>
+					<Link href="#experience">Experience</Link>
 				</li>
-				<li data-aos="fade-up" data-aos-duration="1300" data-aos-once="true">
-					<a href="#services">Services</a>
+				<li
+					key={'services'}
+					data-aos="fade-up"
+					data-aos-duration="1300"
+					data-aos-once="true"
+				>
+					<Link href="#services">Services</Link>
 				</li>
-				<li data-aos="fade-up" data-aos-duration="1400" data-aos-once="true">
-					<a href="#portfolio">Portfolio</a>
+				<li
+					key={'portfolio'}
+					data-aos="fade-up"
+					data-aos-duration="1400"
+					data-aos-once="true"
+				>
+					<Link href="#portfolio">Portfolio</Link>
 				</li>
-				<li data-aos="fade-up" data-aos-duration="1500" data-aos-once="true">
-					<a href="#testimonials">Testimonials</a>
+				<li
+					key={'testimonials'}
+					data-aos="fade-up"
+					data-aos-duration="1500"
+					data-aos-once="true"
+				>
+					<Link href="#testimonials">Testimonials</Link>
 				</li>
-				<li data-aos="fade-up" data-aos-duration="1600" data-aos-once="true">
-					<a href="#contact">Contact</a>
+				<li
+					key={'contact'}
+					data-aos="fade-up"
+					data-aos-duration="1600"
+					data-aos-once="true"
+				>
+					<Link href="#contact">Contact</Link>
 				</li>
 			</ul>
 			<div className={styles['footer__socials']}>
-				<a
+				<Link
 					data-aos="fade-up"
 					data-aos-duration="1700"
 					data-aos-once="true"
 					href="https://facebook.com"
 				>
 					<FaFacebookF />
-				</a>
-				<a
+				</Link>
+				<Link
 					data-aos="fade-up"
 					data-aos-duration="1800"
 					data-aos-once="true"
 					href="https://facebook.com"
 				>
 					<FiInstagram />
-				</a>
-				<a
+				</Link>
+				<Link
 					data-aos="fade-up"
 					data-aos-duration="1900"
 					data-aos-once="true"
 					href="https://facebook.com"
 				>
 					<RiSnapchatLine />
-				</a>
-				<a
+				</Link>
+				<Link
 					data-aos="fade-up"
 					data-aos-duration="2000"
 					data-aos-once="true"
 					href="https://facebook.com"
 				>
 					<IoLogoTwitter />
-				</a>
-				<a
+				</Link>
+				<Link
 					data-aos="fade-up"
 					data-aos-duration="2100"
 					data-aos-once="true"
 					href="https://facebook.com"
 				>
 					<FaRedditAlien />
-				</a>
+				</Link>
 			</div>
 
 			<div

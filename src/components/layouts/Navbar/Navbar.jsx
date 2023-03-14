@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Link from 'next/link';
 import styles from './Navbar.module.scss';
 
 import { AiOutlineHome } from 'react-icons/ai';
@@ -11,41 +12,41 @@ function Navbar() {
 	const [activeNav, setActiveNav] = useState('#');
 	return (
 		<nav className={styles['navbar']}>
-			<a
+			<Link
 				href="#"
 				onClick={() => setActiveNav('#')}
 				className={styles[activeNav === '#' ? 'active' : '']}
 			>
 				<AiOutlineHome />
-			</a>
-			<a
+			</Link>
+			<Link
 				href="#about"
 				onClick={() => setActiveNav('#about')}
 				className={styles[activeNav === '#about' ? 'active' : '']}
 			>
 				<AiOutlineUser />
-			</a>
-			<a
+			</Link>
+			<Link
 				href="#experience"
 				onClick={() => setActiveNav('#experience')}
 				className={styles[activeNav === '#experience' ? 'active' : '']}
 			>
 				<BiBook />
-			</a>
-			<a
+			</Link>
+			<Link
 				href="#services"
 				onClick={() => setActiveNav('#services')}
 				className={styles[activeNav === '#services' ? 'active' : '']}
 			>
 				<RiServiceLine />
-			</a>
-			<a
+			</Link>
+			<Link
 				href="#contact"
 				onClick={() => setActiveNav('#contact')}
 				className={styles[activeNav === '#contact' ? 'active' : '']}
 			>
 				<BiMessageSquareDetail />
-			</a>
+			</Link>
 		</nav>
 	);
 }
