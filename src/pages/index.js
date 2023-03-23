@@ -48,8 +48,14 @@ export default function Home(props) {
 	const path = props?.data.data.pageCollection.items[0];
 	const path_header = path?.sectionCollection.items[0].contentsCollection;
 	const header_list = path_header?.items[1].contentsCollection.items[0].list;
+	const services_path =
+		path.sectionCollection.items[3].contentsCollection.items;
+	const portfolio_path =
+		path.sectionCollection.items[4].contentsCollection.items[1]
+			.contentsCollection.items;
 	console.log(
-		path.sectionCollection.items[2].contentsCollection.items[1].title
+		path.sectionCollection.items[4].contentsCollection.items[1]
+			.contentsCollection.items
 	);
 	const form = useRef();
 
@@ -65,50 +71,6 @@ export default function Home(props) {
 
 		e.target.reset();
 	};
-	const data = [
-		{
-			id: 1,
-			image: portfolio,
-			title: 'Github',
-			github: '',
-			demo: '',
-		},
-		{
-			id: 2,
-			image: portfolio,
-			title: 'Github',
-			github: '',
-			demo: '',
-		},
-		{
-			id: 3,
-			image: portfolio,
-			title: 'Github',
-			github: '',
-			demo: '',
-		},
-		{
-			id: 4,
-			image: portfolio,
-			title: 'Github',
-			github: '',
-			demo: '',
-		},
-		{
-			id: 5,
-			image: portfolio,
-			title: 'Github',
-			github: '',
-			demo: '',
-		},
-		{
-			id: 6,
-			image: portfolio,
-			title: 'Github',
-			github: '',
-			demo: '',
-		},
-	];
 
 	const data_testimonials = [
 		{
@@ -379,39 +341,45 @@ export default function Home(props) {
 			</section>
 			<section id="services">
 				<h5 data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
-					What I Offer
+					{path.sectionCollection.items[3].contentsCollection.items[0].title}
 				</h5>
 				<h2 data-aos="fade-up" data-aos-duration="1100" data-aos-once="true">
-					Services
+					{path.sectionCollection.items[3].contentsCollection.items[0].subTitle}
 				</h2>
-
 				<div
 					data-aos="fade-up"
 					data-aos-duration="1200"
 					data-aos-once="true"
 					className={styles['portfolio__services']}
 				>
-					<ServiceCard heading={'Web Development'} />
-					<ServiceCard heading={'API Creation'} />
-					<ServiceCard heading={'Headless CMS Integration'} />
+					{services_path?.map((item) => {
+						if (item.__typename == 'Section') {
+							return (
+								<ServiceCard
+									heading={item.contentsCollection.items[0].title}
+									list={item.contentsCollection.items[1].list}
+								/>
+							);
+						}
+					})}
 				</div>
 			</section>
 			<section id="portfolio">
 				<h5 data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
-					My Recent Work
+					{path.sectionCollection.items[4].contentsCollection.items[0].title}
 				</h5>
 				<h2 data-aos="fade-up" data-aos-duration="1100" data-aos-once="true">
-					Portfolio
+					{path.sectionCollection.items[4].contentsCollection.items[0].subTitle}
 				</h2>
 				<div className={styles['portfolio__portfolio']}>
-					{data.map(({ id, image, title, github, demo }) => {
+					{portfolio_path.map((item) => {
 						return (
 							<PortfolioCard
-								id={id}
-								image={image}
-								title={title}
-								github={github}
-								demo={demo}
+								id={item.id}
+								image={item.image.url}
+								title={item.title}
+								github={item.gitHub}
+								demo={item.demo}
 							/>
 						);
 					})}

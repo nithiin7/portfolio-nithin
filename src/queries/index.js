@@ -43,6 +43,11 @@ export const HOME_PAGE = gql`
 										name
 										contentsCollection(limit: 10) {
 											items {
+												... on Title {
+													name
+													title
+													subTitle
+												}
 												... on List {
 													name
 													list
@@ -67,6 +72,16 @@ export const HOME_PAGE = gql`
 													title
 													description
 													duration
+												}
+												... on PortfolioCard {
+													name
+													id
+													image {
+														url
+													}
+													title
+													gitHub
+													demo
 												}
 											}
 										}
