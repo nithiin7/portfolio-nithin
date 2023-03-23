@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import React, { useRef } from 'react';
 import Link from 'next/link';
+import { Link as ScrollLink } from 'react-scroll';
 import Image from 'next/image';
 import styles from 'styles/home.module.scss';
 import Typewriter from 'typewriter-effect';
@@ -95,7 +96,7 @@ export default function Home(props) {
 				<meta property="og:url" content={path?.ogurl}></meta>
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 			</Head>
-			<header className={styles['portfolio__header']}>
+			<header id="home" className={styles['portfolio__header']}>
 				<div className={styles['header__container']}>
 					<h5 data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
 						{path_header?.items[0].title}
@@ -128,7 +129,7 @@ export default function Home(props) {
 						</Link>
 						<ButtonPrimary
 							classModifier={'button--primary'}
-							href={'#contact'}
+							href={'contact'}
 							data={"Let's Talk"}
 						/>
 					</div>
@@ -173,9 +174,9 @@ export default function Home(props) {
 							priority
 						/>
 					</div>
-					<Link href="#contact" className={styles['header__scroll-down']}>
+					<ScrollLink to="contact" className={styles['header__scroll-down']}>
 						ScrollDown
-					</Link>
+					</ScrollLink>
 				</div>
 			</header>
 			<section id="about">
@@ -246,7 +247,7 @@ export default function Home(props) {
 							className={styles['about__icon']}
 						>
 							<ButtonPrimary
-								href={'#contact'}
+								href={'contact'}
 								classModifier={'button--primary'}
 								data={'Let’s make something special.'}
 							/>

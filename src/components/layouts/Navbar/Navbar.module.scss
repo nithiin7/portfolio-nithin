@@ -26,6 +26,7 @@
 		display: flex;
 		color: $color-light;
 		font-size: rem(17.6);
+		cursor: pointer;
 		&:hover {
 			background: rgba(0, 0, 0, 0.3);
 		}

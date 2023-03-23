@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { Link as ScrollLink } from 'react-scroll';
 
 import styles from './Footer.module.scss';
 import Logo from 'assets/images/Logo.png';
@@ -25,7 +26,7 @@ function Footer() {
 						data-aos-duration={link.duration}
 						data-aos-once="true"
 					>
-						<Link href={link.href}>{link.key}</Link>
+						<ScrollLink to={link.href}>{link.key}</ScrollLink>
 					</li>
 				))}
 			</ul>
@@ -33,6 +34,7 @@ function Footer() {
 				{socials.map((social, index) => (
 					<Link
 						key={index}
+						title={social.title}
 						data-aos="fade-up"
 						data-aos-offset="0"
 						data-aos-duration={social.duration}

@@ -18,6 +18,7 @@
 		flex-direction: column;
 		gap: rem(24);
 		margin: 0 auto rem(48);
+		cursor: pointer;
 		@media #{$lm} {
 			gap: rem(32);
 			flex-direction: row;

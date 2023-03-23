@@ -1,11 +1,12 @@
 import styles from './ButtonPrimary.module.scss';
+import { Link } from 'react-scroll';
 import PropTypes from 'prop-types';
 
 function ButtonPrimary({ classModifier, href, data }) {
 	return (
-		<a className={styles[`${classModifier}`]} href={href}>
+		<Link className={styles[`${classModifier}`]} to={href}>
 			{data}
-		</a>
+		</Link>
 	);
 }
 

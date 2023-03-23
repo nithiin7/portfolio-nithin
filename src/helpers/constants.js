@@ -88,38 +88,43 @@ export const contactOptions = [
 ];
 
 export const footerLinks = [
-	{ key: 'home', href: '#', duration: '1000' },
-	{ key: 'about', href: '#about', duration: '1100' },
-	{ key: 'experience', href: '#experience', duration: '1200' },
-	{ key: 'services', href: '#services', duration: '1300' },
-	{ key: 'portfolio', href: '#portfolio', duration: '1400' },
-	{ key: 'testimonials', href: '#testimonials', duration: '1500' },
-	{ key: 'contact', href: '#contact', duration: '1600' },
+	{ key: 'home', href: 'home', duration: '1000' },
+	{ key: 'about', href: 'about', duration: '1100' },
+	{ key: 'experience', href: 'experience', duration: '1200' },
+	{ key: 'services', href: 'services', duration: '1300' },
+	{ key: 'portfolio', href: 'portfolio', duration: '1400' },
+	{ key: 'testimonials', href: 'testimonials', duration: '1500' },
+	{ key: 'contact', href: 'contact', duration: '1600' },
 ];
 
 export const socials = [
 	{
 		link: 'https://www.facebook.com/i.am.np007/',
+		title: 'Facebook',
 		icon: <FaFacebookF />,
 		duration: 1700,
 	},
 	{
 		link: 'https://www.instagram.com/__nithiin__/',
+		title: 'Instagram',
 		icon: <FiInstagram />,
 		duration: 1800,
 	},
 	{
 		link: 'https://snapchat.com/nithiiin7',
+		title: 'Snapchat',
 		icon: <RiSnapchatLine />,
 		duration: 1900,
 	},
 	{
 		link: 'https://twitter.com/_nithiin7',
+		title: 'Twitter',
 		icon: <IoLogoTwitter />,
 		duration: 2000,
 	},
 	{
 		link: 'https://www.reddit.com/user/nithinp007',
+		title: 'Reddit',
 		icon: <FaRedditAlien />,
 		duration: 2100,
 	},
