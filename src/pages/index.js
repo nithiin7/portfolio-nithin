@@ -12,6 +12,7 @@ import 'swiper/css/pagination';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
+import { useForm } from 'react-hook-form';
 
 import ButtonPrimary from 'components/utilities/ButtonPrimary';
 import ExperienceCard from 'components/pages/ExperienceCard';
@@ -55,7 +56,15 @@ export default function Home(props) {
 	const form = useRef();
 	const formSuccess = useRef();
 
-	const sendEmail = (e) => {
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm();
+
+	const sendEmail = (e) => {};
+
+	const onSubmit = (data, e) => {
 		e.preventDefault();
 
 		emailjs
@@ -459,9 +468,21 @@ export default function Home(props) {
 					<form
 						className={styles['contact__form']}
 						ref={form}
-						onSubmit={sendEmail}
+						onSubmit={handleSubmit(onSubmit)}
 					>
 						<input
+							{...register('name', {
+								required: 'Name is required',
+								type: 'text',
+								minLength: {
+									value: 4,
+									message: 'Minimum length of Name should be 4',
+								},
+								maxLength: {
+									value: 25,
+									message: 'Maximum length of Name should be 25',
+								},
+							})}
 							className={styles['contact__input']}
 							data-aos="fade-up"
 							data-aos-duration="1200"
@@ -469,19 +490,37 @@ export default function Home(props) {
 							type="text"
 							name="name"
 							placeholder="Your Full Name"
-							required
 						/>
+						{errors.name && <span>{errors.name.message}</span>}
 						<input
+							{...register('email', {
+								required: 'Email address is required',
+								pattern: {
+									value:
+										/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+									message: 'Enter valid email address',
+								},
+							})}
 							className={styles['contact__input']}
 							data-aos="fade-up"
 							data-aos-duration="1300"
 							data-aos-once="true"
-							type="email"
 							name="email"
 							placeholder="Your Email"
-							required
 						/>
+						{errors.email && <span>{errors.email.message}</span>}
 						<textarea
+							{...register('message', {
+								required: 'This field is required',
+								minLength: {
+									value: 8,
+									message: 'Minimum length of message should be 8',
+								},
+								maxLength: {
+									value: 500,
+									message: 'Maximum length of message should be 500',
+								},
+							})}
 							className={styles['contact__textarea']}
 							data-aos="fade-up"
 							data-aos-duration="1400"
@@ -489,8 +528,8 @@ export default function Home(props) {
 							name="message"
 							rows="7"
 							placeholder="Your Message"
-							required
 						></textarea>
+						{errors.message && <span>{errors.message.message}</span>}
 						<button
 							data-aos="fade-up"
 							data-aos-duration="1500"

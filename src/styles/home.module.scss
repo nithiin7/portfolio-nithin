@@ -430,6 +430,11 @@
 			resize: none;
 			color: $color-white;
 		}
+		span {
+			color: $color-primary;
+			font-size: rem(12);
+			margin-left: rem(4);
+		}
 	}
 	.contact__button {
 		width: max-content;

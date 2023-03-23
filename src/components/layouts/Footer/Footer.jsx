@@ -34,6 +34,7 @@ function Footer() {
 					<Link
 						key={index}
 						data-aos="fade-up"
+						data-aos-offset="0"
 						data-aos-duration={social.duration}
 						data-aos-once="true"
 						href={social.link}
@@ -45,7 +46,8 @@ function Footer() {
 
 			<div
 				data-aos="fade-up"
-				data-aos-duration="2200"
+				data-aos-offset="0"
+				data-aos-duration="1500"
 				data-aos-once="true"
 				className={styles['footer__copyright']}
 			>

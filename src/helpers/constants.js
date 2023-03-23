@@ -82,7 +82,7 @@ export const contactOptions = [
 		icon: <RiMessengerLine className={styles['contact__option-icon']} />,
 		title: 'Messenger',
 		subtitle: 'Nithin Pradeep',
-		link: 'https://facebook.com',
+		link: 'https://m.me/i.am.np.007',
 		duration: 1500,
 	},
 ];
@@ -98,9 +98,29 @@ export const footerLinks = [
 ];
 
 export const socials = [
-	{ link: 'https://facebook.com', icon: <FaFacebookF />, duration: 1700 },
-	{ link: 'https://instagram.com', icon: <FiInstagram />, duration: 1800 },
-	{ link: 'https://snapchat.com', icon: <RiSnapchatLine />, duration: 1900 },
-	{ link: 'https://twitter.com', icon: <IoLogoTwitter />, duration: 2000 },
-	{ link: 'https://reddit.com', icon: <FaRedditAlien />, duration: 2100 },
+	{
+		link: 'https://www.facebook.com/i.am.np007/',
+		icon: <FaFacebookF />,
+		duration: 1700,
+	},
+	{
+		link: 'https://www.instagram.com/__nithiin__/',
+		icon: <FiInstagram />,
+		duration: 1800,
+	},
+	{
+		link: 'https://snapchat.com/nithiiin7',
+		icon: <RiSnapchatLine />,
+		duration: 1900,
+	},
+	{
+		link: 'https://twitter.com/_nithiin7',
+		icon: <IoLogoTwitter />,
+		duration: 2000,
+	},
+	{
+		link: 'https://www.reddit.com/user/nithinp007',
+		icon: <FaRedditAlien />,
+		duration: 2100,
+	},
 ];
