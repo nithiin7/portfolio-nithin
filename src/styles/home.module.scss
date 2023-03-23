@@ -451,4 +451,36 @@
 			border-color: transparent;
 		}
 	}
+	.contact__success {
+		width: 100%;
+		padding-top: rem(100);
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+		text-align: center;
+		align-items: center;
+		transition: all ease-in 0.5s;
+		@media #{$xl} {
+			padding-top: rem(150);
+		}
+		.contact__wrap {
+			display: flex;
+			flex-direction: column;
+			object-position: center;
+			justify-content: center;
+			text-align: center;
+			align-items: center;
+			object-fit: cover;
+			max-width: rem(150);
+			aspect-ratio: 1;
+		}
+		img {
+			height: auto;
+			width: 100%;
+		}
+		.contact__text {
+			width: 100%;
+			color: $color-primary;
+		}
+	}
 }

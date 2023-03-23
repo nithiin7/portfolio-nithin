@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from 'styles/home.module.scss';
@@ -20,8 +20,7 @@ import PortfolioCard from 'components/pages/PortfolioCard';
 
 import { socialMediaLinks, cardData, contactOptions } from 'helpers/constants';
 // import CV from 'assets/documents/cv.pdf'
-
-
+import success from 'assets/images/success.png';
 
 import { initializeApollo } from '/lib/apolloClient';
 import { HOME_PAGE } from 'queries';
@@ -54,18 +53,27 @@ export default function Home(props) {
 			.contentsCollection.items;
 
 	const form = useRef();
+	const formSuccess = useRef();
 
 	const sendEmail = (e) => {
 		e.preventDefault();
 
-		emailjs.sendForm(
-			'YOUR_SERVICE_ID',
-			'YOUR_TEMPLATE_ID',
-			form.current,
-			'YOUR_PUBLIC_KEY'
-		);
-
-		e.target.reset();
+		emailjs
+			.sendForm(
+				'service_hh0l7yp',
+				'template_va5jl1g',
+				form.current,
+				'g4AdPHbp-OKcLJaca'
+			)
+			.then(
+				(result) => {
+					form.current.style.display = 'none';
+					formSuccess.current.style.display = 'block';
+				},
+				(error) => {
+					console.log(error.text);
+				}
+			);
 	};
 
 	return (
@@ -427,6 +435,26 @@ export default function Home(props) {
 								<a href={option.link}>Send a Message</a>
 							</article>
 						))}
+					</div>
+					<div
+						ref={formSuccess}
+						style={{ display: 'none' }}
+						className={styles['contact__hidden']}
+					>
+						<div className={styles['contact__success']}>
+							<div className={styles['contact__wrap']}>
+								<Image
+									src={success}
+									alt="success"
+									height={1000}
+									width={1000}
+									quality={100}
+								/>
+							</div>
+							<div className={styles['contact__text']}>
+								Email Sent Successfully!
+							</div>
+						</div>
 					</div>
 					<form
 						className={styles['contact__form']}
