@@ -18,14 +18,10 @@ import ExperienceCard from 'components/pages/ExperienceCard';
 import ServiceCard from 'components/pages/ServiceCard';
 import PortfolioCard from 'components/pages/PortfolioCard';
 
-import { socialMediaLinks, cardData } from 'helpers/constants';
+import { socialMediaLinks, cardData, contactOptions } from 'helpers/constants';
 // import CV from 'assets/documents/cv.pdf'
-import portfolio from 'assets/images/portfolio1.jpg';
-import IMGTEST from 'assets/images/avatar2.jpg';
 
-import { MdOutlineMail } from 'react-icons/md';
-import { RiMessengerLine } from 'react-icons/ri';
-import { BsWhatsapp } from 'react-icons/bs';
+
 
 import { initializeApollo } from '/lib/apolloClient';
 import { HOME_PAGE } from 'queries';
@@ -53,10 +49,10 @@ export default function Home(props) {
 	const portfolio_path =
 		path.sectionCollection.items[4].contentsCollection.items[1]
 			.contentsCollection.items;
-	console.log(
-		path.sectionCollection.items[4].contentsCollection.items[1]
-			.contentsCollection.items
-	);
+	const testimonial_path =
+		path.sectionCollection.items[5].contentsCollection.items[1]
+			.contentsCollection.items;
+
 	const form = useRef();
 
 	const sendEmail = (e) => {
@@ -71,33 +67,6 @@ export default function Home(props) {
 
 		e.target.reset();
 	};
-
-	const data_testimonials = [
-		{
-			avatar: IMGTEST,
-			name: 'Name',
-			review:
-				'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas a aliquam esse sint. Illo beatae veritatis iure sequi aspernatur ut, cum accusamus architecto ipsam repellendus, commodi, dolores eum provident cupiditate.',
-		},
-		{
-			avatar: IMGTEST,
-			name: 'Name',
-			review:
-				'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas a aliquam esse sint. Illo beatae veritatis iure sequi aspernatur ut, cum accusamus architecto ipsam repellendus, commodi, dolores eum provident cupiditate.',
-		},
-		{
-			avatar: IMGTEST,
-			name: 'Name',
-			review:
-				'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas a aliquam esse sint. Illo beatae veritatis iure sequi aspernatur ut, cum accusamus architecto ipsam repellendus, commodi, dolores eum provident cupiditate.',
-		},
-		{
-			avatar: IMGTEST,
-			name: 'Name',
-			review:
-				'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas a aliquam esse sint. Illo beatae veritatis iure sequi aspernatur ut, cum accusamus architecto ipsam repellendus, commodi, dolores eum provident cupiditate.',
-		},
-	];
 
 	return (
 		<>
@@ -387,10 +356,10 @@ export default function Home(props) {
 			</section>
 			<section id="testimonials">
 				<h5 data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
-					Review from clients
+					{path.sectionCollection.items[5].contentsCollection.items[0].title}
 				</h5>
 				<h2 data-aos="fade-up" data-aos-duration="1100" data-aos-once="true">
-					Testimonials
+					{path.sectionCollection.items[5].contentsCollection.items[0].subTitle}
 				</h2>
 				<div data-aos="fade-up" data-aos-duration="1200" data-aos-once="true">
 					<Swiper
@@ -401,7 +370,7 @@ export default function Home(props) {
 						slidesPerView={1}
 						pagination={{ clickable: true }}
 					>
-						{data_testimonials.map(({ avatar, name, review }, index) => {
+						{testimonial_path.map((item, index) => {
 							return (
 								<SwiperSlide
 									key={index}
@@ -409,16 +378,19 @@ export default function Home(props) {
 								>
 									<div className={styles['testimonial__avatar']}>
 										<Image
-											src={avatar}
+											src={item.avatar.url}
 											alt="Avatar"
 											width={1000}
 											height={1000}
 											priority
+											quality={100}
 										/>
 									</div>
-									<h5 className={styles['testimonial__name']}>{name}</h5>
+									<h5 className={styles['testimonial__name']}>
+										{item.reviewer}
+									</h5>
 									<small className={styles['testimonial__review']}>
-										{review}
+										{item.review}
 									</small>
 								</SwiperSlide>
 							);
@@ -428,10 +400,10 @@ export default function Home(props) {
 			</section>
 			<section id="contact">
 				<h5 data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
-					Get In Touch
+					{path.sectionCollection.items[6].contentsCollection.items[0].title}
 				</h5>
 				<h2 data-aos="fade-up" data-aos-duration="1100" data-aos-once="true">
-					Contact Me
+					{path.sectionCollection.items[6].contentsCollection.items[0].subTitle}
 				</h2>
 
 				<div
@@ -440,47 +412,21 @@ export default function Home(props) {
 					data-aos-once="true"
 					className={styles['contact__container']}
 				>
-					<div
-						data-aos="fade-up"
-						data-aos-duration="1300"
-						data-aos-once="true"
-						className={styles['contact__options']}
-					>
-						<article
-							data-aos="fade-up"
-							data-aos-duration="1400"
-							data-aos-once="true"
-							className={styles['contact__option']}
-						>
-							<MdOutlineMail className={styles['contact__option-icon']} />
-							<h4>Email</h4>
-							<h5>nithinp150@gmail.com</h5>
-							<a href="mailto:nithinp150@gmail.com">Send a Message</a>
-						</article>
-						<article
-							data-aos="fade-up"
-							data-aos-duration="1500"
-							data-aos-once="true"
-							className={styles['contact__option']}
-						>
-							<BsWhatsapp className={styles['contact__option-icon']} />
-							<h4>WhatsApp</h4>
-							<h5>+91-9645018007</h5>
-							<a href="https://api.whatsapp.com/send?phone=+919645018007">
-								Send a Message
-							</a>
-						</article>
-						<article
-							data-aos="fade-up"
-							data-aos-duration="1600"
-							data-aos-once="true"
-							className={styles['contact__option']}
-						>
-							<RiMessengerLine className={styles['contact__option-icon']} />
-							<h4>Messenger</h4>
-							<h5>Nithin Pradeep</h5>
-							<a href="https://facebook.com">Send a Message</a>
-						</article>
+					<div className={styles['contact__options']}>
+						{contactOptions.map((option, index) => (
+							<article
+								key={index}
+								data-aos="fade-up"
+								data-aos-duration={option.duration}
+								data-aos-once="true"
+								className={styles['contact__option']}
+							>
+								{option.icon}
+								<h4>{option.title}</h4>
+								<h5>{option.subtitle}</h5>
+								<a href={option.link}>Send a Message</a>
+							</article>
+						))}
 					</div>
 					<form
 						className={styles['contact__form']}

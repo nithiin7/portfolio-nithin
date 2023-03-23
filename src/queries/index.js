@@ -83,6 +83,14 @@ export const HOME_PAGE = gql`
 													gitHub
 													demo
 												}
+												... on TestimonialCard {
+													name
+													avatar {
+														url
+													}
+													reviewer
+													review
+												}
 											}
 										}
 									}
