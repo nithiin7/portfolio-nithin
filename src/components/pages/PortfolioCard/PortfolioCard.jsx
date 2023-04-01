@@ -14,7 +14,13 @@ function PortfolioCard({ id, image, title, github, demo }) {
 			className={styles['portfolio-card__item']}
 		>
 			<div className={styles['portfolio-card__image']}>
-				<Image src={image} alt={title} width={1000} height={1000} />
+				<Image
+					src={image}
+					alt={title}
+					width={1000}
+					height={1000}
+					quality={100}
+				/>
 			</div>
 			<h3>{title}</h3>
 			<div className={styles['portfolio-card__cta']}>

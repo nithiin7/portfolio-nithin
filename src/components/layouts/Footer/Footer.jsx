@@ -16,7 +16,7 @@ function Footer() {
 				data-aos-once="true"
 				className={styles['footer__logo']}
 			>
-				<Image src={Logo} alt="logo" width={1000} height={1000} />
+				<Image src={Logo} alt="logo" width={1000} height={1000} quality={100} />
 			</div>
 			<ul className={styles['footer__permalinks']}>
 				{footerLinks.map((link) => (
