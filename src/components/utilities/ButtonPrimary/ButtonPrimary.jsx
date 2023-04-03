@@ -1,13 +1,22 @@
 import styles from './ButtonPrimary.module.scss';
-import { Link } from 'react-scroll';
+import Link from 'next/link';
+import { Link as ScrollLink } from 'react-scroll';
 import PropTypes from 'prop-types';
 
-function ButtonPrimary({ classModifier, href, data }) {
-	return (
-		<Link className={styles[`${classModifier}`]} to={href}>
-			{data}
-		</Link>
-	);
+function ButtonPrimary({ classModifier, href, data, type }) {
+	if (type === 'scroll_link') {
+		return (
+			<ScrollLink className={styles[`${classModifier}`]} to={href}>
+				{data}
+			</ScrollLink>
+		);
+	} else {
+		return (
+			<Link className={styles[`${classModifier}`]} href={href} target="_blank">
+				{data}
+			</Link>
+		);
+	}
 }
 
 ButtonPrimary.propTypes = {

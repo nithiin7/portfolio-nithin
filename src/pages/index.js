@@ -70,10 +70,10 @@ export default function Home(props) {
 
 		emailjs
 			.sendForm(
-				'service_hh0l7yp',
-				'template_va5jl1g',
+				process.env.SERVICE_ID,
+				process.env.TEMPLATE_ID,
 				form.current,
-				'g4AdPHbp-OKcLJaca'
+				process.env.EMAILJS_ID
 			)
 			.then(
 				(result) => {
@@ -131,6 +131,7 @@ export default function Home(props) {
 							classModifier={'button--primary'}
 							href={'contact'}
 							data={"Let's Talk"}
+							type={'scroll_link'}
 						/>
 					</div>
 					<div
@@ -250,6 +251,7 @@ export default function Home(props) {
 								href={'contact'}
 								classModifier={'button--primary'}
 								data={'Let’s make something special.'}
+								type={'scroll_link'}
 							/>
 						</div>
 					</div>

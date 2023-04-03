@@ -22,9 +22,10 @@
 		flex-direction: column;
 		justify-content: center;
 		h1 {
+			font-family: 'Fasthand';
 			font-size: rem(24);
 			@media #{$md} {
-				font-size: rem(40);
+				font-size: rem(48);
 			}
 			@media #{$xxxl} {
 				font-size: rem(48);

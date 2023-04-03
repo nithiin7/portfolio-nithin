@@ -29,6 +29,7 @@ function PortfolioCard({ id, image, title, github, demo }) {
 					href={demo}
 					classModifier={'button'}
 					data={'Live Demo'}
+					type={'external_link'}
 				/>
 			</div>
 		</article>

@@ -14,13 +14,18 @@
 	}
 	h3 {
 		margin: rem(19.2) 0 rem(32);
+		height: rem(70);
 	}
 	.portfolio-card__image {
 		border-radius: rem(24);
 		overflow: hidden;
+		height: rem(200);
+		width: auto;
 		img {
-			height: auto;
+			height: 100%;
 			width: 100%;
+			object-fit: contain;
+			object-position: center;
 		}
 	}
 
