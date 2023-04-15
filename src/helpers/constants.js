@@ -46,19 +46,19 @@ export const cardData = [
 	{
 		icon: <FaAward className={styles['about__icon']} />,
 		title: 'Tech Stacks',
-		description: '10+ Stacks',
+		description: '15+ Stacks',
 		duration: 1000,
 	},
 	{
 		icon: <FiUsers className={styles['about__icon']} />,
 		title: 'Experience',
-		description: '7 Months',
+		description: '1 year',
 		duration: 1100,
 	},
 	{
 		icon: <VscFolderLibrary className={styles['about__icon']} />,
 		title: 'Projects',
-		description: '5+ Completed',
+		description: '10+ Completed',
 		duration: 1200,
 	},
 ];

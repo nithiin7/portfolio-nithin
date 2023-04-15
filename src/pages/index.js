@@ -21,7 +21,7 @@ import ServiceCard from 'components/pages/ServiceCard';
 import PortfolioCard from 'components/pages/PortfolioCard';
 
 import { socialMediaLinks, cardData, contactOptions } from 'helpers/constants';
-// import CV from 'assets/documents/cv.pdf'
+import CV from 'assets/documents/cv.pdf'
 import success from 'assets/images/success.png';
 
 import { initializeApollo } from '/lib/apolloClient';
@@ -124,9 +124,9 @@ export default function Home(props) {
 						data-aos-once="true"
 						className={styles['header__cta']}
 					>
-						<Link className={styles['header__button']} href={'/cv'} download>
+						<a className={styles['header__button']} href={CV} download>
 							Download CV
-						</Link>
+						</a>
 						<ButtonPrimary
 							classModifier={'button--primary'}
 							href={'contact'}
