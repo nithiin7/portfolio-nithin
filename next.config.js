@@ -7,6 +7,7 @@ const nextConfig = {
 		NEXT_PUBLIC_ENVIRONMENT: 'master',
 		NEXT_PUBLIC_AUTHORIZATION_TOKEN:
 			'EoivlAc4VSaHS3gkCNXTYB--HKkf3gSKBR8nn_NY5DA',
+		GOOGLE_ANALYTICS_ID: 'G-E4KM0WS03X',
 		SERVICE_ID: 'service_hh0l7yp',
 		TEMPLATE_ID: 'template_va5jl1g',
 		EMAILJS_ID: 'g4AdPHbp-OKcLJaca',
