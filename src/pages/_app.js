@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Layout from 'components/layouts/Layout';
 import AOS from 'aos';
-import Link from 'next/link';
+import { initGA, logPageView } from 'utilities/analytics';
 
 import 'styles/globals.scss';
 import 'aos/dist/aos.css';
@@ -13,6 +13,14 @@ export default function App({ Component, pageProps }) {
 	useEffect(() => {
 		AOS.init();
 	}, []);
+	useEffect(() => {
+		if (!window.GA_INITIALIZED) {
+		  initGA();
+		  window.GA_INITIALIZED = true;
+		}
+		logPageView();
+	  }, []);
+	
 	return (
 		<>
 			<Head>
