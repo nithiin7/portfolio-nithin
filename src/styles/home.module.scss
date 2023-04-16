@@ -22,7 +22,7 @@
 		flex-direction: column;
 		justify-content: center;
 		h1 {
-			font-family: 'Fasthand';
+			font-family: 'Fasthand', cursive;
 			font-size: rem(24);
 			@media #{$md} {
 				font-size: rem(48);
@@ -115,7 +115,6 @@
 		}
 	}
 }
-
 .portfolio__about {
 	margin-top: rem(100);
 	display: grid;
@@ -168,7 +167,6 @@
 			}
 		}
 	}
-
 	.about__content {
 		text-align: center;
 		@media #{$lm} {
@@ -220,7 +218,6 @@
 		}
 	}
 }
-
 .portfolio__experience {
 	display: grid;
 	grid-template-columns: 1fr;
@@ -277,7 +274,6 @@
 		}
 	}
 }
-
 .portfolio__services {
 	display: grid;
 	gap: rem(32);
@@ -295,7 +291,6 @@
 		width: $container-width-xl;
 	}
 }
-
 .portfolio__portfolio {
 	display: grid;
 	grid-template-columns: 1fr;
@@ -317,7 +312,6 @@
 		width: $container-width-xl;
 	}
 }
-
 .portfolio__testimonials {
 	padding-bottom: rem(64);
 	width: $container-width-sm;
@@ -334,7 +328,6 @@
 	@media #{$xl} {
 		width: $container-width-xl;
 	}
-
 	.testimonial__avatar {
 		width: rem(64);
 		aspect-ratio: 1/1;
@@ -347,7 +340,6 @@
 			width: 100%;
 		}
 	}
-
 	.testimonial__container {
 		background: $color-bg-variant;
 		text-align: center;
@@ -355,7 +347,6 @@
 		border-radius: rem(32);
 		user-select: none;
 	}
-
 	.testimonial__review {
 		color: $color-light;
 		font-weight: 300;
@@ -363,14 +354,12 @@
 		width: 80%;
 		margin: rem(12.8) auto 0;
 	}
-
 	.swiper-pagination-clickable {
 		.swiper-pagination-bullet {
 			background: $color-primary;
 		}
 	}
 }
-
 .contact__container {
 	width: 58%;
 	display: grid;
@@ -395,7 +384,6 @@
 		flex-direction: column;
 		gap: 1.2rem;
 	}
-
 	.contact__option {
 		background: $color-bg-variant;
 		padding: 1.2rem;
@@ -417,7 +405,6 @@
 			margin-bottom: 0.5rem;
 		}
 	}
-
 	.contact__form {
 		display: flex;
 		flex-direction: column;

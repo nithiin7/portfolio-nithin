@@ -31,6 +31,9 @@ You can customize the website by modifying the components and styles in the src 
 # Resources #
 
 [Next.js Documentation](https://nextjs.org/docs)
+
 [Contentful Documentation](https://www.contentful.com/developers/docs/)
+
 [React Documentation](https://legacy.reactjs.org/docs/getting-started.html)
+
 [CSS Modules Documentation](https://github.com/css-modules/css-modules)

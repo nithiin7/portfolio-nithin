@@ -10,16 +10,14 @@
     list-style: none;
     text-decoration: none;
 }
-
 html {
     scroll-behavior: smooth;
 }
-
 ::-webkit-scrollbar {
     display: none;
 }
 body {
-    font-family: $font-primary, $font-secondary;
+    font-family: 'Poppins', sans-serif;
     background: $color-bg;
     color: $color-white;
     line-height: 1.7;
@@ -27,7 +25,6 @@ body {
 }
 
 /* ---------------- General Styles ----------------*/
-
 h1,
 h2,
 h3,
@@ -35,18 +32,15 @@ h4,
 h5 {
     font-weight: 500;
 }
-
 section {
     margin-top: rem(160);
     margin-bottom: rem(256);
 }
-
 section > h2,
 section > h5 {
     text-align: center;
     color: $color-light;
 }
-
 section > h2 {
     color: $color-primary;
     margin-bottom: rem(48);
@@ -54,7 +48,6 @@ section > h2 {
 .text-light {
     color: $color-light;
 }
-
 a {
     color: $color-primary;
     transition: $transition;
@@ -62,19 +55,3 @@ a {
         color: $color-white;
     }
 }
-
-/* -----------Media Queries(Medium Devices)----------*/
-
-// @media screen and (max-width: 1024px) {
-//     section {
-//         margin-top: 6rem;
-//     }
-// }
-
-// /* -----------Media Queries(Small Devices)----------*/
-
-// @media screen and (max-width: 600px) {
-//     section > h2 {
-//         margin-bottom: 2rem;
-//     }
-// }
