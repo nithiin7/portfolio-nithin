@@ -1,18 +1,57 @@
 {
-  "name": "portfolio-nithin",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "eslint": "8.35.0",
-    "eslint-config-next": "13.2.3",
-    "next": "13.2.3",
-    "react": "18.2.0",
-    "react-dom": "18.2.0"
-  }
+	"name": "portfolio-nithin",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "eslint . --ext .js,.jsx",
+		"generate": "plop",
+		"format": "prettier --write .",
+		"check-format": "prettier --check ."
+	},
+	"dependencies": {
+		"@apollo/client": "^3.7.10",
+		"@contentful/rich-text-react-renderer": "^15.16.2",
+		"aos": "^3.0.0-beta.6",
+		"contentful": "^9.3.3",
+		"deepmerge": "^4.3.0",
+		"emailjs-com": "^3.2.0",
+		"eslint": "8.35.0",
+		"eslint-config-next": "13.2.3",
+		"eslint-config-prettier": "^8.8.0",
+		"file-loader": "^6.2.0",
+		"loadash": "^1.0.0",
+		"next": "13.2.3",
+		"prop-types": "^15.8.1",
+		"react-dom": "18.2.0",
+		"react-hook-form": "^7.43.7",
+		"react-icons": "^4.8.0",
+		"react-scroll": "^1.8.9",
+		"react-slick": "^0.29.0",
+		"react-slider-swiper": "^2.0.6",
+		"sass": "^1.58.3",
+		"sharp": "^0.31.3",
+		"slick-carousel": "^1.8.1",
+		"swiper": "^9.1.0",
+		"typewriter-effect": "^2.19.0"
+	},
+	"devDependencies": {
+		"husky": "^8.0.3",
+		"lint-staged": "^13.1.2",
+		"plop": "^3.1.2",
+		"prettier": "^2.8.4"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "npm run lint"
+		}
+	},
+	"lint-staged": {
+		"*.{js,jsx}": [
+			"eslint --fix",
+			"git add"
+		]
+	}
 }
