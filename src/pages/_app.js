@@ -1,10 +1,10 @@
 import Head from 'next/head';
 import { useEffect } from 'react';
+import Script from 'next/script';
 
 import PropTypes from 'prop-types';
 import Layout from 'components/layouts/Layout';
 import AOS from 'aos';
-import { initGA, logPageView } from 'utilities/analytics';
 
 import 'styles/globals.scss';
 import 'aos/dist/aos.css';
@@ -13,13 +13,6 @@ export default function App({ Component, pageProps }) {
 	useEffect(() => {
 		AOS.init();
 	}, []);
-	useEffect(() => {
-		if (!window.GA_INITIALIZED) {
-		  initGA();
-		  window.GA_INITIALIZED = true;
-		}
-		logPageView();
-	  }, []);
 	
 	return (
 		<>
@@ -36,6 +29,21 @@ export default function App({ Component, pageProps }) {
 					sizes="16x16"
 					href="/images/favicon.png"
 				/>
+				<Script
+					strategy="lazyOnload"
+					src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_ID}`}
+					/>
+
+					<Script id="ga-script" strategy="lazyOnload">
+					{`
+						window.dataLayer = window.dataLayer || [];
+						function gtag(){dataLayer.push(arguments);}
+						gtag('js', new Date());
+						gtag('config', '${process.env.GOOGLE_ANALYTICS_ID}', {
+						page_path: window.location.pathname,
+						});
+							`}
+				</Script>
 			</Head>
 			<Layout {...pageProps}>
 				<Component {...pageProps} />
