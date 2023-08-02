@@ -29,20 +29,15 @@ export default function App({ Component, pageProps }) {
 					sizes="16x16"
 					href="/images/favicon.png"
 				/>
-				<Script
-					strategy="lazyOnload"
-					src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_ID}`}
-					/>
-
-					<Script id="ga-script" strategy="lazyOnload">
+				<Script src="https://www.googletagmanager.com/gtag/js?id=G-E4KM0WS03X" />
+				<Script id="google-analytics">
 					{`
-						window.dataLayer = window.dataLayer || [];
-						function gtag(){dataLayer.push(arguments);}
-						gtag('js', new Date());
-						gtag('config', '${process.env.GOOGLE_ANALYTICS_ID}', {
-						page_path: window.location.pathname,
-						});
-							`}
+					window.dataLayer = window.dataLayer || [];
+					function gtag(){dataLayer.push(arguments);}
+					gtag('js', new Date());		
+					
+					gtag('config', 'G-E4KM0WS03X');
+					`}
 				</Script>
 			</Head>
 			<Layout {...pageProps}>
