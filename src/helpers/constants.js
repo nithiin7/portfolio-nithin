@@ -17,6 +17,7 @@ import { FiInstagram } from 'react-icons/fi';
 import { IoLogoTwitter } from 'react-icons/io';
 import { FaRedditAlien } from 'react-icons/fa';
 import { RiSnapchatLine } from 'react-icons/ri';
+import { FaBitbucket } from 'react-icons/fa'
 
 export const socialMediaLinks = [
 	{
@@ -34,10 +35,10 @@ export const socialMediaLinks = [
 		duration: 1200,
 	},
 	{
-		title: 'Instagram',
-		href: 'https://www.instagram.com/__nithiin__/',
+		title: 'Bitbucket',
+		href: 'https://bitbucket.org/nithin-private/workspace/repositories/',
 		target: '_blank',
-		icon: <RiInstagramFill />,
+		icon: <FaBitbucket />,
 		duration: 1400,
 	},
 ];
@@ -52,13 +53,13 @@ export const cardData = [
 	{
 		icon: <FiUsers className={styles['about__icon']} />,
 		title: 'Experience',
-		description: '1 year',
+		description: '1 year 2 months',
 		duration: 1100,
 	},
 	{
 		icon: <VscFolderLibrary className={styles['about__icon']} />,
 		title: 'Projects',
-		description: '10+ Completed',
+		description: '15+ Completed',
 		duration: 1200,
 	},
 ];

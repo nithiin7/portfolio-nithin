@@ -209,9 +209,6 @@ export default function Home(props) {
 								height={1000}
 								width={1000}
 								quality={100}
-								data-aos="fade-up"
-								data-aos-duration="1400"
-								data-aos-once="true"
 							/>
 						</div>
 					</div>
