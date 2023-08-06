@@ -89,6 +89,7 @@ export const HOME_PAGE = gql`
 														url
 													}
 													reviewer
+													institution
 													review
 												}
 											}

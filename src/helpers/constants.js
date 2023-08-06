@@ -1,23 +1,12 @@
 import styles from 'styles/home.module.scss';
 
-import { BsLinkedin } from 'react-icons/bs';
-import { FaGithub } from 'react-icons/fa';
-import { RiInstagramFill } from 'react-icons/ri';
-
-import { FaAward } from 'react-icons/fa';
-import { FiUsers } from 'react-icons/fi';
+import { BsLinkedin, BsWhatsapp } from 'react-icons/bs';
+import { FaAward, FaFacebookF, FaRedditAlien, FaGithub, FaBitbucket } from 'react-icons/fa';
+import { FiUsers, FiInstagram } from 'react-icons/fi';
 import { VscFolderLibrary } from 'react-icons/vsc';
-
 import { MdOutlineMail } from 'react-icons/md';
-import { RiMessengerLine } from 'react-icons/ri';
-import { BsWhatsapp } from 'react-icons/bs';
-
-import { FaFacebookF } from 'react-icons/fa';
-import { FiInstagram } from 'react-icons/fi';
+import { RiMessengerLine, RiSnapchatLine } from 'react-icons/ri';
 import { IoLogoTwitter } from 'react-icons/io';
-import { FaRedditAlien } from 'react-icons/fa';
-import { RiSnapchatLine } from 'react-icons/ri';
-import { FaBitbucket } from 'react-icons/fa'
 
 export const socialMediaLinks = [
 	{

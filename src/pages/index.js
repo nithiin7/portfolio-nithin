@@ -403,8 +403,11 @@ export default function Home(props) {
 											quality={100}
 										/>
 									</div>
-									<h5 className={styles['testimonial__name']}>
+									<h3 className={styles['testimonial__name']}>
 										{item.reviewer}
+									</h3>
+									<h5>
+										{item.institution}
 									</h5>
 									<small className={styles['testimonial__review']}>
 										{item.review}
