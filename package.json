@@ -6,10 +6,13 @@
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"lint": "eslint . --ext .js,.jsx",
-		"generate": "plop",
-		"format": "prettier --write .",
-		"check-format": "prettier --check ."
+		"eslint": "eslint \"**/*.+(js|jsx|ts|tsx)\"",
+		"eslint:fix": "eslint --fix \"**/*.+(js|jsx|ts|tsx)\"",
+		"prettier": "prettier --check \"**/*.+(js|jsx|ts|tsx|json|yml|yaml|md|css)\"",
+		"prettier:fix": "prettier --write \"**/*.+(js|jsx|ts|tsx|json|yml|yaml|md|css)\"",
+		"prepare": "husky install",
+		"pre-commit": "lint-staged",
+		"generate": "plop"
 	},
 	"dependencies": {
 		"@apollo/client": "^3.7.10",
@@ -19,13 +22,13 @@
 		"deepmerge": "^4.3.0",
 		"emailjs-com": "^3.2.0",
 		"eslint": "8.35.0",
-		"eslint-config-next": "13.2.3",
 		"eslint-config-prettier": "^8.8.0",
 		"file-loader": "^6.2.0",
 		"loadash": "^1.0.0",
-		"next": "13.2.3",
+		"next": "^14.0.3",
 		"prop-types": "^15.8.1",
-		"react-dom": "18.2.0",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
 		"react-hook-form": "^7.43.7",
 		"react-icons": "^4.8.0",
 		"react-scroll": "^1.8.9",
@@ -38,20 +41,26 @@
 		"typewriter-effect": "^2.19.0"
 	},
 	"devDependencies": {
-		"husky": "^8.0.3",
-		"lint-staged": "^13.1.2",
+		"eslint": "^7.32.0",
+		"eslint-config-airbnb": "^18.2.1",
+		"eslint-config-next": "^14.0.3",
+		"eslint-config-prettier": "^8.3.0",
+		"eslint-plugin-import": "^2.24.2",
+		"eslint-plugin-jsx-a11y": "^6.4.1",
+		"eslint-plugin-prettier": "^4.2.1",
+		"eslint-plugin-react": "^7.25.1",
+		"eslint-plugin-react-hooks": "^4.2.0",
+		"lint-staged": "^11.1.2",
 		"plop": "^3.1.2",
-		"prettier": "^2.8.4"
-	},
-	"husky": {
-		"hooks": {
-			"pre-commit": "npm run lint"
-		}
+		"prettier": "2.4.0"
 	},
 	"lint-staged": {
-		"*.{js,jsx}": [
-			"eslint --fix",
-			"git add"
+		"./*/**/*.{js,jsx,ts,tsx}": [
+			"npm run prettier:fix",
+			"npm run eslint:fix"
+		],
+		"*.{json,md}": [
+			"npm run prettier:fix"
 		]
 	}
 }
