@@ -2,11 +2,9 @@ import { useState } from 'react';
 import { Link } from 'react-scroll';
 import styles from './Navbar.module.scss';
 
-import { AiOutlineHome } from 'react-icons/ai';
-import { AiOutlineUser } from 'react-icons/ai';
-import { BiBook } from 'react-icons/bi';
+import { AiOutlineHome, AiOutlineUser } from 'react-icons/ai';
+import { BiBook, BiMessageSquareDetail } from 'react-icons/bi';
 import { RiServiceLine } from 'react-icons/ri';
-import { BiMessageSquareDetail } from 'react-icons/bi';
 
 function Navbar() {
 	const [activeNav, setActiveNav] = useState('home');

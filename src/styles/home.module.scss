@@ -361,7 +361,6 @@
 	}
 }
 .contact__container {
-	width: 58%;
 	display: grid;
 	width: $container-width-sm;
 	margin: 0 auto;
@@ -428,7 +427,6 @@
 	.contact__button {
 		width: max-content;
 		display: inline-block;
-		color: $color-primary;
 		padding: rem(8) rem(16);
 		border-radius: rem(6.4);
 		cursor: pointer;
