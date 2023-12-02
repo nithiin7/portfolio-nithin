@@ -1,36 +1,36 @@
-@use 'styles/shared/mixin' as *;
-@use 'styles/shared/variables' as *;
+@use "styles/shared/mixin" as *;
+@use "styles/shared/variables" as *;
 
 .portfolio-card__item {
-	background: $color-bg-variant;
-	padding: rem(20.8);
-	border-radius: rem(32);
-	border: rem(1) solid transparent;
-	overflow: hidden;
-	transition: $transition;
-	&:hover {
-		border-color: $color-primary-variant;
-		background: transparent;
-	}
-	h3 {
-		margin: rem(19.2) 0 rem(32);
-		height: rem(70);
-	}
-	.portfolio-card__image {
-		border-radius: rem(24);
-		overflow: hidden;
-		height: rem(200);
-		width: auto;
-		img {
-			height: 100%;
-			width: 100%;
-			object-fit: contain;
-			object-position: center;
-		}
-	}
-	.portfolio-card__cta {
-		display: flex;
-		gap: rem(16);
-		margin-bottom: rem(16);
-	}
+  background: $color-bg-variant;
+  padding: rem(20.8);
+  border-radius: rem(32);
+  border: rem(1) solid transparent;
+  overflow: hidden;
+  transition: $transition;
+  &:hover {
+    border-color: $color-primary-variant;
+    background: transparent;
+  }
+  h3 {
+    margin: rem(19.2) 0 rem(32);
+    height: rem(70);
+  }
+  .portfolio-card__image {
+    border-radius: rem(24);
+    overflow: hidden;
+    height: rem(200);
+    width: auto;
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
+      object-position: center;
+    }
+  }
+  .portfolio-card__cta {
+    display: flex;
+    gap: rem(16);
+    margin-bottom: rem(16);
+  }
 }

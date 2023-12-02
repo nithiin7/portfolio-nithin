@@ -579,7 +579,6 @@ export default function Home(props) {
               .contentsCollection.items[0].subTitle
           }
         </h2>
-
         <div
           data-aos="fade-up"
           data-aos-duration="1200"

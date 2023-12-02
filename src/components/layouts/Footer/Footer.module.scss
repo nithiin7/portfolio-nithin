@@ -1,61 +1,61 @@
-@use 'styles/shared/mixin' as *;
-@use 'styles/shared/variables' as *;
+@use "styles/shared/mixin" as *;
+@use "styles/shared/variables" as *;
 
 .footer {
-	background: $color-primary;
-	padding: rem(48) 0;
-	text-align: center;
-	font-size: rem(14.4);
-	margin-top: rem(112);
-	a {
-		color: $color-bg;
-	}
-	.footer__permalinks {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
-		flex-direction: column;
-		gap: rem(24);
-		margin: 0 auto rem(48);
-		cursor: pointer;
-		@media #{$lm} {
-			gap: rem(32);
-			flex-direction: row;
-		}
-	}
-	.footer__socials {
-		display: flex;
-		justify-content: center;
-		margin-bottom: rem(41.6);
-		gap: rem(16);
-		@media #{$lm} {
-			margin-bottom: rem(32);
-		}
-		a {
-			background: $color-bg;
-			color: $color-white;
-			padding: rem(12.8);
-			border-radius: rem(11.2);
-			display: flex;
-			border: rem(1) solid transparent;
-			&:hover {
-				background: transparent;
-				color: $color-bg;
-				border-color: $color-bg;
-			}
-		}
-	}
-	.footer__copyright {
-		margin-bottom: rem(64);
-		color: $color-bg;
-	}
-	.footer__logo {
-		display: flex;
-		justify-content: center;
-		margin-bottom: rem(48);
-		img {
-			width: auto;
-			height: auto;
-		}
-	}
+  background: $color-primary;
+  padding: rem(48) 0;
+  text-align: center;
+  font-size: rem(14.4);
+  margin-top: rem(112);
+  a {
+    color: $color-bg;
+  }
+  .footer__permalinks {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: column;
+    gap: rem(24);
+    margin: 0 auto rem(48);
+    cursor: pointer;
+    @media #{$lm} {
+      gap: rem(32);
+      flex-direction: row;
+    }
+  }
+  .footer__socials {
+    display: flex;
+    justify-content: center;
+    margin-bottom: rem(41.6);
+    gap: rem(16);
+    @media #{$lm} {
+      margin-bottom: rem(32);
+    }
+    a {
+      background: $color-bg;
+      color: $color-white;
+      padding: rem(12.8);
+      border-radius: rem(11.2);
+      display: flex;
+      border: rem(1) solid transparent;
+      &:hover {
+        background: transparent;
+        color: $color-bg;
+        border-color: $color-bg;
+      }
+    }
+  }
+  .footer__copyright {
+    margin-bottom: rem(64);
+    color: $color-bg;
+  }
+  .footer__logo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: rem(48);
+    img {
+      width: auto;
+      height: auto;
+    }
+  }
 }

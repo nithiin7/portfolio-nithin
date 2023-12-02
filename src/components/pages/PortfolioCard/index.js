@@ -1,2 +1,2 @@
-import PortfolioCard from './PortfolioCard';
+import PortfolioCard from "./PortfolioCard";
 export default PortfolioCard;
