@@ -1,10 +1,9 @@
 {
-	"printWidth": 60,
-	"semi": true,
-	"tabWidth": 2,
-	"bracketSpacing": true,
-	"jsxBracketSameLine": false,
-	"arrowParens": "avoid",
-	"endOfLine": "lf"
-  }
-  
+  "printWidth": 60,
+  "semi": true,
+  "tabWidth": 2,
+  "bracketSpacing": true,
+  "jsxBracketSameLine": false,
+  "arrowParens": "avoid",
+  "endOfLine": "lf"
+}

@@ -1,7 +1,7 @@
 import styles from "./PortfolioCard.module.scss";
 import PropTypes from "prop-types";
 
-import ButtonPrimary from "components/utilities/ButtonPrimary";
+import Button from "components/utilities/Button";
 import Image from "next/image";
 
 function PortfolioCard({ id, image, title, github, demo }) {
@@ -24,14 +24,14 @@ function PortfolioCard({ id, image, title, github, demo }) {
       </div>
       <h3>{title}</h3>
       <div className={styles["portfolio-card__cta"]}>
-        <ButtonPrimary
+        <Button
           href={github}
-          classModifier={"button"}
+          classModifier={"Button"}
           data={"Github"}
         />
-        <ButtonPrimary
+        <Button
           href={demo}
-          classModifier={"button"}
+          classModifier={"Button"}
           data={"Live Demo"}
           type={"external_link"}
         />

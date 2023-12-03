@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
 import Link from "next/link";
 import { Link as ScrollLink } from "react-scroll";
-import styles from "./ButtonPrimary.module.scss";
+
+import styles from "./Button.module.scss";
 
 function Button({ classModifier, href, data, type }) {
   if (type === "scroll_link") {

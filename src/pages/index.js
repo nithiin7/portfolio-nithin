@@ -1,39 +1,29 @@
 import Head from "next/head";
-import React, { useRef } from "react";
+import React from "react";
 import Link from "next/link";
 import { Link as ScrollLink } from "react-scroll";
 import Image from "next/image";
 import styles from "styles/home.module.scss";
 import Typewriter from "typewriter-effect";
-import emailjs from "emailjs-com";
-import { Pagination } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
-import { Controller, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 
-import ButtonPrimary from "components/utilities/ButtonPrimary";
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+
+import Button from "components/utilities/Button";
 import ExperienceCard from "components/pages/ExperienceCard";
-import ServiceCard from "components/pages/ServiceCard";
-import PortfolioCard from "components/pages/PortfolioCard";
 
 import {
   socialMediaLinks,
   cardData,
-  contactOptions,
 } from "helpers/constants";
 import CV from "assets/documents/cv.pdf";
-import success from "assets/images/success.png";
 
 import { initializeApollo } from "/lib/apolloClient";
 import { HOME_PAGE } from "queries";
-import TextInput from "components/utilities/TextInput";
-import { contactSchema } from "helpers/validations";
-import TextArea from "components/utilities/TextArea";
+
+import HomeTestimonial from "components/utilities/HomeTestimonial";
+import HomeContact from "components/utilities/HomeContact";
+import HomePortfolio from "components/utilities/HomePortfolio";
+import HomeServices from "components/utilities/HomeServices";
 
 export async function getStaticProps() {
   const apolloClient = initializeApollo();
@@ -55,56 +45,6 @@ export default function Home(props) {
     path?.sectionCollection.items[0].contentsCollection;
   const header_list =
     path_header?.items[1].contentsCollection.items[0].list;
-  const services_path =
-    path.sectionCollection.items[3].contentsCollection
-      .items;
-  const portfolio_path =
-    path.sectionCollection.items[4].contentsCollection
-      .items[1].contentsCollection.items;
-  const testimonial_path =
-    path.sectionCollection.items[5].contentsCollection
-      .items[1].contentsCollection.items;
-
-  const form = useRef();
-  const formSuccess = useRef();
-
-  const {
-    formState: { errors },
-    control,
-    trigger,
-    handleSubmit,
-    register,
-  } = useForm({
-    resolver: yupResolver(contactSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      message: "",
-    },
-  });
-
-  //   const sendEmail = e => {};
-
-  const onSubmit = (data, e) => {
-    e.preventDefault();
-
-    emailjs
-      .sendForm(
-        process.env.SERVICE_ID,
-        process.env.TEMPLATE_ID,
-        form.current,
-        process.env.EMAILJS_ID
-      )
-      .then(
-        result => {
-          form.current.style.display = "none";
-          formSuccess.current.style.display = "block";
-        },
-        error => {
-          console.log(error.text);
-        }
-      );
-  };
 
   return (
     <>
@@ -173,8 +113,8 @@ export default function Home(props) {
             >
               Download CV
             </a>
-            <ButtonPrimary
-              classModifier={"button--primary"}
+            <Button
+              classModifier={"Button--primary"}
               href={"contact"}
               data={"Let's Talk"}
               type={"scroll_link"}
@@ -310,9 +250,9 @@ export default function Home(props) {
               data-aos-once="true"
               className={styles["about__icon"]}
             >
-              <ButtonPrimary
+              <Button
                 href={"contact"}
-                classModifier={"button--primary"}
+                classModifier={"Button--primary"}
                 data={"Let’s make something special."}
                 type={"scroll_link"}
               />
@@ -405,321 +345,42 @@ export default function Home(props) {
           </div>
         </div>
       </section>
-      <section id="services">
-        <h5
-          data-aos="fade-up"
-          data-aos-duration="1000"
-          data-aos-once="true"
-        >
-          {
-            path.sectionCollection.items[3]
-              .contentsCollection.items[0].title
-          }
-        </h5>
-        <h2
-          data-aos="fade-up"
-          data-aos-duration="1100"
-          data-aos-once="true"
-        >
-          {
-            path.sectionCollection.items[3]
-              .contentsCollection.items[0].subTitle
-          }
-        </h2>
-        <div
-          data-aos="fade-up"
-          data-aos-duration="1200"
-          data-aos-once="true"
-          className={styles["portfolio__services"]}
-        >
-          {services_path?.map(item => {
-            if (item.__typename == "Section") {
-              return (
-                <ServiceCard
-                  heading={
-                    item.contentsCollection.items[0].title
-                  }
-                  list={
-                    item.contentsCollection.items[1].list
-                  }
-                />
-              );
-            }
-          })}
-        </div>
-      </section>
-      <section id="portfolio">
-        <h5
-          data-aos="fade-up"
-          data-aos-duration="1000"
-          data-aos-once="true"
-        >
-          {
-            path.sectionCollection.items[4]
-              .contentsCollection.items[0].title
-          }
-        </h5>
-        <h2
-          data-aos="fade-up"
-          data-aos-duration="1100"
-          data-aos-once="true"
-        >
-          {
-            path.sectionCollection.items[4]
-              .contentsCollection.items[0].subTitle
-          }
-        </h2>
-        <div className={styles["portfolio__portfolio"]}>
-          {portfolio_path.map(item => {
-            return (
-              <PortfolioCard
-                id={item.id}
-                image={item.image.url}
-                title={item.title}
-                github={item.gitHub}
-                demo={item.demo}
-              />
-            );
-          })}
-        </div>
-      </section>
-      <section id="testimonials">
-        <h5
-          data-aos="fade-up"
-          data-aos-duration="1000"
-          data-aos-once="true"
-        >
-          {
-            path.sectionCollection.items[5]
-              .contentsCollection.items[0].title
-          }
-        </h5>
-        <h2
-          data-aos="fade-up"
-          data-aos-duration="1100"
-          data-aos-once="true"
-        >
-          {
-            path.sectionCollection.items[5]
-              .contentsCollection.items[0].subTitle
-          }
-        </h2>
-        <div
-          data-aos="fade-up"
-          data-aos-duration="1200"
-          data-aos-once="true"
-        >
-          <Swiper
-            className={styles["portfolio__testimonials"]}
-            modules={[Pagination]}
-            navigation
-            spaceBetween={40}
-            slidesPerView={1}
-            pagination={{ clickable: true }}
-          >
-            {testimonial_path.map((item, index) => {
-              return (
-                <SwiperSlide
-                  key={index}
-                  className={
-                    styles["testimonial__container"]
-                  }
-                >
-                  <div
-                    className={
-                      styles["testimonial__avatar"]
-                    }
-                  >
-                    <Image
-                      src={item.avatar.url}
-                      alt="Avatar"
-                      width={1000}
-                      height={1000}
-                      priority
-                      quality={100}
-                    />
-                  </div>
-                  <h3
-                    className={styles["testimonial__name"]}
-                  >
-                    {item.reviewer}
-                  </h3>
-                  <h5>{item.institution}</h5>
-                  <small
-                    className={
-                      styles["testimonial__review"]
-                    }
-                  >
-                    {item.review}
-                  </small>
-                </SwiperSlide>
-              );
-            })}
-          </Swiper>
-        </div>
-      </section>
-      <section id="contact">
-        <h5
-          data-aos="fade-up"
-          data-aos-duration="1000"
-          data-aos-once="true"
-        >
-          {
-            path.sectionCollection.items[6]
-              .contentsCollection.items[0].title
-          }
-        </h5>
-        <h2
-          data-aos="fade-up"
-          data-aos-duration="1100"
-          data-aos-once="true"
-        >
-          {
-            path.sectionCollection.items[6]
-              .contentsCollection.items[0].subTitle
-          }
-        </h2>
-        <div
-          data-aos="fade-up"
-          data-aos-duration="1200"
-          data-aos-once="true"
-          className={styles["contact__container"]}
-        >
-          <div className={styles["contact__options"]}>
-            {contactOptions.map((option, index) => (
-              <article
-                key={index}
-                data-aos="fade-up"
-                data-aos-duration={option.duration}
-                data-aos-once="true"
-                className={styles["contact__option"]}
-              >
-                {option.icon}
-                <h4>{option.title}</h4>
-                <h5>{option.subtitle}</h5>
-                <a href={option.link}>Send a Message</a>
-              </article>
-            ))}
-          </div>
-          <div
-            ref={formSuccess}
-            style={{ display: "none" }}
-            className={styles["contact__hidden"]}
-          >
-            <div className={styles["contact__success"]}>
-              <div className={styles["contact__wrap"]}>
-                <Image
-                  src={success}
-                  alt="success"
-                  height={1000}
-                  width={1000}
-                  quality={100}
-                />
-              </div>
-              <div className={styles["contact__text"]}>
-                Email Sent Successfully!
-              </div>
-            </div>
-          </div>
-          <form
-            className={styles["contact__form"]}
-            ref={form}
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            <fieldset
-              className={styles["model__form-item"]}
-              data-aos="fade-up"
-              data-aos-duration="1200"
-              data-aos-once="true"
-            >
-              <Controller
-                control={control}
-                name="name"
-                render={({ field }) => (
-                  <TextInput
-                    {...field}
-                    type="text"
-                    placeholder="Your Full Name"
-                    // onChange={e => {
-                    //   field.onChange(e);
-                    //   trigger("name");
-                    // }}
-                    // onBlur={() => {
-                    //   field.onBlur();
-                    //   trigger("name");
-                    // }}
-                    errors={[errors?.name?.message]}
-                  />
-                )}
-              />
-            </fieldset>
-            <fieldset
-              className={styles["model__form-item"]}
-              data-aos="fade-up"
-              data-aos-duration="1300"
-              data-aos-once="true"
-            >
-              <Controller
-                control={control}
-                name="email"
-                render={({ field }) => (
-                  <TextInput
-                    {...field}
-                    type="text"
-                    placeholder="Your Email"
-                    // onChange={e => {
-                    //   field.onChange(e);
-                    //   trigger("email");
-                    // }}
-                    // onBlur={() => {
-                    //   field.onBlur();
-                    //   trigger("email");
-                    // }}
-                    errors={[errors?.email?.message]}
-                  />
-                )}
-              />
-            </fieldset>
-            <fieldset
-              className={styles["model__form-item"]}
-              data-aos="fade-up"
-              data-aos-duration="1400"
-              data-aos-once="true"
-            >
-              <Controller
-                control={control}
-                name="message"
-                render={({ field }) => (
-                  <TextArea
-                    {...field}
-                    type="text"
-                    placeholder="Your Message"
-                    rows="7"
-                    // onChange={e => {
-                    //   field.onChange(e);
-                    //   trigger("name");
-                    // }}
-                    // onBlur={() => {
-                    //   field.onBlur();
-                    //   trigger("name");
-                    // }}
-                    errors={[errors?.message?.message]}
-                  />
-                )}
-              />
-            </fieldset>
-            <button
-              data-aos="fade-up"
-              data-aos-duration="1500"
-              data-aos-once="true"
-              type="submit"
-              className={styles["contact__button"]}
-            >
-              Send Message
-            </button>
-          </form>
-        </div>
-      </section>
+      <HomeServices
+        data={
+          path.sectionCollection.items[3].contentsCollection
+            .items[0]
+        }
+        services={
+          path.sectionCollection.items[3].contentsCollection
+            .items
+        }
+      />
+      <HomePortfolio
+        data={
+          path.sectionCollection.items[4].contentsCollection
+            .items[0]
+        }
+        portfolio={
+          path.sectionCollection.items[4].contentsCollection
+            .items[1].contentsCollection.items
+        }
+      />
+      <HomeTestimonial
+        data={
+          path.sectionCollection.items[5].contentsCollection
+            .items[0]
+        }
+        testimonial={
+          path.sectionCollection.items[5].contentsCollection
+            .items[1].contentsCollection.items
+        }
+      />
+      <HomeContact
+        data={
+          path.sectionCollection.items[6].contentsCollection
+            .items[0]
+        }
+      />
     </>
   );
 }

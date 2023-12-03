@@ -1,0 +1,29 @@
+@use "styles/shared/mixin" as *;
+@use "styles/shared/variables" as *;
+
+.HomeServices {
+  :global {
+    .portfolio__services {
+      display: grid;
+      gap: rem(32);
+      width: $container-width-sm;
+      margin: 0 auto;
+      @media #{$md} {
+        grid-template-columns: 1fr 1fr;
+        width: $container-width-md;
+      }
+      @media #{$lg} {
+        grid-template-columns: repeat(3, 1fr);
+        gap: rem(48);
+      }
+      @media #{$xl} {
+        width: $container-width-xl;
+      }
+    }
+  }
+}
+
+.HomeServices__default {
+  :global {
+  }
+}
