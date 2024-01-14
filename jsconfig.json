@@ -2,6 +2,14 @@
   "compilerOptions": {
     "baseUrl": "./src/"
   },
+  "paths": {
+    "@assets/*": ["assets/*"],
+    "@components/*": ["components/*"],
+    "@helpers/*": ["helpers/*"],
+    "@queries/*": ["queries/*"],
+    "@styles/*": ["styles/*"],
+    "@utils/*": ["utils/*"]
+  },
   "exclude": ["node_modules", "build"],
   "include": ["src/**/*.js", "src/**/*."]
 }

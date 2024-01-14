@@ -1,8 +1,8 @@
+import Image from "next/image";
 import styles from "./PortfolioCard.module.scss";
 import PropTypes from "prop-types";
 
 import Button from "components/utilities/Button";
-import Image from "next/image";
 
 function PortfolioCard({ id, image, title, github, demo }) {
   return (

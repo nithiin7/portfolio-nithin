@@ -20,10 +20,10 @@ import CV from "assets/documents/cv.pdf";
 import { initializeApollo } from "/lib/apolloClient";
 import { HOME_PAGE } from "queries";
 
-import HomeTestimonial from "components/utilities/HomeTestimonial";
-import HomeContact from "components/utilities/HomeContact";
-import HomePortfolio from "components/utilities/HomePortfolio";
-import HomeServices from "components/utilities/HomeServices";
+import HomeServices from "components/pages/homepage/HomeServices";
+import HomePortfolio from "components/pages/homepage/HomePortfolio";
+import HomeTestimonial from "components/pages/homepage/HomeTestimonial";
+import HomeContact from "components/pages/homepage/HomeContact";
 
 export async function getStaticProps() {
   const apolloClient = initializeApollo();
