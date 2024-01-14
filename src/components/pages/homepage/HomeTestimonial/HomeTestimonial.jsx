@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import PropTypes from "prop-types";
 import { Swiper, SwiperSlide } from "swiper/react";

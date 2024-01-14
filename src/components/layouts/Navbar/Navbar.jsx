@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 import { Link } from "react-scroll";
 import styles from "./Navbar.module.scss";

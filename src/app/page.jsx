@@ -1,59 +1,20 @@
 import React from "react";
-import Head from "next/head";
+import loadData from "helpers/contentful";
 
-import { initializeApollo } from "/lib/apolloClient";
-import { HOME_PAGE } from "queries";
-
+import HomeHeader from "components/pages/homepage/HomeHeader";
+import HomeAbout from "components/pages/homepage/HomeAbout";
+import HomeExperience from "components/pages/homepage/HomeExperience";
 import HomeServices from "components/pages/homepage/HomeServices";
 import HomePortfolio from "components/pages/homepage/HomePortfolio";
 import HomeTestimonial from "components/pages/homepage/HomeTestimonial";
 import HomeContact from "components/pages/homepage/HomeContact";
-import HomeExperience from "components/pages/homepage/HomeExperience";
-import HomeAbout from "components/pages/homepage/HomeAbout";
-import HomeHeader from "components/pages/homepage/HomeHeader";
 
-export async function getStaticProps() {
-  const apolloClient = initializeApollo();
-
-  const data = await apolloClient.query({
-    query: HOME_PAGE,
-  });
-
-  return {
-    props: {
-      data,
-    },
-  };
-}
-
-export default function Home(props) {
-  const path = props?.data.data.pageCollection.items[0];
+export default async function Home() {
+  const props = await loadData();
+  const path = props?.data.pageCollection.items[0];
 
   return (
     <>
-      <Head>
-        <title>{path.title}</title>
-        <meta
-          name={path?.title}
-          content={path?.description}
-        />
-        <meta
-          property="og:title"
-          content={path?.ogtitle}
-        ></meta>
-        <meta
-          property="og:description"
-          content={path?.description}
-        ></meta>
-        <meta
-          property="og:url"
-          content={path?.ogurl}
-        ></meta>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1"
-        />
-      </Head>
       <HomeHeader
         data={
           path?.sectionCollection.items[0]

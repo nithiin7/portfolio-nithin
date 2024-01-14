@@ -1,3 +1,4 @@
+"use client";
 import { useRef } from "react";
 import Image from "next/image";
 import PropTypes from "prop-types";
