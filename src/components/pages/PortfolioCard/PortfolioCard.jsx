@@ -1,6 +1,6 @@
 import Image from "next/image";
-import styles from "./PortfolioCard.module.scss";
 import PropTypes from "prop-types";
+import styles from "./PortfolioCard.module.scss";
 
 import Button from "components/utilities/Button";
 

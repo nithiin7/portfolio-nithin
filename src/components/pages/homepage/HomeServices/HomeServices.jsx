@@ -1,8 +1,7 @@
 import PropTypes from "prop-types";
+import styles from "./HomeServices.module.scss";
 
 import ServiceCard from "components/pages/ServiceCard";
-
-import styles from "./HomeServices.module.scss";
 
 const HomeServices = props => {
   const { className, variant, data, services } = props;

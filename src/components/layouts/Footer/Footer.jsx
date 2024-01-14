@@ -2,9 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Link as ScrollLink } from "react-scroll";
 
-import styles from "./Footer.module.scss";
 import Logo from "assets/images/Logo.png";
-
+import styles from "./Footer.module.scss";
 import { footerLinks, socials } from "helpers/constants.js";
 
 function Footer() {

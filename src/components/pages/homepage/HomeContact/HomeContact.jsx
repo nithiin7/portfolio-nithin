@@ -1,9 +1,9 @@
-import Image from "next/image";
 import { useRef } from "react";
+import Image from "next/image";
 import PropTypes from "prop-types";
+import emailjs from "emailjs-com";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import emailjs from "emailjs-com";
 import { contactSchema } from "helpers/validations";
 import { contactOptions } from "helpers/constants";
 

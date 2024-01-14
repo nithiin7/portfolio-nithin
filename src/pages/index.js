@@ -1,21 +1,5 @@
-import Head from "next/head";
 import React from "react";
-import Link from "next/link";
-import { Link as ScrollLink } from "react-scroll";
-import Image from "next/image";
-import styles from "styles/home.module.scss";
-import Typewriter from "typewriter-effect";
-
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
-
-import Button from "components/utilities/Button";
-import ExperienceCard from "components/pages/ExperienceCard";
-
-import {
-  socialMediaLinks,
-  cardData,
-} from "helpers/constants";
-import CV from "assets/documents/cv.pdf";
+import Head from "next/head";
 
 import { initializeApollo } from "/lib/apolloClient";
 import { HOME_PAGE } from "queries";
@@ -24,6 +8,9 @@ import HomeServices from "components/pages/homepage/HomeServices";
 import HomePortfolio from "components/pages/homepage/HomePortfolio";
 import HomeTestimonial from "components/pages/homepage/HomeTestimonial";
 import HomeContact from "components/pages/homepage/HomeContact";
+import HomeExperience from "components/pages/homepage/HomeExperience";
+import HomeAbout from "components/pages/homepage/HomeAbout";
+import HomeHeader from "components/pages/homepage/HomeHeader";
 
 export async function getStaticProps() {
   const apolloClient = initializeApollo();
@@ -41,10 +28,6 @@ export async function getStaticProps() {
 
 export default function Home(props) {
   const path = props?.data.data.pageCollection.items[0];
-  const path_header =
-    path?.sectionCollection.items[0].contentsCollection;
-  const header_list =
-    path_header?.items[1].contentsCollection.items[0].list;
 
   return (
     <>
@@ -71,280 +54,23 @@ export default function Home(props) {
           content="width=device-width, initial-scale=1"
         />
       </Head>
-      <header
-        id="home"
-        className={styles["portfolio__header"]}
-      >
-        <div className={styles["header__container"]}>
-          <h5
-            data-aos="fade-up"
-            data-aos-duration="500"
-            data-aos-once="true"
-          >
-            {path_header?.items[0].title}
-          </h5>
-          <h1 data-aos="fade-up" data-aos-duration="1000">
-            {path_header?.items[0].subTitle}
-          </h1>
-          <h5
-            data-aos="fade-up"
-            data-aos-duration="1200"
-            data-aos-once="true"
-            className={styles["text-light"]}
-          >
-            <Typewriter
-              options={{
-                strings: header_list.map(item => item),
-                autoStart: true,
-                loop: true,
-              }}
-            />
-          </h5>
-          <div
-            data-aos="fade-up"
-            data-aos-duration="1200"
-            data-aos-once="true"
-            className={styles["header__cta"]}
-          >
-            <a
-              className={styles["header__button"]}
-              href={CV}
-              download
-            >
-              Download CV
-            </a>
-            <Button
-              classModifier={"Button--primary"}
-              href={"contact"}
-              data={"Let's Talk"}
-              type={"scroll_link"}
-            />
-          </div>
-          <div
-            data-aos="fade-up"
-            data-aos-duration="1400"
-            data-aos-once="true"
-            className={styles["header__socials"]}
-          >
-            {socialMediaLinks.map(link => (
-              <Link
-                key={link.title}
-                data-aos="fade-up"
-                data-aos-duration={link.duration}
-                data-aos-once="true"
-                title={link.title}
-                href={link.href}
-                target={link.target}
-              >
-                {link.icon}
-              </Link>
-            ))}
-          </div>
-          <div
-            data-aos="fade-up"
-            data-aos-duration="1200"
-            data-aos-once="true"
-            className={styles["header__img"]}
-          >
-            <Image
-              src={
-                path.sectionCollection.items[0]
-                  .contentsCollection.items[3]
-                  .contentsCollection.items[0].image.url
-              }
-              alt={
-                path.sectionCollection.items[0]
-                  .contentsCollection.items[3]
-                  .contentsCollection.items[0].image.title
-              }
-              height={1000}
-              width={1000}
-              quality={100}
-              priority
-            />
-          </div>
-          <ScrollLink
-            to="contact"
-            className={styles["header__scroll-down"]}
-          >
-            ScrollDown
-          </ScrollLink>
-        </div>
-      </header>
-      <section id="about">
-        <h5
-          data-aos="fade-up"
-          data-aos-duration="1100"
-          data-aos-once="true"
-        >
-          {
-            path.sectionCollection.items[1]
-              .contentsCollection.items[0].title
-          }
-        </h5>
-        <h2
-          data-aos="fade-up"
-          data-aos-duration="1200"
-          data-aos-once="true"
-        >
-          {
-            path.sectionCollection.items[1]
-              .contentsCollection.items[0].subTitle
-          }
-        </h2>
-        <div
-          data-aos="fade-up"
-          data-aos-duration="1300"
-          data-aos-once="true"
-          className={styles["portfolio__about"]}
-        >
-          <div
-            className={styles["about__me"]}
-            data-aos="fade-up"
-            data-aos-duration="1200"
-            data-aos-once="true"
-          >
-            <div className={styles["about__me-image"]}>
-              <Image
-                src={
-                  path.sectionCollection.items[1]
-                    .contentsCollection.items[1].image.url
-                }
-                alt="about-me"
-                height={1000}
-                width={1000}
-                quality={100}
-              />
-            </div>
-          </div>
-          <div className={styles["about__content"]}>
-            <div className={styles["about__cards"]}>
-              {cardData.map((card, index) => (
-                <article
-                  key={index}
-                  className={styles["about__card"]}
-                  data-aos="fade-up"
-                  data-aos-duration={card.duration}
-                  data-aos-once="true"
-                >
-                  {card.icon}
-                  <h5>{card.title}</h5>
-                  <small>{card.description}</small>
-                </article>
-              ))}
-            </div>
-            <div
-              data-aos="fade-up"
-              data-aos-duration="1200"
-              data-aos-once="true"
-            >
-              {documentToReactComponents(
-                path.sectionCollection.items[1]
-                  .contentsCollection.items[3]
-                  .descriptionLong.json
-              )}
-            </div>
-            <div
-              data-aos="fade-up"
-              data-aos-duration="1300"
-              data-aos-once="true"
-              className={styles["about__icon"]}
-            >
-              <Button
-                href={"contact"}
-                classModifier={"Button--primary"}
-                data={"Let’s make something special."}
-                type={"scroll_link"}
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-      <section id="experience">
-        <h5
-          data-aos="fade-up"
-          data-aos-duration="1000"
-          data-aos-once="true"
-        >
-          {
-            path.sectionCollection.items[2]
-              .contentsCollection.items[0].title
-          }
-        </h5>
-        <h2
-          data-aos="fade-up"
-          data-aos-duration="1100"
-          data-aos-once="true"
-        >
-          {
-            path.sectionCollection.items[2]
-              .contentsCollection.items[0].subTitle
-          }
-        </h2>
-        <div className={styles["portfolio__experience"]}>
-          <div
-            data-aos="fade-up"
-            data-aos-duration="1200"
-            data-aos-once="true"
-            className={styles["experience__frontend"]}
-          >
-            <h3
-              data-aos="fade-up"
-              data-aos-duration="1200"
-              data-aos-once="true"
-            >
-              {
-                path.sectionCollection.items[2]
-                  .contentsCollection.items[1].title
-              }
-            </h3>
-            <div
-              data-aos="fade-up"
-              data-aos-duration="1300"
-              data-aos-once="true"
-              className={styles["experience__content"]}
-            >
-              {path.sectionCollection.items[2].contentsCollection.items[1].contentsCollection.items?.map(
-                item => (
-                  <ExperienceCard
-                    key={item.title}
-                    tech={item.title}
-                    experience={item.description}
-                  />
-                )
-              )}
-            </div>
-          </div>
-          <div className={styles["experience__backend"]}>
-            <h3
-              data-aos="fade-up"
-              data-aos-duration="1200"
-              data-aos-once="true"
-            >
-              {
-                path.sectionCollection.items[2]
-                  .contentsCollection.items[2].title
-              }
-            </h3>
-            <div
-              data-aos="fade-up"
-              data-aos-duration="1300"
-              data-aos-once="true"
-              className={styles["experience__content"]}
-            >
-              {path.sectionCollection.items[2].contentsCollection.items[2].contentsCollection.items?.map(
-                item => (
-                  <ExperienceCard
-                    key={item.title}
-                    tech={item.title}
-                    experience={item.description}
-                  />
-                )
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
+      <HomeHeader
+        data={
+          path?.sectionCollection.items[0]
+            .contentsCollection
+        }
+      />
+      <HomeAbout
+        data={
+          path.sectionCollection.items[1].contentsCollection
+        }
+      />
+      <HomeExperience
+        data={
+          path?.sectionCollection.items[2]
+            .contentsCollection
+        }
+      />
       <HomeServices
         data={
           path.sectionCollection.items[3].contentsCollection

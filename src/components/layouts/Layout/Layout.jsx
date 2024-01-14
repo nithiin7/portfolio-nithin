@@ -14,7 +14,6 @@ function Layout(props) {
 }
 
 Layout.propTypes = {
-  props: PropTypes.object,
   children: PropTypes.object.isRequired,
 };
 

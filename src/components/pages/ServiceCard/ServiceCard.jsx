@@ -1,6 +1,7 @@
-import styles from "./ServiceCard.module.scss";
-import { BiCheck } from "react-icons/bi";
 import PropTypes from "prop-types";
+import styles from "./ServiceCard.module.scss";
+
+import { BiCheck } from "react-icons/bi";
 
 function ServiceCard({ heading, list }) {
   return (

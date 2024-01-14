@@ -14,6 +14,7 @@ import { RiServiceLine } from "react-icons/ri";
 
 function Navbar() {
   const [activeNav, setActiveNav] = useState("home");
+
   return (
     <nav className={styles["navbar"]}>
       <Link

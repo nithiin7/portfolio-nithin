@@ -1,5 +1,3 @@
-import styles from "styles/home.module.scss";
-
 import { BsLinkedin, BsWhatsapp } from "react-icons/bs";
 import {
   FaAward,
@@ -43,21 +41,19 @@ export const socialMediaLinks = [
 
 export const cardData = [
   {
-    icon: <FaAward className={styles["about__icon"]} />,
+    icon: <FaAward className={"about__icon"} />,
     title: "Tech Stacks",
     description: "15+ Stacks",
     duration: 1000,
   },
   {
-    icon: <FiUsers className={styles["about__icon"]} />,
+    icon: <FiUsers className={"about__icon"} />,
     title: "Experience",
     description: "1 year 2 months",
     duration: 1100,
   },
   {
-    icon: (
-      <VscFolderLibrary className={styles["about__icon"]} />
-    ),
+    icon: <VscFolderLibrary className={"about__icon"} />,
     title: "Projects",
     description: "15+ Completed",
     duration: 1200,
@@ -67,9 +63,7 @@ export const cardData = [
 export const contactOptions = [
   {
     icon: (
-      <MdOutlineMail
-        className={styles["contact__option-icon"]}
-      />
+      <MdOutlineMail className={"contact__option-icon"} />
     ),
     title: "Email",
     subtitle: "nithinp150@gmail.com",
@@ -77,11 +71,7 @@ export const contactOptions = [
     duration: 1300,
   },
   {
-    icon: (
-      <BsWhatsapp
-        className={styles["contact__option-icon"]}
-      />
-    ),
+    icon: <BsWhatsapp className={"contact__option-icon"} />,
     title: "WhatsApp",
     subtitle: "+91-9645018007",
     link: "https://api.whatsapp.com/send?phone=+919645018007",
@@ -89,9 +79,7 @@ export const contactOptions = [
   },
   {
     icon: (
-      <RiMessengerLine
-        className={styles["contact__option-icon"]}
-      />
+      <RiMessengerLine className={"contact__option-icon"} />
     ),
     title: "Messenger",
     subtitle: "Nithin Pradeep",

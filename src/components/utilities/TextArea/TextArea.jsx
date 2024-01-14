@@ -52,7 +52,6 @@ TextArea.displayName = "TextArea";
 
 TextArea.defaultProps = {
   className: "",
-  label: "",
   rows: 7,
   errors: [],
   onChange: () => {},
@@ -67,7 +66,6 @@ TextArea.propTypes = {
   value: PropTypes.string,
   variant: PropTypes.string,
   className: PropTypes.string,
-  label: PropTypes.string,
   rows: PropTypes.number,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,

@@ -1,9 +1,9 @@
-@use './shared' as *;
+@use "./shared" as *;
 
 html {
-	scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 body {
-	-webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: transparent;
 }

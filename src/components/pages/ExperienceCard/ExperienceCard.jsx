@@ -1,5 +1,5 @@
-import styles from "./ExperienceCard.module.scss";
 import PropTypes from "prop-types";
+import styles from "./ExperienceCard.module.scss";
 
 import { BsPatchCheckFill } from "react-icons/bs";
 
