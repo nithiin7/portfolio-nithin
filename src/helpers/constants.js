@@ -49,7 +49,7 @@ export const cardData = [
   {
     icon: <FiUsers className={"about__icon"} />,
     title: "Experience",
-    description: "1 year 2 months",
+    description: "1 year 7 months",
     duration: 1100,
   },
   {

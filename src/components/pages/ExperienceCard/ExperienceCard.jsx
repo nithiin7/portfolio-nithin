@@ -3,7 +3,7 @@ import styles from "./ExperienceCard.module.scss";
 
 import { BsPatchCheckFill } from "react-icons/bs";
 
-function ExperienceCard({ tech, experience }) {
+const ExperienceCard = ({ tech, experience }) => {
   return (
     <article
       className={styles["experience-card__details"]}
@@ -20,7 +20,7 @@ function ExperienceCard({ tech, experience }) {
       </div>
     </article>
   );
-}
+};
 
 ExperienceCard.propTypes = {
   tech: PropTypes.string.isRequired,

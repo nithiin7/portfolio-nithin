@@ -4,7 +4,13 @@ import styles from "./PortfolioCard.module.scss";
 
 import Button from "components/utilities/Button";
 
-function PortfolioCard({ id, image, title, github, demo }) {
+const PortfolioCard = ({
+  id,
+  image,
+  title,
+  github,
+  demo,
+}) => {
   return (
     <article
       data-aos="fade-up"
@@ -38,7 +44,7 @@ function PortfolioCard({ id, image, title, github, demo }) {
       </div>
     </article>
   );
-}
+};
 
 PortfolioCard.propTypes = {
   id: PropTypes.number.isRequired,

@@ -4,7 +4,7 @@ import { Link as ScrollLink } from "react-scroll";
 
 import styles from "./Button.module.scss";
 
-function Button({ classModifier, href, data, type }) {
+const Button = ({ classModifier, href, data, type }) => {
   if (type === "scroll_link") {
     return (
       <ScrollLink
@@ -25,7 +25,7 @@ function Button({ classModifier, href, data, type }) {
       </Link>
     );
   }
-}
+};
 
 Button.propTypes = {
   classModifier: PropTypes.string.isRequired,

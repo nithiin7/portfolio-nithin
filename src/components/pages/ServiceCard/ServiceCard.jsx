@@ -3,7 +3,7 @@ import styles from "./ServiceCard.module.scss";
 
 import { BiCheck } from "react-icons/bi";
 
-function ServiceCard({ heading, list }) {
+const ServiceCard = ({ heading, list }) => {
   return (
     <article className={styles["service-card"]}>
       <div className={styles["service-card__head"]}>
@@ -32,7 +32,7 @@ function ServiceCard({ heading, list }) {
       </ul>
     </article>
   );
-}
+};
 
 ServiceCard.propTypes = {
   heading: PropTypes.string.isRequired,
