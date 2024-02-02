@@ -1,7 +1,13 @@
 import styles from 'styles/home.module.scss';
 
 import { BsLinkedin, BsWhatsapp } from 'react-icons/bs';
-import { FaAward, FaFacebookF, FaRedditAlien, FaGithub, FaBitbucket } from 'react-icons/fa';
+import {
+	FaAward,
+	FaFacebookF,
+	FaRedditAlien,
+	FaGithub,
+	FaBitbucket,
+} from 'react-icons/fa';
 import { FiUsers, FiInstagram } from 'react-icons/fi';
 import { VscFolderLibrary } from 'react-icons/vsc';
 import { MdOutlineMail } from 'react-icons/md';
@@ -42,7 +48,7 @@ export const cardData = [
 	{
 		icon: <FiUsers className={styles['about__icon']} />,
 		title: 'Experience',
-		description: '1 year 2 months',
+		description: '1 year 7 months',
 		duration: 1100,
 	},
 	{
