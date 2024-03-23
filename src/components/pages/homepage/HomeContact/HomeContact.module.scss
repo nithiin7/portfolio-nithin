@@ -1,0 +1,113 @@
+@use "styles/shared/mixin" as *;
+@use "styles/shared/variables" as *;
+
+.HomeContact {
+  :global {
+    .contact__container {
+      display: grid;
+      width: $container-width-sm;
+      margin: 0 auto;
+      @media #{$md} {
+        width: $container-width-md;
+      }
+      @media #{$lm} {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      @media #{$lg} {
+        grid-template-columns: 30% 50%;
+        gap: 12%;
+      }
+      @media #{$xl} {
+        width: $container-width-xl;
+      }
+      .contact__options {
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+      }
+      .contact__option {
+        background: $color-bg-variant;
+        padding: 1.2rem;
+        border-radius: 1.2rem;
+        text-align: center;
+        border: 1px solid transparent;
+        transition: $transition;
+        &:hover {
+          background: transparent;
+          border-color: $color-primary-variant;
+        }
+        a {
+          margin-top: 0.7rem;
+          display: inline-block;
+          font-size: 0.8rem;
+        }
+        .contact__option-icon {
+          font-size: 1.5rem;
+          margin-bottom: 0.5rem;
+        }
+      }
+      .contact__form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+      }
+      .contact__button {
+        width: max-content;
+        display: inline-block;
+        padding: rem(8) rem(16);
+        border-radius: rem(6.4);
+        cursor: pointer;
+        border: rem(1) solid $color-primary;
+        transition: $transition;
+        background: $color-primary;
+        color: $color-bg;
+        @media #{$md} {
+          padding: rem(12) rem(19.2);
+        }
+        &:hover {
+          background: $color-white;
+          color: $color-bg;
+          border-color: transparent;
+        }
+      }
+      .contact__success {
+        width: 100%;
+        padding-top: rem(100);
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        transition: all ease-in 0.5s;
+        @media #{$xl} {
+          padding-top: rem(150);
+        }
+        .contact__wrap {
+          display: flex;
+          flex-direction: column;
+          object-position: center;
+          justify-content: center;
+          text-align: center;
+          align-items: center;
+          object-fit: cover;
+          max-width: rem(150);
+          aspect-ratio: 1;
+        }
+        img {
+          height: auto;
+          width: 100%;
+        }
+        .contact__text {
+          width: 100%;
+          color: $color-primary;
+        }
+      }
+    }
+  }
+}
+
+.HomeContact__default {
+  :global {
+  }
+}

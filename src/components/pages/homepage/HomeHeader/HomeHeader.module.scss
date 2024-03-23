@@ -1,0 +1,129 @@
+@use "styles/shared/mixin" as *;
+@use "styles/shared/variables" as *;
+
+.HomeHeader {
+  :global {
+    .portfolio__header {
+      height: 100vh;
+      padding-top: rem(50);
+      overflow: hidden;
+      width: $container-width-sm;
+      margin: 0 auto;
+      @media #{$md} {
+        width: $container-width-md;
+      }
+      @media #{$xl} {
+        width: $container-width-xl;
+      }
+      .header__container {
+        display: flex;
+        height: 100%;
+        position: relative;
+        text-align: center;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        h1 {
+          font-family: "Fasthand", cursive;
+          font-size: rem(24);
+          @media #{$md} {
+            font-size: rem(48);
+          }
+          @media #{$xxxl} {
+            font-size: rem(48);
+          }
+        }
+        h5 {
+          @media #{$xxl} {
+            font-size: rem(24);
+          }
+        }
+      }
+      .header__cta {
+        margin-top: rem(4);
+        display: flex;
+        gap: rem(19);
+        justify-content: center;
+        @media #{$md} {
+          margin-top: rem(40);
+        }
+      }
+      .header__socials {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: rem(13);
+        position: absolute;
+        left: 0;
+        bottom: rem(48);
+        &::after {
+          content: "";
+          width: rem(1);
+          height: rem(32);
+          background: $color-primary;
+        }
+      }
+      .header__img {
+        background: linear-gradient(
+          $color-primary,
+          transparent
+        );
+        overflow: hidden;
+        padding: rem(80) rem(0) rem(48) rem(0);
+        left: calc(50% - rem(152));
+        margin-top: rem(80);
+        border-radius: rem(192) rem(192) 0 0;
+        @media #{$sm} {
+          padding: rem(80) rem(24) rem(48) rem(24);
+        }
+        @media #{$md} {
+          margin: rem(32);
+        }
+        @media #{$xl} {
+          padding: rem(80) rem(24) rem(24) rem(24);
+        }
+        @media #{$xxxl} {
+          margin-top: rem(64);
+        }
+        img {
+          position: relative;
+          top: 0;
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .header__scroll-down {
+        position: absolute;
+        right: rem(-33.6);
+        bottom: rem(80);
+        transform: rotate(90deg);
+        font-weight: 300;
+        font-size: rem(14.4);
+        cursor: pointer;
+      }
+      .header__button {
+        width: max-content;
+        display: inline-block;
+        color: $color-primary;
+        padding: rem(8) rem(16);
+        border-radius: rem(6.4);
+        cursor: pointer;
+        border: rem(1) solid $color-primary;
+        transition: $transition;
+        @media #{$md} {
+          padding: rem(12) rem(19.2);
+        }
+        &:hover {
+          background: $color-white;
+          color: $color-bg;
+          border-color: transparent;
+        }
+      }
+    }
+  }
+}
+
+.HomeHeader__default {
+  :global {
+  }
+}
