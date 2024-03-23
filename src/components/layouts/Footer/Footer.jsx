@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
+import { useLenis } from "@studio-freight/react-lenis";
 import { Link as ScrollLink } from "react-scroll";
 
 import Logo from "assets/images/Logo.png";
@@ -8,6 +9,16 @@ import styles from "./Footer.module.scss";
 import { footerLinks, socials } from "helpers/constants.js";
 
 function Footer() {
+  const lenis = useLenis();
+
+  const handleScroll = to => {
+    if (lenis) {
+      lenis.scrollTo(`#${to}`, {
+        duration: 2,
+      });
+    }
+  };
+
   return (
     <footer className={styles["footer"]}>
       <div
@@ -32,7 +43,12 @@ function Footer() {
             data-aos-duration={link.duration}
             data-aos-once="true"
           >
-            <ScrollLink to={link.href}>
+            <ScrollLink
+              to={link.href}
+              onClick={() => {
+                handleScroll(link.href);
+              }}
+            >
               {link.key}
             </ScrollLink>
           </li>

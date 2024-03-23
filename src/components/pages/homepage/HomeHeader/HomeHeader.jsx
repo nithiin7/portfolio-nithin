@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import PropTypes from "prop-types";
 import Typewriter from "typewriter-effect";
+import { useLenis } from "@studio-freight/react-lenis";
 import { Link as ScrollLink } from "react-scroll";
 
 import styles from "./HomeHeader.module.scss";
@@ -13,6 +14,17 @@ import Button from "components/utilities/Button";
 
 const HomeHeader = props => {
   const { className, variant, data } = props;
+
+  const lenis = useLenis();
+
+  const handleScroll = to => {
+    if (lenis) {
+      lenis.scrollTo(`#${to}`, {
+        duration: 2,
+      });
+    }
+  };
+
   return (
     <div
       className={`${styles.HomeHeader} ${
@@ -112,6 +124,7 @@ const HomeHeader = props => {
           <ScrollLink
             to="contact"
             className={"header__scroll-down"}
+            onClick={() => handleScroll("contact")}
           >
             ScrollDown
           </ScrollLink>

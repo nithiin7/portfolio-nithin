@@ -1,3 +1,4 @@
+import { useLenis } from "@studio-freight/react-lenis";
 import PropTypes from "prop-types";
 import Link from "next/link";
 import { Link as ScrollLink } from "react-scroll";
@@ -5,11 +6,22 @@ import { Link as ScrollLink } from "react-scroll";
 import styles from "./Button.module.scss";
 
 const Button = ({ classModifier, href, data, type }) => {
+  const lenis = useLenis();
+
+  const handleScroll = to => {
+    if (lenis) {
+      lenis.scrollTo(`#${to}`, {
+        duration: 2,
+      });
+    }
+  };
+
   if (type === "scroll_link") {
     return (
       <ScrollLink
         className={styles[`${classModifier}`]}
         to={href}
+        onClick={() => handleScroll(href)}
       >
         {data}
       </ScrollLink>

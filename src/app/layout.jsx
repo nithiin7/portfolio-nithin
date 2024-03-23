@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
-import "styles/globals.scss";
 import loadData from "helpers/contentful";
+
+import "styles/globals.scss";
 
 import Provider from "./provider";
 import Navbar from "components/layouts/Navbar";
