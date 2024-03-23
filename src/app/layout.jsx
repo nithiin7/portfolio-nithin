@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import loadData from "helpers/contentful";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 import "styles/globals.scss";
 
@@ -30,6 +31,7 @@ export default function RootLayout({ children }) {
           {children}
           <Footer />
         </Provider>
+        <GoogleAnalytics gaId="G-E4KM0WS03X" />
       </body>
     </html>
   );
