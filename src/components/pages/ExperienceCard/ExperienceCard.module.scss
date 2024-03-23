@@ -1,11 +1,11 @@
-@use 'styles/shared/mixin' as *;
-@use 'styles/shared/variables' as *;
+@use "styles/shared/mixin" as *;
+@use "styles/shared/variables" as *;
 
 .experience-card__details {
-	display: flex;
-	gap: rem(16);
-	.experience-card__icon {
-		margin-top: rem(6);
-		color: $color-primary;
-	}
+  display: flex;
+  gap: rem(16);
+  .experience-card__icon {
+    margin-top: rem(6);
+    color: $color-primary;
+  }
 }

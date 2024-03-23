@@ -1,0 +1,29 @@
+@use "styles/shared/mixin" as *;
+@use "styles/shared/variables" as *;
+
+.TextInput {
+  :global {
+    .TextInput__input {
+      width: 100%;
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      background: transparent;
+      border: 2px solid $color-primary-variant;
+      resize: none;
+      color: $color-white;
+    }
+    .TextInput__errors {
+      height: 20px;
+    }
+    .TextInput__form-errors {
+      color: $color-primary;
+      font-size: rem(12);
+      margin-left: rem(4);
+    }
+  }
+}
+
+.TextInput__default {
+  :global {
+  }
+}

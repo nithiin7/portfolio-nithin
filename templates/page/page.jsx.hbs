@@ -1,0 +1,19 @@
+import PropTypes from 'prop-types';
+import styles from './{{pascalCase name}}.module.scss';
+
+const {{pascalCase name}} = () => {
+  return (
+    <div className={`${styles.{{pascalCase name}} }`}>
+    </div>
+  );
+};
+
+{{pascalCase name}}.defaultProps = {
+  className: '',
+};
+
+{{pascalCase name}}.propTypes = {
+  className: PropTypes.string,
+};
+
+export default {{pascalCase name}};
