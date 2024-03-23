@@ -94,7 +94,7 @@
       }
       .header__scroll-down {
         position: absolute;
-        right: rem(-33.6);
+        right: rem(-28);
         bottom: rem(80);
         transform: rotate(90deg);
         font-weight: 300;
@@ -109,13 +109,15 @@
         border-radius: rem(6.4);
         cursor: pointer;
         border: rem(1) solid $color-primary;
-        transition: $transition;
+        box-shadow: inset 0 0 0 0 $color-white;
+        transition: all ease-in 0.4s;
+        font-weight: 600;
         @media #{$md} {
           padding: rem(12) rem(19.2);
         }
         &:hover {
-          background: $color-white;
-          color: $color-bg;
+          color: $color-primary;
+          box-shadow: inset 400px 0 0 0 $color-white;
           border-color: transparent;
         }
       }
