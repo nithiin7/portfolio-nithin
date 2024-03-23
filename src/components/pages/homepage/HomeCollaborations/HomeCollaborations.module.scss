@@ -1,0 +1,27 @@
+@use "styles/shared/mixin" as *;
+@use "styles/shared/variables" as *;
+
+.HomeCollaborations {
+  :global {
+    padding: 0 10px;
+    .portfolio__collaborations {
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+      width: 100%;
+      .Collaborations__companies {
+        height: 100px;
+        width: 33%;
+        svg {
+          height: 100%;
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+.HomeCollaborations__default {
+  :global {
+  }
+}

@@ -1,3 +1,5 @@
+import { getExperience } from "helpers";
+
 import { BsLinkedin, BsWhatsapp } from "react-icons/bs";
 import {
   FaAward,
@@ -49,7 +51,7 @@ export const cardData = [
   {
     icon: <FiUsers className={"about__icon"} />,
     title: "Experience",
-    description: "1 year 7 months",
+    description: getExperience("July 2022"),
     duration: 1100,
   },
   {

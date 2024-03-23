@@ -9,6 +9,7 @@ import Button from "components/utilities/Button";
 
 const HomeAbout = props => {
   const { className, variant, data } = props;
+
   return (
     <div
       className={`${styles.HomeAbout} ${
