@@ -44,7 +44,7 @@ const HomeContact = props => {
         process.env.EMAILJS_ID
       )
       .then(
-        result => {
+        () => {
           form.current.style.display = "none";
           formSuccess.current.style.display = "block";
         },
