@@ -5,17 +5,23 @@
   :global {
     padding: 0 10px;
     .portfolio__collaborations {
-      display: flex;
-      flex-direction: row;
-      gap: 20px;
       width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 100px;
       .Collaborations__companies {
         height: 100px;
-        width: 33%;
+        width: 100%;
         svg {
           height: 100%;
           width: 100%;
         }
+        @media #{$md} {
+          width: 33%;
+        }
+      }
+      @media #{$md} {
+        flex-direction: row;
       }
     }
   }
