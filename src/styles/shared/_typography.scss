@@ -1,0 +1,37 @@
+@use './variables' as *;
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+	font-weight: 500;
+}
+
+section {
+	margin-top: rem(160);
+	margin-bottom: rem(256);
+}
+
+section > h2,
+section > h5 {
+	text-align: center;
+	color: $color-light;
+}
+
+section > h2 {
+	color: $color-primary;
+	margin-bottom: rem(48);
+}
+
+.text-light {
+	color: $color-light;
+}
+
+a {
+	color: $color-primary;
+	transition: $transition;
+	&:hover {
+		color: $color-white;
+	}
+}

@@ -1,19 +1,19 @@
-import TextArea from "./TextArea";
+import TextArea from './TextArea';
 
 export default {
-  title: "TextArea",
-  component: TextArea,
-  parameters: {
-    layout: "centered",
-  },
-  tags: ["autodocs"],
+	title: 'TextArea',
+	component: TextArea,
+	parameters: {
+		layout: 'centered',
+	},
+	tags: ['autodocs'],
 };
 
 export const Primary = {
-  args: {
-    data: "TextArea",
-    href: "#",
-    classModifier: "Button--primary",
-    scrollType: "scroll_link",
-  },
+	args: {
+		data: 'TextArea',
+		href: '#',
+		classModifier: 'Button--primary',
+		scrollType: 'scroll_link',
+	},
 };

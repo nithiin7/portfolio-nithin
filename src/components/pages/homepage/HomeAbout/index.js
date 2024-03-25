@@ -1,2 +1,2 @@
-import HomeAbout from "./HomeAbout";
+import HomeAbout from './HomeAbout';
 export default HomeAbout;

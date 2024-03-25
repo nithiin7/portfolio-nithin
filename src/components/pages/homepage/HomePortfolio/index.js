@@ -1,2 +1,2 @@
-import HomePortfolio from "./HomePortfolio";
+import HomePortfolio from './HomePortfolio';
 export default HomePortfolio;

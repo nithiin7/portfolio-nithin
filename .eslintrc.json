@@ -26,16 +26,23 @@
   "rules": {
     "react/prop-types": "error",
     "react/react-in-jsx-scope": "off",
+		"react/jsx-props-no-spreading": "off",
+    "react/require-default-props": [
+			"error",
+			{
+				"ignoreFunctionalComponents": true
+			}
+		],
     "prettier/prettier": [
       "error",
       {
-        "printWidth": 60,
-        "semi": true,
         "tabWidth": 2,
-        "bracketSpacing": true,
-        "jsxBracketSameLine": false,
-        "arrowParens": "avoid",
-        "endOfLine": "auto"
+				"useTabs": true,
+				"printWidth": 80,
+				"semi": true,
+				"trailingComma": "es5",
+				"singleQuote": true,
+				"endOfLine": "lf"
       }
     ]
   },
