@@ -52,6 +52,8 @@ TextInput.displayName = 'TextInput';
 
 TextInput.defaultProps = {
 	className: '',
+	name: '',
+	value: '',
 	type: 'text',
 	errors: [],
 	onChange: () => {},

@@ -1,8 +1,8 @@
-import TextArea from './TextArea';
+import TextInput from './TextInput';
 
 export default {
-	title: 'TextArea',
-	component: TextArea,
+	title: 'TextInput',
+	component: TextInput,
 	parameters: {
 		layout: 'centered',
 	},

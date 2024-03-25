@@ -52,6 +52,8 @@ TextArea.displayName = 'TextArea';
 
 TextArea.defaultProps = {
 	className: '',
+	name: '',
+	value: '',
 	rows: 7,
 	errors: [],
 	onChange: () => {},
