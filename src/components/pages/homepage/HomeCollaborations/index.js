@@ -1,2 +1,2 @@
-import HomeCollaborations from "./HomeCollaborations";
+import HomeCollaborations from './HomeCollaborations';
 export default HomeCollaborations;

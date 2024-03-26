@@ -1,2 +1,2 @@
-import HomeContact from "./HomeContact";
+import HomeContact from './HomeContact';
 export default HomeContact;

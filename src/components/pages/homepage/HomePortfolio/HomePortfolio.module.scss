@@ -1,33 +1,34 @@
-@use "styles/shared/mixin" as *;
-@use "styles/shared/variables" as *;
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
 
 .HomePortfolio {
-  :global {
-    .portfolio__portfolio {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: rem(16);
-      width: $container-width-sm;
-      margin: 0 auto;
-      @media #{$md} {
-        width: $container-width-md;
-      }
-      @media #{$lm} {
-        grid-template-columns: 1fr 1fr;
-        gap: rem(19.2);
-      }
-      @media #{$lg} {
-        grid-template-columns: repeat(3, 1fr);
-        gap: rem(40);
-      }
-      @media #{$xl} {
-        width: $container-width-xl;
-      }
-    }
-  }
+	:global {
+		background-color: $color-black;
+		.portfolio__portfolio {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: rem(16);
+			width: $container-width-sm;
+			margin: 0 auto;
+			@media #{$md} {
+				width: $container-width-md;
+			}
+			@media #{$lm} {
+				grid-template-columns: 1fr 1fr;
+				gap: rem(19.2);
+			}
+			@media #{$lg} {
+				grid-template-columns: repeat(3, 1fr);
+				gap: rem(40);
+			}
+			@media #{$xl} {
+				width: $container-width-xl;
+			}
+		}
+	}
 }
 
 .HomePortfolio__default {
-  :global {
-  }
+	:global {
+	}
 }

@@ -1,2 +1,2 @@
-import HomeServices from "./HomeServices";
+import HomeServices from './HomeServices';
 export default HomeServices;

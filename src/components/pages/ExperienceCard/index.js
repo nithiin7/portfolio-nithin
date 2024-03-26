@@ -1,2 +1,2 @@
-import ExperienceCard from "./ExperienceCard";
+import ExperienceCard from './ExperienceCard';
 export default ExperienceCard;
