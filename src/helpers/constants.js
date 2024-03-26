@@ -1,42 +1,12 @@
 import { getExperience } from 'helpers';
 
-import { BsLinkedin, BsWhatsapp } from 'react-icons/bs';
-import {
-	FaAward,
-	FaFacebookF,
-	FaRedditAlien,
-	FaGithub,
-	FaBitbucket,
-} from 'react-icons/fa';
+import { BsWhatsapp } from 'react-icons/bs';
+import { FaAward, FaGithub, FaBitbucket, FaLinkedinIn } from 'react-icons/fa';
 import { FiUsers, FiInstagram } from 'react-icons/fi';
 import { VscFolderLibrary } from 'react-icons/vsc';
 import { MdOutlineMail } from 'react-icons/md';
-import { RiMessengerLine, RiSnapchatLine } from 'react-icons/ri';
+import { RiMessengerLine } from 'react-icons/ri';
 import { IoLogoTwitter } from 'react-icons/io';
-
-export const socialMediaLinks = [
-	{
-		title: 'LinkedIn',
-		href: 'https://www.linkedin.com/in/nithin-p7/',
-		target: '_blank',
-		icon: <BsLinkedin />,
-		duration: 1000,
-	},
-	{
-		title: 'GitHub',
-		href: 'https://github.com/nithiin7',
-		target: '_blank',
-		icon: <FaGithub />,
-		duration: 1200,
-	},
-	{
-		title: 'Bitbucket',
-		href: 'https://bitbucket.org/nithin-private/workspace/repositories/',
-		target: '_blank',
-		icon: <FaBitbucket />,
-		duration: 1400,
-	},
-];
 
 export const cardData = [
 	{
@@ -103,22 +73,10 @@ export const footerLinks = [
 
 export const socials = [
 	{
-		link: 'https://www.facebook.com/i.am.np007/',
-		title: 'Facebook',
-		icon: <FaFacebookF />,
-		duration: 1700,
-	},
-	{
 		link: 'https://www.instagram.com/__nithiin__/',
 		title: 'Instagram',
 		icon: <FiInstagram />,
 		duration: 1800,
-	},
-	{
-		link: 'https://snapchat.com/nithiiin7',
-		title: 'Snapchat',
-		icon: <RiSnapchatLine />,
-		duration: 1900,
 	},
 	{
 		link: 'https://twitter.com/_nithiin7',
@@ -127,9 +85,21 @@ export const socials = [
 		duration: 2000,
 	},
 	{
-		link: 'https://www.reddit.com/user/nithinp007',
-		title: 'Reddit',
-		icon: <FaRedditAlien />,
-		duration: 2100,
+		link: 'https://www.linkedin.com/in/nithin-p7/',
+		title: 'LinkedIn',
+		icon: <FaLinkedinIn />,
+		duration: 2200,
+	},
+	{
+		link: 'https://bitbucket.org/nithin-private/workspace/repositories/',
+		title: 'LinkedIn',
+		icon: <FaBitbucket />,
+		duration: 2300,
+	},
+	{
+		link: 'https://github.com/nithiin7',
+		title: 'LinkedIn',
+		icon: <FaGithub />,
+		duration: 2400,
 	},
 ];

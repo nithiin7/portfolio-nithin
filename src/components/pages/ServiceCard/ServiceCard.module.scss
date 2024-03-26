@@ -1,47 +1,48 @@
-@use "styles/shared/mixin" as *;
-@use "styles/shared/variables" as *;
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
 
 .service-card {
-  background: $color-bg-variant;
-  border-radius: 0 0 rem(32) rem(32);
-  grid-template-columns: 1fr;
-  gap: rem(24);
-  border: rem(1) solid $color-primary;
-  transition: $transition;
-  height: auto;
-  @media #{$lg} {
-    height: fit-content;
-  }
-  &:hover {
-    background: transparent;
-    border-color: $color-primary-variant;
-    cursor: default;
-  }
-  .service-card__head {
-    background: $color-primary;
-    padding: rem(32);
-    border-radius: 0 0 rem(32) rem(32);
-    box-shadow: 0 rem(32) rem(16) rgba(0, 0, 0, 0.1);
-    h3 {
-      color: $color-bg;
-      font-size: 1rem;
-      text-align: center;
-    }
-  }
-  .service-card__list {
-    padding: rem(32);
-    overflow: hidden;
-    li {
-      display: flex;
-      gap: rem(16);
-      margin-bottom: rem(12.8);
-    }
-    p {
-      font-size: rem(14.4);
-    }
-  }
-  .service-card__icon {
-    color: $color-primary;
-    margin-top: rem(2);
-  }
+	background: $color-bg-variant;
+	border-radius: 0 0 rem(32) rem(32);
+	grid-template-columns: 1fr;
+	gap: rem(24);
+	border: rem(1) solid $color-primary;
+	transition: $transition;
+	height: auto;
+	@media #{$lg} {
+		height: fit-content;
+	}
+	&:hover {
+		background: transparent;
+		border-color: $color-primary-variant;
+		cursor: default;
+	}
+	.service-card__head {
+		background: $color-primary;
+		padding: rem(32);
+		border-radius: 0 0 rem(32) rem(32);
+		box-shadow: 0 rem(32) rem(16) rgba(0, 0, 0, 0.1);
+		h3 {
+			color: $color-bg;
+			font-size: 1rem;
+			text-align: center;
+			font-weight: 600;
+		}
+	}
+	.service-card__list {
+		padding: rem(32);
+		overflow: hidden;
+		li {
+			display: flex;
+			gap: rem(16);
+			margin-bottom: rem(12.8);
+		}
+		p {
+			font-size: rem(14.4);
+		}
+	}
+	.service-card__icon {
+		color: $color-primary;
+		margin-top: rem(2);
+	}
 }
