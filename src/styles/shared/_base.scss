@@ -21,8 +21,7 @@ html {
 
 body {
 	font-family: $font-primary;
-	background: rgb(232 232 227);
+	background: $color-secondary;
 	color: $color-white;
 	line-height: 1.7;
-	// background-image: linear-gradient(to bottom, #000000, #2d3436);
 }

@@ -1,29 +1,59 @@
-@use "./shared" as *;
+@use './shared' as *;
 
 html {
-  scroll-behavior: smooth;
+	scroll-behavior: smooth;
 }
 
 body {
-  -webkit-tap-highlight-color: transparent;
+	-webkit-tap-highlight-color: transparent;
 }
 
 html.lenis {
-  height: auto;
+	height: auto;
 }
 
 .lenis.lenis-smooth {
-  scroll-behavior: auto !important;
+	scroll-behavior: auto !important;
 }
 
 .lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
+	overscroll-behavior: contain;
 }
 
 .lenis.lenis-stopped {
-  overflow: hidden;
+	overflow: hidden;
 }
 
 .lenis.lenis-scrolling iframe {
-  pointer-events: none;
+	pointer-events: none;
+}
+
+.curve {
+	.motion-svg,
+	.background {
+		position: fixed;
+		height: calc(100vh + 600px);
+		width: 100vw;
+		pointer-events: none;
+		left: 0;
+		top: 0;
+		z-index: 99;
+	}
+	.background {
+		background-color: black;
+		transition: opacity 0s linear 0.1s;
+	}
+	.welcome {
+		position: absolute;
+		left: 50%;
+		top: 40%;
+		color: white;
+		font-size: 46px;
+		z-index: 100;
+		transform: translateX(-50%);
+		text-align: center;
+		font-family: 'Familjen Grotesk', sans-serif;
+		line-height: 92.5%;
+		font-weight: 700;
+	}
 }

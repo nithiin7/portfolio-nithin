@@ -46,11 +46,21 @@ const HomeHeader = (props) => {
 					</defs>
 				</svg>
 				<div className="header__description">
-					<h1 data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
+					<h1
+						data-aos="fade-up"
+						data-aos-duration="1000"
+						data-aos-once="true"
+						data-aos-delay="800"
+					>
 						<span>{data.items[0].title}</span>
 						<span>{data?.items[0].subTitle}</span>
 					</h1>
-					<p data-aos="fade-up" data-aos-duration="1200" data-aos-once="true">
+					<p
+						data-aos="fade-up"
+						data-aos-duration="1200"
+						data-aos-once="true"
+						data-aos-delay="1000"
+					>
 						A web developer & web designer propelling visions to reality.
 					</p>
 				</div>
