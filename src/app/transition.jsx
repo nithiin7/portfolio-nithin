@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { AnimatePresence, motion } from 'framer-motion';
+import PropTypes from 'prop-types';
 import { text, curve, translate } from '../helpers/animations';
 
 const anim = (variants) => {

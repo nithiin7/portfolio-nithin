@@ -1,54 +1,51 @@
 {
-  "env": {
-    "node": true,
-    "browser": true,
-    "es6": true,
-    "jest": true
-  },
-  "extends": [
-    "eslint:recommended",
-    "prettier",
-    "plugin:react/recommended",
-    "plugin:storybook/recommended"
-  ],
-  "parserOptions": {
-    "requireConfigFile": false,
-    "ecmaVersion": 2020,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
-    }
-  },
-  "plugins": [
-    "react",
-    "prettier"
-  ],
-  "rules": {
-    "react/prop-types": "error",
-    "react/react-in-jsx-scope": "off",
+	"env": {
+		"node": true,
+		"browser": true,
+		"es6": true,
+		"jest": true
+	},
+	"extends": [
+		"eslint:recommended",
+		"prettier",
+		"plugin:react/recommended",
+		"plugin:storybook/recommended"
+	],
+	"parserOptions": {
+		"requireConfigFile": false,
+		"ecmaVersion": 2020,
+		"sourceType": "module",
+		"ecmaFeatures": {
+			"jsx": true
+		}
+	},
+	"plugins": ["react", "prettier"],
+	"rules": {
+		"react/prop-types": "error",
+		"react/react-in-jsx-scope": "off",
 		"react/jsx-props-no-spreading": "off",
-    "react/require-default-props": [
+		"react/require-default-props": [
 			"error",
 			{
 				"ignoreFunctionalComponents": true
 			}
 		],
-    "prettier/prettier": [
-      "error",
-      {
-        "tabWidth": 2,
+		"prettier/prettier": [
+			"error",
+			{
+				"tabWidth": 2,
 				"useTabs": true,
 				"printWidth": 80,
 				"semi": true,
 				"trailingComma": "es5",
 				"singleQuote": true,
 				"endOfLine": "lf"
-      }
-    ]
-  },
-  "settings": {
-    "react": {
-      "version": "detect"
-    }
-  }
+			}
+		]
+	},
+	"settings": {
+		"react": {
+			"version": "detect"
+		}
+	}
 }

@@ -1,10 +1,52 @@
 'use client';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { motion } from 'framer-motion';
+import { debounce } from 'lodash';
 
 import styles from './HomeHeader.module.scss';
 
 const HomeHeader = (props) => {
 	const { className, variant, data } = props;
+
+	const [mousePosition, setMousePosition] = useState({
+		x: 0,
+		y: 0,
+	});
+	const [cursorVariant, setCursorVariant] = useState('default');
+
+	const variants = {
+		default: {
+			x: mousePosition.x - 16,
+			y: mousePosition.y - 16,
+		},
+		text: {
+			height: 150,
+			width: 150,
+			x: mousePosition.x - 75,
+			y: mousePosition.y - 75,
+			backgroundColor: 'white',
+			mixBlendMode: 'difference',
+		},
+	};
+
+	const textEnter = () => setCursorVariant('text');
+	const textLeave = () => setCursorVariant('default');
+
+	useEffect(() => {
+		const handleMouseMove = debounce((e) => {
+			setMousePosition({
+				x: e.clientX,
+				y: e.clientY,
+			});
+		}, 4);
+
+		window.addEventListener('mousemove', handleMouseMove);
+
+		return () => {
+			window.removeEventListener('mousemove', handleMouseMove);
+		};
+	}, []);
 
 	return (
 		<div
@@ -45,7 +87,11 @@ const HomeHeader = (props) => {
 						</linearGradient>
 					</defs>
 				</svg>
-				<div className="header__description">
+				<div
+					className="header__description"
+					onMouseEnter={textEnter}
+					onMouseLeave={textLeave}
+				>
 					<h1
 						data-aos="fade-up"
 						data-aos-duration="1000"
@@ -64,6 +110,13 @@ const HomeHeader = (props) => {
 						A web developer & web designer propelling visions to reality.
 					</p>
 				</div>
+				{cursorVariant !== 'default' && (
+					<motion.div
+						className="cursor"
+						variants={variants}
+						animate={cursorVariant}
+					/>
+				)}
 			</header>
 		</div>
 	);

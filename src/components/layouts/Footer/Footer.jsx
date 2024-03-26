@@ -1,4 +1,5 @@
 'use client';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useLenis } from '@studio-freight/react-lenis';
@@ -9,7 +10,36 @@ import styles from './Footer.module.scss';
 import { footerLinks, socials } from 'helpers/constants.js';
 
 function Footer() {
+	const [randomSong, setRandomSong] = useState(null);
 	const lenis = useLenis();
+
+	const songs = [
+		{
+			name: 'Feels by Calvin Harris',
+			link: 'https://open.spotify.com/track/5bcTCxgc7xVfSaMV3RuVke?si=64c199169ff3495f',
+		},
+		{
+			name: 'Timber by Pitbull ft Kesha',
+			link: 'https://open.spotify.com/track/3tgZ9vmhuAY9wEoNUJskzV?si=6e459ddcaabc4f0c',
+		},
+		{
+			name: 'Shut It Down by Akon',
+			link: 'https://open.spotify.com/track/6r9uMZ7NBaMO1ovylcJZI4?si=56a0983ba4474bac',
+		},
+		{
+			name: 'Break Free by Ariana Grande',
+			link: 'https://open.spotify.com/track/12KUFSHFgT0XCoiSlvdQi4?si=62f8f2efe0ff4f45',
+		},
+		{
+			name: 'Call Me Maybe by Carly Rae',
+			link: 'https://open.spotify.com/track/20I6sIOMTCkB6w7ryavxtO?si=f4543aad21f145ba',
+		},
+	];
+
+	const getRandomSong = () => {
+		const randomIndex = Math.floor(Math.random() * songs.length);
+		return songs[randomIndex];
+	};
 
 	const handleScroll = (to) => {
 		if (lenis) {
@@ -18,6 +48,11 @@ function Footer() {
 			});
 		}
 	};
+
+	useEffect(() => {
+		const randomSong = getRandomSong();
+		setRandomSong(randomSong);
+	}, []);
 
 	return (
 		<footer className={styles['footer']}>
@@ -54,17 +89,17 @@ function Footer() {
 					</div>
 					<div className={styles['music__title']}>
 						<h6>On repeat</h6>
-						<span>
-							<Link
-								target="_blank"
-								rel="noopener noreferrer"
-								href={
-									'https://open.spotify.com/track/5bcTCxgc7xVfSaMV3RuVke?si=64c199169ff3495f'
-								}
-							>
-								Feels by Calvin Harris
-							</Link>
-						</span>
+						{randomSong && (
+							<span>
+								<a
+									target="_blank"
+									rel="noopener noreferrer"
+									href={randomSong.link}
+								>
+									{randomSong.name}
+								</a>
+							</span>
+						)}
 					</div>
 				</div>
 			</div>
