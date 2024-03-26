@@ -2,11 +2,9 @@
 @use 'styles/shared/variables' as *;
 
 .footer {
-	background: $color-primary;
 	padding: rem(48) 0;
 	text-align: center;
 	font-size: rem(14.4);
-	margin-top: rem(112);
 	a {
 		color: $color-bg;
 	}

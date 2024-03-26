@@ -1,29 +1,10 @@
 'use client';
-import Link from 'next/link';
-import Image from 'next/image';
 import PropTypes from 'prop-types';
-import Typewriter from 'typewriter-effect';
-import { useLenis } from '@studio-freight/react-lenis';
-import { Link as ScrollLink } from 'react-scroll';
 
 import styles from './HomeHeader.module.scss';
-import CV from 'assets/documents/cv.pdf';
-import { socialMediaLinks } from 'helpers/constants';
-
-import Button from 'components/utilities/Button';
 
 const HomeHeader = (props) => {
 	const { className, variant, data } = props;
-
-	const lenis = useLenis();
-
-	const handleScroll = (to) => {
-		if (lenis) {
-			lenis.scrollTo(`#${to}`, {
-				duration: 2,
-			});
-		}
-	};
 
 	return (
 		<div
@@ -32,87 +13,46 @@ const HomeHeader = (props) => {
 			} ${className}`}
 		>
 			<header id="home" className={'portfolio__header'}>
-				<div className={'header__container'}>
-					<h5 data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
-						{data.items[0].title}
-					</h5>
-					<h1 data-aos="fade-up" data-aos-duration="1000">
-						{data?.items[0].subTitle}
+				<svg
+					width="1186"
+					height="1186"
+					viewBox="0 0 1186 1186"
+					fill="none"
+					xmlns="http://www.w3.org/2000/svg"
+					style={{
+						opacity: 1,
+						zIndex: -20,
+						transform: 'translateX(-50%) translateY(-50%) scale(1)',
+					}}
+				>
+					<circle
+						cx="593"
+						cy="593"
+						r="593"
+						fill="url(#paint0_linear_4949_267)"
+					/>
+					<defs>
+						<linearGradient
+							id="paint0_linear_4949_267"
+							x1="593"
+							y1="0"
+							x2="593"
+							y2="1186"
+							gradientUnits="userSpaceOnUse"
+						>
+							<stop stopColor="#DDDDD5" />
+							<stop offset="1" stopColor="#DDDDD5" stopOpacity="0" />
+						</linearGradient>
+					</defs>
+				</svg>
+				<div className="header__description">
+					<h1 data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
+						<span>{data.items[0].title}</span>
+						<span>{data?.items[0].subTitle}</span>
 					</h1>
-					<h5
-						data-aos="fade-up"
-						data-aos-duration="1200"
-						data-aos-once="true"
-						className={'text-light'}
-					>
-						<Typewriter
-							options={{
-								strings: data.items[1].contentsCollection.items[0].list.map(
-									(item) => item
-								),
-								autoStart: true,
-								loop: true,
-							}}
-						/>
-					</h5>
-					<div
-						data-aos="fade-up"
-						data-aos-duration="1200"
-						data-aos-once="true"
-						className={'header__cta'}
-					>
-						<a className={'header__button'} href={CV} download>
-							Download CV
-						</a>
-						<Button
-							classModifier={'Button--primary'}
-							href={'contact'}
-							data={"Let's Talk"}
-							type={'scroll_link'}
-						/>
-					</div>
-					<div
-						data-aos="fade-up"
-						data-aos-duration="1400"
-						data-aos-once="true"
-						className={'header__socials'}
-					>
-						{socialMediaLinks.map((link) => (
-							<Link
-								key={link.title}
-								data-aos="fade-up"
-								data-aos-duration={link.duration}
-								data-aos-once="true"
-								title={link.title}
-								href={link.href}
-								target={link.target}
-							>
-								{link.icon}
-							</Link>
-						))}
-					</div>
-					<div
-						data-aos="fade-up"
-						data-aos-duration="1200"
-						data-aos-once="true"
-						className={'header__img'}
-					>
-						<Image
-							src={data.items[3].contentsCollection.items[0].image.url}
-							alt={data.items[3].contentsCollection.items[0].image.title}
-							height={1000}
-							width={1000}
-							quality={100}
-							priority
-						/>
-					</div>
-					<ScrollLink
-						to="contact"
-						className={'header__scroll-down'}
-						onClick={() => handleScroll('contact')}
-					>
-						ScrollDown
-					</ScrollLink>
+					<p data-aos="fade-up" data-aos-duration="1200" data-aos-once="true">
+						A web developer & web designer propelling visions to reality.
+					</p>
 				</div>
 			</header>
 		</div>

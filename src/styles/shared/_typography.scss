@@ -1,4 +1,5 @@
 @use './variables' as *;
+@use './mixin' as *;
 
 h1,
 h2,
@@ -9,8 +10,9 @@ h5 {
 }
 
 section {
-	margin-top: rem(160);
-	margin-bottom: rem(256);
+	padding-top: rem(160);
+	padding-bottom: rem(256);
+	// background: $color-black;
 }
 
 section > h2,

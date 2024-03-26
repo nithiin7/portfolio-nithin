@@ -1,33 +1,34 @@
-@use "styles/shared/mixin" as *;
-@use "styles/shared/variables" as *;
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
 
 .HomeCollaborations {
-  :global {
-    padding: 0 10px;
-    .portfolio__collaborations {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 100px;
-      .Collaborations__companies {
-        height: 100px;
-        width: 100%;
-        svg {
-          height: 100%;
-          width: 100%;
-        }
-        @media #{$md} {
-          width: 33%;
-        }
-      }
-      @media #{$md} {
-        flex-direction: row;
-      }
-    }
-  }
+	:global {
+		background-color: $color-black;
+		padding: 0 10px;
+		.portfolio__collaborations {
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			gap: 100px;
+			.Collaborations__companies {
+				height: 100px;
+				width: 100%;
+				svg {
+					height: 100%;
+					width: 100%;
+				}
+				@media #{$md} {
+					width: 33%;
+				}
+			}
+			@media #{$md} {
+				flex-direction: row;
+			}
+		}
+	}
 }
 
 .HomeCollaborations__default {
-  :global {
-  }
+	:global {
+	}
 }
