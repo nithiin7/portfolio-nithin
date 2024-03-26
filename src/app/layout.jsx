@@ -7,6 +7,7 @@ import 'styles/globals.scss';
 import Provider from './provider';
 import Navbar from 'components/layouts/Navbar';
 import Footer from 'components/layouts/Footer';
+import Curve from './transition';
 
 export async function generateMetadata() {
 	const props = await loadData();
@@ -27,9 +28,11 @@ export default function RootLayout({ children }) {
 		<html lang="en">
 			<body>
 				<Provider>
-					<Navbar />
-					{children}
-					<Footer />
+					<Curve>
+						<Navbar />
+						{children}
+						<Footer />
+					</Curve>
 				</Provider>
 				<GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID} />
 			</body>
