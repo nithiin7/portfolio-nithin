@@ -16,6 +16,7 @@ const nextConfig = {
 	images: {
 		domains: ['images.ctfassets.net'],
 	},
+	optimizeFonts: false,
 };
 
 module.exports = nextConfig;

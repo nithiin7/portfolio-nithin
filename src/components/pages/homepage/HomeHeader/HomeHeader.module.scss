@@ -4,16 +4,24 @@
 .HomeHeader {
 	:global {
 		background: rgb(232 232 227);
-		.cursor {
-			background-color: white;
-			height: 32px;
-			width: 32px;
-			border-radius: 50%;
-			position: fixed;
-			top: 0;
-			left: 0;
-			pointer-events: none;
-			will-change: transform;
+		position: relative;
+		cursor: none;
+		.header__nav {
+			position: absolute;
+			left: rem(15);
+			top: rem(15);
+			img {
+				height: 75px;
+				width: 75px;
+				@media #{$md} {
+					height: 100px;
+					width: 100px;
+				}
+			}
+			@media #{$md} {
+				left: rem(25);
+				top: rem(25);
+			}
 		}
 		.portfolio__header {
 			height: 100vh;
@@ -41,7 +49,6 @@
 				row-gap: 2rem;
 				color: #393632;
 				padding-bottom: rem(60);
-				cursor: none;
 				@media #{$md} {
 					padding-bottom: 0;
 					align-items: center;

@@ -9,8 +9,7 @@ import Paragraph from 'components/utilities/Paragraph/Paragraph';
 
 const HomeAbout = (props) => {
 	const { className, variant, data } = props;
-	const text =
-		'👋 Hi, Im Nithin, a passionate Full Stack Developer from Kochi, Kerala. Specializing in frontend magic—from captivating UI effects to dynamic animations—I thrive on ambitious projects that push boundaries. Beyond coding, youll find me immersed in football, gaming, TV series, or admiring the latest in automobiles. Lets craft exceptional experiences together!';
+	const text = `👋 Hi, I'm Nithin, a passionate Full Stack Developer from Kochi, Kerala. Specializing in frontend magic—from captivating UI effects to dynamic animations—I thrive on ambitious projects that push boundaries. Beyond coding, you'll find me immersed in football, gaming, TV series, or admiring the latest in automobiles. Lets craft exceptional experiences together!`;
 
 	return (
 		<div
