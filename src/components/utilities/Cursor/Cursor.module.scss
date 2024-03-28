@@ -1,0 +1,20 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.Cursor {
+	:global {
+		position: absolute;
+		top: 0;
+		left: 0;
+		.Cursor__rounded {
+			border-radius: 100%;
+			mix-blend-mode: difference;
+			pointer-events: none;
+		}
+	}
+}
+
+.Cursor__default {
+	:global {
+	}
+}

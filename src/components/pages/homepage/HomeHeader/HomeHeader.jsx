@@ -1,52 +1,72 @@
 'use client';
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import PropTypes from 'prop-types';
-import { motion } from 'framer-motion';
-import { debounce } from 'lodash';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
 
 import styles from './HomeHeader.module.scss';
+import Logo from 'assets/images/nav-logo.svg';
+import Cursor from 'components/utilities/Cursor/Cursor';
+
+const settings = {
+	damping: 100,
+	stiffness: 600,
+	maxDistance: 300,
+	intensity: 0.1,
+};
 
 const HomeHeader = (props) => {
 	const { className, variant, data } = props;
 
-	const [mousePosition, setMousePosition] = useState({
-		x: 0,
-		y: 0,
-	});
-	const [cursorVariant, setCursorVariant] = useState('default');
+	const [componentRef, setComponentRef] = useState(null);
+	const [isHovered, setIsHovered] = useState(false);
 
-	const variants = {
-		default: {
-			x: mousePosition.x - 16,
-			y: mousePosition.y - 16,
-		},
-		text: {
-			height: 150,
-			width: 150,
-			x: mousePosition.x - 75,
-			y: mousePosition.y - 75,
-			backgroundColor: 'white',
-			mixBlendMode: 'difference',
-		},
+	const x = useMotionValue(0);
+	const y = useMotionValue(0);
+
+	const springConfig = {
+		damping: settings.damping,
+		stiffness: settings.stiffness,
 	};
-
-	const textEnter = () => setCursorVariant('text');
-	const textLeave = () => setCursorVariant('default');
+	const springX = useSpring(x, springConfig);
+	const springY = useSpring(y, springConfig);
 
 	useEffect(() => {
-		const handleMouseMove = debounce((e) => {
-			setMousePosition({
-				x: e.clientX,
-				y: e.clientY,
-			});
-		}, 4);
+		const calculateDistance = (e) => {
+			if (componentRef) {
+				const rect = componentRef.getBoundingClientRect();
+				const centerX = rect.left + rect.width / 2;
+				const centerY = rect.top + rect.height / 2;
+				const distanceX = e.clientX - centerX;
+				const distanceY = e.clientY - centerY;
 
-		window.addEventListener('mousemove', handleMouseMove);
+				if (
+					Math.abs(distanceX) < settings.maxDistance &&
+					Math.abs(distanceY) < settings.maxDistance
+				) {
+					const proximityFactor =
+						1 -
+						Math.max(Math.abs(distanceX), Math.abs(distanceY)) /
+							settings.maxDistance;
+					x.set(distanceX * proximityFactor * settings.intensity);
+					y.set(distanceY * proximityFactor * settings.intensity);
+				} else {
+					x.set(0);
+					y.set(0);
+				}
+			}
+		};
+
+		const handleMouseMove = (e) => {
+			calculateDistance(e);
+		};
+
+		document.addEventListener('mousemove', handleMouseMove);
 
 		return () => {
-			window.removeEventListener('mousemove', handleMouseMove);
+			document.removeEventListener('mousemove', handleMouseMove);
 		};
-	}, []);
+	}, [componentRef]);
 
 	return (
 		<div
@@ -54,6 +74,18 @@ const HomeHeader = (props) => {
 				styles[`HomeHeader__${variant}`]
 			} ${className}`}
 		>
+			<div className="header__nav">
+				<motion.div
+					ref={setComponentRef}
+					style={{
+						x: springX,
+						y: springY,
+						zIndex: 99,
+					}}
+				>
+					<Image src={Logo} alt="logo" height={100} width={100}></Image>
+				</motion.div>
+			</div>
 			<header id="home" className={'portfolio__header'}>
 				<svg
 					width="1186"
@@ -87,12 +119,10 @@ const HomeHeader = (props) => {
 						</linearGradient>
 					</defs>
 				</svg>
-				<div
-					className="header__description"
-					onMouseEnter={textEnter}
-					onMouseLeave={textLeave}
-				>
+				<div className="header__description">
 					<h1
+						onMouseEnter={() => setIsHovered(true)}
+						onMouseLeave={() => setIsHovered(false)}
 						data-aos="fade-up"
 						data-aos-duration="1000"
 						data-aos-once="true"
@@ -110,14 +140,8 @@ const HomeHeader = (props) => {
 						A web developer & web designer propelling visions to reality.
 					</p>
 				</div>
-				{cursorVariant !== 'default' && (
-					<motion.div
-						className="cursor"
-						variants={variants}
-						animate={cursorVariant}
-					/>
-				)}
 			</header>
+			<Cursor isHovered={isHovered} />
 		</div>
 	);
 };
