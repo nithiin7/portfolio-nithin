@@ -16,8 +16,8 @@ module.exports = (plop) => {
 		actions: [
 			{
 				type: 'add',
-				path: 'src/components/{{moduleName}}/{{pascalCase name}}/{{pascalCase name}}.tsx',
-				templateFile: 'templates/component/component.tsx.hbs',
+				path: 'src/components/{{moduleName}}/{{pascalCase name}}/{{pascalCase name}}.jsx',
+				templateFile: 'templates/component/component.jsx.hbs',
 			},
 			{
 				type: 'add',
@@ -26,13 +26,13 @@ module.exports = (plop) => {
 			},
 			{
 				type: 'add',
-				path: 'src/components/{{moduleName}}/{{pascalCase name}}/index.ts',
-				templateFile: 'templates/component/page.ts.hbs',
+				path: 'src/components/{{moduleName}}/{{pascalCase name}}/index.js',
+				templateFile: 'templates/component/page.js.hbs',
 			},
 			{
 				type: 'add',
-				path: 'src/components/{{moduleName}}/{{pascalCase name}}/{{pascalCase name}}.stories.ts',
-				templateFile: 'templates/component/component.stories.ts.hbs',
+				path: 'src/components/{{moduleName}}/{{pascalCase name}}/{{pascalCase name}}.stories.js',
+				templateFile: 'templates/component/component.stories.js.hbs',
 			},
 		],
 	});
@@ -53,8 +53,8 @@ module.exports = (plop) => {
 		actions: [
 			{
 				type: 'add',
-				path: 'src/app/{{moduleName}}/{{dashCase name}}/{{pascalCase name}}.tsx',
-				templateFile: 'templates/page/page.tsx.hbs',
+				path: 'src/app/{{moduleName}}/{{dashCase name}}/{{pascalCase name}}.jsx',
+				templateFile: 'templates/page/page.jsx.hbs',
 			},
 			{
 				type: 'add',
@@ -63,8 +63,8 @@ module.exports = (plop) => {
 			},
 			{
 				type: 'add',
-				path: 'src/app/{{moduleName}}/{{dashCase name}}/page.ts',
-				templateFile: 'templates/page/page.ts.hbs',
+				path: 'src/app/{{moduleName}}/{{dashCase name}}/page.js',
+				templateFile: 'templates/page/page.js.hbs',
 			},
 		],
 	});

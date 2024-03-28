@@ -7,34 +7,11 @@ import { Link as ScrollLink } from 'react-scroll';
 
 import Logo from 'assets/images/Logo.png';
 import styles from './Footer.module.scss';
-import { footerLinks, socials } from 'helpers/constants.js';
+import { footerLinks, socials, songs } from 'helpers/constants.js';
 
 function Footer() {
 	const [randomSong, setRandomSong] = useState(null);
 	const lenis = useLenis();
-
-	const songs = [
-		{
-			name: 'Feels by Calvin Harris',
-			link: 'https://open.spotify.com/track/5bcTCxgc7xVfSaMV3RuVke?si=64c199169ff3495f',
-		},
-		{
-			name: 'Timber by Pitbull ft Kesha',
-			link: 'https://open.spotify.com/track/3tgZ9vmhuAY9wEoNUJskzV?si=6e459ddcaabc4f0c',
-		},
-		{
-			name: 'Shut It Down by Akon',
-			link: 'https://open.spotify.com/track/6r9uMZ7NBaMO1ovylcJZI4?si=56a0983ba4474bac',
-		},
-		{
-			name: 'Break Free by Ariana Grande',
-			link: 'https://open.spotify.com/track/12KUFSHFgT0XCoiSlvdQi4?si=62f8f2efe0ff4f45',
-		},
-		{
-			name: 'Call Me Maybe by Carly Rae',
-			link: 'https://open.spotify.com/track/20I6sIOMTCkB6w7ryavxtO?si=f4543aad21f145ba',
-		},
-	];
 
 	const getRandomSong = () => {
 		const randomIndex = Math.floor(Math.random() * songs.length);

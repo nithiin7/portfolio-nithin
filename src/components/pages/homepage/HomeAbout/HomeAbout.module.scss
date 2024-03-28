@@ -77,9 +77,13 @@
 					display: grid;
 					grid-template-columns: 1fr 1fr;
 					gap: rem(16);
+					margin-top: rem(50);
 					@media #{$lm} {
 						grid-template-columns: repeat(3, 1fr);
 						gap: rem(24);
+					}
+					@media #{$lg} {
+						margin-top: 0;
 					}
 				}
 				.about__card {
