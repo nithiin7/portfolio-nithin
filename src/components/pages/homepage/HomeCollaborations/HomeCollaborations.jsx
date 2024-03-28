@@ -10,7 +10,7 @@ const HomeCollaborations = (props) => {
 				styles[`HomeCollaborations__${variant}`]
 			} ${className}`}
 		>
-			<section id="about">
+			<section id="collaborations">
 				<h5 data-aos="fade-up" data-aos-duration="1100" data-aos-once="true">
 					{data.title}
 				</h5>

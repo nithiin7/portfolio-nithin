@@ -1,14 +1,16 @@
 'use client';
 import Image from 'next/image';
 import PropTypes from 'prop-types';
-import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
-
 import { cardData } from 'helpers/constants';
+
 import styles from './HomeAbout.module.scss';
 import Button from 'components/utilities/Button';
+import Paragraph from 'components/utilities/Paragraph/Paragraph';
 
 const HomeAbout = (props) => {
 	const { className, variant, data } = props;
+	const text =
+		'👋 Hi, Im Nithin, a passionate Full Stack Developer from Kochi, Kerala. Specializing in frontend magic—from captivating UI effects to dynamic animations—I thrive on ambitious projects that push boundaries. Beyond coding, youll find me immersed in football, gaming, TV series, or admiring the latest in automobiles. Lets craft exceptional experiences together!';
 
 	return (
 		<div
@@ -66,7 +68,7 @@ const HomeAbout = (props) => {
 							data-aos-duration="1200"
 							data-aos-once="true"
 						>
-							{documentToReactComponents(data.items[3].descriptionLong.json)}
+							<Paragraph value={text} />
 						</div>
 						<div
 							data-aos="fade-up"

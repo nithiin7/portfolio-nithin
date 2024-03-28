@@ -1,0 +1,19 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.Word {
+	:global {
+		margin-right: 6px;
+		margin-top: 6px;
+		position: relative;
+		.Word__shadow {
+			position: absolute;
+			opacity: 0.2;
+		}
+	}
+}
+
+.Word__default {
+	:global {
+	}
+}

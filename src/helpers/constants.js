@@ -63,12 +63,13 @@ export const footerLinks = [
 	},
 	{ key: 'services', href: 'services', duration: '1300' },
 	{ key: 'portfolio', href: 'portfolio', duration: '1400' },
+	{ key: 'collaborations', href: 'collaborations', duration: '1500' },
 	{
 		key: 'testimonials',
 		href: 'testimonials',
-		duration: '1500',
+		duration: '1600',
 	},
-	{ key: 'contact', href: 'contact', duration: '1600' },
+	{ key: 'contact', href: 'contact', duration: '1700' },
 ];
 
 export const socials = [
@@ -101,5 +102,28 @@ export const socials = [
 		title: 'LinkedIn',
 		icon: <FaGithub />,
 		duration: 2400,
+	},
+];
+
+export const songs = [
+	{
+		name: 'Feels by Calvin Harris',
+		link: 'https://open.spotify.com/track/5bcTCxgc7xVfSaMV3RuVke?si=64c199169ff3495f',
+	},
+	{
+		name: 'Timber by Pitbull ft Kesha',
+		link: 'https://open.spotify.com/track/3tgZ9vmhuAY9wEoNUJskzV?si=6e459ddcaabc4f0c',
+	},
+	{
+		name: 'Shut It Down by Akon',
+		link: 'https://open.spotify.com/track/6r9uMZ7NBaMO1ovylcJZI4?si=56a0983ba4474bac',
+	},
+	{
+		name: 'Break Free by Ariana Grande',
+		link: 'https://open.spotify.com/track/12KUFSHFgT0XCoiSlvdQi4?si=62f8f2efe0ff4f45',
+	},
+	{
+		name: 'Call Me Maybe by Carly Rae',
+		link: 'https://open.spotify.com/track/20I6sIOMTCkB6w7ryavxtO?si=f4543aad21f145ba',
 	},
 ];

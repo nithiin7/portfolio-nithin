@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-scroll';
 import { useLenis } from '@studio-freight/react-lenis';
 
@@ -21,6 +21,33 @@ function Navbar() {
 			});
 		}
 	};
+
+	useEffect(() => {
+		const handleScroll = () => {
+			const sections = ['home', 'about', 'experience', 'services', 'contact'];
+			const scrollPosition = window.scrollY;
+
+			const activeSection = sections.find((section) => {
+				const element = document.getElementById(section);
+				if (element) {
+					const elementTop = element.offsetTop;
+					const elementBottom = elementTop + element.offsetHeight;
+					return scrollPosition >= elementTop && scrollPosition < elementBottom;
+				}
+				return false;
+			});
+
+			if (activeSection) {
+				setActiveNav(activeSection);
+			}
+		};
+
+		window.addEventListener('scroll', handleScroll);
+
+		return () => {
+			window.removeEventListener('scroll', handleScroll);
+		};
+	}, []);
 
 	return (
 		<nav className={styles['navbar']}>

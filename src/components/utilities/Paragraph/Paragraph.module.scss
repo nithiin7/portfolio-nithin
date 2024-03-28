@@ -1,0 +1,18 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.Paragraph {
+	:global {
+		word-wrap: break-word;
+		display: flex;
+		flex-wrap: wrap;
+		line-height: 1;
+		font-size: 18px;
+		color: $color-white;
+	}
+}
+
+.Paragraph__default {
+	:global {
+	}
+}
