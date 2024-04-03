@@ -12,23 +12,21 @@ const HomeServices = (props) => {
 			} ${className}`}
 		>
 			<section id="services">
-				<h5 data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
-					{data.title}
-				</h5>
-				<h2 data-aos="fade-up" data-aos-duration="1100" data-aos-once="true">
-					{data.subTitle}
-				</h2>
-				<div
-					data-aos="fade-up"
-					data-aos-duration="1200"
-					data-aos-once="true"
-					className="portfolio__services"
-				>
+				<div className="services__header">
+					<h2 data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
+						{data.title}
+					</h2>
+					<p data-aos="fade-up" data-aos-duration="1100" data-aos-once="true">
+						{data.subTitle}
+					</p>
+				</div>
+				<div data-aos="fade-up" data-aos-duration="1200" data-aos-once="true">
 					{services?.map((item, index) => {
 						if (item.__typename == 'Section') {
 							return (
 								<ServiceCard
 									key={index}
+									i={index}
 									heading={item.contentsCollection.items[0].title}
 									list={item.contentsCollection.items[1].list}
 								/>

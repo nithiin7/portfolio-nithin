@@ -62,6 +62,16 @@ function Navbar() {
 				<AiOutlineHome />
 			</Link>
 			<Link
+				to="services"
+				onClick={() => {
+					setActiveNav('services');
+					handleScroll('services');
+				}}
+				className={styles[activeNav === 'services' ? 'active' : '']}
+			>
+				<RiServiceLine />
+			</Link>
+			<Link
 				to="about"
 				onClick={() => {
 					setActiveNav('about');
@@ -72,24 +82,14 @@ function Navbar() {
 				<AiOutlineUser />
 			</Link>
 			<Link
-				to="experience"
+				to="portfolio"
 				onClick={() => {
-					setActiveNav('experience');
-					handleScroll('experience');
+					setActiveNav('portfolio');
+					handleScroll('portfolio');
 				}}
-				className={styles[activeNav === 'experience' ? 'active' : '']}
+				className={styles[activeNav === 'portfolio' ? 'active' : '']}
 			>
 				<BiBook />
-			</Link>
-			<Link
-				to="services"
-				onClick={() => {
-					setActiveNav('services');
-					handleScroll('services');
-				}}
-				className={styles[activeNav === 'services' ? 'active' : '']}
-			>
-				<RiServiceLine />
 			</Link>
 			<Link
 				to="contact"
