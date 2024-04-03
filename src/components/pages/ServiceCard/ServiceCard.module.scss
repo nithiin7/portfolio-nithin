@@ -2,47 +2,87 @@
 @use 'styles/shared/variables' as *;
 
 .service-card {
-	background: $color-bg-variant;
-	border-radius: 0 0 rem(32) rem(32);
-	grid-template-columns: 1fr;
-	gap: rem(24);
-	border: rem(1) solid $color-primary;
-	transition: $transition;
-	height: auto;
-	@media #{$lg} {
-		height: fit-content;
-	}
-	&:hover {
-		background: transparent;
-		border-color: $color-primary-variant;
-		cursor: default;
-	}
-	.service-card__head {
-		background: $color-primary;
-		padding: rem(32);
-		border-radius: 0 0 rem(32) rem(32);
-		box-shadow: 0 rem(32) rem(16) rgba(0, 0, 0, 0.1);
-		h3 {
-			color: $color-bg;
-			font-size: 1rem;
-			text-align: center;
-			font-weight: 600;
+	position: sticky;
+	background-color: $color-black;
+	margin-top: 40px;
+	.service-card__header {
+		display: flex;
+		gap: 15px;
+		width: 100%;
+		font-size: 2rem;
+		padding-top: 1.3rem;
+		padding-bottom: 1rem;
+		color: rgb(191 191 177);
+		font-weight: 700;
+		text-wrap: balance;
+		line-height: 92.5%;
+		letter-spacing: -0.0275em;
+		border-top: 1px solid;
+		border-top-color: rgb(57 54 50);
+		svg {
+			height: 35px;
+			width: 35px;
+			@media #{$md} {
+				height: 50px;
+				width: 50px;
+			}
+		}
+		@media #{$md} {
+			font-size: 3rem;
+		}
+		@media #{$xl} {
+			font-size: 3.5rem;
 		}
 	}
-	.service-card__list {
-		padding: rem(32);
-		overflow: hidden;
-		li {
-			display: flex;
-			gap: rem(16);
-			margin-bottom: rem(12.8);
+	.service-card__body {
+		display: flex;
+		justify-content: space-between;
+		flex-direction: column;
+		@media #{$md} {
+			flex-direction: row;
 		}
 		p {
-			font-size: rem(14.4);
+			font-size: 1.25rem;
+			color: rgb(162 158 154);
+			font-weight: 400;
+			padding-top: 0.5rem;
+			max-width: 40ch;
+			text-wrap: pretty;
+			width: 100%;
+			line-height: 130%;
+			@media #{$md} {
+				width: 50%;
+			}
+		}
+		.service-card__services {
+			font-size: 1.5rem;
+			display: flex;
+			flex-direction: column;
+			row-gap: 1rem;
+			width: 100%;
+			padding-top: 2rem;
+			@media #{$md} {
+				width: 50%;
+				font-size: 2rem;
+				padding-top: 0;
+			}
+			span {
+				color: rgb(191 191 177);
+				font-weight: 500;
+			}
 		}
 	}
-	.service-card__icon {
-		color: $color-primary;
-		margin-top: rem(2);
+	.service-card__background {
+		opacity: 0.5;
+		font-weight: 800;
+		color: rgb(57 54 50);
+		line-height: 92.5%;
+		font-size: clamp(8rem, -0.057rem + 20.0714vw, 20rem);
+		display: flex;
+		width: 100%;
+		justify-content: flex-end;
+		z-index: -10;
+		position: absolute;
+		bottom: 0;
 	}
 }

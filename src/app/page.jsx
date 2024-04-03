@@ -3,7 +3,6 @@ import loadData from 'helpers/contentful';
 
 import HomeHeader from 'components/pages/homepage/HomeHeader';
 import HomeAbout from 'components/pages/homepage/HomeAbout';
-import HomeExperience from 'components/pages/homepage/HomeExperience';
 import HomeServices from 'components/pages/homepage/HomeServices';
 import HomePortfolio from 'components/pages/homepage/HomePortfolio';
 import HomeCollaborations from '../components/pages/homepage/HomeCollaborations/HomeCollaborations';
@@ -17,33 +16,30 @@ export default async function Home() {
 	return (
 		<>
 			<HomeHeader data={path?.sectionCollection.items[0].contentsCollection} />
-			<HomeAbout data={path.sectionCollection.items[1].contentsCollection} />
-			<HomeExperience
-				data={path?.sectionCollection.items[2].contentsCollection}
-			/>
 			<HomeServices
-				data={path.sectionCollection.items[3].contentsCollection.items[0]}
-				services={path.sectionCollection.items[3].contentsCollection.items}
+				data={path.sectionCollection.items[1].contentsCollection.items[0]}
+				services={path.sectionCollection.items[1].contentsCollection.items}
 			/>
+			<HomeAbout data={path.sectionCollection.items[2].contentsCollection} />
 			<HomePortfolio
-				data={path.sectionCollection.items[4].contentsCollection.items[0]}
+				data={path.sectionCollection.items[3].contentsCollection.items[0]}
 				portfolio={
-					path.sectionCollection.items[4].contentsCollection.items[1]
+					path.sectionCollection.items[3].contentsCollection.items[1]
 						.contentsCollection.items
 				}
 			/>
 			<HomeCollaborations
-				data={path.sectionCollection.items[5].contentsCollection.items[0]}
+				data={path.sectionCollection.items[4].contentsCollection.items[0]}
 			/>
 			<HomeTestimonial
-				data={path.sectionCollection.items[6].contentsCollection.items[0]}
+				data={path.sectionCollection.items[5].contentsCollection.items[0]}
 				testimonial={
-					path.sectionCollection.items[6].contentsCollection.items[1]
+					path.sectionCollection.items[5].contentsCollection.items[1]
 						.contentsCollection.items
 				}
 			/>
 			<HomeContact
-				data={path.sectionCollection.items[7].contentsCollection.items[0]}
+				data={path.sectionCollection.items[6].contentsCollection.items[0]}
 			/>
 		</>
 	);
