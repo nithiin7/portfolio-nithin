@@ -24,7 +24,13 @@ function Navbar() {
 
 	useEffect(() => {
 		const handleScroll = () => {
-			const sections = ['home', 'about', 'experience', 'services', 'contact'];
+			const sections = [
+				'home',
+				'services',
+				'about',
+				'portfolio',
+				'testimonials',
+			];
 			const scrollPosition = window.scrollY;
 
 			const activeSection = sections.find((section) => {
@@ -92,12 +98,12 @@ function Navbar() {
 				<BiBook />
 			</Link>
 			<Link
-				to="contact"
+				to="testimonials"
 				onClick={() => {
-					setActiveNav('contact');
-					handleScroll('contact');
+					setActiveNav('testimonials');
+					handleScroll('testimonials');
 				}}
-				className={styles[activeNav === 'contact' ? 'active' : '']}
+				className={styles[activeNav === 'testimonials' ? 'active' : '']}
 			>
 				<BiMessageSquareDetail />
 			</Link>

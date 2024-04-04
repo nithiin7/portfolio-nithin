@@ -5,6 +5,63 @@
 	padding: rem(48) 0;
 	text-align: center;
 	font-size: rem(14.4);
+	position: relative;
+	background-color: $color-secondary;
+	.footer__contact {
+		padding-left: 4%;
+		padding-right: 4%;
+		width: 100%;
+		margin-top: 3rem;
+		display: flex;
+		flex-direction: column;
+		span {
+			font-size: 1rem;
+			color: rgb(107 100 92);
+			font-weight: 700;
+			margin-left: auto;
+			margin-right: auto;
+			margin-bottom: 1.25rem;
+			@media #{$md} {
+				font-size: 1.25rem;
+			}
+		}
+		a {
+			position: relative;
+			color: inherit;
+			text-decoration: inherit;
+			&::before {
+				position: absolute;
+				bottom: -0.5rem;
+				left: 0;
+				height: 0.25rem;
+				width: 100%;
+				transform-origin: right;
+				--tw-scale-x: 0;
+				transform: translate(0, 0) rotate(0) skewX(0) skewY(0) scaleX(0)
+					scaleY(1);
+				background-color: rgb(57 54 50);
+				transition-property: transform;
+				transition-duration: 0.7s;
+				transition-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+				content: '';
+				@media #{$md} {
+					bottom: -1rem;
+					height: 0.5rem;
+				}
+			}
+			&:hover {
+				&::before {
+					transform-origin: left;
+					transform: translate(0, 0) rotate(0) skewX(0) skewY(0) scaleX(1)
+						scaleY(1);
+				}
+			}
+			img {
+				width: 100%;
+				height: auto;
+			}
+		}
+	}
 	a {
 		color: $color-bg;
 	}
@@ -83,7 +140,8 @@
 	.footer__logo {
 		display: flex;
 		justify-content: center;
-		margin-bottom: rem(32);
+		padding-bottom: rem(32);
+		padding-top: rem(50);
 		img {
 			width: auto;
 			height: auto;

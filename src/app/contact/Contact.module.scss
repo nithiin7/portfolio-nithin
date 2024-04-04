@@ -1,0 +1,71 @@
+@import 'src/styles/shared/_variables';
+@import 'src/styles/shared/_mixin';
+
+.Contact {
+	:global {
+		position: relative;
+		.contact__nav {
+			position: absolute;
+			left: rem(15);
+			top: rem(15);
+			a {
+				pointer-events: all;
+			}
+			img {
+				height: 75px;
+				width: 75px;
+				@media #{$md} {
+					height: 100px;
+					width: 100px;
+				}
+			}
+			@media #{$md} {
+				left: rem(25);
+				top: rem(25);
+			}
+		}
+		section {
+			position: relative;
+			padding: 5% 4%;
+			overflow-y: clip;
+			display: flex;
+			position: relative;
+			align-items: center;
+			justify-content: flex-start;
+			.contact__bg {
+				opacity: 1;
+				z-index: -20;
+				transform: none;
+				width: 40%;
+				height: fit-content;
+				position: absolute;
+				top: 4rem;
+				left: 50%;
+				pointer-events: none;
+				display: block;
+				max-width: 100%;
+				vertical-align: middle;
+			}
+			.Contact__header {
+				position: relative;
+				display: flex;
+				padding-top: 8rem;
+				h1 {
+					font-size: 4em;
+					color: rgb(57 54 50);
+					font-weight: 700;
+					display: flex;
+					max-width: 15ch;
+					flex-direction: column;
+					text-wrap: balance;
+					line-height: 92.5%;
+					letter-spacing: -0.0275em;
+					text-transform: uppercase;
+					@media #{$lg} {
+						font-size: 5.65rem;
+					}
+				}
+			}
+		}
+	}
+}

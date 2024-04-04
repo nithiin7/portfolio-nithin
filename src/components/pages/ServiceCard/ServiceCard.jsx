@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import styles from './ServiceCard.module.scss';
 
-const ServiceCard = ({ heading, list, i }) => {
+const ServiceCard = ({ description, heading, list, i }) => {
 	return (
 		<div
 			className={styles['service-card']}
@@ -30,9 +30,7 @@ const ServiceCard = ({ heading, list, i }) => {
 			</div>
 			<div className={styles['service-card__body']}>
 				<p data-aos="fade-up" data-aos-duration="1500" data-aos-once="true">
-					I create unique, custom-coded websites that are tailored to your
-					brand. I focus on scalability, performance, accessibility, and
-					engaging animations for a memorable experience.
+					{description}
 				</p>
 				<div className={styles['service-card__services']}>
 					{list.map((item, index) => (
@@ -56,6 +54,7 @@ const ServiceCard = ({ heading, list, i }) => {
 
 ServiceCard.propTypes = {
 	heading: PropTypes.string.isRequired,
+	description: PropTypes.string.isRequired,
 	list: PropTypes.array.isRequired,
 	i: PropTypes.number.isRequired,
 };

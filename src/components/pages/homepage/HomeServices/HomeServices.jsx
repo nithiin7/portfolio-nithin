@@ -29,6 +29,7 @@ const HomeServices = (props) => {
 									i={index}
 									heading={item.contentsCollection.items[0].title}
 									list={item.contentsCollection.items[1].list}
+									description={item.contentsCollection.items[0].subTitle}
 								/>
 							);
 						}

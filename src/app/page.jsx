@@ -7,7 +7,6 @@ import HomeServices from 'components/pages/homepage/HomeServices';
 import HomePortfolio from 'components/pages/homepage/HomePortfolio';
 import HomeCollaborations from '../components/pages/homepage/HomeCollaborations/HomeCollaborations';
 import HomeTestimonial from 'components/pages/homepage/HomeTestimonial';
-import HomeContact from 'components/pages/homepage/HomeContact';
 
 export default async function Home() {
 	const props = await loadData();
@@ -37,9 +36,6 @@ export default async function Home() {
 					path.sectionCollection.items[5].contentsCollection.items[1]
 						.contentsCollection.items
 				}
-			/>
-			<HomeContact
-				data={path.sectionCollection.items[6].contentsCollection.items[0]}
 			/>
 		</>
 	);

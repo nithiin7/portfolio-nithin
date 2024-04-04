@@ -4,6 +4,8 @@
 .HomeTestimonial {
 	:global {
 		background-color: $color-black;
+		border-bottom-left-radius: 1.5rem;
+		border-bottom-right-radius: 1.5rem;
 		.portfolio__testimonials {
 			padding-bottom: rem(64);
 			width: $container-width-sm;
