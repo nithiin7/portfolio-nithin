@@ -55,21 +55,15 @@ export const contactOptions = [
 
 export const footerLinks = [
 	{ key: 'home', href: 'home', duration: '1000' },
-	{ key: 'about', href: 'about', duration: '1100' },
-	{
-		key: 'experience',
-		href: 'experience',
-		duration: '1200',
-	},
-	{ key: 'services', href: 'services', duration: '1300' },
-	{ key: 'portfolio', href: 'portfolio', duration: '1400' },
-	{ key: 'collaborations', href: 'collaborations', duration: '1500' },
+	{ key: 'services', href: 'services', duration: '1100' },
+	{ key: 'about', href: 'about', duration: '1200' },
+	{ key: 'portfolio', href: 'portfolio', duration: '1300' },
+	{ key: 'collaborations', href: 'collaborations', duration: '1400' },
 	{
 		key: 'testimonials',
 		href: 'testimonials',
-		duration: '1600',
+		duration: '1500',
 	},
-	{ key: 'contact', href: 'contact', duration: '1700' },
 ];
 
 export const socials = [

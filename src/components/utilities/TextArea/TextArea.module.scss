@@ -1,29 +1,57 @@
-@use "styles/shared/mixin" as *;
-@use "styles/shared/variables" as *;
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
 
 .TextArea {
-  :global {
-    .TextArea__input {
-      width: 100%;
-      padding: 1.5rem;
-      border-radius: 0.5rem;
-      background: transparent;
-      border: 2px solid $color-primary-variant;
-      resize: none;
-      color: $color-white;
-    }
-    .TextArea__errors {
-      height: 20px;
-    }
-    .TextArea__form-errors {
-      color: $color-primary;
-      font-size: rem(12);
-      margin-left: rem(4);
-    }
-  }
+	:global {
+		.TextArea__input {
+			width: 100%;
+			border-radius: 0.5rem;
+			border: 2px solid $color-primary-variant;
+			resize: none;
+			border-radius: 0.75rem;
+			border-width: 1px;
+			border-color: rgb(191 191 177);
+			background-color: transparent;
+			padding: 0.75rem 0.25rem 0.75rem 1.25rem;
+			font-size: 1.125rem;
+			font-weight: 600;
+			letter-spacing: 0;
+			color: rgb(140 140 115);
+			outline: 2px solid transparent;
+			outline-offset: 2px;
+			transition-property: all;
+			transition-duration: 0.3s;
+			&::placeholder {
+				color: #babaad;
+				font-family: $font-primary;
+				font-size: 1rem;
+			}
+		}
+		.TextArea__label {
+			label {
+				font-size: 1rem;
+				font-weight: 500;
+				letter-spacing: 0;
+				color: rgb(57 54 50);
+				margin-bottom: 0.25rem;
+			}
+			span {
+				color: rgb(158 31 31);
+				padding-left: 0.25rem;
+			}
+		}
+		.TextArea__errors {
+			height: 20px;
+		}
+		.TextArea__form-errors {
+			color: rgb(158 31 31);
+			font-size: rem(12);
+			margin-left: rem(4);
+		}
+	}
 }
 
 .TextArea__default {
-  :global {
-  }
+	:global {
+	}
 }

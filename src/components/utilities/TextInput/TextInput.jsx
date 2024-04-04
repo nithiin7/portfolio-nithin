@@ -10,6 +10,7 @@ const TextInput = React.forwardRef((props, ref) => {
 		type,
 		placeholder,
 		value,
+		label,
 		onChange,
 		onBlur,
 		disabled,
@@ -22,6 +23,14 @@ const TextInput = React.forwardRef((props, ref) => {
 				styles[`TextInput__${variant}`]
 			} ${className}`}
 		>
+			{label ? (
+				<div className="TextInput__label">
+					<label>{label}</label>
+					<span>*</span>
+				</div>
+			) : (
+				''
+			)}
 			<input
 				className="TextInput__input"
 				id={name}
@@ -54,6 +63,7 @@ TextInput.defaultProps = {
 	className: '',
 	name: '',
 	value: '',
+	label: '',
 	type: 'text',
 	errors: [],
 	onChange: () => {},
@@ -67,6 +77,7 @@ TextInput.propTypes = {
 	name: PropTypes.string,
 	type: PropTypes.string,
 	value: PropTypes.string,
+	label: PropTypes.string,
 	variant: PropTypes.string,
 	className: PropTypes.string,
 	onChange: PropTypes.func,

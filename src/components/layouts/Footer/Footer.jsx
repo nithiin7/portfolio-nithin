@@ -4,14 +4,17 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useLenis } from '@studio-freight/react-lenis';
 import { Link as ScrollLink } from 'react-scroll';
+import { usePathname } from 'next/navigation';
 
 import Logo from 'assets/images/Logo.png';
+import Contact from 'assets/images/contact.svg';
 import styles from './Footer.module.scss';
 import { footerLinks, socials, songs } from 'helpers/constants.js';
 
 function Footer() {
 	const [randomSong, setRandomSong] = useState(null);
 	const lenis = useLenis();
+	const pathname = usePathname();
 
 	const getRandomSong = () => {
 		const randomIndex = Math.floor(Math.random() * songs.length);
@@ -33,6 +36,19 @@ function Footer() {
 
 	return (
 		<footer className={styles['footer']}>
+			{pathname == '/' && (
+				<div
+					className={styles['footer__contact']}
+					data-aos="fade-up"
+					data-aos-duration="900"
+					data-aos-once="true"
+				>
+					<span>Got a project? Need an unfair advantage?</span>
+					<Link href={'/contact'}>
+						<Image src={Contact} height={500} width={2000} alt="contact" />
+					</Link>
+				</div>
+			)}
 			<div
 				data-aos="fade-up"
 				data-aos-duration="900"
@@ -80,25 +96,27 @@ function Footer() {
 					</div>
 				</div>
 			</div>
-			<ul className={styles['footer__permalinks']}>
-				{footerLinks.map((link) => (
-					<li
-						key={link.key}
-						data-aos="fade-up"
-						data-aos-duration={link.duration}
-						data-aos-once="true"
-					>
-						<ScrollLink
-							to={link.href}
-							onClick={() => {
-								handleScroll(link.href);
-							}}
+			{pathname == '/' && (
+				<ul className={styles['footer__permalinks']}>
+					{footerLinks.map((link) => (
+						<li
+							key={link.key}
+							data-aos="fade-up"
+							data-aos-duration={link.duration}
+							data-aos-once="true"
 						>
-							{link.key}
-						</ScrollLink>
-					</li>
-				))}
-			</ul>
+							<ScrollLink
+								to={link.href}
+								onClick={() => {
+									handleScroll(link.href);
+								}}
+							>
+								{link.key}
+							</ScrollLink>
+						</li>
+					))}
+				</ul>
+			)}
 			<div className={styles['footer__socials']}>
 				{socials.map((social, index) => (
 					<Link

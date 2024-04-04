@@ -9,6 +9,7 @@ const TextArea = React.forwardRef((props, ref) => {
 		className,
 		placeholder,
 		value,
+		label,
 		rows,
 		onChange,
 		onBlur,
@@ -22,6 +23,14 @@ const TextArea = React.forwardRef((props, ref) => {
 				styles[`TextArea__${variant}`]
 			} ${className}`}
 		>
+			{label ? (
+				<div className="TextArea__label">
+					<label>{label}</label>
+					<span>*</span>
+				</div>
+			) : (
+				''
+			)}
 			<textarea
 				className="TextArea__input"
 				id={name}
@@ -54,6 +63,7 @@ TextArea.defaultProps = {
 	className: '',
 	name: '',
 	value: '',
+	label: '',
 	rows: 7,
 	errors: [],
 	onChange: () => {},
@@ -69,6 +79,7 @@ TextArea.propTypes = {
 	variant: PropTypes.string,
 	className: PropTypes.string,
 	rows: PropTypes.number,
+	label: PropTypes.string,
 	onChange: PropTypes.func,
 	onBlur: PropTypes.func,
 	placeholder: PropTypes.string,

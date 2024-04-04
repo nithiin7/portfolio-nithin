@@ -6,6 +6,9 @@ html {
 
 body {
 	-webkit-tap-highlight-color: transparent;
+	::selection {
+		background: #6b645c;
+	}
 }
 
 html.lenis {
