@@ -1,30 +1,6 @@
-import { getExperience } from 'helpers';
-
-import { FaAward, FaGithub, FaBitbucket, FaLinkedinIn } from 'react-icons/fa';
-import { FiUsers, FiInstagram } from 'react-icons/fi';
-import { VscFolderLibrary } from 'react-icons/vsc';
+import { FaGithub, FaBitbucket, FaLinkedinIn } from 'react-icons/fa';
+import { FiInstagram } from 'react-icons/fi';
 import { IoLogoTwitter } from 'react-icons/io';
-
-export const cardData = [
-	{
-		icon: <FaAward className={'about__icon'} />,
-		title: 'Tech Stacks',
-		description: '15+ Stacks',
-		duration: 1000,
-	},
-	{
-		icon: <FiUsers className={'about__icon'} />,
-		title: 'Experience',
-		description: getExperience('July 2022'),
-		duration: 1100,
-	},
-	{
-		icon: <VscFolderLibrary className={'about__icon'} />,
-		title: 'Projects',
-		description: '15+ Completed',
-		duration: 1200,
-	},
-];
 
 export const contactOptions = [
 	{
