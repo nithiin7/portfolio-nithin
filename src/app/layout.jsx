@@ -10,7 +10,7 @@ import Footer from 'components/layouts/Footer';
 import Curve from './transition';
 
 export async function generateMetadata() {
-	const props = await loadData();
+	const props = await loadData('home');
 	const path = props?.data.pageCollection.items[0];
 
 	return {

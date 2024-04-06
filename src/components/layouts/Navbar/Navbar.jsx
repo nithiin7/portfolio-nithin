@@ -78,16 +78,6 @@ function Navbar() {
 				<RiServiceLine />
 			</Link>
 			<Link
-				to="about"
-				onClick={() => {
-					setActiveNav('about');
-					handleScroll('about');
-				}}
-				className={styles[activeNav === 'about' ? 'active' : '']}
-			>
-				<AiOutlineUser />
-			</Link>
-			<Link
 				to="portfolio"
 				onClick={() => {
 					setActiveNav('portfolio');
@@ -96,6 +86,16 @@ function Navbar() {
 				className={styles[activeNav === 'portfolio' ? 'active' : '']}
 			>
 				<BiBook />
+			</Link>
+			<Link
+				to="about"
+				onClick={() => {
+					setActiveNav('about');
+					handleScroll('about');
+				}}
+				className={styles[activeNav === 'about' ? 'active' : '']}
+			>
+				<AiOutlineUser />
 			</Link>
 			<Link
 				to="testimonials"
