@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
-export const HOME_PAGE = gql`
-	query Home {
-		pageCollection(where: { name: "home" }, limit: 1) {
+export const GET_PAGE = gql`
+	query Home($page: String!) {
+		pageCollection(where: { name: $page }, limit: 1) {
 			items {
 				name
 				title
@@ -82,6 +82,8 @@ export const HOME_PAGE = gql`
 													title
 													gitHub
 													demo
+													tech
+													year
 												}
 												... on TestimonialCard {
 													name

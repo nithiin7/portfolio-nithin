@@ -1,18 +1,11 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import PropTypes from 'prop-types';
 import styles from './PortfolioCard.module.scss';
 
-import Button from 'components/utilities/Button';
-
-const PortfolioCard = ({ id, image, title, github, demo }) => {
+const PortfolioCard = ({ key, image, title, demo, tech, year }) => {
 	return (
-		<article
-			data-aos="fade-up"
-			data-aos-duration="1500"
-			data-aos-once="true"
-			key={id}
-			className={styles['portfolio-card__item']}
-		>
+		<Link href={demo} key={key} className={styles['portfolio-card__item']}>
 			<div className={styles['portfolio-card__image']}>
 				<Image
 					src={image}
@@ -22,26 +15,29 @@ const PortfolioCard = ({ id, image, title, github, demo }) => {
 					quality={100}
 				/>
 			</div>
-			<h3>{title}</h3>
-			<div className={styles['portfolio-card__cta']}>
-				<Button href={github} classModifier={'Button'} data={'Github'} />
-				<Button
-					href={demo}
-					classModifier={'Button'}
-					data={'Live Demo'}
-					type={'external_link'}
-				/>
+			<div className={styles['portfolio-card__description']}>
+				<h3>{title}</h3>
+				<div className={styles['portfolio-card__items']}>
+					<span className={styles['portfolio-card__techs']}>
+						{tech.map((tech, index) => (
+							<span key={index}>{tech}</span>
+						))}
+					</span>
+					<span className={styles['portfolio-card__year']}>{year}</span>
+				</div>
 			</div>
-		</article>
+		</Link>
 	);
 };
 
 PortfolioCard.propTypes = {
-	id: PropTypes.number.isRequired,
+	key: PropTypes.number.isRequired,
 	image: PropTypes.string.isRequired,
 	title: PropTypes.string.isRequired,
 	github: PropTypes.string.isRequired,
 	demo: PropTypes.string.isRequired,
+	tech: PropTypes.array.isRequired,
+	year: PropTypes.string.isRequired,
 };
 
 export default PortfolioCard;

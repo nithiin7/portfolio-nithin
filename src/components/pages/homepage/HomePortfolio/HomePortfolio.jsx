@@ -13,22 +13,20 @@ const HomePortfolio = (props) => {
 			} ${className}`}
 		>
 			<section id="portfolio">
-				<h5 data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
+				<h2 data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
 					{data.title}
-				</h5>
-				<h2 data-aos="fade-up" data-aos-duration="1100" data-aos-once="true">
-					{data.subTitle}
 				</h2>
-				<div className="portfolio__portfolio">
+				<div className="portfolio__container">
 					{portfolio.map((item, index) => {
 						return (
 							<PortfolioCard
 								key={index}
-								id={item.id}
 								image={item.image.url}
 								title={item.title}
 								github={item.gitHub}
 								demo={item.demo}
+								tech={item.tech}
+								year={item.year}
 							/>
 						);
 					})}
@@ -49,7 +47,7 @@ HomePortfolio.propTypes = {
 	variant: PropTypes.string,
 	className: PropTypes.string,
 	data: PropTypes.object,
-	portfolio: PropTypes.object,
+	portfolio: PropTypes.array,
 };
 
 export default HomePortfolio;

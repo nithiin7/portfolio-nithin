@@ -9,7 +9,7 @@ import HomeCollaborations from '../components/pages/homepage/HomeCollaborations/
 import HomeTestimonial from 'components/pages/homepage/HomeTestimonial';
 
 export default async function Home() {
-	const props = await loadData();
+	const props = await loadData('home');
 	const path = props?.data.pageCollection.items[0];
 
 	return (
@@ -19,7 +19,6 @@ export default async function Home() {
 				data={path.sectionCollection.items[1].contentsCollection.items[0]}
 				services={path.sectionCollection.items[1].contentsCollection.items}
 			/>
-			<HomeAbout data={path.sectionCollection.items[2].contentsCollection} />
 			<HomePortfolio
 				data={path.sectionCollection.items[3].contentsCollection.items[0]}
 				portfolio={
@@ -27,6 +26,7 @@ export default async function Home() {
 						.contentsCollection.items
 				}
 			/>
+			<HomeAbout data={path.sectionCollection.items[2].contentsCollection} />
 			<HomeCollaborations
 				data={path.sectionCollection.items[4].contentsCollection.items[0]}
 			/>

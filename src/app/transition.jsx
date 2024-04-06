@@ -57,7 +57,7 @@ export default function Curve({ children, backgroundColor }) {
 }
 
 Curve.propTypes = {
-	children: PropTypes.object.isRequired,
+	children: PropTypes.array.isRequired,
 	backgroundColor: PropTypes.string,
 };
 
@@ -86,6 +86,6 @@ const SVG = ({ height, width }) => {
 };
 
 SVG.propTypes = {
-	height: PropTypes.string,
-	width: PropTypes.string,
+	height: PropTypes.number,
+	width: PropTypes.number,
 };

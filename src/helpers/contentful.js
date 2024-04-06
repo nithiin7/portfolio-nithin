@@ -1,10 +1,11 @@
 import { initializeApollo } from '/lib/apolloClient';
-import { HOME_PAGE } from 'queries';
+import { GET_PAGE } from 'queries';
 
-const loadData = async () => {
+const loadData = async (page) => {
 	const apolloClient = initializeApollo();
 	const data = await apolloClient.query({
-		query: HOME_PAGE,
+		query: GET_PAGE,
+		variables: { page: page },
 	});
 
 	return data;

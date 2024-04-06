@@ -18,24 +18,10 @@ const HomeAbout = (props) => {
 			} ${className}`}
 		>
 			<section id="about">
-				<h5 data-aos="fade-up" data-aos-duration="1100" data-aos-once="true">
-					{data.items[0].title}
-				</h5>
-				<h2 data-aos="fade-up" data-aos-duration="1200" data-aos-once="true">
-					{data.items[0].subTitle}
-				</h2>
-				<div
-					data-aos="fade-up"
-					data-aos-duration="1300"
-					data-aos-once="true"
-					className={'portfolio__about'}
-				>
-					<div
-						className={'about__me'}
-						data-aos="fade-up"
-						data-aos-duration="1200"
-						data-aos-once="true"
-					>
+				<h5>{data.items[0].title}</h5>
+				<h2>{data.items[0].subTitle}</h2>
+				<div className={'portfolio__about'}>
+					<div className={'about__me'}>
 						<div className={'about__me-image'}>
 							<Image
 								src={data.items[1].image.url}
@@ -49,32 +35,15 @@ const HomeAbout = (props) => {
 					<div className={'about__content'}>
 						<div className={'about__cards'}>
 							{cardData.map((card, index) => (
-								<article
-									key={index}
-									className={'about__card'}
-									data-aos="fade-up"
-									data-aos-duration={card.duration}
-									data-aos-once="true"
-								>
+								<article key={index} className={'about__card'}>
 									{card.icon}
 									<h5>{card.title}</h5>
 									<small>{card.description}</small>
 								</article>
 							))}
 						</div>
-						<div
-							data-aos="fade-up"
-							data-aos-duration="1200"
-							data-aos-once="true"
-						>
-							<Paragraph value={text} />
-						</div>
-						<div
-							data-aos="fade-up"
-							data-aos-duration="1300"
-							data-aos-once="true"
-							className={'about__icon'}
-						>
+						<Paragraph value={text} />
+						<div className={'about__icon'}>
 							<Button
 								href={'contact'}
 								classModifier={'Button--primary'}

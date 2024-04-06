@@ -11,18 +11,9 @@ const HomeCollaborations = (props) => {
 			} ${className}`}
 		>
 			<section id="collaborations">
-				<h5 data-aos="fade-up" data-aos-duration="1100" data-aos-once="true">
-					{data.title}
-				</h5>
-				<h2 data-aos="fade-up" data-aos-duration="1200" data-aos-once="true">
-					{data.subTitle}
-				</h2>
-				<div
-					data-aos="fade-up"
-					data-aos-duration="1300"
-					data-aos-once="true"
-					className={'portfolio__collaborations'}
-				>
+				<h5>{data.title}</h5>
+				<h2>{data.subTitle}</h2>
+				<div className={'portfolio__collaborations'}>
 					<div className="Collaborations__companies">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"

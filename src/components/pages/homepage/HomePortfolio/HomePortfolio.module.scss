@@ -4,25 +4,27 @@
 .HomePortfolio {
 	:global {
 		background-color: $color-black;
-		.portfolio__portfolio {
-			display: grid;
-			grid-template-columns: 1fr;
-			gap: rem(16);
-			width: $container-width-sm;
-			margin: 0 auto;
+		padding: 5% 4%;
+		h2 {
+			color: rgb(209 209 199);
+			padding-bottom: 2rem;
+			font-weight: 700;
+			text-transform: uppercase;
+			text-align: left;
+			font-size: 2.5rem;
 			@media #{$md} {
-				width: $container-width-md;
+				font-size: clamp(3.5rem, 2.3571rem + 4.5143vi, 10.5rem);
 			}
-			@media #{$lm} {
-				grid-template-columns: 1fr 1fr;
-				gap: rem(19.2);
-			}
-			@media #{$lg} {
-				grid-template-columns: repeat(3, 1fr);
-				gap: rem(40);
-			}
-			@media #{$xl} {
-				width: $container-width-xl;
+		}
+		.portfolio__container {
+			display: flex;
+			flex-direction: column;
+			width: 100%;
+			justify-content: space-between;
+			row-gap: 3rem;
+			@media #{$md} {
+				flex-direction: row;
+				flex-wrap: wrap;
 			}
 		}
 	}

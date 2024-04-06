@@ -19,13 +19,9 @@ const HomeTestimonial = (props) => {
 			} ${className}`}
 		>
 			<section id="testimonials">
-				<h5 data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
-					{data.title}
-				</h5>
-				<h2 data-aos="fade-up" data-aos-duration="1100" data-aos-once="true">
-					{data.subTitle}
-				</h2>
-				<div data-aos="fade-up" data-aos-duration="1200" data-aos-once="true">
+				<h5>{data.title}</h5>
+				<h2>{data.subTitle}</h2>
+				<div>
 					<Swiper
 						className="portfolio__testimonials"
 						modules={[Pagination]}

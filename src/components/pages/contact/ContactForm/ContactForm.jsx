@@ -90,23 +90,13 @@ const ContactForm = (props) => {
 					</p>
 				</div>
 			) : (
-				<div
-					data-aos="fade-up"
-					data-aos-duration="1200"
-					data-aos-once="true"
-					className="contact__container"
-				>
+				<div className="contact__container">
 					<form
 						className="contact__form"
 						ref={form}
 						onSubmit={handleSubmit(onSubmit)}
 					>
-						<fieldset
-							className="model__form-item"
-							data-aos="fade-up"
-							data-aos-duration="1200"
-							data-aos-once="true"
-						>
+						<fieldset className="model__form-item">
 							<Controller
 								control={control}
 								name="name"
@@ -121,12 +111,7 @@ const ContactForm = (props) => {
 								)}
 							/>
 						</fieldset>
-						<fieldset
-							className="model__form-item"
-							data-aos="fade-up"
-							data-aos-duration="1300"
-							data-aos-once="true"
-						>
+						<fieldset className="model__form-item">
 							<Controller
 								control={control}
 								name="email"
@@ -141,12 +126,7 @@ const ContactForm = (props) => {
 								)}
 							/>
 						</fieldset>
-						<fieldset
-							className="model__form-item"
-							data-aos="fade-up"
-							data-aos-duration="1400"
-							data-aos-once="true"
-						>
+						<fieldset className="model__form-item">
 							<Controller
 								control={control}
 								name="message"
@@ -162,14 +142,8 @@ const ContactForm = (props) => {
 								)}
 							/>
 						</fieldset>
-						<button
-							data-aos="fade-up"
-							data-aos-duration="1500"
-							data-aos-once="true"
-							type="submit"
-							className="contact__button"
-						>
-							Send Message
+						<button type="submit" className="contact__button">
+							Let&apos;s do it
 						</button>
 					</form>
 				</div>
@@ -178,13 +152,7 @@ const ContactForm = (props) => {
 				<div className="contact__options">
 					<h6>FURTHER ENQUIRIES OR COLLABORATION</h6>
 					{contactOptions.map((option, index) => (
-						<div
-							key={index}
-							data-aos="fade-up"
-							data-aos-duration={option.duration}
-							data-aos-once="true"
-							className="contact__link"
-						>
+						<div key={index} className="contact__link">
 							<a href={option.link}>{option.subtitle}</a>
 						</div>
 					))}

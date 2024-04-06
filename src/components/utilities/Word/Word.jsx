@@ -27,8 +27,8 @@ Word.propTypes = {
 	variant: PropTypes.string,
 	className: PropTypes.string,
 	children: PropTypes.node,
-	range: PropTypes.string,
-	progress: PropTypes.string,
+	range: PropTypes.array,
+	progress: PropTypes.object,
 };
 
 export default Word;
