@@ -19,7 +19,7 @@
 		line-height: 92.5%;
 		letter-spacing: -0.0275em;
 		border-top: 1px solid;
-		border-top-color: rgb(57 54 50);
+		border-top-color: $color-secondary;
 		h3 {
 			font-weight: 600;
 		}
@@ -79,7 +79,7 @@
 	.service-card__background {
 		opacity: 0.5;
 		font-weight: 800;
-		color: rgb(57 54 50);
+		color: $color-secondary;
 		line-height: 92.5%;
 		font-size: clamp(8rem, -0.057rem + 20.0714vw, 20rem);
 		display: flex;

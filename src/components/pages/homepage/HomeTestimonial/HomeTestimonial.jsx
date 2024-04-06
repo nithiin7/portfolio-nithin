@@ -1,14 +1,8 @@
 'use client';
-import Image from 'next/image';
 import PropTypes from 'prop-types';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination } from 'swiper';
 
 import styles from './HomeTestimonial.module.scss';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import TestimonialCard from '../../TestimonialCard/TestimonialCard';
 
 const HomeTestimonial = (props) => {
 	const { className, variant, data, testimonial } = props;
@@ -19,37 +13,11 @@ const HomeTestimonial = (props) => {
 			} ${className}`}
 		>
 			<section id="testimonials">
-				<h5>{data.title}</h5>
-				<h2>{data.subTitle}</h2>
-				<div>
-					<Swiper
-						className="portfolio__testimonials"
-						modules={[Pagination]}
-						navigation
-						spaceBetween={40}
-						slidesPerView={1}
-						pagination={{ clickable: true }}
-					>
-						{testimonial.map((item, index) => {
-							return (
-								<SwiperSlide key={index} className="testimonial__container">
-									<div className="testimonial__avatar">
-										<Image
-											src={item.avatar.url}
-											alt="Avatar"
-											width={1000}
-											height={1000}
-											priority
-											quality={100}
-										/>
-									</div>
-									<h3 className="testimonial__name">{item.reviewer}</h3>
-									<h5>{item.institution}</h5>
-									<small className="testimonial__review">{item.review}</small>
-								</SwiperSlide>
-							);
-						})}
-					</Swiper>
+				<h2>{data.title}</h2>
+				<div className="HomeTestimonial__testimonial">
+					{testimonial.map((item, index) => {
+						return <TestimonialCard key={index} item={item} />;
+					})}
 				</div>
 			</section>
 		</div>

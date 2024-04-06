@@ -11,8 +11,7 @@ const HomeCollaborations = (props) => {
 			} ${className}`}
 		>
 			<section id="collaborations">
-				<h5>{data.title}</h5>
-				<h2>{data.subTitle}</h2>
+				<h2>{data.title}</h2>
 				<div className={'portfolio__collaborations'}>
 					<div className="Collaborations__companies">
 						<svg

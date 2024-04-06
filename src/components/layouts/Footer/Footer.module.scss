@@ -5,7 +5,7 @@
 	padding: rem(48) 0;
 	text-align: center;
 	font-size: rem(14.4);
-	background-color: $color-secondary;
+	position: relative;
 	.footer__contact {
 		padding-left: 4%;
 		padding-right: 4%;
@@ -15,7 +15,7 @@
 		flex-direction: column;
 		span {
 			font-size: 1rem;
-			color: rgb(107 100 92);
+			color: $color-secondary;
 			font-weight: 700;
 			margin-left: auto;
 			margin-right: auto;
@@ -38,7 +38,7 @@
 				--tw-scale-x: 0;
 				transform: translate(0, 0) rotate(0) skewX(0) skewY(0) scaleX(0)
 					scaleY(1);
-				background-color: rgb(57 54 50);
+				background-color: $color-secondary;
 				transition-property: transform;
 				transition-duration: 0.7s;
 				transition-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
@@ -62,7 +62,7 @@
 		}
 	}
 	a {
-		color: $color-bg;
+		color: $color-text;
 	}
 	.footer__column {
 		display: flex;
@@ -70,9 +70,21 @@
 		justify-content: center;
 		text-align: center;
 	}
+	.footer__bg {
+		opacity: 1;
+		z-index: -20;
+		transform: translateX(-50%) scale(1);
+		width: 50%;
+		height: fit-content;
+		position: absolute;
+		bottom: 0;
+		left: 50%;
+		max-width: 100%;
+		vertical-align: middle;
+	}
 	.footer__music {
 		border-radius: 50px;
-		background-color: $color-black;
+		background-color: rgb(57, 54, 50);
 		width: 380px;
 		padding: 16px 42px 16px 20px;
 		display: flex;
@@ -81,12 +93,13 @@
 		margin-bottom: 30px;
 		align-items: center;
 		box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+		margin-top: 80px;
 		.music__title {
 			text-align: left;
 			h6 {
 				font-size: 15px;
 				font-weight: 400;
-				color: $color-primary;
+				color: $color-text;
 			}
 			span {
 				font-size: 16px;
@@ -119,7 +132,7 @@
 			margin-bottom: rem(32);
 		}
 		a {
-			background: $color-bg;
+			background: $color-text;
 			color: $color-white;
 			padding: rem(12.8);
 			border-radius: rem(11.2);
@@ -127,14 +140,14 @@
 			border: rem(1) solid transparent;
 			&:hover {
 				background: transparent;
-				color: $color-bg;
-				border-color: $color-bg;
+				color: $color-text;
+				border-color: $color-text;
 			}
 		}
 	}
 	.footer__copyright {
 		margin-bottom: rem(50);
-		color: $color-bg;
+		color: $color-text;
 	}
 	.footer__logo {
 		display: flex;

@@ -9,28 +9,11 @@ h5 {
 	font-weight: 500;
 }
 
-section {
-	padding-top: rem(100);
-	padding-bottom: rem(180);
-}
-
-section > h2,
-section > h5 {
-	text-align: center;
-	color: $color-light;
-}
-
-section > h2 {
-	color: $color-primary;
-	margin-bottom: rem(48);
-}
-
 .text-light {
 	color: $color-light;
 }
 
 a {
-	color: $color-primary;
 	transition: $transition;
 	&:hover {
 		color: $color-white;

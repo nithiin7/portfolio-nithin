@@ -19,7 +19,7 @@
 			.contact__button {
 				width: max-content;
 				display: inline-block;
-				background: rgb(57 54 50);
+				background: $color-secondary;
 				color: rgb(232 232 227);
 				padding-top: 1.25rem;
 				padding-bottom: 1.25rem;
@@ -27,7 +27,7 @@
 				padding-right: 2.5rem;
 				box-shadow: inset 0 0 0 0 rgb(232 232 227);
 				cursor: pointer;
-				border: rem(1) solid rgb(57 54 50);
+				border: rem(1) solid $color-secondary;
 				border-radius: 9999px;
 				transition: all ease-in 0.4s;
 				font-weight: 600;
@@ -42,9 +42,9 @@
 					padding-right: 3rem;
 				}
 				&:hover {
-					color: rgb(57 54 50);
+					color: $color-secondary;
 					box-shadow: inset 400px 0 0 0 rgb(232 232 227);
-					border-color: rgb(57 54 50);
+					border-color: $color-secondary;
 					background-color: rgb(232 232 227);
 					transition: all ease-in 0.4s;
 				}
@@ -63,7 +63,7 @@
 				width: 150px;
 			}
 			p {
-				color: rgb(57 54 50);
+				color: $color-secondary;
 				letter-spacing: 0;
 				line-height: 130%;
 				text-transform: uppercase;
@@ -76,7 +76,7 @@
 		.contact__socials {
 			max-width: 20ch;
 			h6 {
-				color: rgb(57 54 50);
+				color: $color-secondary;
 				letter-spacing: 0;
 				line-height: 130%;
 				text-transform: uppercase;
