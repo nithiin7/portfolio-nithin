@@ -6,7 +6,6 @@ import { useLenis } from '@studio-freight/react-lenis';
 import { Link as ScrollLink } from 'react-scroll';
 import { usePathname } from 'next/navigation';
 
-import Logo from 'assets/images/Logo.png';
 import Contact from 'assets/images/contact.svg';
 import styles from './Footer.module.scss';
 import { footerLinks, socials, songs } from 'helpers/constants.js';
@@ -44,16 +43,34 @@ function Footer() {
 					</Link>
 				</div>
 			)}
-			<div className={styles['footer__logo']}>
-				<Image
-					src={Logo}
-					alt="logo"
-					width={1000}
-					height={1000}
-					quality={100}
-					priority
-				/>
-			</div>
+			<svg
+				width="1186"
+				height="1186"
+				viewBox="0 0 1186 1186"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+				className={styles['footer__bg']}
+			>
+				<circle
+					cx="593"
+					cy="593"
+					r="593"
+					fill="url(#paint0_linear_4949_267)"
+				></circle>
+				<defs>
+					<linearGradient
+						id="paint0_linear_4949_267"
+						x1="593"
+						y1="0"
+						x2="593"
+						y2="1186"
+						gradientUnits="userSpaceOnUse"
+					>
+						<stop stopColor="#DDDDD5"></stop>
+						<stop offset="1" stopColor="#DDDDD5" stopOpacity="0"></stop>
+					</linearGradient>
+				</defs>
+			</svg>
 			<div className={styles['footer__column']}>
 				<div className={styles['footer__music']}>
 					<div className={styles['music__spotify']}>

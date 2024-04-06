@@ -3,60 +3,22 @@
 
 .HomeTestimonial {
 	:global {
-		background-color: $color-black;
-		border-bottom-left-radius: 1.5rem;
-		border-bottom-right-radius: 1.5rem;
-		.portfolio__testimonials {
-			padding-bottom: rem(64);
-			width: $container-width-sm;
-			margin: 0 auto;
-			@media #{$md} {
-				width: $container-width-md;
-			}
-			@media #{$lm} {
-				width: 60%;
-			}
-			@media #{$lg} {
-				width: 50%;
-			}
-			@media #{$xl} {
-				width: $container-width-xl;
-			}
-			.testimonial__avatar {
-				width: rem(64);
-				aspect-ratio: 1/1;
-				overflow: hidden;
-				border-radius: 50%;
-				margin: 0 auto rem(16);
-				border: rem(6.4) solid $color-bg-variant;
-				img {
-					height: auto;
-					width: 100%;
-				}
-			}
-			.testimonial__container {
-				background: $color-bg-variant;
-				text-align: center;
-				padding: rem(32);
-				border-radius: rem(32);
-				user-select: none;
-			}
-			.testimonial__review {
-				color: $color-light;
-				font-weight: 300;
-				display: block;
-				width: 80%;
-				margin: rem(12.8) auto 0;
-			}
-			.swiper-pagination-clickable {
-				.swiper-pagination-bullet {
-					background: $color-primary;
-				}
-			}
+		padding: 5% 4%;
+		h2 {
+			color: $color-secondary;
+			font-size: clamp(3.5rem, 2.3571rem + 4.5143vi, 10.5rem);
+			font-weight: 700;
+			text-transform: uppercase;
+			padding-bottom: 0.75rem;
+			text-wrap: balance;
+			line-height: 92.5%;
+			letter-spacing: -0.025em;
+			text-align: left;
 		}
-	}
-}
-.HomeTestimonial__default {
-	:global {
+		.HomeTestimonial__testimonial {
+			display: flex;
+			flex-direction: column;
+			row-gap: 2.5rem;
+		}
 	}
 }

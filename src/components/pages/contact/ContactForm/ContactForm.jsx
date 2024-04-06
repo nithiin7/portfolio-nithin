@@ -72,7 +72,7 @@ const ContactForm = (props) => {
 					>
 						<path
 							d="M7.29417 12.9577L10.5048 16.1681L17.6729 9"
-							stroke="rgb(57 54 50)"
+							stroke="$color-secondary"
 							strokeWidth="2.5"
 							strokeLinecap="round"
 							strokeLinejoin="round"
@@ -81,7 +81,7 @@ const ContactForm = (props) => {
 							cx="12"
 							cy="12"
 							r="10"
-							stroke="rgb(57 54 50)"
+							stroke="$color-secondary"
 							strokeWidth="2"
 						/>
 					</svg>
