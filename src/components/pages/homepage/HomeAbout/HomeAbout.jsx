@@ -1,15 +1,12 @@
 'use client';
 import Image from 'next/image';
 import PropTypes from 'prop-types';
-import { cardData } from 'helpers/constants';
 
 import styles from './HomeAbout.module.scss';
-import Button from 'components/utilities/Button';
-import Paragraph from 'components/utilities/Paragraph/Paragraph';
 
 const HomeAbout = (props) => {
 	const { className, variant, data } = props;
-	const text = `👋 Hi, I'm Nithin, a passionate Full Stack Developer from Kochi, Kerala. Specializing in frontend magic—from captivating UI effects to dynamic animations—I thrive on ambitious projects that push boundaries. Beyond coding, you'll find me immersed in football, gaming, TV series, or admiring the latest in automobiles. Lets craft exceptional experiences together!`;
+	const text = `A passionate Full Stack Developer from Kochi, Kerala. Specializing in frontend magic—from captivating UI effects to dynamic animations—I thrive on ambitious projects that push boundaries. Beyond coding, you'll find me immersed in football, gaming, TV series, or admiring the latest in automobiles. Lets craft exceptional experiences together!`;
 
 	return (
 		<div
@@ -18,11 +15,34 @@ const HomeAbout = (props) => {
 			} ${className}`}
 		>
 			<section id="about">
-				<h5>{data.items[0].title}</h5>
-				<h2>{data.items[0].subTitle}</h2>
-				<div className={'portfolio__about'}>
-					<div className={'about__me'}>
-						<div className={'about__me-image'}>
+				<div className="HomeAbout__container">
+					<div className="HomeAbout__content">
+						<h2>{data.items[0].title}</h2>
+						<svg
+							className="HomeAbout__image-left"
+							viewBox="0 0 709 300"
+							fill="none"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<rect width="709" height="300" rx="169.963" fill="#AFAF9D"></rect>
+						</svg>
+						<svg
+							className="HomeAbout__image-right"
+							viewBox="0 0 594 209"
+							fill="none"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<rect
+								x="594"
+								y="209"
+								width="594"
+								height="209"
+								rx="126.5"
+								transform="rotate(-180 594 209)"
+								fill="#E8E8E3"
+							></rect>
+						</svg>
+						<div className="HomeAbout__image">
 							<Image
 								src={data.items[1].image.url}
 								alt="about-me"
@@ -30,28 +50,12 @@ const HomeAbout = (props) => {
 								width={1000}
 								quality={100}
 							/>
+							<div className="HomeAbout__gradient"></div>
 						</div>
 					</div>
-					<div className={'about__content'}>
-						<div className={'about__cards'}>
-							{cardData.map((card, index) => (
-								<article key={index} className={'about__card'}>
-									{card.icon}
-									<h5>{card.title}</h5>
-									<small>{card.description}</small>
-								</article>
-							))}
-						</div>
-						<Paragraph value={text} />
-						<div className={'about__icon'}>
-							<Button
-								href={'contact'}
-								classModifier={'Button--primary'}
-								data={'Let’s make something special.'}
-								type={'scroll_link'}
-							/>
-						</div>
-					</div>
+					<p className="HomeAbout__description">
+						<span>{text}</span>
+					</p>
 				</div>
 			</section>
 		</div>
