@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import styles from './HomeServices.module.scss';
 
 import ServiceCard from 'components/pages/ServiceCard';
-import MaskText from 'components/utils/MaskText/MaskText';
+import MaskText from 'components/utilities/MaskText/MaskText';
 
 const HomeServices = (props) => {
 	const { className, variant, data, services } = props;

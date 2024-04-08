@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styles from './HomePortfolio.module.scss';
 
 import PortfolioCard from 'components/pages/PortfolioCard';
-import MaskText from 'components/utils/MaskText/MaskText';
+import MaskText from 'components/utilities/MaskText/MaskText';
 
 const HomePortfolio = (props) => {
 	const { className, variant, data, portfolio } = props;

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import styles from './HomeTestimonial.module.scss';
 import TestimonialCard from 'components/pages/TestimonialCard/TestimonialCard';
-import MaskText from 'components/utils/MaskText/MaskText';
+import MaskText from 'components/utilities/MaskText/MaskText';
 
 const HomeTestimonial = (props) => {
 	const { className, variant, data, testimonial } = props;

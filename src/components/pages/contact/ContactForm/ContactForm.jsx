@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import emailjs from 'emailjs-com';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { motion } from 'framer-motion';
 
 import { contactSchema } from 'helpers/validations';
 import { contactOptions } from 'helpers/constants';
@@ -143,7 +144,14 @@ const ContactForm = (props) => {
 							/>
 						</fieldset>
 						<button type="submit" className="contact__button">
-							Let&apos;s do it
+							<motion.div className="contact__slider">
+								<div className="contact__el">
+									<div className="contact__PerspectiveText">
+										<p>Let&apos;s Do it</p>
+										<p>Let&apos;s Do it</p>
+									</div>
+								</div>
+							</motion.div>
 						</button>
 					</form>
 				</div>

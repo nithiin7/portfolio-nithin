@@ -7,7 +7,7 @@ import { motion, useMotionValue, useSpring } from 'framer-motion';
 import styles from './HomeHeader.module.scss';
 import Logo from 'assets/images/nav-logo.svg';
 import Cursor from 'components/utilities/Cursor/Cursor';
-import MaskText from 'components/utils/MaskText/MaskText';
+import MaskText from 'components/utilities/MaskText/MaskText';
 
 const settings = {
 	damping: 100,

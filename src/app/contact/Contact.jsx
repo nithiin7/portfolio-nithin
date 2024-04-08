@@ -8,7 +8,7 @@ import ContactForm from 'components/pages/contact/ContactForm';
 import Logo from 'assets/images/nav-logo.svg';
 import styles from './Contact.module.scss';
 import Link from 'next/link';
-import MaskText from 'components/utils/MaskText/MaskText';
+import MaskText from 'components/utilities/MaskText/MaskText';
 
 const settings = {
 	damping: 100,

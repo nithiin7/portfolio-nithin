@@ -3,7 +3,7 @@ import Image from 'next/image';
 import PropTypes from 'prop-types';
 
 import styles from './HomeAbout.module.scss';
-import MaskText from 'components/utils/MaskText/MaskText';
+import MaskText from 'components/utilities/MaskText/MaskText';
 
 const HomeAbout = (props) => {
 	const { className, variant, data } = props;
