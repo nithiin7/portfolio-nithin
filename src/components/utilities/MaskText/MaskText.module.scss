@@ -1,0 +1,15 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.MaskText {
+	:global {
+		.MaskText__lineMask {
+			overflow: hidden;
+			span {
+				display: inline-block;
+				white-space: nowrap;
+				margin-right: 18px;
+			}
+		}
+	}
+}

@@ -25,28 +25,66 @@
 				padding-bottom: 1.25rem;
 				padding-left: 2.5rem;
 				padding-right: 2.5rem;
-				box-shadow: inset 0 0 0 0 rgb(232 232 227);
 				cursor: pointer;
 				border: rem(1) solid $color-secondary;
 				border-radius: 9999px;
-				transition: all ease-in 0.4s;
 				font-weight: 600;
 				letter-spacing: 0;
 				line-height: 130%;
 				text-transform: uppercase;
 				font-weight: 700;
+				overflow: hidden;
+				.contact__slider {
+					position: relative;
+					height: 100%;
+					width: 100%;
+				}
+				.contact__el {
+					height: 100%;
+					width: 100%;
+					&:nth-of-type(2) {
+						position: absolute;
+						top: 100%;
+					}
+				}
+				.contact__PerspectiveText {
+					width: 100%;
+					height: 100%;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					transition: transform 0.75s cubic-bezier(0.76, 0, 0.24, 1);
+					transform-style: preserve-3d;
+					p {
+						transition: all 0.75s cubic-bezier(0.76, 0, 0.24, 1);
+						line-height: 1;
+						&:nth-of-type(2) {
+							position: absolute;
+							transform: rotateX(-90deg) translateY(9px);
+							transform-origin: bottom center;
+							opacity: 0;
+						}
+					}
+				}
+				&:hover {
+					.contact__PerspectiveText {
+						transform: rotateX(90deg);
+						p {
+							&:nth-of-type(1) {
+								transform: translateY(-100%);
+								opacity: 0;
+							}
+							&:nth-of-type(2) {
+								opacity: 1;
+							}
+						}
+					}
+				}
 				@media #{$md} {
 					padding-top: 1.75rem;
 					padding-bottom: 1.75rem;
 					padding-left: 3rem;
 					padding-right: 3rem;
-				}
-				&:hover {
-					color: $color-secondary;
-					box-shadow: inset 400px 0 0 0 rgb(232 232 227);
-					border-color: $color-secondary;
-					background-color: rgb(232 232 227);
-					transition: all ease-in 0.4s;
 				}
 			}
 		}
@@ -95,10 +133,5 @@
 				}
 			}
 		}
-	}
-}
-
-.HomeContact__default {
-	:global {
 	}
 }

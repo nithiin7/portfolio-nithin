@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styles from './HomePortfolio.module.scss';
 
 import PortfolioCard from 'components/pages/PortfolioCard';
+import MaskText from 'components/utilities/MaskText/MaskText';
 
 const HomePortfolio = (props) => {
 	const { className, variant, data, portfolio } = props;
@@ -13,8 +14,8 @@ const HomePortfolio = (props) => {
 			} ${className}`}
 		>
 			<section id="portfolio">
-				<h2 data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
-					{data.title}
+				<h2>
+					<MaskText phrases={[data.title]} />
 				</h2>
 				<div className="portfolio__container">
 					{portfolio.map((item, index) => {

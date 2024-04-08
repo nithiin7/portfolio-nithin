@@ -3,6 +3,7 @@ import Image from 'next/image';
 import PropTypes from 'prop-types';
 
 import styles from './HomeAbout.module.scss';
+import MaskText from 'components/utilities/MaskText/MaskText';
 
 const HomeAbout = (props) => {
 	const { className, variant, data } = props;
@@ -17,7 +18,9 @@ const HomeAbout = (props) => {
 			<section id="about">
 				<div className="HomeAbout__container">
 					<div className="HomeAbout__content">
-						<h2>{data.items[0].title}</h2>
+						<h2>
+							<MaskText phrases={[data.items[0].title]} />
+						</h2>
 						<svg
 							className="HomeAbout__image-left"
 							viewBox="0 0 709 300"

@@ -8,6 +8,7 @@ import ContactForm from 'components/pages/contact/ContactForm';
 import Logo from 'assets/images/nav-logo.svg';
 import styles from './Contact.module.scss';
 import Link from 'next/link';
+import MaskText from 'components/utilities/MaskText/MaskText';
 
 const settings = {
 	damping: 100,
@@ -112,7 +113,11 @@ const Contact = () => {
 					</defs>
 				</svg>
 				<div className="Contact__header">
-					<h1>Say No More. Let&apos;s Bring your project to life</h1>
+					<h1>
+						<MaskText
+							phrases={[`Say No More. Lets Bring your project to life`]}
+						/>
+					</h1>
 				</div>
 			</section>
 			<section>

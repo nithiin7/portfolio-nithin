@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import styles from './HomeServices.module.scss';
 
 import ServiceCard from 'components/pages/ServiceCard';
+import MaskText from 'components/utilities/MaskText/MaskText';
 
 const HomeServices = (props) => {
 	const { className, variant, data, services } = props;
@@ -13,8 +14,8 @@ const HomeServices = (props) => {
 		>
 			<section id="services">
 				<div className="services__header">
-					<h2 data-aos="fade-up" data-aos-duration="1000" data-aos-once="true">
-						{data.title}
+					<h2>
+						<MaskText phrases={[data.title]} />
 					</h2>
 					<p data-aos="fade-up" data-aos-duration="1100" data-aos-once="true">
 						{data.subTitle}
