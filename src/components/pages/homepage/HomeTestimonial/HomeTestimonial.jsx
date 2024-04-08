@@ -2,7 +2,8 @@
 import PropTypes from 'prop-types';
 
 import styles from './HomeTestimonial.module.scss';
-import TestimonialCard from '../../TestimonialCard/TestimonialCard';
+import TestimonialCard from 'components/pages/TestimonialCard/TestimonialCard';
+import MaskText from 'components/utils/MaskText/MaskText';
 
 const HomeTestimonial = (props) => {
 	const { className, variant, data, testimonial } = props;
@@ -13,7 +14,9 @@ const HomeTestimonial = (props) => {
 			} ${className}`}
 		>
 			<section id="testimonials">
-				<h2>{data.title}</h2>
+				<h2>
+					<MaskText phrases={[data.title]} />
+				</h2>
 				<div className="HomeTestimonial__testimonial">
 					{testimonial.map((item, index) => {
 						return <TestimonialCard key={index} item={item} />;

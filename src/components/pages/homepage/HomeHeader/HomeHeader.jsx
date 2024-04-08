@@ -7,6 +7,7 @@ import { motion, useMotionValue, useSpring } from 'framer-motion';
 import styles from './HomeHeader.module.scss';
 import Logo from 'assets/images/nav-logo.svg';
 import Cursor from 'components/utilities/Cursor/Cursor';
+import MaskText from 'components/utils/MaskText/MaskText';
 
 const settings = {
 	damping: 100,
@@ -128,14 +129,14 @@ const HomeHeader = (props) => {
 						data-aos-once="true"
 						data-aos-delay="800"
 					>
-						<span>{data.items[0].title}</span>
-						<span>{data?.items[0].subTitle}</span>
+						<MaskText phrases={[data.items[0].title]} />
+						<MaskText phrases={[data?.items[0].subTitle]} />
 					</h1>
 					<p
 						data-aos="fade-up"
 						data-aos-duration="1200"
 						data-aos-once="true"
-						data-aos-delay="1000"
+						data-aos-delay="800"
 					>
 						A web developer & web designer propelling visions to reality.
 					</p>
