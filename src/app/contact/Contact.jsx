@@ -1,6 +1,5 @@
 'use client';
 import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import Image from 'next/image';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 
@@ -69,7 +68,7 @@ const Contact = () => {
 
 	return (
 		<div className={`${styles.Contact}`}>
-			<section>
+			<header>
 				<div className="contact__nav">
 					<motion.div
 						ref={setComponentRef}
@@ -91,6 +90,7 @@ const Contact = () => {
 					viewBox="0 0 1186 1186"
 					fill="none"
 					xmlns="http://www.w3.org/2000/svg"
+					aria-hidden="true"
 				>
 					<circle
 						cx="593"
@@ -119,20 +119,12 @@ const Contact = () => {
 						/>
 					</h1>
 				</div>
-			</section>
+			</header>
 			<section>
 				<ContactForm />
 			</section>
 		</div>
 	);
-};
-
-Contact.defaultProps = {
-	className: '',
-};
-
-Contact.propTypes = {
-	className: PropTypes.string,
 };
 
 export default Contact;

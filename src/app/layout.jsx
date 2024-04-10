@@ -19,7 +19,6 @@ export async function generateMetadata() {
 		openGraph: {
 			title: path.ogtitle,
 			description: path.description,
-			images: 'https://photos.sphereshowcase.com/tBJczsgyzUAP3woETDr31.jpg',
 		},
 	};
 }

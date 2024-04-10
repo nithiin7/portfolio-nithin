@@ -28,7 +28,6 @@
 				cursor: pointer;
 				border: rem(1) solid $color-secondary;
 				border-radius: 9999px;
-				font-weight: 600;
 				letter-spacing: 0;
 				line-height: 130%;
 				text-transform: uppercase;
@@ -113,7 +112,7 @@
 		}
 		.contact__socials {
 			max-width: 20ch;
-			h6 {
+			h3 {
 				color: $color-secondary;
 				letter-spacing: 0;
 				line-height: 130%;
