@@ -5,6 +5,7 @@ import emailjs from 'emailjs-com';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 import { contactSchema } from 'helpers/validations';
 import { contactOptions } from 'helpers/constants';
@@ -56,6 +57,11 @@ const ContactForm = (props) => {
 			);
 	};
 
+	const animate = {
+		visible: { opacity: 1, scale: 1 },
+		hidden: { opacity: 0, scale: 0 },
+	};
+
 	return (
 		<div
 			className={`${styles.ContactForm} ${
@@ -63,13 +69,20 @@ const ContactForm = (props) => {
 			} ${className}`}
 		>
 			{formSent ? (
-				<div className="contact__success">
+				<motion.div
+					className="contact__success"
+					aria-hidden={!formSent}
+					variants={animate}
+					initial={formSent ? 'hidden' : 'visible'}
+					animate={'visible'}
+				>
 					<svg
 						width="800px"
 						height="800px"
 						viewBox="0 0 24 24"
 						fill="none"
 						xmlns="http://www.w3.org/2000/svg"
+						aria-hidden="true"
 					>
 						<path
 							d="M7.29417 12.9577L10.5048 16.1681L17.6729 9"
@@ -89,7 +102,7 @@ const ContactForm = (props) => {
 					<p className="contact__text">
 						Thanks for the ping! Will get back to you soon!
 					</p>
-				</div>
+				</motion.div>
 			) : (
 				<div className="contact__container">
 					<form
@@ -146,8 +159,7 @@ const ContactForm = (props) => {
 						<button
 							type="submit"
 							className="contact__button"
-							aria-label="Contact Submit"
-							role="button"
+							aria-label="Submit"
 						>
 							<motion.div className="contact__slider">
 								<div className="contact__el">
@@ -163,10 +175,10 @@ const ContactForm = (props) => {
 			)}
 			<div className="contact__socials">
 				<div className="contact__options">
-					<h6>FURTHER ENQUIRIES OR COLLABORATION</h6>
+					<h3>FURTHER ENQUIRIES OR COLLABORATION</h3>
 					{contactOptions.map((option, index) => (
 						<div key={index} className="contact__link">
-							<a href={option.link}>{option.subtitle}</a>
+							<Link href={option.link}>{option.subtitle}</Link>
 						</div>
 					))}
 				</div>

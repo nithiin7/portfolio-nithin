@@ -6,6 +6,7 @@ import { AnimatePresence, motion, useScroll } from 'framer-motion';
 
 import styles from './Menu.module.scss';
 import BG from 'assets/images/menu-bg.svg';
+import { links, socialsMenu } from 'helpers/constants';
 
 const Menu = (props) => {
 	const { className, variant } = props;
@@ -14,48 +15,6 @@ const Menu = (props) => {
 	const [hidden, setHidden] = useState(false);
 
 	const { scrollY } = useScroll();
-
-	const links = [
-		{
-			title: 'Home',
-			href: '/',
-		},
-		{
-			title: 'Services',
-			href: '/#services',
-		},
-		{
-			title: 'Works',
-			href: '/#portfolio',
-		},
-		{
-			title: 'About',
-			href: '/#about',
-		},
-		{
-			title: 'Companies',
-			href: '/#collaborations',
-		},
-		{
-			title: 'Contact',
-			href: '/#contact',
-		},
-	];
-
-	const socials = [
-		{
-			title: 'Linkedin',
-			href: 'https://www.linkedin.com/in/nithin-p7/',
-		},
-		{
-			title: 'Instagram',
-			href: 'https://www.instagram.com/__nithiin__/',
-		},
-		{
-			title: 'Twitter',
-			href: 'https://twitter.com/_nithiin7',
-		},
-	];
 
 	const animate = {
 		initial: {
@@ -112,11 +71,11 @@ const Menu = (props) => {
 	}, []);
 
 	return (
-		<div
+		<nav
 			className={`${styles.Menu} ${styles[`Menu__${variant}`]} ${className}`}
 		>
 			<motion.div
-				aria-hidden={isMenuActive ? 'false' : 'true'}
+				aria-hidden={!isMenuActive}
 				aria-controls="menu"
 				variants={menu}
 				initial={'hidden'}
@@ -124,9 +83,8 @@ const Menu = (props) => {
 				transition={{ ease: [0.1, 0.25, 0.3, 1], duration: 0.6 }}
 			>
 				<motion.button
-					role="button"
 					aria-label="menu"
-					aria-hidden={isMenuActive ? 'false' : 'true'}
+					aria-hidden={!isMenuActive}
 					whileHover={{ scale: 0.95 }}
 					className="menu__button"
 					onClick={() => setIsMenuActive(!isMenuActive)}
@@ -148,7 +106,7 @@ const Menu = (props) => {
 								<div className="menu__background">
 									<Image src={BG} alt="background image of menu" />
 								</div>
-								<nav className="menu__nav">
+								<div className="menu__nav">
 									{links.map((link, i) => {
 										return (
 											<motion.div key={i} style={{ overflow: 'hidden' }}>
@@ -169,9 +127,9 @@ const Menu = (props) => {
 											</motion.div>
 										);
 									})}
-								</nav>
+								</div>
 								<ul className="menu__socials">
-									{socials.map((social, i) => {
+									{socialsMenu.map((social, i) => {
 										return (
 											<li key={i} style={{ overflow: 'hidden' }}>
 												<motion.div
@@ -189,6 +147,7 @@ const Menu = (props) => {
 															duration: 0.3,
 														}}
 														target="_blank"
+														rel="noopener noreferrer"
 													>
 														{social.title}
 													</motion.a>
@@ -202,7 +161,7 @@ const Menu = (props) => {
 					</AnimatePresence>
 				</motion.div>
 			</motion.div>
-		</div>
+		</nav>
 	);
 };
 

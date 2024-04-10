@@ -70,7 +70,7 @@ const HomeHeader = (props) => {
 	}, [componentRef]);
 
 	return (
-		<div
+		<header
 			className={`${styles.HomeHeader} ${
 				styles[`HomeHeader__${variant}`]
 			} ${className}`}
@@ -87,7 +87,7 @@ const HomeHeader = (props) => {
 					<Image src={Logo} alt="logo" height={100} width={100}></Image>
 				</motion.div>
 			</div>
-			<header id="home" className={'portfolio__header'}>
+			<div id="home" className={'portfolio__header'}>
 				<svg
 					width="1186"
 					height="1186"
@@ -141,9 +141,9 @@ const HomeHeader = (props) => {
 						A web developer & web designer propelling visions to reality.
 					</p>
 				</div>
-			</header>
+			</div>
 			<Cursor isHovered={isHovered} />
-		</div>
+		</header>
 	);
 };
 

@@ -29,7 +29,14 @@
 			padding: 5% 4%;
 			overflow-y: clip;
 			display: flex;
+			align-items: center;
+			justify-content: flex-start;
+		}
+		header {
 			position: relative;
+			padding: 5% 4%;
+			overflow-y: clip;
+			display: flex;
 			align-items: center;
 			justify-content: flex-start;
 			.contact__bg {

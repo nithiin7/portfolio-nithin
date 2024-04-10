@@ -26,6 +26,7 @@ const HomeAbout = (props) => {
 							viewBox="0 0 709 300"
 							fill="none"
 							xmlns="http://www.w3.org/2000/svg"
+							aria-hidden="true"
 						>
 							<rect width="709" height="300" rx="169.963" fill="#AFAF9D"></rect>
 						</svg>
@@ -34,6 +35,7 @@ const HomeAbout = (props) => {
 							viewBox="0 0 594 209"
 							fill="none"
 							xmlns="http://www.w3.org/2000/svg"
+							aria-hidden="true"
 						>
 							<rect
 								x="594"
@@ -53,7 +55,7 @@ const HomeAbout = (props) => {
 								width={1000}
 								quality={100}
 							/>
-							<div className="HomeAbout__gradient"></div>
+							<div className="HomeAbout__gradient" aria-hidden="true"></div>
 						</div>
 					</div>
 					<p className="HomeAbout__description">

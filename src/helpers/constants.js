@@ -2,6 +2,48 @@ import { FaGithub, FaBitbucket, FaLinkedinIn } from 'react-icons/fa';
 import { FiInstagram } from 'react-icons/fi';
 import { IoLogoTwitter } from 'react-icons/io';
 
+export const links = [
+	{
+		title: 'Home',
+		href: '/',
+	},
+	{
+		title: 'Services',
+		href: '/#services',
+	},
+	{
+		title: 'Works',
+		href: '/#portfolio',
+	},
+	{
+		title: 'About',
+		href: '/#about',
+	},
+	{
+		title: 'Companies',
+		href: '/#collaborations',
+	},
+	{
+		title: 'Contact',
+		href: '/#contact',
+	},
+];
+
+export const socialsMenu = [
+	{
+		title: 'Linkedin',
+		href: 'https://www.linkedin.com/in/nithin-p7/',
+	},
+	{
+		title: 'Instagram',
+		href: 'https://www.instagram.com/__nithiin__/',
+	},
+	{
+		title: 'Twitter',
+		href: 'https://twitter.com/_nithiin7',
+	},
+];
+
 export const contactOptions = [
 	{
 		subtitle: 'nithinp150@gmail.com',
