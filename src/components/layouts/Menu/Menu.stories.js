@@ -1,8 +1,8 @@
-import Navbar from './Navbar';
+import Menu from './Menu';
 
 const meta = {
-	title: 'Navbar',
-	component: Navbar,
+	title: 'Menu',
+	component: Menu,
 };
 
 export default meta;
