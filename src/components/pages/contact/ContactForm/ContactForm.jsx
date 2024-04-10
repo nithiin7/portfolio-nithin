@@ -143,7 +143,12 @@ const ContactForm = (props) => {
 								)}
 							/>
 						</fieldset>
-						<button type="submit" className="contact__button">
+						<button
+							type="submit"
+							className="contact__button"
+							aria-label="Contact Submit"
+							role="button"
+						>
 							<motion.div className="contact__slider">
 								<div className="contact__el">
 									<div className="contact__PerspectiveText">

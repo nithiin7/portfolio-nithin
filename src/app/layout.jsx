@@ -5,9 +5,9 @@ import { GoogleAnalytics } from '@next/third-parties/google';
 import 'styles/globals.scss';
 
 import Provider from './provider';
-import Navbar from 'components/layouts/Navbar';
 import Footer from 'components/layouts/Footer';
 import Curve from './transition';
+import Menu from 'components/layouts/Menu/Menu';
 
 export async function generateMetadata() {
 	const props = await loadData('home');
@@ -19,6 +19,7 @@ export async function generateMetadata() {
 		openGraph: {
 			title: path.ogtitle,
 			description: path.description,
+			images: 'https://photos.sphereshowcase.com/tBJczsgyzUAP3woETDr31.jpg',
 		},
 	};
 }
@@ -29,7 +30,7 @@ export default function RootLayout({ children }) {
 			<body>
 				<Provider>
 					<Curve>
-						<Navbar />
+						<Menu />
 						{children}
 						<Footer />
 					</Curve>

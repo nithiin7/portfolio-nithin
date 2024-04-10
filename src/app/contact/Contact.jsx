@@ -79,7 +79,7 @@ const Contact = () => {
 							zIndex: 99,
 						}}
 					>
-						<Link href={'/'}>
+						<Link href={'/'} aria-label="Back to home">
 							<Image src={Logo} alt="logo" height={100} width={100}></Image>
 						</Link>
 					</motion.div>
