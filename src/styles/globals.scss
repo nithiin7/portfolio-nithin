@@ -9,6 +9,24 @@ body {
 	::selection {
 		background: #6b645c;
 	}
+	&::before {
+		filter: url(#grainy);
+		position: fixed;
+		top: 0;
+		left: 0;
+		content: '';
+		width: 100%;
+		height: 100%;
+		z-index: 9999999999;
+		pointer-events: none;
+		opacity: 20%;
+	}
+}
+
+.grainy__filter {
+	pointer-events: none;
+	position: absolute;
+	cursor: none;
 }
 
 html.lenis {
