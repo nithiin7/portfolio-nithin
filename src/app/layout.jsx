@@ -35,6 +35,12 @@ export default function RootLayout({ children }) {
 					</Curve>
 				</Provider>
 				<GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID} />
+				<svg className="grainy__filter pointer-events-none absolute cursor-none">
+					<filter id="grainy">
+						<feTurbulence type="turbulence" baseFrequency="0.5"></feTurbulence>
+						<feColorMatrix type="saturate" values="0"></feColorMatrix>
+					</filter>
+				</svg>
 			</body>
 		</html>
 	);
