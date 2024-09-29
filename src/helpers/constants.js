@@ -25,7 +25,7 @@ export const links = [
 	},
 	{
 		title: 'Contact',
-		href: '/#contact',
+		href: '/contact',
 	},
 ];
 

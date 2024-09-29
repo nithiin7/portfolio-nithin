@@ -13,8 +13,8 @@
 				height: 75px;
 				width: 75px;
 				@media #{$md} {
-					height: 100px;
-					width: 100px;
+					height: rem(100);
+					width: rem(100);
 				}
 			}
 			@media #{$md} {

@@ -4,11 +4,11 @@
 .service-card {
 	position: sticky;
 	background-color: $color-black;
-	margin-top: 40px;
+	margin-top: rem(40);
 	margin-bottom: 10vh;
 	.service-card__header {
 		display: flex;
-		gap: 15px;
+		gap: rem(15);
 		width: 100%;
 		font-size: 2rem;
 		padding-top: 1.3rem;
@@ -18,17 +18,17 @@
 		text-wrap: balance;
 		line-height: 92.5%;
 		letter-spacing: -0.0275em;
-		border-top: 1px solid;
+		border-top: rem(1) solid;
 		border-top-color: $color-secondary;
 		h3 {
 			font-weight: 600;
 		}
 		svg {
-			height: 35px;
-			width: 35px;
+			height: rem(35);
+			width: rem(35);
 			@media #{$md} {
-				height: 50px;
-				width: 50px;
+				height: rem(50);
+				width: rem(50);
 			}
 		}
 		@media #{$md} {

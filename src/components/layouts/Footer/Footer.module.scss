@@ -83,26 +83,26 @@
 		vertical-align: middle;
 	}
 	.footer__music {
-		border-radius: 50px;
+		border-radius: rem(50);
 		background-color: rgb(57, 54, 50);
-		width: 380px;
-		padding: 16px 42px 16px 20px;
+		width: rem(380);
+		padding: rem(16) rem(42) rem(16) rem(20);
 		display: flex;
 		flex-direction: row;
-		gap: 20px;
-		margin-bottom: 30px;
+		gap: rem(20);
+		margin-bottom: rem(30);
 		align-items: center;
 		box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-		margin-top: 80px;
+		margin-top: rem(80);
 		.music__title {
 			text-align: left;
 			h2 {
-				font-size: 15px;
+				font-size: rem(15);
 				font-weight: 400;
 				color: $color-primary;
 			}
 			span {
-				font-size: 16px;
+				font-size: rem(16);
 				font-weight: 600;
 				a {
 					color: $color-white;

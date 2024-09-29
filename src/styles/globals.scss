@@ -1,28 +1,5 @@
 @use './shared' as *;
 
-html {
-	scroll-behavior: smooth;
-}
-
-body {
-	-webkit-tap-highlight-color: transparent;
-	::selection {
-		background: #6b645c;
-	}
-	&::before {
-		filter: url(#grainy);
-		position: fixed;
-		top: 0;
-		left: 0;
-		content: '';
-		width: 100%;
-		height: 100%;
-		z-index: 9999999999;
-		pointer-events: none;
-		opacity: 20%;
-	}
-}
-
 .grainy__filter {
 	pointer-events: none;
 	position: absolute;
@@ -76,5 +53,30 @@ html.lenis {
 		font-family: 'Familjen Grotesk', sans-serif;
 		line-height: 92.5%;
 		font-weight: 700;
+	}
+}
+
+.not-found {
+	color: rgb(107, 100, 92);
+	height: calc(100vh - 439px);
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	justify-content: center;
+	padding: 10px;
+	text-align: center;
+	h1 {
+		font-weight: 700;
+		font-size: 24px;
+		@media #{$md} {
+			font-size: 40px;
+		}
+	}
+	h3 {
+		margin-bottom: 25px;
+		font-size: 12px;
+		@media #{$md} {
+			font-size: 20px;
+		}
 	}
 }
