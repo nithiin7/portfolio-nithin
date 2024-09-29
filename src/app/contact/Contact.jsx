@@ -1,12 +1,12 @@
 'use client';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 
-import ContactForm from 'components/pages/contact/ContactForm';
 import Logo from 'assets/images/nav-logo.svg';
 import styles from './Contact.module.scss';
-import Link from 'next/link';
+import ContactForm from 'components/pages/contact/ContactForm';
 import MaskText from 'components/utilities/MaskText/MaskText';
 
 const settings = {

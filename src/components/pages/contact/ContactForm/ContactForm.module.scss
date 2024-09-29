@@ -5,11 +5,11 @@
 	:global {
 		display: flex;
 		flex-direction: column-reverse;
-		gap: 50px;
+		gap: rem(50);
 		width: 100%;
 		@media #{$md} {
 			flex-direction: row;
-			gap: 100px;
+			gap: rem(100);
 		}
 		.contact__container {
 			width: 100%;
@@ -27,7 +27,7 @@
 				padding-right: 2.5rem;
 				cursor: pointer;
 				border: rem(1) solid $color-secondary;
-				border-radius: 9999px;
+				border-radius: rem(9999);
 				letter-spacing: 0;
 				line-height: 130%;
 				text-transform: uppercase;
@@ -93,11 +93,11 @@
 			align-items: center;
 			justify-content: center;
 			text-align: center;
-			gap: 25px;
+			gap: rem(25);
 			width: 50%;
 			svg {
-				height: 150px;
-				width: 150px;
+				height: rem(150);
+				width: rem(150);
 			}
 			p {
 				color: $color-secondary;
@@ -105,7 +105,7 @@
 				line-height: 130%;
 				text-transform: uppercase;
 				font-weight: 700;
-				font-size: 18px;
+				font-size: rem(18);
 				text-wrap: balance;
 				max-width: 30ch;
 			}
@@ -118,9 +118,9 @@
 				line-height: 130%;
 				text-transform: uppercase;
 				font-weight: 700;
-				font-size: 18px;
+				font-size: rem(18);
 				text-wrap: balance;
-				margin-bottom: 20px;
+				margin-bottom: rem(20);
 			}
 			.contact__link {
 				a {

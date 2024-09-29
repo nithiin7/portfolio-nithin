@@ -5,10 +5,10 @@
 	:global {
 		.TextArea__input {
 			width: 100%;
-			border: 2px solid $color-primary-variant;
+			border: rem(2) solid $color-primary-variant;
 			resize: none;
 			border-radius: 0.75rem;
-			border-width: 1px;
+			border-width: rem(1);
 			border-color: rgb(191 191 177);
 			background-color: transparent;
 			padding: 0.75rem 0.25rem 0.75rem 1.25rem;
@@ -16,8 +16,8 @@
 			font-weight: 600;
 			letter-spacing: 0;
 			color: rgb(140 140 115);
-			outline: 2px solid transparent;
-			outline-offset: 2px;
+			outline: rem(2) solid transparent;
+			outline-offset: rem(2);
 			transition-property: all;
 			transition-duration: 0.3s;
 			&::placeholder {
@@ -40,7 +40,7 @@
 			}
 		}
 		.TextArea__errors {
-			height: 20px;
+			height: rem(20);
 		}
 		.TextArea__form-errors {
 			color: rgb(158 31 31);

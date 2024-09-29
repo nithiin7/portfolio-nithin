@@ -34,7 +34,6 @@ PortfolioCard.propTypes = {
 	key: PropTypes.number.isRequired,
 	image: PropTypes.string.isRequired,
 	title: PropTypes.string.isRequired,
-	github: PropTypes.string.isRequired,
 	demo: PropTypes.string.isRequired,
 	tech: PropTypes.array.isRequired,
 	year: PropTypes.string.isRequired,

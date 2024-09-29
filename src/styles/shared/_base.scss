@@ -15,13 +15,29 @@ html {
 	scroll-behavior: smooth;
 }
 
-::-webkit-scrollbar {
-	display: none;
-}
-
 body {
 	font-family: $font-primary;
 	background: $color-primary;
 	color: $color-white;
 	line-height: 1.7;
+	-webkit-tap-highlight-color: transparent;
+	::selection {
+		background: #6b645c;
+	}
+	&::before {
+		filter: url(#grainy);
+		position: fixed;
+		top: 0;
+		left: 0;
+		content: '';
+		width: 100%;
+		height: 100%;
+		z-index: 9999999999;
+		pointer-events: none;
+		opacity: 20%;
+	}
+}
+
+::-webkit-scrollbar {
+	display: none;
 }
