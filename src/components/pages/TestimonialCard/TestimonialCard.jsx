@@ -12,13 +12,7 @@ const TestimonialCard = (props) => {
 				styles[`TestimonialCard__${variant}`]
 			} ${className}`}
 		>
-			<Image
-				className="TestimonialCard__background"
-				src={Testimonial}
-				alt="testimonial"
-				height={1000}
-				width={1000}
-			/>
+			<Testimonial />
 			<blockquote>{item.review}</blockquote>
 			<div className="TestimonialCard__reviewer">
 				<div className="TestimonialCard__img">

@@ -1,6 +1,5 @@
 'use client';
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useLenis } from '@studio-freight/react-lenis';
 import { Link as ScrollLink } from 'react-scroll';
@@ -39,7 +38,7 @@ function Footer() {
 				<div className={styles['footer__contact']}>
 					<span>Got a project? Need an unfair advantage?</span>
 					<Link href={'/contact'}>
-						<Image src={Contact} height={500} width={2000} alt="contact" />
+						<Contact />
 					</Link>
 				</div>
 			)}

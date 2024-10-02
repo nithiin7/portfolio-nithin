@@ -1,11 +1,10 @@
 'use client';
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 import PropTypes from 'prop-types';
 import { AnimatePresence, motion, useScroll } from 'framer-motion';
 
 import styles from './Menu.module.scss';
-import BG from 'assets/images/menu-bg.svg';
+import MenuBackground from 'assets/images/menu-bg.svg';
 import { links, socialsMenu } from 'helpers/constants';
 
 const Menu = (props) => {
@@ -104,7 +103,7 @@ const Menu = (props) => {
 								exit={'closed'}
 							>
 								<div className="menu__background">
-									<Image src={BG} alt="background image of menu" />
+									<MenuBackground />
 								</div>
 								<div className="menu__nav">
 									{links.map((link, i) => {

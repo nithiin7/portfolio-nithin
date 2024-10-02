@@ -1,6 +1,5 @@
 'use client';
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 import PropTypes from 'prop-types';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 
@@ -84,7 +83,7 @@ const HomeHeader = (props) => {
 						zIndex: 99,
 					}}
 				>
-					<Image src={Logo} alt="logo" height={100} width={100}></Image>
+					<Logo />
 				</motion.div>
 			</div>
 			<div id="home" className={'portfolio__header'}>
