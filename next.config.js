@@ -17,6 +17,32 @@ const nextConfig = {
 		domains: ['images.ctfassets.net'],
 	},
 	optimizeFonts: false,
+	webpack(config) {
+		config.module.rules.push({
+			test: /\.svg$/,
+			use: [
+				{
+					loader: '@svgr/webpack',
+					options: {
+						svgo: true,
+						svgoConfig: {
+							plugins: [
+								{
+									name: 'removeViewBox',
+									active: false,
+								},
+								{
+									name: 'removeDimensions',
+									active: false,
+								},
+							],
+						},
+					},
+				},
+			],
+		});
+		return config;
+	},
 };
 
 module.exports = nextConfig;

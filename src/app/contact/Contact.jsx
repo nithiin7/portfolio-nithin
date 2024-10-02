@@ -1,7 +1,6 @@
 'use client';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 
 import Logo from 'assets/images/nav-logo.svg';
@@ -79,7 +78,7 @@ const Contact = () => {
 						}}
 					>
 						<Link href={'/'} aria-label="Back to home">
-							<Image src={Logo} alt="logo" height={100} width={100}></Image>
+							<Logo />
 						</Link>
 					</motion.div>
 				</div>

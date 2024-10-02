@@ -1,6 +1,5 @@
 'use client';
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 import PropTypes from 'prop-types';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 
@@ -16,9 +15,7 @@ const settings = {
 	intensity: 0.1,
 };
 
-const HomeHeader = (props) => {
-	const { className, variant, data } = props;
-
+const HomeHeader = ({ className = '', data = {} }) => {
 	const [componentRef, setComponentRef] = useState(null);
 	const [isHovered, setIsHovered] = useState(false);
 
@@ -70,11 +67,7 @@ const HomeHeader = (props) => {
 	}, [componentRef]);
 
 	return (
-		<header
-			className={`${styles.HomeHeader} ${
-				styles[`HomeHeader__${variant}`]
-			} ${className}`}
-		>
+		<header className={`${styles.HomeHeader} ${className}`}>
 			<div className="header__nav">
 				<motion.div
 					ref={setComponentRef}
@@ -84,7 +77,7 @@ const HomeHeader = (props) => {
 						zIndex: 99,
 					}}
 				>
-					<Image src={Logo} alt="logo" height={100} width={100}></Image>
+					<Logo />
 				</motion.div>
 			</div>
 			<div id="home" className={'portfolio__header'}>
@@ -147,14 +140,7 @@ const HomeHeader = (props) => {
 	);
 };
 
-HomeHeader.defaultProps = {
-	variant: 'default',
-	className: '',
-	data: {},
-};
-
 HomeHeader.propTypes = {
-	variant: PropTypes.string,
 	className: PropTypes.string,
 	data: PropTypes.object,
 };
