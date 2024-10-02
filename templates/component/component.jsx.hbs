@@ -2,16 +2,11 @@ import PropTypes from 'prop-types';
 import styles from './{{pascalCase name}}.module.scss';
 
 const {{pascalCase name}} = props => {
-  const { className, variant } = props;
+  const { className = "", variant = "" } = props;
   return (
     <div className={`${styles.{{pascalCase name}} } ${styles[`{{pascalCase name}}__${variant}`]} ${className}`}>
     </div>
   );
-};
-
-{{pascalCase name}}.defaultProps = {
-  variant: 'default',
-  className: '',
 };
 
 {{pascalCase name}}.propTypes = {

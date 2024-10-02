@@ -1,5 +1,9 @@
 @use './shared' as *;
 
+.text-light {
+	color: $color-light;
+}
+
 .grainy__filter {
 	pointer-events: none;
 	position: absolute;
