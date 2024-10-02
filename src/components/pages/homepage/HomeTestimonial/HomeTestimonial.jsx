@@ -5,14 +5,9 @@ import styles from './HomeTestimonial.module.scss';
 import TestimonialCard from 'components/pages/TestimonialCard/TestimonialCard';
 import MaskText from 'components/utilities/MaskText/MaskText';
 
-const HomeTestimonial = (props) => {
-	const { className, variant, data, testimonial } = props;
+const HomeTestimonial = ({ className = '', data = {}, testimonial = {} }) => {
 	return (
-		<div
-			className={`${styles.HomeTestimonial} ${
-				styles[`HomeTestimonial__${variant}`]
-			} ${className}`}
-		>
+		<div className={`${styles.HomeTestimonial} ${className}`}>
 			<section id="testimonials">
 				<h2>
 					<MaskText phrases={[data.title]} />
@@ -27,15 +22,7 @@ const HomeTestimonial = (props) => {
 	);
 };
 
-HomeTestimonial.defaultProps = {
-	variant: 'default',
-	className: '',
-	data: {},
-	testimonial: {},
-};
-
 HomeTestimonial.propTypes = {
-	variant: PropTypes.string,
 	className: PropTypes.string,
 	data: PropTypes.object,
 	testimonial: PropTypes.array,

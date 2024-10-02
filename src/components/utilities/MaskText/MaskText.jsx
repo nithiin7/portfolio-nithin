@@ -5,9 +5,7 @@ import { useInView } from 'react-intersection-observer';
 
 import styles from './MaskText.module.scss';
 
-const MaskText = (props) => {
-	const { className, variant, phrases } = props;
-
+const MaskText = ({ className = '', variant = '', phrases = [] }) => {
 	const animation = {
 		initial: { y: '100%' },
 		enter: {
@@ -52,12 +50,6 @@ const MaskText = (props) => {
 			</motion.div>
 		</div>
 	);
-};
-
-MaskText.defaultProps = {
-	variant: 'default',
-	className: '',
-	phrases: [],
 };
 
 MaskText.propTypes = {

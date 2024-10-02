@@ -5,14 +5,9 @@ import styles from './HomePortfolio.module.scss';
 import PortfolioCard from 'components/pages/PortfolioCard';
 import MaskText from 'components/utilities/MaskText/MaskText';
 
-const HomePortfolio = (props) => {
-	const { className, variant, data, portfolio } = props;
+const HomePortfolio = ({ className = '', data = {}, portfolio = {} }) => {
 	return (
-		<div
-			className={`${styles.HomePortfolio} ${
-				styles[`HomePortfolio__${variant}`]
-			} ${className}`}
-		>
+		<div className={`${styles.HomePortfolio} ${className}`}>
 			<section id="portfolio">
 				<h2>
 					<MaskText phrases={[data.title]} />
@@ -37,15 +32,7 @@ const HomePortfolio = (props) => {
 	);
 };
 
-HomePortfolio.defaultProps = {
-	variant: 'default',
-	className: '',
-	data: {},
-	portfolio: {},
-};
-
 HomePortfolio.propTypes = {
-	variant: PropTypes.string,
 	className: PropTypes.string,
 	data: PropTypes.object,
 	portfolio: PropTypes.array,

@@ -7,9 +7,7 @@ import styles from './Menu.module.scss';
 import MenuBackground from 'assets/images/menu-bg.svg';
 import { links, socialsMenu } from 'helpers/constants';
 
-const Menu = (props) => {
-	const { className, variant } = props;
-
+const Menu = ({ className = '', variant = 'default' }) => {
 	const [isMenuActive, setIsMenuActive] = useState(false);
 	const [hidden, setHidden] = useState(false);
 
@@ -162,11 +160,6 @@ const Menu = (props) => {
 			</motion.div>
 		</nav>
 	);
-};
-
-Menu.defaultProps = {
-	variant: 'default',
-	className: '',
 };
 
 Menu.propTypes = {

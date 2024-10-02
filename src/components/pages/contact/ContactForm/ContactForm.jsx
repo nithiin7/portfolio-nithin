@@ -15,9 +15,7 @@ import styles from './ContactForm.module.scss';
 import TextInput from 'components/utilities/TextInput';
 import TextArea from 'components/utilities/TextArea';
 
-const ContactForm = (props) => {
-	const { className, variant } = props;
-
+const ContactForm = ({ className = '', variant = 'default' }) => {
 	const [formSent, setFormSent] = useState(false);
 	const form = useRef();
 
@@ -150,7 +148,7 @@ const ContactForm = (props) => {
 										type="text"
 										placeholder="Hey! Let's connect."
 										label="Message"
-										rows="7"
+										rows={7}
 										errors={[errors?.message?.message]}
 									/>
 								)}
@@ -187,16 +185,9 @@ const ContactForm = (props) => {
 	);
 };
 
-ContactForm.defaultProps = {
-	variant: 'default',
-	className: '',
-	data: {},
-};
-
 ContactForm.propTypes = {
 	variant: PropTypes.string,
 	className: PropTypes.string,
-	data: PropTypes.object,
 };
 
 export default ContactForm;

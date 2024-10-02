@@ -5,9 +5,7 @@ import { motion } from 'framer-motion';
 
 import styles from './Button.module.scss';
 
-const Button = (props) => {
-	const { text, variant, className } = props;
-
+const Button = ({ text = '', className = '', variant = '' }) => {
 	return (
 		<button
 			className={`${styles.Button} ${
@@ -29,11 +27,6 @@ const Button = (props) => {
 };
 
 Button.displayName = 'Button';
-
-Button.defaultProps = {
-	className: '',
-	variant: '',
-};
 
 Button.propTypes = {
 	text: PropTypes.string,

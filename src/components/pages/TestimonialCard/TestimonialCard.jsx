@@ -4,8 +4,7 @@ import Testimonial from 'assets/images/testimonial.svg';
 import styles from './TestimonialCard.module.scss';
 import Image from 'next/image';
 
-const TestimonialCard = (props) => {
-	const { className, variant, item } = props;
+const TestimonialCard = ({ className = '', variant = '', item = {} }) => {
 	return (
 		<div
 			className={`${styles.TestimonialCard} ${
@@ -32,12 +31,6 @@ const TestimonialCard = (props) => {
 			</div>
 		</div>
 	);
-};
-
-TestimonialCard.defaultProps = {
-	variant: 'default',
-	className: '',
-	item: {},
 };
 
 TestimonialCard.propTypes = {

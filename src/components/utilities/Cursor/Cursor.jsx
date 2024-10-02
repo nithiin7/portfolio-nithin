@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 
 import styles from './Cursor.module.scss';
 
-const Cursor = (props) => {
-	const { className, variant, isHovered } = props;
-
+const Cursor = ({ className = '', variant = '', isHovered = false }) => {
 	const mouse = useRef({ x: 0, y: 0 });
 	const circle = useRef();
 
@@ -68,12 +66,6 @@ const Cursor = (props) => {
 			/>
 		</div>
 	);
-};
-
-Cursor.defaultProps = {
-	variant: 'default',
-	className: '',
-	isHovered: false,
 };
 
 Cursor.propTypes = {

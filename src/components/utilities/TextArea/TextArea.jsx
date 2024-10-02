@@ -2,60 +2,63 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './TextArea.module.scss';
 
-const TextArea = React.forwardRef((props, ref) => {
-	const {
-		name,
-		variant,
-		className,
-		placeholder,
-		value,
-		label,
-		rows,
-		onChange,
-		onBlur,
-		disabled,
-		errors,
-	} = props;
-
-	return (
-		<div
-			className={`${styles.TextArea} ${
-				styles[`TextArea__${variant}`]
-			} ${className}`}
-		>
-			{label ? (
-				<div className="TextArea__label">
-					<label>{label}</label>
-					<span>*</span>
-				</div>
-			) : (
-				''
-			)}
-			<textarea
-				className="TextArea__input"
-				id={name}
-				name={name}
-				value={value}
-				rows={rows}
-				ref={ref}
-				onChange={onChange}
-				onBlur={onBlur}
-				placeholder={placeholder}
-				aria-label={value}
-				disabled={disabled}
-			/>
-			<div className="TextArea__errors">
-				{errors && errors.length > 0 && (
-					<div className={'TextArea__form-errors'}>
-						{errors.map((error, index) => (
-							<p key={index}>{error}</p>
-						))}
+const TextArea = React.forwardRef(
+	(
+		{
+			name = '',
+			variant = 'default',
+			className = '',
+			placeholder = '',
+			value = '',
+			label = '',
+			rows = 7,
+			onChange = () => {},
+			onBlur = () => {},
+			disabled = false,
+			errors = [],
+		},
+		ref
+	) => {
+		return (
+			<div
+				className={`${styles.TextArea} ${
+					styles[`TextArea__${variant}`]
+				} ${className}`}
+			>
+				{label ? (
+					<div className="TextArea__label">
+						<label>{label}</label>
+						<span>*</span>
 					</div>
+				) : (
+					''
 				)}
+				<textarea
+					className="TextArea__input"
+					id={name}
+					name={name}
+					value={value}
+					rows={rows}
+					ref={ref}
+					onChange={onChange}
+					onBlur={onBlur}
+					placeholder={placeholder}
+					aria-label={value}
+					disabled={disabled}
+				/>
+				<div className="TextArea__errors">
+					{errors && errors.length > 0 && (
+						<div className={'TextArea__form-errors'}>
+							{errors.map((error, index) => (
+								<p key={index}>{error}</p>
+							))}
+						</div>
+					)}
+				</div>
 			</div>
-		</div>
-	);
-});
+		);
+	}
+);
 
 TextArea.displayName = 'TextArea';
 

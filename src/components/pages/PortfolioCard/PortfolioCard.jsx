@@ -3,9 +3,9 @@ import Link from 'next/link';
 import PropTypes from 'prop-types';
 import styles from './PortfolioCard.module.scss';
 
-const PortfolioCard = ({ key, image, title, demo, tech, year }) => {
+const PortfolioCard = ({ image, title, demo, tech, year }) => {
 	return (
-		<Link href={demo} key={key} className={styles['portfolio-card__item']}>
+		<Link href={demo} className={styles['portfolio-card__item']}>
 			<div className={styles['portfolio-card__image']}>
 				<Image
 					src={image}
@@ -31,7 +31,6 @@ const PortfolioCard = ({ key, image, title, demo, tech, year }) => {
 };
 
 PortfolioCard.propTypes = {
-	key: PropTypes.number.isRequired,
 	image: PropTypes.string.isRequired,
 	title: PropTypes.string.isRequired,
 	demo: PropTypes.string.isRequired,
