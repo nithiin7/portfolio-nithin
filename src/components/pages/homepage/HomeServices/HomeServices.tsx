@@ -1,9 +1,20 @@
+import { ServiceHeader, ServiceItem } from 'types/service';
 import styles from './HomeServices.module.scss';
 
 import ServiceCard from 'components/pages/ServiceCard';
 import MaskText from 'components/utilities/MaskText/MaskText';
 
-const HomeServices = ({ className = '', data = {}, services = [] }) => {
+interface HomeServicesProps {
+	className?: string;
+	data: ServiceHeader;
+	services: ServiceItem[];
+}
+
+const HomeServices: React.FC<HomeServicesProps> = ({
+	className = '',
+	data = { title: '', subTitle: '' },
+	services = [],
+}) => {
 	return (
 		<div className={`${styles.HomeServices} ${className}`}>
 			<section id="services">
@@ -16,8 +27,8 @@ const HomeServices = ({ className = '', data = {}, services = [] }) => {
 					</p>
 				</div>
 				<div data-aos="fade-up" data-aos-duration="1200" data-aos-once="true">
-					{services?.map((item, index) => {
-						if (item.__typename == 'Section') {
+					{services.map((item, index) => {
+						if (item.__typename === 'Section') {
 							return (
 								<ServiceCard
 									key={index}
@@ -28,6 +39,7 @@ const HomeServices = ({ className = '', data = {}, services = [] }) => {
 								/>
 							);
 						}
+						return null;
 					})}
 				</div>
 			</section>

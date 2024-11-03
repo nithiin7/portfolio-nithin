@@ -2,7 +2,21 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styles from './PortfolioCard.module.scss';
 
-const PortfolioCard = ({ image, title, demo, tech, year }) => {
+interface PortfolioCardProps {
+	image: string;
+	title: string;
+	demo: string;
+	tech: string[];
+	year?: string;
+}
+
+const PortfolioCard: React.FC<PortfolioCardProps> = ({
+	image,
+	title,
+	demo,
+	tech,
+	year,
+}) => {
 	return (
 		<Link href={demo} className={styles['portfolio-card__item']}>
 			<div className={styles['portfolio-card__image']}>
@@ -18,11 +32,13 @@ const PortfolioCard = ({ image, title, demo, tech, year }) => {
 				<h3>{title}</h3>
 				<div className={styles['portfolio-card__items']}>
 					<span className={styles['portfolio-card__techs']}>
-						{tech.map((tech, index) => (
-							<span key={index}>{tech}</span>
+						{tech.map((techItem, index) => (
+							<span key={index}>{techItem}</span>
 						))}
 					</span>
-					<span className={styles['portfolio-card__year']}>{year}</span>
+					{year && (
+						<span className={styles['portfolio-card__year']}>{year}</span>
+					)}
 				</div>
 			</div>
 		</Link>

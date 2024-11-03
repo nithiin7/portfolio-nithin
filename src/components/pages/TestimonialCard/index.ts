@@ -1,2 +1,1 @@
-import TestimonialCard from './TestimonialCard';
-export default TestimonialCard;
+export { default } from './TestimonialCard';

@@ -7,6 +7,16 @@ import Logo from 'assets/images/nav-logo.svg';
 import Cursor from 'components/utilities/Cursor/Cursor';
 import MaskText from 'components/utilities/MaskText/MaskText';
 
+interface HomeHeaderProps {
+	className?: string;
+	data?: {
+		items: {
+			title?: string;
+			subTitle?: string;
+		}[];
+	};
+}
+
 const settings = {
 	damping: 100,
 	stiffness: 600,
@@ -14,8 +24,11 @@ const settings = {
 	intensity: 0.1,
 };
 
-const HomeHeader = ({ className = '', data = {} }) => {
-	const [componentRef, setComponentRef] = useState(null);
+const HomeHeader: React.FC<HomeHeaderProps> = ({
+	className = '',
+	data = { items: [] },
+}) => {
+	const [componentRef, setComponentRef] = useState<null | HTMLDivElement>(null);
 	const [isHovered, setIsHovered] = useState(false);
 
 	const x = useMotionValue(0);
@@ -29,7 +42,7 @@ const HomeHeader = ({ className = '', data = {} }) => {
 	const springY = useSpring(y, springConfig);
 
 	useEffect(() => {
-		const calculateDistance = (e) => {
+		const calculateDistance = (e: MouseEvent) => {
 			if (componentRef) {
 				const rect = componentRef.getBoundingClientRect();
 				const centerX = rect.left + rect.width / 2;
@@ -54,7 +67,7 @@ const HomeHeader = ({ className = '', data = {} }) => {
 			}
 		};
 
-		const handleMouseMove = (e) => {
+		const handleMouseMove = (e: MouseEvent) => {
 			calculateDistance(e);
 		};
 
@@ -121,8 +134,8 @@ const HomeHeader = ({ className = '', data = {} }) => {
 						data-aos-once="true"
 						data-aos-delay="800"
 					>
-						<MaskText phrases={[data.items[0].title]} />
-						<MaskText phrases={[data?.items[0].subTitle]} />
+						<MaskText phrases={[data.items[0]?.title || '']} />
+						<MaskText phrases={[data.items[0]?.subTitle || '']} />
 					</h1>
 					<p
 						data-aos="fade-up"

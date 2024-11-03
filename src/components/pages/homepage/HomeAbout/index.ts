@@ -1,2 +1,1 @@
-import HomeAbout from './HomeAbout';
-export default HomeAbout;
+export { default } from './HomeAbout';

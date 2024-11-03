@@ -1,7 +1,21 @@
 import React from 'react';
 import styles from './TextArea.module.scss';
 
-const TextArea = React.forwardRef(
+interface TextAreaProps {
+	name?: string;
+	variant?: 'default' | 'alternative';
+	className?: string;
+	placeholder?: string;
+	value?: string;
+	label?: string;
+	rows?: number;
+	onChange?: React.ChangeEventHandler<HTMLTextAreaElement>;
+	onBlur?: React.FocusEventHandler<HTMLTextAreaElement>;
+	disabled?: boolean;
+	errors?: string[] | undefined;
+}
+
+const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
 	(
 		{
 			name = '',
@@ -24,13 +38,11 @@ const TextArea = React.forwardRef(
 					styles[`TextArea__${variant}`]
 				} ${className}`}
 			>
-				{label ? (
+				{label && (
 					<div className="TextArea__label">
-						<label>{label}</label>
+						<label htmlFor={name}>{label}</label>
 						<span>*</span>
 					</div>
-				) : (
-					''
 				)}
 				<textarea
 					className="TextArea__input"
@@ -46,8 +58,8 @@ const TextArea = React.forwardRef(
 					disabled={disabled}
 				/>
 				<div className="TextArea__errors">
-					{errors && errors.length > 0 && (
-						<div className={'TextArea__form-errors'}>
+					{errors.length > 0 && (
+						<div className="TextArea__form-errors">
 							{errors.map((error, index) => (
 								<p key={index}>{error}</p>
 							))}
@@ -60,19 +72,5 @@ const TextArea = React.forwardRef(
 );
 
 TextArea.displayName = 'TextArea';
-
-TextArea.defaultProps = {
-	className: '',
-	name: '',
-	value: '',
-	label: '',
-	rows: 7,
-	errors: [],
-	onChange: () => {},
-	onBlur: () => {},
-	variant: 'default',
-	placeholder: '',
-	disabled: false,
-};
 
 export default TextArea;

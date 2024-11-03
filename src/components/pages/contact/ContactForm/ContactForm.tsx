@@ -1,7 +1,7 @@
 'use client';
 import { useRef, useState } from 'react';
 import emailjs from 'emailjs-com';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -14,15 +14,29 @@ import styles from './ContactForm.module.scss';
 import TextInput from 'components/utilities/TextInput';
 import TextArea from 'components/utilities/TextArea';
 
-const ContactForm = ({ className = '', variant = 'default' }) => {
+interface ContactFormData {
+	name: string;
+	email: string;
+	message: string;
+}
+
+interface ContactFormProps {
+	className?: string;
+	variant?: 'default' | 'alternative';
+}
+
+const ContactForm: React.FC<ContactFormProps> = ({
+	className = '',
+	variant = 'default',
+}) => {
 	const [formSent, setFormSent] = useState(false);
-	const form = useRef();
+	const form = useRef<HTMLFormElement>(null);
 
 	const {
 		formState: { errors },
 		control,
 		handleSubmit,
-	} = useForm({
+	} = useForm<ContactFormData>({
 		resolver: yupResolver(contactSchema),
 		defaultValues: {
 			name: '',
@@ -31,15 +45,17 @@ const ContactForm = ({ className = '', variant = 'default' }) => {
 		},
 	});
 
-	const onSubmit = (data, e) => {
-		e.preventDefault();
+	const onSubmit: SubmitHandler<ContactFormData> = (data, e) => {
+		if (e) {
+			e.preventDefault();
+		}
 
 		emailjs
 			.sendForm(
-				process.env.NEXT_PUBLIC_SERVICE_ID,
-				process.env.NEXT_PUBLIC_TEMPLATE_ID,
-				form.current,
-				process.env.NEXT_PUBLIC_EMAILJS_ID
+				process.env.NEXT_PUBLIC_SERVICE_ID!,
+				process.env.NEXT_PUBLIC_TEMPLATE_ID!,
+				form.current!,
+				process.env.NEXT_PUBLIC_EMAILJS_ID!
 			)
 			.then(
 				() => {
@@ -116,7 +132,9 @@ const ContactForm = ({ className = '', variant = 'default' }) => {
 										{...field}
 										type="text"
 										placeholder="Nithin"
-										errors={[errors?.name?.message]}
+										errors={
+											errors?.name?.message ? [errors?.name?.message] : []
+										}
 										label={'Your Name'}
 									/>
 								)}
@@ -132,7 +150,9 @@ const ContactForm = ({ className = '', variant = 'default' }) => {
 										type="text"
 										label={'Your Email'}
 										placeholder="nithinp150@gmail.com"
-										errors={[errors?.email?.message]}
+										errors={
+											errors?.email?.message ? [errors?.email?.message] : []
+										}
 									/>
 								)}
 							/>
@@ -144,11 +164,12 @@ const ContactForm = ({ className = '', variant = 'default' }) => {
 								render={({ field }) => (
 									<TextArea
 										{...field}
-										type="text"
 										placeholder="Hey! Let's connect."
 										label="Message"
 										rows={7}
-										errors={[errors?.message?.message]}
+										errors={
+											errors?.message?.message ? [errors?.message?.message] : []
+										}
 									/>
 								)}
 							/>

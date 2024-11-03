@@ -32,7 +32,10 @@ export interface ContentsCollection {
 
 export interface Content {
 	__typename: string;
+	title: string;
+	subTitle: string;
 	contentsCollection: ContentsCollection;
+	list: string[];
 }
 
 export interface ImageData {

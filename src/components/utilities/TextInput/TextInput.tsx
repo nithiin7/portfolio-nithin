@@ -1,7 +1,21 @@
 import React from 'react';
 import styles from './TextInput.module.scss';
 
-const TextInput = React.forwardRef(
+interface TextInputProps {
+	name?: string;
+	variant?: 'default' | 'alternative';
+	className?: string;
+	type?: string;
+	placeholder?: string;
+	value?: string;
+	label?: string;
+	onChange?: React.ChangeEventHandler<HTMLInputElement>;
+	onBlur?: React.FocusEventHandler<HTMLInputElement>;
+	disabled?: boolean;
+	errors?: string[] | undefined;
+}
+
+const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
 	(
 		{
 			name = '',
@@ -24,13 +38,11 @@ const TextInput = React.forwardRef(
 					styles[`TextInput__${variant}`]
 				} ${className}`}
 			>
-				{label ? (
+				{label && (
 					<div className="TextInput__label">
-						<label>{label}</label>
+						<label htmlFor={name}>{label}</label>
 						<span>*</span>
 					</div>
-				) : (
-					''
 				)}
 				<input
 					className="TextInput__input"
@@ -46,8 +58,8 @@ const TextInput = React.forwardRef(
 					disabled={disabled}
 				/>
 				<div className="TextInput__errors">
-					{errors && errors.length > 0 && (
-						<div className={'TextInput__form-errors'}>
+					{errors.length > 0 && (
+						<div className="TextInput__form-errors">
 							{errors.map((error, index) => (
 								<p key={index}>{error}</p>
 							))}
@@ -60,19 +72,5 @@ const TextInput = React.forwardRef(
 );
 
 TextInput.displayName = 'TextInput';
-
-TextInput.defaultProps = {
-	className: '',
-	name: '',
-	value: '',
-	label: '',
-	type: 'text',
-	errors: [],
-	onChange: () => {},
-	onBlur: () => {},
-	variant: 'default',
-	placeholder: '',
-	disabled: false,
-};
 
 export default TextInput;

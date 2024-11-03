@@ -4,17 +4,27 @@ import WhiteRabbitLogo from 'assets/logos/white-rabbit.svg';
 import SpotifyLogo from 'assets/logos/spotify.svg';
 import GameAwardsLogo from 'assets/logos/game-awards.svg';
 
+interface HomeCollaborationsProps {
+	className?: string;
+	data?: {
+		title?: string;
+	};
+}
+
 const logoComponents = [
 	{ Component: WhiteRabbitLogo, name: 'WhiteRabbitLogo' },
 	{ Component: SpotifyLogo, name: 'SpotifyLogo' },
 	{ Component: GameAwardsLogo, name: 'GameAwardsLogo' },
 ];
 
-const HomeCollaborations = ({ className = '', data = {} }) => (
+const HomeCollaborations: React.FC<HomeCollaborationsProps> = ({
+	className = '',
+	data = {},
+}) => (
 	<div className={`${styles.HomeCollaborations} ${className}`}>
 		<section id="collaborations">
 			<h2>
-				<MaskText phrases={[data.title]} />
+				<MaskText phrases={[data.title || '']} />
 			</h2>
 			<div className="portfolio__collaborations">
 				{logoComponents.map(({ Component, name }) => (

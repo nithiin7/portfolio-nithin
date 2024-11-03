@@ -1,2 +1,1 @@
-import Cursor from './Cursor';
-export default Cursor;
+export { default } from './Cursor';
