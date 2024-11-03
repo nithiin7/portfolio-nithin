@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import styles from './HomeServices.module.scss';
 
 import ServiceCard from 'components/pages/ServiceCard';
@@ -34,12 +33,6 @@ const HomeServices = ({ className = '', data = {}, services = [] }) => {
 			</section>
 		</div>
 	);
-};
-
-HomeServices.propTypes = {
-	className: PropTypes.string,
-	data: PropTypes.object,
-	services: PropTypes.array,
 };
 
 export default HomeServices;

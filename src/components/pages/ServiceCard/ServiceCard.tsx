@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import styles from './ServiceCard.module.scss';
 
 const ServiceCard = ({ description, heading, list, i }) => {
@@ -51,13 +50,6 @@ const ServiceCard = ({ description, heading, list, i }) => {
 			</div>
 		</div>
 	);
-};
-
-ServiceCard.propTypes = {
-	heading: PropTypes.string.isRequired,
-	description: PropTypes.string.isRequired,
-	list: PropTypes.array.isRequired,
-	i: PropTypes.number.isRequired,
 };
 
 export default ServiceCard;

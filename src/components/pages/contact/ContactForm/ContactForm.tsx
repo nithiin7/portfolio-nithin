@@ -1,6 +1,5 @@
 'use client';
 import { useRef, useState } from 'react';
-import PropTypes from 'prop-types';
 import emailjs from 'emailjs-com';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -183,11 +182,6 @@ const ContactForm = ({ className = '', variant = 'default' }) => {
 			</div>
 		</div>
 	);
-};
-
-ContactForm.propTypes = {
-	variant: PropTypes.string,
-	className: PropTypes.string,
 };
 
 export default ContactForm;

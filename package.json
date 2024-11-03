@@ -1,6 +1,6 @@
 {
 	"name": "portfolio-nithin",
-	"version": "1.0.0",
+	"version": "2.0.0",
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
@@ -36,7 +36,6 @@
 		"gsap": "^3.12.5",
 		"loadash": "^1.0.0",
 		"next": "^14.0.3",
-		"prop-types": "^15.8.1",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"react-hook-form": "^7.48.2",

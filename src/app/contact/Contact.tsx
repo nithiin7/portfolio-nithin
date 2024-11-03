@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, MouseEvent } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 
 import Logo from 'assets/images/nav-logo.svg';
@@ -8,15 +8,22 @@ import styles from './Contact.module.scss';
 import ContactForm from 'components/pages/contact/ContactForm';
 import MaskText from 'components/utilities/MaskText/MaskText';
 
-const settings = {
+interface Settings {
+	damping: number;
+	stiffness: number;
+	maxDistance: number;
+	intensity: number;
+}
+
+const settings: Settings = {
 	damping: 100,
 	stiffness: 600,
 	maxDistance: 300,
 	intensity: 0.1,
 };
 
-const Contact = () => {
-	const [componentRef, setComponentRef] = useState(null);
+const Contact: React.FC = () => {
+	const [componentRef, setComponentRef] = useState<HTMLDivElement | null>(null);
 
 	const x = useMotionValue(0);
 	const y = useMotionValue(0);
@@ -29,7 +36,7 @@ const Contact = () => {
 	const springY = useSpring(y, springConfig);
 
 	useEffect(() => {
-		const calculateDistance = (e) => {
+		const calculateDistance = (e: MouseEvent) => {
 			if (componentRef) {
 				const rect = componentRef.getBoundingClientRect();
 				const centerX = rect.left + rect.width / 2;
@@ -54,19 +61,25 @@ const Contact = () => {
 			}
 		};
 
-		const handleMouseMove = (e) => {
+		const handleMouseMove = (e: MouseEvent) => {
 			calculateDistance(e);
 		};
 
-		document.addEventListener('mousemove', handleMouseMove);
+		document.addEventListener(
+			'mousemove',
+			handleMouseMove as unknown as EventListener
+		);
 
 		return () => {
-			document.removeEventListener('mousemove', handleMouseMove);
+			document.removeEventListener(
+				'mousemove',
+				handleMouseMove as unknown as EventListener
+			);
 		};
-	}, [componentRef]);
+	}, [componentRef, x, y]);
 
 	return (
-		<div className={`${styles.Contact}`}>
+		<div className={styles.Contact}>
 			<header>
 				<div className="contact__nav">
 					<motion.div
@@ -77,7 +90,7 @@ const Contact = () => {
 							zIndex: 99,
 						}}
 					>
-						<Link href={'/'} aria-label="Back to home">
+						<Link href="/" aria-label="Back to home">
 							<Logo />
 						</Link>
 					</motion.div>
@@ -114,7 +127,7 @@ const Contact = () => {
 				<div className="Contact__header">
 					<h1>
 						<MaskText
-							phrases={[`Say No More. Lets Bring your project to life`]}
+							phrases={['Say No More. Lets Bring your project to life']}
 						/>
 					</h1>
 				</div>

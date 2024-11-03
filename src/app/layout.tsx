@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import loadData from 'helpers/contentful';
 import { GoogleAnalytics } from '@next/third-parties/google';
 
@@ -65,7 +64,3 @@ export default function RootLayout({ children }) {
 		</html>
 	);
 }
-
-RootLayout.propTypes = {
-	children: PropTypes.object.isRequired,
-};

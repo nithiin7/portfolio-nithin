@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import PropTypes from 'prop-types';
 import styles from './PortfolioCard.module.scss';
 
 const PortfolioCard = ({ image, title, demo, tech, year }) => {
@@ -28,14 +27,6 @@ const PortfolioCard = ({ image, title, demo, tech, year }) => {
 			</div>
 		</Link>
 	);
-};
-
-PortfolioCard.propTypes = {
-	image: PropTypes.string.isRequired,
-	title: PropTypes.string.isRequired,
-	demo: PropTypes.string.isRequired,
-	tech: PropTypes.array.isRequired,
-	year: PropTypes.string.isRequired,
 };
 
 export default PortfolioCard;

@@ -1,6 +1,5 @@
 'use client';
 import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 
 import styles from './HomeHeader.module.scss';
@@ -138,11 +137,6 @@ const HomeHeader = ({ className = '', data = {} }) => {
 			<Cursor isHovered={isHovered} />
 		</header>
 	);
-};
-
-HomeHeader.propTypes = {
-	className: PropTypes.string,
-	data: PropTypes.object,
 };
 
 export default HomeHeader;

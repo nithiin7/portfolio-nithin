@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 import styles from './HomeCollaborations.module.scss';
 import MaskText from 'components/utilities/MaskText/MaskText';
 import WhiteRabbitLogo from 'assets/logos/white-rabbit.svg';
@@ -28,13 +26,5 @@ const HomeCollaborations = ({ className = '', data = {} }) => (
 		</section>
 	</div>
 );
-
-HomeCollaborations.propTypes = {
-	variant: PropTypes.string,
-	className: PropTypes.string,
-	data: PropTypes.shape({
-		title: PropTypes.string.isRequired,
-	}),
-};
 
 export default HomeCollaborations;

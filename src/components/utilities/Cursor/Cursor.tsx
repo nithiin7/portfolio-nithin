@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import PropTypes from 'prop-types';
 
 import styles from './Cursor.module.scss';
 
@@ -66,12 +65,6 @@ const Cursor = ({ className = '', variant = '', isHovered = false }) => {
 			/>
 		</div>
 	);
-};
-
-Cursor.propTypes = {
-	variant: PropTypes.string,
-	className: PropTypes.string,
-	isHovered: PropTypes.bool,
 };
 
 export default Cursor;

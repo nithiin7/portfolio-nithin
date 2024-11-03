@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 export async function generateMetadata() {
 	return {
 		title: 'Contact | Nithin',
@@ -14,7 +12,3 @@ export async function generateMetadata() {
 export default function ContactLayout({ children }) {
 	return <>{children}</>;
 }
-
-ContactLayout.propTypes = {
-	children: PropTypes.node,
-};

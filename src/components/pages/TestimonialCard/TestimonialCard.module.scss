@@ -41,7 +41,7 @@
 			width: fit-content;
 			display: flex;
 			.TestimonialCard__img {
-				border-radius: 9999px;
+				border-radius: rem(9999);
 				overflow: hidden;
 				flex-shrink: 0;
 				width: 3.5rem;

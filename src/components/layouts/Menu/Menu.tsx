@@ -1,6 +1,5 @@
 'use client';
 import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { AnimatePresence, motion, useScroll } from 'framer-motion';
 
 import styles from './Menu.module.scss';
@@ -160,11 +159,6 @@ const Menu = ({ className = '', variant = 'default' }) => {
 			</motion.div>
 		</nav>
 	);
-};
-
-Menu.propTypes = {
-	variant: PropTypes.string,
-	className: PropTypes.string,
 };
 
 export default Menu;

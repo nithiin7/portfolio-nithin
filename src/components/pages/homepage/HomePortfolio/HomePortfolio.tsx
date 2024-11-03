@@ -1,5 +1,4 @@
 'use client';
-import PropTypes from 'prop-types';
 import styles from './HomePortfolio.module.scss';
 
 import PortfolioCard from 'components/pages/PortfolioCard';
@@ -30,12 +29,6 @@ const HomePortfolio = ({ className = '', data = {}, portfolio = {} }) => {
 			</section>
 		</div>
 	);
-};
-
-HomePortfolio.propTypes = {
-	className: PropTypes.string,
-	data: PropTypes.object,
-	portfolio: PropTypes.array,
 };
 
 export default HomePortfolio;

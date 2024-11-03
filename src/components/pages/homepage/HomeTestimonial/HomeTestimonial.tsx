@@ -1,5 +1,4 @@
 'use client';
-import PropTypes from 'prop-types';
 
 import styles from './HomeTestimonial.module.scss';
 import TestimonialCard from 'components/pages/TestimonialCard/TestimonialCard';
@@ -20,12 +19,6 @@ const HomeTestimonial = ({ className = '', data = {}, testimonial = {} }) => {
 			</section>
 		</div>
 	);
-};
-
-HomeTestimonial.propTypes = {
-	className: PropTypes.string,
-	data: PropTypes.object,
-	testimonial: PropTypes.array,
 };
 
 export default HomeTestimonial;

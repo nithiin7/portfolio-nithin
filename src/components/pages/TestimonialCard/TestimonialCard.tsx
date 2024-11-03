@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 import Testimonial from 'assets/images/testimonial.svg';
 import styles from './TestimonialCard.module.scss';
 import Image from 'next/image';
@@ -31,12 +29,6 @@ const TestimonialCard = ({ className = '', variant = '', item = {} }) => {
 			</div>
 		</div>
 	);
-};
-
-TestimonialCard.propTypes = {
-	variant: PropTypes.string,
-	className: PropTypes.string,
-	item: PropTypes.object,
 };
 
 export default TestimonialCard;

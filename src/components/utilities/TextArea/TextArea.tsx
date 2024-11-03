@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styles from './TextArea.module.scss';
 
 const TextArea = React.forwardRef(
@@ -74,20 +73,6 @@ TextArea.defaultProps = {
 	variant: 'default',
 	placeholder: '',
 	disabled: false,
-};
-
-TextArea.propTypes = {
-	name: PropTypes.string,
-	value: PropTypes.string,
-	variant: PropTypes.string,
-	className: PropTypes.string,
-	rows: PropTypes.number,
-	label: PropTypes.string,
-	onChange: PropTypes.func,
-	onBlur: PropTypes.func,
-	placeholder: PropTypes.string,
-	errors: PropTypes.array,
-	disabled: PropTypes.bool,
 };
 
 export default TextArea;

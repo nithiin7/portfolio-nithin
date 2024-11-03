@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styles from './TextInput.module.scss';
 
 const TextInput = React.forwardRef(
@@ -74,20 +73,6 @@ TextInput.defaultProps = {
 	variant: 'default',
 	placeholder: '',
 	disabled: false,
-};
-
-TextInput.propTypes = {
-	name: PropTypes.string,
-	type: PropTypes.string,
-	value: PropTypes.string,
-	label: PropTypes.string,
-	variant: PropTypes.string,
-	className: PropTypes.string,
-	onChange: PropTypes.func,
-	onBlur: PropTypes.func,
-	placeholder: PropTypes.string,
-	errors: PropTypes.array,
-	disabled: PropTypes.bool,
 };
 
 export default TextInput;

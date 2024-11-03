@@ -1,6 +1,5 @@
 'use client';
 import React from 'react';
-import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
 
 import styles from './Button.module.scss';
@@ -27,11 +26,5 @@ const Button = ({ text = '', className = '', variant = '' }) => {
 };
 
 Button.displayName = 'Button';
-
-Button.propTypes = {
-	text: PropTypes.string,
-	className: PropTypes.string,
-	variant: PropTypes.string,
-};
 
 export default Button;
