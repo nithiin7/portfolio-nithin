@@ -1,4 +1,6 @@
-export async function generateMetadata() {
+import { Metadata } from 'next';
+
+export async function generateMetadata(): Promise<Metadata> {
 	return {
 		title: 'Contact | Nithin',
 		description: "Let's connect and bring about interesting opportunities",
@@ -9,6 +11,12 @@ export async function generateMetadata() {
 	};
 }
 
-export default function ContactLayout({ children }) {
+interface ContactLayoutProps {
+	children: React.ReactNode;
+}
+
+export default function ContactLayout({
+	children,
+}: ContactLayoutProps): JSX.Element {
 	return <>{children}</>;
 }

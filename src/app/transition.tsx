@@ -1,9 +1,19 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, Variants } from 'framer-motion';
 import { text, curve, translate } from '../helpers/animations';
 
-const anim = (variants) => {
+interface CurveProps {
+	children: React.ReactNode;
+	backgroundColor?: string;
+}
+
+interface Dimensions {
+	width: number | null;
+	height: number | null;
+}
+
+const anim = (variants: Variants) => {
 	return {
 		variants,
 		initial: 'initial',
@@ -12,8 +22,11 @@ const anim = (variants) => {
 	};
 };
 
-export default function Curve({ children, backgroundColor }) {
-	const [dimensions, setDimensions] = useState({
+export default function Curve({
+	children,
+	backgroundColor,
+}: CurveProps): JSX.Element {
+	const [dimensions, setDimensions] = useState<Dimensions>({
 		width: null,
 		height: null,
 	});
@@ -48,14 +61,22 @@ export default function Curve({ children, backgroundColor }) {
 						Welcome.
 					</motion.p>
 				</motion.div>
-				{dimensions.width != null && <SVG {...dimensions} />}
+				{dimensions.width != null && dimensions.height != null && (
+					<SVG width={dimensions.width} height={dimensions.height} />
+				)}
+
 				{children}
 			</div>
 		</AnimatePresence>
 	);
 }
 
-const SVG = ({ height, width }) => {
+interface SVGProps {
+	height: number;
+	width: number;
+}
+
+const SVG = ({ height, width }: SVGProps): JSX.Element => {
 	const initialPath = `
         M0 300 
         Q${width / 2} 0 ${width} 300
@@ -73,7 +94,7 @@ const SVG = ({ height, width }) => {
     `;
 
 	return (
-		<motion.svg className={'motion-svg'} {...anim(translate)}>
+		<motion.svg className="motion-svg" {...anim(translate)}>
 			<motion.path {...anim(curve(initialPath, targetPath))} />
 		</motion.svg>
 	);

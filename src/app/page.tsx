@@ -5,10 +5,10 @@ import HomeHeader from 'components/pages/homepage/HomeHeader';
 import HomeAbout from 'components/pages/homepage/HomeAbout';
 import HomeServices from 'components/pages/homepage/HomeServices';
 import HomePortfolio from 'components/pages/homepage/HomePortfolio';
-import HomeCollaborations from '../components/pages/homepage/HomeCollaborations/HomeCollaborations';
+import HomeCollaborations from 'components/pages/homepage/HomeCollaborations/HomeCollaborations';
 import HomeTestimonial from 'components/pages/homepage/HomeTestimonial';
 
-export default async function Home() {
+export default async function Home(): Promise<JSX.Element> {
 	const props = await loadData('home');
 	const path = props?.data.pageCollection.items[0];
 

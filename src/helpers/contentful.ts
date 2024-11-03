@@ -1,16 +1,7 @@
-import { initializeApollo } from '/lib/apolloClient';
+import { initializeApollo } from '../../lib/apolloClient';
 import { GET_PAGE } from 'queries';
 import { ApolloQueryResult } from '@apollo/client';
-
-interface PageData {
-	// Define the structure of the data returned by GET_PAGE here
-	// For example:
-	// page: {
-	//     id: string;
-	//     title: string;
-	//     content: string;
-	// };
-}
+import { PageData } from 'types/contentful';
 
 const loadData = async (page: string): Promise<ApolloQueryResult<PageData>> => {
 	const apolloClient = initializeApollo();

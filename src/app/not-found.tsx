@@ -1,6 +1,7 @@
 import Button from 'components/utilities/Button/Button';
+import React from 'react';
 
-export default function Custom404() {
+export default function Custom404(): JSX.Element {
 	return (
 		<div className="not-found">
 			<h1>There&apos;s NOTHING here...</h1>

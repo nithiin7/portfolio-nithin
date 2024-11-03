@@ -1,0 +1,43 @@
+export interface PageData {
+	pageCollection: PageCollection;
+}
+
+export interface PageCollection {
+	__typename: string;
+	items: ContentItem[];
+}
+
+export interface ContentItem {
+	__typename: string;
+	title: string;
+	description: string;
+	ogtitle: string;
+	sectionCollection: SectionCollection;
+}
+
+export interface SectionCollection {
+	__typename: string;
+	items: SectionItem[];
+}
+
+export interface SectionItem {
+	__typename: string;
+	contentsCollection: ContentsCollection;
+}
+
+export interface ContentsCollection {
+	__typename: string;
+	items: Content[];
+}
+
+export interface Content {
+	__typename: string;
+	contentsCollection: ContentsCollection;
+}
+
+export interface ImageData {
+	__typename: string;
+	url: string;
+	title?: string;
+	description?: string;
+}
