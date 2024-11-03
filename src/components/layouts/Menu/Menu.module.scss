@@ -19,18 +19,18 @@
 			background-color: rgb(191 191 177);
 			height: 5rem;
 			width: 5rem;
-			gap: 5px;
+			gap: rem(5);
 			span {
 				width: 2.25rem;
-				height: 2px;
+				height: rem(2);
 				background-color: $color-black;
 				pointer-events: none;
 				transition: all cubic-bezier(0.16, 1, 0.3, 1) 0.5s;
 				&.active {
-					transform: translate(0, 6px) rotate(45deg) skewX(0) skewY(0) scaleX(1)
-						scaleY(1);
+					transform: translate(0, rem(6)) rotate(45deg) skewX(0) skewY(0)
+						scaleX(1) scaleY(1);
 					&:nth-of-type(2) {
-						transform: translate(0, 0px) rotate(-45deg) skewX(0) skewY(0)
+						transform: translate(0, rem(0)) rotate(-45deg) skewX(0) skewY(0)
 							scaleX(1) scaleY(1);
 					}
 				}
@@ -70,7 +70,7 @@
 		.menu__nav {
 			display: flex;
 			flex-direction: column;
-			gap: 10px;
+			gap: rem(10);
 			padding-left: 5rem;
 			padding-right: 5rem;
 			font-size: 3.5rem;

@@ -1,0 +1,16 @@
+import { FC } from 'react';
+
+import styles from './{{pascalCase name}}.module.scss';
+
+interface {{pascalCase name}} {
+	className?: string;
+}
+
+const {{pascalCase name}}: FC<{{pascalCase name}}> = ({className = ""}) => {
+  return (
+    <div className={`${styles.{{pascalCase name}} }`}>
+    </div>
+  );
+};
+
+export default {{pascalCase name}};

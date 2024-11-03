@@ -14,11 +14,11 @@
 				display: inline-block;
 			}
 			svg {
-				height: 75px;
-				width: 75px;
+				height: rem(75);
+				width: rem(75);
 				@media #{$md} {
-					height: 100px;
-					width: 100px;
+					height: rem(100);
+					width: rem(100);
 				}
 			}
 			@media #{$md} {
