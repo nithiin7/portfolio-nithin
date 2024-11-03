@@ -69,9 +69,28 @@ export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
 					href="/favicon-16x16.png"
 				/>
 				<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+				<link
+					rel="preload"
+					href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+					as="style"
+				/>
+				<link
+					rel="preload"
+					href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400..700;1,400..700&display=swap"
+					as="style"
+				/>
+				<noscript>
+					<link
+						rel="stylesheet"
+						href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+					/>
+					<link
+						rel="stylesheet"
+						href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400..700;1,400..700&display=swap"
+					/>
+				</noscript>
 				<meta name="msapplication-TileColor" content="#da532c" />
 				<meta name="theme-color" content="#ffffff" />
-				{/* Add any other meta tags for SEO */}
 			</head>
 			<body>
 				<Provider>

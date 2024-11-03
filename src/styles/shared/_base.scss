@@ -38,6 +38,18 @@ body {
 	}
 }
 
+:focus {
+	outline: 2px solid #ff5722;
+	outline-offset: 2px;
+}
+
+button:focus,
+input:focus,
+a:focus {
+	outline: none;
+	box-shadow: 0 0 0 2px rgba(255, 87, 34, 0.5);
+}
+
 ::-webkit-scrollbar {
 	display: none;
 }

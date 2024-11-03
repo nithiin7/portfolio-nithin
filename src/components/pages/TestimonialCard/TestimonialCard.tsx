@@ -32,10 +32,9 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
 					<Image
 						src={item.avatar.url}
 						alt="Avatar"
-						width={1000}
-						height={1000}
-						priority
-						quality={100}
+						width={60}
+						height={60}
+						quality={90}
 					/>
 				</div>
 				<div className="TestimonialCard__info">
