@@ -23,9 +23,9 @@
 			width: 100%;
 			display: flex;
 			flex-direction: column;
-			gap: 100px;
+			gap: rem(100);
 			.Collaborations__companies {
-				height: 100px;
+				height: rem(100);
 				width: 100%;
 				svg {
 					height: 100%;

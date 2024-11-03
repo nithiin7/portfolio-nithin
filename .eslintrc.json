@@ -7,29 +7,67 @@
 	},
 	"extends": [
 		"eslint:recommended",
-		"prettier",
+		"plugin:@typescript-eslint/recommended",
 		"plugin:react/recommended",
-		"plugin:storybook/recommended"
+		"plugin:import/recommended",
+		"plugin:import/typescript",
+		"plugin:prettier/recommended"
 	],
+	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
-		"requireConfigFile": false,
-		"ecmaVersion": 2020,
+		"ecmaVersion": 12,
 		"sourceType": "module",
 		"ecmaFeatures": {
 			"jsx": true
 		}
 	},
-	"plugins": ["react", "prettier"],
+	"plugins": [
+		"react",
+		"prettier",
+		"@typescript-eslint",
+		"import",
+		"unused-imports"
+	],
 	"rules": {
-		"react/prop-types": "error",
-		"react/react-in-jsx-scope": "off",
-		"react/jsx-props-no-spreading": "off",
-		"react/require-default-props": [
-			"error",
+		"@typescript-eslint/no-explicit-any": "error",
+		"@typescript-eslint/explicit-function-return-type": [
+			"warn",
 			{
-				"ignoreFunctionalComponents": true
+				"allowExpressions": true,
+				"allowTypedFunctionExpressions": true
 			}
 		],
+		"@typescript-eslint/consistent-type-definitions": ["error", "interface"],
+		"@typescript-eslint/no-unused-vars": [
+			"warn",
+			{ "argsIgnorePattern": "^_" }
+		],
+		"import/order": [
+			"error",
+			{
+				"groups": [
+					"builtin",
+					"external",
+					"internal",
+					["parent", "sibling", "index"]
+				],
+				"newlines-between": "always",
+				"alphabetize": { "order": "asc", "caseInsensitive": true }
+			}
+		],
+		"import/no-default-export": "error",
+		"unused-imports/no-unused-imports": "error",
+		"unused-imports/no-unused-vars": [
+			"warn",
+			{
+				"vars": "all",
+				"varsIgnorePattern": "^_",
+				"args": "after-used",
+				"argsIgnorePattern": "^_"
+			}
+		],
+		"semi": ["error", "always"],
+		"quotes": ["error", "single", { "avoidEscape": true }],
 		"prettier/prettier": [
 			"error",
 			{
@@ -41,11 +79,18 @@
 				"singleQuote": true,
 				"endOfLine": "lf"
 			}
-		]
+		],
+		"react/prop-types": "off"
 	},
 	"settings": {
 		"react": {
 			"version": "detect"
+		},
+		"import/resolver": {
+			"typescript": {
+				"alwaysTryTypes": true,
+				"project": "./"
+			}
 		}
 	}
 }

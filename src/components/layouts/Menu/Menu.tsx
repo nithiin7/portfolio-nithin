@@ -1,0 +1,177 @@
+'use client';
+import { useEffect, useRef, useState } from 'react';
+import { AnimatePresence, motion, useScroll } from 'framer-motion';
+import MenuBackground from 'assets/images/menu-bg.svg';
+import { links, socialsMenu } from 'constants/index';
+
+import styles from './Menu.module.scss';
+
+export interface MenuProps {
+	className?: string;
+	variant?: 'default' | 'alternative';
+}
+
+const Menu = ({ className = '', variant = 'default' }: MenuProps) => {
+	const [isMenuActive, setIsMenuActive] = useState<boolean>(false);
+	const [hidden, setHidden] = useState<boolean>(false);
+
+	const prevScrollYRef = useRef(0);
+
+	const { scrollY } = useScroll();
+
+	const animate = {
+		initial: {
+			opacity: 0,
+			y: '100%',
+		},
+		enter: (i: number) => ({
+			opacity: 1,
+			y: '0',
+			transition: { delay: 0.5 + i * 0.1, ease: [0.76, 0, 0.24, 1] },
+		}),
+		exit: {
+			opacity: 0,
+		},
+	};
+
+	const menu = {
+		visible: { opacity: 1, scale: 1 },
+		hidden: { opacity: 0, scale: 0 },
+	};
+
+	const variants = {
+		open: {
+			width: '36rem',
+			transition: { duration: 0.75, ease: [0.76, 0, 0.24, 1] },
+			opacity: 1,
+		},
+		closed: {
+			width: 0,
+			transition: { duration: 0.75, ease: [0.76, 0, 0.24, 1] },
+			opacity: 0,
+		},
+		exit: {
+			opacity: 0,
+			transition: { duration: 0.75, ease: [0.76, 0, 0.24, 1] },
+		},
+	};
+
+	useEffect(() => {
+		const handleScroll = () => {
+			const currentScrollY = scrollY.get();
+			const prevScrollY = prevScrollYRef.current;
+
+			if (currentScrollY < prevScrollY) {
+				setHidden(false);
+			} else if (currentScrollY > 300 && currentScrollY > prevScrollY) {
+				setHidden(true);
+				setIsMenuActive(false);
+			}
+
+			prevScrollYRef.current = currentScrollY;
+		};
+
+		window.addEventListener('scroll', handleScroll);
+
+		return () => {
+			window.removeEventListener('scroll', handleScroll);
+		};
+	}, [scrollY]);
+
+	return (
+		<nav
+			className={`${styles.Menu} ${styles[`Menu__${variant}`]} ${className}`}
+		>
+			<motion.div
+				aria-hidden={!isMenuActive}
+				aria-controls="menu"
+				variants={menu}
+				initial={'hidden'}
+				animate={hidden ? 'visible' : 'hidden'}
+				transition={{ ease: [0.1, 0.25, 0.3, 1], duration: 0.6 }}
+			>
+				<motion.button
+					aria-label="menu"
+					aria-hidden={hidden && !isMenuActive}
+					tabIndex={hidden ? -1 : 0}
+					whileHover={{ scale: 0.95 }}
+					className="menu__button"
+					onClick={() => setIsMenuActive(!isMenuActive)}
+					transition={{ ease: [0.1, 0.25, 0.3, 1], duration: 0.3 }}
+				>
+					<span className={isMenuActive ? 'active' : ''}></span>
+					<span className={isMenuActive ? 'active' : ''}></span>
+				</motion.button>
+				<motion.div className="menu__container">
+					<AnimatePresence>
+						{isMenuActive && (
+							<motion.div
+								className="menu__sub-container"
+								variants={variants}
+								animate={isMenuActive ? 'open' : 'closed'}
+								initial={'closed'}
+								exit={'closed'}
+							>
+								<div className="menu__background">
+									<MenuBackground />
+								</div>
+								<div className="menu__nav">
+									{links.map((link, i) => {
+										return (
+											<motion.div key={i} style={{ overflow: 'hidden' }}>
+												<motion.div
+													custom={i}
+													variants={animate}
+													initial={'initial'}
+													exit={'exit'}
+													animate={'enter'}
+												>
+													<motion.a
+														whileHover={{ left: '15px' }}
+														href={link.href}
+													>
+														{link.title}
+													</motion.a>
+												</motion.div>
+											</motion.div>
+										);
+									})}
+								</div>
+								<ul className="menu__socials">
+									{socialsMenu.map((social, i) => {
+										return (
+											<li key={i} style={{ overflow: 'hidden' }}>
+												<motion.div
+													custom={i}
+													variants={animate}
+													initial={'initial'}
+													exit={'exit'}
+													animate={'enter'}
+												>
+													<motion.a
+														whileHover={{ left: '15px' }}
+														href={social.href}
+														transition={{
+															ease: [0.1, 0.25, 0.3, 1],
+															duration: 0.3,
+														}}
+														target="_blank"
+														rel="noopener noreferrer"
+													>
+														{social.title}
+													</motion.a>
+												</motion.div>
+											</li>
+										);
+									})}
+								</ul>
+							</motion.div>
+						)}
+					</AnimatePresence>
+				</motion.div>
+			</motion.div>
+		</nav>
+	);
+};
+
+export default Menu;

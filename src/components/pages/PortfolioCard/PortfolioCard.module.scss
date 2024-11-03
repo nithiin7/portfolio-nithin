@@ -33,7 +33,7 @@
 		justify-content: space-between;
 		flex-wrap: wrap;
 		margin-top: 0.75rem;
-		gap: 15px;
+		gap: rem(15);
 		h3 {
 			color: rgb(221 221 213);
 		}
@@ -55,9 +55,9 @@
 			span {
 				padding-left: 0.75rem;
 				padding-right: 0.75rem;
-				border: 1px solid rgb(162 158 154);
-				border-width: 1px;
-				border-radius: 9999px;
+				border: rem(1) solid rgb(162 158 154);
+				border-width: rem(1);
+				border-radius: rem(9999);
 				color: rgb(162 158 154);
 				text-transform: uppercase;
 				font-weight: 500;
@@ -70,8 +70,8 @@
 			padding-left: 0.75rem;
 			padding-right: 0.75rem;
 			background-color: rgb(162 158 154);
-			border: 1px solid rgb(162 158 154);
-			border-radius: 9999px;
+			border: rem(1) solid rgb(162 158 154);
+			border-radius: rem(9999);
 			height: fit-content;
 			display: flex;
 			align-items: center;

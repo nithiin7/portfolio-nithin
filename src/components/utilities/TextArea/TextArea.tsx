@@ -1,0 +1,76 @@
+import React from 'react';
+import styles from './TextArea.module.scss';
+
+interface TextAreaProps {
+	name?: string;
+	variant?: 'default' | 'alternative';
+	className?: string;
+	placeholder?: string;
+	value?: string;
+	label?: string;
+	rows?: number;
+	onChange?: React.ChangeEventHandler<HTMLTextAreaElement>;
+	onBlur?: React.FocusEventHandler<HTMLTextAreaElement>;
+	disabled?: boolean;
+	errors?: string[] | undefined;
+}
+
+const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
+	(
+		{
+			name = '',
+			variant = 'default',
+			className = '',
+			placeholder = '',
+			value = '',
+			label = '',
+			rows = 7,
+			onChange = () => {},
+			onBlur = () => {},
+			disabled = false,
+			errors = [],
+		},
+		ref
+	) => {
+		return (
+			<div
+				className={`${styles.TextArea} ${
+					styles[`TextArea__${variant}`]
+				} ${className}`}
+			>
+				{label && (
+					<div className="TextArea__label">
+						<label htmlFor={name}>{label}</label>
+						<span>*</span>
+					</div>
+				)}
+				<textarea
+					className="TextArea__input"
+					id={name}
+					name={name}
+					value={value}
+					rows={rows}
+					ref={ref}
+					onChange={onChange}
+					onBlur={onBlur}
+					placeholder={placeholder}
+					aria-label={value}
+					disabled={disabled}
+				/>
+				<div className="TextArea__errors">
+					{errors.length > 0 && (
+						<div className="TextArea__form-errors">
+							{errors.map((error, index) => (
+								<p key={index}>{error}</p>
+							))}
+						</div>
+					)}
+				</div>
+			</div>
+		);
+	}
+);
+
+TextArea.displayName = 'TextArea';
+
+export default TextArea;
