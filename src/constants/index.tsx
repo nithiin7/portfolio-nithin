@@ -1,38 +1,11 @@
+import React from 'react';
+import { Song } from 'types/song';
+import { Social } from 'types/social';
+import { FooterLink, LinkItem } from 'types/utils';
+
 import { FaGithub, FaBitbucket, FaLinkedinIn } from 'react-icons/fa';
 import { FiInstagram } from 'react-icons/fi';
 import { IoLogoTwitter } from 'react-icons/io';
-import React from 'react';
-
-type Social = {
-	link: string;
-	title: string;
-	icon: React.ReactNode;
-};
-
-type LinkItem = {
-	title: string;
-	href: string;
-};
-
-type SocialMenuItem = {
-	title: string;
-	href: string;
-};
-
-type ContactOption = {
-	subtitle: string;
-	link: string;
-};
-
-type FooterLink = {
-	key: string;
-	href: string;
-};
-
-type Song = {
-	name: string;
-	link: string;
-};
 
 export const links: LinkItem[] = [
 	{ title: 'Home', href: '/' },
@@ -43,13 +16,13 @@ export const links: LinkItem[] = [
 	{ title: 'Contact', href: '/contact' },
 ];
 
-export const socialsMenu: SocialMenuItem[] = [
+export const socialsMenu: LinkItem[] = [
 	{ title: 'Linkedin', href: 'https://www.linkedin.com/in/nithin-p7/' },
 	{ title: 'Instagram', href: 'https://www.instagram.com/__nithiin__/' },
 	{ title: 'Twitter', href: 'https://twitter.com/_nithiin7' },
 ];
 
-export const contactOptions: ContactOption[] = [
+export const contactOptions: Contact[] = [
 	{ subtitle: 'nithinp150@gmail.com', link: 'mailto:nithinp150@gmail.com' },
 	{
 		subtitle: '+91-9645018007',

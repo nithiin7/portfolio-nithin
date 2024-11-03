@@ -59,6 +59,7 @@
 		"@types/aos": "^3.0.7",
 		"@types/node": "^22.8.1",
 		"@types/react": "^18.3.12",
+		"@types/react-scroll": "^1.8.10",
 		"eslint": "^9.13.0",
 		"eslint-config-airbnb": "^18.2.1",
 		"eslint-config-next": "^14.0.3",

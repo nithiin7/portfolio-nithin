@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
-import { text, curve, translate } from '../helpers/animations';
+import { text, curve, translate } from 'helpers/animations';
 
 interface CurveProps {
 	children: React.ReactNode;

@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { Settings } from 'types/anim';
 
 import styles from './HomeHeader.module.scss';
 import Logo from 'assets/images/nav-logo.svg';
@@ -17,7 +18,7 @@ interface HomeHeaderProps {
 	};
 }
 
-const settings = {
+const settings: Settings = {
 	damping: 100,
 	stiffness: 600,
 	maxDistance: 300,

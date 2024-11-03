@@ -1,5 +1,4 @@
 import Button from 'components/utilities/Button/Button';
-import React from 'react';
 
 export default function Custom404(): JSX.Element {
 	return (

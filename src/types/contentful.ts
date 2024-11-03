@@ -36,6 +36,14 @@ export interface Content {
 	subTitle: string;
 	contentsCollection: ContentsCollection;
 	list: string[];
+	image: { url: string };
+	id: number;
+	review: string;
+	avatar: {
+		url: string;
+	};
+	reviewer: string;
+	institution: string;
 }
 
 export interface ImageData {

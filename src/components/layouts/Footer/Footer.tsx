@@ -4,22 +4,29 @@ import Link from 'next/link';
 import { useLenis } from '@studio-freight/react-lenis';
 import { Link as ScrollLink } from 'react-scroll';
 import { usePathname } from 'next/navigation';
+import { footerLinks, socials, songs } from 'constants/index';
+import { Social } from 'types/social';
+import { Song } from 'types/song';
 
 import Contact from 'assets/images/contact.svg';
 import styles from './Footer.module.scss';
-import { footerLinks, socials, songs } from 'constants/index';
+
+interface FooterLink {
+	key: string;
+	href: string;
+}
 
 function Footer() {
-	const [randomSong, setRandomSong] = useState(null);
+	const [randomSong, setRandomSong] = useState<Song | null>(null);
 	const lenis = useLenis();
 	const pathname = usePathname();
 
-	const getRandomSong = () => {
+	const getRandomSong = (): Song => {
 		const randomIndex = Math.floor(Math.random() * songs.length);
 		return songs[randomIndex];
 	};
 
-	const handleScroll = (to) => {
+	const handleScroll = (to: string) => {
 		if (lenis) {
 			lenis.scrollTo(`#${to}`, {
 				duration: 2,
@@ -34,7 +41,7 @@ function Footer() {
 
 	return (
 		<footer className={styles['footer']}>
-			{pathname == '/' && (
+			{pathname === '/' && (
 				<div className={styles['footer__contact']}>
 					<span>Got a project? Need an unfair advantage?</span>
 					<Link href={'/contact'}>
@@ -101,9 +108,9 @@ function Footer() {
 					</div>
 				</div>
 			</div>
-			{pathname == '/' && (
+			{pathname === '/' && (
 				<ul className={styles['footer__permalinks']}>
-					{footerLinks.map((link) => (
+					{footerLinks.map((link: FooterLink) => (
 						<li key={link.key}>
 							<ScrollLink
 								to={link.href}
@@ -118,7 +125,7 @@ function Footer() {
 				</ul>
 			)}
 			<div className={styles['footer__socials']}>
-				{socials.map((social, index) => (
+				{socials.map((social: Social, index: number) => (
 					<Link key={index} title={social.title} href={social.link}>
 						{social.icon}
 					</Link>

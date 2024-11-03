@@ -1,4 +1,5 @@
 import styles from './HomeCollaborations.module.scss';
+
 import MaskText from 'components/utilities/MaskText/MaskText';
 import WhiteRabbitLogo from 'assets/logos/white-rabbit.svg';
 import SpotifyLogo from 'assets/logos/spotify.svg';

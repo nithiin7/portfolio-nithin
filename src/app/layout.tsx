@@ -2,7 +2,6 @@ import { GoogleAnalytics } from '@next/third-parties/google';
 import { Metadata } from 'next';
 
 import loadData from 'helpers/contentful';
-
 import 'styles/globals.scss';
 
 import Provider from './provider';

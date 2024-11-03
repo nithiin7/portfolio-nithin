@@ -1,12 +1,17 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion, useScroll } from 'framer-motion';
-
-import styles from './Menu.module.scss';
 import MenuBackground from 'assets/images/menu-bg.svg';
 import { links, socialsMenu } from 'constants/index';
 
-const Menu = ({ className = '', variant = 'default' }) => {
+import styles from './Menu.module.scss';
+
+export interface MenuProps {
+	className?: string;
+	variant?: 'default' | 'alternative';
+}
+
+const Menu = ({ className = '', variant = 'default' }: MenuProps) => {
 	const [isMenuActive, setIsMenuActive] = useState(false);
 	const [hidden, setHidden] = useState(false);
 
@@ -17,7 +22,7 @@ const Menu = ({ className = '', variant = 'default' }) => {
 			opacity: 0,
 			y: '100%',
 		},
-		enter: (i) => ({
+		enter: (i: number) => ({
 			opacity: 1,
 			y: '0',
 			transition: { delay: 0.5 + i * 0.1, ease: [0.76, 0, 0.24, 1] },
@@ -64,7 +69,7 @@ const Menu = ({ className = '', variant = 'default' }) => {
 		return () => {
 			window.removeEventListener('scroll', handleScroll);
 		};
-	}, []);
+	}, [scrollY]);
 
 	return (
 		<nav
