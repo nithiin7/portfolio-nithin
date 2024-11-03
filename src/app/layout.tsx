@@ -16,10 +16,28 @@ export async function generateMetadata(): Promise<Metadata> {
 	return {
 		title: path.title,
 		description: path.description,
+		keywords: [
+			'Nithin',
+			'Nithin Pradeep',
+			'Nithin Pradeep Portfolio',
+			'Nithin Portfolio',
+			'Portfolio',
+			'Software Engineer',
+		],
 		openGraph: {
 			title: path.ogtitle,
 			description: path.description,
 		},
+		twitter: {
+			card: 'summary_large_image',
+			title: path.ogtitle,
+			description: path.description,
+		},
+		robots: {
+			index: true,
+			follow: true,
+		},
+		authors: [{ name: 'Nithin', url: 'https://github.com/nithiin7' }],
 	};
 }
 
@@ -28,6 +46,8 @@ interface RootLayoutProps {
 }
 
 export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
+	const isProd = process.env.NODE_ENV === 'production';
+
 	return (
 		<html lang="en">
 			<head>
@@ -51,6 +71,7 @@ export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
 				<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
 				<meta name="msapplication-TileColor" content="#da532c" />
 				<meta name="theme-color" content="#ffffff" />
+				{/* Add any other meta tags for SEO */}
 			</head>
 			<body>
 				<Provider>
@@ -60,9 +81,11 @@ export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
 						<Footer />
 					</Curve>
 				</Provider>
-				<GoogleAnalytics
-					gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID as string}
-				/>
+				{isProd && (
+					<GoogleAnalytics
+						gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID as string}
+					/>
+				)}
 				<svg className="grainy__filter pointer-events-none absolute cursor-none">
 					<filter id="grainy">
 						<feTurbulence type="turbulence" baseFrequency="0.5" />

@@ -44,7 +44,7 @@ function Footer() {
 			{pathname === '/' && (
 				<div className={styles['footer__contact']}>
 					<span>Got a project? Need an unfair advantage?</span>
-					<Link href={'/contact'}>
+					<Link href={'/contact'} title="Contact">
 						<Contact />
 					</Link>
 				</div>
@@ -100,6 +100,7 @@ function Footer() {
 									target="_blank"
 									rel="noopener noreferrer"
 									href={randomSong.link}
+									title={randomSong.name}
 								>
 									{randomSong.name}
 								</a>

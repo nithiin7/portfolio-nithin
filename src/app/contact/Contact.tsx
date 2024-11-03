@@ -84,7 +84,7 @@ const Contact: React.FC = () => {
 							zIndex: 99,
 						}}
 					>
-						<Link href="/" aria-label="Back to home">
+						<Link href="/" aria-label="Back to home" title="Back">
 							<Logo />
 						</Link>
 					</motion.div>

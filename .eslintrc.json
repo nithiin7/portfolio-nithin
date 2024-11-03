@@ -8,15 +8,18 @@
 	"extends": [
 		"eslint:recommended",
 		"plugin:@typescript-eslint/recommended",
+		"plugin:react/recommended",
 		"plugin:import/recommended",
 		"plugin:import/typescript",
 		"plugin:prettier/recommended"
 	],
 	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
-		"requireConfigFile": false,
 		"ecmaVersion": 12,
-		"sourceType": "module"
+		"sourceType": "module",
+		"ecmaFeatures": {
+			"jsx": true
+		}
 	},
 	"plugins": [
 		"react",
@@ -76,7 +79,8 @@
 				"singleQuote": true,
 				"endOfLine": "lf"
 			}
-		]
+		],
+		"react/prop-types": "off"
 	},
 	"settings": {
 		"react": {

@@ -8,6 +8,25 @@ export async function generateMetadata(): Promise<Metadata> {
 			title: 'Nithin Pradeep - Aspiring Developer',
 			description: "Let's connect and bring about interesting opportunities",
 		},
+		keywords: [
+			'Nithin',
+			'Nithin Pradeep',
+			'Nithin Pradeep Portfolio',
+			'Nithin Portfolio',
+			'Portfolio',
+			'Software Engineer',
+			'Contact Nithin',
+		],
+		twitter: {
+			card: 'summary_large_image',
+			title: 'Nithin Pradeep - Aspiring Developer',
+			description: "Let's connect and bring about interesting opportunities",
+		},
+		robots: {
+			index: true,
+			follow: true,
+		},
+		authors: [{ name: 'Nithin', url: 'https://github.com/nithiin7' }],
 	};
 }
 

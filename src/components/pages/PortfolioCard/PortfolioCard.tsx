@@ -19,7 +19,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({
 	year,
 }) => {
 	return (
-		<Link href={demo} className={styles['portfolio-card__item']}>
+		<Link href={demo} className={styles['portfolio-card__item']} title={title}>
 			<div className={styles['portfolio-card__image']}>
 				<Image
 					src={image}

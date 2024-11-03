@@ -196,7 +196,9 @@ const ContactForm: React.FC<ContactFormProps> = ({
 					<h3>FURTHER ENQUIRIES OR COLLABORATION</h3>
 					{contactOptions.map((option, index) => (
 						<div key={index} className="contact__link">
-							<Link href={option.link}>{option.subtitle}</Link>
+							<Link href={option.link} title={option.subtitle}>
+								{option.subtitle}
+							</Link>
 						</div>
 					))}
 				</div>

@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useScroll } from 'framer-motion';
 import MenuBackground from 'assets/images/menu-bg.svg';
 import { links, socialsMenu } from 'constants/index';
@@ -12,8 +12,10 @@ export interface MenuProps {
 }
 
 const Menu = ({ className = '', variant = 'default' }: MenuProps) => {
-	const [isMenuActive, setIsMenuActive] = useState(false);
-	const [hidden, setHidden] = useState(false);
+	const [isMenuActive, setIsMenuActive] = useState<boolean>(false);
+	const [hidden, setHidden] = useState<boolean>(false);
+
+	const prevScrollYRef = useRef(0);
 
 	const { scrollY } = useScroll();
 
@@ -56,12 +58,17 @@ const Menu = ({ className = '', variant = 'default' }: MenuProps) => {
 
 	useEffect(() => {
 		const handleScroll = () => {
-			if (scrollY?.current < scrollY?.prev) {
+			const currentScrollY = scrollY.get();
+			const prevScrollY = prevScrollYRef.current;
+
+			if (currentScrollY < prevScrollY) {
 				setHidden(false);
-			} else if (scrollY?.current > 300 && scrollY?.current > scrollY?.prev) {
+			} else if (currentScrollY > 300 && currentScrollY > prevScrollY) {
 				setHidden(true);
 				setIsMenuActive(false);
 			}
+
+			prevScrollYRef.current = currentScrollY;
 		};
 
 		window.addEventListener('scroll', handleScroll);
@@ -85,7 +92,8 @@ const Menu = ({ className = '', variant = 'default' }: MenuProps) => {
 			>
 				<motion.button
 					aria-label="menu"
-					aria-hidden={!isMenuActive}
+					aria-hidden={hidden && !isMenuActive}
+					tabIndex={hidden ? -1 : 0}
 					whileHover={{ scale: 0.95 }}
 					className="menu__button"
 					onClick={() => setIsMenuActive(!isMenuActive)}
