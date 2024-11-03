@@ -1,10 +1,23 @@
+import React from 'react';
 import styles from './ServiceCard.module.scss';
 
-const ServiceCard = ({ description, heading, list, i }) => {
+interface ServiceCardProps {
+	description?: string;
+	heading?: string;
+	list?: string[];
+	i?: number;
+}
+
+const ServiceCard: React.FC<ServiceCardProps> = ({
+	description = 'No description provided',
+	heading = 'Service Heading',
+	list = [],
+	i = 0,
+}) => {
 	return (
 		<div
 			className={styles['service-card']}
-			style={{ top: `calc( 8vh + ${i * 100}px)` }}
+			style={{ top: `calc(8vh + ${i * 100}px)` }}
 		>
 			<div className={styles['service-card__header']}>
 				<div data-aos="fade-up" data-aos-duration="1300" data-aos-once="true">

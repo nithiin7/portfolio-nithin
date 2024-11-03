@@ -4,12 +4,20 @@ import { motion } from 'framer-motion';
 
 import styles from './Button.module.scss';
 
-const Button = ({ text = '', className = '', variant = '' }) => {
+interface ButtonProps {
+	text?: string;
+	className?: string;
+	variant?: string;
+}
+
+const Button: React.FC<ButtonProps> = ({
+	text = '',
+	className = '',
+	variant = '',
+}) => {
 	return (
 		<button
-			className={`${styles.Button} ${
-				styles[`button__${variant}`]
-			} ${className}`}
+			className={`${styles.Button} ${styles[`button__${variant}`]} ${className}`}
 			type="submit"
 			aria-label="submit"
 		>

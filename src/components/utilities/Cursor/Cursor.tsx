@@ -3,15 +3,25 @@ import gsap from 'gsap';
 
 import styles from './Cursor.module.scss';
 
-const Cursor = ({ className = '', variant = '', isHovered = false }) => {
+interface CursorProps {
+	className?: string;
+	variant?: string;
+	isHovered?: boolean;
+}
+
+const Cursor: React.FC<CursorProps> = ({
+	className = '',
+	variant = '',
+	isHovered = false,
+}) => {
 	const mouse = useRef({ x: 0, y: 0 });
-	const circle = useRef();
+	const circle = useRef<HTMLDivElement>(null);
 
 	const size = isHovered ? 300 : 30;
 
 	const delayedMouse = useRef({ x: 0, y: 0 });
 
-	const manageMouseMove = (e) => {
+	const manageMouseMove = (e: MouseEvent) => {
 		const { clientX, clientY } = e;
 
 		mouse.current = {
@@ -22,10 +32,12 @@ const Cursor = ({ className = '', variant = '', isHovered = false }) => {
 		moveCircle(mouse.current.x, mouse.current.y);
 	};
 
-	const lerp = (x, y, a) => x * (1 - a) + y * a;
+	const lerp = (x: number, y: number, a: number) => x * (1 - a) + y * a;
 
-	const moveCircle = (x, y) => {
-		gsap.set(circle.current, { x, y, xPercent: -50, yPercent: -50 });
+	const moveCircle = (x: number, y: number) => {
+		if (circle.current) {
+			gsap.set(circle.current, { x, y, xPercent: -50, yPercent: -50 });
+		}
 	};
 
 	const animate = () => {
@@ -49,9 +61,7 @@ const Cursor = ({ className = '', variant = '', isHovered = false }) => {
 
 	return (
 		<div
-			className={`${styles.Cursor} ${
-				styles[`Cursor__${variant}`]
-			} ${className}`}
+			className={`${styles.Cursor} ${styles[`Cursor__${variant}`]} ${className}`}
 		>
 			<div
 				ref={circle}

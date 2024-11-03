@@ -1,13 +1,29 @@
+import React from 'react';
+import Image from 'next/image';
+import { Testimonial as TestimonialType } from 'types/testimony';
+
 import Testimonial from 'assets/images/testimonial.svg';
 import styles from './TestimonialCard.module.scss';
-import Image from 'next/image';
 
-const TestimonialCard = ({ className = '', variant = '', item = {} }) => {
+interface TestimonialCardProps {
+	className?: string;
+	variant?: string;
+	item?: TestimonialType;
+}
+
+const TestimonialCard: React.FC<TestimonialCardProps> = ({
+	className = '',
+	variant = '',
+	item = {
+		review: 'No review provided.',
+		avatar: { url: '' },
+		reviewer: 'Anonymous',
+		institution: 'Unknown Institution',
+	},
+}) => {
 	return (
 		<div
-			className={`${styles.TestimonialCard} ${
-				styles[`TestimonialCard__${variant}`]
-			} ${className}`}
+			className={`${styles.TestimonialCard} ${styles[`TestimonialCard__${variant}`]} ${className}`}
 		>
 			<Testimonial />
 			<blockquote>{item.review}</blockquote>
