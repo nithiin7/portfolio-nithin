@@ -5,7 +5,7 @@ import { AnimatePresence, motion, useScroll } from 'framer-motion';
 
 import styles from './Menu.module.scss';
 import MenuBackground from 'assets/images/menu-bg.svg';
-import { links, socialsMenu } from 'helpers/constants';
+import { links, socialsMenu } from 'constants/index';
 
 const Menu = ({ className = '', variant = 'default' }) => {
 	const [isMenuActive, setIsMenuActive] = useState(false);

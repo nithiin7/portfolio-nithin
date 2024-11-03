@@ -1,12 +1,22 @@
 'use client';
-import PropTypes from 'prop-types';
-import { motion } from 'framer-motion';
+import { FC } from 'react';
+import { motion, Variants } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
 import styles from './MaskText.module.scss';
 
-const MaskText = ({ className = '', variant = '', phrases = [] }) => {
-	const animation = {
+interface MaskTextProps {
+	className?: string;
+	variant?: string;
+	phrases: string[];
+}
+
+const MaskText: FC<MaskTextProps> = ({
+	className = '',
+	variant = '',
+	phrases = [],
+}) => {
+	const animation: Variants = {
 		initial: { y: '100%' },
 		enter: {
 			y: '0',
@@ -39,7 +49,7 @@ const MaskText = ({ className = '', variant = '', phrases = [] }) => {
 				animate={inView ? 'enter' : ''}
 			>
 				{phrases.map((phrase, phraseIndex) => (
-					<motion.div className="MaskText__lineMask" key={phraseIndex}>
+					<motion.div className={styles.MaskText__lineMask} key={phraseIndex}>
 						{phrase.split(' ').map((word, wordIndex) => (
 							<motion.span key={wordIndex} variants={animation}>
 								{word + ' '}
@@ -50,12 +60,6 @@ const MaskText = ({ className = '', variant = '', phrases = [] }) => {
 			</motion.div>
 		</div>
 	);
-};
-
-MaskText.propTypes = {
-	variant: PropTypes.string,
-	className: PropTypes.string,
-	phrases: PropTypes.array,
 };
 
 export default MaskText;

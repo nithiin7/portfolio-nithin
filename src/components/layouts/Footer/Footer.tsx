@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 
 import Contact from 'assets/images/contact.svg';
 import styles from './Footer.module.scss';
-import { footerLinks, socials, songs } from 'helpers/constants.js';
+import { footerLinks, socials, songs } from 'constants/index';
 
 function Footer() {
 	const [randomSong, setRandomSong] = useState(null);

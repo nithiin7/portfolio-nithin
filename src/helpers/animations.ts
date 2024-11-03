@@ -1,4 +1,6 @@
-export const text = {
+import { Variants } from 'framer-motion';
+
+export const text: Variants = {
 	initial: {
 		opacity: 1,
 	},
@@ -15,7 +17,7 @@ export const text = {
 	},
 };
 
-export const curve = (initialPath, targetPath) => {
+export const curve = (initialPath: string, targetPath: string): Variants => {
 	return {
 		initial: {
 			d: initialPath,
@@ -31,7 +33,7 @@ export const curve = (initialPath, targetPath) => {
 	};
 };
 
-export const translate = {
+export const translate: Variants = {
 	initial: {
 		top: '-300px',
 	},

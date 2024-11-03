@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 
 import { contactSchema } from 'helpers/validations';
-import { contactOptions } from 'helpers/constants';
+import { contactOptions } from 'constants/index';
 
 import styles from './ContactForm.module.scss';
 

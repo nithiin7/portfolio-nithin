@@ -1,17 +1,19 @@
-import PropTypes from 'prop-types';
+import { FC } from 'react';
+
 import styles from './{{pascalCase name}}.module.scss';
 
-const {{pascalCase name}} = props => {
+interface {{pascalCase name}} {
+	className?: string;
+  variant?: string;
+}
+
+const {{pascalCase name}}: FC<{{pascalCase name}} = props => {
   const { className = "", variant = "" } = props;
+
   return (
     <div className={`${styles.{{pascalCase name}} } ${styles[`{{pascalCase name}}__${variant}`]} ${className}`}>
     </div>
   );
-};
-
-{{pascalCase name}}.propTypes = {
-  variant: PropTypes.string,
-  className: PropTypes.string,
 };
 
 export default {{pascalCase name}};
