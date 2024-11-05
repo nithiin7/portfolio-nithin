@@ -25,6 +25,18 @@ const settings: Settings = {
 	intensity: 0.1,
 };
 
+/**
+ * HomeHeader component displays the main header of the homepage with an animated logo
+ * that responds to mouse movement and a customizable title/subtitle.
+ *
+ * @component
+ * @param {string} [className] - Additional CSS classes for styling.
+ * @param {Object} [data] - Content data for the header.
+ * @param {Object[]} [data.items] - Array containing title and subtitle for display.
+ * @param {string} [data.items[].title] - Main title text.
+ * @param {string} [data.items[].subTitle] - Subtitle text.
+ * @returns {JSX.Element} The rendered HomeHeader component.
+ */
 const HomeHeader: React.FC<HomeHeaderProps> = ({
 	className = '',
 	data = { items: [] },
@@ -43,6 +55,13 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
 	const springY = useSpring(y, springConfig);
 
 	useEffect(() => {
+		/**
+		 * Calculates the distance between the cursor and the center of the component.
+		 * Updates the x and y motion values based on proximity to the component center,
+		 * creating a parallax-like effect when the cursor is within a set distance.
+		 *
+		 * @param {MouseEvent} e - The mousemove event containing the cursor's coordinates.
+		 */
 		const calculateDistance = (e: MouseEvent) => {
 			if (componentRef) {
 				const rect = componentRef.getBoundingClientRect();
@@ -68,6 +87,12 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
 			}
 		};
 
+		/**
+		 * Mousemove event handler that triggers `calculateDistance` to update the
+		 * motion values based on cursor position.
+		 *
+		 * @param {MouseEvent} e - The mousemove event.
+		 */
 		const handleMouseMove = (e: MouseEvent) => {
 			calculateDistance(e);
 		};
@@ -135,8 +160,8 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
 						data-aos-once="true"
 						data-aos-delay="800"
 					>
-						<MaskText phrases={[data.items[0]?.title || '']} />
-						<MaskText phrases={[data.items[0]?.subTitle || '']} />
+						<MaskText phrases={[data.items[0]?.title ?? '']} />
+						<MaskText phrases={[data.items[0]?.subTitle ?? '']} />
 					</h1>
 					<p
 						data-aos="fade-up"

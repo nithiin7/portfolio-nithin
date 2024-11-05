@@ -13,6 +13,17 @@ interface HomeTestimonialProps {
 	testimonial?: Testimonial[];
 }
 
+/**
+ * `HomeTestimonial` component displays a section of user testimonials,
+ * including a header and a list of testimonial cards.
+ *
+ * @param {HomeTestimonialProps} props - Component properties.
+ * @param {string} [props.className] - Additional class names for styling.
+ * @param {Object} [props.data] - Data object containing header information.
+ * @param {string} [props.data.title] - Title of the testimonials section.
+ * @param {Testimonial[]} [props.testimonial] - Array of testimonial items to display.
+ * @returns {JSX.Element} - Rendered HomeTestimonial component.
+ */
 const HomeTestimonial: React.FC<HomeTestimonialProps> = ({
 	className = '',
 	data = { title: '' },
@@ -22,7 +33,7 @@ const HomeTestimonial: React.FC<HomeTestimonialProps> = ({
 		<div className={`${styles.HomeTestimonial} ${className}`}>
 			<section id="testimonials">
 				<h2>
-					<MaskText phrases={[data.title || '']} />
+					<MaskText phrases={[data.title ?? '']} />
 				</h2>
 				<div className="HomeTestimonial__testimonial">
 					{testimonial.map((item, index) => {

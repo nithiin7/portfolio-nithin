@@ -11,7 +11,19 @@ export interface MenuProps {
 	variant?: 'default' | 'alternative';
 }
 
-const Menu = ({ className = '', variant = 'default' }: MenuProps) => {
+/**
+ * Menu component with animated navigation links, social icons, and scroll detection.
+ * Includes a toggle button to activate/deactivate the menu and dynamically shows or hides based on scroll.
+ *
+ * @component
+ * @param {string} [className] - Additional CSS classes for styling.
+ * @param {'default' | 'alternative'} [variant='default'] - Visual variant of the menu.
+ * @returns {JSX.Element} The rendered Menu component.
+ */
+const Menu = ({
+	className = '',
+	variant = 'default',
+}: MenuProps): JSX.Element => {
 	const [isMenuActive, setIsMenuActive] = useState<boolean>(false);
 	const [hidden, setHidden] = useState<boolean>(false);
 
@@ -19,6 +31,9 @@ const Menu = ({ className = '', variant = 'default' }: MenuProps) => {
 
 	const { scrollY } = useScroll();
 
+	/**
+	 * Animation configuration for the menu items.
+	 */
 	const animate = {
 		initial: {
 			opacity: 0,
@@ -34,11 +49,17 @@ const Menu = ({ className = '', variant = 'default' }: MenuProps) => {
 		},
 	};
 
+	/**
+	 * Animation states for the menu visibility.
+	 */
 	const menu = {
 		visible: { opacity: 1, scale: 1 },
 		hidden: { opacity: 0, scale: 0 },
 	};
 
+	/**
+	 * Animation variants for opening and closing the menu container.
+	 */
 	const variants = {
 		open: {
 			width: '36rem',
@@ -57,6 +78,9 @@ const Menu = ({ className = '', variant = 'default' }: MenuProps) => {
 	};
 
 	useEffect(() => {
+		/**
+		 * Handles scroll behavior to toggle the menu's visibility based on scroll direction.
+		 */
 		const handleScroll = () => {
 			const currentScrollY = scrollY.get();
 			const prevScrollY = prevScrollYRef.current;

@@ -12,9 +12,15 @@ interface TextAreaProps {
 	onChange?: React.ChangeEventHandler<HTMLTextAreaElement>;
 	onBlur?: React.FocusEventHandler<HTMLTextAreaElement>;
 	disabled?: boolean;
-	errors?: string[] | undefined;
+	errors?: string[];
 }
 
+/**
+ * TextArea component that allows users to input multi-line text.
+ *
+ * @param {TextAreaProps} props - The properties for the component.
+ * @returns {JSX.Element} The rendered TextArea component.
+ */
 const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
 	(
 		{

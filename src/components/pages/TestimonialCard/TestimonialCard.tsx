@@ -11,6 +11,11 @@ interface TestimonialCardProps {
 	item?: TestimonialType;
 }
 
+/**
+ * A component that displays a testimonial with a review, reviewer information, and an avatar.
+ * @param {TestimonialCardProps} props - The props for the component.
+ * @returns {JSX.Element} The rendered testimonial card component.
+ */
 const TestimonialCard: React.FC<TestimonialCardProps> = ({
 	className = '',
 	variant = '',
