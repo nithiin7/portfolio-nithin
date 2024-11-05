@@ -58,10 +58,11 @@
 				flex-direction: column;
 				font-size: 1.125rem;
 				.Info__name {
+					color: $color-secondary;
 					letter-spacing: 0;
 				}
 				.Info__institution {
-					color: rgb(158 151 143);
+					color: rgb(107, 100, 92);
 					line-height: 130%;
 					font-weight: 400;
 					text-wrap: pretty;

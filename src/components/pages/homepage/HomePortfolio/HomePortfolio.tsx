@@ -13,6 +13,16 @@ interface HomePortfolioProps {
 	portfolio?: PortfolioItem[];
 }
 
+/**
+ * `HomePortfolio` component displays a section with a title and a list of portfolio items.
+ * Each portfolio item is rendered using the `PortfolioCard` component.
+ *
+ * @param {HomePortfolioProps} props - Component properties.
+ * @param {string} [props.className] - Additional class names for styling.
+ * @param {object} [props.data] - Data containing the title for the section.
+ * @param {PortfolioItem[]} [props.portfolio] - List of portfolio items to display.
+ * @returns {JSX.Element} - Rendered HomePortfolio component.
+ */
 const HomePortfolio: React.FC<HomePortfolioProps> = ({
 	className = '',
 	data = { title: '' },
@@ -22,7 +32,7 @@ const HomePortfolio: React.FC<HomePortfolioProps> = ({
 		<div className={`${styles.HomePortfolio} ${className}`}>
 			<section id="portfolio">
 				<h2>
-					<MaskText phrases={[data.title || '']} />
+					<MaskText phrases={[data.title ?? '']} />
 				</h2>
 				<div className="portfolio__container">
 					{portfolio.map((item, index) => (
@@ -30,8 +40,8 @@ const HomePortfolio: React.FC<HomePortfolioProps> = ({
 							key={index}
 							image={item.image.url}
 							title={item.title}
-							demo={item.demo || ''}
-							tech={item.tech || ['']}
+							demo={item.demo ?? ''}
+							tech={item.tech ?? ['']}
 							year={item.year}
 						/>
 					))}

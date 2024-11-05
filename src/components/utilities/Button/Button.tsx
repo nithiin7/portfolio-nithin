@@ -10,6 +10,11 @@ interface ButtonProps {
 	variant?: string;
 }
 
+/**
+ * A button component that supports animations and different styles.
+ * @param {ButtonProps} props - The props for the component.
+ * @returns {JSX.Element} The rendered button component.
+ */
 const Button: React.FC<ButtonProps> = ({
 	text = '',
 	className = '',
@@ -17,7 +22,9 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
 	return (
 		<button
-			className={`${styles.Button} ${styles[`button__${variant}`]} ${className}`}
+			className={[styles.Button, styles[`button__${variant}`], className].join(
+				' '
+			)}
 			type="submit"
 			aria-label="submit"
 		>

@@ -59,7 +59,7 @@
 				display: flex;
 				padding-top: 8rem;
 				h1 {
-					font-size: 4em;
+					font-size: 3em;
 					color: $color-secondary;
 					font-weight: 700;
 					display: flex;
@@ -69,6 +69,9 @@
 					line-height: 92.5%;
 					letter-spacing: -0.0275em;
 					text-transform: uppercase;
+					@media #{$md} {
+						font-size: 4em;
+					}
 					@media #{$lg} {
 						font-size: 5.65rem;
 					}

@@ -33,7 +33,7 @@ const httpLink = new HttpLink({
 	credentials: 'same-origin',
 	headers: {
 		Authorization: `Bearer ${
-			process.env.NEXT_PUBLIC_AUTHORIZATION_TOKEN || ''
+			process.env.NEXT_PUBLIC_AUTHORIZATION_TOKEN ?? ''
 		}`,
 	},
 });
@@ -54,9 +54,9 @@ const createApolloClient = (): ApolloClient<NormalizedCacheObject> => {
 	});
 };
 
-export function initializeApollo(
+export const initializeApollo = (
 	initialState: NormalizedCacheObject | null = null
-): ApolloClient<NormalizedCacheObject> {
+): ApolloClient<NormalizedCacheObject> => {
 	const _apolloClient = apolloClient ?? createApolloClient();
 
 	if (initialState) {
@@ -75,7 +75,7 @@ export function initializeApollo(
 	if (!apolloClient) apolloClient = _apolloClient;
 
 	return _apolloClient;
-}
+};
 
 type ApolloPageProps = {
 	[key: string]: any;

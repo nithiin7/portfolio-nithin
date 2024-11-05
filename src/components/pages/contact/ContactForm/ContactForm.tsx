@@ -25,6 +25,15 @@ interface ContactFormProps {
 	variant?: 'default' | 'alternative';
 }
 
+/**
+ * ContactForm component for user messages and inquiries.
+ * Implements validation, email sending via EmailJS, and animations on submission.
+ *
+ * @component
+ * @param {string} [className] - Additional CSS classes for styling.
+ * @param {'default' | 'alternative'} [variant='default'] - Visual variant of the form.
+ * @returns {JSX.Element} The rendered ContactForm component.
+ */
 const ContactForm: React.FC<ContactFormProps> = ({
 	className = '',
 	variant = 'default',
@@ -45,6 +54,12 @@ const ContactForm: React.FC<ContactFormProps> = ({
 		},
 	});
 
+	/**
+	 * Handles form submission, sending data via EmailJS and showing success feedback.
+	 *
+	 * @param {ContactFormData} data - Form data including name, email, and message.
+	 * @param {React.FormEvent} e - Form submit event.
+	 */
 	const onSubmit: SubmitHandler<ContactFormData> = (data, e) => {
 		if (e) {
 			e.preventDefault();
@@ -55,7 +70,7 @@ const ContactForm: React.FC<ContactFormProps> = ({
 				process.env.NEXT_PUBLIC_SERVICE_ID!,
 				process.env.NEXT_PUBLIC_TEMPLATE_ID!,
 				form.current!,
-				process.env.NEXT_PUBLIC_EMAILJS_ID!
+				process.env.NEXT_PUBLIC_EMAILJS_ID
 			)
 			.then(
 				() => {

@@ -5,6 +5,7 @@
 	:global {
 		background-color: $color-black;
 		padding: 5% 4%;
+		padding-top: 12vh;
 		h2 {
 			color: rgb(209 209 199);
 			padding-bottom: 2rem;
@@ -14,6 +15,13 @@
 			font-size: 2.5rem;
 			@media #{$md} {
 				font-size: clamp(3.5rem, 2.3571rem + 4.5143vi, 10.5rem);
+			}
+			div {
+				display: flex;
+				gap: rem(10);
+			}
+			span {
+				display: inline-block;
 			}
 		}
 		.portfolio__container {

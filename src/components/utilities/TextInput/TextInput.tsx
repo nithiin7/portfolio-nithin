@@ -12,9 +12,15 @@ interface TextInputProps {
 	onChange?: React.ChangeEventHandler<HTMLInputElement>;
 	onBlur?: React.FocusEventHandler<HTMLInputElement>;
 	disabled?: boolean;
-	errors?: string[] | undefined;
+	errors?: string[];
 }
 
+/**
+ * TextInput component that allows users to input text.
+ *
+ * @param {TextInputProps} props - The properties for the component.
+ * @returns {JSX.Element} The rendered TextInput component.
+ */
 const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
 	(
 		{

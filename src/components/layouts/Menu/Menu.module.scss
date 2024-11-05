@@ -17,15 +17,23 @@
 			justify-content: center;
 			border-radius: rem(9999);
 			background-color: rgb(191 191 177);
-			height: 5rem;
-			width: 5rem;
+			height: 4rem;
+			width: 4rem;
 			gap: rem(5);
+			@media #{$md} {
+				height: 5rem;
+				width: 5rem;
+			}
 			span {
-				width: 2.25rem;
-				height: rem(2);
+				width: 2rem;
+				height: rem(1.75);
 				background-color: $color-black;
 				pointer-events: none;
 				transition: all cubic-bezier(0.16, 1, 0.3, 1) 0.5s;
+				@media #{$md} {
+					width: 2.25rem;
+					height: rem(2);
+				}
 				&.active {
 					transform: translate(0, rem(6)) rotate(45deg) skewX(0) skewY(0)
 						scaleX(1) scaleY(1);
@@ -71,14 +79,19 @@
 			display: flex;
 			flex-direction: column;
 			gap: rem(10);
-			padding-left: 5rem;
-			padding-right: 5rem;
-			font-size: 3.5rem;
+			padding-left: 4rem;
+			padding-right: 4rem;
+			font-size: 2.8rem;
 			line-height: 130%;
 			position: relative;
 			height: 100%;
 			justify-content: center;
 			font-weight: 700;
+			@media #{$md} {
+				font-size: 3.5rem;
+				padding-left: 6rem;
+				padding-right: 5rem;
+			}
 			a {
 				color: $color-primary;
 				text-decoration: none;

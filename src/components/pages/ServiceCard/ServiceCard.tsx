@@ -8,6 +8,17 @@ interface ServiceCardProps {
 	i?: number;
 }
 
+/**
+ * `ServiceCard` component displays a service offering with a heading,
+ * description, and a list of features or services.
+ *
+ * @param {ServiceCardProps} props - Component properties.
+ * @param {string} [props.description] - Description of the service (default: 'No description provided').
+ * @param {string} [props.heading] - Heading/title of the service (default: 'Service Heading').
+ * @param {string[]} [props.list] - Array of services or features.
+ * @param {number} [props.i] - Index of the service card for positioning (default: 0).
+ * @returns {JSX.Element} - Rendered ServiceCard component.
+ */
 const ServiceCard: React.FC<ServiceCardProps> = ({
 	description = 'No description provided',
 	heading = 'Service Heading',
@@ -17,7 +28,9 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
 	return (
 		<div
 			className={styles['service-card']}
-			style={{ top: `calc(8vh + ${i * 100}px)` }}
+			style={{
+				top: `calc(8vh + ${i * 100}px)`,
+			}}
 		>
 			<div className={styles['service-card__header']}>
 				<div data-aos="fade-up" data-aos-duration="1300" data-aos-once="true">

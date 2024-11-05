@@ -1,6 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
+import { usePathname } from 'next/navigation';
 import { text, curve, translate } from 'helpers/animations';
 
 interface CurveProps {
@@ -22,22 +23,21 @@ const anim = (variants: Variants) => {
 	};
 };
 
-export default function Curve({
-	children,
-	backgroundColor,
-}: CurveProps): JSX.Element {
+const Curve = ({ children, backgroundColor }: CurveProps): JSX.Element => {
 	const [dimensions, setDimensions] = useState<Dimensions>({
 		width: null,
 		height: null,
 	});
 
+	const pathname = usePathname();
+
 	useEffect(() => {
-		function resize() {
+		const resize = () => {
 			setDimensions({
 				width: window.innerWidth,
 				height: window.innerHeight,
 			});
-		}
+		};
 		resize();
 		window.addEventListener('resize', resize);
 		return () => {
@@ -58,7 +58,7 @@ export default function Curve({
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.4 }}
 					>
-						Welcome.
+						{pathname === '/contact' ? "Let's Connect." : 'Welcome.'}
 					</motion.p>
 				</motion.div>
 				{dimensions.width != null && dimensions.height != null && (
@@ -69,7 +69,9 @@ export default function Curve({
 			</div>
 		</AnimatePresence>
 	);
-}
+};
+
+export default Curve;
 
 interface SVGProps {
 	height: number;

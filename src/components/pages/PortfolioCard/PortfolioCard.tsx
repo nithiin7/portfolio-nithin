@@ -11,6 +11,18 @@ interface PortfolioCardProps {
 	year?: string;
 }
 
+/**
+ * `PortfolioCard` component displays a single portfolio item,
+ * including an image, title, technologies used, and optional year.
+ *
+ * @param {PortfolioCardProps} props - Component properties.
+ * @param {string} props.image - URL of the portfolio item image.
+ * @param {string} props.title - Title of the portfolio item.
+ * @param {string} props.demo - Link to the live demo of the portfolio item.
+ * @param {string[]} props.tech - Array of technologies used in the portfolio item.
+ * @param {string} [props.year] - Year of the portfolio item (optional).
+ * @returns {JSX.Element} - Rendered PortfolioCard component.
+ */
 const PortfolioCard: React.FC<PortfolioCardProps> = ({
 	image,
 	title,

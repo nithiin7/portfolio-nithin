@@ -85,7 +85,7 @@
 	.footer__music {
 		border-radius: rem(50);
 		background-color: rgb(57, 54, 50);
-		width: rem(380);
+		width: rem(360);
 		padding: rem(16) rem(42) rem(16) rem(20);
 		display: flex;
 		flex-direction: row;
@@ -94,6 +94,9 @@
 		align-items: center;
 		box-shadow: rgba(149, 157, 165, 0.2) rem(0) rem(8) rem(24);
 		margin-top: rem(80);
+		@media #{$sm} {
+			width: rem(380);
+		}
 		.music__title {
 			text-align: left;
 			h2 {

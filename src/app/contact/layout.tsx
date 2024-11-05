@@ -36,6 +36,6 @@ interface ContactLayoutProps {
 
 export default function ContactLayout({
 	children,
-}: ContactLayoutProps): JSX.Element {
+}: Readonly<ContactLayoutProps>): JSX.Element {
 	return <>{children}</>;
 }
