@@ -28,7 +28,9 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
 	return (
 		<div
 			className={styles['service-card']}
-			style={{ top: `calc(8vh + ${i * 100}px)` }}
+			style={{
+				top: `calc(8vh + ${i * 100}px)`,
+			}}
 		>
 			<div className={styles['service-card__header']}>
 				<div data-aos="fade-up" data-aos-duration="1300" data-aos-once="true">

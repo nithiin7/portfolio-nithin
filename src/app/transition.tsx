@@ -1,6 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
+import { usePathname } from 'next/navigation';
 import { text, curve, translate } from 'helpers/animations';
 
 interface CurveProps {
@@ -27,6 +28,8 @@ const Curve = ({ children, backgroundColor }: CurveProps): JSX.Element => {
 		width: null,
 		height: null,
 	});
+
+	const pathname = usePathname();
 
 	useEffect(() => {
 		const resize = () => {
@@ -55,7 +58,7 @@ const Curve = ({ children, backgroundColor }: CurveProps): JSX.Element => {
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.4 }}
 					>
-						Welcome.
+						{pathname === '/contact' ? "Let's Connect." : 'Welcome.'}
 					</motion.p>
 				</motion.div>
 				{dimensions.width != null && dimensions.height != null && (

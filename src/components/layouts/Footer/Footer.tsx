@@ -128,6 +128,7 @@ const Footer = (): JSX.Element => {
 						<li key={link.key}>
 							<ScrollLink
 								to={link.href}
+								href={`#${link.href}`}
 								onClick={() => {
 									handleScroll(link.href);
 								}}

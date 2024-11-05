@@ -107,7 +107,7 @@ const Menu = ({
 			className={[styles.Menu, styles[`Menu__${variant}`], className].join(' ')}
 		>
 			<motion.div
-				aria-hidden={!isMenuActive}
+				aria-hidden={!isMenuActive || hidden}
 				aria-controls="menu"
 				variants={menu}
 				initial={'hidden'}
@@ -116,8 +116,8 @@ const Menu = ({
 			>
 				<motion.button
 					aria-label="menu"
-					aria-hidden={hidden && !isMenuActive}
-					tabIndex={hidden ? -1 : 0}
+					aria-hidden={!hidden}
+					tabIndex={!isMenuActive || hidden ? -1 : 0}
 					whileHover={{ scale: 0.95 }}
 					className="menu__button"
 					onClick={() => setIsMenuActive(!isMenuActive)}
