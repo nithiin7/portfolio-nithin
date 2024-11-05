@@ -104,7 +104,7 @@ const Menu = ({
 
 	return (
 		<nav
-			className={`${styles.Menu} ${styles[`Menu__${variant}`]} ${className}`}
+			className={[styles.Menu, styles[`Menu__${variant}`], className].join(' ')}
 		>
 			<motion.div
 				aria-hidden={!isMenuActive}

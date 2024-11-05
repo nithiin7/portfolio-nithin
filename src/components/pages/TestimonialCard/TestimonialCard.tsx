@@ -28,7 +28,11 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
 }) => {
 	return (
 		<div
-			className={`${styles.TestimonialCard} ${styles[`TestimonialCard__${variant}`]} ${className}`}
+			className={[
+				styles.TestimonialCard,
+				styles[`TestimonialCard__${variant}`],
+				className,
+			].join(' ')}
 		>
 			<Testimonial />
 			<blockquote>{item.review}</blockquote>

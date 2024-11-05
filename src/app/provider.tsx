@@ -9,7 +9,9 @@ interface ProviderProps {
 	children: ReactNode;
 }
 
-export default function Provider({ children }: ProviderProps): JSX.Element {
+export default function Provider({
+	children,
+}: Readonly<ProviderProps>): JSX.Element {
 	useEffect(() => {
 		AOS.init();
 	}, []);

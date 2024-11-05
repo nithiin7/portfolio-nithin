@@ -45,7 +45,9 @@ interface RootLayoutProps {
 	children: React.ReactNode;
 }
 
-export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
+export default function RootLayout({
+	children,
+}: Readonly<RootLayoutProps>): JSX.Element {
 	const isProd = process.env.NODE_ENV === 'production';
 
 	return (

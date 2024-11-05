@@ -22,22 +22,19 @@ const anim = (variants: Variants) => {
 	};
 };
 
-export default function Curve({
-	children,
-	backgroundColor,
-}: CurveProps): JSX.Element {
+const Curve = ({ children, backgroundColor }: CurveProps): JSX.Element => {
 	const [dimensions, setDimensions] = useState<Dimensions>({
 		width: null,
 		height: null,
 	});
 
 	useEffect(() => {
-		function resize() {
+		const resize = () => {
 			setDimensions({
 				width: window.innerWidth,
 				height: window.innerHeight,
 			});
-		}
+		};
 		resize();
 		window.addEventListener('resize', resize);
 		return () => {
@@ -69,7 +66,9 @@ export default function Curve({
 			</div>
 		</AnimatePresence>
 	);
-}
+};
+
+export default Curve;
 
 interface SVGProps {
 	height: number;

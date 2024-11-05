@@ -70,7 +70,7 @@ const ContactForm: React.FC<ContactFormProps> = ({
 				process.env.NEXT_PUBLIC_SERVICE_ID!,
 				process.env.NEXT_PUBLIC_TEMPLATE_ID!,
 				form.current!,
-				process.env.NEXT_PUBLIC_EMAILJS_ID!
+				process.env.NEXT_PUBLIC_EMAILJS_ID
 			)
 			.then(
 				() => {

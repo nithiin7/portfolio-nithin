@@ -34,7 +34,7 @@ const HomeCollaborations: React.FC<HomeCollaborationsProps> = ({
 	<div className={`${styles.HomeCollaborations} ${className}`}>
 		<section id="collaborations">
 			<h2>
-				<MaskText phrases={[data.title || '']} />
+				<MaskText phrases={[data.title ?? '']} />
 			</h2>
 			<div className="portfolio__collaborations">
 				{logoComponents.map(({ Component, name }) => (

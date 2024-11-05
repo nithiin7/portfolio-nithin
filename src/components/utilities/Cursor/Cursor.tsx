@@ -91,7 +91,9 @@ const Cursor: React.FC<CursorProps> = ({
 
 	return (
 		<div
-			className={`${styles.Cursor} ${styles[`Cursor__${variant}`]} ${className}`}
+			className={[styles.Cursor, styles[`Cursor__${variant}`], className].join(
+				' '
+			)}
 		>
 			<div
 				ref={circle}

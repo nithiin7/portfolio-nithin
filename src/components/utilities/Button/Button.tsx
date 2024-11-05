@@ -22,7 +22,9 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
 	return (
 		<button
-			className={`${styles.Button} ${styles[`button__${variant}`]} ${className}`}
+			className={[styles.Button, styles[`button__${variant}`], className].join(
+				' '
+			)}
 			type="submit"
 			aria-label="submit"
 		>
