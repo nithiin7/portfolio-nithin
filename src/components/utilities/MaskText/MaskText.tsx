@@ -11,6 +11,13 @@ interface MaskTextProps {
 	phrases: string[];
 }
 
+/**
+ * MaskText component that displays phrases with a mask effect,
+ * animating them into view as they scroll into view.
+ *
+ * @param {MaskTextProps} props - The properties for the component.
+ * @returns {JSX.Element} The rendered MaskText component.
+ */
 const MaskText: FC<MaskTextProps> = ({
 	className = '',
 	variant = '',

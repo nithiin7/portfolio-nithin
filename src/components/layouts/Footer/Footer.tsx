@@ -10,22 +10,35 @@ import { Song } from 'types/song';
 
 import Contact from 'assets/images/contact.svg';
 import styles from './Footer.module.scss';
+import { FooterLink } from 'types/utils';
 
-interface FooterLink {
-	key: string;
-	href: string;
-}
-
-function Footer() {
+/**
+ * Footer component displaying various links, social icons, and a randomly selected song.
+ * Includes a contact link if on the homepage.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered Footer component.
+ */
+const Footer = (): JSX.Element => {
 	const [randomSong, setRandomSong] = useState<Song | null>(null);
 	const lenis = useLenis();
 	const pathname = usePathname();
 
+	/**
+	 * Selects a random song from the songs array.
+	 *
+	 * @returns {Song} A random song object.
+	 */
 	const getRandomSong = (): Song => {
 		const randomIndex = Math.floor(Math.random() * songs.length);
 		return songs[randomIndex];
 	};
 
+	/**
+	 * Scrolls to a specified section using Lenis smooth scrolling.
+	 *
+	 * @param {string} to - The ID of the section to scroll to.
+	 */
 	const handleScroll = (to: string) => {
 		if (lenis) {
 			lenis.scrollTo(`#${to}`, {
@@ -115,6 +128,7 @@ function Footer() {
 						<li key={link.key}>
 							<ScrollLink
 								to={link.href}
+								href={`#${link.href}`}
 								onClick={() => {
 									handleScroll(link.href);
 								}}
@@ -137,6 +151,6 @@ function Footer() {
 			</div>
 		</footer>
 	);
-}
+};
 
 export default Footer;

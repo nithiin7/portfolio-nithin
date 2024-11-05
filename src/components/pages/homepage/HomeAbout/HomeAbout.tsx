@@ -16,6 +16,18 @@ interface HomeAboutProps {
 	};
 }
 
+/**
+ * HomeAbout component displaying an introductory section about the user,
+ * including a masked title, descriptive text, and an image.
+ *
+ * @component
+ * @param {string} [className] - Additional CSS classes for styling.
+ * @param {Object} [data] - Data for the component, including items with title and image.
+ * @param {Object[]} [data.items] - Array containing content items.
+ * @param {string} [data.items[].title] - Title for the mask text.
+ * @param {string} [data.items[].image.url] - URL of the image.
+ * @returns {JSX.Element} The rendered HomeAbout component.
+ */
 const HomeAbout: React.FC<HomeAboutProps> = ({
 	className = '',
 	data = {
