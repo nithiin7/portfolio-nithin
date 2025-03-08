@@ -73,7 +73,7 @@ const Contact: React.FC = () => {
 	}, [componentRef, x, y]);
 
 	return (
-		<div className={styles.Contact}>
+		<div className={styles.contact}>
 			<header>
 				<div className={styles.contact__nav}>
 					<motion.div
@@ -118,7 +118,7 @@ const Contact: React.FC = () => {
 						</linearGradient>
 					</defs>
 				</svg>
-				<div className={styles.Contact__header}>
+				<div className={styles.contact__header}>
 					<h1>
 						<MaskText
 							phrases={['Say No More. Lets Bring your project to life']}

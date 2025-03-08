@@ -1,7 +1,7 @@
 @import 'src/styles/shared/_variables';
 @import 'src/styles/shared/_mixin';
 
-.Contact {
+.contact {
 	position: relative;
 	.contact__nav {
 		position: absolute;
@@ -53,7 +53,7 @@
 			display: block;
 			max-width: 100%;
 		}
-		.Contact__header {
+		.contact__header {
 			position: relative;
 			display: flex;
 			padding-top: 8rem;

@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useLenis } from '@studio-freight/react-lenis';
 import { Link as ScrollLink } from 'react-scroll';
@@ -19,7 +19,7 @@ import { FooterLink } from 'types/utils';
  * @component
  * @returns {JSX.Element} The rendered Footer component.
  */
-const Footer = (): JSX.Element => {
+const Footer = (): ReactElement => {
 	const [randomSong, setRandomSong] = useState<Song | null>(null);
 	const lenis = useLenis();
 	const pathname = usePathname();

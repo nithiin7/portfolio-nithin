@@ -9,7 +9,6 @@ const nextConfig = {
 		NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: 'G-E4KM0WS03X',
 		NEXT_PUBLIC_SERVICE_ID: 'service_hh0l7yp',
 		NEXT_PUBLIC_TEMPLATE_ID: 'template_va5jl1g',
-		NEXT_PUBLIC_EMAILJS_ID: 'g4AdPHbp-OKcLJaca',
 	},
 	images: {
 		domains: ['images.ctfassets.net'],
@@ -18,7 +17,20 @@ const nextConfig = {
 		turbo: {
 			rules: {
 				'*.svg': {
-					loaders: ['@svgr/webpack'],
+					loaders: [
+						{
+							loader: '@svgr/webpack',
+							options: {
+								svgo: true,
+								svgoConfig: {
+									plugins: [
+										{ name: 'removeViewBox', active: false },
+										{ name: 'removeDimensions', active: false },
+									],
+								},
+							},
+						},
+					],
 					as: '*.js',
 				},
 			},

@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, ReactNode } from 'react';
+import { useEffect, ReactNode, ReactElement } from 'react';
 import AOS from 'aos';
 import { ReactLenis } from '@studio-freight/react-lenis';
 
@@ -11,7 +11,7 @@ interface ProviderProps {
 
 export default function Provider({
 	children,
-}: Readonly<ProviderProps>): JSX.Element {
+}: Readonly<ProviderProps>): ReactElement {
 	useEffect(() => {
 		AOS.init();
 	}, []);

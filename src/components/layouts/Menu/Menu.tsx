@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { ReactElement, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useScroll } from 'framer-motion';
 import MenuBackground from 'assets/images/menu-bg.svg';
 import { links, socialsMenu } from 'constants/index';
@@ -23,7 +23,7 @@ export interface MenuProps {
 const Menu = ({
 	className = '',
 	variant = 'default',
-}: MenuProps): JSX.Element => {
+}: MenuProps): ReactElement => {
 	const [isMenuActive, setIsMenuActive] = useState<boolean>(false);
 	const [hidden, setHidden] = useState<boolean>(false);
 
@@ -104,7 +104,7 @@ const Menu = ({
 
 	return (
 		<nav
-			className={[styles.Menu, styles[`Menu__${variant}`], className].join(' ')}
+			className={[styles.menu, styles[`menu__${variant}`], className].join(' ')}
 		>
 			<motion.div
 				aria-hidden={!isMenuActive || hidden}

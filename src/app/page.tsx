@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import loadData from 'helpers/contentful';
 
 import HomeHeader from 'components/pages/homepage/HomeHeader';
@@ -8,7 +8,7 @@ import HomePortfolio from 'components/pages/homepage/HomePortfolio';
 import HomeCollaborations from 'components/pages/homepage/HomeCollaborations/HomeCollaborations';
 import HomeTestimonial from 'components/pages/homepage/HomeTestimonial';
 
-export default async function Home(): Promise<JSX.Element> {
+export default async function Home(): Promise<ReactElement> {
 	const props = await loadData('home');
 	const path = props?.data.pageCollection.items[0];
 

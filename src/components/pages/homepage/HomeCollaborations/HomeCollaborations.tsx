@@ -38,7 +38,7 @@ const HomeCollaborations: React.FC<HomeCollaborationsProps> = ({
 			</h2>
 			<div className={styles.portfolio__collaborations}>
 				{logoComponents.map(({ Component, name }) => (
-					<div className={styles.Collaborations__companies} key={name}>
+					<div className={styles.collaborations__companies} key={name}>
 						<Component />
 					</div>
 				))}

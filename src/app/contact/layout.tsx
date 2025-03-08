@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { ReactElement } from 'react';
 
 export async function generateMetadata(): Promise<Metadata> {
 	return {
@@ -36,6 +37,6 @@ interface ContactLayoutProps {
 
 export default function ContactLayout({
 	children,
-}: Readonly<ContactLayoutProps>): JSX.Element {
+}: Readonly<ContactLayoutProps>): ReactElement {
 	return <>{children}</>;
 }

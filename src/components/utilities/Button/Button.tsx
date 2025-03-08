@@ -22,7 +22,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
 	return (
 		<button
-			className={[styles.Button, styles[`button__${variant}`], className].join(
+			className={[styles.button, styles[`button__${variant}`], className].join(
 				' '
 			)}
 			type="submit"
