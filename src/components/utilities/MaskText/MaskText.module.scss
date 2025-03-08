@@ -2,14 +2,12 @@
 @use 'styles/shared/variables' as *;
 
 .MaskText {
-	:global {
-		.MaskText__lineMask {
-			overflow: hidden;
-			span {
-				display: inline-block;
-				white-space: nowrap;
-				margin-right: rem(18);
-			}
+	.MaskText__lineMask {
+		overflow: hidden;
+		span {
+			display: inline-block;
+			white-space: nowrap;
+			margin-right: rem(18);
 		}
 	}
 }

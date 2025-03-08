@@ -2,112 +2,110 @@
 @use 'styles/shared/variables' as *;
 
 .HomeAbout {
-	:global {
-		background-color: $color-black;
-		padding: 5% 4%;
-		.HomeAbout__container {
+	background-color: $color-black;
+	padding: 5% 4%;
+	.HomeAbout__container {
+		position: relative;
+		h2 {
+			margin-bottom: 2rem;
+			mix-blend-mode: exclusion;
+			color: rgb(209 209 199);
+			line-height: 92.5%;
+			max-width: 15ch;
 			position: relative;
-			h2 {
-				margin-bottom: 2rem;
-				mix-blend-mode: exclusion;
-				color: rgb(209 209 199);
-				line-height: 92.5%;
-				max-width: 15ch;
-				position: relative;
-				z-index: 1;
-				font-size: clamp(3.5rem, 2.3571rem + 4.5143vi, 10.5rem);
-				font-weight: 700;
-				text-wrap: balance;
-				letter-spacing: -0.025em;
-				text-transform: uppercase;
-				@media #{$md} {
-					margin-bottom: -2rem;
-				}
-			}
-			.HomeAbout__image-left {
-				display: none;
-				@media #{$md} {
-					opacity: 0.1;
-					transform: translate(-50%, -50%) rotate(0) skewX(0) skewY(0) scaleX(1)
-						scaleY(1);
-					width: 100%;
-					top: 50%;
-					left: 50%;
-					position: absolute;
-					vertical-align: middle;
-				}
-				@media #{$lg} {
-					max-width: 56rem;
-					display: block;
-				}
-			}
-			.HomeAbout__image-right {
-				display: none;
-				@media #{$md} {
-					opacity: 0.1;
-					transform: translate(-50%, -50%) rotate(0) skewX(0) skewY(0) scaleX(1)
-						scaleY(1);
-					width: 100%;
-					top: 50%;
-					left: 50%;
-					position: absolute;
-					vertical-align: middle;
-				}
-				@media #{$lg} {
-					max-width: 48rem;
-					display: block;
-				}
-			}
-			.HomeAbout__image {
-				max-width: 32rem;
-				overflow: hidden;
-				width: 100%;
-				margin-left: auto;
-				margin-right: auto;
-				z-index: 0;
-				position: relative;
-				pointer-events: none;
-				img {
-					border-radius: 1rem;
-					margin-left: auto;
-					margin-right: auto;
-					filter: grayscale(100%);
-					object-fit: cover;
-					width: 100%;
-					aspect-ratio: auto;
-					max-width: 100%;
-					height: auto;
-					vertical-align: middle;
-				}
-				.HomeAbout__gradient {
-					border-radius: 1rem;
-					opacity: 0.75;
-					background-image: linear-gradient(to top, #080807, rgba(8, 8, 7, 0));
-					width: 100%;
-					height: 100%;
-					top: 0;
-					position: absolute;
-				}
+			z-index: 1;
+			font-size: clamp(3.5rem, 2.3571rem + 4.5143vi, 10.5rem);
+			font-weight: 700;
+			text-wrap: balance;
+			letter-spacing: -0.025em;
+			text-transform: uppercase;
+			@media #{$md} {
+				margin-bottom: -2rem;
 			}
 		}
-		.HomeAbout__description {
-			margin-top: 3rem;
-			font-size: 2rem;
-			color: rgb(162 158 154);
-			font-weight: 500;
-			width: 100%;
-			display: flex;
-			align-items: flex-end;
-			justify-content: flex-end;
-			position: relative;
-			text-wrap: pretty;
-			line-height: 130%;
+		.HomeAbout__image-left {
+			display: none;
 			@media #{$md} {
-				margin-top: -3rem;
+				opacity: 0.1;
+				transform: translate(-50%, -50%) rotate(0) skewX(0) skewY(0) scaleX(1)
+					scaleY(1);
+				width: 100%;
+				top: 50%;
+				left: 50%;
+				position: absolute;
+				vertical-align: middle;
 			}
-			span {
-				max-width: 44ch;
+			@media #{$lg} {
+				max-width: 56rem;
+				display: block;
 			}
+		}
+		.HomeAbout__image-right {
+			display: none;
+			@media #{$md} {
+				opacity: 0.1;
+				transform: translate(-50%, -50%) rotate(0) skewX(0) skewY(0) scaleX(1)
+					scaleY(1);
+				width: 100%;
+				top: 50%;
+				left: 50%;
+				position: absolute;
+				vertical-align: middle;
+			}
+			@media #{$lg} {
+				max-width: 48rem;
+				display: block;
+			}
+		}
+		.HomeAbout__image {
+			max-width: 32rem;
+			overflow: hidden;
+			width: 100%;
+			margin-left: auto;
+			margin-right: auto;
+			z-index: 0;
+			position: relative;
+			pointer-events: none;
+			img {
+				border-radius: 1rem;
+				margin-left: auto;
+				margin-right: auto;
+				filter: grayscale(100%);
+				object-fit: cover;
+				width: 100%;
+				aspect-ratio: auto;
+				max-width: 100%;
+				height: auto;
+				vertical-align: middle;
+			}
+			.HomeAbout__gradient {
+				border-radius: 1rem;
+				opacity: 0.75;
+				background-image: linear-gradient(to top, #080807, rgba(8, 8, 7, 0));
+				width: 100%;
+				height: 100%;
+				top: 0;
+				position: absolute;
+			}
+		}
+	}
+	.HomeAbout__description {
+		margin-top: 3rem;
+		font-size: 2rem;
+		color: rgb(162 158 154);
+		font-weight: 500;
+		width: 100%;
+		display: flex;
+		align-items: flex-end;
+		justify-content: flex-end;
+		position: relative;
+		text-wrap: pretty;
+		line-height: 130%;
+		@media #{$md} {
+			margin-top: -3rem;
+		}
+		span {
+			max-width: 44ch;
 		}
 	}
 }

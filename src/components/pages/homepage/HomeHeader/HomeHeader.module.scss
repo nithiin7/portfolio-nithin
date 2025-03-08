@@ -2,82 +2,80 @@
 @use 'styles/shared/variables' as *;
 
 .HomeHeader {
-	:global {
-		background: rgb(232 232 227);
-		cursor: none;
-		.header__nav {
-			position: absolute;
-			left: rem(15);
-			top: rem(15);
-			svg {
-				height: rem(75);
-				width: rem(75);
-				@media #{$md} {
-					height: rem(100);
-					width: rem(100);
-				}
-			}
+	background: rgb(232 232 227);
+	cursor: none;
+	.header__nav {
+		position: absolute;
+		left: rem(15);
+		top: rem(15);
+		svg {
+			height: rem(75);
+			width: rem(75);
 			@media #{$md} {
-				left: rem(25);
-				top: rem(25);
+				height: rem(100);
+				width: rem(100);
 			}
 		}
-		.portfolio__header {
-			height: 100vh;
+		@media #{$md} {
+			left: rem(25);
+			top: rem(25);
+		}
+	}
+	.portfolio__header {
+		height: 100vh;
+		width: 100%;
+		position: sticky;
+		top: 0;
+		display: flex;
+		text-align: left;
+		align-items: flex-end;
+		overflow: hidden;
+		margin: 0 auto;
+		padding: 5% 4%;
+		@media #{$md} {
+			align-items: center;
+			text-align: center;
+		}
+		.header__description {
+			position: relative;
 			width: 100%;
-			position: sticky;
-			top: 0;
+			z-index: 10;
+			opacity: 1;
+			transform: translateY(0%) translateZ(rem(0));
 			display: flex;
-			text-align: left;
-			align-items: flex-end;
-			overflow: hidden;
-			margin: 0 auto;
-			padding: 5% 4%;
+			flex-direction: column;
+			row-gap: 2rem;
+			color: #393632;
+			padding-bottom: rem(60);
 			@media #{$md} {
+				padding-bottom: 0;
 				align-items: center;
-				text-align: center;
 			}
-			.header__description {
-				position: relative;
-				width: 100%;
-				z-index: 10;
-				opacity: 1;
-				transform: translateY(0%) translateZ(rem(0));
-				display: flex;
-				flex-direction: column;
-				row-gap: 2rem;
-				color: #393632;
-				padding-bottom: rem(60);
-				@media #{$md} {
-					padding-bottom: 0;
-					align-items: center;
-				}
-				h1 {
-					font-size: clamp(3rem, -0.057rem + 10.0714vw, 10.25rem);
-					line-height: 92.5%;
-					font-weight: 700;
-					white-space: nowrap;
-					font-family: 'Familjen Grotesk', sans-serif;
-					font-feature-settings: 'ss03';
-					font-optical-sizing: auto;
-					font-style: normal;
-				}
-				p {
-					max-width: 38ch;
-					text-wrap: pretty;
-					line-height: 130%;
-					font-size: 1.125rem;
-					font-weight: 400;
-					color: rgb(107 100 92);
-				}
+			h1 {
+				font-size: clamp(3rem, -0.057rem + 10.0714vw, 10.25rem);
+				line-height: 92.5%;
+				font-weight: 700;
+				white-space: nowrap;
+				font-family: 'Familjen Grotesk', sans-serif;
+				font-feature-settings: 'ss03';
+				font-optical-sizing: auto;
+				font-style: normal;
 			}
-			svg {
-				position: absolute;
-				top: 50%;
-				left: 50%;
-				width: 40%;
-				pointer-events: none;
+			p {
+				max-width: 38ch;
+				text-wrap: pretty;
+				line-height: 130%;
+				font-size: 1.125rem;
+				font-weight: 400;
+				color: rgb(107 100 92);
 			}
+		}
+		svg {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 40%;
+			pointer-events: none;
 		}
 	}
 }

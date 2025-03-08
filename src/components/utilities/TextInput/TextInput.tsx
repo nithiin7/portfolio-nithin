@@ -45,13 +45,13 @@ const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
 				} ${className}`}
 			>
 				{label && (
-					<div className="TextInput__label">
+					<div className={styles.TextInput__label}>
 						<label htmlFor={name}>{label}</label>
 						<span>*</span>
 					</div>
 				)}
 				<input
-					className="TextInput__input"
+					className={styles.TextInput__input}
 					id={name}
 					name={name}
 					value={value}
@@ -63,9 +63,9 @@ const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
 					aria-label={value}
 					disabled={disabled}
 				/>
-				<div className="TextInput__errors">
+				<div className={styles.TextInput__errors}>
 					{errors.length > 0 && (
-						<div className="TextInput__form-errors">
+						<div className={styles['TextInput__form-errors']}>
 							{errors.map((error, index) => (
 								<p key={index}>{error}</p>
 							))}

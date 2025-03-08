@@ -106,7 +106,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
 
 	return (
 		<header className={`${styles.HomeHeader} ${className}`}>
-			<div className="header__nav">
+			<div className={styles.header__nav}>
 				<motion.div
 					ref={setComponentRef}
 					style={{
@@ -118,7 +118,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
 					<Logo />
 				</motion.div>
 			</div>
-			<div id="home" className={'portfolio__header'}>
+			<div id="home" className={styles.portfolio__header}>
 				<svg
 					width="1186"
 					height="1186"
@@ -151,7 +151,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
 						</linearGradient>
 					</defs>
 				</svg>
-				<div className="header__description">
+				<div className={styles.header__description}>
 					<h1
 						onMouseEnter={() => setIsHovered(true)}
 						onMouseLeave={() => setIsHovered(false)}

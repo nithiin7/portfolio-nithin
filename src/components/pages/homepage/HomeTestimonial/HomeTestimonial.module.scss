@@ -2,23 +2,21 @@
 @use 'styles/shared/variables' as *;
 
 .HomeTestimonial {
-	:global {
-		padding: 5% 4%;
-		h2 {
-			color: $color-secondary;
-			font-size: clamp(3.5rem, 2.3571rem + 4.5143vi, 10.5rem);
-			font-weight: 700;
-			text-transform: uppercase;
-			padding-bottom: 0.75rem;
-			text-wrap: balance;
-			line-height: 92.5%;
-			letter-spacing: -0.025em;
-			text-align: left;
-		}
-		.HomeTestimonial__testimonial {
-			display: flex;
-			flex-direction: column;
-			row-gap: 2.5rem;
-		}
+	padding: 5% 4%;
+	h2 {
+		color: $color-secondary;
+		font-size: clamp(3.5rem, 2.3571rem + 4.5143vi, 10.5rem);
+		font-weight: 700;
+		text-transform: uppercase;
+		padding-bottom: 0.75rem;
+		text-wrap: balance;
+		line-height: 92.5%;
+		letter-spacing: -0.025em;
+		text-align: left;
+	}
+	.HomeTestimonial__testimonial {
+		display: flex;
+		flex-direction: column;
+		row-gap: 2.5rem;
 	}
 }

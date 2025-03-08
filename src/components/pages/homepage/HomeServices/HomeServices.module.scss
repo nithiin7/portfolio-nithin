@@ -2,39 +2,37 @@
 @use 'styles/shared/variables' as *;
 
 .HomeServices {
-	:global {
-		background-color: rgb(8 8 7);
-		border-top-left-radius: 1.5rem;
-		border-top-right-radius: 1.5rem;
-		padding: 3.5rem 1.5rem;
-		@media #{$md} {
-			padding: 5% 4%;
+	background-color: rgb(8 8 7);
+	border-top-left-radius: 1.5rem;
+	border-top-right-radius: 1.5rem;
+	padding: 3.5rem 1.5rem;
+	@media #{$md} {
+		padding: 5% 4%;
+	}
+	.services__header {
+		display: flex;
+		color: rgb(209 209 199);
+		flex-direction: column;
+		@media #{$lg} {
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
 		}
-		.services__header {
-			display: flex;
-			color: rgb(209 209 199);
-			flex-direction: column;
-			@media #{$lg} {
-				flex-direction: row;
-				justify-content: space-between;
-				align-items: center;
-			}
-			h2 {
-				font-size: clamp(3.5rem, 2.3571rem + 4.5143vi, 10.5rem);
-				font-weight: 700;
-				text-transform: uppercase;
-			}
-			p {
-				font-weight: 500;
-				padding-left: 0.25rem;
-				text-wrap: balance;
-				max-width: 40ch;
-				font-size: 1.25rem;
-				line-height: 130%;
-				color: rgb(162 158 154);
-				@media #{$md} {
-					font-size: 1.5rem;
-				}
+		h2 {
+			font-size: clamp(3.5rem, 2.3571rem + 4.5143vi, 10.5rem);
+			font-weight: 700;
+			text-transform: uppercase;
+		}
+		p {
+			font-weight: 500;
+			padding-left: 0.25rem;
+			text-wrap: balance;
+			max-width: 40ch;
+			font-size: 1.25rem;
+			line-height: 130%;
+			color: rgb(162 158 154);
+			@media #{$md} {
+				font-size: 1.5rem;
 			}
 		}
 	}
