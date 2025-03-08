@@ -1,5 +1,4 @@
 import { ReactElement } from 'react';
-import { GoogleAnalytics } from '@next/third-parties/google';
 import { Metadata } from 'next';
 
 import loadData from 'helpers/contentful';
@@ -103,11 +102,6 @@ export default function RootLayout({
 						<Footer />
 					</Curve>
 				</Provider>
-				{isProd && (
-					<GoogleAnalytics
-						gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID as string}
-					/>
-				)}
 				<svg className="grainy__filter pointer-events-none absolute cursor-none">
 					<filter id="grainy">
 						<feTurbulence type="turbulence" baseFrequency="0.5" />
