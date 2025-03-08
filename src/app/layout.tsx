@@ -1,3 +1,4 @@
+import { ReactElement } from 'react';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { Metadata } from 'next';
 
@@ -47,7 +48,7 @@ interface RootLayoutProps {
 
 export default function RootLayout({
 	children,
-}: Readonly<RootLayoutProps>): JSX.Element {
+}: Readonly<RootLayoutProps>): ReactElement {
 	const isProd = process.env.NODE_ENV === 'production';
 
 	return (
