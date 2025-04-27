@@ -16,14 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
 	return {
 		title: path.title,
 		description: path.description,
-		keywords: [
-			'Nithin',
-			'Nithin Pradeep',
-			'Nithin Pradeep Portfolio',
-			'Nithin Portfolio',
-			'Portfolio',
-			'Software Engineer',
-		],
+		keywords: path.keywords,
 		openGraph: {
 			title: path.ogtitle,
 			description: path.description,
@@ -48,8 +41,6 @@ interface RootLayoutProps {
 export default function RootLayout({
 	children,
 }: Readonly<RootLayoutProps>): ReactElement {
-	const isProd = process.env.NODE_ENV === 'production';
-
 	return (
 		<html lang="en">
 			<head>
