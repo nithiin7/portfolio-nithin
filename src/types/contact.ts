@@ -1,4 +1,4 @@
-type Contact = {
+export interface Contact {
 	subtitle: string;
 	link: string;
-};
+}

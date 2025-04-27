@@ -1,4 +1,5 @@
 'use client';
+import { FC } from 'react';
 import { Testimonial } from 'types/testimony';
 import styles from './HomeTestimonial.module.scss';
 
@@ -24,7 +25,7 @@ interface HomeTestimonialProps {
  * @param {Testimonial[]} [props.testimonial] - Array of testimonial items to display.
  * @returns {JSX.Element} - Rendered HomeTestimonial component.
  */
-const HomeTestimonial: React.FC<HomeTestimonialProps> = ({
+const HomeTestimonial: FC<HomeTestimonialProps> = ({
 	className = '',
 	data = { title: '' },
 	testimonial = [],

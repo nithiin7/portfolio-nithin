@@ -1,3 +1,4 @@
+import isEqual from 'lodash/isEqual';
 import { useMemo } from 'react';
 import {
 	ApolloClient,
@@ -9,7 +10,6 @@ import {
 import { onError } from '@apollo/client/link/error';
 import { concatPagination } from '@apollo/client/utilities';
 import merge from 'deepmerge';
-import isEqual from 'lodash/isEqual';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 
@@ -77,10 +77,10 @@ export const initializeApollo = (
 	return _apolloClient;
 };
 
-type ApolloPageProps = {
+interface ApolloPageProps {
 	[key: string]: any;
 	props?: Record<string, unknown>;
-};
+}
 
 export const addApolloState = (
 	client: ApolloClient<NormalizedCacheObject>,

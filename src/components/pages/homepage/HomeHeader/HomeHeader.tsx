@@ -1,6 +1,6 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { FC, useEffect, useState } from 'react';
+import { motion, useMotionValue, useSpring } from 'motion/react';
 import { Settings } from 'types/anim';
 
 import styles from './HomeHeader.module.scss';
@@ -37,7 +37,7 @@ const settings: Settings = {
  * @param {string} [data.items[].subTitle] - Subtitle text.
  * @returns {JSX.Element} The rendered HomeHeader component.
  */
-const HomeHeader: React.FC<HomeHeaderProps> = ({
+const HomeHeader: FC<HomeHeaderProps> = ({
 	className = '',
 	data = { items: [] },
 }) => {

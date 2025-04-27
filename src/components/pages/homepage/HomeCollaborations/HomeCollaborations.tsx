@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import styles from './HomeCollaborations.module.scss';
 
 import MaskText from 'components/utilities/MaskText/MaskText';
@@ -27,7 +28,7 @@ const logoComponents = [
  * @param {string} [data.title] - Title text for the collaboration section, displayed with mask effect.
  * @returns {JSX.Element} The rendered HomeCollaborations component.
  */
-const HomeCollaborations: React.FC<HomeCollaborationsProps> = ({
+const HomeCollaborations: FC<HomeCollaborationsProps> = ({
 	className = '',
 	data = {},
 }) => (

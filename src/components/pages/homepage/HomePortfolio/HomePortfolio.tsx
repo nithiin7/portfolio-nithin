@@ -1,4 +1,5 @@
 'use client';
+import { FC } from 'react';
 import { PortfolioItem } from 'types/portfolio';
 import styles from './HomePortfolio.module.scss';
 
@@ -23,7 +24,7 @@ interface HomePortfolioProps {
  * @param {PortfolioItem[]} [props.portfolio] - List of portfolio items to display.
  * @returns {JSX.Element} - Rendered HomePortfolio component.
  */
-const HomePortfolio: React.FC<HomePortfolioProps> = ({
+const HomePortfolio: FC<HomePortfolioProps> = ({
 	className = '',
 	data = { title: '' },
 	portfolio = [],

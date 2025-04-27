@@ -1,4 +1,8 @@
-import React from 'react';
+import React, {
+	ChangeEventHandler,
+	FocusEventHandler,
+	forwardRef,
+} from 'react';
 import styles from './TextInput.module.scss';
 
 interface TextInputProps {
@@ -9,8 +13,8 @@ interface TextInputProps {
 	placeholder?: string;
 	value?: string;
 	label?: string;
-	onChange?: React.ChangeEventHandler<HTMLInputElement>;
-	onBlur?: React.FocusEventHandler<HTMLInputElement>;
+	onChange?: ChangeEventHandler<HTMLInputElement>;
+	onBlur?: FocusEventHandler<HTMLInputElement>;
 	disabled?: boolean;
 	errors?: string[];
 }
@@ -21,7 +25,7 @@ interface TextInputProps {
  * @param {TextInputProps} props - The properties for the component.
  * @returns {JSX.Element} The rendered TextInput component.
  */
-const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
+const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
 	(
 		{
 			name = '',

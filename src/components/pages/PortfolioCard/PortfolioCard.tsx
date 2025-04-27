@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -23,7 +24,7 @@ interface PortfolioCardProps {
  * @param {string} [props.year] - Year of the portfolio item (optional).
  * @returns {JSX.Element} - Rendered PortfolioCard component.
  */
-const PortfolioCard: React.FC<PortfolioCardProps> = ({
+const PortfolioCard: FC<PortfolioCardProps> = ({
 	image,
 	title,
 	demo,

@@ -1,6 +1,6 @@
 'use client';
 import { FC } from 'react';
-import { motion, Variants } from 'framer-motion';
+import { motion, Variants } from 'motion/react';
 import { useInView } from 'react-intersection-observer';
 
 import styles from './MaskText.module.scss';

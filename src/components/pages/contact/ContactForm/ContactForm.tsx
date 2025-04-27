@@ -1,9 +1,9 @@
 'use client';
-import { useRef, useState } from 'react';
+import { FC, useRef, useState } from 'react';
 import emailjs from 'emailjs-com';
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import Link from 'next/link';
 
 import { contactSchema } from 'helpers/validations';
@@ -34,7 +34,7 @@ interface ContactFormProps {
  * @param {'default' | 'alternative'} [variant='default'] - Visual variant of the form.
  * @returns {JSX.Element} The rendered ContactForm component.
  */
-const ContactForm: React.FC<ContactFormProps> = ({
+const ContactForm: FC<ContactFormProps> = ({
 	className = '',
 	variant = 'default',
 }) => {
@@ -58,7 +58,7 @@ const ContactForm: React.FC<ContactFormProps> = ({
 	 * Handles form submission, sending data via EmailJS and showing success feedback.
 	 *
 	 * @param {ContactFormData} data - Form data including name, email, and message.
-	 * @param {React.FormEvent} e - Form submit event.
+	 * @param {FormEvent} e - Form submit event.
 	 */
 	const onSubmit: SubmitHandler<ContactFormData> = (data, e) => {
 		if (e) {

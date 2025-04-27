@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import { ServiceHeader, ServiceItem } from 'types/service';
 import styles from './HomeServices.module.scss';
 
@@ -20,7 +21,7 @@ interface HomeServicesProps {
  * @param {ServiceItem[]} props.services - List of service items to display.
  * @returns {JSX.Element} - Rendered HomeServices component.
  */
-const HomeServices: React.FC<HomeServicesProps> = ({
+const HomeServices: FC<HomeServicesProps> = ({
 	className = '',
 	data = { title: '', subTitle: '' },
 	services = [],

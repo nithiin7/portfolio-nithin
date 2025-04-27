@@ -55,7 +55,6 @@
 				"alphabetize": { "order": "asc", "caseInsensitive": true }
 			}
 		],
-		"import/no-default-export": "error",
 		"unused-imports/no-unused-imports": "error",
 		"unused-imports/no-unused-vars": [
 			"warn",

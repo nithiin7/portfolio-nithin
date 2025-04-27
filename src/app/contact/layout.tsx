@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { ReactElement } from 'react';
+import { ReactElement, ReactNode } from 'react';
 
 import loadData from 'helpers/contentful';
 
@@ -29,7 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 interface ContactLayoutProps {
-	children: React.ReactNode;
+	children: ReactNode;
 }
 
 export default function ContactLayout({

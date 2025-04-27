@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 
 import styles from './Cursor.module.scss';
@@ -14,7 +14,7 @@ interface CursorProps {
  * @param {CursorProps} props - The props for the component.
  * @returns {JSX.Element} The rendered cursor component.
  */
-const Cursor: React.FC<CursorProps> = ({
+const Cursor: FC<CursorProps> = ({
 	className = '',
 	variant = '',
 	isHovered = false,

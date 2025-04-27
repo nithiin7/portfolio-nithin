@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import { Metadata } from 'next';
 
 import loadData from 'helpers/contentful';
@@ -35,7 +35,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 interface RootLayoutProps {
-	children: React.ReactNode;
+	children: ReactNode;
 }
 
 export default function RootLayout({

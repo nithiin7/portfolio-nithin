@@ -1,5 +1,5 @@
-@import 'src/styles/shared/_variables';
-@import 'src/styles/shared/_mixin';
+@use 'src/styles/shared/variables' as *;
+@use 'src/styles/shared/mixin' as *;
 
 .contact {
 	position: relative;

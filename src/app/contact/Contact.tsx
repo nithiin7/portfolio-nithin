@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
-import { useEffect, useState, MouseEvent } from 'react';
-import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { useEffect, useState, MouseEvent, FC } from 'react';
+import { motion, useMotionValue, useSpring } from 'motion/react';
 import { Settings } from 'types/anim';
 
 import styles from './Contact.module.scss';
@@ -16,7 +16,7 @@ const settings: Settings = {
 	intensity: 0.1,
 };
 
-const Contact: React.FC = () => {
+const Contact: FC = () => {
 	const [componentRef, setComponentRef] = useState<HTMLDivElement | null>(null);
 
 	const x = useMotionValue(0);

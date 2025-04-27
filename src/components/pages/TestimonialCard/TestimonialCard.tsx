@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import Image from 'next/image';
 import { Testimonial as TestimonialType } from 'types/testimony';
 
@@ -16,7 +16,7 @@ interface TestimonialCardProps {
  * @param {TestimonialCardProps} props - The props for the component.
  * @returns {JSX.Element} The rendered testimonial card component.
  */
-const TestimonialCard: React.FC<TestimonialCardProps> = ({
+const TestimonialCard: FC<TestimonialCardProps> = ({
 	className = '',
 	variant = '',
 	item = {

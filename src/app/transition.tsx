@@ -1,11 +1,11 @@
 'use client';
-import React, { ReactElement, useEffect, useState } from 'react';
-import { AnimatePresence, motion, Variants } from 'framer-motion';
+import React, { ReactElement, ReactNode, useEffect, useState } from 'react';
+import { AnimatePresence, motion, Variants } from 'motion/react';
 import { usePathname } from 'next/navigation';
 import { text, curve, translate } from 'helpers/animations';
 
 interface CurveProps {
-	children: React.ReactNode;
+	children: ReactNode;
 	backgroundColor?: string;
 }
 
