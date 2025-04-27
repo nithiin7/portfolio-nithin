@@ -19,7 +19,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 	if (graphQLErrors) {
 		graphQLErrors.forEach(({ message, locations, path }) =>
 			console.log(
-				`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+				`[GraphQL error]: Message: ${message}, Location: ${JSON.stringify(locations)}, Path: ${path}`
 			)
 		);
 	}
@@ -72,7 +72,7 @@ export const initializeApollo = (
 		_apolloClient.cache.restore(data);
 	}
 	if (typeof window === 'undefined') return _apolloClient;
-	if (!apolloClient) apolloClient = _apolloClient;
+	apolloClient ??= _apolloClient;
 
 	return _apolloClient;
 };

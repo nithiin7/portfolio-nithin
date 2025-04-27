@@ -34,7 +34,7 @@ const HomePortfolio: React.FC<HomePortfolioProps> = ({
 				<h2>
 					<MaskText phrases={[data.title ?? '']} />
 				</h2>
-				<div className="portfolio__container">
+				<div className={styles.portfolio__container}>
 					{portfolio.map((item, index) => (
 						<PortfolioCard
 							key={index}

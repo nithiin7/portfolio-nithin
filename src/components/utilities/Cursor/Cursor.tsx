@@ -103,7 +103,7 @@ const Cursor: React.FC<CursorProps> = ({
 					height: size,
 					transition: 'height 0.3s ease-out, width 0.3s ease-out',
 				}}
-				className="Cursor__rounded"
+				className={styles.Cursor__rounded}
 			/>
 		</div>
 	);

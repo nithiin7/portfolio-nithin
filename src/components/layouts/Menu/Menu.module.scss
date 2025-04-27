@@ -1,113 +1,111 @@
 @use 'styles/shared/mixin' as *;
 @use 'styles/shared/variables' as *;
 
-.Menu {
-	:global {
+.menu {
+	position: fixed;
+	left: rem(25);
+	top: rem(25);
+	z-index: 2;
+	.menu__button {
+		cursor: pointer;
 		position: fixed;
-		left: rem(25);
-		top: rem(25);
-		z-index: 2;
-		.menu__button {
-			cursor: pointer;
-			position: fixed;
-			z-index: 99;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
-			border-radius: rem(9999);
-			background-color: rgb(191 191 177);
-			height: 4rem;
-			width: 4rem;
-			gap: rem(5);
-			@media #{$md} {
-				height: 5rem;
-				width: 5rem;
-			}
-			span {
-				width: 2rem;
-				height: rem(1.75);
-				background-color: $color-black;
-				pointer-events: none;
-				transition: all cubic-bezier(0.16, 1, 0.3, 1) 0.5s;
-				@media #{$md} {
-					width: 2.25rem;
-					height: rem(2);
-				}
-				&.active {
-					transform: translate(0, rem(6)) rotate(45deg) skewX(0) skewY(0)
-						scaleX(1) scaleY(1);
-					&:nth-of-type(2) {
-						transform: translate(0, rem(0)) rotate(-45deg) skewX(0) skewY(0)
-							scaleX(1) scaleY(1);
-					}
-				}
-			}
+		z-index: 99;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		border-radius: rem(9999);
+		background-color: rgb(191 191 177);
+		height: 4rem;
+		width: 4rem;
+		gap: rem(5);
+		@media #{$md} {
+			height: 5rem;
+			width: 5rem;
 		}
-		.menu__container {
-			width: 100vw;
-			height: 100vh;
-			display: flex;
-			z-index: 50;
-			position: fixed;
+		span {
+			width: 2rem;
+			height: rem(1.75);
+			background-color: $color-black;
 			pointer-events: none;
-			top: 0;
-			left: 0;
-		}
-		.menu__sub-container {
-			max-width: 36rem;
-			padding-top: 2.5rem;
-			padding-bottom: 2.5rem;
-			background-color: $color-secondary;
-			border-radius: 0.375rem;
-			overflow: hidden;
-			justify-content: space-between;
-			display: flex;
-			flex-direction: column;
-			margin: 0.5rem;
-			z-index: 20;
-			position: relative;
-			pointer-events: auto;
-		}
-		.menu__background {
-			opacity: 0.25;
-			position: absolute;
-			top: 0;
-			right: 0;
-		}
-		.menu__nav {
-			display: flex;
-			flex-direction: column;
-			gap: rem(10);
-			padding-left: 4rem;
-			padding-right: 4rem;
-			font-size: 2.8rem;
-			line-height: 130%;
-			position: relative;
-			height: 100%;
-			justify-content: center;
-			font-weight: 700;
+			transition: all cubic-bezier(0.16, 1, 0.3, 1) 0.5s;
 			@media #{$md} {
-				font-size: 3.5rem;
-				padding-left: 6rem;
-				padding-right: 5rem;
+				width: 2.25rem;
+				height: rem(2);
 			}
-			a {
-				color: $color-primary;
-				text-decoration: none;
-				position: relative;
-				top: 0;
+			&.active {
+				transform: translate(0, rem(6)) rotate(45deg) skewX(0) skewY(0)
+					scaleX(1) scaleY(1);
+				&:nth-of-type(2) {
+					transform: translate(0, rem(0)) rotate(-45deg) skewX(0) skewY(0)
+						scaleX(1) scaleY(1);
+				}
 			}
 		}
-		.menu__socials {
-			display: flex;
-			justify-content: flex-end;
-			column-gap: 2rem;
-			padding-left: 3.5rem;
-			padding-right: 3.5rem;
-			a {
-				color: rgb(191 191 177);
-			}
+	}
+	.menu__container {
+		width: 100vw;
+		height: 100vh;
+		display: flex;
+		z-index: 50;
+		position: fixed;
+		pointer-events: none;
+		top: 0;
+		left: 0;
+	}
+	.menu__sub-container {
+		max-width: 36rem;
+		padding-top: 2.5rem;
+		padding-bottom: 2.5rem;
+		background-color: $color-secondary;
+		border-radius: 0.375rem;
+		overflow: hidden;
+		justify-content: space-between;
+		display: flex;
+		flex-direction: column;
+		margin: 0.5rem;
+		z-index: 20;
+		position: relative;
+		pointer-events: auto;
+	}
+	.menu__background {
+		opacity: 0.25;
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
+	.menu__nav {
+		display: flex;
+		flex-direction: column;
+		gap: rem(10);
+		padding-left: 4rem;
+		padding-right: 4rem;
+		font-size: 2.8rem;
+		line-height: 130%;
+		position: relative;
+		height: 100%;
+		justify-content: center;
+		font-weight: 700;
+		@media #{$md} {
+			font-size: 3.5rem;
+			padding-left: 6rem;
+			padding-right: 5rem;
+		}
+		a {
+			color: $color-primary;
+			text-decoration: none;
+			position: relative;
+			top: 0;
+		}
+	}
+	.menu__socials {
+		display: flex;
+		justify-content: flex-end;
+		column-gap: 2rem;
+		padding-left: 3.5rem;
+		padding-right: 3.5rem;
+		a {
+			color: rgb(191 191 177);
 		}
 	}
 }

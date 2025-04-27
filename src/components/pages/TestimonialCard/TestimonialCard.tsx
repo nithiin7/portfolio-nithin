@@ -36,8 +36,8 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
 		>
 			<Testimonial />
 			<blockquote>{item.review}</blockquote>
-			<div className="TestimonialCard__reviewer">
-				<div className="TestimonialCard__img">
+			<div className={styles.TestimonialCard__reviewer}>
+				<div className={styles.TestimonialCard__img}>
 					<Image
 						src={item.avatar.url}
 						alt="Avatar"
@@ -46,9 +46,9 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
 						quality={90}
 					/>
 				</div>
-				<div className="TestimonialCard__info">
-					<span className="Info__name">{item.reviewer}</span>
-					<span className="Info__institution">{item.institution}</span>
+				<div className={styles.TestimonialCard__info}>
+					<span className={styles.Info__name}>{item.reviewer}</span>
+					<span className={styles.Info__institution}>{item.institution}</span>
 				</div>
 			</div>
 		</div>

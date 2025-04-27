@@ -1,4 +1,4 @@
-import { GoogleAnalytics } from '@next/third-parties/google';
+import { ReactElement } from 'react';
 import { Metadata } from 'next';
 
 import loadData from 'helpers/contentful';
@@ -16,14 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
 	return {
 		title: path.title,
 		description: path.description,
-		keywords: [
-			'Nithin',
-			'Nithin Pradeep',
-			'Nithin Pradeep Portfolio',
-			'Nithin Portfolio',
-			'Portfolio',
-			'Software Engineer',
-		],
+		keywords: path.keywords,
 		openGraph: {
 			title: path.ogtitle,
 			description: path.description,
@@ -47,9 +40,7 @@ interface RootLayoutProps {
 
 export default function RootLayout({
 	children,
-}: Readonly<RootLayoutProps>): JSX.Element {
-	const isProd = process.env.NODE_ENV === 'production';
-
+}: Readonly<RootLayoutProps>): ReactElement {
 	return (
 		<html lang="en">
 			<head>
@@ -102,11 +93,6 @@ export default function RootLayout({
 						<Footer />
 					</Curve>
 				</Provider>
-				{isProd && (
-					<GoogleAnalytics
-						gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID as string}
-					/>
-				)}
 				<svg className="grainy__filter pointer-events-none absolute cursor-none">
 					<filter id="grainy">
 						<feTurbulence type="turbulence" baseFrequency="0.5" />

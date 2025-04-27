@@ -28,7 +28,7 @@ const HomeServices: React.FC<HomeServicesProps> = ({
 	return (
 		<div className={`${styles.HomeServices} ${className}`}>
 			<section id="services">
-				<div className="services__header">
+				<div className={styles.services__header}>
 					<h2>
 						<MaskText phrases={[data.title]} />
 					</h2>

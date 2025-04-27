@@ -98,7 +98,7 @@ const ContactForm: React.FC<ContactFormProps> = ({
 		>
 			{formSent ? (
 				<motion.div
-					className="contact__success"
+					className={styles.contact__success}
 					aria-hidden={!formSent}
 					variants={animate}
 					initial={formSent ? 'hidden' : 'visible'}
@@ -127,18 +127,18 @@ const ContactForm: React.FC<ContactFormProps> = ({
 							strokeWidth="2"
 						/>
 					</svg>
-					<p className="contact__text">
+					<p className={styles.contact__text}>
 						Thanks for the ping! Will get back to you soon!
 					</p>
 				</motion.div>
 			) : (
-				<div className="contact__container">
+				<div className={styles.contact__container}>
 					<form
-						className="contact__form"
+						className={styles.contact__form}
 						ref={form}
 						onSubmit={handleSubmit(onSubmit)}
 					>
-						<fieldset className="model__form-item">
+						<fieldset className={styles['model__form-item']}>
 							<Controller
 								control={control}
 								name="name"
@@ -155,7 +155,7 @@ const ContactForm: React.FC<ContactFormProps> = ({
 								)}
 							/>
 						</fieldset>
-						<fieldset className="model__form-item">
+						<fieldset className={styles['model__form-item']}>
 							<Controller
 								control={control}
 								name="email"
@@ -172,7 +172,7 @@ const ContactForm: React.FC<ContactFormProps> = ({
 								)}
 							/>
 						</fieldset>
-						<fieldset className="model__form-item">
+						<fieldset className={styles['model__form-item']}>
 							<Controller
 								control={control}
 								name="message"
@@ -191,12 +191,12 @@ const ContactForm: React.FC<ContactFormProps> = ({
 						</fieldset>
 						<button
 							type="submit"
-							className="contact__button"
+							className={styles.contact__button}
 							aria-label="Submit"
 						>
-							<motion.div className="contact__slider">
-								<div className="contact__el">
-									<div className="contact__PerspectiveText">
+							<motion.div className={styles.contact__slider}>
+								<div className={styles.contact__el}>
+									<div className={styles.contact__PerspectiveText}>
 										<p>Let&apos;s Do it</p>
 										<p>Let&apos;s Do it</p>
 									</div>
@@ -206,11 +206,11 @@ const ContactForm: React.FC<ContactFormProps> = ({
 					</form>
 				</div>
 			)}
-			<div className="contact__socials">
-				<div className="contact__options">
+			<div className={styles.contact__socials}>
+				<div className={styles.contact__options}>
 					<h3>FURTHER ENQUIRIES OR COLLABORATION</h3>
 					{contactOptions.map((option, index) => (
-						<div key={index} className="contact__link">
+						<div key={index} className={styles.contact__link}>
 							<Link href={option.link} title={option.subtitle}>
 								{option.subtitle}
 							</Link>

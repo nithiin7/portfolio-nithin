@@ -2,134 +2,132 @@
 @use 'styles/shared/variables' as *;
 
 .ContactForm {
-	:global {
-		display: flex;
-		flex-direction: column-reverse;
-		gap: rem(50);
+	display: flex;
+	flex-direction: column-reverse;
+	gap: rem(50);
+	width: 100%;
+	@media #{$md} {
+		flex-direction: row;
+		gap: rem(100);
+	}
+	.contact__container {
 		width: 100%;
 		@media #{$md} {
-			flex-direction: row;
-			gap: rem(100);
+			width: 50%;
 		}
-		.contact__container {
-			width: 100%;
-			@media #{$md} {
-				width: 50%;
+		.contact__button {
+			width: max-content;
+			display: inline-block;
+			background: $color-secondary;
+			color: rgb(232 232 227);
+			padding-top: 1.25rem;
+			padding-bottom: 1.25rem;
+			padding-left: 2.5rem;
+			padding-right: 2.5rem;
+			cursor: pointer;
+			border: rem(1) solid $color-secondary;
+			border-radius: rem(9999);
+			letter-spacing: 0;
+			line-height: 130%;
+			text-transform: uppercase;
+			font-weight: 700;
+			overflow: hidden;
+			.contact__slider {
+				position: relative;
+				height: 100%;
+				width: 100%;
 			}
-			.contact__button {
-				width: max-content;
-				display: inline-block;
-				background: $color-secondary;
-				color: rgb(232 232 227);
-				padding-top: 1.25rem;
-				padding-bottom: 1.25rem;
-				padding-left: 2.5rem;
-				padding-right: 2.5rem;
-				cursor: pointer;
-				border: rem(1) solid $color-secondary;
-				border-radius: rem(9999);
-				letter-spacing: 0;
-				line-height: 130%;
-				text-transform: uppercase;
-				font-weight: 700;
-				overflow: hidden;
-				.contact__slider {
-					position: relative;
-					height: 100%;
-					width: 100%;
+			.contact__el {
+				height: 100%;
+				width: 100%;
+				&:nth-of-type(2) {
+					position: absolute;
+					top: 100%;
 				}
-				.contact__el {
-					height: 100%;
-					width: 100%;
+			}
+			.contact__PerspectiveText {
+				width: 100%;
+				height: 100%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				transition: transform 0.75s cubic-bezier(0.76, 0, 0.24, 1);
+				transform-style: preserve-3d;
+				p {
+					transition: all 0.75s cubic-bezier(0.76, 0, 0.24, 1);
+					line-height: 1;
 					&:nth-of-type(2) {
 						position: absolute;
-						top: 100%;
+						transform: rotateX(-90deg) translateY(rem(9));
+						transform-origin: bottom center;
+						opacity: 0;
 					}
 				}
+			}
+			&:hover {
 				.contact__PerspectiveText {
-					width: 100%;
-					height: 100%;
-					display: flex;
-					align-items: center;
-					justify-content: center;
-					transition: transform 0.75s cubic-bezier(0.76, 0, 0.24, 1);
-					transform-style: preserve-3d;
+					transform: rotateX(90deg);
 					p {
-						transition: all 0.75s cubic-bezier(0.76, 0, 0.24, 1);
-						line-height: 1;
-						&:nth-of-type(2) {
-							position: absolute;
-							transform: rotateX(-90deg) translateY(rem(9));
-							transform-origin: bottom center;
+						&:nth-of-type(1) {
+							transform: translateY(-100%);
 							opacity: 0;
 						}
-					}
-				}
-				&:hover {
-					.contact__PerspectiveText {
-						transform: rotateX(90deg);
-						p {
-							&:nth-of-type(1) {
-								transform: translateY(-100%);
-								opacity: 0;
-							}
-							&:nth-of-type(2) {
-								opacity: 1;
-							}
+						&:nth-of-type(2) {
+							opacity: 1;
 						}
 					}
 				}
-				@media #{$md} {
-					padding-top: 1.75rem;
-					padding-bottom: 1.75rem;
-					padding-left: 3rem;
-					padding-right: 3rem;
-				}
+			}
+			@media #{$md} {
+				padding-top: 1.75rem;
+				padding-bottom: 1.75rem;
+				padding-left: 3rem;
+				padding-right: 3rem;
 			}
 		}
-		.contact__success {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
-			text-align: center;
-			gap: rem(25);
-			width: 50%;
-			svg {
-				height: rem(150);
-				width: rem(150);
-			}
-			p {
-				color: $color-secondary;
-				letter-spacing: 0;
-				line-height: 130%;
-				text-transform: uppercase;
-				font-weight: 700;
-				font-size: rem(18);
-				text-wrap: balance;
-				max-width: 30ch;
-			}
+	}
+	.contact__success {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		gap: rem(25);
+		width: 50%;
+		svg {
+			height: rem(150);
+			width: rem(150);
 		}
-		.contact__socials {
-			max-width: 20ch;
-			h3 {
-				color: $color-secondary;
-				letter-spacing: 0;
+		p {
+			color: $color-secondary;
+			letter-spacing: 0;
+			line-height: 130%;
+			text-transform: uppercase;
+			font-weight: 700;
+			font-size: rem(18);
+			text-wrap: balance;
+			max-width: 30ch;
+		}
+	}
+	.contact__socials {
+		max-width: 20ch;
+		h3 {
+			color: $color-secondary;
+			letter-spacing: 0;
+			line-height: 130%;
+			text-transform: uppercase;
+			font-weight: 700;
+			font-size: rem(18);
+			text-wrap: balance;
+			margin-bottom: rem(20);
+		}
+		.contact__link {
+			a {
+				color: rgb(107 100 92);
 				line-height: 130%;
-				text-transform: uppercase;
-				font-weight: 700;
-				font-size: rem(18);
-				text-wrap: balance;
-				margin-bottom: rem(20);
-			}
-			.contact__link {
-				a {
-					color: rgb(107 100 92);
-					line-height: 130%;
-					font-weight: 400;
-					overflow: hidden;
-					font-size: 1.125rem;
-				}
+				font-weight: 400;
+				overflow: hidden;
+				font-size: 1.125rem;
 			}
 		}
 	}

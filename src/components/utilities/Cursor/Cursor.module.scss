@@ -2,18 +2,16 @@
 @use 'styles/shared/variables' as *;
 
 .Cursor {
-	:global {
-		display: none;
-		.Cursor__rounded {
-			border-radius: 100%;
-			mix-blend-mode: difference;
-			pointer-events: none;
-		}
-		@media #{$md} {
-			display: block;
-			position: absolute;
-			top: 0;
-			left: 0;
-		}
+	display: none;
+	.Cursor__rounded {
+		border-radius: 100%;
+		mix-blend-mode: difference;
+		pointer-events: none;
+	}
+	@media #{$md} {
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 0;
 	}
 }

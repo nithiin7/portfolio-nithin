@@ -45,13 +45,13 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
 				} ${className}`}
 			>
 				{label && (
-					<div className="TextArea__label">
+					<div className={styles.TextArea__label}>
 						<label htmlFor={name}>{label}</label>
 						<span>*</span>
 					</div>
 				)}
 				<textarea
-					className="TextArea__input"
+					className={styles.TextArea__input}
 					id={name}
 					name={name}
 					value={value}
@@ -63,9 +63,9 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
 					aria-label={value}
 					disabled={disabled}
 				/>
-				<div className="TextArea__errors">
+				<div className={styles.TextArea__errors}>
 					{errors.length > 0 && (
-						<div className="TextArea__form-errors">
+						<div className={styles['TextArea__form-errors']}>
 							{errors.map((error, index) => (
 								<p key={index}>{error}</p>
 							))}

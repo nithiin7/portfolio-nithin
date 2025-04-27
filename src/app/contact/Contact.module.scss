@@ -1,80 +1,78 @@
 @import 'src/styles/shared/_variables';
 @import 'src/styles/shared/_mixin';
 
-.Contact {
-	:global {
-		position: relative;
-		.contact__nav {
-			position: absolute;
-			left: rem(15);
-			top: rem(15);
-			z-index: 99;
-			a {
-				pointer-events: all;
-				display: inline-block;
-			}
-			svg {
-				height: rem(75);
-				width: rem(75);
-				@media #{$md} {
-					height: rem(100);
-					width: rem(100);
-				}
-			}
+.contact {
+	position: relative;
+	.contact__nav {
+		position: absolute;
+		left: rem(15);
+		top: rem(15);
+		z-index: 99;
+		a {
+			pointer-events: all;
+			display: inline-block;
+		}
+		svg {
+			height: rem(75);
+			width: rem(75);
 			@media #{$md} {
-				left: rem(25);
-				top: rem(25);
+				height: rem(100);
+				width: rem(100);
 			}
 		}
-		section {
-			position: relative;
-			padding: 5% 4%;
-			overflow-y: clip;
-			display: flex;
-			align-items: center;
-			justify-content: flex-start;
+		@media #{$md} {
+			left: rem(25);
+			top: rem(25);
 		}
-		header {
+	}
+	section {
+		position: relative;
+		padding: 5% 4%;
+		overflow-y: clip;
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+	}
+	header {
+		position: relative;
+		padding: 5% 4%;
+		overflow-y: clip;
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		.contact__bg {
+			opacity: 1;
+			z-index: -20;
+			transform: none;
+			width: 40%;
+			height: fit-content;
+			position: absolute;
+			top: 4rem;
+			left: 50%;
+			pointer-events: none;
+			display: block;
+			max-width: 100%;
+		}
+		.contact__header {
 			position: relative;
-			padding: 5% 4%;
-			overflow-y: clip;
 			display: flex;
-			align-items: center;
-			justify-content: flex-start;
-			.contact__bg {
-				opacity: 1;
-				z-index: -20;
-				transform: none;
-				width: 40%;
-				height: fit-content;
-				position: absolute;
-				top: 4rem;
-				left: 50%;
-				pointer-events: none;
-				display: block;
-				max-width: 100%;
-			}
-			.Contact__header {
-				position: relative;
+			padding-top: 8rem;
+			h1 {
+				font-size: 3em;
+				color: $color-secondary;
+				font-weight: 700;
 				display: flex;
-				padding-top: 8rem;
-				h1 {
-					font-size: 3em;
-					color: $color-secondary;
-					font-weight: 700;
-					display: flex;
-					max-width: 15ch;
-					flex-direction: column;
-					text-wrap: balance;
-					line-height: 92.5%;
-					letter-spacing: -0.0275em;
-					text-transform: uppercase;
-					@media #{$md} {
-						font-size: 4em;
-					}
-					@media #{$lg} {
-						font-size: 5.65rem;
-					}
+				max-width: 15ch;
+				flex-direction: column;
+				text-wrap: balance;
+				line-height: 92.5%;
+				letter-spacing: -0.0275em;
+				text-transform: uppercase;
+				@media #{$md} {
+					font-size: 4em;
+				}
+				@media #{$lg} {
+					font-size: 5.65rem;
 				}
 			}
 		}

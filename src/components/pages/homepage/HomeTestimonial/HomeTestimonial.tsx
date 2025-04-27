@@ -35,7 +35,7 @@ const HomeTestimonial: React.FC<HomeTestimonialProps> = ({
 				<h2>
 					<MaskText phrases={[data.title ?? '']} />
 				</h2>
-				<div className="HomeTestimonial__testimonial">
+				<div className={styles.HomeTestimonial__testimonial}>
 					{testimonial.map((item, index) => {
 						return <TestimonialCard key={index} item={item} />;
 					})}

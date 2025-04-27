@@ -2,13 +2,14 @@ import { gql } from '@apollo/client';
 
 export const GET_PAGE = gql`
 	query Home($page: String!) {
-		pageCollection(where: { name: $page }, limit: 1) {
+		pageCollection(where: { slug: $page }, limit: 1) {
 			items {
 				name
 				title
 				slug
 				ogtitle
 				ogurl
+				keywords
 				description
 				sectionCollection(limit: 10) {
 					items {

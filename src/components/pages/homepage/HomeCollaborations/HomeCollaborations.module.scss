@@ -2,42 +2,40 @@
 @use 'styles/shared/variables' as *;
 
 .HomeCollaborations {
-	:global {
-		background-color: $color-black;
-		padding: 5% 4%;
-		border-bottom-left-radius: 1.5rem;
-		border-bottom-right-radius: 1.5rem;
-		padding-bottom: rem(200);
-		h2 {
-			color: rgb(209 209 199);
-			padding-bottom: 2rem;
-			font-weight: 700;
-			text-transform: uppercase;
-			text-align: left;
-			font-size: 2.5rem;
+	background-color: $color-black;
+	padding: 5% 4%;
+	border-bottom-left-radius: 1.5rem;
+	border-bottom-right-radius: 1.5rem;
+	padding-bottom: rem(200);
+	h2 {
+		color: rgb(209 209 199);
+		padding-bottom: 2rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		text-align: left;
+		font-size: 2.5rem;
+		@media #{$md} {
+			font-size: clamp(3.5rem, 2.3571rem + 4.5143vi, 10.5rem);
+		}
+	}
+	.portfolio__collaborations {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: rem(100);
+		.collaborations__companies {
+			height: rem(100);
+			width: 100%;
+			svg {
+				height: 100%;
+				width: 100%;
+			}
 			@media #{$md} {
-				font-size: clamp(3.5rem, 2.3571rem + 4.5143vi, 10.5rem);
+				width: 33%;
 			}
 		}
-		.portfolio__collaborations {
-			width: 100%;
-			display: flex;
-			flex-direction: column;
-			gap: rem(100);
-			.Collaborations__companies {
-				height: rem(100);
-				width: 100%;
-				svg {
-					height: 100%;
-					width: 100%;
-				}
-				@media #{$md} {
-					width: 33%;
-				}
-			}
-			@media #{$md} {
-				flex-direction: row;
-			}
+		@media #{$md} {
+			flex-direction: row;
 		}
 	}
 }
