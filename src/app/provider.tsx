@@ -2,6 +2,7 @@
 import { ReactLenis } from '@studio-freight/react-lenis';
 import AOS from 'aos';
 import { useEffect } from 'react';
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
 import 'aos/dist/aos.css';
 import { init } from 'services/analytics';
@@ -31,8 +32,18 @@ export default function Provider({
 	}, []);
 
 	return (
-		<main>
-			<ReactLenis root>{children}</ReactLenis>
-		</main>
+		<GoogleReCaptchaProvider
+			reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+			scriptProps={{
+				async: false,
+				defer: false,
+				appendTo: 'head',
+				nonce: undefined,
+			}}
+		>
+			<main>
+				<ReactLenis root>{children}</ReactLenis>
+			</main>
+		</GoogleReCaptchaProvider>
 	);
 }

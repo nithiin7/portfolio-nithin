@@ -23,6 +23,9 @@
 			@media #{$md} {
 				line-height: rem(70);
 			}
+			@media #{$lg} {
+				line-height: rem(150);
+			}
 		}
 		span {
 			display: inline-block;
