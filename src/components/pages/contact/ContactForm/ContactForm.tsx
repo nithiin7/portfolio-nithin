@@ -6,6 +6,7 @@ import { motion } from 'motion/react';
 import Link from 'next/link';
 import type { FC } from 'react';
 import { useRef, useState } from 'react';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import type { SubmitHandler } from 'react-hook-form';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -41,7 +42,10 @@ const ContactForm: FC<ContactFormProps> = ({
 	variant = 'default',
 }) => {
 	const [formSent, setFormSent] = useState(false);
+	const [isSubmitting, setIsSubmitting] = useState(false);
+
 	const form = useRef<HTMLFormElement>(null);
+	const { executeRecaptcha } = useGoogleReCaptcha();
 
 	const {
 		formState: { errors },
@@ -62,27 +66,52 @@ const ContactForm: FC<ContactFormProps> = ({
 	 * @param {ContactFormData} data - Form data including name, email, and message.
 	 * @param {FormEvent} e - Form submit event.
 	 */
-	const onSubmit: SubmitHandler<ContactFormData> = (data, e) => {
+	const onSubmit: SubmitHandler<ContactFormData> = async (data, e) => {
 		if (e) {
 			e.preventDefault();
 		}
 
-		sendForm(
-			process.env.NEXT_PUBLIC_SERVICE_ID!,
-			process.env.NEXT_PUBLIC_TEMPLATE_ID!,
-			form.current!,
-			process.env.NEXT_PUBLIC_EMAILJS_ID
-		).then(
-			() => {
-				setFormSent(true);
-				setTimeout(() => {
-					setFormSent(false);
-				}, 10000);
-			},
-			(error) => {
-				console.log(error.text);
+		if (!executeRecaptcha) {
+			console.log('Execute recaptcha not yet available');
+			return;
+		}
+
+		setIsSubmitting(true);
+
+		try {
+			const token = await executeRecaptcha('contact_form');
+
+			if (!token) {
+				console.error('Failed to get reCAPTCHA token');
+				return;
 			}
-		);
+
+			// Add the token to the form
+			const formElement = form.current;
+			if (formElement) {
+				const recaptchaInput = document.createElement('input');
+				recaptchaInput.type = 'hidden';
+				recaptchaInput.name = 'g-recaptcha-response';
+				recaptchaInput.value = token;
+				formElement.appendChild(recaptchaInput);
+			}
+
+			await sendForm(
+				process.env.NEXT_PUBLIC_SERVICE_ID!,
+				process.env.NEXT_PUBLIC_TEMPLATE_ID!,
+				form.current!,
+				process.env.NEXT_PUBLIC_EMAILJS_ID
+			);
+
+			setFormSent(true);
+			setTimeout(() => {
+				setFormSent(false);
+			}, 10000);
+		} catch (error) {
+			console.error('Error submitting form:', error);
+		} finally {
+			setIsSubmitting(false);
+		}
 	};
 
 	const animate = {
@@ -191,12 +220,13 @@ const ContactForm: FC<ContactFormProps> = ({
 							type="submit"
 							className={styles.contact__button}
 							aria-label="Submit"
+							disabled={isSubmitting}
 						>
 							<motion.div className={styles.contact__slider}>
 								<div className={styles.contact__el}>
 									<div className={styles.contact__PerspectiveText}>
-										<p>Let&apos;s Do it</p>
-										<p>Let&apos;s Do it</p>
+										<p>{isSubmitting ? 'Sending...' : "Let's Do it"}</p>
+										<p>{isSubmitting ? 'Sending...' : "Let's Do it"}</p>
 									</div>
 								</div>
 							</motion.div>

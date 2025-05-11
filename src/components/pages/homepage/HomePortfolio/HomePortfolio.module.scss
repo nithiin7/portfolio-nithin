@@ -17,7 +17,15 @@
 		}
 		div {
 			display: flex;
+			flex-wrap: wrap;
 			gap: rem(10);
+			line-height: rem(30);
+			@media #{$md} {
+				line-height: rem(70);
+			}
+			@media #{$lg} {
+				line-height: rem(150);
+			}
 		}
 		span {
 			display: inline-block;
