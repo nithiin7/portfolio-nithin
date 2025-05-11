@@ -1,13 +1,14 @@
 'use client';
-import { footerLinks, socials, songs } from 'constants/index';
 
 import { useLenis } from '@studio-freight/react-lenis';
-import Contact from 'assets/images/contact.svg';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import type { ReactElement } from 'react';
 import { useEffect, useState } from 'react';
 import { Link as ScrollLink } from 'react-scroll';
+
+import Contact from 'assets/images/contact.svg';
+import { footerLinks, socials, songs } from 'constants/index';
 import type { Social } from 'types/social';
 import type { Song } from 'types/song';
 import type { FooterLink } from 'types/utils';
@@ -73,7 +74,12 @@ const Footer = (): ReactElement => {
 				className={styles['footer__bg']}
 				aria-hidden="true"
 			>
-				<circle cx="593" cy="593" r="593" fill="url(#paint0_linear_4949_267)"></circle>
+				<circle
+					cx="593"
+					cy="593"
+					r="593"
+					fill="url(#paint0_linear_4949_267)"
+				></circle>
 				<defs>
 					<linearGradient
 						id="paint0_linear_4949_267"

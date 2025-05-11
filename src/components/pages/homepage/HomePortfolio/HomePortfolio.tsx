@@ -1,7 +1,8 @@
 'use client';
+import type { FC } from 'react';
+
 import PortfolioCard from 'components/pages/PortfolioCard';
 import MaskText from 'components/utilities/MaskText/MaskText';
-import type { FC } from 'react';
 import type { PortfolioItem } from 'types/portfolio';
 
 import styles from './HomePortfolio.module.scss';

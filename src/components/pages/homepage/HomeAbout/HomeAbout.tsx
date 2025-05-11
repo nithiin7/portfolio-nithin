@@ -1,7 +1,8 @@
 'use client';
-import MaskText from 'components/utilities/MaskText/MaskText';
 import Image from 'next/image';
 import type { FC } from 'react';
+
+import MaskText from 'components/utilities/MaskText/MaskText';
 
 import styles from './HomeAbout.module.scss';
 
@@ -86,7 +87,10 @@ const HomeAbout: FC<HomeAboutProps> = ({
 								width={1000}
 								quality={100}
 							/>
-							<div className={styles.HomeAbout__gradient} aria-hidden="true"></div>
+							<div
+								className={styles.HomeAbout__gradient}
+								aria-hidden="true"
+							></div>
 						</div>
 					</div>
 					<p className={styles.HomeAbout__description}>

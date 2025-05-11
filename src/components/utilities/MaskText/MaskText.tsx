@@ -19,7 +19,11 @@ interface MaskTextProps {
  * @param {MaskTextProps} props - The properties for the component.
  * @returns {JSX.Element} The rendered MaskText component.
  */
-const MaskText: FC<MaskTextProps> = ({ className = '', variant = '', phrases = [] }) => {
+const MaskText: FC<MaskTextProps> = ({
+	className = '',
+	variant = '',
+	phrases = [],
+}) => {
 	const animation: Variants = {
 		initial: { y: '100%' },
 		enter: {
@@ -37,7 +41,10 @@ const MaskText: FC<MaskTextProps> = ({ className = '', variant = '', phrases = [
 	});
 
 	return (
-		<div className={`${styles.MaskText} ${styles[`MaskText__${variant}`]} ${className}`} ref={ref}>
+		<div
+			className={`${styles.MaskText} ${styles[`MaskText__${variant}`]} ${className}`}
+			ref={ref}
+		>
 			<motion.div
 				variants={{
 					enter: {

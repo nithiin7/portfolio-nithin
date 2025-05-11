@@ -1,8 +1,9 @@
+import type { FC } from 'react';
+
 import GameAwardsLogo from 'assets/logos/game-awards.svg';
 import SpotifyLogo from 'assets/logos/spotify.svg';
 import WhiteRabbitLogo from 'assets/logos/white-rabbit.svg';
 import MaskText from 'components/utilities/MaskText/MaskText';
-import type { FC } from 'react';
 
 import styles from './HomeCollaborations.module.scss';
 
@@ -28,7 +29,10 @@ const logoComponents = [
  * @param {string} [data.title] - Title text for the collaboration section, displayed with mask effect.
  * @returns {JSX.Element} The rendered HomeCollaborations component.
  */
-const HomeCollaborations: FC<HomeCollaborationsProps> = ({ className = '', data = {} }) => (
+const HomeCollaborations: FC<HomeCollaborationsProps> = ({
+	className = '',
+	data = {},
+}) => (
 	<div className={`${styles.HomeCollaborations} ${className}`}>
 		<section id="collaborations">
 			<h2>

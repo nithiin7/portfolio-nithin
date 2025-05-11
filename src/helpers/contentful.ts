@@ -1,4 +1,5 @@
 import type { ApolloQueryResult } from '@apollo/client';
+
 import { GET_PAGE } from 'queries';
 import type { PageData } from 'types/contentful';
 

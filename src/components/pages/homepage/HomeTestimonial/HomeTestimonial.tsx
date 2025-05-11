@@ -1,7 +1,8 @@
 'use client';
+import type { FC } from 'react';
+
 import TestimonialCard from 'components/pages/TestimonialCard/TestimonialCard';
 import MaskText from 'components/utilities/MaskText/MaskText';
-import type { FC } from 'react';
 import type { Testimonial } from 'types/testimony';
 
 import styles from './HomeTestimonial.module.scss';

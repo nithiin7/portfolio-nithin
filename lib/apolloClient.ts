@@ -57,7 +57,9 @@ export const initializeApollo = (
 		const data = merge(existingCache, initialState, {
 			arrayMerge: (destinationArray: unknown[], sourceArray: unknown[]) => [
 				...sourceArray,
-				...destinationArray.filter(d => sourceArray.every(s => !isEqual(d, s))),
+				...destinationArray.filter((d) =>
+					sourceArray.every((s) => !isEqual(d, s))
+				),
 			],
 		});
 		_apolloClient.cache.restore(data);
@@ -84,8 +86,12 @@ export const addApolloState = (
 	return pageProps;
 };
 
-export const useApollo = (pageProps: ApolloPageProps): ApolloClient<NormalizedCacheObject> => {
-	const state = pageProps[APOLLO_STATE_PROP_NAME] as NormalizedCacheObject | undefined;
+export const useApollo = (
+	pageProps: ApolloPageProps
+): ApolloClient<NormalizedCacheObject> => {
+	const state = pageProps[APOLLO_STATE_PROP_NAME] as
+		| NormalizedCacheObject
+		| undefined;
 	const store = useMemo(() => initializeApollo(state), [state]);
 	return store;
 };

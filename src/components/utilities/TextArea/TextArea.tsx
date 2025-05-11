@@ -41,7 +41,9 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
 		ref
 	) => {
 		return (
-			<div className={`${styles.TextArea} ${styles[`TextArea__${variant}`]} ${className}`}>
+			<div
+				className={`${styles.TextArea} ${styles[`TextArea__${variant}`]} ${className}`}
+			>
 				{label && (
 					<div className={styles.TextArea__label}>
 						<label htmlFor={name}>{label}</label>

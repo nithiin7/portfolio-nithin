@@ -1,6 +1,7 @@
-import loadData from 'helpers/contentful';
 import type { Metadata } from 'next';
 import type { ReactElement, ReactNode } from 'react';
+
+import loadData from 'helpers/contentful';
 
 export async function generateMetadata(): Promise<Metadata> {
 	const props = await loadData('contact');
@@ -31,6 +32,8 @@ interface ContactLayoutProps {
 	children: ReactNode;
 }
 
-export default function ContactLayout({ children }: Readonly<ContactLayoutProps>): ReactElement {
+export default function ContactLayout({
+	children,
+}: Readonly<ContactLayoutProps>): ReactElement {
 	return <>{children}</>;
 }

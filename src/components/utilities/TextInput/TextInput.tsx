@@ -41,7 +41,9 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
 		ref
 	) => {
 		return (
-			<div className={`${styles.TextInput} ${styles[`TextInput__${variant}`]} ${className}`}>
+			<div
+				className={`${styles.TextInput} ${styles[`TextInput__${variant}`]} ${className}`}
+			>
 				{label && (
 					<div className={styles.TextInput__label}>
 						<label htmlFor={name}>{label}</label>

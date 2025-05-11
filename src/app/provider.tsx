@@ -11,7 +11,9 @@ interface ProviderProps {
 	children: ReactNode;
 }
 
-export default function Provider({ children }: Readonly<ProviderProps>): ReactElement {
+export default function Provider({
+	children,
+}: Readonly<ProviderProps>): ReactElement {
 	useEffect(() => {
 		console.log(
 			`

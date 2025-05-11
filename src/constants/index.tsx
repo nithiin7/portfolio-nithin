@@ -1,6 +1,7 @@
 import { FaGithub, FaBitbucket, FaLinkedinIn } from 'react-icons/fa';
 import { FiInstagram } from 'react-icons/fi';
 import { IoLogoTwitter } from 'react-icons/io';
+
 import type { Contact } from 'types/contact';
 import type { Social } from 'types/social';
 import type { Song } from 'types/song';

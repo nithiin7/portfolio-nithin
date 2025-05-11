@@ -1,5 +1,3 @@
-// eslint.config.mjs - ESLint configuration for Next.js 15 with TypeScript and Prettier
-
 import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import nextPlugin from '@next/eslint-plugin-next';
@@ -63,6 +61,12 @@ export default [
 		plugins: {
 			import: importPlugin,
 		},
+		languageOptions: {
+			parserOptions: {
+				ecmaVersion: 'latest',
+				sourceType: 'module',
+			},
+		},
 		rules: {
 			'import/no-unresolved': 'error',
 			'import/named': 'error',
@@ -85,8 +89,13 @@ export default [
 		},
 		settings: {
 			'import/resolver': {
-				typescript: true,
-				node: true,
+				typescript: {
+					project: './tsconfig.json',
+					alwaysTryTypes: true,
+				},
+				node: {
+					extensions: ['.js', '.jsx', '.ts', '.tsx'],
+				},
 			},
 		},
 	},
@@ -118,13 +127,13 @@ export default [
 			'prettier/prettier': [
 				'error',
 				{
-					singleQuote: true,
-					trailingComma: 'es5',
 					tabWidth: 2,
+					useTabs: true,
+					printWidth: 80,
 					semi: true,
-					printWidth: 100,
-					arrowParens: 'avoid',
-					endOfLine: 'auto',
+					trailingComma: 'es5',
+					singleQuote: true,
+					endOfLine: 'lf',
 				},
 			],
 		},
@@ -145,7 +154,7 @@ export default [
 					disallowTypeAnnotations: false,
 				},
 			],
-			'no-console': 'warn',
+			'no-console': 'error',
 		},
 	},
 	{
@@ -164,8 +173,15 @@ export default [
 			'out/**',
 			'dist/**',
 			'build/**',
+			'public/**',
+			'coverage/**',
 			'*.config.js',
 			'*.config.mjs',
+			'next.config.js',
+			'next.config.mjs',
+			'postcss.config.js',
+			'tailwind.config.js',
+			'tailwind.config.ts',
 		],
 	},
 ];

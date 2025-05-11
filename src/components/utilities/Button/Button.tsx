@@ -15,10 +15,16 @@ interface ButtonProps {
  * @param {ButtonProps} props - The props for the component.
  * @returns {JSX.Element} The rendered button component.
  */
-const Button: FC<ButtonProps> = ({ text = '', className = '', variant = '' }) => {
+const Button: FC<ButtonProps> = ({
+	text = '',
+	className = '',
+	variant = '',
+}) => {
 	return (
 		<button
-			className={[styles.button, styles[`button__${variant}`], className].join(' ')}
+			className={[styles.button, styles[`button__${variant}`], className].join(
+				' '
+			)}
 			type="submit"
 			aria-label="submit"
 		>
