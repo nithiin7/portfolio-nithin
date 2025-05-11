@@ -1,11 +1,10 @@
-import loadData from 'helpers/contentful';
-
-import HomeHeader from 'components/pages/homepage/HomeHeader';
 import HomeAbout from 'components/pages/homepage/HomeAbout';
-import HomeServices from 'components/pages/homepage/HomeServices';
-import HomePortfolio from 'components/pages/homepage/HomePortfolio';
 import HomeCollaborations from 'components/pages/homepage/HomeCollaborations/HomeCollaborations';
+import HomeHeader from 'components/pages/homepage/HomeHeader';
+import HomePortfolio from 'components/pages/homepage/HomePortfolio';
+import HomeServices from 'components/pages/homepage/HomeServices';
 import HomeTestimonial from 'components/pages/homepage/HomeTestimonial';
+import loadData from 'helpers/contentful';
 
 export default async function Home() {
 	const props = await loadData('home');
@@ -21,18 +20,14 @@ export default async function Home() {
 	const aboutData = sections[2]?.contentsCollection || { items: [] };
 	const portfolioData = {
 		data: sections[3]?.contentsCollection?.items?.[0] || {},
-		portfolio:
-			sections[3]?.contentsCollection?.items?.[1]?.contentsCollection?.items ||
-			[],
+		portfolio: sections[3]?.contentsCollection?.items?.[1]?.contentsCollection?.items || [],
 	};
 	const collaborationsData = {
 		data: sections[4]?.contentsCollection?.items?.[0] || {},
 	};
 	const testimonialData = {
 		data: sections[5]?.contentsCollection?.items?.[0] || {},
-		testimonial:
-			sections[5]?.contentsCollection?.items?.[1]?.contentsCollection?.items ||
-			[],
+		testimonial: sections[5]?.contentsCollection?.items?.[1]?.contentsCollection?.items || [],
 	};
 
 	return (

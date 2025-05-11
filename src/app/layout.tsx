@@ -1,13 +1,16 @@
-import { ReactElement, ReactNode } from 'react';
-import { Metadata } from 'next';
-
 import loadData from 'helpers/contentful';
+import type { Metadata } from 'next';
+import type { ReactElement, ReactNode } from 'react';
+
 import 'styles/globals.scss';
 
 import Provider from './provider';
+
 import Footer from 'components/layouts/Footer';
+
 import Curve from './transition';
-import Menu from 'components/layouts/Menu/Menu';
+
+import Menu from 'components/layouts/Menu';
 
 export async function generateMetadata(): Promise<Metadata> {
 	const props = await loadData('home');

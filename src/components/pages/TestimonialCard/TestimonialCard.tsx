@@ -1,8 +1,8 @@
-import { FC } from 'react';
-import Image from 'next/image';
-import { Testimonial as TestimonialType } from 'types/testimony';
-
 import Testimonial from 'assets/images/testimonial.svg';
+import Image from 'next/image';
+import type { FC } from 'react';
+import type { Testimonial as TestimonialType } from 'types/testimony';
+
 import styles from './TestimonialCard.module.scss';
 
 interface TestimonialCardProps {
@@ -28,23 +28,15 @@ const TestimonialCard: FC<TestimonialCardProps> = ({
 }) => {
 	return (
 		<div
-			className={[
-				styles.TestimonialCard,
-				styles[`TestimonialCard__${variant}`],
-				className,
-			].join(' ')}
+			className={[styles.TestimonialCard, styles[`TestimonialCard__${variant}`], className].join(
+				' '
+			)}
 		>
 			<Testimonial />
 			<blockquote>{item.review}</blockquote>
 			<div className={styles.TestimonialCard__reviewer}>
 				<div className={styles.TestimonialCard__img}>
-					<Image
-						src={item.avatar.url}
-						alt="Avatar"
-						width={60}
-						height={60}
-						quality={90}
-					/>
+					<Image src={item.avatar.url} alt="Avatar" width={60} height={60} quality={90} />
 				</div>
 				<div className={styles.TestimonialCard__info}>
 					<span className={styles.Info__name}>{item.reviewer}</span>

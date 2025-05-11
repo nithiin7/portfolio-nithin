@@ -1,8 +1,10 @@
 'use client';
-import { ReactElement, ReactNode, useEffect, useState } from 'react';
-import { AnimatePresence, motion, Variants } from 'motion/react';
-import { usePathname } from 'next/navigation';
 import { text, curve, translate } from 'helpers/animations';
+import type { Variants } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
+import { usePathname } from 'next/navigation';
+import type { ReactElement, ReactNode } from 'react';
+import { useEffect, useState } from 'react';
 
 interface CurveProps {
 	children: ReactNode;
@@ -48,10 +50,7 @@ const Curve = ({ children, backgroundColor }: CurveProps): ReactElement => {
 	return (
 		<AnimatePresence mode="wait">
 			<div className="page curve" style={{ backgroundColor }}>
-				<div
-					style={{ opacity: dimensions.width == null ? 1 : 0 }}
-					className="background"
-				/>
+				<div style={{ opacity: dimensions.width == null ? 1 : 0 }} className="background" />
 				<motion.div className="welcome" {...anim(text)}>
 					<motion.p
 						initial={{ opacity: 0, y: 50 }}

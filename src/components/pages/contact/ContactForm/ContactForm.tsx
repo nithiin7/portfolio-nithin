@@ -1,18 +1,19 @@
 'use client';
-import { FC, useRef, useState } from 'react';
-import { sendForm } from 'emailjs-com';
-import { Controller, useForm, SubmitHandler } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { motion } from 'motion/react';
-import Link from 'next/link';
-
-import { contactSchema } from 'helpers/validations';
 import { contactOptions } from 'constants/index';
 
-import styles from './ContactForm.module.scss';
-
-import TextInput from 'components/utilities/TextInput';
+import { yupResolver } from '@hookform/resolvers/yup';
 import TextArea from 'components/utilities/TextArea';
+import TextInput from 'components/utilities/TextInput';
+import { sendForm } from 'emailjs-com';
+import { contactSchema } from 'helpers/validations';
+import { motion } from 'motion/react';
+import Link from 'next/link';
+import type { FC } from 'react';
+import { useRef, useState } from 'react';
+import type { SubmitHandler } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
+
+import styles from './ContactForm.module.scss';
 
 interface ContactFormData {
 	name: string;
@@ -34,10 +35,7 @@ interface ContactFormProps {
  * @param {'default' | 'alternative'} [variant='default'] - Visual variant of the form.
  * @returns {JSX.Element} The rendered ContactForm component.
  */
-const ContactForm: FC<ContactFormProps> = ({
-	className = '',
-	variant = 'default',
-}) => {
+const ContactForm: FC<ContactFormProps> = ({ className = '', variant = 'default' }) => {
 	const [formSent, setFormSent] = useState(false);
 	const form = useRef<HTMLFormElement>(null);
 
@@ -77,7 +75,7 @@ const ContactForm: FC<ContactFormProps> = ({
 					setFormSent(false);
 				}, 10000);
 			},
-			(error) => {
+			error => {
 				console.log(error.text);
 			}
 		);
@@ -89,11 +87,7 @@ const ContactForm: FC<ContactFormProps> = ({
 	};
 
 	return (
-		<div
-			className={`${styles.ContactForm} ${
-				styles[`ContactForm__${variant}`]
-			} ${className}`}
-		>
+		<div className={`${styles.ContactForm} ${styles[`ContactForm__${variant}`]} ${className}`}>
 			{formSent ? (
 				<motion.div
 					className={styles.contact__success}
@@ -117,25 +111,13 @@ const ContactForm: FC<ContactFormProps> = ({
 							strokeLinecap="round"
 							strokeLinejoin="round"
 						/>
-						<circle
-							cx="12"
-							cy="12"
-							r="10"
-							stroke="$color-secondary"
-							strokeWidth="2"
-						/>
+						<circle cx="12" cy="12" r="10" stroke="$color-secondary" strokeWidth="2" />
 					</svg>
-					<p className={styles.contact__text}>
-						Thanks for the ping! Will get back to you soon!
-					</p>
+					<p className={styles.contact__text}>Thanks for the ping! Will get back to you soon!</p>
 				</motion.div>
 			) : (
 				<div className={styles.contact__container}>
-					<form
-						className={styles.contact__form}
-						ref={form}
-						onSubmit={handleSubmit(onSubmit)}
-					>
+					<form className={styles.contact__form} ref={form} onSubmit={handleSubmit(onSubmit)}>
 						<fieldset className={styles['model__form-item']}>
 							<Controller
 								control={control}
@@ -145,9 +127,7 @@ const ContactForm: FC<ContactFormProps> = ({
 										{...field}
 										type="text"
 										placeholder="Nithin"
-										errors={
-											errors?.name?.message ? [errors?.name?.message] : []
-										}
+										errors={errors?.name?.message ? [errors?.name?.message] : []}
 										label={'Your Name'}
 									/>
 								)}
@@ -163,9 +143,7 @@ const ContactForm: FC<ContactFormProps> = ({
 										type="text"
 										label={'Your Email'}
 										placeholder="nithinp150@gmail.com"
-										errors={
-											errors?.email?.message ? [errors?.email?.message] : []
-										}
+										errors={errors?.email?.message ? [errors?.email?.message] : []}
 									/>
 								)}
 							/>
@@ -180,18 +158,12 @@ const ContactForm: FC<ContactFormProps> = ({
 										placeholder="Hey! Let's connect."
 										label="Message"
 										rows={7}
-										errors={
-											errors?.message?.message ? [errors?.message?.message] : []
-										}
+										errors={errors?.message?.message ? [errors?.message?.message] : []}
 									/>
 								)}
 							/>
 						</fieldset>
-						<button
-							type="submit"
-							className={styles.contact__button}
-							aria-label="Submit"
-						>
+						<button type="submit" className={styles.contact__button} aria-label="Submit">
 							<motion.div className={styles.contact__slider}>
 								<div className={styles.contact__el}>
 									<div className={styles.contact__PerspectiveText}>

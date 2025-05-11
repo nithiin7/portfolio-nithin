@@ -12,7 +12,7 @@ export interface ContentItem {
 	title: string;
 	description: string;
 	ogtitle: string;
-	keywords: Array<string>;
+	keywords: string[];
 	sectionCollection: SectionCollection;
 }
 

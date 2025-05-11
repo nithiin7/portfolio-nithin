@@ -1,4 +1,5 @@
-import { FC } from 'react';
+import type { FC } from 'react';
+
 import styles from './ServiceCard.module.scss';
 
 interface ServiceCardProps {
@@ -60,12 +61,7 @@ const ServiceCard: FC<ServiceCardProps> = ({
 				</p>
 				<div className={styles['service-card__services']}>
 					{list.map((item, index) => (
-						<span
-							key={index}
-							data-aos="fade-up"
-							data-aos-duration="1400"
-							data-aos-once="true"
-						>
+						<span key={index} data-aos="fade-up" data-aos-duration="1400" data-aos-once="true">
 							{item}
 						</span>
 					))}

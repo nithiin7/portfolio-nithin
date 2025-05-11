@@ -1,6 +1,6 @@
+import type { ApolloQueryResult } from '@apollo/client';
 import { GET_PAGE } from 'queries';
-import { ApolloQueryResult } from '@apollo/client';
-import { PageData } from 'types/contentful';
+import type { PageData } from 'types/contentful';
 
 import { initializeApollo } from '../../lib/apolloClient';
 

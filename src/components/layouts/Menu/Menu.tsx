@@ -1,8 +1,10 @@
 'use client';
-import { ReactElement, useEffect, useRef, useState } from 'react';
-import { AnimatePresence, motion, useScroll } from 'motion/react';
-import MenuBackground from 'assets/images/menu-bg.svg';
 import { links, socialsMenu } from 'constants/index';
+
+import MenuBackground from 'assets/images/menu-bg.svg';
+import { AnimatePresence, motion, useScroll } from 'motion/react';
+import type { ReactElement } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import styles from './Menu.module.scss';
 
@@ -20,10 +22,7 @@ export interface MenuProps {
  * @param {'default' | 'alternative'} [variant='default'] - Visual variant of the menu.
  * @returns {JSX.Element} The rendered Menu component.
  */
-const Menu = ({
-	className = '',
-	variant = 'default',
-}: MenuProps): ReactElement => {
+const Menu = ({ className = '', variant = 'default' }: MenuProps): ReactElement => {
 	const [isMenuActive, setIsMenuActive] = useState<boolean>(false);
 	const [hidden, setHidden] = useState<boolean>(false);
 
@@ -103,9 +102,7 @@ const Menu = ({
 	}, [scrollY]);
 
 	return (
-		<nav
-			className={[styles.menu, styles[`menu__${variant}`], className].join(' ')}
-		>
+		<nav className={[styles.menu, styles[`menu__${variant}`], className].join(' ')}>
 			<motion.div
 				aria-hidden={!isMenuActive || hidden}
 				aria-controls="menu"
@@ -150,10 +147,7 @@ const Menu = ({
 													exit={'exit'}
 													animate={'enter'}
 												>
-													<motion.a
-														whileHover={{ left: '15px' }}
-														href={link.href}
-													>
+													<motion.a whileHover={{ left: '15px' }} href={link.href}>
 														{link.title}
 													</motion.a>
 												</motion.div>

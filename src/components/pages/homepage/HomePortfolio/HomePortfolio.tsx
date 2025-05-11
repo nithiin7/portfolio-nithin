@@ -1,10 +1,10 @@
 'use client';
-import { FC } from 'react';
-import { PortfolioItem } from 'types/portfolio';
-import styles from './HomePortfolio.module.scss';
-
 import PortfolioCard from 'components/pages/PortfolioCard';
 import MaskText from 'components/utilities/MaskText/MaskText';
+import type { FC } from 'react';
+import type { PortfolioItem } from 'types/portfolio';
+
+import styles from './HomePortfolio.module.scss';
 
 interface HomePortfolioProps {
 	className?: string;

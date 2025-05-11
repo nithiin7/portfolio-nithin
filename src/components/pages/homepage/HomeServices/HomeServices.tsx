@@ -1,9 +1,9 @@
-import { FC } from 'react';
-import { ServiceHeader, ServiceItem } from 'types/service';
-import styles from './HomeServices.module.scss';
-
 import ServiceCard from 'components/pages/ServiceCard';
 import MaskText from 'components/utilities/MaskText/MaskText';
+import type { FC } from 'react';
+import type { ServiceHeader, ServiceItem } from 'types/service';
+
+import styles from './HomeServices.module.scss';
 
 interface HomeServicesProps {
 	className?: string;

@@ -1,16 +1,18 @@
 'use client';
-import { ReactElement, useEffect, useState } from 'react';
-import Link from 'next/link';
-import { useLenis } from '@studio-freight/react-lenis';
-import { Link as ScrollLink } from 'react-scroll';
-import { usePathname } from 'next/navigation';
 import { footerLinks, socials, songs } from 'constants/index';
-import { Social } from 'types/social';
-import { Song } from 'types/song';
 
+import { useLenis } from '@studio-freight/react-lenis';
 import Contact from 'assets/images/contact.svg';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import type { ReactElement } from 'react';
+import { useEffect, useState } from 'react';
+import { Link as ScrollLink } from 'react-scroll';
+import type { Social } from 'types/social';
+import type { Song } from 'types/song';
+import type { FooterLink } from 'types/utils';
+
 import styles from './Footer.module.scss';
-import { FooterLink } from 'types/utils';
 
 /**
  * Footer component displaying various links, social icons, and a randomly selected song.
@@ -71,12 +73,7 @@ const Footer = (): ReactElement => {
 				className={styles['footer__bg']}
 				aria-hidden="true"
 			>
-				<circle
-					cx="593"
-					cy="593"
-					r="593"
-					fill="url(#paint0_linear_4949_267)"
-				></circle>
+				<circle cx="593" cy="593" r="593" fill="url(#paint0_linear_4949_267)"></circle>
 				<defs>
 					<linearGradient
 						id="paint0_linear_4949_267"

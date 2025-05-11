@@ -1,6 +1,7 @@
 'use client';
-import { FC } from 'react';
-import { motion, Variants } from 'motion/react';
+import type { Variants } from 'motion/react';
+import { motion } from 'motion/react';
+import type { FC } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import styles from './MaskText.module.scss';
@@ -18,11 +19,7 @@ interface MaskTextProps {
  * @param {MaskTextProps} props - The properties for the component.
  * @returns {JSX.Element} The rendered MaskText component.
  */
-const MaskText: FC<MaskTextProps> = ({
-	className = '',
-	variant = '',
-	phrases = [],
-}) => {
+const MaskText: FC<MaskTextProps> = ({ className = '', variant = '', phrases = [] }) => {
 	const animation: Variants = {
 		initial: { y: '100%' },
 		enter: {
@@ -40,12 +37,7 @@ const MaskText: FC<MaskTextProps> = ({
 	});
 
 	return (
-		<div
-			className={`${styles.MaskText} ${
-				styles[`MaskText__${variant}`]
-			} ${className}`}
-			ref={ref}
-		>
+		<div className={`${styles.MaskText} ${styles[`MaskText__${variant}`]} ${className}`} ref={ref}>
 			<motion.div
 				variants={{
 					enter: {

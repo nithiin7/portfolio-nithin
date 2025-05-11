@@ -1,5 +1,6 @@
-import { FC, useEffect, useRef } from 'react';
 import gsap from 'gsap';
+import type { FC } from 'react';
+import { useEffect, useRef } from 'react';
 
 import styles from './Cursor.module.scss';
 
@@ -14,11 +15,7 @@ interface CursorProps {
  * @param {CursorProps} props - The props for the component.
  * @returns {JSX.Element} The rendered cursor component.
  */
-const Cursor: FC<CursorProps> = ({
-	className = '',
-	variant = '',
-	isHovered = false,
-}) => {
+const Cursor: FC<CursorProps> = ({ className = '', variant = '', isHovered = false }) => {
 	const mouse = useRef({ x: 0, y: 0 });
 	const circle = useRef<HTMLDivElement>(null);
 
@@ -90,11 +87,7 @@ const Cursor: FC<CursorProps> = ({
 	}, []);
 
 	return (
-		<div
-			className={[styles.Cursor, styles[`Cursor__${variant}`], className].join(
-				' '
-			)}
-		>
+		<div className={[styles.Cursor, styles[`Cursor__${variant}`], className].join(' ')}>
 			<div
 				ref={circle}
 				style={{

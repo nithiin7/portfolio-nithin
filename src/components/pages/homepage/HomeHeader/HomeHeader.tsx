@@ -1,12 +1,13 @@
 'use client';
-import { FC, useEffect, useState } from 'react';
-import { motion, useMotionValue, useSpring } from 'motion/react';
-import { Settings } from 'types/anim';
-
-import styles from './HomeHeader.module.scss';
 import Logo from 'assets/images/nav-logo.svg';
 import Cursor from 'components/utilities/Cursor/Cursor';
 import MaskText from 'components/utilities/MaskText/MaskText';
+import { motion, useMotionValue, useSpring } from 'motion/react';
+import type { FC } from 'react';
+import { useEffect, useState } from 'react';
+import type { Settings } from 'types/anim';
+
+import styles from './HomeHeader.module.scss';
 
 interface HomeHeaderProps {
 	className?: string;
@@ -37,10 +38,7 @@ const settings: Settings = {
  * @param {string} [data.items[].subTitle] - Subtitle text.
  * @returns {JSX.Element} The rendered HomeHeader component.
  */
-const HomeHeader: FC<HomeHeaderProps> = ({
-	className = '',
-	data = { items: [] },
-}) => {
+const HomeHeader: FC<HomeHeaderProps> = ({ className = '', data = { items: [] } }) => {
 	const [componentRef, setComponentRef] = useState<null | HTMLDivElement>(null);
 	const [isHovered, setIsHovered] = useState(false);
 
@@ -75,9 +73,7 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 					Math.abs(distanceY) < settings.maxDistance
 				) {
 					const proximityFactor =
-						1 -
-						Math.max(Math.abs(distanceX), Math.abs(distanceY)) /
-							settings.maxDistance;
+						1 - Math.max(Math.abs(distanceX), Math.abs(distanceY)) / settings.maxDistance;
 					x.set(distanceX * proximityFactor * settings.intensity);
 					y.set(distanceY * proximityFactor * settings.intensity);
 				} else {
@@ -131,12 +127,7 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 						transform: 'translateX(-50%) translateY(-50%) scale(1)',
 					}}
 				>
-					<circle
-						cx="593"
-						cy="593"
-						r="593"
-						fill="url(#paint0_linear_4949_267)"
-					/>
+					<circle cx="593" cy="593" r="593" fill="url(#paint0_linear_4949_267)" />
 					<defs>
 						<linearGradient
 							id="paint0_linear_4949_267"
@@ -163,12 +154,7 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 						<MaskText phrases={[data.items[0]?.title ?? '']} />
 						<MaskText phrases={[data.items[0]?.subTitle ?? '']} />
 					</h1>
-					<p
-						data-aos="fade-up"
-						data-aos-duration="1200"
-						data-aos-once="true"
-						data-aos-delay="800"
-					>
+					<p data-aos="fade-up" data-aos-duration="1200" data-aos-once="true" data-aos-delay="800">
 						A web developer & web designer propelling visions to reality.
 					</p>
 				</div>

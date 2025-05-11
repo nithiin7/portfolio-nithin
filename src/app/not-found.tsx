@@ -1,7 +1,6 @@
-import { ReactElement } from 'react';
-import Link from 'next/link';
-
 import Button from 'components/utilities/Button/Button';
+import Link from 'next/link';
+import type { ReactElement } from 'react';
 
 export const metadata = {
 	title: 'Page Not Found :(',
@@ -12,9 +11,7 @@ export default function Custom404(): ReactElement {
 	return (
 		<div className="not-found">
 			<h1>There&apos;s NOTHING here...</h1>
-			<h3>
-				...maybe the page you&apos;re looking for is not found or never existed
-			</h3>
+			<h3>...maybe the page you&apos;re looking for is not found or never existed</h3>
 			<Link href="/">
 				<Button text="Back to Home" />
 			</Link>
