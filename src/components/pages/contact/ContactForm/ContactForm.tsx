@@ -1,6 +1,6 @@
 'use client';
 import { FC, useRef, useState } from 'react';
-import emailjs from 'emailjs-com';
+import { sendForm } from 'emailjs-com';
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { motion } from 'motion/react';
@@ -65,24 +65,22 @@ const ContactForm: FC<ContactFormProps> = ({
 			e.preventDefault();
 		}
 
-		emailjs
-			.sendForm(
-				process.env.NEXT_PUBLIC_SERVICE_ID!,
-				process.env.NEXT_PUBLIC_TEMPLATE_ID!,
-				form.current!,
-				process.env.NEXT_PUBLIC_EMAILJS_ID
-			)
-			.then(
-				() => {
-					setFormSent(true);
-					setTimeout(() => {
-						setFormSent(false);
-					}, 10000);
-				},
-				(error) => {
-					console.log(error.text);
-				}
-			);
+		sendForm(
+			process.env.NEXT_PUBLIC_SERVICE_ID!,
+			process.env.NEXT_PUBLIC_TEMPLATE_ID!,
+			form.current!,
+			process.env.NEXT_PUBLIC_EMAILJS_ID
+		).then(
+			() => {
+				setFormSent(true);
+				setTimeout(() => {
+					setFormSent(false);
+				}, 10000);
+			},
+			(error) => {
+				console.log(error.text);
+			}
+		);
 	};
 
 	const animate = {

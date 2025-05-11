@@ -14,6 +14,7 @@ export async function generateMetadata(): Promise<Metadata> {
 	const path = props?.data.pageCollection.items[0];
 
 	return {
+		metadataBase: new URL('https://portfolio-nithin.vercel.app/'),
 		title: path.title,
 		description: path.description,
 		keywords: path.keywords,

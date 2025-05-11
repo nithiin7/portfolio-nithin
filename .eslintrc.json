@@ -29,31 +29,12 @@
 		"unused-imports"
 	],
 	"rules": {
+		"react/react-in-jsx-scope": "off",
 		"@typescript-eslint/no-explicit-any": "error",
-		"@typescript-eslint/explicit-function-return-type": [
-			"warn",
-			{
-				"allowExpressions": true,
-				"allowTypedFunctionExpressions": true
-			}
-		],
 		"@typescript-eslint/consistent-type-definitions": ["error", "interface"],
 		"@typescript-eslint/no-unused-vars": [
 			"warn",
 			{ "argsIgnorePattern": "^_" }
-		],
-		"import/order": [
-			"error",
-			{
-				"groups": [
-					"builtin",
-					"external",
-					"internal",
-					["parent", "sibling", "index"]
-				],
-				"newlines-between": "always",
-				"alphabetize": { "order": "asc", "caseInsensitive": true }
-			}
 		],
 		"unused-imports/no-unused-imports": "error",
 		"unused-imports/no-unused-vars": [
@@ -66,7 +47,6 @@
 			}
 		],
 		"semi": ["error", "always"],
-		"quotes": ["error", "single", { "avoidEscape": true }],
 		"prettier/prettier": [
 			"error",
 			{

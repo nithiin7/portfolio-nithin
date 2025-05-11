@@ -1,8 +1,4 @@
-import React, {
-	ChangeEventHandler,
-	FocusEventHandler,
-	forwardRef,
-} from 'react';
+import { ChangeEventHandler, FocusEventHandler, forwardRef } from 'react';
 import styles from './TextArea.module.scss';
 
 interface TextAreaProps {

@@ -78,7 +78,7 @@ export const initializeApollo = (
 };
 
 interface ApolloPageProps {
-	[key: string]: any;
+	[key: string]: unknown;
 	props?: Record<string, unknown>;
 }
 
