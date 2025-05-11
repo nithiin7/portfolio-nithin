@@ -1,19 +1,18 @@
 'use client';
 import { ReactLenis } from '@studio-freight/react-lenis';
 import AOS from 'aos';
-import type { ReactNode, ReactElement } from 'react';
 import { useEffect } from 'react';
 
 import 'aos/dist/aos.css';
 import { init } from 'services/analytics';
 
 interface ProviderProps {
-	children: ReactNode;
+	children: React.ReactNode;
 }
 
 export default function Provider({
 	children,
-}: Readonly<ProviderProps>): ReactElement {
+}: Readonly<ProviderProps>): React.ReactElement {
 	useEffect(() => {
 		console.log(
 			`

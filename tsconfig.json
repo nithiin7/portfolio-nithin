@@ -20,12 +20,6 @@
 		],
 		"target": "ES2017",
 		"paths": {
-			"@assets/*": ["assets/*"],
-			"@components/*": ["components/*"],
-			"@helpers/*": ["helpers/*"],
-			"@queries/*": ["queries/*"],
-			"@styles/*": ["styles/*"],
-			"@utils/*": ["utils/*"],
 			"assets/*": ["assets/*"],
 			"components/*": ["components/*"],
 			"helpers/*": ["helpers/*"],
@@ -39,7 +33,11 @@
 		".next/types/**/*.ts",
 		"**/*.ts",
 		"**/*.tsx",
-		"src/**/*"
+		".storybook/**/*",
+		"**/*.js",
+		"**/*.jsx",
+		"**/*.json",
+		"**/*.mjs"
 	],
 	"exclude": ["node_modules"]
 }

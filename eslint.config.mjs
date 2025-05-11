@@ -1,11 +1,11 @@
 import eslint from '@eslint/js';
-import tseslint from 'typescript-eslint';
 import nextPlugin from '@next/eslint-plugin-next';
+import importPlugin from 'eslint-plugin-import';
+import a11yPlugin from 'eslint-plugin-jsx-a11y';
 import prettierPlugin from 'eslint-plugin-prettier';
 import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
-import importPlugin from 'eslint-plugin-import';
-import a11yPlugin from 'eslint-plugin-jsx-a11y';
+import tseslint from 'typescript-eslint';
 
 export default [
 	eslint.configs.recommended,
@@ -15,7 +15,7 @@ export default [
 		languageOptions: {
 			parser: tseslint.parser,
 			parserOptions: {
-				project: './tsconfig.json',
+				project: ['./tsconfig.json', './.storybook/tsconfig.json'],
 				ecmaVersion: 'latest',
 				sourceType: 'module',
 				ecmaFeatures: {
@@ -25,7 +25,6 @@ export default [
 		},
 	},
 	{
-		// Next.js specific rules
 		plugins: {
 			'@next/next': nextPlugin,
 		},
@@ -37,7 +36,6 @@ export default [
 		},
 	},
 	{
-		// React rules
 		plugins: {
 			react: reactPlugin,
 			'react-hooks': reactHooksPlugin,
@@ -45,8 +43,8 @@ export default [
 		rules: {
 			'react/jsx-uses-react': 'error',
 			'react/jsx-uses-vars': 'error',
-			'react/prop-types': 'off', // Since we use TypeScript
-			'react/react-in-jsx-scope': 'off', // Not needed in Next.js
+			'react/prop-types': 'off',
+			'react/react-in-jsx-scope': 'off',
 			'react-hooks/rules-of-hooks': 'error',
 			'react-hooks/exhaustive-deps': 'warn',
 		},
@@ -57,7 +55,6 @@ export default [
 		},
 	},
 	{
-		// Import rules
 		plugins: {
 			import: importPlugin,
 		},
@@ -87,20 +84,21 @@ export default [
 				},
 			],
 		},
+	},
+	{
 		settings: {
+			'import/parsers': {
+				'@typescript-eslint/parser': ['.ts', '.tsx'],
+			},
 			'import/resolver': {
-				typescript: {
-					project: './tsconfig.json',
-					alwaysTryTypes: true,
-				},
 				node: {
 					extensions: ['.js', '.jsx', '.ts', '.tsx'],
+					moduleDirectory: ['node_modules', 'src/'],
 				},
 			},
 		},
 	},
 	{
-		// Accessibility rules
 		plugins: {
 			'jsx-a11y': a11yPlugin,
 		},
@@ -119,7 +117,6 @@ export default [
 		},
 	},
 	{
-		// Prettier integration
 		plugins: {
 			prettier: prettierPlugin,
 		},
@@ -139,7 +136,6 @@ export default [
 		},
 	},
 	{
-		// TypeScript-specific rules
 		rules: {
 			'@typescript-eslint/explicit-module-boundary-types': 'off',
 			'@typescript-eslint/no-explicit-any': 'warn',
@@ -147,6 +143,7 @@ export default [
 				'error',
 				{ argsIgnorePattern: '^_' },
 			],
+			'@typescript-eslint/no-empty-function': 'off',
 			'@typescript-eslint/consistent-type-imports': [
 				'error',
 				{
@@ -154,11 +151,10 @@ export default [
 					disallowTypeAnnotations: false,
 				},
 			],
-			'no-console': 'error',
+			'no-console': 'warn',
 		},
 	},
 	{
-		// Files configurations
 		files: [
 			'**/*.ts',
 			'**/*.tsx',
@@ -183,5 +179,11 @@ export default [
 			'tailwind.config.js',
 			'tailwind.config.ts',
 		],
+	},
+	{
+		files: ['.storybook/**/*.ts', '.storybook/**/*.tsx'],
+		rules: {
+			'import/no-default-export': 'off',
+		},
 	},
 ];

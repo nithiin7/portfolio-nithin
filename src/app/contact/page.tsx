@@ -1,7 +1,6 @@
 'use client';
 import { motion, useMotionValue, useSpring } from 'motion/react';
 import Link from 'next/link';
-import type { MouseEvent, FC } from 'react';
 import { useEffect, useState } from 'react';
 
 import Logo from 'assets/images/nav-logo.svg';
@@ -18,7 +17,7 @@ const settings: Settings = {
 	intensity: 0.1,
 };
 
-const Contact: FC = () => {
+const Contact: React.FC = () => {
 	const [componentRef, setComponentRef] = useState<HTMLDivElement | null>(null);
 
 	const x = useMotionValue(0);

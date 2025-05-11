@@ -8,6 +8,7 @@ const nextConfig = {
 			'EoivlAc4VSaHS3gkCNXTYB--HKkf3gSKBR8nn_NY5DA',
 		NEXT_PUBLIC_SERVICE_ID: 'service_hh0l7yp',
 		NEXT_PUBLIC_TEMPLATE_ID: 'template_va5jl1g',
+		NEXT_PUBLIC_GOOGLE_GTM_ID: 'GTM-P4D6XZ2C',
 	},
 	images: {
 		remotePatterns: [

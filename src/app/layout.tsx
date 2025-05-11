@@ -1,12 +1,10 @@
-import loadData from 'helpers/contentful';
-
 import type { Metadata } from 'next';
-import type { ReactElement, ReactNode } from 'react';
 
 import 'styles/globals.scss';
 
 import Footer from 'components/layouts/Footer';
 import Menu from 'components/layouts/Menu';
+import loadData from 'helpers/contentful';
 
 import Provider from './provider';
 import Curve from './transition';
@@ -38,12 +36,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 interface RootLayoutProps {
-	children: ReactNode;
+	children: React.ReactNode;
 }
 
 export default function RootLayout({
 	children,
-}: Readonly<RootLayoutProps>): ReactElement {
+}: Readonly<RootLayoutProps>): React.ReactElement {
 	return (
 		<html lang="en">
 			<head>
