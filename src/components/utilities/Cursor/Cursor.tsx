@@ -1,5 +1,6 @@
-import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
+import type { FC } from 'react';
+import { useEffect, useRef } from 'react';
 
 import styles from './Cursor.module.scss';
 
@@ -14,7 +15,7 @@ interface CursorProps {
  * @param {CursorProps} props - The props for the component.
  * @returns {JSX.Element} The rendered cursor component.
  */
-const Cursor: React.FC<CursorProps> = ({
+const Cursor: FC<CursorProps> = ({
 	className = '',
 	variant = '',
 	isHovered = false,
@@ -103,7 +104,7 @@ const Cursor: React.FC<CursorProps> = ({
 					height: size,
 					transition: 'height 0.3s ease-out, width 0.3s ease-out',
 				}}
-				className="Cursor__rounded"
+				className={styles.Cursor__rounded}
 			/>
 		</div>
 	);

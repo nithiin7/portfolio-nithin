@@ -1,29 +1,23 @@
-import { GoogleAnalytics } from '@next/third-parties/google';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
-import loadData from 'helpers/contentful';
 import 'styles/globals.scss';
 
-import Provider from './provider';
 import Footer from 'components/layouts/Footer';
+import Menu from 'components/layouts/Menu';
+import loadData from 'helpers/contentful';
+
+import Provider from './provider';
 import Curve from './transition';
-import Menu from 'components/layouts/Menu/Menu';
 
 export async function generateMetadata(): Promise<Metadata> {
 	const props = await loadData('home');
 	const path = props?.data.pageCollection.items[0];
 
 	return {
+		metadataBase: new URL('https://portfolio-nithin.vercel.app/'),
 		title: path.title,
 		description: path.description,
-		keywords: [
-			'Nithin',
-			'Nithin Pradeep',
-			'Nithin Pradeep Portfolio',
-			'Nithin Portfolio',
-			'Portfolio',
-			'Software Engineer',
-		],
+		keywords: path.keywords,
 		openGraph: {
 			title: path.ogtitle,
 			description: path.description,
@@ -47,9 +41,7 @@ interface RootLayoutProps {
 
 export default function RootLayout({
 	children,
-}: Readonly<RootLayoutProps>): JSX.Element {
-	const isProd = process.env.NODE_ENV === 'production';
-
+}: Readonly<RootLayoutProps>): React.ReactElement {
 	return (
 		<html lang="en">
 			<head>
@@ -102,11 +94,6 @@ export default function RootLayout({
 						<Footer />
 					</Curve>
 				</Provider>
-				{isProd && (
-					<GoogleAnalytics
-						gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID as string}
-					/>
-				)}
 				<svg className="grainy__filter pointer-events-none absolute cursor-none">
 					<filter id="grainy">
 						<feTurbulence type="turbulence" baseFrequency="0.5" />

@@ -1,8 +1,10 @@
-import { ServiceHeader, ServiceItem } from 'types/service';
-import styles from './HomeServices.module.scss';
+import type { FC } from 'react';
 
 import ServiceCard from 'components/pages/ServiceCard';
 import MaskText from 'components/utilities/MaskText/MaskText';
+import type { ServiceHeader, ServiceItem } from 'types/service';
+
+import styles from './HomeServices.module.scss';
 
 interface HomeServicesProps {
 	className?: string;
@@ -20,7 +22,7 @@ interface HomeServicesProps {
  * @param {ServiceItem[]} props.services - List of service items to display.
  * @returns {JSX.Element} - Rendered HomeServices component.
  */
-const HomeServices: React.FC<HomeServicesProps> = ({
+const HomeServices: FC<HomeServicesProps> = ({
 	className = '',
 	data = { title: '', subTitle: '' },
 	services = [],
@@ -28,7 +30,7 @@ const HomeServices: React.FC<HomeServicesProps> = ({
 	return (
 		<div className={`${styles.HomeServices} ${className}`}>
 			<section id="services">
-				<div className="services__header">
+				<div className={styles.services__header}>
 					<h2>
 						<MaskText phrases={[data.title]} />
 					</h2>

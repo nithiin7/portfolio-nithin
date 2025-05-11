@@ -1,15 +1,10 @@
-import { useMemo } from 'react';
-import {
-	ApolloClient,
-	HttpLink,
-	InMemoryCache,
-	from,
-	NormalizedCacheObject,
-} from '@apollo/client';
+import type { NormalizedCacheObject } from '@apollo/client';
+import { ApolloClient, HttpLink, InMemoryCache, from } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
 import { concatPagination } from '@apollo/client/utilities';
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
+import { useMemo } from 'react';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 
@@ -19,7 +14,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 	if (graphQLErrors) {
 		graphQLErrors.forEach(({ message, locations, path }) =>
 			console.log(
-				`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+				`[GraphQL error]: Message: ${message}, Location: ${JSON.stringify(locations)}, Path: ${path}`
 			)
 		);
 	}
@@ -32,9 +27,7 @@ const httpLink = new HttpLink({
 	uri: `https://graphql.contentful.com/content/${process.env.NEXT_PUBLIC_VERSION}/spaces/${process.env.NEXT_PUBLIC_SPACE_ID}/environments/${process.env.NEXT_PUBLIC_ENVIRONMENT}`,
 	credentials: 'same-origin',
 	headers: {
-		Authorization: `Bearer ${
-			process.env.NEXT_PUBLIC_AUTHORIZATION_TOKEN ?? ''
-		}`,
+		Authorization: `Bearer ${process.env.NEXT_PUBLIC_AUTHORIZATION_TOKEN ?? ''}`,
 	},
 });
 
@@ -72,15 +65,15 @@ export const initializeApollo = (
 		_apolloClient.cache.restore(data);
 	}
 	if (typeof window === 'undefined') return _apolloClient;
-	if (!apolloClient) apolloClient = _apolloClient;
+	apolloClient ??= _apolloClient;
 
 	return _apolloClient;
 };
 
-type ApolloPageProps = {
-	[key: string]: any;
+interface ApolloPageProps {
+	[key: string]: unknown;
 	props?: Record<string, unknown>;
-};
+}
 
 export const addApolloState = (
 	client: ApolloClient<NormalizedCacheObject>,

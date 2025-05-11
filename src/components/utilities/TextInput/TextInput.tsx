@@ -1,4 +1,6 @@
-import React from 'react';
+import type { ChangeEventHandler, FocusEventHandler } from 'react';
+import { forwardRef } from 'react';
+
 import styles from './TextInput.module.scss';
 
 interface TextInputProps {
@@ -9,8 +11,8 @@ interface TextInputProps {
 	placeholder?: string;
 	value?: string;
 	label?: string;
-	onChange?: React.ChangeEventHandler<HTMLInputElement>;
-	onBlur?: React.FocusEventHandler<HTMLInputElement>;
+	onChange?: ChangeEventHandler<HTMLInputElement>;
+	onBlur?: FocusEventHandler<HTMLInputElement>;
 	disabled?: boolean;
 	errors?: string[];
 }
@@ -21,7 +23,7 @@ interface TextInputProps {
  * @param {TextInputProps} props - The properties for the component.
  * @returns {JSX.Element} The rendered TextInput component.
  */
-const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
+const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
 	(
 		{
 			name = '',
@@ -40,18 +42,16 @@ const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
 	) => {
 		return (
 			<div
-				className={`${styles.TextInput} ${
-					styles[`TextInput__${variant}`]
-				} ${className}`}
+				className={`${styles.TextInput} ${styles[`TextInput__${variant}`]} ${className}`}
 			>
 				{label && (
-					<div className="TextInput__label">
+					<div className={styles.TextInput__label}>
 						<label htmlFor={name}>{label}</label>
 						<span>*</span>
 					</div>
 				)}
 				<input
-					className="TextInput__input"
+					className={styles.TextInput__input}
 					id={name}
 					name={name}
 					value={value}
@@ -63,9 +63,9 @@ const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
 					aria-label={value}
 					disabled={disabled}
 				/>
-				<div className="TextInput__errors">
+				<div className={styles.TextInput__errors}>
 					{errors.length > 0 && (
-						<div className="TextInput__form-errors">
+						<div className={styles['TextInput__form-errors']}>
 							{errors.map((error, index) => (
 								<p key={index}>{error}</p>
 							))}

@@ -1,7 +1,7 @@
 @use 'styles/shared/mixin' as *;
 @use 'styles/shared/variables' as *;
 
-.Button {
+.button {
 	width: max-content;
 	display: inline-block;
 	background: $color-secondary;
@@ -18,46 +18,6 @@
 	text-transform: uppercase;
 	font-weight: 700;
 	overflow: hidden;
-	:global {
-		.button__slider {
-			position: relative;
-			height: 100%;
-			width: 100%;
-		}
-		.button__el {
-			height: 100%;
-			width: 100%;
-			&:nth-of-type(2) {
-				position: absolute;
-				top: 100%;
-			}
-		}
-		.button__PerspectiveText {
-			width: 100%;
-			height: 100%;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			transition: transform 0.75s cubic-bezier(0.76, 0, 0.24, 1);
-			transform-style: preserve-3d;
-			p {
-				transition: all 0.75s cubic-bezier(0.76, 0, 0.24, 1);
-				line-height: 1;
-				&:nth-of-type(2) {
-					position: absolute;
-					transform: rotateX(-90deg) translateY(rem(9));
-					transform-origin: bottom center;
-					opacity: 0;
-				}
-			}
-		}
-		@media #{$md} {
-			padding-top: 1.75rem;
-			padding-bottom: 1.75rem;
-			padding-left: 3rem;
-			padding-right: 3rem;
-		}
-	}
 	&:hover {
 		.button__PerspectiveText {
 			transform: rotateX(90deg);
@@ -71,5 +31,43 @@
 				}
 			}
 		}
+	}
+	.button__slider {
+		position: relative;
+		height: 100%;
+		width: 100%;
+	}
+	.button__el {
+		height: 100%;
+		width: 100%;
+		&:nth-of-type(2) {
+			position: absolute;
+			top: 100%;
+		}
+	}
+	.button__PerspectiveText {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: transform 0.75s cubic-bezier(0.76, 0, 0.24, 1);
+		transform-style: preserve-3d;
+		p {
+			transition: all 0.75s cubic-bezier(0.76, 0, 0.24, 1);
+			line-height: 1;
+			&:nth-of-type(2) {
+				position: absolute;
+				transform: rotateX(-90deg) translateY(rem(9));
+				transform-origin: bottom center;
+				opacity: 0;
+			}
+		}
+	}
+	@media #{$md} {
+		padding-top: 1.75rem;
+		padding-bottom: 1.75rem;
+		padding-left: 3rem;
+		padding-right: 3rem;
 	}
 }

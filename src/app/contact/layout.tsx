@@ -1,26 +1,23 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
+
+import loadData from 'helpers/contentful';
 
 export async function generateMetadata(): Promise<Metadata> {
+	const props = await loadData('contact');
+	const path = props?.data.pageCollection.items[0];
+
 	return {
-		title: 'Contact | Nithin',
-		description: "Let's connect and bring about interesting opportunities",
+		title: path.title,
+		description: path.description,
 		openGraph: {
-			title: 'Nithin Pradeep - Aspiring Developer',
-			description: "Let's connect and bring about interesting opportunities",
+			title: path.title,
+			description: path.description,
 		},
-		keywords: [
-			'Nithin',
-			'Nithin Pradeep',
-			'Nithin Pradeep Portfolio',
-			'Nithin Portfolio',
-			'Portfolio',
-			'Software Engineer',
-			'Contact Nithin',
-		],
+		keywords: path.keywords,
 		twitter: {
 			card: 'summary_large_image',
-			title: 'Nithin Pradeep - Aspiring Developer',
-			description: "Let's connect and bring about interesting opportunities",
+			title: path.ogtitle,
+			description: path.description,
 		},
 		robots: {
 			index: true,
@@ -36,6 +33,6 @@ interface ContactLayoutProps {
 
 export default function ContactLayout({
 	children,
-}: Readonly<ContactLayoutProps>): JSX.Element {
+}: Readonly<ContactLayoutProps>): React.ReactElement {
 	return <>{children}</>;
 }

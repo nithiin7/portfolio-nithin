@@ -1,12 +1,14 @@
 'use client';
+import { motion, useMotionValue, useSpring } from 'motion/react';
+import type { FC } from 'react';
 import { useEffect, useState } from 'react';
-import { motion, useMotionValue, useSpring } from 'framer-motion';
-import { Settings } from 'types/anim';
 
-import styles from './HomeHeader.module.scss';
 import Logo from 'assets/images/nav-logo.svg';
 import Cursor from 'components/utilities/Cursor/Cursor';
 import MaskText from 'components/utilities/MaskText/MaskText';
+import type { Settings } from 'types/anim';
+
+import styles from './HomeHeader.module.scss';
 
 interface HomeHeaderProps {
 	className?: string;
@@ -37,7 +39,7 @@ const settings: Settings = {
  * @param {string} [data.items[].subTitle] - Subtitle text.
  * @returns {JSX.Element} The rendered HomeHeader component.
  */
-const HomeHeader: React.FC<HomeHeaderProps> = ({
+const HomeHeader: FC<HomeHeaderProps> = ({
 	className = '',
 	data = { items: [] },
 }) => {
@@ -106,7 +108,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
 
 	return (
 		<header className={`${styles.HomeHeader} ${className}`}>
-			<div className="header__nav">
+			<div className={styles.header__nav}>
 				<motion.div
 					ref={setComponentRef}
 					style={{
@@ -118,7 +120,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
 					<Logo />
 				</motion.div>
 			</div>
-			<div id="home" className={'portfolio__header'}>
+			<div id="home" className={styles.portfolio__header}>
 				<svg
 					width="1186"
 					height="1186"
@@ -151,7 +153,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
 						</linearGradient>
 					</defs>
 				</svg>
-				<div className="header__description">
+				<div className={styles.header__description}>
 					<h1
 						onMouseEnter={() => setIsHovered(true)}
 						onMouseLeave={() => setIsHovered(false)}

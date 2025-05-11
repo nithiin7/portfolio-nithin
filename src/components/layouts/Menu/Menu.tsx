@@ -1,6 +1,9 @@
 'use client';
+
+import { AnimatePresence, motion, useScroll } from 'motion/react';
+import type { ReactElement } from 'react';
 import { useEffect, useRef, useState } from 'react';
-import { AnimatePresence, motion, useScroll } from 'framer-motion';
+
 import MenuBackground from 'assets/images/menu-bg.svg';
 import { links, socialsMenu } from 'constants/index';
 
@@ -23,7 +26,7 @@ export interface MenuProps {
 const Menu = ({
 	className = '',
 	variant = 'default',
-}: MenuProps): JSX.Element => {
+}: MenuProps): ReactElement => {
 	const [isMenuActive, setIsMenuActive] = useState<boolean>(false);
 	const [hidden, setHidden] = useState<boolean>(false);
 
@@ -104,7 +107,7 @@ const Menu = ({
 
 	return (
 		<nav
-			className={[styles.Menu, styles[`Menu__${variant}`], className].join(' ')}
+			className={[styles.menu, styles[`menu__${variant}`], className].join(' ')}
 		>
 			<motion.div
 				aria-hidden={!isMenuActive || hidden}
@@ -119,27 +122,27 @@ const Menu = ({
 					aria-hidden={!hidden}
 					tabIndex={!isMenuActive || hidden ? -1 : 0}
 					whileHover={{ scale: 0.95 }}
-					className="menu__button"
+					className={styles.menu__button}
 					onClick={() => setIsMenuActive(!isMenuActive)}
 					transition={{ ease: [0.1, 0.25, 0.3, 1], duration: 0.3 }}
 				>
 					<span className={isMenuActive ? 'active' : ''}></span>
 					<span className={isMenuActive ? 'active' : ''}></span>
 				</motion.button>
-				<motion.div className="menu__container">
+				<motion.div className={styles.menu__container}>
 					<AnimatePresence>
 						{isMenuActive && (
 							<motion.div
-								className="menu__sub-container"
+								className={styles['menu__sub-container']}
 								variants={variants}
 								animate={isMenuActive ? 'open' : 'closed'}
 								initial={'closed'}
 								exit={'closed'}
 							>
-								<div className="menu__background">
+								<div className={styles.menu__background}>
 									<MenuBackground />
 								</div>
-								<div className="menu__nav">
+								<div className={styles.menu__nav}>
 									{links.map((link, i) => {
 										return (
 											<motion.div key={i} style={{ overflow: 'hidden' }}>
@@ -161,7 +164,7 @@ const Menu = ({
 										);
 									})}
 								</div>
-								<ul className="menu__socials">
+								<ul className={styles.menu__socials}>
 									{socialsMenu.map((social, i) => {
 										return (
 											<li key={i} style={{ overflow: 'hidden' }}>

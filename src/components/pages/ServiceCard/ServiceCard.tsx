@@ -1,4 +1,5 @@
-import React from 'react';
+import type { FC } from 'react';
+
 import styles from './ServiceCard.module.scss';
 
 interface ServiceCardProps {
@@ -19,7 +20,7 @@ interface ServiceCardProps {
  * @param {number} [props.i] - Index of the service card for positioning (default: 0).
  * @returns {JSX.Element} - Rendered ServiceCard component.
  */
-const ServiceCard: React.FC<ServiceCardProps> = ({
+const ServiceCard: FC<ServiceCardProps> = ({
 	description = 'No description provided',
 	heading = 'Service Heading',
 	list = [],

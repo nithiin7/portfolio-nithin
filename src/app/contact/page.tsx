@@ -1,13 +1,14 @@
 'use client';
+import { motion, useMotionValue, useSpring } from 'motion/react';
 import Link from 'next/link';
-import { useEffect, useState, MouseEvent } from 'react';
-import { motion, useMotionValue, useSpring } from 'framer-motion';
-import { Settings } from 'types/anim';
+import { useEffect, useState } from 'react';
 
-import styles from './Contact.module.scss';
 import Logo from 'assets/images/nav-logo.svg';
 import ContactForm from 'components/pages/contact/ContactForm';
-import MaskText from 'components/utilities/MaskText/MaskText';
+import MaskText from 'components/utilities/MaskText';
+import type { Settings } from 'types/anim';
+
+import styles from './Contact.module.scss';
 
 const settings: Settings = {
 	damping: 100,
@@ -73,9 +74,9 @@ const Contact: React.FC = () => {
 	}, [componentRef, x, y]);
 
 	return (
-		<div className={styles.Contact}>
+		<div className={styles.contact}>
 			<header>
-				<div className="contact__nav">
+				<div className={styles.contact__nav}>
 					<motion.div
 						ref={setComponentRef}
 						style={{
@@ -90,7 +91,7 @@ const Contact: React.FC = () => {
 					</motion.div>
 				</div>
 				<svg
-					className="contact__bg"
+					className={styles.contact__bg}
 					width="1186"
 					height="1186"
 					viewBox="0 0 1186 1186"
@@ -118,7 +119,7 @@ const Contact: React.FC = () => {
 						</linearGradient>
 					</defs>
 				</svg>
-				<div className="Contact__header">
+				<div className={styles.contact__header}>
 					<h1>
 						<MaskText
 							phrases={['Say No More. Lets Bring your project to life']}

@@ -1,8 +1,10 @@
 'use client';
 import Image from 'next/image';
+import type { FC } from 'react';
+
+import MaskText from 'components/utilities/MaskText/MaskText';
 
 import styles from './HomeAbout.module.scss';
-import MaskText from 'components/utilities/MaskText/MaskText';
 
 interface HomeAboutProps {
 	className?: string;
@@ -28,7 +30,7 @@ interface HomeAboutProps {
  * @param {string} [data.items[].image.url] - URL of the image.
  * @returns {JSX.Element} The rendered HomeAbout component.
  */
-const HomeAbout: React.FC<HomeAboutProps> = ({
+const HomeAbout: FC<HomeAboutProps> = ({
 	className = '',
 	data = {
 		items: [
@@ -46,13 +48,13 @@ const HomeAbout: React.FC<HomeAboutProps> = ({
 	return (
 		<div className={`${styles.HomeAbout} ${className}`}>
 			<section id="about">
-				<div className="HomeAbout__container">
-					<div className="HomeAbout__content">
+				<div className={styles.HomeAbout__container}>
+					<div className={styles.HomeAbout__content}>
 						<h2>
 							<MaskText phrases={[data.items?.[0]?.title || '']} />
 						</h2>
 						<svg
-							className="HomeAbout__image-left"
+							className={styles['HomeAbout__image-left']}
 							viewBox="0 0 709 300"
 							fill="none"
 							xmlns="http://www.w3.org/2000/svg"
@@ -61,7 +63,7 @@ const HomeAbout: React.FC<HomeAboutProps> = ({
 							<rect width="709" height="300" rx="169.963" fill="#AFAF9D" />
 						</svg>
 						<svg
-							className="HomeAbout__image-right"
+							className={styles['HomeAbout__image-right']}
 							viewBox="0 0 594 209"
 							fill="none"
 							xmlns="http://www.w3.org/2000/svg"
@@ -77,7 +79,7 @@ const HomeAbout: React.FC<HomeAboutProps> = ({
 								fill="#E8E8E3"
 							/>
 						</svg>
-						<div className="HomeAbout__image">
+						<div className={styles.HomeAbout__image}>
 							<Image
 								src={data.items?.[1]?.image.url || ''}
 								alt="about-me"
@@ -85,10 +87,13 @@ const HomeAbout: React.FC<HomeAboutProps> = ({
 								width={1000}
 								quality={100}
 							/>
-							<div className="HomeAbout__gradient" aria-hidden="true"></div>
+							<div
+								className={styles.HomeAbout__gradient}
+								aria-hidden="true"
+							></div>
 						</div>
 					</div>
-					<p className="HomeAbout__description">
+					<p className={styles.HomeAbout__description}>
 						<span>{text}</span>
 					</p>
 				</div>

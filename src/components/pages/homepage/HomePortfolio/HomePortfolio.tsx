@@ -1,9 +1,11 @@
 'use client';
-import { PortfolioItem } from 'types/portfolio';
-import styles from './HomePortfolio.module.scss';
+import type { FC } from 'react';
 
 import PortfolioCard from 'components/pages/PortfolioCard';
 import MaskText from 'components/utilities/MaskText/MaskText';
+import type { PortfolioItem } from 'types/portfolio';
+
+import styles from './HomePortfolio.module.scss';
 
 interface HomePortfolioProps {
 	className?: string;
@@ -23,7 +25,7 @@ interface HomePortfolioProps {
  * @param {PortfolioItem[]} [props.portfolio] - List of portfolio items to display.
  * @returns {JSX.Element} - Rendered HomePortfolio component.
  */
-const HomePortfolio: React.FC<HomePortfolioProps> = ({
+const HomePortfolio: FC<HomePortfolioProps> = ({
 	className = '',
 	data = { title: '' },
 	portfolio = [],
@@ -34,7 +36,7 @@ const HomePortfolio: React.FC<HomePortfolioProps> = ({
 				<h2>
 					<MaskText phrases={[data.title ?? '']} />
 				</h2>
-				<div className="portfolio__container">
+				<div className={styles.portfolio__container}>
 					{portfolio.map((item, index) => (
 						<PortfolioCard
 							key={index}

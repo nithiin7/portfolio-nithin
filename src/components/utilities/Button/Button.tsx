@@ -1,6 +1,6 @@
 'use client';
-import React from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
+import type { FC } from 'react';
 
 import styles from './Button.module.scss';
 
@@ -15,22 +15,22 @@ interface ButtonProps {
  * @param {ButtonProps} props - The props for the component.
  * @returns {JSX.Element} The rendered button component.
  */
-const Button: React.FC<ButtonProps> = ({
+const Button: FC<ButtonProps> = ({
 	text = '',
 	className = '',
 	variant = '',
 }) => {
 	return (
 		<button
-			className={[styles.Button, styles[`button__${variant}`], className].join(
+			className={[styles.button, styles[`button__${variant}`], className].join(
 				' '
 			)}
 			type="submit"
 			aria-label="submit"
 		>
-			<motion.div className="button__slider">
-				<div className="button__el">
-					<div className="button__PerspectiveText">
+			<motion.div className={styles.button__slider}>
+				<div className={styles.button__el}>
+					<div className={styles.button__PerspectiveText}>
 						<p>{text}</p>
 						<p>{text}</p>
 					</div>

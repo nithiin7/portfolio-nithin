@@ -1,16 +1,19 @@
 'use client';
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
+
 import { useLenis } from '@studio-freight/react-lenis';
-import { Link as ScrollLink } from 'react-scroll';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { footerLinks, socials, songs } from 'constants/index';
-import { Social } from 'types/social';
-import { Song } from 'types/song';
+import type { ReactElement } from 'react';
+import { useEffect, useState } from 'react';
+import { Link as ScrollLink } from 'react-scroll';
 
 import Contact from 'assets/images/contact.svg';
+import { footerLinks, socials, songs } from 'constants/index';
+import type { Social } from 'types/social';
+import type { Song } from 'types/song';
+import type { FooterLink } from 'types/utils';
+
 import styles from './Footer.module.scss';
-import { FooterLink } from 'types/utils';
 
 /**
  * Footer component displaying various links, social icons, and a randomly selected song.
@@ -19,7 +22,7 @@ import { FooterLink } from 'types/utils';
  * @component
  * @returns {JSX.Element} The rendered Footer component.
  */
-const Footer = (): JSX.Element => {
+const Footer = (): ReactElement => {
 	const [randomSong, setRandomSong] = useState<Song | null>(null);
 	const lenis = useLenis();
 	const pathname = usePathname();

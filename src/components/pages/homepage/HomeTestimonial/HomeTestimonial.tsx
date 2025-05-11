@@ -1,9 +1,11 @@
 'use client';
-import { Testimonial } from 'types/testimony';
-import styles from './HomeTestimonial.module.scss';
+import type { FC } from 'react';
 
 import TestimonialCard from 'components/pages/TestimonialCard/TestimonialCard';
 import MaskText from 'components/utilities/MaskText/MaskText';
+import type { Testimonial } from 'types/testimony';
+
+import styles from './HomeTestimonial.module.scss';
 
 interface HomeTestimonialProps {
 	className?: string;
@@ -24,7 +26,7 @@ interface HomeTestimonialProps {
  * @param {Testimonial[]} [props.testimonial] - Array of testimonial items to display.
  * @returns {JSX.Element} - Rendered HomeTestimonial component.
  */
-const HomeTestimonial: React.FC<HomeTestimonialProps> = ({
+const HomeTestimonial: FC<HomeTestimonialProps> = ({
 	className = '',
 	data = { title: '' },
 	testimonial = [],
@@ -35,7 +37,7 @@ const HomeTestimonial: React.FC<HomeTestimonialProps> = ({
 				<h2>
 					<MaskText phrases={[data.title ?? '']} />
 				</h2>
-				<div className="HomeTestimonial__testimonial">
+				<div className={styles.HomeTestimonial__testimonial}>
 					{testimonial.map((item, index) => {
 						return <TestimonialCard key={index} item={item} />;
 					})}
