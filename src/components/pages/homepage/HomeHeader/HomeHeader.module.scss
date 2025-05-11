@@ -55,12 +55,15 @@
 				font-size: clamp(3rem, -0.057rem + 10.0714vw, 10.25rem);
 				line-height: 92.5%;
 				font-weight: 800;
-				white-space: nowrap;
+				white-space: normal;
 				font-family: 'Host Grotesk', sans-serif;
 				font-feature-settings: 'ss03';
 				font-optical-sizing: auto;
 				font-style: normal;
 				letter-spacing: rem(5);
+				@media #{$md} {
+					white-space: nowrap;
+				}
 			}
 			p {
 				max-width: 38ch;
