@@ -1,3 +1,6 @@
+/**
+ * @type {import('next').NextConfig}
+ */
 const nextConfig = {
 	reactStrictMode: true,
 	env: {
@@ -17,6 +20,32 @@ const nextConfig = {
 				hostname: 'images.ctfassets.net',
 			},
 		],
+	},
+	webpack(config) {
+		config.module.rules.push({
+			test: /\.svg$/,
+			use: [
+				{
+					loader: '@svgr/webpack',
+					options: {
+						svgo: true,
+						svgoConfig: {
+							plugins: [
+								{
+									name: 'removeViewBox',
+									active: false,
+								},
+								{
+									name: 'removeDimensions',
+									active: false,
+								},
+							],
+						},
+					},
+				},
+			],
+		});
+		return config;
 	},
 	turbopack: {
 		rules: {
