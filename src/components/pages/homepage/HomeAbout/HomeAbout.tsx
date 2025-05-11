@@ -1,8 +1,10 @@
 'use client';
 import Image from 'next/image';
+import type { FC } from 'react';
+
+import MaskText from 'components/utilities/MaskText/MaskText';
 
 import styles from './HomeAbout.module.scss';
-import MaskText from 'components/utilities/MaskText/MaskText';
 
 interface HomeAboutProps {
 	className?: string;
@@ -28,7 +30,7 @@ interface HomeAboutProps {
  * @param {string} [data.items[].image.url] - URL of the image.
  * @returns {JSX.Element} The rendered HomeAbout component.
  */
-const HomeAbout: React.FC<HomeAboutProps> = ({
+const HomeAbout: FC<HomeAboutProps> = ({
 	className = '',
 	data = {
 		items: [

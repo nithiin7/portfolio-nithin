@@ -1,19 +1,20 @@
-import { ReactElement } from 'react';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
-import loadData from 'helpers/contentful';
 import 'styles/globals.scss';
 
-import Provider from './provider';
 import Footer from 'components/layouts/Footer';
+import Menu from 'components/layouts/Menu';
+import loadData from 'helpers/contentful';
+
+import Provider from './provider';
 import Curve from './transition';
-import Menu from 'components/layouts/Menu/Menu';
 
 export async function generateMetadata(): Promise<Metadata> {
 	const props = await loadData('home');
 	const path = props?.data.pageCollection.items[0];
 
 	return {
+		metadataBase: new URL('https://portfolio-nithin.vercel.app/'),
 		title: path.title,
 		description: path.description,
 		keywords: path.keywords,
@@ -40,7 +41,7 @@ interface RootLayoutProps {
 
 export default function RootLayout({
 	children,
-}: Readonly<RootLayoutProps>): ReactElement {
+}: Readonly<RootLayoutProps>): React.ReactElement {
 	return (
 		<html lang="en">
 			<head>

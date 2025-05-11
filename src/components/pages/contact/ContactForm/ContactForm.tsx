@@ -1,18 +1,20 @@
 'use client';
-import { useRef, useState } from 'react';
-import emailjs from 'emailjs-com';
-import { Controller, useForm, SubmitHandler } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { motion } from 'framer-motion';
-import Link from 'next/link';
 
-import { contactSchema } from 'helpers/validations';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { sendForm } from 'emailjs-com';
+import { motion } from 'motion/react';
+import Link from 'next/link';
+import type { FC } from 'react';
+import { useRef, useState } from 'react';
+import type { SubmitHandler } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
+
+import TextArea from 'components/utilities/TextArea';
+import TextInput from 'components/utilities/TextInput';
 import { contactOptions } from 'constants/index';
+import { contactSchema } from 'helpers/validations';
 
 import styles from './ContactForm.module.scss';
-
-import TextInput from 'components/utilities/TextInput';
-import TextArea from 'components/utilities/TextArea';
 
 interface ContactFormData {
 	name: string;
@@ -34,7 +36,7 @@ interface ContactFormProps {
  * @param {'default' | 'alternative'} [variant='default'] - Visual variant of the form.
  * @returns {JSX.Element} The rendered ContactForm component.
  */
-const ContactForm: React.FC<ContactFormProps> = ({
+const ContactForm: FC<ContactFormProps> = ({
 	className = '',
 	variant = 'default',
 }) => {
@@ -58,31 +60,29 @@ const ContactForm: React.FC<ContactFormProps> = ({
 	 * Handles form submission, sending data via EmailJS and showing success feedback.
 	 *
 	 * @param {ContactFormData} data - Form data including name, email, and message.
-	 * @param {React.FormEvent} e - Form submit event.
+	 * @param {FormEvent} e - Form submit event.
 	 */
 	const onSubmit: SubmitHandler<ContactFormData> = (data, e) => {
 		if (e) {
 			e.preventDefault();
 		}
 
-		emailjs
-			.sendForm(
-				process.env.NEXT_PUBLIC_SERVICE_ID!,
-				process.env.NEXT_PUBLIC_TEMPLATE_ID!,
-				form.current!,
-				process.env.NEXT_PUBLIC_EMAILJS_ID
-			)
-			.then(
-				() => {
-					setFormSent(true);
-					setTimeout(() => {
-						setFormSent(false);
-					}, 10000);
-				},
-				(error) => {
-					console.log(error.text);
-				}
-			);
+		sendForm(
+			process.env.NEXT_PUBLIC_SERVICE_ID!,
+			process.env.NEXT_PUBLIC_TEMPLATE_ID!,
+			form.current!,
+			process.env.NEXT_PUBLIC_EMAILJS_ID
+		).then(
+			() => {
+				setFormSent(true);
+				setTimeout(() => {
+					setFormSent(false);
+				}, 10000);
+			},
+			(error) => {
+				console.log(error.text);
+			}
+		);
 	};
 
 	const animate = {
@@ -92,9 +92,7 @@ const ContactForm: React.FC<ContactFormProps> = ({
 
 	return (
 		<div
-			className={`${styles.ContactForm} ${
-				styles[`ContactForm__${variant}`]
-			} ${className}`}
+			className={`${styles.ContactForm} ${styles[`ContactForm__${variant}`]} ${className}`}
 		>
 			{formSent ? (
 				<motion.div

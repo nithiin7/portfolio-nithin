@@ -1,12 +1,14 @@
 'use client';
+import { motion, useMotionValue, useSpring } from 'motion/react';
+import type { FC } from 'react';
 import { useEffect, useState } from 'react';
-import { motion, useMotionValue, useSpring } from 'framer-motion';
-import { Settings } from 'types/anim';
 
-import styles from './HomeHeader.module.scss';
 import Logo from 'assets/images/nav-logo.svg';
 import Cursor from 'components/utilities/Cursor/Cursor';
 import MaskText from 'components/utilities/MaskText/MaskText';
+import type { Settings } from 'types/anim';
+
+import styles from './HomeHeader.module.scss';
 
 interface HomeHeaderProps {
 	className?: string;
@@ -37,7 +39,7 @@ const settings: Settings = {
  * @param {string} [data.items[].subTitle] - Subtitle text.
  * @returns {JSX.Element} The rendered HomeHeader component.
  */
-const HomeHeader: React.FC<HomeHeaderProps> = ({
+const HomeHeader: FC<HomeHeaderProps> = ({
 	className = '',
 	data = { items: [] },
 }) => {

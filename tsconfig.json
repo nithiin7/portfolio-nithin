@@ -1,57 +1,43 @@
 {
-  "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
-    "incremental": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "baseUrl": "./src/",
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-    "target": "ES2017"
-  },
-  "paths": {
-    "@assets/*": [
-      "assets/*"
-    ],
-    "@components/*": [
-      "components/*"
-    ],
-    "@helpers/*": [
-      "helpers/*"
-    ],
-    "@queries/*": [
-      "queries/*"
-    ],
-    "@styles/*": [
-      "styles/*"
-    ],
-    "@utils/*": [
-      "utils/*"
-    ]
-  },
-  "include": [
-    "next-env.d.ts",
-    ".next/types/**/*.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+	"compilerOptions": {
+		"lib": ["dom", "dom.iterable", "esnext"],
+		"allowJs": true,
+		"skipLibCheck": true,
+		"strict": true,
+		"noEmit": true,
+		"incremental": true,
+		"esModuleInterop": true,
+		"module": "esnext",
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"jsx": "preserve",
+		"baseUrl": "./src/",
+		"plugins": [
+			{
+				"name": "next"
+			}
+		],
+		"target": "ES2017",
+		"paths": {
+			"assets/*": ["assets/*"],
+			"components/*": ["components/*"],
+			"helpers/*": ["helpers/*"],
+			"queries/*": ["queries/*"],
+			"styles/*": ["styles/*"],
+			"utils/*": ["utils/*"]
+		}
+	},
+	"include": [
+		"next-env.d.ts",
+		".next/types/**/*.ts",
+		"**/*.ts",
+		"**/*.tsx",
+		".storybook/**/*",
+		"**/*.js",
+		"**/*.jsx",
+		"**/*.json",
+		"**/*.mjs"
+	],
+	"exclude": ["node_modules"]
 }

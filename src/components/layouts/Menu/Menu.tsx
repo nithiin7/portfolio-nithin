@@ -1,6 +1,9 @@
 'use client';
-import { ReactElement, useEffect, useRef, useState } from 'react';
-import { AnimatePresence, motion, useScroll } from 'framer-motion';
+
+import { AnimatePresence, motion, useScroll } from 'motion/react';
+import type { ReactElement } from 'react';
+import { useEffect, useRef, useState } from 'react';
+
 import MenuBackground from 'assets/images/menu-bg.svg';
 import { links, socialsMenu } from 'constants/index';
 

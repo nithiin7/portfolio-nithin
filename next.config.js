@@ -1,3 +1,6 @@
+/**
+ * @type {import('next').NextConfig}
+ */
 const nextConfig = {
 	reactStrictMode: true,
 	env: {
@@ -6,33 +9,62 @@ const nextConfig = {
 		NEXT_PUBLIC_ENVIRONMENT: 'master',
 		NEXT_PUBLIC_AUTHORIZATION_TOKEN:
 			'EoivlAc4VSaHS3gkCNXTYB--HKkf3gSKBR8nn_NY5DA',
-		NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: 'G-E4KM0WS03X',
 		NEXT_PUBLIC_SERVICE_ID: 'service_hh0l7yp',
 		NEXT_PUBLIC_TEMPLATE_ID: 'template_va5jl1g',
+		NEXT_PUBLIC_GOOGLE_GTM_ID: 'GTM-P4D6XZ2C',
 	},
 	images: {
-		domains: ['images.ctfassets.net'],
+		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: 'images.ctfassets.net',
+			},
+		],
 	},
-	experimental: {
-		turbo: {
-			rules: {
-				'*.svg': {
-					loaders: [
-						{
-							loader: '@svgr/webpack',
-							options: {
-								svgo: true,
-								svgoConfig: {
-									plugins: [
-										{ name: 'removeViewBox', active: false },
-										{ name: 'removeDimensions', active: false },
-									],
+	webpack(config) {
+		config.module.rules.push({
+			test: /\.svg$/,
+			use: [
+				{
+					loader: '@svgr/webpack',
+					options: {
+						svgo: true,
+						svgoConfig: {
+							plugins: [
+								{
+									name: 'removeViewBox',
+									active: false,
 								},
+								{
+									name: 'removeDimensions',
+									active: false,
+								},
+							],
+						},
+					},
+				},
+			],
+		});
+		return config;
+	},
+	turbopack: {
+		rules: {
+			'*.svg': {
+				loaders: [
+					{
+						loader: '@svgr/webpack',
+						options: {
+							svgo: true,
+							svgoConfig: {
+								plugins: [
+									{ name: 'removeViewBox', active: false },
+									{ name: 'removeDimensions', active: false },
+								],
 							},
 						},
-					],
-					as: '*.js',
-				},
+					},
+				],
+				as: '*.js',
 			},
 		},
 	},

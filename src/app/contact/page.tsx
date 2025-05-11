@@ -1,13 +1,14 @@
 'use client';
+import { motion, useMotionValue, useSpring } from 'motion/react';
 import Link from 'next/link';
-import { useEffect, useState, MouseEvent } from 'react';
-import { motion, useMotionValue, useSpring } from 'framer-motion';
-import { Settings } from 'types/anim';
+import { useEffect, useState } from 'react';
 
-import styles from './Contact.module.scss';
 import Logo from 'assets/images/nav-logo.svg';
 import ContactForm from 'components/pages/contact/ContactForm';
-import MaskText from 'components/utilities/MaskText/MaskText';
+import MaskText from 'components/utilities/MaskText';
+import type { Settings } from 'types/anim';
+
+import styles from './Contact.module.scss';
 
 const settings: Settings = {
 	damping: 100,

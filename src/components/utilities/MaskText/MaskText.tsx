@@ -1,6 +1,7 @@
 'use client';
-import { FC } from 'react';
-import { motion, Variants } from 'framer-motion';
+import type { Variants } from 'motion/react';
+import { motion } from 'motion/react';
+import type { FC } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import styles from './MaskText.module.scss';
@@ -41,9 +42,7 @@ const MaskText: FC<MaskTextProps> = ({
 
 	return (
 		<div
-			className={`${styles.MaskText} ${
-				styles[`MaskText__${variant}`]
-			} ${className}`}
+			className={`${styles.MaskText} ${styles[`MaskText__${variant}`]} ${className}`}
 			ref={ref}
 		>
 			<motion.div

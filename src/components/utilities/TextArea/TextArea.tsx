@@ -1,4 +1,6 @@
-import React from 'react';
+import type { ChangeEventHandler, FocusEventHandler } from 'react';
+import { forwardRef } from 'react';
+
 import styles from './TextArea.module.scss';
 
 interface TextAreaProps {
@@ -9,8 +11,8 @@ interface TextAreaProps {
 	value?: string;
 	label?: string;
 	rows?: number;
-	onChange?: React.ChangeEventHandler<HTMLTextAreaElement>;
-	onBlur?: React.FocusEventHandler<HTMLTextAreaElement>;
+	onChange?: ChangeEventHandler<HTMLTextAreaElement>;
+	onBlur?: FocusEventHandler<HTMLTextAreaElement>;
 	disabled?: boolean;
 	errors?: string[];
 }
@@ -21,7 +23,7 @@ interface TextAreaProps {
  * @param {TextAreaProps} props - The properties for the component.
  * @returns {JSX.Element} The rendered TextArea component.
  */
-const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
+const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
 	(
 		{
 			name = '',
@@ -40,9 +42,7 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
 	) => {
 		return (
 			<div
-				className={`${styles.TextArea} ${
-					styles[`TextArea__${variant}`]
-				} ${className}`}
+				className={`${styles.TextArea} ${styles[`TextArea__${variant}`]} ${className}`}
 			>
 				{label && (
 					<div className={styles.TextArea__label}>

@@ -1,11 +1,11 @@
-import React from 'react';
-import { Song } from 'types/song';
-import { Social } from 'types/social';
-import { FooterLink, LinkItem } from 'types/utils';
-
 import { FaGithub, FaBitbucket, FaLinkedinIn } from 'react-icons/fa';
 import { FiInstagram } from 'react-icons/fi';
 import { IoLogoTwitter } from 'react-icons/io';
+
+import type { Contact } from 'types/contact';
+import type { Social } from 'types/social';
+import type { Song } from 'types/song';
+import type { FooterLink, LinkItem } from 'types/utils';
 
 export const links: LinkItem[] = [
 	{ title: 'Home', href: '/' },

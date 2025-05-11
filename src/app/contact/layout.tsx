@@ -1,5 +1,4 @@
-import { Metadata } from 'next';
-import { ReactElement } from 'react';
+import type { Metadata } from 'next';
 
 import loadData from 'helpers/contentful';
 
@@ -34,6 +33,6 @@ interface ContactLayoutProps {
 
 export default function ContactLayout({
 	children,
-}: Readonly<ContactLayoutProps>): ReactElement {
+}: Readonly<ContactLayoutProps>): React.ReactElement {
 	return <>{children}</>;
 }

@@ -1,7 +1,9 @@
 'use client';
-import React, { ReactElement, useEffect, useState } from 'react';
-import { AnimatePresence, motion, Variants } from 'framer-motion';
+import type { Variants } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
 import { text, curve, translate } from 'helpers/animations';
 
 interface CurveProps {
@@ -23,7 +25,10 @@ const anim = (variants: Variants) => {
 	};
 };
 
-const Curve = ({ children, backgroundColor }: CurveProps): ReactElement => {
+const Curve = ({
+	children,
+	backgroundColor,
+}: CurveProps): React.ReactElement => {
 	const [dimensions, setDimensions] = useState<Dimensions>({
 		width: null,
 		height: null,
@@ -77,7 +82,7 @@ interface SVGProps {
 	width: number;
 }
 
-const SVG = ({ height, width }: SVGProps): ReactElement => {
+const SVG = ({ height, width }: SVGProps): React.ReactElement => {
 	const initialPath = `
         M0 300 
         Q${width / 2} 0 ${width} 300

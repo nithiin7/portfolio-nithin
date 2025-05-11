@@ -1,8 +1,9 @@
-import React from 'react';
 import Image from 'next/image';
-import { Testimonial as TestimonialType } from 'types/testimony';
+import type { FC } from 'react';
 
 import Testimonial from 'assets/images/testimonial.svg';
+import type { Testimonial as TestimonialType } from 'types/testimony';
+
 import styles from './TestimonialCard.module.scss';
 
 interface TestimonialCardProps {
@@ -16,7 +17,7 @@ interface TestimonialCardProps {
  * @param {TestimonialCardProps} props - The props for the component.
  * @returns {JSX.Element} The rendered testimonial card component.
  */
-const TestimonialCard: React.FC<TestimonialCardProps> = ({
+const TestimonialCard: FC<TestimonialCardProps> = ({
 	className = '',
 	variant = '',
 	item = {
