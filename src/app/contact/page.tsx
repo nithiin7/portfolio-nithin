@@ -2,6 +2,7 @@
 import { motion, useMotionValue, useSpring } from 'motion/react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
 import Logo from 'assets/images/nav-logo.svg';
 import ContactForm from 'components/pages/contact/ContactForm';
@@ -74,63 +75,73 @@ const Contact: React.FC = () => {
 	}, [componentRef, x, y]);
 
 	return (
-		<div className={styles.contact}>
-			<header>
-				<div className={styles.contact__nav}>
-					<motion.div
-						ref={setComponentRef}
-						style={{
-							x: springX,
-							y: springY,
-							zIndex: 99,
-						}}
-					>
-						<Link href="/" aria-label="Back to home" title="Back">
-							<Logo />
-						</Link>
-					</motion.div>
-				</div>
-				<svg
-					className={styles.contact__bg}
-					width="1186"
-					height="1186"
-					viewBox="0 0 1186 1186"
-					fill="none"
-					xmlns="http://www.w3.org/2000/svg"
-					aria-hidden="true"
-				>
-					<circle
-						cx="593"
-						cy="593"
-						r="593"
-						fill="url(#paint0_linear_4949_267)"
-					></circle>
-					<defs>
-						<linearGradient
-							id="paint0_linear_4949_267"
-							x1="593"
-							y1="0"
-							x2="593"
-							y2="1186"
-							gradientUnits="userSpaceOnUse"
+		<GoogleReCaptchaProvider
+			reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+			scriptProps={{
+				async: true,
+				defer: true,
+				appendTo: 'body',
+				nonce: undefined,
+			}}
+		>
+			<div className={styles.contact}>
+				<header>
+					<div className={styles.contact__nav}>
+						<motion.div
+							ref={setComponentRef}
+							style={{
+								x: springX,
+								y: springY,
+								zIndex: 99,
+							}}
 						>
-							<stop stopColor="#DDDDD5"></stop>
-							<stop offset="1" stopColor="#DDDDD5" stopOpacity="0"></stop>
-						</linearGradient>
-					</defs>
-				</svg>
-				<div className={styles.contact__header}>
-					<h1>
-						<MaskText
-							phrases={['Say No More. Lets Bring your project to life']}
-						/>
-					</h1>
-				</div>
-			</header>
-			<section>
-				<ContactForm />
-			</section>
-		</div>
+							<Link href="/" aria-label="Back to home" title="Back">
+								<Logo />
+							</Link>
+						</motion.div>
+					</div>
+					<svg
+						className={styles.contact__bg}
+						width="1186"
+						height="1186"
+						viewBox="0 0 1186 1186"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+						aria-hidden="true"
+					>
+						<circle
+							cx="593"
+							cy="593"
+							r="593"
+							fill="url(#paint0_linear_4949_267)"
+						></circle>
+						<defs>
+							<linearGradient
+								id="paint0_linear_4949_267"
+								x1="593"
+								y1="0"
+								x2="593"
+								y2="1186"
+								gradientUnits="userSpaceOnUse"
+							>
+								<stop stopColor="#DDDDD5"></stop>
+								<stop offset="1" stopColor="#DDDDD5" stopOpacity="0"></stop>
+							</linearGradient>
+						</defs>
+					</svg>
+					<div className={styles.contact__header}>
+						<h1>
+							<MaskText
+								phrases={['Say No More. Lets Bring your project to life']}
+							/>
+						</h1>
+					</div>
+				</header>
+				<section>
+					<ContactForm />
+				</section>
+			</div>
+		</GoogleReCaptchaProvider>
 	);
 };
 

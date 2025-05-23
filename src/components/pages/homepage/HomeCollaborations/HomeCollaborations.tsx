@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import type { FC } from 'react';
 
 import GameAwardsLogo from 'assets/logos/game-awards.svg';
@@ -15,9 +16,21 @@ interface HomeCollaborationsProps {
 }
 
 const logoComponents = [
-	{ Component: WhiteRabbitLogo, name: 'WhiteRabbitLogo' },
-	{ Component: SpotifyLogo, name: 'SpotifyLogo' },
-	{ Component: GameAwardsLogo, name: 'GameAwardsLogo' },
+	{
+		Component: WhiteRabbitLogo,
+		name: 'WhiteRabbitLogo',
+		url: 'https://whiterabbit.group/',
+	},
+	{
+		Component: SpotifyLogo,
+		name: 'SpotifyLogo',
+		url: 'https://connect.spotify.com/',
+	},
+	{
+		Component: GameAwardsLogo,
+		name: 'GameAwardsLogo',
+		url: 'https://thegameawards.com/',
+	},
 ];
 
 /**
@@ -39,10 +52,16 @@ const HomeCollaborations: FC<HomeCollaborationsProps> = ({
 				<MaskText phrases={[data.title ?? '']} />
 			</h2>
 			<div className={styles.portfolio__collaborations}>
-				{logoComponents.map(({ Component, name }) => (
-					<div className={styles.collaborations__companies} key={name}>
+				{logoComponents.map(({ Component, name, url }) => (
+					<Link
+						href={url}
+						target="_blank"
+						rel="noopener noreferrer"
+						className={styles.collaborations__companies}
+						key={name}
+					>
 						<Component />
-					</div>
+					</Link>
 				))}
 			</div>
 		</section>
