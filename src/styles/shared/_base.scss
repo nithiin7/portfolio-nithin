@@ -23,6 +23,7 @@ body {
 	-webkit-tap-highlight-color: transparent;
 	::selection {
 		background: #6b645c;
+		color: $color-white;
 	}
 	&::before {
 		filter: url(#grainy);

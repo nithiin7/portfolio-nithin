@@ -2,6 +2,8 @@ import Link from 'next/link';
 import type { FC } from 'react';
 
 import GameAwardsLogo from 'assets/logos/game-awards.svg';
+import PaytmLogo from 'assets/logos/paytm-payments-bank.svg';
+import SpotifyCodesLogo from 'assets/logos/spotify-codes.svg';
 import SpotifyLogo from 'assets/logos/spotify.svg';
 import WhiteRabbitLogo from 'assets/logos/white-rabbit.svg';
 import MaskText from 'components/utilities/MaskText/MaskText';
@@ -30,6 +32,16 @@ const logoComponents = [
 		Component: GameAwardsLogo,
 		name: 'GameAwardsLogo',
 		url: 'https://thegameawards.com/',
+	},
+	{
+		Component: PaytmLogo,
+		name: 'PaytmLogo',
+		url: 'https://www.paytmbank.com/',
+	},
+	{
+		Component: SpotifyCodesLogo,
+		name: 'SpotifyCodesLogo',
+		url: 'https://www.spotifycodes.com/',
 	},
 ];
 
