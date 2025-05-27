@@ -126,8 +126,16 @@ const Menu = ({
 					onClick={() => setIsMenuActive(!isMenuActive)}
 					transition={{ ease: [0.1, 0.25, 0.3, 1], duration: 0.3 }}
 				>
-					<span className={isMenuActive ? 'active' : ''}></span>
-					<span className={isMenuActive ? 'active' : ''}></span>
+					<motion.span
+						animate={isMenuActive ? { rotate: 45, y: 4 } : { rotate: 0, y: 0 }}
+						transition={{ duration: 0.3 }}
+					/>
+					<motion.span
+						animate={
+							isMenuActive ? { rotate: -45, y: -4 } : { rotate: 0, y: 0 }
+						}
+						transition={{ duration: 0.3 }}
+					/>
 				</motion.button>
 				<motion.div className={styles.menu__container}>
 					<AnimatePresence>
