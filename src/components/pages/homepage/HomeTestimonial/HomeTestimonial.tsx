@@ -39,7 +39,7 @@ const HomeTestimonial: FC<HomeTestimonialProps> = ({
 				</h2>
 				<div className={styles.HomeTestimonial__testimonial}>
 					{testimonial.map((item, index) => {
-						return <TestimonialCard key={index} item={item} />;
+						return <TestimonialCard key={`${item.id}-${index}`} item={item} />;
 					})}
 				</div>
 			</section>

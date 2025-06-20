@@ -14,7 +14,6 @@ type Story = StoryObj<typeof MaskText>;
 export const Primary: Story = {
 	args: {
 		className: '',
-		variant: '',
 		phrases: ['Hello', 'World'],
 	},
 };

@@ -39,7 +39,7 @@ const HomePortfolio: FC<HomePortfolioProps> = ({
 				<div className={styles.portfolio__container}>
 					{portfolio.map((item, index) => (
 						<PortfolioCard
-							key={index}
+							key={`${item.title}-${index}`}
 							image={item.image.url}
 							title={item.title}
 							demo={item.demo ?? ''}

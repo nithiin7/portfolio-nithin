@@ -51,6 +51,16 @@
 				padding-bottom: 0;
 				align-items: center;
 			}
+			button {
+				background: none;
+				border: none;
+				cursor: pointer;
+				padding: 0;
+				margin: 0;
+				outline: none;
+				appearance: none;
+				color: #393632;
+			}
 			h1 {
 				font-size: clamp(3rem, -0.057rem + 10.0714vw, 10.25rem);
 				line-height: 92.5%;

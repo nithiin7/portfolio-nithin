@@ -8,7 +8,6 @@ import styles from './MaskText.module.scss';
 
 interface MaskTextProps {
 	className?: string;
-	variant?: string;
 	phrases: string[];
 }
 
@@ -19,11 +18,7 @@ interface MaskTextProps {
  * @param {MaskTextProps} props - The properties for the component.
  * @returns {JSX.Element} The rendered MaskText component.
  */
-const MaskText: FC<MaskTextProps> = ({
-	className = '',
-	variant = '',
-	phrases = [],
-}) => {
+const MaskText: FC<MaskTextProps> = ({ className = '', phrases = [] }) => {
 	const animation: Variants = {
 		initial: { y: '100%' },
 		enter: {
@@ -41,10 +36,7 @@ const MaskText: FC<MaskTextProps> = ({
 	});
 
 	return (
-		<div
-			className={`${styles.MaskText} ${styles[`MaskText__${variant}`]} ${className}`}
-			ref={ref}
-		>
+		<div className={`${styles.MaskText} ${className}`} ref={ref}>
 			<motion.div
 				variants={{
 					enter: {
@@ -55,9 +47,12 @@ const MaskText: FC<MaskTextProps> = ({
 				animate={inView ? 'enter' : ''}
 			>
 				{phrases.map((phrase, phraseIndex) => (
-					<motion.div className={styles.MaskText__lineMask} key={phraseIndex}>
+					<motion.div
+						className={styles.MaskText__lineMask}
+						key={`${phrase}-${phraseIndex}`}
+					>
 						{phrase.split(' ').map((word, wordIndex) => (
-							<motion.span key={wordIndex} variants={animation}>
+							<motion.span key={`${word}-${wordIndex}`} variants={animation}>
 								{word + ' '}
 							</motion.span>
 						))}

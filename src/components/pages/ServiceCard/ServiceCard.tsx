@@ -62,7 +62,7 @@ const ServiceCard: FC<ServiceCardProps> = ({
 				<div className={styles['service-card__services']}>
 					{list.map((item, index) => (
 						<span
-							key={index}
+							key={`${item}-${index}`}
 							data-aos="fade-up"
 							data-aos-duration="1400"
 							data-aos-once="true"

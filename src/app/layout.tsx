@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Roboto, Familjen_Grotesk } from 'next/font/google';
 
 import 'styles/globals.scss';
 
@@ -8,6 +9,20 @@ import loadData from 'helpers/contentful';
 
 import Provider from './provider';
 import Curve from './transition';
+
+const roboto = Roboto({
+	subsets: ['latin'],
+	weight: ['100', '300', '400', '500', '700', '900'],
+	style: ['normal', 'italic'],
+	variable: '--font-roboto',
+});
+
+const familjenGrotesk = Familjen_Grotesk({
+	subsets: ['latin'],
+	weight: ['400', '500', '600', '700'],
+	style: ['normal', 'italic'],
+	variable: '--font-familjen-grotesk',
+});
 
 export async function generateMetadata(): Promise<Metadata> {
 	const props = await loadData('home');
@@ -43,7 +58,10 @@ export default function RootLayout({
 	children,
 }: Readonly<RootLayoutProps>): React.ReactElement {
 	return (
-		<html lang="en">
+		<html
+			lang="en"
+			className={`${roboto.variable} ${familjenGrotesk.variable}`}
+		>
 			<head>
 				<link
 					rel="apple-touch-icon"
@@ -63,26 +81,6 @@ export default function RootLayout({
 					href="/favicon-16x16.png"
 				/>
 				<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
-				<link
-					rel="preload"
-					href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
-					as="style"
-				/>
-				<link
-					rel="preload"
-					href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400..700;1,400..700&display=swap"
-					as="style"
-				/>
-				<noscript>
-					<link
-						rel="stylesheet"
-						href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
-					/>
-					<link
-						rel="stylesheet"
-						href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400..700;1,400..700&display=swap"
-					/>
-				</noscript>
 				<meta name="msapplication-TileColor" content="#da532c" />
 				<meta name="theme-color" content="#ffffff" />
 				<meta
@@ -90,7 +88,7 @@ export default function RootLayout({
 					content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
 				/>
 			</head>
-			<body>
+			<body className={`${roboto.className} ${familjenGrotesk.className}`}>
 				<Provider>
 					<Curve>
 						<Menu />

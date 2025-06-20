@@ -104,7 +104,7 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 		return () => {
 			document.removeEventListener('mousemove', handleMouseMove);
 		};
-	}, [componentRef]);
+	}, [componentRef, x, y]);
 
 	return (
 		<header className={`${styles.HomeHeader} ${className}`}>
@@ -154,17 +154,21 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 					</defs>
 				</svg>
 				<div className={styles.header__description}>
-					<h1
+					<button
+						className={styles.header__title}
 						onMouseEnter={() => setIsHovered(true)}
 						onMouseLeave={() => setIsHovered(false)}
-						data-aos="fade-up"
-						data-aos-duration="1000"
-						data-aos-once="true"
-						data-aos-delay="800"
 					>
-						<MaskText phrases={[data.items[0]?.title ?? '']} />
-						<MaskText phrases={[data.items[0]?.subTitle ?? '']} />
-					</h1>
+						<h1
+							data-aos="fade-up"
+							data-aos-duration="1000"
+							data-aos-once="true"
+							data-aos-delay="800"
+						>
+							<MaskText phrases={[data.items[0]?.title ?? '']} />
+							<MaskText phrases={[data.items[0]?.subTitle ?? '']} />
+						</h1>
+					</button>
 					<p
 						data-aos="fade-up"
 						data-aos-duration="1200"

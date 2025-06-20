@@ -43,7 +43,7 @@ const HomeServices: FC<HomeServicesProps> = ({
 						if (item.__typename === 'Section') {
 							return (
 								<ServiceCard
-									key={index}
+									key={`${item.contentsCollection.items[0].title}-${index}`}
 									i={index}
 									heading={item.contentsCollection.items[0].title}
 									list={item.contentsCollection.items[1].list}
