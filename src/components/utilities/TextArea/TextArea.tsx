@@ -5,7 +5,6 @@ import styles from './TextArea.module.scss';
 
 interface TextAreaProps {
 	name?: string;
-	variant?: 'default' | 'alternative';
 	className?: string;
 	placeholder?: string;
 	value?: string;
@@ -27,7 +26,6 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
 	(
 		{
 			name = '',
-			variant = 'default',
 			className = '',
 			placeholder = '',
 			value = '',
@@ -41,9 +39,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
 		ref
 	) => {
 		return (
-			<div
-				className={`${styles.TextArea} ${styles[`TextArea__${variant}`]} ${className}`}
-			>
+			<div className={`${styles.TextArea} ${className}`}>
 				{label && (
 					<div className={styles.TextArea__label}>
 						<label htmlFor={name}>{label}</label>
@@ -67,7 +63,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
 					{errors.length > 0 && (
 						<div className={styles['TextArea__form-errors']}>
 							{errors.map((error, index) => (
-								<p key={index}>{error}</p>
+								<p key={`${error}-${index}`}>{error}</p>
 							))}
 						</div>
 					)}

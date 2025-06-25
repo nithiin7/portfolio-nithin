@@ -5,7 +5,6 @@ import styles from './TextInput.module.scss';
 
 interface TextInputProps {
 	name?: string;
-	variant?: 'default' | 'alternative';
 	className?: string;
 	type?: string;
 	placeholder?: string;
@@ -27,7 +26,6 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
 	(
 		{
 			name = '',
-			variant = 'default',
 			className = '',
 			type = 'text',
 			placeholder = '',
@@ -41,9 +39,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
 		ref
 	) => {
 		return (
-			<div
-				className={`${styles.TextInput} ${styles[`TextInput__${variant}`]} ${className}`}
-			>
+			<div className={`${styles.TextInput} ${className}`}>
 				{label && (
 					<div className={styles.TextInput__label}>
 						<label htmlFor={name}>{label}</label>
@@ -67,7 +63,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
 					{errors.length > 0 && (
 						<div className={styles['TextInput__form-errors']}>
 							{errors.map((error, index) => (
-								<p key={index}>{error}</p>
+								<p key={`${error}-${index}`}>{error}</p>
 							))}
 						</div>
 					)}

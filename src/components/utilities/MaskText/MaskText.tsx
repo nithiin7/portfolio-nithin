@@ -1,5 +1,4 @@
 'use client';
-import type { Variants } from 'motion/react';
 import { motion } from 'motion/react';
 import type { FC } from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -8,62 +7,54 @@ import styles from './MaskText.module.scss';
 
 interface MaskTextProps {
 	className?: string;
-	variant?: string;
 	phrases: string[];
+	delay?: number;
 }
 
 /**
  * MaskText component that displays phrases with a mask effect,
- * animating them into view as they scroll into view.
+ * animating them into view as they scroll into view, splitting words into characters.
  *
  * @param {MaskTextProps} props - The properties for the component.
  * @returns {JSX.Element} The rendered MaskText component.
  */
 const MaskText: FC<MaskTextProps> = ({
 	className = '',
-	variant = '',
 	phrases = [],
+	delay = 0,
 }) => {
-	const animation: Variants = {
-		initial: { y: '100%' },
-		enter: {
-			y: '0',
-			transition: {
-				duration: 0.75,
-				ease: [0.33, 1, 0.68, 1],
-			},
-		},
-	};
-
 	const { ref, inView } = useInView({
 		threshold: 0.75,
 		triggerOnce: true,
 	});
 
 	return (
-		<div
-			className={`${styles.MaskText} ${styles[`MaskText__${variant}`]} ${className}`}
-			ref={ref}
-		>
-			<motion.div
-				variants={{
-					enter: {
-						transition: { staggerChildren: 0.025 },
-					},
-				}}
-				initial="initial"
-				animate={inView ? 'enter' : ''}
-			>
-				{phrases.map((phrase, phraseIndex) => (
-					<motion.div className={styles.MaskText__lineMask} key={phraseIndex}>
-						{phrase.split(' ').map((word, wordIndex) => (
-							<motion.span key={wordIndex} variants={animation}>
-								{word + ' '}
-							</motion.span>
-						))}
-					</motion.div>
-				))}
-			</motion.div>
+		<div className={`${styles.MaskText} ${className}`} ref={ref}>
+			{phrases.map((phrase, phraseIndex) => (
+				<div className={styles.MaskText__lineMask} key={phraseIndex}>
+					{phrase.split(' ').map((word, wordIndex) => (
+						<span key={wordIndex} style={{ whiteSpace: 'pre' }}>
+							{word.split('').map((char, charIndex) => (
+								<motion.span
+									key={charIndex}
+									initial={{ y: '100%', opacity: 0 }}
+									animate={
+										inView ? { y: '0%', opacity: 1 } : { y: '100%', opacity: 0 }
+									}
+									transition={{
+										duration: 0.4,
+										delay: delay + wordIndex * 0.2 + charIndex * 0.03,
+										ease: [0.33, 1, 0.68, 1],
+									}}
+									style={{ display: 'inline-block' }}
+								>
+									{char}
+								</motion.span>
+							))}{' '}
+						</span>
+					))}
+				</div>
+			))}
 		</div>
 	);
 };

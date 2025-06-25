@@ -153,7 +153,10 @@ const Menu = ({
 								<div className={styles.menu__nav}>
 									{links.map((link, i) => {
 										return (
-											<motion.div key={i} style={{ overflow: 'hidden' }}>
+											<motion.div
+												key={`${link.title}-${i}`}
+												style={{ overflow: 'hidden' }}
+											>
 												<motion.div
 													custom={i}
 													variants={animate}
@@ -175,7 +178,10 @@ const Menu = ({
 								<ul className={styles.menu__socials}>
 									{socialsMenu.map((social, i) => {
 										return (
-											<li key={i} style={{ overflow: 'hidden' }}>
+											<li
+												key={`${social.title}-${i}`}
+												style={{ overflow: 'hidden' }}
+											>
 												<motion.div
 													custom={i}
 													variants={animate}

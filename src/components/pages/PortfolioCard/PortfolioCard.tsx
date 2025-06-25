@@ -47,7 +47,7 @@ const PortfolioCard: FC<PortfolioCardProps> = ({
 				<div className={styles['portfolio-card__items']}>
 					<span className={styles['portfolio-card__techs']}>
 						{tech.map((techItem, index) => (
-							<span key={index}>{techItem}</span>
+							<span key={`${techItem}-${index}`}>{techItem}</span>
 						))}
 					</span>
 					{year && (

@@ -2,7 +2,7 @@
 @use 'styles/shared/variables' as *;
 
 .HomeHeader {
-	background: rgb(232 232 227);
+	background: $color-primary;
 	cursor: none;
 	.header__nav {
 		position: absolute;
@@ -45,11 +45,21 @@
 			display: flex;
 			flex-direction: column;
 			row-gap: 2rem;
-			color: #393632;
+			color: $color-text-dark;
 			padding-bottom: rem(60);
 			@media #{$md} {
 				padding-bottom: 0;
 				align-items: center;
+			}
+			button {
+				background: none;
+				border: none;
+				cursor: pointer;
+				padding: 0;
+				margin: 0;
+				outline: none;
+				appearance: none;
+				color: $color-text-dark;
 			}
 			h1 {
 				font-size: clamp(3rem, -0.057rem + 10.0714vw, 10.25rem);
@@ -71,7 +81,7 @@
 				line-height: 130%;
 				font-size: 1.125rem;
 				font-weight: 400;
-				color: rgb(107 100 92);
+				color: $color-text;
 			}
 		}
 		svg {

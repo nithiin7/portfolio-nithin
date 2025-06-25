@@ -34,7 +34,7 @@ const ServiceCard: FC<ServiceCardProps> = ({
 			}}
 		>
 			<div className={styles['service-card__header']}>
-				<div data-aos="fade-up" data-aos-duration="1300" data-aos-once="true">
+				<div>
 					<svg
 						width="80px"
 						height="80px"
@@ -51,24 +51,13 @@ const ServiceCard: FC<ServiceCardProps> = ({
 						/>
 					</svg>
 				</div>
-				<h3 data-aos="fade-up" data-aos-duration="1300" data-aos-once="true">
-					{heading}
-				</h3>
+				<h3>{heading}</h3>
 			</div>
 			<div className={styles['service-card__body']}>
-				<p data-aos="fade-up" data-aos-duration="1500" data-aos-once="true">
-					{description}
-				</p>
+				<p>{description}</p>
 				<div className={styles['service-card__services']}>
 					{list.map((item, index) => (
-						<span
-							key={index}
-							data-aos="fade-up"
-							data-aos-duration="1400"
-							data-aos-once="true"
-						>
-							{item}
-						</span>
+						<span key={`${item}-${index}`}>{item}</span>
 					))}
 				</div>
 			</div>

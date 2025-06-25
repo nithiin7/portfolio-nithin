@@ -9,7 +9,7 @@
 		h2 {
 			margin-bottom: 2rem;
 			mix-blend-mode: exclusion;
-			color: rgb(209 209 199);
+			color: $color-grey-pale;
 			line-height: 92.5%;
 			max-width: 15ch;
 			position: relative;
@@ -81,7 +81,11 @@
 			.HomeAbout__gradient {
 				border-radius: 1rem;
 				opacity: 0.75;
-				background-image: linear-gradient(to top, #080807, rgba(8, 8, 7, 0));
+				background-image: linear-gradient(
+					to top,
+					$color-black,
+					rgba(8, 8, 7, 0)
+				);
 				width: 100%;
 				height: 100%;
 				top: 0;
@@ -92,7 +96,7 @@
 	.HomeAbout__description {
 		margin-top: 3rem;
 		font-size: 2rem;
-		color: rgb(162 158 154);
+		color: $color-grey-medium;
 		font-weight: 500;
 		width: 100%;
 		display: flex;

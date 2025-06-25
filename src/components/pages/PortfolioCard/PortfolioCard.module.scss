@@ -21,7 +21,7 @@
 		}
 	}
 	.portfolio-card__description {
-		color: rgb(221 221 213);
+		color: $color-grey-verylight;
 		font-weight: 700;
 		font-size: 1.5rem;
 		text-wrap: balance;
@@ -29,13 +29,12 @@
 		letter-spacing: -0.025em;
 		display: flex;
 		flex-direction: row;
-		row-gap: 1rem;
 		justify-content: space-between;
 		flex-wrap: wrap;
 		margin-top: 0.75rem;
 		gap: rem(15);
 		h3 {
-			color: rgb(221 221 213);
+			color: $color-grey-verylight;
 		}
 		.portfolio-card__items {
 			font-size: 1.5rem;
@@ -55,10 +54,10 @@
 			span {
 				padding-left: 0.75rem;
 				padding-right: 0.75rem;
-				border: rem(1) solid rgb(162 158 154);
+				border: rem(1) solid $color-grey-medium;
 				border-width: rem(1);
 				border-radius: rem(9999);
-				color: rgb(162 158 154);
+				color: $color-grey-medium;
 				text-transform: uppercase;
 				font-weight: 500;
 				letter-spacing: 0;
@@ -66,11 +65,11 @@
 			}
 		}
 		.portfolio-card__year {
-			color: rgb(8 8 7);
+			color: $color-black;
 			padding-left: 0.75rem;
 			padding-right: 0.75rem;
-			background-color: rgb(162 158 154);
-			border: rem(1) solid rgb(162 158 154);
+			background-color: $color-grey-medium;
+			border: rem(1) solid $color-grey-medium;
 			border-radius: rem(9999);
 			height: fit-content;
 			display: flex;

@@ -25,7 +25,6 @@ interface ContactFormData {
 
 interface ContactFormProps {
 	className?: string;
-	variant?: 'default' | 'alternative';
 }
 
 /**
@@ -34,13 +33,9 @@ interface ContactFormProps {
  *
  * @component
  * @param {string} [className] - Additional CSS classes for styling.
- * @param {'default' | 'alternative'} [variant='default'] - Visual variant of the form.
  * @returns {JSX.Element} The rendered ContactForm component.
  */
-const ContactForm: FC<ContactFormProps> = ({
-	className = '',
-	variant = 'default',
-}) => {
+const ContactForm: FC<ContactFormProps> = ({ className = '' }) => {
 	const [formSent, setFormSent] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -72,7 +67,6 @@ const ContactForm: FC<ContactFormProps> = ({
 		}
 
 		if (!executeRecaptcha) {
-			console.log('Execute recaptcha not yet available');
 			return;
 		}
 
@@ -82,7 +76,6 @@ const ContactForm: FC<ContactFormProps> = ({
 			const token = await executeRecaptcha('contact_form');
 
 			if (!token) {
-				console.error('Failed to get reCAPTCHA token');
 				return;
 			}
 
@@ -109,6 +102,7 @@ const ContactForm: FC<ContactFormProps> = ({
 			}, 10000);
 		} catch (error) {
 			console.error('Error submitting form:', error);
+			setIsSubmitting(false);
 		} finally {
 			setIsSubmitting(false);
 		}
@@ -120,9 +114,7 @@ const ContactForm: FC<ContactFormProps> = ({
 	};
 
 	return (
-		<div
-			className={`${styles.ContactForm} ${styles[`ContactForm__${variant}`]} ${className}`}
-		>
+		<div className={`${styles.ContactForm}  ${className}`}>
 			{formSent ? (
 				<motion.div
 					className={styles.contact__success}
@@ -238,7 +230,10 @@ const ContactForm: FC<ContactFormProps> = ({
 				<div className={styles.contact__options}>
 					<h3>FURTHER ENQUIRIES OR COLLABORATION</h3>
 					{contactOptions.map((option, index) => (
-						<div key={index} className={styles.contact__link}>
+						<div
+							key={`${option.subtitle}-${index}`}
+							className={styles.contact__link}
+						>
 							<Link href={option.link} title={option.subtitle}>
 								{option.subtitle}
 							</Link>

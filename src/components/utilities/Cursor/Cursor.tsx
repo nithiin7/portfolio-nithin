@@ -1,6 +1,6 @@
 import gsap from 'gsap';
 import type { FC } from 'react';
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 import styles from './Cursor.module.scss';
 
@@ -28,23 +28,6 @@ const Cursor: FC<CursorProps> = ({
 	const delayedMouse = useRef({ x: 0, y: 0 });
 
 	/**
-	 * Handles mouse movement events to update the mouse position
-	 * and move the custom cursor accordingly.
-	 *
-	 * @param {MouseEvent} e - The mouse event containing the current mouse position.
-	 */
-	const manageMouseMove = (e: MouseEvent) => {
-		const { clientX, clientY } = e;
-
-		mouse.current = {
-			x: clientX,
-			y: clientY,
-		};
-
-		moveCircle(mouse.current.x, mouse.current.y);
-	};
-
-	/**
 	 * Performs linear interpolation between two values.
 	 *
 	 * @param {number} x - The starting value.
@@ -52,7 +35,10 @@ const Cursor: FC<CursorProps> = ({
 	 * @param {number} a - The interpolation factor (between 0 and 1).
 	 * @returns {number} The interpolated value.
 	 */
-	const lerp = (x: number, y: number, a: number): number => x * (1 - a) + y * a;
+	const lerp = useCallback(
+		(x: number, y: number, a: number): number => x * (1 - a) + y * a,
+		[]
+	);
 
 	/**
 	 * Moves the custom cursor to a specified position.
@@ -60,18 +46,41 @@ const Cursor: FC<CursorProps> = ({
 	 * @param {number} x - The x-coordinate to move the cursor to.
 	 * @param {number} y - The y-coordinate to move the cursor to.
 	 */
-	const moveCircle = (x: number, y: number) => {
-		if (circle.current) {
-			gsap.set(circle.current, { x, y, xPercent: -50, yPercent: -50 });
-		}
-	};
+	const moveCircle = useCallback(
+		(x: number, y: number) => {
+			if (circle.current) {
+				gsap.set(circle.current, { x, y, xPercent: -50, yPercent: -50 });
+			}
+		},
+		[circle]
+	);
+
+	/**
+	 * Handles mouse movement events to update the mouse position
+	 * and move the custom cursor accordingly.
+	 *
+	 * @param {MouseEvent} e - The mouse event containing the current mouse position.
+	 */
+	const manageMouseMove = useCallback(
+		(e: MouseEvent) => {
+			const { clientX, clientY } = e;
+
+			mouse.current = {
+				x: clientX,
+				y: clientY,
+			};
+
+			moveCircle(mouse.current.x, mouse.current.y);
+		},
+		[moveCircle]
+	);
 
 	/**
 	 * Animates the cursor by updating its position using a smooth interpolation.
 	 * This function is recursively called using requestAnimationFrame to create
 	 * a smooth animation effect.
 	 */
-	const animate = () => {
+	const animate = useCallback(() => {
 		const { x, y } = delayedMouse.current;
 		delayedMouse.current = {
 			x: lerp(x, mouse.current.x, 0.075),
@@ -79,7 +88,7 @@ const Cursor: FC<CursorProps> = ({
 		};
 		moveCircle(delayedMouse.current.x, delayedMouse.current.y);
 		window.requestAnimationFrame(animate);
-	};
+	}, [delayedMouse, lerp, moveCircle]);
 
 	useEffect(() => {
 		animate();
@@ -88,7 +97,7 @@ const Cursor: FC<CursorProps> = ({
 		return () => {
 			window.removeEventListener('mousemove', manageMouseMove);
 		};
-	}, []);
+	}, [animate, manageMouseMove]);
 
 	return (
 		<div

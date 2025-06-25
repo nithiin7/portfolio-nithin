@@ -57,7 +57,7 @@ html.lenis {
 }
 
 .not-found {
-	color: rgb(107, 100, 92);
+	color: $color-text;
 	height: calc(100vh - 439px);
 	display: flex;
 	align-items: center;

@@ -13,7 +13,7 @@
 		font-size: 2rem;
 		padding-top: 1.3rem;
 		padding-bottom: 1rem;
-		color: rgb(191 191 177);
+		color: $color-grey-light;
 		font-weight: 700;
 		text-wrap: balance;
 		line-height: 92.5%;
@@ -47,7 +47,7 @@
 		}
 		p {
 			font-size: 1.25rem;
-			color: rgb(162 158 154);
+			color: $color-grey-medium;
 			font-weight: 400;
 			padding-top: 0.5rem;
 			max-width: 40ch;
@@ -72,7 +72,7 @@
 				text-align: end;
 			}
 			span {
-				color: rgb(191 191 177);
+				color: $color-grey-light;
 				font-weight: 500;
 			}
 		}
