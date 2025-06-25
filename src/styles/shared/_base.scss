@@ -22,7 +22,7 @@ body {
 	line-height: 1.7;
 	-webkit-tap-highlight-color: transparent;
 	::selection {
-		background: #6b645c;
+		background: $color-bg-selection;
 		color: $color-white;
 	}
 	&::before {
@@ -40,7 +40,7 @@ body {
 }
 
 :focus-visible {
-	outline: 2px solid #ff5722;
+	outline: 2px solid $color-outline-focus;
 	outline-offset: 2px;
 }
 

@@ -8,19 +8,19 @@
 		resize: none;
 		border-radius: 0.75rem;
 		border-width: rem(1);
-		border-color: rgb(191 191 177);
+		border-color: $color-grey-light;
 		background-color: transparent;
 		padding: 0.75rem 0.25rem 0.75rem 1.25rem;
 		font-size: 1.125rem;
 		font-weight: 600;
 		letter-spacing: 0;
-		color: rgb(140 140 115);
+		color: $color-grey-dark;
 		outline: rem(2) solid transparent;
 		outline-offset: rem(2);
 		transition-property: all;
 		transition-duration: 0.3s;
 		&::placeholder {
-			color: #babaad;
+			color: $color-grey-placeholder;
 			font-family: $font-primary;
 			font-size: 1rem;
 		}
@@ -34,7 +34,7 @@
 			margin-bottom: 0.25rem;
 		}
 		span {
-			color: rgb(158 31 31);
+			color: $color-warning;
 			padding-left: 0.25rem;
 		}
 	}
@@ -42,7 +42,7 @@
 		height: rem(20);
 	}
 	.TextInput__form-errors {
-		color: rgb(158 31 31);
+		color: $color-warning;
 		font-size: rem(12);
 		margin-left: rem(4);
 	}

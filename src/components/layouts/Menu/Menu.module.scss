@@ -15,7 +15,7 @@
 		align-items: center;
 		justify-content: center;
 		border-radius: rem(9999);
-		background-color: rgb(191 191 177);
+		background-color: $color-grey-light;
 		height: 4rem;
 		width: 4rem;
 		gap: rem(5);
@@ -105,7 +105,7 @@
 		padding-left: 3.5rem;
 		padding-right: 3.5rem;
 		a {
-			color: rgb(191 191 177);
+			color: $color-grey-light;
 		}
 	}
 }

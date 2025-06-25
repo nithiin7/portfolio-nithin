@@ -2,7 +2,7 @@
 @use 'styles/shared/variables' as *;
 
 .HomeServices {
-	background-color: rgb(8 8 7);
+	background-color: $color-black;
 	border-top-left-radius: 1.5rem;
 	border-top-right-radius: 1.5rem;
 	padding: 3.5rem 1.5rem;
@@ -11,7 +11,7 @@
 	}
 	.services__header {
 		display: flex;
-		color: rgb(209 209 199);
+		color: $color-grey-pale;
 		flex-direction: column;
 		@media #{$lg} {
 			flex-direction: row;
@@ -30,7 +30,7 @@
 			max-width: 40ch;
 			font-size: 1.25rem;
 			line-height: 130%;
-			color: rgb(162 158 154);
+			color: $color-grey-medium;
 			@media #{$md} {
 				font-size: 1.5rem;
 			}

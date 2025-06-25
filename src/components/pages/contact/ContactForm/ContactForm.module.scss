@@ -19,7 +19,7 @@
 			width: max-content;
 			display: inline-block;
 			background: $color-secondary;
-			color: rgb(232 232 227);
+			color: $color-primary;
 			padding-top: 1.25rem;
 			padding-bottom: 1.25rem;
 			padding-left: 2.5rem;
@@ -123,7 +123,7 @@
 		}
 		.contact__link {
 			a {
-				color: rgb(107 100 92);
+				color: $color-text;
 				line-height: 130%;
 				font-weight: 400;
 				overflow: hidden;
