@@ -1,9 +1,7 @@
 'use client';
 import { ReactLenis } from '@studio-freight/react-lenis';
-import AOS from 'aos';
 import { useEffect } from 'react';
 
-import 'aos/dist/aos.css';
 import { init } from 'services/analytics';
 
 interface ProviderProps {
@@ -27,7 +25,6 @@ export default function Provider({
 			'color: cyan; font-size: 12px;'
 		);
 		init();
-		AOS.init();
 	}, []);
 
 	return (

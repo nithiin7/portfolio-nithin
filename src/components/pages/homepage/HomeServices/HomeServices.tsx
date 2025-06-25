@@ -34,11 +34,9 @@ const HomeServices: FC<HomeServicesProps> = ({
 					<h2>
 						<MaskText phrases={[data.title]} />
 					</h2>
-					<p data-aos="fade-up" data-aos-duration="1100" data-aos-once="true">
-						{data.subTitle}
-					</p>
+					<p>{data.subTitle}</p>
 				</div>
-				<div data-aos="fade-up" data-aos-duration="1200" data-aos-once="true">
+				<div>
 					{services.map((item, index) => {
 						if (item.__typename === 'Section') {
 							return (

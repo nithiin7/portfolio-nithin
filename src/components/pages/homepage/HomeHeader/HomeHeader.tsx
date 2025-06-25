@@ -159,24 +159,12 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 						onMouseEnter={() => setIsHovered(true)}
 						onMouseLeave={() => setIsHovered(false)}
 					>
-						<h1
-							data-aos="fade-up"
-							data-aos-duration="1000"
-							data-aos-once="true"
-							data-aos-delay="800"
-						>
+						<h1>
 							<MaskText phrases={[data.items[0]?.title ?? '']} />
 							<MaskText phrases={[data.items[0]?.subTitle ?? '']} />
 						</h1>
 					</button>
-					<p
-						data-aos="fade-up"
-						data-aos-duration="1200"
-						data-aos-once="true"
-						data-aos-delay="800"
-					>
-						A web developer & web designer propelling visions to reality.
-					</p>
+					<p>A web developer & web designer propelling visions to reality.</p>
 				</div>
 			</div>
 			<Cursor isHovered={isHovered} />
