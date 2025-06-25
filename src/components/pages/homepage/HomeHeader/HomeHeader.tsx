@@ -160,8 +160,11 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 						onMouseLeave={() => setIsHovered(false)}
 					>
 						<h1>
-							<MaskText phrases={[data.items[0]?.title ?? '']} />
-							<MaskText phrases={[data.items[0]?.subTitle ?? '']} />
+							<MaskText phrases={[data.items[0]?.title ?? '']} delay={1} />
+							<MaskText
+								phrases={[data.items[0]?.subTitle ?? '']}
+								delay={1.75}
+							/>
 						</h1>
 					</button>
 					<p>A web developer & web designer propelling visions to reality.</p>
