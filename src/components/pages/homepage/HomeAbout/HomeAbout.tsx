@@ -1,6 +1,8 @@
 'use client';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import type { FC } from 'react';
+import { useRef } from 'react';
 
 import MaskText from 'components/utilities/MaskText/MaskText';
 
@@ -43,10 +45,18 @@ const HomeAbout: FC<HomeAboutProps> = ({
 		],
 	},
 }) => {
+	const containerRef = useRef<HTMLDivElement>(null);
 	const text = `A passionate Full Stack Developer from Kochi, Kerala. Specializing in frontend magic—from captivating UI effects to dynamic animations—I thrive on ambitious projects that push boundaries. Beyond coding, you'll find me immersed in football, gaming, TV series, or admiring the latest in automobiles. Lets craft exceptional experiences together!`;
 
+	const { scrollYProgress } = useScroll({
+		target: containerRef,
+		offset: ['start end', 'end start'],
+	});
+
+	const imageY = useTransform(scrollYProgress, [0, 1], [0, -100]);
+
 	return (
-		<div className={`${styles.HomeAbout} ${className}`}>
+		<div ref={containerRef} className={`${styles.HomeAbout} ${className}`}>
 			<section id="about">
 				<div className={styles.HomeAbout__container}>
 					<div className={styles.HomeAbout__content}>
@@ -79,7 +89,10 @@ const HomeAbout: FC<HomeAboutProps> = ({
 								fill="#E8E8E3"
 							/>
 						</svg>
-						<div className={styles.HomeAbout__image}>
+						<motion.div
+							className={styles.HomeAbout__image}
+							style={{ y: imageY }}
+						>
 							<Image
 								src={data.items?.[1]?.image.url || ''}
 								alt="about-me"
@@ -91,7 +104,7 @@ const HomeAbout: FC<HomeAboutProps> = ({
 								className={styles.HomeAbout__gradient}
 								aria-hidden="true"
 							></div>
-						</div>
+						</motion.div>
 					</div>
 					<p className={styles.HomeAbout__description}>
 						<span>{text}</span>

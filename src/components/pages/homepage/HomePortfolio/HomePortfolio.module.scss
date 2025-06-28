@@ -16,7 +16,6 @@
 	}
 	.portfolio__header {
 		margin-bottom: 5rem;
-
 		@media (max-width: #{$md}) {
 			margin-bottom: 3rem;
 		}
@@ -27,6 +26,7 @@
 		letter-spacing: -0.02em;
 		line-height: 0.9;
 		margin: 0;
+		color: $color-grey-pale;
 		@media (max-width: #{$md}) {
 			font-size: clamp(2rem, 12vw, 4rem);
 		}
