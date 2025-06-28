@@ -2,44 +2,44 @@
 @use 'styles/shared/variables' as *;
 
 .HomePortfolio {
+	width: 100%;
 	background-color: $color-black;
-	padding: 5% 4%;
-	padding-top: 12vh;
-	h2 {
-		color: $color-grey-pale;
-		padding-bottom: 2rem;
+	color: $color-white;
+	min-height: 100vh;
+	padding: 5rem 1.5rem;
+	@media (max-width: #{$md}) {
+		padding: 3rem 1rem;
+	}
+	.portfolio {
+		max-width: rem(1400);
+		margin: 0 auto;
+	}
+	.portfolio__header {
+		margin-bottom: 5rem;
+
+		@media (max-width: #{$md}) {
+			margin-bottom: 3rem;
+		}
+	}
+	.portfolio__title {
+		font-size: clamp(3rem, 8vw, 8rem);
 		font-weight: 700;
-		text-transform: uppercase;
-		text-align: left;
-		font-size: 2.5rem;
-		@media #{$md} {
-			font-size: clamp(3.5rem, 2.3571rem + 4.5143vi, 10.5rem);
-		}
-		div {
-			display: flex;
-			flex-wrap: wrap;
-			gap: rem(10);
-			line-height: rem(30);
-			@media #{$md} {
-				line-height: rem(70);
-			}
-			@media #{$lg} {
-				line-height: rem(150);
-			}
-		}
-		span {
-			display: inline-block;
+		letter-spacing: -0.02em;
+		line-height: 0.9;
+		margin: 0;
+		@media (max-width: #{$md}) {
+			font-size: clamp(2rem, 12vw, 4rem);
 		}
 	}
 	.portfolio__container {
+		position: relative;
+		min-height: rem(600);
+		@media (max-width: #{$md}) {
+			min-height: rem(400);
+		}
+	}
+	.portfolio__list {
 		display: flex;
 		flex-direction: column;
-		width: 100%;
-		justify-content: space-between;
-		row-gap: 3rem;
-		@media #{$md} {
-			flex-direction: row;
-			flex-wrap: wrap;
-		}
 	}
 }

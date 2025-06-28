@@ -6,4 +6,5 @@ export interface PortfolioItem {
 	demo?: string;
 	tech?: string[];
 	year?: string;
+	color?: string;
 }

@@ -1,7 +1,9 @@
 'use client';
+import { useState } from 'react';
 import type { FC } from 'react';
 
 import PortfolioCard from 'components/pages/PortfolioCard';
+import PortfolioModal from 'components/pages/PortfolioModal';
 import MaskText from 'components/utilities/MaskText/MaskText';
 import type { PortfolioItem } from 'types/portfolio';
 
@@ -27,26 +29,36 @@ interface HomePortfolioProps {
  */
 const HomePortfolio: FC<HomePortfolioProps> = ({
 	className = '',
-	data = { title: '' },
+	data = { title: 'Featured Work' },
 	portfolio = [],
 }) => {
+	const [modal, setModal] = useState({ active: false, index: 0 });
+
+	if (!portfolio || portfolio.length === 0) {
+		return null;
+	}
+
 	return (
 		<div className={`${styles.HomePortfolio} ${className}`}>
-			<section id="portfolio">
-				<h2>
-					<MaskText phrases={[data.title ?? '']} />
-				</h2>
+			<section id="portfolio" className={styles.portfolio}>
+				<div className={styles.portfolio__header}>
+					<h2 className={styles.portfolio__title}>
+						<MaskText phrases={[data.title ?? 'Featured Work']} />
+					</h2>
+				</div>
 				<div className={styles.portfolio__container}>
-					{portfolio.map((item, index) => (
-						<PortfolioCard
-							key={`${item.title}-${index}`}
-							image={item.image.url}
-							title={item.title}
-							demo={item.demo ?? ''}
-							tech={item.tech ?? ['']}
-							year={item.year}
-						/>
-					))}
+					<PortfolioModal modal={modal} projects={portfolio} />
+					<div className={styles.portfolio__list}>
+						{portfolio.map((project, index) => (
+							<PortfolioCard
+								key={`${project.title}-${index}`}
+								project={project}
+								index={index}
+								title={project.title}
+								setModal={setModal}
+							/>
+						))}
+					</div>
 				</div>
 			</section>
 		</div>
