@@ -134,6 +134,19 @@
 		@media #{$lm} {
 			margin-bottom: rem(32);
 		}
+		.social-link {
+			background: $color-text;
+			color: $color-white;
+			padding: rem(12.8);
+			border-radius: rem(11.2);
+			display: flex;
+			border: rem(1) solid transparent;
+			&:hover {
+				background: transparent;
+				color: $color-text;
+				border-color: $color-text;
+			}
+		}
 		a {
 			background: $color-text;
 			color: $color-white;

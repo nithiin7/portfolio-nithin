@@ -1,0 +1,25 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.magnetic-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	overflow: hidden;
+	cursor: pointer;
+	text-decoration: none;
+	transition: all 0.3s ease;
+
+	&:hover {
+		text-decoration: none;
+	}
+}
+.magnetic-content {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	will-change: transform;
+}
