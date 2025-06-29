@@ -2,15 +2,43 @@
 @use 'styles/shared/variables' as *;
 
 .HomeHeader {
+	* {
+		transition:
+			transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+			opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+			scale 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+	}
 	background: $color-primary;
 	cursor: none;
+	position: relative;
+	overflow: hidden;
+	&::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: linear-gradient(
+			135deg,
+			rgba(255, 255, 255, 0.05) 0%,
+			rgba(255, 255, 255, 0) 100%
+		);
+		pointer-events: none;
+		z-index: 1;
+	}
 	.header__nav {
 		position: absolute;
 		left: rem(15);
 		top: rem(15);
+		&:hover {
+			background: rgba(255, 255, 255, 0.15);
+			box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+		}
 		svg {
 			height: rem(75);
 			width: rem(75);
+			filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
 			@media #{$md} {
 				height: rem(100);
 				width: rem(100);
@@ -32,6 +60,8 @@
 		overflow: hidden;
 		margin: 0 auto;
 		padding: 5% 4%;
+		position: relative;
+		z-index: 2;
 		@media #{$md} {
 			align-items: center;
 			text-align: center;
@@ -47,6 +77,7 @@
 			row-gap: 2rem;
 			color: $color-text-dark;
 			padding-bottom: rem(60);
+			text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 			@media #{$md} {
 				padding-bottom: 0;
 				align-items: center;
@@ -60,6 +91,7 @@
 				outline: none;
 				appearance: none;
 				color: $color-text-dark;
+				position: relative;
 			}
 			h1 {
 				font-size: clamp(3rem, -0.057rem + 10.0714vw, 10.25rem);
@@ -71,6 +103,21 @@
 				font-optical-sizing: auto;
 				font-style: normal;
 				letter-spacing: rem(5);
+				position: relative;
+				background: linear-gradient(
+					135deg,
+					$color-text-dark 0%,
+					lighten($color-text-dark, 10%) 100%
+				);
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+				background-clip: text;
+				transform-style: preserve-3d;
+				backface-visibility: hidden;
+				text-shadow:
+					0 0 20px rgba(255, 255, 255, 0.1),
+					0 0 40px rgba(255, 255, 255, 0.05);
+
 				@media #{$md} {
 					white-space: nowrap;
 				}
@@ -82,6 +129,24 @@
 				font-size: 1.125rem;
 				font-weight: 400;
 				color: $color-text;
+				position: relative;
+				&::after {
+					content: '';
+					position: absolute;
+					bottom: -1rem;
+					left: 0;
+					width: 0;
+					height: 2px;
+					background: linear-gradient(90deg, $color-text 0%, transparent 100%);
+					transition: width 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+					animation: underlineReveal 2s ease-out 1.5s forwards;
+				}
+				@media #{$md} {
+					&::after {
+						left: 50%;
+						transform: translateX(-50%);
+					}
+				}
 			}
 		}
 		svg {
@@ -90,6 +155,32 @@
 			left: 50%;
 			width: 40%;
 			pointer-events: none;
+			filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.1));
+			animation: float 6s ease-in-out infinite;
 		}
+	}
+}
+
+@keyframes float {
+	0%,
+	100% {
+		transform: translateX(-50%) translateY(-50%) rotate(0deg);
+	}
+	50% {
+		transform: translateX(-50%) translateY(-50%) rotate(1deg);
+	}
+}
+
+@keyframes underlineReveal {
+	0% {
+		width: 0;
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		width: 100%;
+		opacity: 1;
 	}
 }
