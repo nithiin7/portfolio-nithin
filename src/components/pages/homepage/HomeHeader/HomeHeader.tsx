@@ -27,6 +27,85 @@ const settings: Settings = {
 	intensity: 0.1,
 };
 
+const containerVariants = {
+	hidden: { opacity: 0 },
+	visible: {
+		opacity: 1,
+		transition: {
+			duration: 1.2,
+			ease: [0.25, 0.46, 0.45, 0.94],
+			staggerChildren: 0.15,
+		},
+	},
+};
+
+const navVariants = {
+	hidden: {
+		opacity: 0,
+		y: -30,
+		scale: 0.95,
+	},
+	visible: {
+		opacity: 1,
+		y: 0,
+		scale: 1,
+		transition: {
+			duration: 1,
+			ease: [0.25, 0.46, 0.45, 0.94],
+		},
+	},
+};
+
+const backgroundVariants = {
+	hidden: {
+		opacity: 0,
+		scale: 0.9,
+		rotate: -5,
+	},
+	visible: {
+		opacity: 1,
+		scale: 1,
+		rotate: 0,
+		transition: {
+			duration: 1.5,
+			ease: [0.25, 0.46, 0.45, 0.94],
+			delay: 0.4,
+		},
+	},
+};
+
+const contentVariants = {
+	hidden: {
+		opacity: 0,
+		y: 60,
+	},
+	visible: {
+		opacity: 1,
+		y: 0,
+		transition: {
+			duration: 1.2,
+			ease: [0.25, 0.46, 0.45, 0.94],
+			delay: 0.6,
+		},
+	},
+};
+
+const descriptionVariants = {
+	hidden: {
+		opacity: 0,
+		y: 20,
+	},
+	visible: {
+		opacity: 1,
+		y: 0,
+		transition: {
+			duration: 1,
+			ease: [0.25, 0.46, 0.45, 0.94],
+			delay: 1,
+		},
+	},
+};
+
 /**
  * HomeHeader component displays the main header of the homepage with an animated logo
  * that responds to mouse movement and a customizable title/subtitle.
@@ -107,8 +186,13 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 	}, [componentRef, x, y]);
 
 	return (
-		<header className={`${styles.HomeHeader} ${className}`}>
-			<div className={styles.header__nav}>
+		<motion.header
+			className={`${styles.HomeHeader} ${className}`}
+			variants={containerVariants}
+			initial="hidden"
+			animate="visible"
+		>
+			<motion.div className={styles.header__nav} variants={navVariants}>
 				<motion.div
 					ref={setComponentRef}
 					style={{
@@ -119,14 +203,15 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 				>
 					<Logo />
 				</motion.div>
-			</div>
+			</motion.div>
 			<div id="home" className={styles.portfolio__header}>
-				<svg
+				<motion.svg
 					width="1186"
 					height="1186"
 					viewBox="0 0 1186 1186"
 					fill="none"
 					xmlns="http://www.w3.org/2000/svg"
+					variants={backgroundVariants}
 					style={{
 						opacity: 1,
 						zIndex: -20,
@@ -152,26 +237,35 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 							<stop offset="1" stopColor="#DDDDD5" stopOpacity="0" />
 						</linearGradient>
 					</defs>
-				</svg>
-				<div className={styles.header__description}>
-					<button
+				</motion.svg>
+				<motion.div
+					className={styles.header__description}
+					variants={contentVariants}
+				>
+					<motion.button
 						className={styles.header__title}
 						onMouseEnter={() => setIsHovered(true)}
 						onMouseLeave={() => setIsHovered(false)}
 					>
-						<h1>
-							<MaskText phrases={[data.items[0]?.title ?? '']} delay={1} />
+						<h1 className={styles.animatedTitle}>
+							<MaskText phrases={[data.items[0]?.title ?? '']} delay={0.75} />
 							<MaskText
 								phrases={[data.items[0]?.subTitle ?? '']}
-								delay={1.75}
+								delay={1.25}
 							/>
 						</h1>
-					</button>
-					<p>A web developer & web designer propelling visions to reality.</p>
-				</div>
+					</motion.button>
+					<motion.p
+						variants={descriptionVariants}
+						initial="hidden"
+						animate="visible"
+					>
+						A web developer & web designer propelling visions to reality.
+					</motion.p>
+				</motion.div>
 			</div>
 			<Cursor isHovered={isHovered} />
-		</header>
+		</motion.header>
 	);
 };
 

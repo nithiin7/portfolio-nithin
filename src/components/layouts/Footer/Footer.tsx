@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { Link as ScrollLink } from 'react-scroll';
 
 import Contact from 'assets/images/contact.svg';
+import MagneticButton from 'components/utilities/MagneticButton';
 import { footerLinks, socials, songs } from 'constants/index';
 import type { Social } from 'types/social';
 import type { Song } from 'types/song';
@@ -144,9 +145,14 @@ const Footer = (): ReactElement => {
 			)}
 			<div className={styles['footer__socials']}>
 				{socials.map((social: Social, index: number) => (
-					<Link key={index} title={social.title} href={social.link}>
+					<MagneticButton
+						key={index}
+						href={social.link}
+						title={social.title}
+						className={styles['social-link']}
+					>
 						{social.icon}
-					</Link>
+					</MagneticButton>
 				))}
 			</div>
 			<div className={styles['footer__copyright']}>
