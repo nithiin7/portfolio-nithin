@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import Logo from 'assets/images/nav-logo.svg';
 import Cursor from 'components/utilities/Cursor/Cursor';
 import MaskText from 'components/utilities/MaskText/MaskText';
+import { useTheme } from 'contexts/ThemeContext';
 import type { Settings } from 'types/anim';
 
 import styles from './HomeHeader.module.scss';
@@ -124,6 +125,7 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 }) => {
 	const [componentRef, setComponentRef] = useState<null | HTMLDivElement>(null);
 	const [isHovered, setIsHovered] = useState(false);
+	const { theme } = useTheme();
 
 	const x = useMotionValue(0);
 	const y = useMotionValue(0);
@@ -233,8 +235,12 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 							y2="1186"
 							gradientUnits="userSpaceOnUse"
 						>
-							<stop stopColor="#DDDDD5" />
-							<stop offset="1" stopColor="#DDDDD5" stopOpacity="0" />
+							<stop stopColor={theme === 'dark' ? '#DDDDD5' : '#393632'} />
+							<stop
+								offset="1"
+								stopColor={theme === 'dark' ? '#DDDDD5' : '#393632'}
+								stopOpacity="0"
+							/>
 						</linearGradient>
 					</defs>
 				</motion.svg>

@@ -62,6 +62,7 @@ export default function RootLayout({
 		<html
 			lang="en"
 			className={`${roboto.variable} ${familjenGrotesk.variable}`}
+			data-theme="dark"
 		>
 			<head>
 				<link
@@ -87,20 +88,6 @@ export default function RootLayout({
 				<meta
 					name="viewport"
 					content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-				/>
-				<script
-					dangerouslySetInnerHTML={{
-						__html: `
-							(function() {
-								try {
-									var theme = localStorage.getItem('theme') || 'dark';
-									document.documentElement.setAttribute('data-theme', theme);
-								} catch (e) {
-									document.documentElement.setAttribute('data-theme', 'dark');
-								}
-							})();
-						`,
-					}}
 				/>
 			</head>
 			<body className={`${roboto.className} ${familjenGrotesk.className}`}>

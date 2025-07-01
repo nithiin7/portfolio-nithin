@@ -1,5 +1,4 @@
 'use client';
-
 import { AnimatePresence, motion, useScroll } from 'motion/react';
 import type { ReactElement } from 'react';
 import { useEffect, useRef, useState } from 'react';
@@ -93,7 +92,9 @@ const Menu = ({
 				setHidden(false);
 			} else if (currentScrollY > 300 && currentScrollY > prevScrollY) {
 				setHidden(true);
-				setIsMenuActive(false);
+				if (isMenuActive) {
+					setIsMenuActive(false);
+				}
 			}
 
 			prevScrollYRef.current = currentScrollY;
@@ -104,14 +105,14 @@ const Menu = ({
 		return () => {
 			window.removeEventListener('scroll', handleScroll);
 		};
-	}, [scrollY]);
+	}, [scrollY, isMenuActive]);
 
 	return (
 		<nav
 			className={[styles.menu, styles[`menu__${variant}`], className].join(' ')}
 		>
 			<motion.div
-				aria-hidden={!isMenuActive || hidden}
+				aria-hidden={hidden}
 				aria-controls="menu"
 				variants={menu}
 				initial={'hidden'}
@@ -121,8 +122,8 @@ const Menu = ({
 				<div className={styles.menu__controls}>
 					<motion.button
 						aria-label="menu"
-						aria-hidden={!hidden}
-						tabIndex={!isMenuActive || hidden ? -1 : 0}
+						aria-hidden={hidden}
+						tabIndex={hidden ? -1 : 0}
 						whileHover={{ scale: 0.95 }}
 						className={styles.menu__button}
 						onClick={() => setIsMenuActive(!isMenuActive)}
