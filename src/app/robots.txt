@@ -1,5 +1,25 @@
 User-Agent: *
 Allow: /
-Disallow: /private/
 
+# Disallow private or admin areas
+Disallow: /private/
+Disallow: /admin/
+Disallow: /api/
+
+# Allow important files
+Allow: /sitemap.xml
+Allow: /robots.txt
+Allow: /*.js
+Allow: /*.css
+Allow: /*.png
+Allow: /*.jpg
+Allow: /*.jpeg
+Allow: /*.gif
+Allow: /*.svg
+Allow: /*.ico
+
+# Crawl delay
+Crawl-delay: 1
+
+# Sitemaps
 Sitemap: https://portfolio-nithin.vercel.app/sitemap.xml
