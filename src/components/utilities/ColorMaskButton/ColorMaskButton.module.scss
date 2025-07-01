@@ -1,0 +1,124 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.color-mask-button {
+	display: inline-flex;
+	align-items: center;
+	gap: rem(12);
+	padding: rem(16) rem(24);
+	background: $color-primary;
+	border: rem(1.5) solid $color-grey-light;
+	border-radius: rem(50);
+	color: $color-grey-light;
+	font-weight: 600;
+	font-size: rem(14);
+	text-transform: uppercase;
+	letter-spacing: rem(0.75);
+	cursor: pointer;
+	transition: all 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+	overflow: hidden;
+	position: relative;
+	z-index: 1;
+	&--menu {
+		border-color: $color-primary;
+		color: $color-primary;
+		background: $color-secondary;
+		.color-mask-button__background {
+			background: $color-primary;
+		}
+		&:hover {
+			color: $color-secondary;
+		}
+	}
+	&--default {
+		border-color: $color-secondary;
+		color: $color-secondary;
+		.color-mask-button__background {
+			background: $color-secondary;
+		}
+		&:hover {
+			color: $color-primary;
+		}
+	}
+	&__content {
+		position: relative;
+		overflow: hidden;
+		height: rem(20);
+		display: flex;
+		align-items: center;
+		z-index: 2;
+	}
+	&__text {
+		white-space: nowrap;
+		position: relative;
+		display: flex;
+		align-items: center;
+		height: rem(20);
+	}
+	&__textDuplicate {
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+	&__arrow {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 2;
+		position: relative;
+		svg {
+			width: rem(16);
+			height: rem(16);
+		}
+	}
+	&__background {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		border-radius: rem(50);
+		transform-origin: center;
+		z-index: 1;
+	}
+	@media #{$md} {
+		padding: rem(18) rem(28);
+		font-size: rem(15);
+		gap: rem(14);
+		&__content {
+			height: rem(22);
+		}
+		&__text {
+			height: rem(22);
+		}
+		&__arrow svg {
+			width: rem(18);
+			height: rem(18);
+		}
+	}
+	@media #{$lg} {
+		padding: rem(20) rem(32);
+		font-size: rem(16);
+		gap: rem(16);
+		&__content {
+			height: rem(24);
+		}
+		&__text {
+			height: rem(24);
+		}
+		&__arrow svg {
+			width: rem(20);
+			height: rem(20);
+		}
+	}
+	&:focus-visible {
+		outline: rem(2) solid $color-secondary;
+		outline-offset: rem(2);
+	}
+	&--menu:focus-visible {
+		outline-color: $color-primary;
+	}
+	&:active {
+		transform: scale(0.96);
+	}
+}

@@ -17,6 +17,29 @@
 			gap: rem(16);
 		}
 	}
+	.menu__book {
+		position: fixed;
+		top: rem(25);
+		right: rem(25);
+		z-index: 10;
+		@media #{$md} {
+			top: rem(32);
+			right: rem(32);
+		}
+	}
+	.menu__bookCallMobile {
+		margin-top: rem(32);
+		display: flex;
+		justify-content: center;
+		@media #{$md} {
+			margin-top: rem(40);
+		}
+	}
+	.menu__bookCallMobileButton {
+		width: 100%;
+		justify-content: center;
+		max-width: rem(280);
+	}
 	.menu__toggle-inmenu {
 		position: absolute;
 		top: rem(24);
@@ -38,6 +61,7 @@
 		height: 4rem;
 		width: 4rem;
 		gap: rem(5);
+		border: none;
 		@media #{$md} {
 			height: 5rem;
 			width: 5rem;
@@ -48,6 +72,7 @@
 			background-color: $color-black;
 			pointer-events: none;
 			transition: all cubic-bezier(0.16, 1, 0.3, 1) 0.5s;
+			border-radius: rem(2);
 			@media #{$md} {
 				width: 2.25rem;
 				height: rem(2);
@@ -123,8 +148,19 @@
 		column-gap: 2rem;
 		padding-left: 3.5rem;
 		padding-right: 3.5rem;
+		list-style: none;
+		margin: 0;
 		a {
 			color: $color-grey-light;
+			text-decoration: none;
+			font-size: rem(14);
+			font-weight: 500;
+			text-transform: uppercase;
+			letter-spacing: rem(0.5);
+			transition: color 0.3s ease;
+			&:hover {
+				color: $color-primary;
+			}
 		}
 	}
 }
