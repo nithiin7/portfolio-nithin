@@ -84,7 +84,7 @@
 	}
 	.footer__music {
 		border-radius: rem(50);
-		background-color: rgb(57, 54, 50);
+		background-color: $color-text-secondary;
 		width: rem(360);
 		padding: rem(16) rem(42) rem(16) rem(20);
 		display: flex;
@@ -124,6 +124,11 @@
 		@media #{$lm} {
 			gap: rem(32);
 			flex-direction: row;
+		}
+		a {
+			&:hover {
+				color: $color-black;
+			}
 		}
 	}
 	.footer__socials {

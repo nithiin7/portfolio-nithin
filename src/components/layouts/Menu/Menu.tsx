@@ -1,10 +1,10 @@
 'use client';
-
 import { AnimatePresence, motion, useScroll } from 'motion/react';
 import type { ReactElement } from 'react';
 import { useEffect, useRef, useState } from 'react';
 
 import MenuBackground from 'assets/images/menu-bg.svg';
+import ThemeToggle from 'components/utilities/ThemeToggle';
 import { links, socialsMenu } from 'constants/index';
 
 import styles from './Menu.module.scss';
@@ -92,7 +92,9 @@ const Menu = ({
 				setHidden(false);
 			} else if (currentScrollY > 300 && currentScrollY > prevScrollY) {
 				setHidden(true);
-				setIsMenuActive(false);
+				if (isMenuActive) {
+					setIsMenuActive(false);
+				}
 			}
 
 			prevScrollYRef.current = currentScrollY;
@@ -103,40 +105,44 @@ const Menu = ({
 		return () => {
 			window.removeEventListener('scroll', handleScroll);
 		};
-	}, [scrollY]);
+	}, [scrollY, isMenuActive]);
 
 	return (
 		<nav
 			className={[styles.menu, styles[`menu__${variant}`], className].join(' ')}
 		>
 			<motion.div
-				aria-hidden={!isMenuActive || hidden}
+				aria-hidden={hidden}
 				aria-controls="menu"
 				variants={menu}
 				initial={'hidden'}
 				animate={hidden ? 'visible' : 'hidden'}
 				transition={{ ease: [0.1, 0.25, 0.3, 1], duration: 0.6 }}
 			>
-				<motion.button
-					aria-label="menu"
-					aria-hidden={!hidden}
-					tabIndex={!isMenuActive || hidden ? -1 : 0}
-					whileHover={{ scale: 0.95 }}
-					className={styles.menu__button}
-					onClick={() => setIsMenuActive(!isMenuActive)}
-					transition={{ ease: [0.1, 0.25, 0.3, 1], duration: 0.3 }}
-				>
-					<motion.span
-						animate={isMenuActive ? { rotate: 45, y: 4 } : { rotate: 0, y: 0 }}
-						transition={{ duration: 0.3 }}
-					/>
-					<motion.span
-						animate={
-							isMenuActive ? { rotate: -45, y: -4 } : { rotate: 0, y: 0 }
-						}
-						transition={{ duration: 0.3 }}
-					/>
-				</motion.button>
+				<div className={styles.menu__controls}>
+					<motion.button
+						aria-label="menu"
+						aria-hidden={hidden}
+						tabIndex={hidden ? -1 : 0}
+						whileHover={{ scale: 0.95 }}
+						className={styles.menu__button}
+						onClick={() => setIsMenuActive(!isMenuActive)}
+						transition={{ ease: [0.1, 0.25, 0.3, 1], duration: 0.3 }}
+					>
+						<motion.span
+							animate={
+								isMenuActive ? { rotate: 45, y: 4 } : { rotate: 0, y: 0 }
+							}
+							transition={{ duration: 0.3 }}
+						/>
+						<motion.span
+							animate={
+								isMenuActive ? { rotate: -45, y: -4 } : { rotate: 0, y: 0 }
+							}
+							transition={{ duration: 0.3 }}
+						/>
+					</motion.button>
+				</div>
 				<motion.div className={styles.menu__container}>
 					<AnimatePresence>
 						{isMenuActive && (
@@ -147,6 +153,7 @@ const Menu = ({
 								initial={'closed'}
 								exit={'closed'}
 							>
+								<ThemeToggle className={styles['menu__toggle-inmenu']} />
 								<div className={styles.menu__background}>
 									<MenuBackground />
 								</div>

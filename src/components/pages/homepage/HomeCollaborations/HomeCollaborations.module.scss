@@ -41,4 +41,7 @@
 			flex-direction: row;
 		}
 	}
+	[data-theme='light'] & .collaborations__companies svg {
+		filter: brightness(0) saturate(100%);
+	}
 }

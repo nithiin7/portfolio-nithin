@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Roboto, Familjen_Grotesk } from 'next/font/google';
 
+import 'styles/theme.scss';
 import 'styles/globals.scss';
 
 import Footer from 'components/layouts/Footer';
@@ -61,6 +62,7 @@ export default function RootLayout({
 		<html
 			lang="en"
 			className={`${roboto.variable} ${familjenGrotesk.variable}`}
+			data-theme="dark"
 		>
 			<head>
 				<link

@@ -2,12 +2,6 @@
 @use 'styles/shared/variables' as *;
 
 .HomeHeader {
-	* {
-		transition:
-			transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-			opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-			scale 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-	}
 	background: $color-primary;
 	cursor: none;
 	position: relative;
@@ -99,25 +93,6 @@
 				font-weight: 800;
 				white-space: normal;
 				font-family: 'Host Grotesk', sans-serif;
-				font-feature-settings: 'ss03';
-				font-optical-sizing: auto;
-				font-style: normal;
-				letter-spacing: rem(5);
-				position: relative;
-				background: linear-gradient(
-					135deg,
-					$color-text-dark 0%,
-					lighten($color-text-dark, 10%) 100%
-				);
-				-webkit-background-clip: text;
-				-webkit-text-fill-color: transparent;
-				background-clip: text;
-				transform-style: preserve-3d;
-				backface-visibility: hidden;
-				text-shadow:
-					0 0 20px rgba(255, 255, 255, 0.1),
-					0 0 40px rgba(255, 255, 255, 0.05);
-
 				@media #{$md} {
 					white-space: nowrap;
 				}

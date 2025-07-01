@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://bitbucket.org/nithin-private/portfolio-nithin/compare/v2.1.0...v3.0.0) (2025-07-01)
+
+
+### Features
+
+* add dark mode - light mode switching ([e96e9b4](https://bitbucket.org/nithin-private/portfolio-nithin/commit/e96e9b4ecc1bfb2097ff6d516ad988242d1e8d0b))
+* add magnetic button in footer ([57a64b6](https://bitbucket.org/nithin-private/portfolio-nithin/commit/57a64b62e120d51b1f940a13f7b12eb6fb1d2baf))
+* add Paytm and Spotify Codes logos, enhance HomeCollaborations component ([fc85946](https://bitbucket.org/nithin-private/portfolio-nithin/commit/fc8594613fa0f7028b53de1c976e7b16fbb975dd))
+* add scroll parallax to about section ([4cdb524](https://bitbucket.org/nithin-private/portfolio-nithin/commit/4cdb5241bddc6ccd9f9283c032bb29ec25e2239f))
+* update colors to use variables ([3777456](https://bitbucket.org/nithin-private/portfolio-nithin/commit/377745616910aa21c18625e7c7ebe692b66ff2ce))
+* update home header animations ([2c22db1](https://bitbucket.org/nithin-private/portfolio-nithin/commit/2c22db129c2f2a59aa04af43cb4bb4e201022cf1))
+* update mask in animation ([92a124b](https://bitbucket.org/nithin-private/portfolio-nithin/commit/92a124b95e198509c7d8d1cc8419ca7b3f29cc6e))
+* update nextjs to 14.3.4 ([1092634](https://bitbucket.org/nithin-private/portfolio-nithin/commit/1092634e6774fdfd58b9c58d99e8734cdad7ef46))
+* update the portfolio section with new design ([7540c6e](https://bitbucket.org/nithin-private/portfolio-nithin/commit/7540c6e6be5a446d6a32e7e948c3037be88fcb44))
+
+
+### Bug Fixes
+
+* header animation ([3b661c7](https://bitbucket.org/nithin-private/portfolio-nithin/commit/3b661c70e8a3c1c45df760f980f567bc145f7a13))
+* sonar lint errors ([9532ab6](https://bitbucket.org/nithin-private/portfolio-nithin/commit/9532ab6fcd8b0f673453d8023c3e4b1931cd2f4f))
+* update styling for dark mode in footer ([6816994](https://bitbucket.org/nithin-private/portfolio-nithin/commit/6816994e04dac4edfa84263444f80cde2ab01ada))
+* update ui styles svg to fully functional for dark mode and light mode ([4b15ad0](https://bitbucket.org/nithin-private/portfolio-nithin/commit/4b15ad0f4cf5471a21f730e92c95de8d7a2d827a))
+
+
+### Chores
+
+* add commitlint configuration and versioning setup ([1795603](https://bitbucket.org/nithin-private/portfolio-nithin/commit/17956038b55aef38ea909d2466c4e22a568d5522))
+* remove aos ([601d4ee](https://bitbucket.org/nithin-private/portfolio-nithin/commit/601d4eec09e4c90992047286aeb03a6a02ffffed))
+
 ## 2.1.0 (2025-05-23)
 
 
