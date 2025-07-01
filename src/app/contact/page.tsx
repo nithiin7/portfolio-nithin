@@ -7,6 +7,7 @@ import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import Logo from 'assets/images/nav-logo.svg';
 import ContactForm from 'components/pages/contact/ContactForm';
 import MaskText from 'components/utilities/MaskText';
+import { useTheme } from 'contexts/ThemeContext';
 import type { Settings } from 'types/anim';
 
 import styles from './Contact.module.scss';
@@ -20,6 +21,8 @@ const settings: Settings = {
 
 const Contact: React.FC = () => {
 	const [componentRef, setComponentRef] = useState<HTMLDivElement | null>(null);
+
+	const { theme } = useTheme();
 
 	const x = useMotionValue(0);
 	const y = useMotionValue(0);
@@ -124,8 +127,14 @@ const Contact: React.FC = () => {
 								y2="1186"
 								gradientUnits="userSpaceOnUse"
 							>
-								<stop stopColor="#DDDDD5"></stop>
-								<stop offset="1" stopColor="#DDDDD5" stopOpacity="0"></stop>
+								<stop
+									stopColor={theme === 'dark' ? '#DDDDD5' : '#393632'}
+								></stop>
+								<stop
+									offset="1"
+									stopColor={theme === 'dark' ? '#DDDDD5' : '#393632'}
+									stopOpacity="0"
+								></stop>
 							</linearGradient>
 						</defs>
 					</svg>

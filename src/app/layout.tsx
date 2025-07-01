@@ -1,11 +1,13 @@
 import type { Metadata } from 'next';
 import { Roboto, Familjen_Grotesk } from 'next/font/google';
+import Script from 'next/script';
 
 import 'styles/theme.scss';
 import 'styles/globals.scss';
 
 import Footer from 'components/layouts/Footer';
 import Menu from 'components/layouts/Menu';
+import PerformanceOptimizer from 'components/utilities/PerformanceOptimizer';
 import loadData from 'helpers/contentful';
 
 import Provider from './provider';
@@ -16,6 +18,7 @@ const roboto = Roboto({
 	weight: ['100', '300', '400', '500', '700', '900'],
 	style: ['normal', 'italic'],
 	variable: '--font-roboto',
+	display: 'swap',
 });
 
 const familjenGrotesk = Familjen_Grotesk({
@@ -23,6 +26,7 @@ const familjenGrotesk = Familjen_Grotesk({
 	weight: ['400', '500', '600', '700'],
 	style: ['normal', 'italic'],
 	variable: '--font-familjen-grotesk',
+	display: 'swap',
 });
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -31,25 +35,98 @@ export async function generateMetadata(): Promise<Metadata> {
 
 	return {
 		metadataBase: new URL('https://portfolio-nithin.vercel.app/'),
-		title: path.title,
+		title: {
+			default: path.title,
+			template: '%s | Nithin Pradeep - Full Stack Developer',
+		},
 		description: path.description,
 		keywords: path.keywords,
+		authors: [{ name: 'Nithin Pradeep', url: 'https://github.com/nithiin7' }],
+		creator: 'Nithin Pradeep',
+		publisher: 'Nithin Pradeep',
+		formatDetection: {
+			email: false,
+			address: false,
+			telephone: false,
+		},
 		openGraph: {
+			type: 'website',
+			locale: 'en_US',
+			url: 'https://portfolio-nithin.vercel.app/',
 			title: path.ogtitle,
 			description: path.description,
+			siteName: 'Nithin Pradeep - Portfolio',
+			images: [
+				{
+					url: '/opengraph-image.jpeg',
+					width: 1200,
+					height: 630,
+					alt: 'Nithin Pradeep - Full Stack Developer Portfolio',
+				},
+			],
 		},
 		twitter: {
 			card: 'summary_large_image',
 			title: path.ogtitle,
 			description: path.description,
+			creator: '@nithiin7',
+			images: ['/opengraph-image.jpeg'],
 		},
 		robots: {
 			index: true,
 			follow: true,
+			googleBot: {
+				index: true,
+				follow: true,
+				'max-video-preview': -1,
+				'max-image-preview': 'large',
+				'max-snippet': -1,
+			},
 		},
-		authors: [{ name: 'Nithin', url: 'https://github.com/nithiin7' }],
+		verification: {
+			google: 'google6eac2553ee959d3e',
+		},
+		alternates: {
+			canonical: 'https://portfolio-nithin.vercel.app/',
+		},
 	};
 }
+
+const structuredData = {
+	'@context': 'https://schema.org',
+	'@type': 'Person',
+	name: 'Nithin Pradeep',
+	url: 'https://portfolio-nithin.vercel.app/',
+	image: 'https://portfolio-nithin.vercel.app/opengraph-image.jpeg',
+	jobTitle: 'Full Stack Developer',
+	description:
+		'Experienced Full Stack Developer specializing in modern web technologies',
+	sameAs: [
+		'https://github.com/nithiin7',
+		'https://www.linkedin.com/in/nithinpradeep/',
+		'https://www.instagram.com/__nithiin__/',
+		'https://www.twitter.com/_nithiin7/',
+		'https://www.linkedin.com/in/nithin-p7/',
+	],
+	knowsAbout: [
+		'React',
+		'Next.js',
+		'TypeScript',
+		'Node.js',
+		'Full Stack Development',
+		'Web Development',
+		'Frontend Development',
+		'Backend Development',
+	],
+	worksFor: {
+		'@type': 'Organization',
+		name: 'Paytm Payments Bank',
+	},
+	address: {
+		'@type': 'PostalAddress',
+		addressCountry: 'IN',
+	},
+};
 
 interface RootLayoutProps {
 	children: React.ReactNode;
@@ -89,8 +166,24 @@ export default function RootLayout({
 					name="viewport"
 					content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
 				/>
+				<link rel="preconnect" href="https://fonts.googleapis.com" />
+				<link
+					rel="preconnect"
+					href="https://fonts.gstatic.com"
+					crossOrigin="anonymous"
+				/>
+				<link rel="dns-prefetch" href="https://www.google-analytics.com" />
+				<link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 			</head>
 			<body className={`${roboto.className} ${familjenGrotesk.className}`}>
+				<Script
+					id="structured-data"
+					type="application/ld+json"
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify(structuredData),
+					}}
+				/>
+				<PerformanceOptimizer />
 				<Provider>
 					<Curve>
 						<Menu />
