@@ -13,6 +13,9 @@
 
 html {
 	scroll-behavior: smooth;
+	transition:
+		background-color 0.3s ease,
+		color 0.3s ease;
 }
 
 body {
@@ -21,6 +24,9 @@ body {
 	color: $color-white;
 	line-height: 1.7;
 	-webkit-tap-highlight-color: transparent;
+	transition:
+		background-color 0.3s ease,
+		color 0.3s ease;
 	::selection {
 		background: $color-bg-selection;
 		color: $color-white;
@@ -36,6 +42,7 @@ body {
 		z-index: 9999999999;
 		pointer-events: none;
 		opacity: 20%;
+		transition: opacity 0.3s ease;
 	}
 }
 

@@ -2,6 +2,7 @@
 import { ReactLenis } from '@studio-freight/react-lenis';
 import { useEffect } from 'react';
 
+import { ThemeProvider } from 'contexts/ThemeContext';
 import { init } from 'services/analytics';
 
 interface ProviderProps {
@@ -28,8 +29,10 @@ export default function Provider({
 	}, []);
 
 	return (
-		<main>
-			<ReactLenis root>{children}</ReactLenis>
-		</main>
+		<ThemeProvider>
+			<main>
+				<ReactLenis root>{children}</ReactLenis>
+			</main>
+		</ThemeProvider>
 	);
 }

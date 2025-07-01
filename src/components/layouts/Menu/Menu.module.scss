@@ -6,10 +6,29 @@
 	left: rem(25);
 	top: rem(25);
 	z-index: 2;
+	.menu__controls {
+		display: flex;
+		align-items: center;
+		gap: rem(12);
+		position: relative;
+		z-index: 99;
+
+		@media #{$md} {
+			gap: rem(16);
+		}
+	}
+	.menu__toggle-inmenu {
+		position: absolute;
+		top: rem(24);
+		right: rem(32);
+		z-index: 30;
+		@media #{$md} {
+			top: rem(32);
+			right: rem(48);
+		}
+	}
 	.menu__button {
 		cursor: pointer;
-		position: fixed;
-		z-index: 99;
 		display: flex;
 		flex-direction: column;
 		align-items: center;

@@ -1,0 +1,72 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.theme-toggle {
+	position: relative;
+	width: rem(48);
+	height: rem(48);
+	border-radius: 50%;
+	border: 2px solid var(--color-toggle-border);
+	background: var(--color-toggle-bg);
+	color: var(--color-toggle-fill);
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.3s ease;
+	overflow: hidden;
+	box-shadow: 0 rem(4) rem(12) var(--color-shadow);
+	&:hover {
+		box-shadow: 0 rem(6) rem(16) var(--color-shadow-hover);
+		transform: translateY(-2px);
+	}
+	svg {
+		display: block;
+	}
+	.theme-toggle__container {
+		position: relative;
+		width: rem(20);
+		height: rem(20);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 2;
+	}
+	.theme-toggle__sun,
+	.theme-toggle__moon {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		color: var(--color-toggle-fill);
+		transition: all 0.3s ease;
+	}
+	.theme-toggle__background {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		width: rem(20);
+		height: rem(20);
+		border-radius: 50%;
+		background: var(--color-accent);
+		z-index: 1;
+	}
+	@media #{$md} {
+		width: rem(56);
+		height: rem(56);
+		.theme-toggle__container {
+			width: rem(24);
+			height: rem(24);
+		}
+		.theme-toggle__sun,
+		.theme-toggle__moon {
+			width: rem(24);
+			height: rem(24);
+		}
+		.theme-toggle__background {
+			width: rem(24);
+			height: rem(24);
+		}
+	}
+}

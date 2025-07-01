@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Roboto, Familjen_Grotesk } from 'next/font/google';
 
+import 'styles/theme.scss';
 import 'styles/globals.scss';
 
 import Footer from 'components/layouts/Footer';
@@ -86,6 +87,20 @@ export default function RootLayout({
 				<meta
 					name="viewport"
 					content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+				/>
+				<script
+					dangerouslySetInnerHTML={{
+						__html: `
+							(function() {
+								try {
+									var theme = localStorage.getItem('theme') || 'dark';
+									document.documentElement.setAttribute('data-theme', theme);
+								} catch (e) {
+									document.documentElement.setAttribute('data-theme', 'dark');
+								}
+							})();
+						`,
+					}}
 				/>
 			</head>
 			<body className={`${roboto.className} ${familjenGrotesk.className}`}>
