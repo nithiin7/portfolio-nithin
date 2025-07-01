@@ -10,6 +10,7 @@ import { Link as ScrollLink } from 'react-scroll';
 import Contact from 'assets/images/contact.svg';
 import MagneticButton from 'components/utilities/MagneticButton';
 import { footerLinks, socials, songs } from 'constants/index';
+import { useTheme } from 'contexts/ThemeContext';
 import type { Social } from 'types/social';
 import type { Song } from 'types/song';
 import type { FooterLink } from 'types/utils';
@@ -27,6 +28,7 @@ const Footer = (): ReactElement => {
 	const [randomSong, setRandomSong] = useState<Song | null>(null);
 	const lenis = useLenis();
 	const pathname = usePathname();
+	const { theme } = useTheme();
 
 	/**
 	 * Selects a random song from the songs array.
@@ -102,7 +104,7 @@ const Footer = (): ReactElement => {
 							width="41"
 							height="40"
 							viewBox="0 0 41 40"
-							fill="white"
+							fill={theme === 'dark' ? 'white' : 'black'}
 							xmlns="http://www.w3.org/2000/svg"
 							aria-hidden="true"
 						>
