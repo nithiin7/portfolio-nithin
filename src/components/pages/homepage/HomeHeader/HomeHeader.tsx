@@ -349,7 +349,7 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 					}}
 				>
 					<ColorMaskButton
-						text="Book a Call ↗"
+						text="Book a Call"
 						href="/contact"
 						className={styles.navigation__button}
 					/>

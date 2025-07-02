@@ -1,5 +1,7 @@
+'use client';
+import { motion, useScroll, useTransform } from 'motion/react';
 import Link from 'next/link';
-import type { FC } from 'react';
+import { useRef, type FC } from 'react';
 
 import GameAwardsLogo from 'assets/logos/game-awards.svg';
 import PaytmLogo from 'assets/logos/paytm-payments-bank.svg';
@@ -57,27 +59,47 @@ const logoComponents = [
 const HomeCollaborations: FC<HomeCollaborationsProps> = ({
 	className = '',
 	data = {},
-}) => (
-	<div className={`${styles.HomeCollaborations} ${className}`}>
-		<section id="collaborations">
-			<h2>
-				<MaskText phrases={[data.title ?? '']} />
-			</h2>
-			<div className={styles.portfolio__collaborations}>
-				{logoComponents.map(({ Component, name, url }) => (
-					<Link
-						href={url}
-						target="_blank"
-						rel="noopener noreferrer"
-						className={styles.collaborations__companies}
-						key={name}
-					>
-						<Component />
-					</Link>
-				))}
-			</div>
-		</section>
-	</div>
-);
+}) => {
+	const ref = useRef(null);
+
+	const { scrollYProgress } = useScroll({
+		target: ref,
+		offset: ['start end', 'end start'],
+	});
+
+	const scale = useTransform(scrollYProgress, [0.7, 1], [1, 0.9]);
+	const y = useTransform(scrollYProgress, [0.6, 1], [0, -100]);
+
+	return (
+		<motion.div
+			ref={ref}
+			className={`${styles.HomeCollaborations} ${className}`}
+			style={{
+				y,
+				scale,
+				transformStyle: 'preserve-3d',
+			}}
+		>
+			<section id="collaborations">
+				<h2>
+					<MaskText phrases={[data.title ?? '']} />
+				</h2>
+				<div className={styles.portfolio__collaborations}>
+					{logoComponents.map(({ Component, name, url }) => (
+						<Link
+							href={url}
+							target="_blank"
+							rel="noopener noreferrer"
+							className={styles.collaborations__companies}
+							key={name}
+						>
+							<Component />
+						</Link>
+					))}
+				</div>
+			</section>
+		</motion.div>
+	);
+};
 
 export default HomeCollaborations;
