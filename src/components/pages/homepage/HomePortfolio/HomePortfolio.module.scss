@@ -6,13 +6,9 @@
 	background-color: $color-black;
 	color: $color-white;
 	min-height: 100vh;
-	padding: 5rem 1.5rem;
+	padding: 5% 4%;
 	@media (max-width: #{$md}) {
 		padding: 3rem 1rem;
-	}
-	.portfolio {
-		max-width: rem(1400);
-		margin: 0 auto;
 	}
 	.portfolio__header {
 		margin-bottom: 5rem;
