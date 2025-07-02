@@ -124,15 +124,13 @@
 	.portfolio__header {
 		height: calc(100vh - 122px);
 		width: 100%;
-		position: sticky;
-		top: 0;
+		position: relative;
 		display: flex;
 		text-align: left;
 		align-items: flex-end;
 		overflow: hidden;
 		margin: 0 auto;
 		padding: 5% 4%;
-		position: relative;
 		z-index: 2;
 		@media #{$md} {
 			align-items: center;

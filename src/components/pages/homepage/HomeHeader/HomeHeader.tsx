@@ -1,7 +1,13 @@
 'use client';
-import { motion, useMotionValue, useSpring } from 'motion/react';
+import {
+	motion,
+	useMotionValue,
+	useSpring,
+	useScroll,
+	useTransform,
+} from 'motion/react';
 import type { FC } from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 import Logo from 'assets/images/nav-logo.svg';
 import ColorMaskButton from 'components/utilities/ColorMaskButton/ColorMaskButton';
@@ -163,6 +169,7 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 	const [componentRef, setComponentRef] = useState<null | HTMLDivElement>(null);
 	const [isHovered, setIsHovered] = useState(false);
 	const [activeNavItem, setActiveNavItem] = useState<string | null>(null);
+	const headerRef = useRef<HTMLElement>(null);
 
 	const { theme } = useTheme();
 
@@ -175,6 +182,28 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 	};
 	const springX = useSpring(x, springConfig);
 	const springY = useSpring(y, springConfig);
+
+	const { scrollY } = useScroll();
+
+	const headerTopY = useTransform(scrollY, [0, 300], [0, -100]);
+	const headerTopOpacity = useTransform(scrollY, [0, 250], [1, 0]);
+
+	const navY = useTransform(scrollY, [0, 350], [0, -150]);
+	const navOpacity = useTransform(scrollY, [0, 300], [1, 0]);
+
+	const logoY = useTransform(scrollY, [0, 400], [0, -120]);
+	const logoOpacity = useTransform(scrollY, [0, 350], [1, 0]);
+
+	const ctaY = useTransform(scrollY, [0, 450], [0, -180]);
+	const ctaOpacity = useTransform(scrollY, [0, 400], [1, 0]);
+
+	const contentY = useTransform(scrollY, [0, 500], [0, -200]);
+	const contentOpacity = useTransform(scrollY, [0, 450], [1, 0]);
+	const contentScale = useTransform(scrollY, [0, 500], [1, 0.8]);
+
+	const backgroundY = useTransform(scrollY, [0, 500], [0, -200]);
+	const backgroundScale = useTransform(scrollY, [0, 600], [1, 1.2]);
+	const backgroundOpacity = useTransform(scrollY, [0, 500], [1, 0.3]);
 
 	useEffect(() => {
 		/**
@@ -228,10 +257,15 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 
 	return (
 		<motion.header
+			ref={headerRef}
 			className={`${styles.HomeHeader} ${className}`}
 			variants={containerVariants}
 			initial="hidden"
 			animate="visible"
+			style={{
+				transform: `translateY(${headerTopY}px)`,
+				opacity: headerTopOpacity,
+			}}
 		>
 			<div className={styles.header__top}>
 				<motion.div
@@ -240,6 +274,10 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 					whileHover={{
 						scale: 1.05,
 						transition: { duration: 0.3, ease: 'easeOut' },
+					}}
+					style={{
+						y: logoY,
+						opacity: logoOpacity,
 					}}
 				>
 					<motion.div
@@ -258,6 +296,10 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 					variants={navigationVariants}
 					initial="hidden"
 					animate="visible"
+					style={{
+						y: navY,
+						opacity: navOpacity,
+					}}
 				>
 					<ul className={styles.navigation__list}>
 						{headerLinks.map((link, index) => (
@@ -301,6 +343,10 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 						ease: [0.25, 0.46, 0.45, 0.94],
 						delay: 1.8,
 					}}
+					style={{
+						y: ctaY,
+						opacity: ctaOpacity,
+					}}
 				>
 					<ColorMaskButton
 						text="Book a Call ↗"
@@ -319,9 +365,10 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 					xmlns="http://www.w3.org/2000/svg"
 					variants={backgroundVariants}
 					style={{
-						opacity: 1,
+						opacity: backgroundOpacity,
 						zIndex: -20,
-						transform: 'translateX(-50%) translateY(-50%) scale(1)',
+						transform: `translateX(-50%) translateY(-50%) scale(${backgroundScale})`,
+						y: backgroundY,
 					}}
 				>
 					<circle
@@ -351,6 +398,11 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 				<motion.div
 					className={styles.header__description}
 					variants={contentVariants}
+					style={{
+						y: contentY,
+						opacity: contentOpacity,
+						scale: contentScale,
+					}}
 				>
 					<motion.button
 						className={styles.header__title}

@@ -1,3 +1,5 @@
+'use client';
+import { motion, useScroll, useTransform } from 'motion/react';
 import type { FC } from 'react';
 
 import ServiceCard from 'components/pages/ServiceCard';
@@ -27,8 +29,21 @@ const HomeServices: FC<HomeServicesProps> = ({
 	data = { title: '', subTitle: '' },
 	services = [],
 }) => {
+	const { scrollY } = useScroll();
+
+	const servicesY = useTransform(scrollY, [200, 800], [50, 0]);
+	const servicesOpacity = useTransform(scrollY, [200, 700], [0, 1]);
+	const servicesScale = useTransform(scrollY, [200, 700], [0.96, 1]);
+
 	return (
-		<div className={`${styles.HomeServices} ${className}`}>
+		<motion.div
+			className={`${styles.HomeServices} ${className}`}
+			style={{
+				y: servicesY,
+				opacity: servicesOpacity,
+				scale: servicesScale,
+			}}
+		>
 			<section id="services">
 				<div className={styles.services__header}>
 					<h2>
@@ -53,7 +68,7 @@ const HomeServices: FC<HomeServicesProps> = ({
 					})}
 				</div>
 			</section>
-		</div>
+		</motion.div>
 	);
 };
 
