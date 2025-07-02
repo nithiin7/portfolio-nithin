@@ -6,6 +6,7 @@
 	cursor: none;
 	position: relative;
 	overflow: hidden;
+	max-height: 100vh;
 	&::before {
 		content: '';
 		position: absolute;
@@ -22,9 +23,7 @@
 		z-index: 1;
 	}
 	.header__nav {
-		position: absolute;
-		left: rem(15);
-		top: rem(15);
+		margin-top: rem(15);
 		&:hover {
 			background: rgba(255, 255, 255, 0.15);
 			box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
@@ -38,13 +37,92 @@
 				width: rem(100);
 			}
 		}
+	}
+	.header__navigation {
+		pointer-events: auto;
+		cursor: auto;
+		@media (max-width: 599px) {
+			display: none;
+		}
+	}
+	.header__top {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		width: 100%;
+		padding: 0 rem(15);
+	}
+	.navigation__list {
+		display: flex;
+		align-items: center;
+		gap: rem(8);
+		list-style: none;
+		margin: 0;
+		padding: 0;
 		@media #{$md} {
-			left: rem(25);
-			top: rem(25);
+			gap: rem(16);
+		}
+	}
+	.navigation__item {
+		position: relative;
+	}
+	.navigation__link {
+		position: relative;
+		color: $color-text-dark;
+		text-decoration: none;
+		font-size: rem(14);
+		font-weight: 500;
+		text-transform: uppercase;
+		letter-spacing: rem(0.5);
+		padding: rem(8) rem(12);
+		border-radius: rem(6);
+		transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+		display: block;
+		white-space: nowrap;
+		@media #{$md} {
+			font-size: rem(16);
+			padding: rem(10) rem(16);
+		}
+		&:hover {
+			color: $color-text;
+			background: rgba(255, 255, 255, 0.1);
+			backdrop-filter: blur(10px);
+		}
+		&:active {
+			transform: scale(0.95);
+		}
+	}
+	.navigation__underline {
+		position: absolute;
+		bottom: rem(4);
+		left: rem(12);
+		right: rem(12);
+		height: rem(2);
+		background: linear-gradient(90deg, $color-text 0%, transparent 100%);
+		border-radius: rem(1);
+		transform-origin: left center;
+		@media #{$md} {
+			bottom: rem(6);
+			left: rem(16);
+			right: rem(16);
+		}
+	}
+	.navigation__cta {
+		margin-left: rem(8);
+		@media #{$md} {
+			margin-left: rem(16);
+		}
+	}
+	.navigation__button {
+		font-size: rem(14) !important;
+		padding: rem(8) rem(16) !important;
+		@media #{$md} {
+			font-size: rem(16) !important;
+			padding: rem(10) rem(20) !important;
 		}
 	}
 	.portfolio__header {
-		height: 100vh;
+		height: calc(100vh - 122px);
 		width: 100%;
 		position: sticky;
 		top: 0;

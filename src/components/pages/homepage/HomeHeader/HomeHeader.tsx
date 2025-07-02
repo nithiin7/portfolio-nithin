@@ -4,8 +4,10 @@ import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 
 import Logo from 'assets/images/nav-logo.svg';
+import ColorMaskButton from 'components/utilities/ColorMaskButton/ColorMaskButton';
 import Cursor from 'components/utilities/Cursor/Cursor';
 import MaskText from 'components/utilities/MaskText/MaskText';
+import { headerLinks } from 'constants/index';
 import { useTheme } from 'contexts/ThemeContext';
 import type { Settings } from 'types/anim';
 
@@ -40,19 +42,22 @@ const containerVariants = {
 	},
 };
 
-const navVariants = {
+const logoVariants = {
 	hidden: {
 		opacity: 0,
-		y: -30,
-		scale: 0.95,
+		y: -40,
+		scale: 0.8,
+		rotate: -5,
 	},
 	visible: {
 		opacity: 1,
 		y: 0,
 		scale: 1,
+		rotate: 0,
 		transition: {
-			duration: 1,
+			duration: 1.2,
 			ease: [0.25, 0.46, 0.45, 0.94],
+			delay: 0.8,
 		},
 	},
 };
@@ -107,6 +112,38 @@ const descriptionVariants = {
 	},
 };
 
+const navigationVariants = {
+	hidden: {
+		opacity: 0,
+		y: -20,
+	},
+	visible: {
+		opacity: 1,
+		y: 0,
+		transition: {
+			duration: 0.8,
+			ease: [0.25, 0.46, 0.45, 0.94],
+			delay: 1.2,
+		},
+	},
+};
+
+const navItemVariants = {
+	hidden: {
+		opacity: 0,
+		y: 10,
+	},
+	visible: (i: number) => ({
+		opacity: 1,
+		y: 0,
+		transition: {
+			duration: 0.6,
+			ease: [0.25, 0.46, 0.45, 0.94],
+			delay: 1.3 + i * 0.1,
+		},
+	}),
+};
+
 /**
  * HomeHeader component displays the main header of the homepage with an animated logo
  * that responds to mouse movement and a customizable title/subtitle.
@@ -125,6 +162,8 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 }) => {
 	const [componentRef, setComponentRef] = useState<null | HTMLDivElement>(null);
 	const [isHovered, setIsHovered] = useState(false);
+	const [activeNavItem, setActiveNavItem] = useState<string | null>(null);
+
 	const { theme } = useTheme();
 
 	const x = useMotionValue(0);
@@ -194,18 +233,83 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 			initial="hidden"
 			animate="visible"
 		>
-			<motion.div className={styles.header__nav} variants={navVariants}>
+			<div className={styles.header__top}>
 				<motion.div
-					ref={setComponentRef}
-					style={{
-						x: springX,
-						y: springY,
-						zIndex: 99,
+					className={styles.header__nav}
+					variants={logoVariants}
+					whileHover={{
+						scale: 1.05,
+						transition: { duration: 0.3, ease: 'easeOut' },
 					}}
 				>
-					<Logo />
+					<motion.div
+						ref={setComponentRef}
+						style={{
+							x: springX,
+							y: springY,
+							zIndex: 99,
+						}}
+					>
+						<Logo />
+					</motion.div>
 				</motion.div>
-			</motion.div>
+				<motion.nav
+					className={styles.header__navigation}
+					variants={navigationVariants}
+					initial="hidden"
+					animate="visible"
+				>
+					<ul className={styles.navigation__list}>
+						{headerLinks.map((link, index) => (
+							<motion.li
+								key={link.title}
+								className={styles.navigation__item}
+								custom={index}
+								variants={navItemVariants}
+								onHoverStart={() => setActiveNavItem(link.title)}
+								onHoverEnd={() => setActiveNavItem(null)}
+							>
+								<motion.a
+									href={link.href}
+									className={styles.navigation__link}
+									whileHover={{
+										y: -2,
+										transition: { duration: 0.2, ease: 'easeOut' },
+									}}
+									transition={{ duration: 0.3, ease: 'easeInOut' }}
+								>
+									{link.title}
+									<motion.span
+										className={styles.navigation__underline}
+										initial={{ scaleX: 0 }}
+										animate={{
+											scaleX: activeNavItem === link.title ? 1 : 0,
+										}}
+										transition={{ duration: 0.3, ease: 'easeInOut' }}
+									/>
+								</motion.a>
+							</motion.li>
+						))}
+					</ul>
+				</motion.nav>
+				<motion.div
+					className={styles.navigation__cta}
+					initial={{ opacity: 0, y: 10 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{
+						duration: 0.6,
+						ease: [0.25, 0.46, 0.45, 0.94],
+						delay: 1.8,
+					}}
+				>
+					<ColorMaskButton
+						text="Book a Call ↗"
+						href="/contact"
+						className={styles.navigation__button}
+					/>
+				</motion.div>
+			</div>
+
 			<div id="home" className={styles.portfolio__header}>
 				<motion.svg
 					width="1186"

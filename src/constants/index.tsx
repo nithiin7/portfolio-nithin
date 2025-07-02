@@ -16,6 +16,13 @@ export const links: LinkItem[] = [
 	{ title: 'Contact', href: '/contact' },
 ];
 
+export const headerLinks: LinkItem[] = [
+	{ title: 'Services', href: '/#services' },
+	{ title: 'Works', href: '/#portfolio' },
+	{ title: 'About', href: '/#about' },
+	{ title: 'Companies', href: '/#collaborations' },
+];
+
 export const socialsMenu: LinkItem[] = [
 	{ title: 'Linkedin', href: 'https://www.linkedin.com/in/nithin-p7/' },
 	{ title: 'Instagram', href: 'https://www.instagram.com/__nithiin__/' },
