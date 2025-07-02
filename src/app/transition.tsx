@@ -69,7 +69,7 @@ const Curve = ({
 				{dimensions.width != null && dimensions.height != null && (
 					<SVG width={dimensions.width} height={dimensions.height} />
 				)}
-				{children}
+				<div>{children}</div>
 			</div>
 		</AnimatePresence>
 	);
@@ -101,7 +101,7 @@ const SVG = ({ height, width }: SVGProps): React.ReactElement => {
 
 	return (
 		<motion.svg className="motion-svg" {...anim(translate)}>
-			<motion.path {...anim(curve(initialPath, targetPath))} />
+			<motion.path {...anim(curve(initialPath, targetPath))} fill="black" />
 		</motion.svg>
 	);
 };
