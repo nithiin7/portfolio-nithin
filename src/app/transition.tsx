@@ -69,15 +69,7 @@ const Curve = ({
 				{dimensions.width != null && dimensions.height != null && (
 					<SVG width={dimensions.width} height={dimensions.height} />
 				)}
-				<motion.div
-					style={{
-						position: 'relative',
-						zIndex: 1,
-						transformStyle: 'preserve-3d',
-					}}
-				>
-					{children}
-				</motion.div>
+				<div>{children}</div>
 			</div>
 		</AnimatePresence>
 	);

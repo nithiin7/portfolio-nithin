@@ -88,10 +88,14 @@ const Menu = ({
 		const handleScroll = () => {
 			const currentScrollY = scrollY.get();
 			const prevScrollY = prevScrollYRef.current;
+			const viewportHeight = window.innerHeight;
 
 			if (currentScrollY < prevScrollY) {
 				setHidden(false);
-			} else if (currentScrollY > 300 && currentScrollY > prevScrollY) {
+			} else if (
+				currentScrollY > viewportHeight &&
+				currentScrollY > prevScrollY
+			) {
 				setHidden(true);
 				if (isMenuActive) {
 					setIsMenuActive(false);
