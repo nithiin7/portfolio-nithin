@@ -33,6 +33,28 @@ const Menu = ({
 
 	const prevScrollYRef = useRef(0);
 
+	/**
+	 * Handles smooth scrolling to sections when navigation links are clicked.
+	 * @param {string} href - The href attribute of the clicked link
+	 * @param {MouseEvent} e - The click event
+	 */
+	const handleNavClick = (href: string, e: MouseEvent) => {
+		if (href.startsWith('/#')) {
+			e.preventDefault();
+			const targetId = href.replace('/#', '');
+			const targetElement = document.getElementById(targetId);
+
+			if (targetElement) {
+				targetElement.scrollIntoView({
+					behavior: 'smooth',
+					block: 'start',
+				});
+
+				setIsMenuActive(false);
+			}
+		}
+	};
+
 	const { scrollY } = useScroll();
 
 	/**
@@ -225,6 +247,8 @@ const Menu = ({
 						animate="open"
 						exit="closed"
 						onClick={handleBackdropClick}
+						role="presentation"
+						aria-hidden="true"
 					/>
 				)}
 			</AnimatePresence>
@@ -232,6 +256,8 @@ const Menu = ({
 				className={[styles.menu, styles[`menu__${variant}`], className].join(
 					' '
 				)}
+				role="navigation"
+				aria-label="Main navigation"
 			>
 				<motion.div
 					aria-hidden={hidden}
@@ -243,7 +269,9 @@ const Menu = ({
 				>
 					<div className={styles.menu__controls}>
 						<motion.button
-							aria-label="menu"
+							aria-label="Toggle navigation menu"
+							aria-expanded={isMenuActive}
+							aria-controls="menu-panel"
 							aria-hidden={hidden}
 							tabIndex={hidden ? -1 : 0}
 							whileHover={{ scale: 0.95 }}
@@ -269,6 +297,10 @@ const Menu = ({
 						<AnimatePresence>
 							{isMenuActive && (
 								<motion.div
+									id="menu-panel"
+									role="dialog"
+									aria-modal="true"
+									aria-label="Navigation menu"
 									className={styles['menu__sub-container']}
 									variants={variants}
 									animate={isMenuActive ? 'open' : 'closed'}
@@ -285,62 +317,77 @@ const Menu = ({
 									>
 										<MenuBackground />
 									</motion.div>
-									<div className={styles.menu__nav}>
-										{links.map((link, i) => {
-											return (
-												<motion.div
-													key={`${link.title}-${i}`}
-													style={{ overflow: 'hidden' }}
-												>
-													<motion.div
-														custom={i}
-														variants={animate}
-														initial={'initial'}
-														exit={'exit'}
-														animate={'enter'}
-													>
-														<motion.a
-															whileHover={{ left: '15px' }}
-															href={link.href}
+									<nav
+										className={styles.menu__nav}
+										role="navigation"
+										aria-label="Main menu"
+									>
+										<ul role="list">
+											{links.map((link, i) => {
+												return (
+													<motion.li key={`${link.title}-${i}`} role="listitem">
+														<motion.div
+															custom={i}
+															variants={animate}
+															initial={'initial'}
+															exit={'exit'}
+															animate={'enter'}
 														>
-															{link.title}
-														</motion.a>
-													</motion.div>
-												</motion.div>
-											);
-										})}
-									</div>
-									<ul className={styles.menu__socials}>
-										{socialsMenu.map((social, i) => {
-											return (
-												<li
-													key={`${social.title}-${i}`}
-													style={{ overflow: 'hidden' }}
-												>
-													<motion.div
-														custom={i}
-														variants={animate}
-														initial={'initial'}
-														exit={'exit'}
-														animate={'enter'}
+															<motion.a
+																whileHover={{ left: '15px' }}
+																href={link.href}
+																role="menuitem"
+																onClick={(e) =>
+																	handleNavClick(link.href, e as any)
+																}
+															>
+																{link.title}
+															</motion.a>
+														</motion.div>
+													</motion.li>
+												);
+											})}
+										</ul>
+									</nav>
+									<nav
+										className={styles.menu__socials}
+										role="navigation"
+										aria-label="Social media links"
+									>
+										<ul role="list">
+											{socialsMenu.map((social, i) => {
+												return (
+													<li
+														key={`${social.title}-${i}`}
+														style={{ overflow: 'hidden' }}
+														role="listitem"
 													>
-														<motion.a
-															whileHover={{ left: '15px' }}
-															href={social.href}
-															transition={{
-																ease: [0.1, 0.25, 0.3, 1],
-																duration: 0.3,
-															}}
-															target="_blank"
-															rel="noopener noreferrer"
+														<motion.div
+															custom={i}
+															variants={animate}
+															initial={'initial'}
+															exit={'exit'}
+															animate={'enter'}
 														>
-															{social.title}
-														</motion.a>
-													</motion.div>
-												</li>
-											);
-										})}
-									</ul>
+															<motion.a
+																whileHover={{ left: '15px' }}
+																href={social.href}
+																transition={{
+																	ease: [0.1, 0.25, 0.3, 1],
+																	duration: 0.3,
+																}}
+																target="_blank"
+																rel="noopener noreferrer"
+																aria-label={`Visit ${social.title} on social media`}
+															>
+																{social.title}
+															</motion.a>
+														</motion.div>
+													</li>
+												);
+											})}
+										</ul>
+									</nav>
 								</motion.div>
 							)}
 						</AnimatePresence>

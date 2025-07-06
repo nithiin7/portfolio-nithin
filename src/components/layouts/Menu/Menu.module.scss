@@ -19,7 +19,7 @@
 		cursor: pointer;
 		transition: backdrop-filter 0.3s ease;
 	}
-	.menu__controls {
+	&__controls {
 		display: flex;
 		align-items: center;
 		gap: rem(12);
@@ -29,7 +29,7 @@
 			gap: rem(16);
 		}
 	}
-	.menu__book {
+	&__book {
 		position: fixed;
 		top: rem(25);
 		right: rem(25);
@@ -46,7 +46,7 @@
 			right: rem(32);
 		}
 	}
-	.menu__bookCallMobile {
+	&__bookCallMobile {
 		margin-top: rem(32);
 		display: flex;
 		justify-content: center;
@@ -54,12 +54,12 @@
 			margin-top: rem(40);
 		}
 	}
-	.menu__bookCallMobileButton {
+	&__bookCallMobileButton {
 		width: 100%;
 		justify-content: center;
 		max-width: rem(280);
 	}
-	.menu__toggle-inmenu {
+	&__toggle-inmenu {
 		position: absolute;
 		top: rem(24);
 		right: rem(32);
@@ -69,7 +69,7 @@
 			right: rem(48);
 		}
 	}
-	.menu__button {
+	&__button {
 		cursor: pointer;
 		display: flex;
 		flex-direction: column;
@@ -113,7 +113,7 @@
 			}
 		}
 	}
-	.menu__container {
+	&__container {
 		width: 100vw;
 		height: 100vh;
 		display: flex;
@@ -123,7 +123,7 @@
 		top: 0;
 		left: 0;
 	}
-	.menu__sub-container {
+	&__sub-container {
 		max-width: 36rem;
 		padding-top: 2.5rem;
 		padding-bottom: 2.5rem;
@@ -138,13 +138,13 @@
 		position: relative;
 		pointer-events: auto;
 	}
-	.menu__background {
+	&__background {
 		opacity: 0.25;
 		position: absolute;
 		top: 0;
 		right: 0;
 	}
-	.menu__nav {
+	&__nav {
 		display: flex;
 		flex-direction: column;
 		gap: rem(10);
@@ -161,14 +161,35 @@
 			padding-left: 6rem;
 			padding-right: 5rem;
 		}
+		ul {
+			list-style: none;
+		}
 		a {
 			color: $color-primary;
 			text-decoration: none;
 			position: relative;
 			top: 0;
+			&:hover {
+				color: $color-accent;
+				&::before {
+					opacity: 1;
+				}
+			}
+			&::before {
+				content: '';
+				position: absolute;
+				left: rem(-20);
+				top: 50%;
+				width: rem(12);
+				height: rem(12);
+				background-color: $color-accent;
+				border-radius: 50%;
+				opacity: 0;
+				transition: all 0.3s ease;
+			}
 		}
 	}
-	.menu__socials {
+	&__socials {
 		display: flex;
 		justify-content: flex-end;
 		column-gap: 2rem;
@@ -176,6 +197,11 @@
 		padding-right: 3.5rem;
 		list-style: none;
 		margin: 0;
+		ul {
+			list-style: none;
+			display: flex;
+			gap: 2rem;
+		}
 		a {
 			color: $color-grey-light;
 			text-decoration: none;

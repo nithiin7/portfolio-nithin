@@ -33,7 +33,7 @@
 	@media (max-width: #{$md}) {
 		padding: 1.5rem 0;
 	}
-	.portfolio__item_content {
+	&_content {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
@@ -45,7 +45,7 @@
 			gap: 1rem;
 		}
 	}
-	.portfolio__item_left {
+	&_left {
 		display: flex;
 		align-items: center;
 		gap: 2rem;
@@ -55,7 +55,7 @@
 			gap: 1rem;
 		}
 	}
-	.portfolio__item_number {
+	&_number {
 		color: $color-number;
 		font-size: 1.125rem;
 		font-family: 'Courier New', monospace;
@@ -66,10 +66,10 @@
 			font-size: 1rem;
 		}
 	}
-	.portfolio__item_info {
+	&_info {
 		flex: 1;
 	}
-	.portfolio__item_title {
+	&_title {
 		font-size: clamp(1.5rem, 4vw, 3rem);
 		font-weight: 700;
 		margin: 0;
@@ -80,7 +80,7 @@
 			font-size: clamp(1.25rem, 6vw, 2rem);
 		}
 	}
-	.portfolio__item_year {
+	&_year {
 		color: $color-year;
 		font-size: 1.125rem;
 		margin: 0.5rem 0 0 0;
@@ -91,14 +91,14 @@
 			margin-top: 0.25rem;
 		}
 	}
-	.portfolio__item_right {
+	&_right {
 		display: flex;
 		align-items: center;
 		@media (max-width: #{$md}) {
 			width: 100%;
 		}
 	}
-	.portfolio__item_tech {
+	&_tech {
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: flex-end;
@@ -107,7 +107,7 @@
 			justify-content: flex-start;
 		}
 	}
-	.portfolio__item_tech_tag {
+	&_tech_tag {
 		padding: 0.5rem 1rem;
 		background-color: $color-tech-bg;
 		color: $color-tech-text;
@@ -121,7 +121,7 @@
 			font-size: 0.8rem;
 		}
 	}
-	.portfolio__item_line {
+	&_line {
 		height: rem(2);
 		background: linear-gradient(
 			90deg,

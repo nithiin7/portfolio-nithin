@@ -144,9 +144,10 @@
 			color: $color-text-dark;
 			padding-bottom: rem(60);
 			text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+			text-align: center;
+			align-items: center;
 			@media #{$md} {
 				padding-bottom: 0;
-				align-items: center;
 			}
 			button {
 				background: none;

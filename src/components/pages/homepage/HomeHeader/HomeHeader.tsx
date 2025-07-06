@@ -171,6 +171,26 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 	const [activeNavItem, setActiveNavItem] = useState<string | null>(null);
 	const headerRef = useRef<HTMLElement>(null);
 
+	/**
+	 * Handles smooth scrolling to sections when navigation links are clicked.
+	 * @param {string} href - The href attribute of the clicked link
+	 * @param {MouseEvent} e - The click event
+	 */
+	const handleNavClick = (href: string, e: MouseEvent) => {
+		if (href.startsWith('/#')) {
+			e.preventDefault();
+			const targetId = href.replace('/#', '');
+			const targetElement = document.getElementById(targetId);
+
+			if (targetElement) {
+				targetElement.scrollIntoView({
+					behavior: 'smooth',
+					block: 'start',
+				});
+			}
+		}
+	};
+
 	const { theme } = useTheme();
 
 	const x = useMotionValue(0);
@@ -314,6 +334,7 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 								<motion.a
 									href={link.href}
 									className={styles.navigation__link}
+									onClick={(e) => handleNavClick(link.href, e as any)}
 									whileHover={{
 										y: -2,
 										transition: { duration: 0.2, ease: 'easeOut' },

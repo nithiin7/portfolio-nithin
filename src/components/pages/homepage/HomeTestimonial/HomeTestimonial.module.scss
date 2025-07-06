@@ -14,7 +14,7 @@
 		letter-spacing: -0.025em;
 		text-align: left;
 	}
-	.HomeTestimonial__testimonial {
+	&__testimonial {
 		display: flex;
 		flex-direction: column;
 		row-gap: 2.5rem;

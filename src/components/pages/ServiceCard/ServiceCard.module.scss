@@ -6,7 +6,7 @@
 	background-color: $color-black;
 	margin-top: rem(40);
 	height: 80vh;
-	.service-card__header {
+	&__header {
 		display: flex;
 		gap: rem(15);
 		width: 100%;
@@ -38,7 +38,7 @@
 			font-size: 3.5rem;
 		}
 	}
-	.service-card__body {
+	&__body {
 		display: flex;
 		justify-content: space-between;
 		flex-direction: column;
@@ -58,26 +58,26 @@
 				width: 50%;
 			}
 		}
-		.service-card__services {
-			font-size: 1.5rem;
-			display: flex;
-			flex-direction: column;
-			row-gap: 1rem;
-			width: 100%;
-			padding-top: 2rem;
-			@media #{$md} {
-				width: 50%;
-				font-size: 2rem;
-				padding-top: 0;
-				text-align: end;
-			}
-			span {
-				color: $color-grey-light;
-				font-weight: 500;
-			}
+	}
+	&__services {
+		font-size: 1.5rem;
+		display: flex;
+		flex-direction: column;
+		row-gap: 1rem;
+		width: 100%;
+		padding-top: 2rem;
+		@media #{$md} {
+			width: 50%;
+			font-size: 2rem;
+			padding-top: 0;
+			text-align: end;
+		}
+		span {
+			color: $color-grey-light;
+			font-weight: 500;
 		}
 	}
-	.service-card__background {
+	&__background {
 		opacity: 0.5;
 		font-weight: 800;
 		color: $color-secondary;
