@@ -2,8 +2,8 @@
 import { motion, useScroll, useTransform } from 'motion/react';
 import type { FC } from 'react';
 
-import ServiceCard from 'components/pages/ServiceCard';
-import MaskText from 'components/utilities/MaskText/MaskText';
+import { ServiceCard } from 'components/pages';
+import { MaskText } from 'components/utilities';
 import type { ServiceHeader, ServiceItem } from 'types/service';
 
 import styles from './HomeServices.module.scss';

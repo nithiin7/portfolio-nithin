@@ -1,10 +1,9 @@
 'use client';
-import { useState } from 'react';
 import type { FC } from 'react';
+import { useState } from 'react';
 
-import PortfolioCard from 'components/pages/PortfolioCard';
-import PortfolioModal from 'components/pages/PortfolioModal';
-import MaskText from 'components/utilities/MaskText/MaskText';
+import { PortfolioCard, PortfolioModal } from 'components/pages';
+import { MaskText } from 'components/utilities';
 import type { PortfolioItem } from 'types/portfolio';
 
 import styles from './HomePortfolio.module.scss';

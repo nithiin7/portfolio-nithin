@@ -4,8 +4,7 @@ import type { ReactElement } from 'react';
 import { useEffect, useRef, useState } from 'react';
 
 import MenuBackground from 'assets/images/menu-bg.svg';
-import ColorMaskButton from 'components/utilities/ColorMaskButton';
-import ThemeToggle from 'components/utilities/ThemeToggle';
+import { ColorMaskButton, ThemeToggle } from 'components/utilities';
 import { links, socialsMenu } from 'constants/index';
 
 import styles from './Menu.module.scss';

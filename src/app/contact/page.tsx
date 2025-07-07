@@ -5,8 +5,8 @@ import { useEffect, useState } from 'react';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
 import Logo from 'assets/images/nav-logo.svg';
-import ContactForm from 'components/pages/contact/ContactForm';
-import MaskText from 'components/utilities/MaskText';
+import { ContactForm } from 'components/pages';
+import { MaskText } from 'components/utilities';
 import { useTheme } from 'contexts/ThemeContext';
 import type { Settings } from 'types/anim';
 

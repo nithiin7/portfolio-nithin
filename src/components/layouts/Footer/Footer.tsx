@@ -7,7 +7,7 @@ import type { ReactElement } from 'react';
 import { useEffect, useState } from 'react';
 import { Link as ScrollLink } from 'react-scroll';
 
-import MagneticButton from 'components/utilities/MagneticButton';
+import { MagneticButton } from 'components/utilities';
 import { footerLinks, socials, songs } from 'constants/index';
 import { useTheme } from 'contexts/ThemeContext';
 import type { Social } from 'types/social';

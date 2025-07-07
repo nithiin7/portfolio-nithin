@@ -10,8 +10,7 @@ import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import type { SubmitHandler } from 'react-hook-form';
 import { Controller, useForm } from 'react-hook-form';
 
-import TextArea from 'components/utilities/TextArea';
-import TextInput from 'components/utilities/TextInput';
+import { TextArea, TextInput } from 'components/utilities';
 import { contactOptions } from 'constants/index';
 import { contactSchema } from 'helpers/validations';
 

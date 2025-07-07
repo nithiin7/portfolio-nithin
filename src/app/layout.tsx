@@ -5,9 +5,8 @@ import Script from 'next/script';
 import 'styles/theme.scss';
 import 'styles/globals.scss';
 
-import Footer from 'components/layouts/Footer';
-import Menu from 'components/layouts/Menu';
-import PerformanceOptimizer from 'components/utilities/PerformanceOptimizer';
+import { Footer, Menu } from 'components/layouts';
+import { PerformanceOptimizer } from 'components/utilities';
 import loadData from 'helpers/contentful';
 
 import Provider from './provider';
