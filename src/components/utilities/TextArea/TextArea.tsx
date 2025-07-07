@@ -61,7 +61,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
 				/>
 				<div className={styles.TextArea__errors}>
 					{errors.length > 0 && (
-						<div className={styles['TextArea__form-errors']}>
+						<div className={styles.TextArea__formErrors}>
 							{errors.map((error, index) => (
 								<p key={`${error}-${index}`}>{error}</p>
 							))}

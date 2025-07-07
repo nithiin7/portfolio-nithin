@@ -1,7 +1,7 @@
 @use 'styles/shared/mixin' as *;
 @use 'styles/shared/variables' as *;
 
-.theme-toggle {
+.ThemeToggle {
 	position: relative;
 	width: rem(48);
 	height: rem(48);
@@ -23,7 +23,7 @@
 	svg {
 		display: block;
 	}
-	.theme-toggle__container {
+	&__container {
 		position: relative;
 		width: rem(20);
 		height: rem(20);
@@ -32,8 +32,8 @@
 		justify-content: center;
 		z-index: 2;
 	}
-	.theme-toggle__sun,
-	.theme-toggle__moon {
+	&__sun,
+	&__moon {
 		position: absolute;
 		top: 50%;
 		left: 50%;
@@ -41,7 +41,7 @@
 		color: var(--color-toggle-fill);
 		transition: all 0.3s ease;
 	}
-	.theme-toggle__background {
+	&__background {
 		position: absolute;
 		top: 50%;
 		left: 50%;
@@ -55,16 +55,16 @@
 	@media #{$md} {
 		width: rem(56);
 		height: rem(56);
-		.theme-toggle__container {
+		.ThemeToggle__container {
 			width: rem(24);
 			height: rem(24);
 		}
-		.theme-toggle__sun,
-		.theme-toggle__moon {
+		.ThemeToggle__sun,
+		.ThemeToggle__moon {
 			width: rem(24);
 			height: rem(24);
 		}
-		.theme-toggle__background {
+		.ThemeToggle__background {
 			width: rem(24);
 			height: rem(24);
 		}

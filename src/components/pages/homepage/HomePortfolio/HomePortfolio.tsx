@@ -39,15 +39,15 @@ const HomePortfolio: FC<HomePortfolioProps> = ({
 
 	return (
 		<div className={`${styles.HomePortfolio} ${className}`}>
-			<section id="portfolio" className={styles.portfolio}>
-				<div className={styles.portfolio__header}>
-					<h2 className={styles.portfolio__title}>
+			<section id="portfolio" className={styles.HomePortfolio}>
+				<div className={styles.HomePortfolio__header}>
+					<h2 className={styles.HomePortfolio__title}>
 						<MaskText phrases={[data.title ?? 'Featured Work']} />
 					</h2>
 				</div>
-				<div className={styles.portfolio__container}>
+				<div className={styles.HomePortfolio__container}>
 					<PortfolioModal modal={modal} projects={portfolio} />
-					<div className={styles.portfolio__list}>
+					<div className={styles.HomePortfolio__list}>
 						{portfolio.map((project, index) => (
 							<PortfolioCard
 								key={`${project.title}-${index}`}

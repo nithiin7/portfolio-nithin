@@ -287,9 +287,9 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 				opacity: headerTopOpacity,
 			}}
 		>
-			<div className={styles.header__top}>
+			<div className={styles.HomeHeader__top}>
 				<motion.div
-					className={styles.header__nav}
+					className={styles.HomeHeader__nav}
 					variants={logoVariants}
 					whileHover={{
 						scale: 1.05,
@@ -312,7 +312,7 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 					</motion.div>
 				</motion.div>
 				<motion.nav
-					className={styles.header__navigation}
+					className={styles.HomeHeader__navigation}
 					variants={navigationVariants}
 					initial="hidden"
 					animate="visible"
@@ -321,11 +321,11 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 						opacity: navOpacity,
 					}}
 				>
-					<ul className={styles.navigation__list}>
+					<ul className={styles.HomeHeader__list}>
 						{headerLinks.map((link, index) => (
 							<motion.li
 								key={link.title}
-								className={styles.navigation__item}
+								className={styles.HomeHeader__item}
 								custom={index}
 								variants={navItemVariants}
 								onHoverStart={() => setActiveNavItem(link.title)}
@@ -333,7 +333,7 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 							>
 								<motion.a
 									href={link.href}
-									className={styles.navigation__link}
+									className={styles.HomeHeader__link}
 									onClick={(e) => handleNavClick(link.href, e as any)}
 									whileHover={{
 										y: -2,
@@ -343,7 +343,7 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 								>
 									{link.title}
 									<motion.span
-										className={styles.navigation__underline}
+										className={styles.HomeHeader__underline}
 										initial={{ scaleX: 0 }}
 										animate={{
 											scaleX: activeNavItem === link.title ? 1 : 0,
@@ -356,7 +356,7 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 					</ul>
 				</motion.nav>
 				<motion.div
-					className={styles.navigation__cta}
+					className={styles.HomeHeader__cta}
 					initial={{ opacity: 0, y: 10 }}
 					animate={{ opacity: 1, y: 0 }}
 					transition={{
@@ -372,12 +372,12 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 					<ColorMaskButton
 						text="Book a Call"
 						href="/contact"
-						className={styles.navigation__button}
+						className={styles.HomeHeader__button}
 					/>
 				</motion.div>
 			</div>
 
-			<div id="home" className={styles.portfolio__header}>
+			<div id="home" className={styles.HomeHeader__header}>
 				<motion.svg
 					width="1186"
 					height="1186"
@@ -417,7 +417,7 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 					</defs>
 				</motion.svg>
 				<motion.div
-					className={styles.header__description}
+					className={styles.HomeHeader__description}
 					variants={contentVariants}
 					style={{
 						y: contentY,
@@ -426,11 +426,11 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 					}}
 				>
 					<motion.button
-						className={styles.header__title}
+						className={styles.HomeHeader__title}
 						onMouseEnter={() => setIsHovered(true)}
 						onMouseLeave={() => setIsHovered(false)}
 					>
-						<h1 className={styles.animatedTitle}>
+						<h1 className={styles.HomeHeader__animatedTitle}>
 							<MaskText phrases={[data.items[0]?.title ?? '']} delay={0.75} />
 							<MaskText
 								phrases={[data.items[0]?.subTitle ?? '']}

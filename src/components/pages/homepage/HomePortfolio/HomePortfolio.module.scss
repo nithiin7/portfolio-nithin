@@ -10,13 +10,13 @@
 	@media (max-width: #{$md}) {
 		padding: 3rem 1rem;
 	}
-	.portfolio__header {
+	&__header {
 		margin-bottom: 5rem;
 		@media (max-width: #{$md}) {
 			margin-bottom: 3rem;
 		}
 	}
-	.portfolio__title {
+	&__title {
 		font-size: clamp(3rem, 8vw, 8rem);
 		font-weight: 700;
 		letter-spacing: -0.02em;
@@ -27,14 +27,14 @@
 			font-size: clamp(2rem, 12vw, 4rem);
 		}
 	}
-	.portfolio__container {
+	&__container {
 		position: relative;
 		min-height: rem(600);
 		@media (max-width: #{$md}) {
 			min-height: rem(400);
 		}
 	}
-	.portfolio__list {
+	&__list {
 		display: flex;
 		flex-direction: column;
 	}

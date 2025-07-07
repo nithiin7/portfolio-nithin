@@ -113,10 +113,10 @@ const ContactForm: FC<ContactFormProps> = ({ className = '' }) => {
 	};
 
 	return (
-		<div className={`${styles.ContactForm}  ${className}`}>
+		<div className={`${styles.ContactForm} ${className}`}>
 			{formSent ? (
 				<motion.div
-					className={styles.contact__success}
+					className={styles.ContactForm__success}
 					aria-hidden={!formSent}
 					variants={animate}
 					initial={formSent ? 'hidden' : 'visible'}
@@ -150,9 +150,9 @@ const ContactForm: FC<ContactFormProps> = ({ className = '' }) => {
 					</p>
 				</motion.div>
 			) : (
-				<div className={styles.contact__container}>
+				<div className={styles.ContactForm__container}>
 					<form
-						className={styles.contact__form}
+						className={styles.ContactForm__form}
 						ref={form}
 						onSubmit={handleSubmit(onSubmit)}
 					>
@@ -209,13 +209,13 @@ const ContactForm: FC<ContactFormProps> = ({ className = '' }) => {
 						</fieldset>
 						<button
 							type="submit"
-							className={styles.contact__button}
+							className={styles.ContactForm__button}
 							aria-label="Submit"
 							disabled={isSubmitting}
 						>
-							<motion.div className={styles.contact__slider}>
-								<div className={styles.contact__el}>
-									<div className={styles.contact__PerspectiveText}>
+							<motion.div className={styles.ContactForm__slider}>
+								<div className={styles.ContactForm__el}>
+									<div className={styles.ContactForm__PerspectiveText}>
 										<p>{isSubmitting ? 'Sending...' : "Let's Do it"}</p>
 										<p>{isSubmitting ? 'Sending...' : "Let's Do it"}</p>
 									</div>
@@ -225,13 +225,13 @@ const ContactForm: FC<ContactFormProps> = ({ className = '' }) => {
 					</form>
 				</div>
 			)}
-			<div className={styles.contact__socials}>
-				<div className={styles.contact__options}>
+			<div className={styles.ContactForm__socials}>
+				<div className={styles.ContactForm__options}>
 					<h3>FURTHER ENQUIRIES OR COLLABORATION</h3>
 					{contactOptions.map((option, index) => (
 						<div
 							key={`${option.subtitle}-${index}`}
-							className={styles.contact__link}
+							className={styles.ContactForm__link}
 						>
 							<Link href={option.link} title={option.subtitle}>
 								{option.subtitle}

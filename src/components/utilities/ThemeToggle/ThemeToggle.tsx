@@ -25,7 +25,7 @@ const ThemeToggle = ({
 
 	return (
 		<motion.button
-			className={`${styles['theme-toggle']} ${className}`}
+			className={`${styles.ThemeToggle} ${className}`}
 			onClick={toggleTheme}
 			whileHover={{ scale: 1.05 }}
 			whileTap={{ scale: 0.95 }}
@@ -33,7 +33,7 @@ const ThemeToggle = ({
 			aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
 		>
 			<motion.div
-				className={styles['theme-toggle__container']}
+				className={styles.ThemeToggle__container}
 				animate={{ rotate: theme === 'dark' ? 180 : 0 }}
 				transition={{ duration: 0.5, ease: 'easeInOut' }}
 			>
@@ -43,7 +43,7 @@ const ThemeToggle = ({
 					viewBox="0 0 24 24"
 					fill="none"
 					xmlns="http://www.w3.org/2000/svg"
-					className={styles['theme-toggle__sun']}
+					className={styles.ThemeToggle__sun}
 					animate={{
 						opacity: theme === 'light' ? 1 : 0,
 						scale: theme === 'light' ? 1 : 0.5,
@@ -65,7 +65,7 @@ const ThemeToggle = ({
 					viewBox="0 0 24 24"
 					fill="none"
 					xmlns="http://www.w3.org/2000/svg"
-					className={styles['theme-toggle__moon']}
+					className={styles.ThemeToggle__moon}
 					animate={{
 						opacity: theme === 'dark' ? 1 : 0,
 						scale: theme === 'dark' ? 1 : 0.5,
@@ -77,7 +77,7 @@ const ThemeToggle = ({
 				</motion.svg>
 			</motion.div>
 			<motion.div
-				className={styles['theme-toggle__background']}
+				className={styles.ThemeToggle__background}
 				animate={{
 					scale: theme === 'light' ? 1.2 : 1.0,
 					opacity: 0.8,

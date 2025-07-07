@@ -22,7 +22,7 @@
 		pointer-events: none;
 		z-index: 1;
 	}
-	.header__nav {
+	&__nav {
 		margin-top: rem(15);
 		svg {
 			height: rem(75);
@@ -34,21 +34,21 @@
 			}
 		}
 	}
-	.header__navigation {
+	&__navigation {
 		pointer-events: auto;
 		cursor: auto;
 		@media (max-width: 599px) {
 			display: none;
 		}
 	}
-	.header__top {
+	&__top {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		width: 100%;
 		padding: 0 rem(15);
 	}
-	.navigation__list {
+	&__list {
 		display: flex;
 		align-items: center;
 		gap: rem(8);
@@ -59,10 +59,10 @@
 			gap: rem(16);
 		}
 	}
-	.navigation__item {
+	&__item {
 		position: relative;
 	}
-	.navigation__link {
+	&__link {
 		position: relative;
 		color: $color-text-dark;
 		text-decoration: none;
@@ -88,7 +88,7 @@
 			transform: scale(0.95);
 		}
 	}
-	.navigation__underline {
+	&__underline {
 		position: absolute;
 		bottom: rem(4);
 		left: rem(12);
@@ -103,13 +103,13 @@
 			right: rem(16);
 		}
 	}
-	.navigation__cta {
+	&__cta {
 		margin-left: rem(8);
 		@media #{$md} {
 			margin-left: rem(16);
 		}
 	}
-	.navigation__button {
+	&__button {
 		font-size: rem(14) !important;
 		padding: rem(8) rem(16) !important;
 		@media #{$md} {
@@ -117,7 +117,7 @@
 			padding: rem(10) rem(20) !important;
 		}
 	}
-	.portfolio__header {
+	&__header {
 		height: calc(100vh - 122px);
 		width: 100%;
 		position: relative;
@@ -132,71 +132,6 @@
 			align-items: center;
 			text-align: center;
 		}
-		.header__description {
-			position: relative;
-			width: 100%;
-			z-index: 10;
-			opacity: 1;
-			transform: translateY(0%) translateZ(rem(0));
-			display: flex;
-			flex-direction: column;
-			row-gap: 2rem;
-			color: $color-text-dark;
-			padding-bottom: rem(60);
-			text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-			text-align: center;
-			align-items: center;
-			@media #{$md} {
-				padding-bottom: 0;
-			}
-			button {
-				background: none;
-				border: none;
-				cursor: pointer;
-				padding: 0;
-				margin: 0;
-				outline: none;
-				appearance: none;
-				color: $color-text-dark;
-				position: relative;
-			}
-			h1 {
-				font-size: clamp(3rem, -0.057rem + 10.0714vw, 10.25rem);
-				line-height: 92.5%;
-				font-weight: 800;
-				white-space: normal;
-				font-family: 'Host Grotesk', sans-serif;
-				@media #{$md} {
-					white-space: nowrap;
-				}
-			}
-			p {
-				max-width: 38ch;
-				text-wrap: pretty;
-				line-height: 130%;
-				font-size: 1.125rem;
-				font-weight: 400;
-				color: $color-text;
-				position: relative;
-				&::after {
-					content: '';
-					position: absolute;
-					bottom: -1rem;
-					left: 0;
-					width: 0;
-					height: 2px;
-					background: linear-gradient(90deg, $color-text 0%, transparent 100%);
-					transition: width 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-					animation: underlineReveal 2s ease-out 1.5s forwards;
-				}
-				@media #{$md} {
-					&::after {
-						left: 50%;
-						transform: translateX(-50%);
-					}
-				}
-			}
-		}
 		svg {
 			position: absolute;
 			top: 50%;
@@ -205,6 +140,71 @@
 			pointer-events: none;
 			filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.1));
 			animation: float 6s ease-in-out infinite;
+		}
+	}
+	&__description {
+		position: relative;
+		width: 100%;
+		z-index: 10;
+		opacity: 1;
+		transform: translateY(0%) translateZ(rem(0));
+		display: flex;
+		flex-direction: column;
+		row-gap: 2rem;
+		color: $color-text-dark;
+		padding-bottom: rem(60);
+		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		text-align: center;
+		align-items: center;
+		@media #{$md} {
+			padding-bottom: 0;
+		}
+		button {
+			background: none;
+			border: none;
+			cursor: pointer;
+			padding: 0;
+			margin: 0;
+			outline: none;
+			appearance: none;
+			color: $color-text-dark;
+			position: relative;
+		}
+		h1 {
+			font-size: clamp(3rem, -0.057rem + 10.0714vw, 10.25rem);
+			line-height: 92.5%;
+			font-weight: 800;
+			white-space: normal;
+			font-family: 'Host Grotesk', sans-serif;
+			@media #{$md} {
+				white-space: nowrap;
+			}
+		}
+		p {
+			max-width: 38ch;
+			text-wrap: pretty;
+			line-height: 130%;
+			font-size: 1.125rem;
+			font-weight: 400;
+			color: $color-text;
+			position: relative;
+			&::after {
+				content: '';
+				position: absolute;
+				bottom: -1rem;
+				left: 0;
+				width: 0;
+				height: 2px;
+				background: linear-gradient(90deg, $color-text 0%, transparent 100%);
+				transition: width 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+				animation: underlineReveal 2s ease-out 1.5s forwards;
+			}
+			@media #{$md} {
+				&::after {
+					left: 50%;
+					transform: translateX(-50%);
+				}
+			}
 		}
 	}
 }

@@ -1,7 +1,7 @@
 @use 'styles/shared/mixin' as *;
 @use 'styles/shared/variables' as *;
 
-.button {
+.Button {
 	width: max-content;
 	display: inline-block;
 	background: $color-secondary;
@@ -19,7 +19,7 @@
 	font-weight: 700;
 	overflow: hidden;
 	&:hover {
-		.button__PerspectiveText {
+		.Button__PerspectiveText {
 			transform: rotateX(90deg);
 			p {
 				&:nth-of-type(1) {
@@ -32,12 +32,12 @@
 			}
 		}
 	}
-	.button__slider {
+	.Button__slider {
 		position: relative;
 		height: 100%;
 		width: 100%;
 	}
-	.button__el {
+	.Button__el {
 		height: 100%;
 		width: 100%;
 		&:nth-of-type(2) {
@@ -45,7 +45,7 @@
 			top: 100%;
 		}
 	}
-	.button__PerspectiveText {
+	.Button__PerspectiveText {
 		width: 100%;
 		height: 100%;
 		display: flex;

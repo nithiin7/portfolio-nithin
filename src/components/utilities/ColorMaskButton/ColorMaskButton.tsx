@@ -30,8 +30,8 @@ const ColorMaskButton: FC<ColorMaskButtonProps> = ({
 	return (
 		<motion.a
 			className={[
-				styles['color-mask-button'],
-				styles[`color-mask-button--${variant}`],
+				styles.ColorMaskButton,
+				styles[`ColorMaskButton--${variant}`],
 				className,
 			].join(' ')}
 			onMouseEnter={() => setIsHovered(true)}
@@ -43,9 +43,9 @@ const ColorMaskButton: FC<ColorMaskButtonProps> = ({
 			target="_blank"
 			rel="noopener noreferrer"
 		>
-			<div className={styles['color-mask-button__content']}>
+			<div className={styles.ColorMaskButton__content}>
 				<motion.div
-					className={styles['color-mask-button__text']}
+					className={styles.ColorMaskButton__text}
 					animate={{
 						y: isHovered ? -30 : 0,
 						opacity: isHovered ? 0 : 1,
@@ -56,8 +56,8 @@ const ColorMaskButton: FC<ColorMaskButtonProps> = ({
 				</motion.div>
 				<motion.div
 					className={[
-						styles['color-mask-button__text'],
-						styles['color-mask-button__textDuplicate'],
+						styles.ColorMaskButton__text,
+						styles.ColorMaskButton__textDuplicate,
 					].join(' ')}
 					animate={{
 						y: isHovered ? 0 : 30,
@@ -69,7 +69,7 @@ const ColorMaskButton: FC<ColorMaskButtonProps> = ({
 				</motion.div>
 			</div>
 			<motion.div
-				className={styles['color-mask-button__arrow']}
+				className={styles.ColorMaskButton__arrow}
 				animate={{
 					x: isHovered ? 6 : 0,
 					rotate: isHovered ? 0 : 0,
@@ -93,7 +93,7 @@ const ColorMaskButton: FC<ColorMaskButtonProps> = ({
 				</svg>
 			</motion.div>
 			<motion.div
-				className={styles['color-mask-button__background']}
+				className={styles.ColorMaskButton__background}
 				animate={{
 					scale: isHovered ? 1 : 0,
 					opacity: isHovered ? 1 : 0,

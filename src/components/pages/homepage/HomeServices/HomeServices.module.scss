@@ -9,7 +9,7 @@
 	@media #{$md} {
 		padding: 5% 4%;
 	}
-	.services__header {
+	&__header {
 		display: flex;
 		color: $color-grey-pale;
 		flex-direction: column;

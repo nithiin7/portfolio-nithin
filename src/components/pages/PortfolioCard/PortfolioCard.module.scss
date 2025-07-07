@@ -1,7 +1,7 @@
 @use 'styles/shared/mixin' as *;
 @use 'styles/shared/variables' as *;
 
-.portfolio__item {
+.PortfolioCard__item {
 	border-bottom: rem(1) solid $color-border;
 	padding: 2rem 1rem;
 	text-decoration: none;

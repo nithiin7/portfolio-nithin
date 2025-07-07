@@ -45,7 +45,7 @@ const HomeServices: FC<HomeServicesProps> = ({
 			}}
 		>
 			<section id="services">
-				<div className={styles.services__header}>
+				<div className={styles.HomeServices__header}>
 					<h2>
 						<MaskText phrases={[data.title]} />
 					</h2>

@@ -1,7 +1,7 @@
 @use 'styles/shared/mixin' as *;
 @use 'styles/shared/variables' as *;
 
-.service-card {
+.ServiceCard {
 	position: sticky;
 	background-color: $color-black;
 	margin-top: rem(40);

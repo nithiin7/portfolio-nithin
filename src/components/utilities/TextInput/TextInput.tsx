@@ -61,7 +61,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
 				/>
 				<div className={styles.TextInput__errors}>
 					{errors.length > 0 && (
-						<div className={styles['TextInput__form-errors']}>
+						<div className={styles.TextInput__formErrors}>
 							{errors.map((error, index) => (
 								<p key={`${error}-${index}`}>{error}</p>
 							))}

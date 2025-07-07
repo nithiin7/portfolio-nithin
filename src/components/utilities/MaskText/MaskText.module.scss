@@ -2,7 +2,7 @@
 @use 'styles/shared/variables' as *;
 
 .MaskText {
-	.MaskText__lineMask {
+	&__lineMask {
 		overflow: hidden;
 		span {
 			display: inline-block;

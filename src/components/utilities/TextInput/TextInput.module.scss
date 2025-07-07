@@ -2,7 +2,7 @@
 @use 'styles/shared/variables' as *;
 
 .TextInput {
-	.TextInput__input {
+	&__input {
 		width: 100%;
 		border: rem(2) solid $color-primary-variant;
 		resize: none;
@@ -25,7 +25,7 @@
 			font-size: 1rem;
 		}
 	}
-	.TextInput__label {
+	&__label {
 		label {
 			font-size: 1rem;
 			font-weight: 500;
@@ -38,10 +38,10 @@
 			padding-left: 0.25rem;
 		}
 	}
-	.TextInput__errors {
+	&__errors {
 		height: rem(20);
 	}
-	.TextInput__form-errors {
+	&__formErrors {
 		color: $color-warning;
 		font-size: rem(12);
 		margin-left: rem(4);
