@@ -6,6 +6,10 @@ import { useEffect, useRef, useState } from 'react';
 import MenuBackground from 'assets/images/menu-bg.svg';
 import { ColorMaskButton, ThemeToggle } from 'components/utilities';
 import { links, socialsMenu } from 'constants/index';
+import {
+	useKeyboardNavigation,
+	useFocusTrap,
+} from 'hooks/useKeyboardNavigation';
 
 import styles from './Menu.module.scss';
 
@@ -31,6 +35,14 @@ const Menu = ({
 	const [hidden, setHidden] = useState<boolean>(false);
 
 	const prevScrollYRef = useRef(0);
+
+	// Keyboard navigation setup
+	const menuRef = useKeyboardNavigation({
+		onEscape: () => setIsMenuActive(false),
+		enabled: isMenuActive,
+	});
+
+	const menuContainerRef = useFocusTrap(isMenuActive);
 
 	/**
 	 * Handles smooth scrolling to sections when navigation links are clicked.
@@ -252,6 +264,7 @@ const Menu = ({
 				)}
 			</AnimatePresence>
 			<nav
+				ref={menuRef}
 				className={[styles.menu, styles[`menu__${variant}`], className].join(
 					' '
 				)}
@@ -296,6 +309,7 @@ const Menu = ({
 						<AnimatePresence>
 							{isMenuActive && (
 								<motion.div
+									ref={menuContainerRef}
 									id="menu-panel"
 									role="dialog"
 									aria-modal="true"
@@ -306,7 +320,9 @@ const Menu = ({
 									initial={'closed'}
 									exit={'closed'}
 								>
-									<ThemeToggle className={styles['menu__toggle-inmenu']} />
+									<div className={styles.menu__controls}>
+										<ThemeToggle className={styles['menu__toggle-inmenu']} />
+									</div>
 									<motion.div
 										className={styles.menu__background}
 										variants={backgroundVariants}

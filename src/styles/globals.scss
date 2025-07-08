@@ -1,5 +1,112 @@
 @use './shared' as *;
 
+[data-high-contrast='true'] {
+	body,
+	div,
+	section,
+	article,
+	header,
+	footer,
+	nav,
+	aside {
+		background: $color-black !important;
+		color: $color-white !important;
+		border-color: $color-white !important;
+	}
+	button,
+	a,
+	input,
+	textarea {
+		background: $color-white !important;
+		color: $color-black !important;
+		border: 2px solid $color-white !important;
+
+		&:hover,
+		&:focus {
+			background: $color-black !important;
+			color: $color-white !important;
+		}
+	}
+	button:focus-visible,
+	a:focus-visible,
+	input:focus-visible,
+	textarea:focus-visible,
+	[tabindex]:focus-visible {
+		outline: 3px solid $color-white !important;
+		outline-offset: 2px !important;
+	}
+}
+
+[data-reduced-motion='true'] {
+	body,
+	div,
+	section,
+	article,
+	header,
+	footer,
+	nav,
+	aside,
+	button,
+	a,
+	input,
+	textarea {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+
+	html {
+		scroll-behavior: auto !important;
+	}
+}
+
+[data-keyboard-navigation='true'] {
+	button:focus-visible,
+	a:focus-visible,
+	input:focus-visible,
+	textarea:focus-visible,
+	[tabindex]:focus-visible {
+		outline: 2px solid $color-secondary !important;
+		outline-offset: 2px !important;
+	}
+}
+
+[data-high-contrast='true'] {
+	.AccessibilityToggle {
+		background: $color-black;
+		border: 2px solid $color-white;
+
+		&__button {
+			border: 2px solid $color-white;
+			color: $color-white;
+			background: $color-black;
+
+			&:hover {
+				background: $color-white;
+				color: $color-black;
+			}
+
+			&Active {
+				background: $color-white;
+				color: $color-black;
+				border-color: $color-white;
+			}
+		}
+	}
+}
+
+[data-reduced-motion='true'] {
+	.AccessibilityToggle {
+		&__button {
+			transition: none;
+
+			&:hover {
+				transform: none;
+			}
+		}
+	}
+}
+
 .grainy__filter {
 	pointer-events: none;
 	position: absolute;

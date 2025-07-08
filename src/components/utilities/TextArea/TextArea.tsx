@@ -56,12 +56,20 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
 					onChange={onChange}
 					onBlur={onBlur}
 					placeholder={placeholder}
-					aria-label={value}
+					aria-label={label || placeholder}
+					aria-describedby={errors.length > 0 ? `${name}-errors` : undefined}
+					aria-invalid={errors.length > 0}
 					disabled={disabled}
+					required={label.includes('*')}
 				/>
 				<div className={styles.TextArea__errors}>
 					{errors.length > 0 && (
-						<div className={styles.TextArea__formErrors}>
+						<div
+							className={styles.TextArea__formErrors}
+							id={`${name}-errors`}
+							role="alert"
+							aria-live="polite"
+						>
 							{errors.map((error, index) => (
 								<p key={`${error}-${index}`}>{error}</p>
 							))}
