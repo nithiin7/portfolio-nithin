@@ -1,0 +1,250 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.container {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 2rem 1rem;
+	min-height: 100vh;
+	@media (max-width: #{$md}) {
+		padding: 1rem;
+	}
+}
+
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 3rem;
+	padding-bottom: 1rem;
+	border-bottom: rem(1) solid $color-border;
+	@media (max-width: #{$md}) {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 1rem;
+		margin-bottom: 2rem;
+	}
+}
+
+.backButton {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	color: $color-text;
+	text-decoration: none;
+	font-weight: 500;
+	transition: all 0.3s ease;
+	padding: 0.5rem 1rem;
+	border-radius: 0.5rem;
+
+	&:hover {
+		color: $color-title-hover;
+		background-color: $color-hover-bg;
+		transform: translateX(-5px);
+	}
+
+	span {
+		font-size: 1rem;
+	}
+}
+
+.projectNumber {
+	color: $color-number;
+	font-size: 1.125rem;
+	font-family: 'Courier New', monospace;
+	font-weight: 500;
+	transition: color 0.3s ease;
+
+	@media (max-width: #{$md}) {
+		font-size: 1rem;
+	}
+}
+
+.content {
+	display: grid;
+	grid-template-columns: 2fr 1fr;
+	gap: 3rem;
+
+	@media (max-width: #{$lg}) {
+		grid-template-columns: 1fr;
+		gap: 2rem;
+	}
+}
+
+.mainSection {
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+}
+
+.projectHeader {
+	margin-bottom: 1rem;
+}
+
+.projectTitle {
+	font-size: clamp(2rem, 6vw, 4rem);
+	font-weight: 700;
+	margin: 0 0 0.5rem 0;
+	line-height: 1.1;
+	color: $color-text-dark;
+
+	@media (max-width: #{$md}) {
+		font-size: clamp(1.5rem, 8vw, 2.5rem);
+	}
+}
+
+.projectYear {
+	color: $color-year;
+	font-size: 1.125rem;
+	margin: 0;
+	transition: color 0.3s ease;
+
+	@media (max-width: #{$md}) {
+		font-size: 1rem;
+	}
+}
+
+.projectImage {
+	width: 100%;
+	border-radius: 1rem;
+	overflow: hidden;
+	box-shadow: 0 4px 20px $color-shadow;
+	transition: all 0.3s ease;
+
+	&:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 8px 30px $color-shadow-hover;
+	}
+
+	img {
+		width: 100%;
+		height: auto;
+		display: block;
+	}
+}
+
+.projectDescription {
+	p {
+		font-size: 1.125rem;
+		line-height: 1.7;
+		color: $color-text;
+		margin: 0;
+
+		@media (max-width: #{$md}) {
+			font-size: 1rem;
+		}
+	}
+}
+
+.projectLinks {
+	display: flex;
+	gap: 1rem;
+	flex-wrap: wrap;
+
+	@media (max-width: #{$md}) {
+		flex-direction: column;
+	}
+}
+
+.projectLink {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.75rem 1.5rem;
+	background-color: $color-tech-bg;
+	color: $color-tech-text;
+	text-decoration: none;
+	border-radius: 2rem;
+	font-weight: 500;
+	transition: all 0.3s ease;
+	font-size: 0.875rem;
+
+	&:hover {
+		background-color: $color-tech-bg-hover;
+		transform: translateY(-2px);
+		box-shadow: 0 4px 12px $color-shadow;
+	}
+
+	@media (max-width: #{$md}) {
+		padding: 0.625rem 1.25rem;
+		font-size: 0.8rem;
+	}
+}
+
+.sidebar {
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+}
+
+.techSection,
+.featuresSection {
+	background-color: $color-hover-bg;
+	padding: 1.5rem;
+	transition: all 0.3s ease;
+	@media (max-width: #{$md}) {
+		padding: 1rem;
+	}
+}
+
+.sectionTitle {
+	font-size: 1.25rem;
+	font-weight: 600;
+	margin: 0 0 1rem 0;
+	color: $color-text-dark;
+	@media (max-width: #{$md}) {
+		font-size: 1.125rem;
+	}
+}
+
+.techTags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}
+
+.techTag {
+	padding: 0.5rem 1rem;
+	background-color: $color-tech-bg;
+	color: $color-tech-text;
+	border-radius: 2rem;
+	font-size: 0.875rem;
+	font-weight: 500;
+	transition: all 0.3s ease;
+	white-space: nowrap;
+
+	&:hover {
+		background-color: $color-tech-bg-hover;
+		transform: translateY(-2px);
+	}
+
+	@media (max-width: #{$md}) {
+		padding: 0.375rem 0.75rem;
+		font-size: 0.8rem;
+	}
+}
+
+.featuresList {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+}
+
+.featureItem {
+	position: relative;
+	padding-left: 1.5rem;
+	color: $color-text;
+	line-height: 1.5;
+
+	&::before {
+		content: '•';
+		position: absolute;
+		left: 0;
+		color: $color-text-dark;
+		font-weight: bold;
+		font-size: 1.2em;
+	}
+}

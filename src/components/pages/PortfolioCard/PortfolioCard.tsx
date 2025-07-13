@@ -35,7 +35,7 @@ const PortfolioCard: FC<PortfolioCardProps> = ({
 }) => {
 	return (
 		<Link
-			href={project.demo ?? '#'}
+			href={`/portfolio/${index + 1}`}
 			className={styles.PortfolioCard__item}
 			onMouseEnter={() => {
 				setModal({ active: true, index });
@@ -43,8 +43,6 @@ const PortfolioCard: FC<PortfolioCardProps> = ({
 			onMouseLeave={() => {
 				setModal({ active: false, index });
 			}}
-			target="_blank"
-			rel="noopener noreferrer"
 		>
 			<div className={styles.PortfolioCard__item_content}>
 				<div className={styles.PortfolioCard__item_left}>

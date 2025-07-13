@@ -1,0 +1,211 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.PortfolioGallery {
+	margin: 2rem 0;
+	&__title {
+		font-size: 1.5rem;
+		font-weight: 600;
+		margin: 0 0 1.5rem 0;
+		color: $color-text-dark;
+		@media (max-width: #{$md}) {
+			font-size: 1.25rem;
+		}
+	}
+	&__gallery {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 1.5rem;
+		margin-bottom: 2rem;
+		@media (max-width: #{$md}) {
+			grid-template-columns: 1fr;
+			gap: 1rem;
+		}
+	}
+	&__galleryItem {
+		background-color: $color-hover-bg;
+		border-radius: 1rem;
+		overflow: hidden;
+		border: rem(1) solid $color-border;
+		transition: all 0.3s ease;
+		&:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 8px 30px $color-shadow-hover;
+		}
+	}
+	&__galleryImageContainer {
+		position: relative;
+		cursor: pointer;
+		overflow: hidden;
+		width: 100%;
+	}
+	&__galleryImage {
+		width: 100%;
+		height: 250px;
+		object-fit: cover;
+		display: block;
+		transition: transform 0.3s ease;
+		@media (max-width: #{$md}) {
+			height: 200px;
+		}
+	}
+	&__galleryOverlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: rgba(0, 0, 0, 0.7);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		opacity: 0;
+		transition: opacity 0.3s ease;
+	}
+	&__galleryOverlayText {
+		color: white;
+		font-size: 0.875rem;
+		font-weight: 500;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+	}
+	&__galleryCaption {
+		padding: 1rem;
+		margin: 0;
+		font-size: 0.875rem;
+		color: $color-text;
+		line-height: 1.4;
+		text-align: center;
+		background-color: rgba(0, 0, 0, 0.02);
+		@media (max-width: #{$md}) {
+			padding: 0.75rem;
+			font-size: 0.8rem;
+		}
+	}
+	&__lightbox {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: rgba(0, 0, 0, 0.9);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 1000;
+		backdrop-filter: blur(10px);
+	}
+	&__lightboxContent {
+		position: relative;
+		max-width: 90vw;
+		max-height: 90vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	&__lightboxClose {
+		position: absolute;
+		top: -50px;
+		right: 0;
+		background: none;
+		border: none;
+		color: white;
+		cursor: pointer;
+		padding: 0.5rem;
+		border-radius: 50%;
+		transition: all 0.3s ease;
+		z-index: 1001;
+		&:hover {
+			background: rgba(255, 255, 255, 0.1);
+			transform: scale(1.1);
+		}
+		@media (max-width: #{$md}) {
+			top: -40px;
+		}
+	}
+	&__lightboxNav {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		background: rgba(255, 255, 255, 0.1);
+		border: none;
+		color: white;
+		cursor: pointer;
+		padding: 1rem;
+		border-radius: 50%;
+		transition: all 0.3s ease;
+		z-index: 1001;
+		&:hover {
+			background: rgba(255, 255, 255, 0.2);
+			transform: translateY(-50%) scale(1.1);
+		}
+		&:first-of-type {
+			left: -60px;
+		}
+		&:last-of-type {
+			right: -60px;
+		}
+		@media (max-width: #{$md}) {
+			padding: 0.75rem;
+			&:first-of-type {
+				left: -50px;
+			}
+			&:last-of-type {
+				right: -50px;
+			}
+		}
+	}
+	&__lightboxImageContainer {
+		position: relative;
+		max-width: 100%;
+		max-height: 100%;
+	}
+	&__lightboxImage {
+		max-width: 100%;
+		max-height: 80vh;
+		object-fit: contain;
+		border-radius: 0.5rem;
+		box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+	}
+	&__lightboxCaption {
+		position: absolute;
+		bottom: -60px;
+		left: 50%;
+		transform: translateX(-50%);
+		color: white;
+		font-size: 1rem;
+		text-align: center;
+		max-width: 80%;
+		margin: 0;
+		line-height: 1.4;
+
+		@media (max-width: #{$md}) {
+			font-size: 0.875rem;
+			bottom: -50px;
+		}
+	}
+	&__lightboxCounter {
+		position: absolute;
+		bottom: -80px;
+		left: 50%;
+		transform: translateX(-50%);
+		color: rgba(255, 255, 255, 0.7);
+		font-size: 0.875rem;
+		font-weight: 500;
+
+		@media (max-width: #{$md}) {
+			bottom: -70px;
+			font-size: 0.8rem;
+		}
+	}
+}
+
+.PortfolioGallery__galleryImageContainer:hover {
+	.PortfolioGallery__galleryImage {
+		transform: scale(1.05);
+	}
+
+	.PortfolioGallery__galleryOverlay {
+		opacity: 1;
+	}
+}
