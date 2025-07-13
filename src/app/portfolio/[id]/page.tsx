@@ -142,15 +142,16 @@ Built with modern technologies, the application provides an intuitive interface 
 ];
 
 interface PortfolioDetailsPageProps {
-	params: {
+	params: Promise<{
 		id: string;
-	};
+	}>;
 }
 
 export async function generateMetadata({
 	params,
 }: PortfolioDetailsPageProps): Promise<Metadata> {
-	const project = portfolioData.find((p) => p.id === params.id);
+	const { id } = await params;
+	const project = portfolioData.find((p) => p.id === id);
 
 	if (!project) {
 		return {
@@ -164,10 +165,11 @@ export async function generateMetadata({
 	};
 }
 
-export default function PortfolioDetailsPage({
+export default async function PortfolioDetailsPage({
 	params,
 }: PortfolioDetailsPageProps) {
-	const project = portfolioData.find((p) => p.id === params.id);
+	const { id } = await params;
+	const project = portfolioData.find((p) => p.id === id);
 
 	if (!project) {
 		notFound();
