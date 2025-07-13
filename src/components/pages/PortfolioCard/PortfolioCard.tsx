@@ -35,35 +35,35 @@ const PortfolioCard: FC<PortfolioCardProps> = ({
 }) => {
 	return (
 		<Link
-			href={project.demo ?? '#'}
-			className={styles.portfolio__item}
+			href={`/portfolio/${index + 1}`}
+			className={styles.PortfolioCard__item}
 			onMouseEnter={() => {
 				setModal({ active: true, index });
 			}}
 			onMouseLeave={() => {
 				setModal({ active: false, index });
 			}}
-			target="_blank"
-			rel="noopener noreferrer"
 		>
-			<div className={styles.portfolio__item_content}>
-				<div className={styles.portfolio__item_left}>
-					<div className={styles.portfolio__item_number}>
+			<div className={styles.PortfolioCard__item_content}>
+				<div className={styles.PortfolioCard__item_left}>
+					<div className={styles.PortfolioCard__item_number}>
 						{String(index + 1).padStart(2, '0')}
 					</div>
-					<div className={styles.portfolio__item_info}>
-						<h3 className={styles.portfolio__item_title}>{project.title}</h3>
+					<div className={styles.PortfolioCard__item_info}>
+						<h3 className={styles.PortfolioCard__item_title}>
+							{project.title}
+						</h3>
 						{project.year && (
-							<p className={styles.portfolio__item_year}>{project.year}</p>
+							<p className={styles.PortfolioCard__item_year}>{project.year}</p>
 						)}
 					</div>
 				</div>
-				<div className={styles.portfolio__item_right}>
-					<div className={styles.portfolio__item_tech}>
+				<div className={styles.PortfolioCard__item_right}>
+					<div className={styles.PortfolioCard__item_tech}>
 						{project.tech?.map((tech, techIndex) => (
 							<span
 								key={`${tech}-${techIndex}`}
-								className={styles.portfolio__item_tech_tag}
+								className={styles.PortfolioCard__item_tech_tag}
 							>
 								{tech}
 							</span>
@@ -71,7 +71,7 @@ const PortfolioCard: FC<PortfolioCardProps> = ({
 					</div>
 				</div>
 			</div>
-			<div className={styles.portfolio__item_line}></div>
+			<div className={styles.PortfolioCard__item_line}></div>
 		</Link>
 	);
 };

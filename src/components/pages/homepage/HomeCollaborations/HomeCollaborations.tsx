@@ -84,13 +84,13 @@ const HomeCollaborations: FC<HomeCollaborationsProps> = ({
 				<h2>
 					<MaskText phrases={[data.title ?? '']} />
 				</h2>
-				<div className={styles.portfolio__collaborations}>
+				<div className={styles.HomeCollaborations__collaborations}>
 					{logoComponents.map(({ Component, name, url }) => (
 						<Link
 							href={url}
 							target="_blank"
 							rel="noopener noreferrer"
-							className={styles.collaborations__companies}
+							className={styles.HomeCollaborations__companies}
 							key={name}
 						>
 							<Component />

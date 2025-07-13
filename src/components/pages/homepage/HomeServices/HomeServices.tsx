@@ -2,8 +2,8 @@
 import { motion, useScroll, useTransform } from 'motion/react';
 import type { FC } from 'react';
 
-import ServiceCard from 'components/pages/ServiceCard';
-import MaskText from 'components/utilities/MaskText/MaskText';
+import { ServiceCard } from 'components/pages';
+import { MaskText } from 'components/utilities';
 import type { ServiceHeader, ServiceItem } from 'types/service';
 
 import styles from './HomeServices.module.scss';
@@ -45,7 +45,7 @@ const HomeServices: FC<HomeServicesProps> = ({
 			}}
 		>
 			<section id="services">
-				<div className={styles.services__header}>
+				<div className={styles.HomeServices__header}>
 					<h2>
 						<MaskText phrases={[data.title]} />
 					</h2>

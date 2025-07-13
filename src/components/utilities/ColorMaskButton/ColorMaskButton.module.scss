@@ -1,7 +1,7 @@
 @use 'styles/shared/mixin' as *;
 @use 'styles/shared/variables' as *;
 
-.color-mask-button {
+.ColorMaskButton {
 	display: inline-flex;
 	align-items: center;
 	gap: rem(12);
@@ -23,7 +23,7 @@
 		border-color: $color-primary;
 		color: $color-primary;
 		background: $color-secondary;
-		.color-mask-button__background {
+		.ColorMaskButton__background {
 			background: $color-primary;
 		}
 		&:hover {
@@ -33,7 +33,7 @@
 	&--default {
 		border-color: $color-secondary;
 		color: $color-secondary;
-		.color-mask-button__background {
+		.ColorMaskButton__background {
 			background: $color-secondary;
 		}
 		&:hover {

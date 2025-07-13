@@ -4,7 +4,7 @@
 .HomeAbout {
 	background-color: $color-black;
 	padding: 5% 4%;
-	.HomeAbout__container {
+	&__container {
 		position: relative;
 		h2 {
 			margin-bottom: 2rem;
@@ -23,77 +23,73 @@
 				margin-bottom: -2rem;
 			}
 		}
-		.HomeAbout__image-left {
-			display: none;
-			@media #{$md} {
-				opacity: 0.1;
-				transform: translate(-50%, -50%) rotate(0) skewX(0) skewY(0) scaleX(1)
-					scaleY(1);
-				width: 100%;
-				top: 50%;
-				left: 50%;
-				position: absolute;
-				vertical-align: middle;
-			}
-			@media #{$lg} {
-				max-width: 56rem;
-				display: block;
-			}
-		}
-		.HomeAbout__image-right {
-			display: none;
-			@media #{$md} {
-				opacity: 0.1;
-				transform: translate(-50%, -50%) rotate(0) skewX(0) skewY(0) scaleX(1)
-					scaleY(1);
-				width: 100%;
-				top: 50%;
-				left: 50%;
-				position: absolute;
-				vertical-align: middle;
-			}
-			@media #{$lg} {
-				max-width: 48rem;
-				display: block;
-			}
-		}
-		.HomeAbout__image {
-			max-width: 32rem;
-			overflow: hidden;
+	}
+	&__image-left {
+		display: none;
+		@media #{$md} {
+			opacity: 0.1;
+			transform: translate(-50%, -50%) rotate(0) skewX(0) skewY(0) scaleX(1)
+				scaleY(1);
 			width: 100%;
-			margin-left: auto;
-			margin-right: auto;
-			z-index: 0;
-			position: relative;
-			pointer-events: none;
-			img {
-				border-radius: 1rem;
-				margin-left: auto;
-				margin-right: auto;
-				filter: grayscale(100%);
-				object-fit: cover;
-				width: 100%;
-				aspect-ratio: auto;
-				max-width: 100%;
-				height: auto;
-				vertical-align: middle;
-			}
-			.HomeAbout__gradient {
-				border-radius: 1rem;
-				opacity: 0.75;
-				background-image: linear-gradient(
-					to top,
-					$color-black,
-					rgba(8, 8, 7, 0)
-				);
-				width: 100%;
-				height: 100%;
-				top: 0;
-				position: absolute;
-			}
+			top: 50%;
+			left: 50%;
+			position: absolute;
+			vertical-align: middle;
+		}
+		@media #{$lg} {
+			max-width: 56rem;
+			display: block;
 		}
 	}
-	.HomeAbout__description {
+	&__image-right {
+		display: none;
+		@media #{$md} {
+			opacity: 0.1;
+			transform: translate(-50%, -50%) rotate(0) skewX(0) skewY(0) scaleX(1)
+				scaleY(1);
+			width: 100%;
+			top: 50%;
+			left: 50%;
+			position: absolute;
+			vertical-align: middle;
+		}
+		@media #{$lg} {
+			max-width: 48rem;
+			display: block;
+		}
+	}
+	&__image {
+		max-width: 32rem;
+		overflow: hidden;
+		width: 100%;
+		margin-left: auto;
+		margin-right: auto;
+		z-index: 0;
+		position: relative;
+		pointer-events: none;
+		img {
+			border-radius: 1rem;
+			margin-left: auto;
+			margin-right: auto;
+			filter: grayscale(100%);
+			object-fit: cover;
+			width: 100%;
+			aspect-ratio: auto;
+			max-width: 100%;
+			height: auto;
+			vertical-align: middle;
+		}
+		&__gradient {
+			border-radius: 1rem;
+			opacity: 0.75;
+			background-image: linear-gradient(to top, $color-black, rgba(8, 8, 7, 0));
+			width: 100%;
+			height: 100%;
+			top: 0;
+			position: absolute;
+		}
+	}
+	&__description {
 		margin-top: 3rem;
 		font-size: 2rem;
 		color: $color-grey-medium;

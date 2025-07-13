@@ -91,18 +91,18 @@ const PortfolioModal: FC<PortfolioModalProps> = ({ modal, projects }) => {
 				variants={scaleAnimation}
 				initial="initial"
 				animate={active ? 'enter' : 'closed'}
-				className={styles['portfolio-modal']}
+				className={styles.PortfolioModal}
 			>
 				<div
 					style={{
 						transform: `translateY(${index * -100}%)`,
 					}}
-					className={styles['portfolio-modal__floating_image_wrapper']}
+					className={styles.PortfolioModal__floating_image_wrapper}
 				>
 					{projects.map((project, idx) => {
 						return (
 							<div
-								className={styles['portfolio-modal__modal']}
+								className={styles.PortfolioModal__modal}
 								style={{ backgroundColor: project.color || '#f0f0f0' }}
 								key={`modal_${idx}`}
 							>
@@ -122,14 +122,14 @@ const PortfolioModal: FC<PortfolioModalProps> = ({ modal, projects }) => {
 			</motion.div>
 			<motion.div
 				ref={cursor}
-				className={styles['portfolio-modal__cursor']}
+				className={styles.PortfolioModal__cursor}
 				variants={scaleAnimation}
 				initial="initial"
 				animate={active ? 'enter' : 'closed'}
 			/>
 			<motion.div
 				ref={cursorLabel}
-				className={styles['portfolio-modal__cursor_label']}
+				className={styles.PortfolioModal__cursor_label}
 				variants={scaleAnimation}
 				initial="initial"
 				animate={active ? 'enter' : 'closed'}

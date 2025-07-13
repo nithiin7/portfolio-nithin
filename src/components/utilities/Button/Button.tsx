@@ -22,15 +22,15 @@ const Button: FC<ButtonProps> = ({
 }) => {
 	return (
 		<button
-			className={[styles.button, styles[`button__${variant}`], className].join(
+			className={[styles.Button, styles[`Button__${variant}`], className].join(
 				' '
 			)}
 			type="submit"
 			aria-label="submit"
 		>
-			<motion.div className={styles.button__slider}>
-				<div className={styles.button__el}>
-					<div className={styles.button__PerspectiveText}>
+			<motion.div className={styles.Button__slider}>
+				<div className={styles.Button__el}>
+					<div className={styles.Button__PerspectiveText}>
 						<p>{text}</p>
 						<p>{text}</p>
 					</div>

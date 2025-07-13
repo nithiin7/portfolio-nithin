@@ -1,0 +1,61 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.container {
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 2rem 1rem;
+}
+
+.content {
+	text-align: center;
+	max-width: 500px;
+}
+
+.icon {
+	font-size: clamp(4rem, 10vw, 8rem);
+	font-weight: 700;
+	color: $color-accent;
+	margin-bottom: 1rem;
+	font-family: 'Courier New', monospace;
+}
+
+.title {
+	font-size: clamp(1.5rem, 4vw, 2.5rem);
+	font-weight: 600;
+	margin: 0 0 1rem 0;
+	color: $color-text-dark;
+}
+
+.description {
+	font-size: 1.125rem;
+	color: $color-text;
+	margin: 0 0 2rem 0;
+	line-height: 1.6;
+}
+
+.backButton {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	color: $color-text;
+	text-decoration: none;
+	font-weight: 500;
+	transition: all 0.3s ease;
+	padding: 0.75rem 1.5rem;
+	border-radius: 0.5rem;
+	background-color: $color-tech-bg;
+	color: $color-tech-text;
+
+	&:hover {
+		color: $color-title-hover;
+		background-color: $color-tech-bg-hover;
+		transform: translateX(-5px);
+	}
+
+	span {
+		font-size: 1rem;
+	}
+}

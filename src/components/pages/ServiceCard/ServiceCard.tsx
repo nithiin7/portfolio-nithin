@@ -28,12 +28,12 @@ const ServiceCard: FC<ServiceCardProps> = ({
 }) => {
 	return (
 		<div
-			className={styles['service-card']}
+			className={styles.ServiceCard}
 			style={{
 				top: `calc(8vh + ${i * 100}px)`,
 			}}
 		>
-			<div className={styles['service-card__header']}>
+			<div className={styles.ServiceCard__header}>
 				<div>
 					<svg
 						width="80px"
@@ -53,15 +53,15 @@ const ServiceCard: FC<ServiceCardProps> = ({
 				</div>
 				<h3>{heading}</h3>
 			</div>
-			<div className={styles['service-card__body']}>
+			<div className={styles.ServiceCard__body}>
 				<p>{description}</p>
-				<div className={styles['service-card__services']}>
+				<div className={styles.ServiceCard__services}>
 					{list.map((item, index) => (
 						<span key={`${item}-${index}`}>{item}</span>
 					))}
 				</div>
 			</div>
-			<div className={styles['service-card__background']}>
+			<div className={styles.ServiceCard__background}>
 				<span>0{i}.</span>
 			</div>
 		</div>

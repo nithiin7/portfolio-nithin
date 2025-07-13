@@ -3,7 +3,7 @@
 
 .Cursor {
 	display: none;
-	.Cursor__rounded {
+	&__rounded {
 		border-radius: 100%;
 		mix-blend-mode: difference;
 		pointer-events: none;

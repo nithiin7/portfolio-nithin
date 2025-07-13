@@ -1,9 +1,11 @@
-import HomeAbout from 'components/pages/homepage/HomeAbout';
-import HomeCollaborations from 'components/pages/homepage/HomeCollaborations/HomeCollaborations';
-import HomeHeader from 'components/pages/homepage/HomeHeader';
-import HomePortfolio from 'components/pages/homepage/HomePortfolio';
-import HomeServices from 'components/pages/homepage/HomeServices';
-import HomeTestimonial from 'components/pages/homepage/HomeTestimonial';
+import {
+	HomeAbout,
+	HomeCollaborations,
+	HomeHeader,
+	HomePortfolio,
+	HomeServices,
+	HomeTestimonial,
+} from 'components/pages';
 import loadData from 'helpers/contentful';
 
 export default async function Home() {
