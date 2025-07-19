@@ -11,10 +11,17 @@
 		a {
 			pointer-events: all;
 			display: inline-block;
+			padding: rem(10);
+			border-radius: rem(8);
+			transition: all 0.3s ease;
+			cursor: pointer;
+			position: relative;
+			z-index: 100;
 		}
 		svg {
 			height: rem(75);
 			width: rem(75);
+			pointer-events: all;
 			@media #{$md} {
 				height: rem(100);
 				width: rem(100);

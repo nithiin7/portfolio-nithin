@@ -69,7 +69,9 @@ const Footer = (): ReactElement => {
 					</Link>
 				</div>
 			)}
-			<FooterBackground className={styles['footer__bg']} />
+			{pathname === '/' || pathname === '/contact' ? (
+				<FooterBackground className={styles['footer__bg']} />
+			) : null}
 			<div className={styles['footer__column']}>
 				<div className={styles['footer__music']}>
 					<div className={styles['music__spotify']}>
