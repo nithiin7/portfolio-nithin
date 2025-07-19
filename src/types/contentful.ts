@@ -58,3 +58,37 @@ export interface ImageData {
 	title?: string;
 	description?: string;
 }
+
+export interface PortfolioData {
+	portfolioDetailsCollection: PortfolioDetailsCollection;
+}
+
+export interface PortfolioDetailsCollection {
+	__typename: string;
+	items: PortfolioDetails[];
+}
+
+export interface PortfolioDetails {
+	__typename: string;
+	id: number;
+	name: string;
+	slug: string;
+	title: string;
+	description: {
+		json: Document;
+	};
+	features: string[];
+	spotlightImage: {
+		url: string;
+	};
+	galleryCollection: {
+		items: {
+			description: string;
+			url: string;
+		}[];
+	};
+	year: string;
+	demo: string;
+	github: string;
+	tech: string[];
+}
