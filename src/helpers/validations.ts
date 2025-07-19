@@ -14,7 +14,7 @@ export const contactSchema = yup
 		message: yup
 			.string()
 			.required('Message is required')
-			.min(10, 'Message must be at least 10 characters long')
+			.min(2, 'Message must be at least 2 characters long')
 			.max(500, 'Message must be at most 500 characters')
 			.test('no-only-spaces', 'Message cannot contain only spaces', (value) => {
 				return value.trim() !== '';

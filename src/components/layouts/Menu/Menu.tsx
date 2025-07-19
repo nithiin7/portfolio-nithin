@@ -410,6 +410,8 @@ const Menu = ({
 				</motion.div>
 				<motion.div
 					className={styles.menu__book}
+					aria-hidden={hidden}
+					aria-controls="menu"
 					variants={menu}
 					initial={'hidden'}
 					animate={hidden ? 'visible' : 'hidden'}

@@ -1,3 +1,5 @@
+import type { Document } from '@contentful/rich-text-types';
+
 export interface PageData {
 	pageCollection: PageCollection;
 }
@@ -45,6 +47,9 @@ export interface Content {
 	};
 	reviewer: string;
 	institution: string;
+	descriptionLong?: {
+		json: Document;
+	};
 }
 
 export interface ImageData {
@@ -52,4 +57,40 @@ export interface ImageData {
 	url: string;
 	title?: string;
 	description?: string;
+}
+
+export interface PortfolioData {
+	portfolioDetailsCollection: PortfolioDetailsCollection;
+}
+
+export interface PortfolioDetailsCollection {
+	__typename: string;
+	items: PortfolioDetails[];
+}
+
+export interface PortfolioDetails {
+	__typename: string;
+	id: number;
+	name: string;
+	slug: string;
+	title: string;
+	shortDescription: string;
+	keywords: string[];
+	description: {
+		json: Document;
+	};
+	features: string[];
+	spotlightImage: {
+		url: string;
+	};
+	galleryCollection: {
+		items: {
+			description: string;
+			url: string;
+		}[];
+	};
+	year: string;
+	demo: string;
+	github: string;
+	tech: string[];
 }

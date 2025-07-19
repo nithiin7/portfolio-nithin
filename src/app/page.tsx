@@ -6,7 +6,7 @@ import {
 	HomeServices,
 	HomeTestimonial,
 } from 'components/pages';
-import loadData from 'helpers/contentful';
+import { loadData } from 'helpers/contentful';
 
 export default async function Home() {
 	const props = await loadData('home');

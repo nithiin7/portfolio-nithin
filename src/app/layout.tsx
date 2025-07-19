@@ -7,7 +7,7 @@ import 'styles/globals.scss';
 
 import { Footer, Menu } from 'components/layouts';
 import { PerformanceOptimizer } from 'components/utilities';
-import loadData from 'helpers/contentful';
+import { loadData } from 'helpers/contentful';
 
 import Provider from './provider';
 import Curve from './transition';
