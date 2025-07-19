@@ -116,7 +116,6 @@ const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({
 						>
 							<FiX size={24} />
 						</button>
-
 						<div className={styles.PortfolioGallery__lightboxMain}>
 							<button
 								className={styles.PortfolioGallery__lightboxNav}
@@ -124,7 +123,6 @@ const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({
 							>
 								<FiChevronLeft size={24} />
 							</button>
-
 							<div className={styles.PortfolioGallery__lightboxImageContainer}>
 								<Image
 									src={images[currentImageIndex].url}
@@ -139,7 +137,6 @@ const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({
 									</p>
 								)}
 							</div>
-
 							<button
 								className={styles.PortfolioGallery__lightboxNav}
 								onClick={goToNext}
@@ -147,7 +144,6 @@ const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({
 								<FiChevronRight size={24} />
 							</button>
 						</div>
-
 						<div className={styles.PortfolioGallery__lightboxCounter}>
 							{currentImageIndex + 1} / {images.length}
 						</div>

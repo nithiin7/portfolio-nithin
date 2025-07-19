@@ -23,8 +23,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 	}, []);
 
 	useEffect(() => {
+		document.documentElement.setAttribute('data-theme', theme);
 		if (mounted) {
-			document.documentElement.setAttribute('data-theme', theme);
 			localStorage.setItem('theme', theme);
 		}
 	}, [theme, mounted]);

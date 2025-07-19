@@ -376,7 +376,6 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 					/>
 				</motion.div>
 			</div>
-
 			<div id="home" className={styles.HomeHeader__header}>
 				<motion.svg
 					width="1186"
