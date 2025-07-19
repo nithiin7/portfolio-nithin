@@ -41,7 +41,7 @@
 			width: 33%;
 		}
 	}
-	[data-theme='light'] & .collaborations__companies svg {
-		filter: brightness(0) saturate(100%);
+	[data-theme='light'] & .HomeCollaborations__companies svg {
+		filter: brightness(0.5) saturate(0.8);
 	}
 }
