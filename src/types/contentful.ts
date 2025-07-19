@@ -74,6 +74,8 @@ export interface PortfolioDetails {
 	name: string;
 	slug: string;
 	title: string;
+	shortDescription: string;
+	keywords: string[];
 	description: {
 		json: Document;
 	};

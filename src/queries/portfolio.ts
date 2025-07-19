@@ -11,6 +11,8 @@ export const GET_PORTFOLIO = gql`
 				description {
 					json
 				}
+				shortDescription
+				keywords
 				demo
 				github
 				spotlightImage {
