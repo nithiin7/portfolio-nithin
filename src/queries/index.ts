@@ -65,15 +65,6 @@ export const GET_PAGE = gql`
 														url
 													}
 												}
-												... on AboutCard {
-													name
-													icon {
-														url
-													}
-													title
-													description
-													duration
-												}
 												... on PortfolioCard {
 													name
 													id

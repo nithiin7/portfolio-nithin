@@ -1,3 +1,5 @@
+import type { Document } from '@contentful/rich-text-types';
+
 export interface PageData {
 	pageCollection: PageCollection;
 }
@@ -45,6 +47,9 @@ export interface Content {
 	};
 	reviewer: string;
 	institution: string;
+	descriptionLong?: {
+		json: Document;
+	};
 }
 
 export interface ImageData {

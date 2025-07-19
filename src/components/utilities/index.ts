@@ -1,3 +1,8 @@
+export { default as BackgroundShapes } from './BackgroundShapes/BackgroundShapes';
+export type {
+	BackgroundShapeProps,
+	BackgroundShapesProps,
+} from './BackgroundShapes/BackgroundShapes';
 export { default as Button } from './Button/Button';
 export { default as ColorMaskButton } from './ColorMaskButton/ColorMaskButton';
 export { default as Cursor } from './Cursor/Cursor';
