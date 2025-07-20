@@ -1,5 +1,4 @@
 'use client';
-
 import { useLenis } from '@studio-freight/react-lenis';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -101,6 +100,7 @@ const Footer = (): ReactElement => {
 							<ScrollLink
 								to={link.href}
 								href={`#${link.href}`}
+								data-text={link.key}
 								onClick={() => {
 									handleScroll(link.href);
 								}}

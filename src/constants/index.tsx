@@ -92,4 +92,44 @@ export const songs: Song[] = [
 		name: 'Call Me Maybe by Carly Rae',
 		link: 'https://open.spotify.com/track/20I6sIOMTCkB6w7ryavxtO?si=f4543aad21f145ba',
 	},
+	{
+		name: 'Blinding Lights by The Weeknd',
+		link: 'https://open.spotify.com/track/0VjIjW4GlUZAMYd2vXMi3b?si=1c8f8f8f8f8f8f8f',
+	},
+	{
+		name: 'Dance Monkey by Tones and I',
+		link: 'https://open.spotify.com/track/2XU0oxnq2qxCpomAAuJY8K?si=2d9f9f9f9f9f9f9f',
+	},
+	{
+		name: 'Shape of You by Ed Sheeran',
+		link: 'https://open.spotify.com/track/7qiZfU4dY1lWllzX7mPBI3?si=3e0f0f0f0f0f0f0f',
+	},
+	{
+		name: 'Uptown Funk by Mark Ronson ft Bruno Mars',
+		link: 'https://open.spotify.com/track/32OlwWuMpZ6b0aN2RZOeMS?si=4f1f1f1f1f1f1f1f',
+	},
+	{
+		name: 'Despacito by Luis Fonsi ft Daddy Yankee',
+		link: 'https://open.spotify.com/track/6habFhsOp2NvshLv26DqMb?si=5g2f2f2f2f2f2f2f',
+	},
+	{
+		name: 'Closer by The Chainsmokers ft Halsey',
+		link: 'https://open.spotify.com/track/7BKLCZ1jbUBVqRi2FVlTVw?si=6h3f3f3f3f3f3f3f',
+	},
+	{
+		name: 'Cheap Thrills by Sia ft Sean Paul',
+		link: 'https://open.spotify.com/track/3SJpx9QbyoIu3WH8tniyWc?si=7i4f4f4f4f4f4f4f',
+	},
+	{
+		name: "Can't Stop the Feeling! by Justin Timberlake",
+		link: 'https://open.spotify.com/track/3igTxvCN5ip5Td4IhTf4Gi?si=8j5f5f5f5f5f5f5f',
+	},
+	{
+		name: 'Work by Rihanna ft Drake',
+		link: 'https://open.spotify.com/track/14WWzenpaEgQZlqPq2nk4v?si=9k6f6f6f6f6f6f6f',
+	},
+	{
+		name: 'Stressed Out by Twenty One Pilots',
+		link: 'https://open.spotify.com/track/3CRDbSIZ4r5MsZ0YwxuEkn?si=0l7f7f7f7f7f7f7f',
+	},
 ];
