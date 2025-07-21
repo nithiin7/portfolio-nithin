@@ -6,7 +6,7 @@ import 'styles/theme.scss';
 import 'styles/globals.scss';
 
 import { Footer, Menu } from 'components/layouts';
-import { PerformanceOptimizer } from 'components/utilities';
+import { PerformanceOptimizer, ClickSpark } from 'components/utilities';
 import { loadData } from 'helpers/contentful';
 
 import Provider from './provider';
@@ -185,9 +185,17 @@ export default function RootLayout({
 				<PerformanceOptimizer />
 				<Provider>
 					<Curve>
-						<Menu />
-						{children}
-						<Footer />
+						<ClickSpark
+							sparkColor="#6b645c"
+							sparkSize={10}
+							sparkRadius={15}
+							sparkCount={8}
+							duration={400}
+						>
+							<Menu />
+							{children}
+							<Footer />
+						</ClickSpark>
 					</Curve>
 				</Provider>
 				<svg className="grainy__filter pointer-events-none absolute cursor-none">
