@@ -30,6 +30,7 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
 	children,
 }) => {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
+	const containerRef = useRef<HTMLDivElement>(null);
 	const sparksRef = useRef<Spark[]>([]);
 	const startTimeRef = useRef<number | null>(null);
 
@@ -37,32 +38,17 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
 		const canvas = canvasRef.current;
 		if (!canvas) return;
 
-		const parent = canvas.parentElement;
-		if (!parent) return;
-
-		let resizeTimeout: NodeJS.Timeout;
-
+		// Set canvas to full viewport size
 		const resizeCanvas = () => {
-			const { width, height } = parent.getBoundingClientRect();
-			if (canvas.width !== width || canvas.height !== height) {
-				canvas.width = width;
-				canvas.height = height;
-			}
+			canvas.width = window.innerWidth;
+			canvas.height = window.innerHeight;
 		};
-
-		const handleResize = () => {
-			clearTimeout(resizeTimeout);
-			resizeTimeout = setTimeout(resizeCanvas, 100);
-		};
-
-		const ro = new ResizeObserver(handleResize);
-		ro.observe(parent);
 
 		resizeCanvas();
+		window.addEventListener('resize', resizeCanvas);
 
 		return () => {
-			ro.disconnect();
-			clearTimeout(resizeTimeout);
+			window.removeEventListener('resize', resizeCanvas);
 		};
 	}, []);
 
@@ -141,39 +127,72 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
 		extraScale,
 	]);
 
-	const handleClick = (e: React.MouseEvent<HTMLDivElement>): void => {
-		const canvas = canvasRef.current;
-		if (!canvas) return;
-		const rect = canvas.getBoundingClientRect();
-		const x = e.clientX - rect.left;
-		const y = e.clientY - rect.top;
+	const handleGlobalClick = useCallback(
+		(e: MouseEvent): void => {
+			const container = containerRef.current;
+			if (!container) return;
 
-		const now = performance.now();
-		const newSparks: Spark[] = Array.from({ length: sparkCount }, (_, i) => ({
-			x,
-			y,
-			angle: (2 * Math.PI * i) / sparkCount,
-			startTime: now,
-		}));
+			let element = e.target as HTMLElement;
+			let hasPointerEventsNone = false;
 
-		sparksRef.current.push(...newSparks);
-	};
+			while (element && element !== document.body) {
+				const computedStyle = window.getComputedStyle(element);
+				if (computedStyle.pointerEvents === 'none') {
+					hasPointerEventsNone = true;
+					break;
+				}
+				element = element.parentElement as HTMLElement;
+			}
+
+			if (hasPointerEventsNone) {
+				return;
+			}
+
+			const canvas = canvasRef.current;
+			if (!canvas) return;
+
+			const x = e.clientX;
+			const y = e.clientY;
+
+			const now = performance.now();
+			const newSparks: Spark[] = Array.from({ length: sparkCount }, (_, i) => ({
+				x,
+				y,
+				angle: (2 * Math.PI * i) / sparkCount,
+				startTime: now,
+			}));
+
+			sparksRef.current.push(...newSparks);
+		},
+		[sparkCount]
+	);
+
+	useEffect(() => {
+		document.addEventListener('click', handleGlobalClick);
+		return () => {
+			document.removeEventListener('click', handleGlobalClick);
+		};
+	}, [handleGlobalClick]);
 
 	return (
 		<div
+			ref={containerRef}
 			style={{
 				width: '100%',
 				height: '100%',
 				position: 'relative',
 			}}
-			onClick={handleClick}
 		>
 			<canvas
 				ref={canvasRef}
 				style={{
-					position: 'absolute',
-					inset: 0,
+					position: 'fixed',
+					top: 0,
+					left: 0,
+					width: '100vw',
+					height: '100vh',
 					pointerEvents: 'none',
+					zIndex: 9999,
 				}}
 			/>
 			{children}
