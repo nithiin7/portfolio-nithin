@@ -6,7 +6,11 @@ import 'styles/theme.scss';
 import 'styles/globals.scss';
 
 import { Footer, Menu } from 'components/layouts';
-import { PerformanceOptimizer, ClickSpark } from 'components/utilities';
+import {
+	PerformanceOptimizer,
+	ClickSpark,
+	FloatingChat,
+} from 'components/utilities';
 import { loadData } from 'helpers/contentful';
 
 import Provider from './provider';
@@ -195,6 +199,7 @@ export default function RootLayout({
 							<Menu />
 							{children}
 							<Footer />
+							<FloatingChat chatbotUrl="https://nithiin7-portfolio-resume.hf.space" />
 						</ClickSpark>
 					</Curve>
 				</Provider>

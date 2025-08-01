@@ -13,3 +13,4 @@ export { default as PerformanceOptimizer } from './PerformanceOptimizer/Performa
 export { default as TextArea } from './TextArea/TextArea';
 export { default as TextInput } from './TextInput/TextInput';
 export { default as ThemeToggle } from './ThemeToggle/ThemeToggle';
+export { default as FloatingChat } from './FloatingChat/FloatingChat';
