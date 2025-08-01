@@ -116,7 +116,9 @@ const HomeAbout: FC<HomeAboutProps> = ({
 						</motion.div>
 					</div>
 					<div className={styles.HomeAbout__description}>
-						{richTextContent && documentToReactComponents(richTextContent)}
+						<span>
+							{richTextContent && documentToReactComponents(richTextContent)}
+						</span>
 					</div>
 				</div>
 			</section>
