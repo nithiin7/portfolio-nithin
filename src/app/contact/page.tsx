@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
-import Logo from 'assets/images/nav-logo.svg';
+import Logo from 'assets/logos/logo.svg';
 import { ContactForm } from 'components/pages';
 import { MaskText } from 'components/utilities';
 import { useTheme } from 'contexts/ThemeContext';

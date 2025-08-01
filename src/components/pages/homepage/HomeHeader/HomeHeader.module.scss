@@ -27,12 +27,19 @@
 		svg {
 			height: rem(75);
 			width: rem(75);
-			filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+			filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.15))
+				drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
 			@media #{$md} {
 				height: rem(100);
 				width: rem(100);
 			}
 		}
+	}
+	&__logoWrapper {
+		filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.2))
+			drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
+		transform-style: preserve-3d;
+		perspective: 1000px;
 	}
 	&__navigation {
 		pointer-events: auto;

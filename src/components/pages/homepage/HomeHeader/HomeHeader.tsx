@@ -9,7 +9,7 @@ import {
 import type { FC } from 'react';
 import { useEffect, useState, useRef } from 'react';
 
-import Logo from 'assets/images/nav-logo.svg';
+import Logo from 'assets/logos/logo.svg';
 import ColorMaskButton from 'components/utilities/ColorMaskButton/ColorMaskButton';
 import Cursor from 'components/utilities/Cursor/Cursor';
 import MaskText from 'components/utilities/MaskText/MaskText';
@@ -302,6 +302,7 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 				>
 					<motion.div
 						ref={setComponentRef}
+						className={styles.HomeHeader__logoWrapper}
 						style={{
 							x: springX,
 							y: springY,
