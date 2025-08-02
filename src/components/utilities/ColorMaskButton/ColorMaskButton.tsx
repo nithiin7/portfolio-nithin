@@ -40,8 +40,6 @@ const ColorMaskButton: FC<ColorMaskButtonProps> = ({
 			whileTap={{ scale: 0.98 }}
 			transition={{ duration: 0.2, ease: [0.76, 0, 0.24, 1] }}
 			href={href}
-			target="_blank"
-			rel="noopener noreferrer"
 		>
 			<div className={styles.ColorMaskButton__content}>
 				<motion.div
