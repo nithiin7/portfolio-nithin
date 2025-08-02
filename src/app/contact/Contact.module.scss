@@ -22,6 +22,8 @@
 			height: rem(75);
 			width: rem(75);
 			pointer-events: all;
+			filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.2))
+				drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
 			@media #{$md} {
 				height: rem(100);
 				width: rem(100);
