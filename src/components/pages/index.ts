@@ -10,14 +10,18 @@ export { default as HomeTestimonial } from './homepage/HomeTestimonial/HomeTesti
 export { default as ContactForm } from './contact/ContactForm/ContactForm';
 
 // Portfolio
-export { default as PortfolioCard } from './PortfolioCard/PortfolioCard';
-export { default as PortfolioModal } from './PortfolioModal/PortfolioModal';
+export { default as PortfolioCard } from './portfolio/PortfolioCard/PortfolioCard';
+export { default as PortfolioModal } from './portfolio/PortfolioModal/PortfolioModal';
+export { default as PortfolioDetails } from './portfolio/PortfolioDetails/PortfolioDetails';
+export { default as PortfolioGallery } from './portfolio/PortfolioGallery/PortfolioGallery';
 
 // Services
-export { default as ServiceCard } from './ServiceCard/ServiceCard';
+export { default as ServiceCard } from './homepage/ServiceCard/ServiceCard';
 
 // Testimonials
-export { default as TestimonialCard } from './TestimonialCard/TestimonialCard';
+export { default as TestimonialCard } from './homepage/TestimonialCard/TestimonialCard';
 
 // Blog
-export { default as BlogCard } from './BlogCard/BlogCard';
+export { default as BlogCard } from './blog/BlogCard/BlogCard';
+export { default as BlogDetail } from './blog/BlogDetail/BlogDetail';
+export { default as BlogListing } from './blog/BlogListing/BlogListing';

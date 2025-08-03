@@ -4,70 +4,24 @@ import { motion } from 'motion/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { FC } from 'react';
-import { useState, useEffect } from 'react';
 
-import { BlogNavbar } from 'components/layouts';
+import { Navbar } from 'components/layouts';
 import { BlogCard } from 'components/pages';
 import { MaskText, TableOfContents, Subscribe } from 'components/utilities';
-import { formatDate, getRelatedPosts } from 'helpers/blog';
-import {
-	loadBlogPostBySlug,
-	loadBlogPosts,
-	convertContentfulBlogPost,
-} from 'helpers/contentful';
+import { formatDate } from 'helpers/blog';
 import type { BlogPost } from 'types/blog';
 
-import styles from './page.module.scss';
+import styles from './BlogDetail.module.scss';
 
-interface BlogDetailClientProps {
-	slug: string;
+interface BlogDetailProps {
+	post: BlogPost;
+	relatedPosts: BlogPost[];
 }
 
 /**
  * Blog detail client component with data fetching and modern animations
  */
-const BlogDetailClient: FC<BlogDetailClientProps> = ({ slug }) => {
-	const [isLoading, setIsLoading] = useState(true);
-	const [post, setPost] = useState<BlogPost | null>(null);
-	const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
-	const [notFound, setNotFound] = useState(false);
-
-	useEffect(() => {
-		const fetchBlogData = async () => {
-			try {
-				setIsLoading(true);
-
-				// Fetch the blog post
-				const { data: postData } = await loadBlogPostBySlug(slug);
-				const postItem = postData?.blogPostCollection?.items?.[0];
-
-				if (!postItem) {
-					setNotFound(true);
-					setIsLoading(false);
-					return;
-				}
-
-				const convertedPost = convertContentfulBlogPost(postItem);
-				setPost(convertedPost);
-
-				// Fetch related posts
-				const { data: allPostsData } = await loadBlogPosts(50, 0);
-				const allPosts = allPostsData.blogPostCollection.items.map(
-					convertContentfulBlogPost
-				);
-				const related = getRelatedPosts(convertedPost, allPosts, 3);
-				setRelatedPosts(related);
-			} catch (error) {
-				console.error('Error fetching blog data:', error);
-				setNotFound(true);
-			} finally {
-				setIsLoading(false);
-			}
-		};
-
-		fetchBlogData();
-	}, [slug]);
-
+const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 	const shareOnFacebook = () => {
 		if (!post) return;
 		const url = encodeURIComponent(window.location.href);
@@ -106,26 +60,10 @@ const BlogDetailClient: FC<BlogDetailClientProps> = ({ slug }) => {
 		window.open(`https://wa.me/?text=${text}%20${url}`, '_blank');
 	};
 
-	if (isLoading) {
+	if (!post) {
 		return (
 			<div className={styles.blogDetail}>
-				<BlogNavbar />
-				<motion.div
-					className={styles.blogDetail__loading}
-					initial={{ opacity: 0 }}
-					animate={{ opacity: 1 }}
-				>
-					<div className={styles.blogDetail__loading_spinner} />
-					<p>Loading article...</p>
-				</motion.div>
-			</div>
-		);
-	}
-
-	if (notFound || !post) {
-		return (
-			<div className={styles.blogDetail}>
-				<BlogNavbar />
+				<Navbar />
 				<motion.div
 					className={styles.blogDetail__container}
 					initial={{ opacity: 0 }}
@@ -158,7 +96,7 @@ const BlogDetailClient: FC<BlogDetailClientProps> = ({ slug }) => {
 
 	return (
 		<div className={styles.blogDetail}>
-			<BlogNavbar />
+			<Navbar />
 			<motion.div
 				className={styles.blogDetail__container}
 				initial={{ opacity: 0 }}
@@ -451,4 +389,4 @@ const BlogDetailClient: FC<BlogDetailClientProps> = ({ slug }) => {
 	);
 };
 
-export default BlogDetailClient;
+export default BlogDetail;

@@ -15,4 +15,16 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://portfolio-nithin.vercel.app/blog</loc>
+    <lastmod>2024-01-15T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://portfolio-nithin.vercel.app/portfolio</loc>
+    <lastmod>2024-01-15T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>

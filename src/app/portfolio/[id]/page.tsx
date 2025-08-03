@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import PortfolioDetails from 'components/pages/PortfolioDetails/PortfolioDetails';
+import { PortfolioDetails } from 'components/pages';
 import { loadPortfolioData } from 'helpers/contentful';
 
 interface PortfolioDetailsPageProps {

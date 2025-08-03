@@ -1,197 +1,162 @@
-'use client';
+import type { Metadata } from 'next';
+import Script from 'next/script';
 
-import { useQuery } from '@apollo/client';
-import { motion, AnimatePresence } from 'motion/react';
-import type { FC } from 'react';
-import { useState, useEffect } from 'react';
-
-import { BlogNavbar } from 'components/layouts';
-import { BlogCard } from 'components/pages';
+import { BlogListing } from 'components/pages';
 import {
-	MaskText,
-	BlogBackground,
-	BlogSearch,
-	BlogNoResults,
-	Subscribe,
-} from 'components/utilities';
-import { convertContentfulBlogPost } from 'helpers/contentful';
-import { GET_ALL_BLOG_POSTS } from 'queries';
-import type { BlogPost } from 'types/blog';
+	loadData,
+	loadBlogPosts,
+	convertContentfulBlogPost,
+} from 'helpers/contentful';
 
-import styles from './Blog.module.scss';
-import { useApollo } from '../../../lib/apolloClient';
+export async function generateMetadata(): Promise<Metadata> {
+	const props = await loadData('blog');
+	const path = props?.data.pageCollection.items[0];
 
-/**
- * Blog listing page component with modern animations and design
- */
-const BlogPage: FC = () => {
-	const [filteredPosts, setFilteredPosts] = useState<BlogPost[]>([]);
-	const [allPosts, setAllPosts] = useState<BlogPost[]>([]);
+	const blogData = await loadBlogPosts(10, 0);
 
-	// Initialize Apollo client
-	const client = useApollo({});
+	const latestPosts = blogData.data.blogPostCollection.items;
 
-	// Fetch blog posts from Contentful
-	const { data, loading, error } = useQuery(GET_ALL_BLOG_POSTS, {
-		client,
-		variables: { limit: 50, skip: 0 },
-	});
+	return {
+		title: path?.title || 'Blog - Nithin Pradeep',
+		description:
+			path?.description ||
+			'Explore insights on design, development, and the intersection of creativity and technology. Read articles about web development, design trends, and industry best practices.',
+		keywords: path?.keywords || [
+			'blog',
+			'web development',
+			'design',
+			'technology',
+			'insights',
+			'articles',
+		],
+		openGraph: {
+			type: 'website',
+			locale: 'en_US',
+			url: 'https://portfolio-nithin.vercel.app/blog',
+			title: path?.title || 'Blog - Nithin Pradeep',
+			description:
+				path?.description ||
+				'Explore insights on design, development, and the intersection of creativity and technology.',
+			siteName: 'Nithin Pradeep - Portfolio',
+			images: [
+				{
+					url: '/opengraph-image.jpeg',
+					width: 1200,
+					height: 630,
+					alt: 'Blog - Nithin Pradeep - Full Stack Developer',
+				},
+			],
+		},
+		twitter: {
+			card: 'summary_large_image',
+			title: path?.title || 'Blog - Nithin Pradeep',
+			description:
+				path?.description ||
+				'Explore insights on design, development, and the intersection of creativity and technology.',
+			creator: '@nithiin7',
+			images: ['/opengraph-image.jpeg'],
+		},
+		robots: {
+			index: true,
+			follow: true,
+			googleBot: {
+				index: true,
+				follow: true,
+				'max-video-preview': -1,
+				'max-image-preview': 'large',
+				'max-snippet': -1,
+			},
+		},
+		alternates: {
+			canonical: 'https://portfolio-nithin.vercel.app/blog',
+		},
+		other: {
+			'article:published_time': latestPosts[0]?.publishedDate,
+			'article:modified_time': latestPosts[0]?.updatedDate,
+			'article:author': 'Nithin Pradeep',
+			'article:section': 'Technology',
+			'article:tag': latestPosts
+				.flatMap((post: any) => post.tags || [])
+				.slice(0, 10),
+		},
+	};
+}
 
-	useEffect(() => {
-		if (data?.blogPostCollection?.items) {
-			const posts = data.blogPostCollection.items.map(
-				convertContentfulBlogPost
-			);
-			setAllPosts(posts);
-			setFilteredPosts(posts);
-		}
-	}, [data]);
-
-	if (loading) {
-		return (
-			<div className={styles.blog}>
-				<BlogNavbar />
-				<BlogBackground />
-				<motion.div
-					className={styles.blog__container}
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
-				>
-					<section className={styles.blog__header}>
-						<motion.div
-							className={styles.blog__header_content}
-							initial={{ opacity: 0, y: 30 }}
-							animate={{ opacity: 1, y: 0 }}
-							transition={{
-								duration: 0.8,
-								delay: 0.2,
-								ease: [0.33, 1, 0.68, 1],
-							}}
-						>
-							<h1 className={styles.blog__title}>
-								<MaskText phrases={['Thoughts & Insights']} />
-							</h1>
-							<p className={styles.blog__subtitle}>
-								Exploring design, development, and the intersection of
-								creativity and technology
-							</p>
-						</motion.div>
-					</section>
-					<div className={styles.blog__loading}>
-						<div className={styles.blog__loading_spinner} />
-						<p>Loading articles...</p>
-					</div>
-				</motion.div>
-			</div>
-		);
-	}
-
-	if (error) {
-		return (
-			<div className={styles.blog}>
-				<BlogNavbar />
-				<BlogBackground />
-				<motion.div
-					className={styles.blog__container}
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
-				>
-					<section className={styles.blog__header}>
-						<motion.div
-							className={styles.blog__header_content}
-							initial={{ opacity: 0, y: 30 }}
-							animate={{ opacity: 1, y: 0 }}
-							transition={{
-								duration: 0.8,
-								delay: 0.2,
-								ease: [0.33, 1, 0.68, 1],
-							}}
-						>
-							<h1 className={styles.blog__title}>
-								<MaskText phrases={['Thoughts & Insights']} />
-							</h1>
-							<p className={styles.blog__subtitle}>
-								Exploring design, development, and the intersection of
-								creativity and technology
-							</p>
-						</motion.div>
-					</section>
-					<div className={styles.blog__error}>
-						<p>Error loading articles. Please try again later.</p>
-					</div>
-				</motion.div>
-			</div>
-		);
-	}
-
-	return (
-		<div className={styles.blog}>
-			<BlogNavbar />
-			<BlogBackground />
-			<motion.div
-				className={styles.blog__container}
-				initial={{ opacity: 0, y: 20 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
-			>
-				<section className={styles.blog__header}>
-					<motion.div
-						className={styles.blog__header_content}
-						initial={{ opacity: 0, y: 30 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.8, delay: 0.2, ease: [0.33, 1, 0.68, 1] }}
-					>
-						<h1 className={styles.blog__title}>
-							<MaskText phrases={['Thoughts & Insights']} />
-						</h1>
-						<p className={styles.blog__subtitle}>
-							Exploring design, development, and the intersection of creativity
-							and technology
-						</p>
-					</motion.div>
-				</section>
-				<section className={styles.blog__search}>
-					<BlogSearch posts={allPosts} onFilterChange={setFilteredPosts} />
-				</section>
-				<section className={styles.blog__content}>
-					<AnimatePresence mode="wait">
-						{filteredPosts.length > 0 ? (
-							<motion.div
-								className={styles.blog__grid}
-								initial={{ opacity: 0 }}
-								animate={{ opacity: 1 }}
-								transition={{
-									duration: 0.8,
-									delay: 0.4,
-									ease: [0.33, 1, 0.68, 1],
-								}}
-							>
-								{filteredPosts.map((post, index) => (
-									<motion.div
-										key={post.id}
-										initial={{ opacity: 0, y: 30 }}
-										animate={{ opacity: 1, y: 0 }}
-										transition={{
-											duration: 0.6,
-											delay: 0.6 + index * 0.1,
-											ease: [0.33, 1, 0.68, 1],
-										}}
-									>
-										<BlogCard post={post} />
-									</motion.div>
-								))}
-							</motion.div>
-						) : (
-							<BlogNoResults />
-						)}
-					</AnimatePresence>
-				</section>
-				<Subscribe delay={1.2} />
-			</motion.div>
-		</div>
-	);
+const blogListingStructuredData = {
+	'@context': 'https://schema.org',
+	'@type': 'Blog',
+	name: 'Nithin Pradeep Blog',
+	description:
+		'Insights on design, development, and the intersection of creativity and technology',
+	url: 'https://portfolio-nithin.vercel.app/blog',
+	author: {
+		'@type': 'Person',
+		name: 'Nithin Pradeep',
+		jobTitle: 'Full Stack Developer',
+		url: 'https://portfolio-nithin.vercel.app/',
+		sameAs: [
+			'https://github.com/nithiin7',
+			'https://www.linkedin.com/in/nithin-p7/',
+			'https://www.instagram.com/__nithiin__/',
+			'https://www.twitter.com/_nithiin7/',
+		],
+	},
+	publisher: {
+		'@type': 'Person',
+		name: 'Nithin Pradeep',
+		url: 'https://portfolio-nithin.vercel.app/',
+	},
+	mainEntity: {
+		'@type': 'ItemList',
+		itemListElement: [
+			{
+				'@type': 'ListItem',
+				position: 1,
+				name: 'Home',
+				item: 'https://portfolio-nithin.vercel.app/',
+			},
+			{
+				'@type': 'ListItem',
+				position: 2,
+				name: 'Blog',
+				item: 'https://portfolio-nithin.vercel.app/blog',
+			},
+		],
+	},
+	breadcrumb: {
+		'@type': 'BreadcrumbList',
+		itemListElement: [
+			{
+				'@type': 'ListItem',
+				position: 1,
+				name: 'Home',
+				item: 'https://portfolio-nithin.vercel.app/',
+			},
+			{
+				'@type': 'ListItem',
+				position: 2,
+				name: 'Blog',
+				item: 'https://portfolio-nithin.vercel.app/blog',
+			},
+		],
+	},
 };
 
-export default BlogPage;
+export default async function BlogPage(): Promise<React.ReactElement> {
+	const blogData = await loadBlogPosts(10, 0);
+	const latestPosts = blogData.data.blogPostCollection.items;
+	const posts = latestPosts.map(convertContentfulBlogPost);
+
+	return (
+		<>
+			<Script
+				id="blog-listing-structured-data"
+				type="application/ld+json"
+				dangerouslySetInnerHTML={{
+					__html: JSON.stringify(blogListingStructuredData),
+				}}
+			/>
+			<BlogListing posts={posts} />
+		</>
+	);
+}

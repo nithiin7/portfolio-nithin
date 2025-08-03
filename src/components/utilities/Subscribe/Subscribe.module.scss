@@ -39,7 +39,6 @@
 		position: relative;
 		z-index: 2;
 		text-align: center;
-		max-width: rem(600);
 		margin: 0 auto;
 		padding: 0 rem(40);
 
@@ -81,8 +80,13 @@
 		}
 	}
 
+	&__inputWrapper {
+		position: relative;
+		width: 100%;
+	}
+
 	&__input {
-		flex: 1;
+		width: 100%;
 		padding: rem(16) rem(20);
 		border: 2px solid $color-border;
 		border-radius: rem(12);
@@ -102,24 +106,96 @@
 			box-shadow: 0 0 0 3px rgba($color-accent, 0.1);
 		}
 
+		&:disabled {
+			opacity: 0.6;
+			cursor: not-allowed;
+		}
+
 		@media #{$md} {
 			padding: rem(18) rem(24);
 		}
 	}
 
+	&__inputError {
+		border-color: #ef4444;
+		box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+
+		&:focus {
+			border-color: #ef4444;
+			box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+		}
+	}
+
+	&__error {
+		position: absolute;
+		top: 100%;
+		left: 0;
+		color: #ef4444;
+		font-size: rem(14);
+		margin-top: rem(4);
+		font-weight: 500;
+	}
+
+	&__success {
+		text-align: center;
+		padding: rem(40) rem(20);
+		background: linear-gradient(
+			135deg,
+			rgba($color-accent, 0.1) 0%,
+			rgba($color-accent, 0.05) 100%
+		);
+		border: 2px solid rgba($color-accent, 0.2);
+		border-radius: rem(16);
+		margin: rem(20) 0;
+	}
+
+	&__successIcon {
+		width: rem(60);
+		height: rem(60);
+		background: $color-accent;
+		color: $color-white;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: rem(24);
+		font-weight: bold;
+		margin: 0 auto rem(20) auto;
+		box-shadow: 0 rem(8) rem(25) rgba($color-accent, 0.3);
+	}
+
+	&__successTitle {
+		font-size: rem(24);
+		font-weight: 700;
+		color: $color-accent;
+		margin: 0 0 rem(12) 0;
+		text-transform: uppercase;
+		letter-spacing: -0.025em;
+	}
+
+	&__successText {
+		font-size: rem(16);
+		color: $color-text-secondary;
+		line-height: 1.5;
+		margin: 0;
+		max-width: rem(400);
+		margin: 0 auto;
+	}
+
 	&__button {
-		padding: rem(16) rem(32);
+		padding: rem(16) rem(20);
 		background: $color-accent;
 		color: $color-white;
 		border: none;
 		border-radius: rem(12);
-		font-size: rem(16);
+		font-size: rem(14);
 		font-weight: 600;
 		font-family: $font-primary;
 		cursor: pointer;
 		transition: all 0.3s ease;
 		position: relative;
 		overflow: hidden;
+		width: rem(180);
 
 		&::before {
 			content: '';
@@ -149,6 +225,19 @@
 
 		&:active {
 			transform: translateY(0);
+		}
+
+		&:disabled {
+			opacity: 0.6;
+			cursor: not-allowed;
+			transform: none;
+			box-shadow: none;
+
+			&:hover {
+				background: $color-accent;
+				transform: none;
+				box-shadow: none;
+			}
 		}
 
 		@media #{$md} {
