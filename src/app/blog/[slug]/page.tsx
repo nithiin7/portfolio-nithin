@@ -6,6 +6,7 @@ import type { FC } from 'react';
 import { useState, useEffect, use } from 'react';
 
 import { BlogNavbar } from 'components/layouts';
+import { BlogCard } from 'components/pages';
 import {
 	MaskText,
 	RichTextRenderer,
@@ -31,7 +32,6 @@ const BlogDetailPage: FC<BlogDetailPageProps> = ({ params }) => {
 	const [post, setPost] = useState<BlogPost | null>(null);
 	const [isLoading, setIsLoading] = useState(true);
 
-	// Unwrap params using React.use() for Next.js compatibility
 	const { slug } = use(params);
 
 	useEffect(() => {
@@ -352,37 +352,11 @@ const BlogDetailPage: FC<BlogDetailPageProps> = ({ params }) => {
 							(relatedPost, index) => (
 								<motion.div
 									key={relatedPost.id}
-									className={styles.blogDetail__related_card}
 									initial={{ opacity: 0, y: 20 }}
 									animate={{ opacity: 1, y: 0 }}
 									transition={{ duration: 0.6, delay: 1.4 + index * 0.1 }}
-									whileHover={{ y: -5 }}
 								>
-									<Link href={`/blog/${relatedPost.slug}`}>
-										{relatedPost.featuredImage && (
-											<Image
-												src={relatedPost.featuredImage}
-												alt={relatedPost.title}
-												width={400}
-												height={200}
-												className={styles.blogDetail__related_image}
-											/>
-										)}
-										<div className={styles.blogDetail__related_content}>
-											<h3 className={styles.blogDetail__related_card_title}>
-												{relatedPost.title}
-											</h3>
-											<p className={styles.blogDetail__related_card_excerpt}>
-												{relatedPost.excerpt}
-											</p>
-											<div className={styles.blogDetail__related_card_meta}>
-												<span>{relatedPost.readTime} min read</span>
-												<span>
-													{formatDate(relatedPost.publishedAt, 'short')}
-												</span>
-											</div>
-										</div>
-									</Link>
+									<BlogCard post={relatedPost} />
 								</motion.div>
 							)
 						)}
