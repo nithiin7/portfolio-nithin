@@ -25,6 +25,7 @@ interface HomeHeaderProps {
 		items: {
 			title?: string;
 			subTitle?: string;
+			descriptionShort?: string;
 		}[];
 	};
 }
@@ -443,7 +444,7 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 						initial="hidden"
 						animate="visible"
 					>
-						A web developer & web designer propelling visions to reality.
+						{data.items[1].descriptionShort}
 					</motion.p>
 				</motion.div>
 			</div>

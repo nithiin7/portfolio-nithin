@@ -157,7 +157,7 @@
 		transform: translateY(0%) translateZ(rem(0));
 		display: flex;
 		flex-direction: column;
-		row-gap: 2rem;
+		row-gap: 2.5rem;
 		color: $color-text-dark;
 		padding-bottom: rem(60);
 		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -188,7 +188,7 @@
 			}
 		}
 		p {
-			max-width: 38ch;
+			max-width: 30ch;
 			text-wrap: pretty;
 			line-height: 130%;
 			font-size: 1.125rem;
