@@ -14,3 +14,6 @@ export { default as TextArea } from './TextArea/TextArea';
 export { default as TextInput } from './TextInput/TextInput';
 export { default as ThemeToggle } from './ThemeToggle/ThemeToggle';
 export { default as FloatingChat } from './FloatingChat/FloatingChat';
+export { default as BlogBackground } from './BlogBackground/BlogBackground';
+export { default as BlogSearch } from './BlogSearch/BlogSearch';
+export { default as BlogNoResults } from './BlogNoResults/BlogNoResults';
