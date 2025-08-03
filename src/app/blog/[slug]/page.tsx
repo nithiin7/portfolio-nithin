@@ -22,7 +22,6 @@ export async function generateMetadata({
 	params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
 	const { slug } = await params;
-
 	const { data } = await loadBlogPostBySlug(slug);
 
 	const post = data?.blogPostCollection?.items?.[0];
@@ -91,7 +90,7 @@ export async function generateMetadata({
 	};
 }
 
-export default async function BlogDetailLayout({
+export default async function BlogDetails({
 	params,
 }: Readonly<BlogDetailLayoutProps>): Promise<React.ReactElement> {
 	const { slug } = await params;

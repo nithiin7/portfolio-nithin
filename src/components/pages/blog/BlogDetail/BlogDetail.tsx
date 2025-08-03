@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { FC } from 'react';
 
-import { BlogNavbar } from 'components/layouts';
+import { Navbar } from 'components/layouts';
 import { BlogCard } from 'components/pages';
 import { MaskText, TableOfContents, Subscribe } from 'components/utilities';
 import { formatDate } from 'helpers/blog';
@@ -63,7 +63,7 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 	if (!post) {
 		return (
 			<div className={styles.blogDetail}>
-				<BlogNavbar />
+				<Navbar />
 				<motion.div
 					className={styles.blogDetail__container}
 					initial={{ opacity: 0 }}
@@ -96,7 +96,7 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 
 	return (
 		<div className={styles.blogDetail}>
-			<BlogNavbar />
+			<Navbar />
 			<motion.div
 				className={styles.blogDetail__container}
 				initial={{ opacity: 0 }}

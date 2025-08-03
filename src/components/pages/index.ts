@@ -24,3 +24,4 @@ export { default as TestimonialCard } from './homepage/TestimonialCard/Testimoni
 // Blog
 export { default as BlogCard } from './blog/BlogCard/BlogCard';
 export { default as BlogDetail } from './blog/BlogDetail/BlogDetail';
+export { default as BlogListing } from './blog/BlogListing/BlogListing';
