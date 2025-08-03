@@ -2,6 +2,63 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0](https://bitbucket.org/nithin-private/portfolio-nithin/compare/v3.0.0...v4.0.0) (2025-08-03)
+
+
+### Features
+
+* add backdrop shadow to logo icon ([63dd657](https://bitbucket.org/nithin-private/portfolio-nithin/commit/63dd657a8f4079e741e3ad96f513414a7d2b2e47))
+* add backdrop to menu, animation updates ([28e7e47](https://bitbucket.org/nithin-private/portfolio-nithin/commit/28e7e474cd94e3aa8d5ae6f3e2eaa25a221f0ded))
+* add BackgroundShapes component and integrate rich text description in HomeAbout ([ba5272a](https://bitbucket.org/nithin-private/portfolio-nithin/commit/ba5272ace10d8439e2703142c1e965ff1b9a57bd))
+* add blog details page ([352260d](https://bitbucket.org/nithin-private/portfolio-nithin/commit/352260d6f54e68bad3112f7197db5f65f60d14cf))
+* add blog listing page ([e901dba](https://bitbucket.org/nithin-private/portfolio-nithin/commit/e901dbaf6fb831ecc909beb84e75012ac180873a))
+* add button for contact in menu ([4f0392b](https://bitbucket.org/nithin-private/portfolio-nithin/commit/4f0392b2375fd8ef30b233e0c15a62b5690bf4ad))
+* add click spark effect ([3eea5c6](https://bitbucket.org/nithin-private/portfolio-nithin/commit/3eea5c65d0b7c6d36f0e4ce09fd905ef699069e0))
+* add email validation and success message ([24f0dd9](https://bitbucket.org/nithin-private/portfolio-nithin/commit/24f0dd9bdb94a70d15f4439ebfec6d56ccbd76dd))
+* add floating chatbot button ([7fe3120](https://bitbucket.org/nithin-private/portfolio-nithin/commit/7fe3120ff95268029adc8ba572ccd684eae9e021))
+* add FooterBackground and SpotifyIcon components, integrate them into Footer layout ([53a7db4](https://bitbucket.org/nithin-private/portfolio-nithin/commit/53a7db49c2d79138c83db7ceb082ecae325b56ea))
+* add keyboard navigation ([a8cd917](https://bitbucket.org/nithin-private/portfolio-nithin/commit/a8cd91730856892ba6287ccc727a60680b0bdd8a))
+* add load animations, seo for details page ([ba7364e](https://bitbucket.org/nithin-private/portfolio-nithin/commit/ba7364e35d94a44d876a8fa16e2a89c0b47a021e))
+* add navigation to header ([3837d9a](https://bitbucket.org/nithin-private/portfolio-nithin/commit/3837d9ac4dcdc58eab75c6cd1857e3e528e39339))
+* add new songs to the playlist and include data-text attribute in Footer links ([e2dd51d](https://bitbucket.org/nithin-private/portfolio-nithin/commit/e2dd51d08d83d7d43f722f3b3af7fca7cff67181))
+* add scroll 3d effect in header to services ([a2aa645](https://bitbucket.org/nithin-private/portfolio-nithin/commit/a2aa645d5272f1c1b28076ca9641b3e92295d22c))
+* add sentry ([0dd1048](https://bitbucket.org/nithin-private/portfolio-nithin/commit/0dd1048414b87996a940a4535eb1697813edbf8e))
+* bem conversion of css, smooth navigation on click ([da9c4c1](https://bitbucket.org/nithin-private/portfolio-nithin/commit/da9c4c1f2166d984d6f2c04c169e1fbd847a4950))
+* close out animations in collaborations ([43057bf](https://bitbucket.org/nithin-private/portfolio-nithin/commit/43057bfff2c8ff7ff801ade4c4ebe4e05eccd0be))
+* implement comprehensive accessibility features and enhance portfolio layout ([9edd34c](https://bitbucket.org/nithin-private/portfolio-nithin/commit/9edd34cc5882bd7f5036a0702e1479c0c03be53a))
+* improve seo ([e23a8bf](https://bitbucket.org/nithin-private/portfolio-nithin/commit/e23a8bf35dff5c927cf67cdc48aadab5511e1b42))
+* make description in header dynamic ([fcad316](https://bitbucket.org/nithin-private/portfolio-nithin/commit/fcad31629bf0a018dd7df3a679613b33249432d1))
+* modify styles of portfolio details page, dynamic rendering of portfolio ([5909434](https://bitbucket.org/nithin-private/portfolio-nithin/commit/59094349f75ad6ca5ca6834e9e702cbb8228e15a))
+* style fixes in blog details page ([5424377](https://bitbucket.org/nithin-private/portfolio-nithin/commit/5424377eeefceb4461306b907c66fb94a4dd15b7))
+* update and added new shapes for services ([45e3c48](https://bitbucket.org/nithin-private/portfolio-nithin/commit/45e3c48c67be0e43b48512af18e19aea65c91db4))
+* update new logo ([7cf6136](https://bitbucket.org/nithin-private/portfolio-nithin/commit/7cf613671eeca00819bc31a2e11d4786c55db69a))
+
+
+### Bug Fixes
+
+* eslint error in story file ([28c1124](https://bitbucket.org/nithin-private/portfolio-nithin/commit/28c1124086fba0260a431a17e1cd972ea6472b8e))
+* footer bg bug, style issues ([f12b1e5](https://bitbucket.org/nithin-private/portfolio-nithin/commit/f12b1e526ff6e5ea465bdfe6b5428d5f790298f1))
+* menu flickering, colab icon color in dark mode ([6074af8](https://bitbucket.org/nithin-private/portfolio-nithin/commit/6074af8fcc308065e6d6919306ea19018cf6899d))
+* menu, animations not working ([3f88c67](https://bitbucket.org/nithin-private/portfolio-nithin/commit/3f88c67856173ed7ad66247789dbbd1385d8657c))
+* spark click not working above elements ([30aac26](https://bitbucket.org/nithin-private/portfolio-nithin/commit/30aac264af37f11577642a4dc0c9b25213343828))
+
+
+### Chores
+
+* add proper naming conventions of bem ([0a9bc06](https://bitbucket.org/nithin-private/portfolio-nithin/commit/0a9bc0660eb2c50c56f6b6a18401a62584b1cbdf))
+* fix layout ([78d1fae](https://bitbucket.org/nithin-private/portfolio-nithin/commit/78d1fae97647c8c540abc1158e6e4e87915de7cb))
+* move subscribe to a common component ([0ef1545](https://bitbucket.org/nithin-private/portfolio-nithin/commit/0ef154553c117e6c3c1fcb077c65fff3b4d8ca20))
+* update index ts file usage to common file ([a8d7bc9](https://bitbucket.org/nithin-private/portfolio-nithin/commit/a8d7bc996f9cc452a67c5d06aede4fc0a6e3f2f7))
+* update todo ([a550b72](https://bitbucket.org/nithin-private/portfolio-nithin/commit/a550b72f004a7e1f86f60f05ee54a18f916e4b4b))
+* use blog card component in details page ([89e8f43](https://bitbucket.org/nithin-private/portfolio-nithin/commit/89e8f435c65a4c3efb0a841fe788128142b94b53))
+
+
+### Code Refactoring
+
+* remove unwanted server files in blog listing ([4faa479](https://bitbucket.org/nithin-private/portfolio-nithin/commit/4faa479d22a6804a15a3e8d063b544b933596893))
+* unused components, import fixes ([d3fe73f](https://bitbucket.org/nithin-private/portfolio-nithin/commit/d3fe73f3bc8708a12f965033866a109124f0ac73))
+* update PortfolioDetailsPage to handle params as a Promise and improve metadata generation ([456655c](https://bitbucket.org/nithin-private/portfolio-nithin/commit/456655cb8cfed904d4fc9e85ed73c204aedcfb53))
+
 ## [3.0.0](https://bitbucket.org/nithin-private/portfolio-nithin/compare/v2.1.0...v3.0.0) (2025-07-01)
 
 
