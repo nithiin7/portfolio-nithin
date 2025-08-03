@@ -91,6 +91,7 @@ export const GET_PAGE = gql`
 									}
 									... on Description {
 										name
+										descriptionShort
 										descriptionLong {
 											json
 										}
