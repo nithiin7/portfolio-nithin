@@ -17,3 +17,5 @@ export { default as FloatingChat } from './FloatingChat/FloatingChat';
 export { default as BlogBackground } from './BlogBackground/BlogBackground';
 export { default as BlogSearch } from './BlogSearch/BlogSearch';
 export { default as BlogNoResults } from './BlogNoResults/BlogNoResults';
+export { default as RichTextRenderer } from './RichTextRenderer/RichTextRenderer';
+export { default as TableOfContents } from './TableOfContents/TableOfContents';

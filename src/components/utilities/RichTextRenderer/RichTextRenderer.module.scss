@@ -1,0 +1,281 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.richText {
+	width: 100%;
+
+	&__content {
+		font-size: rem(18);
+		line-height: 170%;
+		color: $color-text-primary;
+
+		// Typography styles
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
+			color: $color-secondary;
+			font-weight: 700;
+			margin: rem(40) 0 rem(20) 0;
+			line-height: 130%;
+		}
+
+		h1 {
+			font-size: rem(36);
+			letter-spacing: -0.025em;
+		}
+
+		h2 {
+			font-size: rem(32);
+			letter-spacing: -0.025em;
+		}
+
+		h3 {
+			font-size: rem(28);
+		}
+
+		h4 {
+			font-size: rem(24);
+		}
+
+		h5 {
+			font-size: rem(20);
+		}
+
+		h6 {
+			font-size: rem(18);
+		}
+
+		p {
+			margin-bottom: rem(24);
+			color: $color-text-primary;
+		}
+
+		blockquote {
+			margin: rem(40) 0;
+			padding: rem(24) rem(32);
+			background: linear-gradient(
+				135deg,
+				$color-surface 0%,
+				rgba($color-accent, 0.05) 100%
+			);
+			border-left: 4px solid $color-accent;
+			border-radius: rem(12);
+			font-style: italic;
+			font-size: rem(20);
+			line-height: 150%;
+			color: $color-text-primary;
+			position: relative;
+
+			&::before {
+				content: '"';
+				position: absolute;
+				top: rem(-10);
+				left: rem(20);
+				font-size: rem(60);
+				color: $color-accent;
+				font-family: serif;
+			}
+		}
+
+		ul,
+		ol {
+			margin: rem(24) 0;
+			padding-left: rem(24);
+		}
+
+		li {
+			margin-bottom: rem(12);
+			color: $color-text-primary;
+		}
+
+		ul li {
+			position: relative;
+			padding-left: rem(8);
+
+			&::before {
+				content: '';
+				position: absolute;
+				left: rem(-16);
+				top: rem(12);
+				width: rem(6);
+				height: rem(6);
+				background: $color-accent;
+				border-radius: 50%;
+			}
+		}
+
+		ol {
+			counter-reset: item;
+		}
+
+		ol li {
+			counter-increment: item;
+			position: relative;
+			padding-left: rem(8);
+
+			&::before {
+				content: counter(item) '.';
+				position: absolute;
+				left: rem(-20);
+				color: $color-accent;
+				font-weight: 600;
+			}
+		}
+
+		a {
+			color: $color-accent;
+			text-decoration: none;
+			border-bottom: 1px solid transparent;
+			transition: $transition;
+			font-weight: 500;
+
+			&:hover {
+				border-bottom-color: $color-accent;
+			}
+		}
+
+		strong,
+		b {
+			font-weight: 700;
+			color: $color-text-primary;
+		}
+
+		em,
+		i {
+			font-style: italic;
+			color: $color-text-primary;
+		}
+
+		code {
+			background: $color-surface;
+			color: $color-accent;
+			padding: rem(2) rem(6);
+			border-radius: rem(4);
+			font-size: rem(16);
+			font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+			border: 1px solid $color-border;
+		}
+
+		pre {
+			background: $color-surface;
+			padding: rem(20);
+			border-radius: rem(12);
+			overflow-x: auto;
+			margin: rem(24) 0;
+			border: 1px solid $color-border;
+			position: relative;
+
+			&::before {
+				content: 'Code';
+				position: absolute;
+				top: rem(8);
+				right: rem(12);
+				font-size: rem(12);
+				color: $color-text-secondary;
+				font-weight: 500;
+				text-transform: uppercase;
+				letter-spacing: 0.5px;
+			}
+
+			code {
+				background: none;
+				padding: 0;
+				color: $color-text-primary;
+				border: none;
+				font-size: rem(14);
+				line-height: 150%;
+			}
+		}
+
+		img {
+			max-width: 100%;
+			height: auto;
+			border-radius: rem(12);
+			margin: rem(24) 0;
+			box-shadow: 0 rem(8) rem(25) rgba($color-black, 0.1);
+			transition: transform 0.3s ease;
+
+			&:hover {
+				transform: scale(1.02);
+			}
+		}
+
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			margin: rem(24) 0;
+			background: $color-surface;
+			border-radius: rem(12);
+			overflow: hidden;
+			border: 1px solid $color-border;
+		}
+
+		th,
+		td {
+			padding: rem(12) rem(16);
+			text-align: left;
+			border-bottom: 1px solid $color-border;
+		}
+
+		th {
+			background: rgba($color-accent, 0.1);
+			font-weight: 600;
+			color: $color-secondary;
+		}
+
+		td {
+			color: $color-text-primary;
+		}
+
+		hr {
+			border: none;
+			height: 1px;
+			background: linear-gradient(
+				90deg,
+				transparent 0%,
+				$color-border 50%,
+				transparent 100%
+			);
+			margin: rem(40) 0;
+		}
+
+		// Responsive adjustments
+		@media #{$sm} {
+			font-size: rem(16);
+			line-height: 160%;
+
+			h1 {
+				font-size: rem(32);
+			}
+
+			h2 {
+				font-size: rem(28);
+			}
+
+			h3 {
+				font-size: rem(24);
+			}
+
+			h4 {
+				font-size: rem(20);
+			}
+
+			blockquote {
+				padding: rem(20) rem(24);
+				font-size: rem(18);
+			}
+
+			pre {
+				padding: rem(16);
+				font-size: rem(13);
+
+				code {
+					font-size: rem(13);
+				}
+			}
+		}
+	}
+}

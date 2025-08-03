@@ -1,0 +1,130 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.tableOfContents {
+	position: sticky;
+	top: rem(120);
+	border-radius: rem(12);
+	padding: rem(24) rem(16);
+	max-height: calc(100vh - rem(200));
+	overflow-y: auto;
+	width: rem(280);
+	background: rgba($color-surface, 0.8);
+	backdrop-filter: blur(10px);
+
+	@media #{$lg} {
+		width: rem(320);
+	}
+
+	&__line {
+		position: absolute;
+		left: rem(8);
+		top: rem(24);
+		bottom: rem(24);
+		width: 2px;
+		background: linear-gradient(
+			to bottom,
+			$color-accent 0%,
+			rgba($color-accent, 0.3) 100%
+		);
+		border-radius: 1px;
+	}
+
+	&__list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		position: relative;
+		z-index: 2;
+	}
+
+	&__item {
+		transition: $transition;
+		position: relative;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+
+		&::before {
+			content: '';
+			position: absolute;
+			left: rem(-3);
+			top: 50%;
+			transform: translateY(-50%);
+			width: rem(8);
+			height: rem(8);
+			background: $color-accent;
+			border-radius: 50%;
+			opacity: 0;
+			transition: $transition;
+		}
+	}
+
+	&__item_active {
+		&::before {
+			opacity: 1;
+			box-shadow: 0 0 0 rem(4) rgba($color-accent, 0.2);
+		}
+
+		.tableOfContents__link {
+			color: $color-accent;
+			font-weight: 600;
+			transform: translateX(rem(4));
+		}
+	}
+
+	&__link {
+		background: none;
+		border: none;
+		color: $color-text-secondary;
+		font-size: rem(14);
+		line-height: 140%;
+		text-align: left;
+		padding: rem(8) rem(0);
+		border-radius: rem(6);
+		cursor: pointer;
+		transition: all 0.3s ease;
+		width: 100%;
+		font-family: inherit;
+		position: relative;
+		left: rem(16);
+
+		&:hover {
+			color: $color-accent;
+			background: rgba($color-accent, 0.05);
+			transform: translateX(rem(2));
+		}
+
+		&:focus {
+			outline: none;
+			box-shadow: 0 0 0 2px rgba($color-accent, 0.3);
+		}
+	}
+
+	// Scrollbar styling
+	&::-webkit-scrollbar {
+		width: rem(4);
+	}
+
+	&::-webkit-scrollbar-track {
+		background: transparent;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background: $color-border;
+		border-radius: rem(2);
+
+		&:hover {
+			background: $color-accent;
+		}
+	}
+
+	// Responsive
+	@media #{$md} {
+		position: static;
+		width: 100%;
+		max-height: none;
+		margin-bottom: rem(40);
+	}
+}
