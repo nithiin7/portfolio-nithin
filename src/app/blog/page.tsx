@@ -10,6 +10,7 @@ import {
 	BlogBackground,
 	BlogSearch,
 	BlogNoResults,
+	Subscribe,
 } from 'components/utilities';
 import { blogData } from 'constants/blogData';
 import type { BlogPost } from 'types/blog';
@@ -84,30 +85,7 @@ const BlogPage: FC = () => {
 						)}
 					</AnimatePresence>
 				</section>
-				<motion.section
-					className={styles.blog__newsletter}
-					initial={{ opacity: 0, y: 30 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.8, delay: 1.2, ease: [0.33, 1, 0.68, 1] }}
-				>
-					<div className={styles.blog__newsletter_content}>
-						<h2 className={styles.blog__newsletter_title}>STAY UPDATED</h2>
-						<p className={styles.blog__newsletter_text}>
-							Get notified when I publish new articles about design,
-							development, and creative insights.
-						</p>
-						<div className={styles.blog__newsletter_form}>
-							<input
-								type="email"
-								placeholder="Enter your email"
-								className={styles.blog__newsletter_input}
-							/>
-							<button className={styles.blog__newsletter_button}>
-								Subscribe
-							</button>
-						</div>
-					</div>
-				</motion.section>
+				<Subscribe delay={1.2} />
 			</motion.div>
 		</div>
 	);

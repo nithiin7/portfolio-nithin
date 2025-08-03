@@ -10,6 +10,7 @@ import {
 	MaskText,
 	RichTextRenderer,
 	TableOfContents,
+	Subscribe,
 } from 'components/utilities';
 import { blogData } from 'constants/blogData';
 import { formatDate, getRelatedPosts } from 'helpers/blog';
@@ -387,32 +388,7 @@ const BlogDetailPage: FC<BlogDetailPageProps> = ({ params }) => {
 						)}
 					</div>
 				</motion.section>
-				<motion.section
-					className={styles.blogDetail__newsletter}
-					initial={{ opacity: 0, y: 30 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.8, delay: 1.6 }}
-				>
-					<div className={styles.blogDetail__newsletter_content}>
-						<h2 className={styles.blogDetail__newsletter_title}>
-							STAY UPDATED
-						</h2>
-						<p className={styles.blogDetail__newsletter_text}>
-							Get notified when I publish new articles about design,
-							development, and creative insights.
-						</p>
-						<div className={styles.blogDetail__newsletter_form}>
-							<input
-								type="email"
-								placeholder="Enter your email"
-								className={styles.blogDetail__newsletter_input}
-							/>
-							<button className={styles.blogDetail__newsletter_button}>
-								Subscribe
-							</button>
-						</div>
-					</div>
-				</motion.section>
+				<Subscribe delay={1.6} />
 			</motion.div>
 		</div>
 	);
