@@ -1,0 +1,207 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.BlogSearch {
+	background: rgba($color-surface, 0.8);
+	border-radius: rem(20);
+	padding: rem(30);
+	margin-bottom: rem(10);
+	backdrop-filter: blur(10px);
+	border: 1px solid rgba($color-border, 0.1);
+
+	&__container {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: rem(20);
+	}
+
+	&__categories {
+		display: flex;
+		align-items: center;
+		gap: rem(40);
+		flex: 1;
+
+		@media #{$md} {
+			gap: rem(20);
+			flex-wrap: wrap;
+		}
+	}
+
+	&__category {
+		background: none;
+		border: none;
+		color: $color-text-secondary;
+		font-size: rem(16);
+		font-weight: 500;
+		cursor: pointer;
+		padding: rem(8) rem(0);
+		position: relative;
+		transition: all 0.3s ease;
+
+		&::after {
+			content: '';
+			position: absolute;
+			bottom: rem(-4);
+			left: 0;
+			width: 0;
+			height: 2px;
+			background: $color-accent;
+			transition: width 0.3s ease;
+		}
+
+		&:hover {
+			color: $color-text-primary;
+		}
+
+		&_active {
+			color: $color-text-primary;
+			font-weight: 600;
+
+			&::after {
+				width: 100%;
+			}
+		}
+	}
+
+	&__search_toggle {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: rem(40);
+		height: rem(40);
+		border: none;
+		background: rgba($color-accent, 0.1);
+		color: $color-accent;
+		border-radius: 50%;
+		cursor: pointer;
+		transition: all 0.3s ease;
+		flex-shrink: 0;
+
+		&:hover {
+			background: rgba($color-accent, 0.2);
+			transform: scale(1.05);
+		}
+	}
+
+	&__search_container {
+		margin-top: rem(20);
+		overflow: hidden;
+	}
+
+	&__search_wrapper {
+		position: relative;
+		display: flex;
+		align-items: center;
+		background: $color-background;
+		border: 2px solid rgba($color-border, 0.2);
+		border-radius: rem(16);
+		padding: rem(16) rem(20);
+		transition: all 0.3s ease;
+
+		&:focus-within {
+			border-color: $color-accent;
+			box-shadow: 0 0 0 4px rgba($color-accent, 0.1);
+		}
+	}
+
+	&__search_input {
+		flex: 1;
+		border: none;
+		background: none;
+		color: $color-text-primary;
+		font-size: rem(16);
+		font-family: $font-primary;
+		outline: none;
+
+		&::placeholder {
+			color: $color-text-secondary;
+		}
+	}
+
+	&__clear_button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: rem(24);
+		height: rem(24);
+		border: none;
+		background: rgba($color-accent, 0.1);
+		color: $color-accent;
+		border-radius: 50%;
+		cursor: pointer;
+		transition: all 0.2s ease;
+		margin-left: rem(8);
+	}
+
+	&__results {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-top: rem(20);
+		padding: rem(16) 0;
+		border-top: 1px solid rgba($color-border, 0.1);
+	}
+
+	&__results_text {
+		font-size: rem(16);
+		color: $color-text-secondary;
+		font-weight: 500;
+	}
+
+	&__clear_all {
+		background: none;
+		border: none;
+		color: $color-accent;
+		font-size: rem(14);
+		font-weight: 500;
+		cursor: pointer;
+		padding: rem(8) rem(12);
+		border-radius: rem(8);
+		transition: all 0.2s ease;
+
+		&:hover {
+			background: rgba($color-accent, 0.1);
+		}
+	}
+}
+
+@media (max-width: #{$md}) {
+	.BlogSearch {
+		padding: rem(20);
+		margin-bottom: rem(30);
+
+		&__container {
+			flex-direction: column;
+			align-items: stretch;
+			gap: rem(15);
+		}
+
+		&__categories {
+			justify-content: center;
+			gap: rem(15);
+		}
+
+		&__category {
+			font-size: rem(14);
+		}
+
+		&__search_toggle {
+			align-self: flex-end;
+		}
+
+		&__search_wrapper {
+			padding: rem(14) rem(16);
+		}
+
+		&__search_input {
+			font-size: rem(15);
+		}
+
+		&__results {
+			flex-direction: column;
+			align-items: center;
+			gap: rem(12);
+		}
+	}
+}

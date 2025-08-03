@@ -18,3 +18,6 @@ export { default as ServiceCard } from './ServiceCard/ServiceCard';
 
 // Testimonials
 export { default as TestimonialCard } from './TestimonialCard/TestimonialCard';
+
+// Blog
+export { default as BlogCard } from './BlogCard/BlogCard';

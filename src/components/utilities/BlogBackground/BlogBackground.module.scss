@@ -1,0 +1,135 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.BlogBackground {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	z-index: 0;
+	overflow: hidden;
+
+	&__circle1 {
+		position: absolute;
+		top: 15%;
+		left: 10%;
+		width: rem(120);
+		height: rem(120);
+		border-radius: 50%;
+		background: $color-grey-verylight;
+		border: 2px solid rgba($color-grey-verylight, 0.5);
+		backdrop-filter: blur(10px);
+
+		@media #{$md} {
+			width: rem(150);
+			height: rem(150);
+		}
+	}
+
+	&__circle2 {
+		position: absolute;
+		top: 60%;
+		right: 15%;
+		width: rem(80);
+		height: rem(80);
+		border-radius: 50%;
+		background: $color-grey-verylight;
+		border: 2px solid rgba($color-grey-verylight, 0.5);
+		backdrop-filter: blur(10px);
+
+		@media #{$md} {
+			width: rem(100);
+			height: rem(100);
+		}
+	}
+
+	&__circle3 {
+		position: absolute;
+		bottom: 20%;
+		left: 20%;
+		width: rem(60);
+		height: rem(60);
+		border-radius: 50%;
+		background: $color-grey-verylight;
+		border: 2px solid rgba($color-grey-verylight, 0.5);
+		backdrop-filter: blur(10px);
+
+		@media #{$md} {
+			width: rem(80);
+			height: rem(80);
+		}
+	}
+
+	&__square1 {
+		position: absolute;
+		top: 30%;
+		right: 25%;
+		width: rem(40);
+		height: rem(40);
+		background: linear-gradient(
+			45deg,
+			rgba($color-accent, 0.45) 0%,
+			rgba($color-accent, 0.25) 100%
+		);
+		border: 1px solid rgba($color-accent, 0.6);
+		backdrop-filter: blur(5px);
+		transform: rotate(45deg);
+
+		@media #{$md} {
+			width: rem(50);
+			height: rem(50);
+		}
+	}
+
+	&__square2 {
+		position: absolute;
+		bottom: 40%;
+		left: 5%;
+		width: rem(30);
+		height: rem(30);
+		background: linear-gradient(
+			45deg,
+			rgba($color-secondary, 0.45) 0%,
+			rgba($color-secondary, 0.25) 100%
+		);
+		border: 1px solid rgba($color-secondary, 0.6);
+		backdrop-filter: blur(5px);
+		transform: rotate(45deg);
+
+		@media #{$md} {
+			width: rem(40);
+			height: rem(40);
+		}
+	}
+
+	&__gradient {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: radial-gradient(
+			ellipse at top,
+			rgba($color-accent, 0.1) 0%,
+			transparent 50%
+		);
+		pointer-events: none;
+	}
+}
+
+@media (max-width: #{$md}) {
+	.BlogBackground {
+		&__circle1,
+		&__circle2,
+		&__circle3 {
+			opacity: 0.7;
+		}
+
+		&__square1,
+		&__square2 {
+			opacity: 0.6;
+		}
+	}
+}

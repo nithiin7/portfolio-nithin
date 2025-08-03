@@ -1,0 +1,47 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.BlogNavbar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 1000;
+	background: rgba($color-background, 0.95);
+	backdrop-filter: blur(20px);
+	border-bottom: 1px solid rgba($color-border, 0.1);
+	padding: rem(20) 0;
+
+	&__container {
+		max-width: rem(1920);
+		margin: 0 auto;
+		padding: 0 rem(20);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: rem(40);
+		position: relative;
+		max-height: rem(40);
+	}
+
+	&__logo {
+		display: flex;
+		align-items: center;
+		text-decoration: none;
+		transition: transform 0.3s ease;
+		filter: drop-shadow(0 rem(4) rem(8) rgba(0, 0, 0, 0.15));
+
+		&:hover {
+			transform: scale(1.05);
+			filter: drop-shadow(0 rem(6) rem(12) rgba(0, 0, 0, 0.2));
+		}
+
+		svg {
+			width: rem(70);
+			height: auto;
+			@media #{$md} {
+				width: rem(90);
+			}
+		}
+	}
+}
