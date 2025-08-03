@@ -1,24 +1,46 @@
+import type { Document } from '@contentful/rich-text-types';
+
 export interface BlogPost {
 	id: string;
 	title: string;
 	slug: string;
 	excerpt: string;
-	content: string;
-	featuredImage?: string;
+	content: {
+		json: Document;
+		links?: {
+			assets?: {
+				block?: {
+					sys: {
+						id: string;
+					};
+					url: string;
+					title: string;
+					description?: string;
+				}[];
+			};
+		};
+	};
+	featuredImage?: {
+		url: string;
+		title?: string;
+		description?: string;
+	};
 	category: string;
 	tags: string[];
-	author: {
-		name: string;
-		avatar?: string;
-	};
 	publishedAt: string;
 	updatedAt: string;
 	readTime: number;
-	seo?: {
+	authorName: string;
+	authorAvatar: {
+		url: string;
 		title?: string;
 		description?: string;
-		keywords?: string[];
 	};
+	publishedDate: string;
+	updatedDate: string;
+	seoTitle: string;
+	seoDescription: string;
+	seoKeywords: string[];
 }
 
 export interface BlogCategory {

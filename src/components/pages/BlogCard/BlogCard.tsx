@@ -27,8 +27,8 @@ const BlogCard: FC<BlogCardProps> = ({ post }) => {
 					{post.featuredImage && (
 						<div className={styles.BlogCard__image_wrapper}>
 							<img
-								src={post.featuredImage}
-								alt={post.title}
+								src={post.featuredImage.url}
+								alt={post.featuredImage.title || post.title}
 								className={styles.BlogCard__image}
 								loading="lazy"
 							/>

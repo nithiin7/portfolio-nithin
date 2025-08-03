@@ -94,3 +94,97 @@ export interface PortfolioDetails {
 	github: string;
 	tech: string[];
 }
+
+export interface BlogPostCollection {
+	__typename: string;
+	total: number;
+	items: BlogPostItem[];
+}
+
+export interface BlogPostItem {
+	sys: {
+		id: string;
+	};
+	title: string;
+	slug: string;
+	excerpt: string;
+	content?: {
+		json: Document;
+		links?: {
+			assets?: {
+				block?: {
+					sys: {
+						id: string;
+					};
+					url: string;
+					title: string;
+					description?: string;
+				}[];
+			};
+		};
+	};
+	featuredImage?: {
+		url: string;
+		title?: string;
+		description?: string;
+	};
+	category: string;
+	tags: string[];
+	authorName: string;
+	authorAvatar?: {
+		url: string;
+		title?: string;
+		description?: string;
+	};
+	publishedDate: string;
+	updatedDate?: string;
+	readTime: number;
+	seoTitle?: string;
+	seoDescription?: string;
+	seoKeywords?: string[];
+}
+
+export interface BlogCategoryCollection {
+	__typename: string;
+	items: BlogCategoryItem[];
+}
+
+export interface BlogCategoryItem {
+	sys: {
+		id: string;
+	};
+	name: string;
+	slug: string;
+	description?: string;
+}
+
+export interface BlogTagCollection {
+	__typename: string;
+	items: BlogTagItem[];
+}
+
+export interface BlogTagItem {
+	sys: {
+		id: string;
+	};
+	name: string;
+	slug: string;
+}
+
+export interface BlogPostsResponse {
+	blogPostCollection: BlogPostCollection;
+}
+
+export interface BlogPostBySlugResponse {
+	blogPostCollection: {
+		items: BlogPostItem[];
+	};
+}
+
+export interface BlogCategoriesResponse {
+	blogCategoryCollection: BlogCategoryCollection;
+}
+
+export interface BlogTagsResponse {
+	blogTagCollection: BlogTagCollection;
+}

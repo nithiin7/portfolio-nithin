@@ -1,8 +1,15 @@
 import type { ApolloQueryResult } from '@apollo/client';
+import type { Document } from '@contentful/rich-text-types';
 
-import { GET_PAGE } from 'queries';
+import { GET_PAGE, GET_ALL_BLOG_POSTS, GET_BLOG_POST_BY_SLUG } from 'queries';
 import { GET_PORTFOLIO } from 'queries/portfolio';
+import type { BlogPost, BlogCategory, BlogTag } from 'types/blog';
 import type { PageData, PortfolioData } from 'types/contentful';
+import type {
+	BlogPostItem,
+	BlogCategoryItem,
+	BlogTagItem,
+} from 'types/contentful';
 
 import { initializeApollo } from '../../lib/apolloClient';
 
@@ -40,4 +47,125 @@ const loadPortfolioData = async (
 	return data;
 };
 
-export { loadData, loadPortfolioData };
+export const convertContentfulBlogPost = (
+	contentfulPost: BlogPostItem
+): BlogPost => {
+	return {
+		id: contentfulPost.sys.id,
+		title: contentfulPost.title,
+		slug: contentfulPost.slug,
+		excerpt: contentfulPost.excerpt,
+		content: contentfulPost.content || { json: {} as Document },
+		featuredImage: contentfulPost.featuredImage || {
+			url: '',
+			title: '',
+			description: '',
+		},
+		category: contentfulPost.category,
+		tags: contentfulPost.tags || [],
+		authorName: contentfulPost.authorName,
+		authorAvatar: contentfulPost.authorAvatar || {
+			url: '',
+			title: '',
+			description: '',
+		},
+		publishedAt: contentfulPost.publishedDate,
+		updatedAt: contentfulPost.updatedDate || contentfulPost.publishedDate,
+		readTime: contentfulPost.readTime,
+		publishedDate: contentfulPost.publishedDate,
+		updatedDate: contentfulPost.updatedDate || contentfulPost.publishedDate,
+		seoTitle: contentfulPost.seoTitle || '',
+		seoDescription: contentfulPost.seoDescription || '',
+		seoKeywords: contentfulPost.seoKeywords || [],
+	};
+};
+
+export const convertContentfulCategory = (
+	contentfulCategory: BlogCategoryItem
+): BlogCategory => {
+	return {
+		id: contentfulCategory.sys.id,
+		name: contentfulCategory.name,
+		slug: contentfulCategory.slug,
+		description: contentfulCategory.description,
+		postCount: 0,
+	};
+};
+
+export const convertContentfulTag = (contentfulTag: BlogTagItem): BlogTag => {
+	return {
+		id: contentfulTag.sys.id,
+		name: contentfulTag.name,
+		slug: contentfulTag.slug,
+		postCount: 0,
+	};
+};
+
+export const getRichTextContent = (
+	content: { json: Document } | null | undefined
+): string => {
+	if (!content?.json) return '';
+
+	return JSON.stringify(content.json);
+};
+
+export const getImageUrl = (
+	image: { url: string } | null | undefined,
+	fallback?: string
+): string => {
+	return image?.url || fallback || '';
+};
+
+export const formatDate = (dateString: string): string => {
+	return new Date(dateString).toLocaleDateString('en-US', {
+		year: 'numeric',
+		month: 'long',
+		day: 'numeric',
+	});
+};
+
+export const calculateReadTime = (content: string): number => {
+	const wordsPerMinute = 200;
+	const words = content.trim().split(/\s+/).length;
+	return Math.ceil(words / wordsPerMinute);
+};
+
+/**
+ * Fetches all blog posts from Contentful using Apollo Client.
+ *
+ * @param {number} limit - The maximum number of posts to fetch.
+ * @param {number} skip - The number of posts to skip.
+ * @returns {Promise<ApolloQueryResult<any>>} - A promise that resolves to the blog posts data from Contentful.
+ */
+const loadBlogPosts = async (
+	limit = 10,
+	skip = 0
+): Promise<ApolloQueryResult<any>> => {
+	const apolloClient = initializeApollo();
+	const data = await apolloClient.query({
+		query: GET_ALL_BLOG_POSTS,
+		variables: { limit, skip },
+	});
+
+	return data;
+};
+
+/**
+ * Fetches a specific blog post by slug from Contentful using Apollo Client.
+ *
+ * @param {string} slug - The slug of the blog post to fetch.
+ * @returns {Promise<ApolloQueryResult<any>>} - A promise that resolves to the blog post data from Contentful.
+ */
+const loadBlogPostBySlug = async (
+	slug: string
+): Promise<ApolloQueryResult<any>> => {
+	const apolloClient = initializeApollo();
+	const data = await apolloClient.query({
+		query: GET_BLOG_POST_BY_SLUG,
+		variables: { slug },
+	});
+
+	return data;
+};
+
+export { loadData, loadPortfolioData, loadBlogPosts, loadBlogPostBySlug };
