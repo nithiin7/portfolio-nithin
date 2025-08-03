@@ -21,3 +21,10 @@ export const contactSchema = yup
 			}),
 	})
 	.required();
+
+export const emailSchema = yup.object({
+	email: yup
+		.string()
+		.email('Please enter a valid email address')
+		.required('Email is required'),
+});
