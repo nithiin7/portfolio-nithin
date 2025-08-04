@@ -1,0 +1,212 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.commentCard {
+	background: rgba($color-white, 0.02);
+	border: 1px solid rgba($color-border, 0.1);
+	border-radius: rem(16);
+	padding: rem(24);
+	margin-bottom: rem(20);
+	backdrop-filter: blur(10px);
+	transition: $transition;
+
+	&:hover {
+		background: rgba($color-white, 0.04);
+		border-color: rgba($color-accent, 0.2);
+		transform: translateY(-2px);
+		box-shadow: 0 rem(8) rem(32) rgba($color-accent, 0.1);
+	}
+
+	&__header {
+		display: flex;
+		align-items: center;
+		gap: rem(16);
+		margin-bottom: rem(16);
+	}
+
+	&__avatar {
+		width: rem(48);
+		height: rem(48);
+		border-radius: 50%;
+		background: linear-gradient(135deg, #ff5722, #d84315);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+		box-shadow: 0 rem(4) rem(16) rgba(255, 87, 34, 0.3);
+	}
+
+	&__initials {
+		color: $color-white;
+		font-weight: 600;
+		font-size: rem(16);
+		letter-spacing: 0.5px;
+	}
+
+	&__meta {
+		flex: 1;
+		min-width: 0;
+	}
+
+	&__author {
+		color: $color-text-primary;
+		font-size: rem(16);
+		font-weight: 600;
+		margin: 0 0 rem(4) 0;
+		line-height: 1.4;
+	}
+
+	&__date {
+		color: $color-text-secondary;
+		font-size: rem(14);
+		font-weight: 500;
+	}
+
+	&__content {
+		margin-bottom: rem(16);
+	}
+
+	&__replyTo {
+		color: $color-text-secondary;
+		font-size: rem(14);
+		margin-bottom: rem(8);
+		padding: rem(8) rem(12);
+		background: rgba(255, 87, 34, 0.1);
+		border-radius: rem(8);
+		border-left: 3px solid $color-accent;
+
+		strong {
+			color: $color-accent;
+			font-weight: 600;
+		}
+	}
+
+	&__text {
+		color: $color-text-primary;
+		font-size: rem(16);
+		line-height: 1.6;
+		margin: 0;
+		word-wrap: break-word;
+	}
+
+	&__actions {
+		display: flex;
+		align-items: center;
+		gap: rem(16);
+		flex-wrap: wrap;
+	}
+
+	&__replyButton,
+	&__toggleReplies {
+		background: none;
+		border: none;
+		color: $color-accent;
+		font-size: rem(14);
+		font-weight: 600;
+		cursor: pointer;
+		padding: rem(8) rem(16);
+		border-radius: rem(8);
+		transition: $transition;
+		text-decoration: none;
+
+		&:hover {
+			background: rgba(255, 87, 34, 0.1);
+			color: #ff7043;
+		}
+
+		&:focus {
+			outline: 2px solid $color-accent;
+			outline-offset: 2px;
+		}
+	}
+
+	&__replies {
+		margin-top: rem(20);
+		padding-left: rem(24);
+		border-left: 2px solid rgba(255, 87, 34, 0.2);
+		overflow: hidden;
+	}
+
+	&__reply {
+		margin-bottom: rem(16);
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+
+		.commentCard {
+			background: rgba($color-white, 0.01);
+			border-color: rgba($color-border, 0.05);
+			padding: rem(20);
+
+			&:hover {
+				background: rgba($color-white, 0.03);
+				border-color: rgba(255, 87, 34, 0.15);
+			}
+
+			.commentCard__avatar {
+				width: rem(40);
+				height: rem(40);
+
+				.commentCard__initials {
+					font-size: rem(14);
+				}
+			}
+
+			.commentCard__author {
+				font-size: rem(15);
+			}
+
+			.commentCard__text {
+				font-size: rem(15);
+			}
+		}
+	}
+
+	@media #{$md} {
+		padding: rem(20);
+
+		&__header {
+			gap: rem(12);
+		}
+
+		&__avatar {
+			width: rem(40);
+			height: rem(40);
+
+			.commentCard__initials {
+				font-size: rem(14);
+			}
+		}
+
+		&__author {
+			font-size: rem(15);
+		}
+
+		&__text {
+			font-size: rem(15);
+		}
+
+		&__replies {
+			padding-left: rem(16);
+		}
+	}
+
+	@media #{$sm} {
+		padding: rem(16);
+
+		&__header {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: rem(12);
+		}
+
+		&__actions {
+			gap: rem(12);
+		}
+
+		&__replies {
+			padding-left: rem(12);
+		}
+	}
+}

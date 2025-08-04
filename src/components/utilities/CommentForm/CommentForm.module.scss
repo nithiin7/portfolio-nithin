@@ -1,0 +1,265 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.commentForm {
+	background: rgba($color-white, 0.02);
+	border: 1px solid rgba($color-border, 0.1);
+	border-radius: rem(20);
+	padding: rem(32);
+	margin-bottom: rem(40);
+	backdrop-filter: blur(10px);
+	transition: $transition;
+
+	&:hover {
+		background: rgba($color-white, 0.04);
+		border-color: rgba(255, 87, 34, 0.2);
+		box-shadow: 0 rem(8) rem(32) rgba(255, 87, 34, 0.1);
+	}
+
+	&__replyHeader {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: rem(24);
+		padding: rem(12) rem(16);
+		background: rgba(255, 87, 34, 0.1);
+		border-radius: rem(12);
+		border-left: 4px solid $color-accent;
+	}
+
+	&__replyText {
+		color: $color-text-primary;
+		font-size: rem(14);
+		font-weight: 500;
+
+		strong {
+			color: $color-accent;
+			font-weight: 600;
+		}
+	}
+
+	&__cancelReply {
+		background: none;
+		border: none;
+		color: $color-text-secondary;
+		font-size: rem(14);
+		font-weight: 600;
+		cursor: pointer;
+		padding: rem(6) rem(12);
+		border-radius: rem(6);
+		transition: $transition;
+
+		&:hover {
+			background: rgba($color-text-secondary, 0.1);
+			color: $color-text-primary;
+		}
+
+		&:focus {
+			outline: 2px solid $color-accent;
+			outline-offset: 2px;
+		}
+	}
+
+	&__form {
+		display: flex;
+		flex-direction: column;
+		gap: rem(24);
+	}
+
+	&__row {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: rem(20);
+
+		@media #{$md} {
+			grid-template-columns: 1fr;
+			gap: rem(16);
+		}
+	}
+
+	&__input {
+		width: 100%;
+	}
+
+	&__textarea {
+		width: 100%;
+	}
+
+	&__submit {
+		background: linear-gradient(135deg, $color-accent, #d84315);
+		color: $color-white;
+		border: none;
+		border-radius: rem(12);
+		padding: rem(16) rem(32);
+		font-size: rem(16);
+		font-weight: 600;
+		cursor: pointer;
+		transition: $transition;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: rem(12);
+		box-shadow: 0 rem(4) rem(16) rgba(255, 87, 34, 0.3);
+		position: relative;
+		overflow: hidden;
+
+		&:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 rem(8) rem(24) rgba(255, 87, 34, 0.4);
+		}
+
+		&:active {
+			transform: translateY(0);
+		}
+
+		&:disabled {
+			opacity: 0.7;
+			cursor: not-allowed;
+			transform: none;
+		}
+
+		&:focus {
+			outline: 2px solid $color-accent;
+			outline-offset: 2px;
+		}
+
+		&::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: -100%;
+			width: 100%;
+			height: 100%;
+			background: linear-gradient(
+				90deg,
+				transparent,
+				rgba($color-white, 0.2),
+				transparent
+			);
+			transition: left 0.5s;
+		}
+
+		&:hover::before {
+			left: 100%;
+		}
+	}
+
+	&__spinner {
+		width: rem(20);
+		height: rem(20);
+		border: 2px solid rgba($color-white, 0.3);
+		border-top: 2px solid $color-white;
+		border-radius: 50%;
+		animation: spin 1s linear infinite;
+	}
+
+	@keyframes spin {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
+	}
+
+	// Success state
+	&__success {
+		text-align: center;
+		padding: rem(40);
+		background: rgba(255, 87, 34, 0.05);
+		border-color: rgba(255, 87, 34, 0.3);
+	}
+
+	&__successIcon {
+		width: rem(60);
+		height: rem(60);
+		background: $color-accent;
+		color: $color-white;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: rem(24);
+		font-weight: bold;
+		margin: 0 auto rem(20) auto;
+		box-shadow: 0 rem(4) rem(16) rgba(255, 87, 34, 0.3);
+	}
+
+	&__successTitle {
+		color: $color-text-primary;
+		font-size: rem(20);
+		font-weight: 600;
+		margin: 0 0 rem(12) 0;
+	}
+
+	&__successMessage {
+		color: $color-text-secondary;
+		font-size: rem(16);
+		line-height: 1.5;
+		margin: 0;
+	}
+
+	@media #{$md} {
+		padding: rem(24);
+
+		&__replyHeader {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: rem(12);
+		}
+
+		&__submit {
+			padding: rem(14) rem(24);
+			font-size: rem(15);
+		}
+
+		&__success {
+			padding: rem(32);
+		}
+
+		&__successIcon {
+			width: rem(50);
+			height: rem(50);
+			font-size: rem(20);
+		}
+
+		&__successTitle {
+			font-size: rem(18);
+		}
+
+		&__successMessage {
+			font-size: rem(15);
+		}
+	}
+
+	@media #{$sm} {
+		padding: rem(20);
+
+		&__form {
+			gap: rem(20);
+		}
+
+		&__submit {
+			padding: rem(12) rem(20);
+			font-size: rem(14);
+		}
+
+		&__success {
+			padding: rem(24);
+		}
+
+		&__successIcon {
+			width: rem(40);
+			height: rem(40);
+			font-size: rem(18);
+		}
+
+		&__successTitle {
+			font-size: rem(16);
+		}
+
+		&__successMessage {
+			font-size: rem(14);
+		}
+	}
+}

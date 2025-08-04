@@ -312,34 +312,6 @@
 		}
 	}
 
-	&__tags {
-		display: flex;
-		flex-wrap: wrap;
-		gap: rem(8);
-		margin-bottom: rem(30);
-		justify-content: flex-start;
-	}
-
-	&__tag {
-		background: $color-surface;
-		color: $color-white;
-		padding: rem(6) rem(12);
-		border-radius: rem(16);
-		font-size: rem(12);
-		font-weight: 500;
-		border: 1px solid $color-border;
-		transition: $transition;
-		cursor: pointer;
-
-		&:hover {
-			background: $color-accent;
-			color: $color-white;
-			border-color: $color-accent;
-			transform: translateY(-2px);
-			box-shadow: 0 rem(4) rem(15) rgba($color-accent, 0.3);
-		}
-	}
-
 	&__content_wrapper {
 		justify-content: space-between;
 		flex-direction: row;

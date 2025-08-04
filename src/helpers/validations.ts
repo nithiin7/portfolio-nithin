@@ -28,3 +28,20 @@ export const emailSchema = yup.object({
 		.email('Please enter a valid email address')
 		.required('Email is required'),
 });
+
+export const commentSchema = yup.object({
+	authorName: yup
+		.string()
+		.required('Name is required')
+		.min(2, 'Name must be at least 2 characters')
+		.max(50, 'Name must be less than 50 characters'),
+	authorEmail: yup
+		.string()
+		.required('Email is required')
+		.email('Please enter a valid email address'),
+	content: yup
+		.string()
+		.required('Comment is required')
+		.min(10, 'Comment must be at least 10 characters')
+		.max(1000, 'Comment must be less than 1000 characters'),
+});
