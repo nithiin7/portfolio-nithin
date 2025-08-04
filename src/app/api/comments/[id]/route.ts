@@ -7,7 +7,7 @@ interface RouteParams {
 	params: Promise<{ id: string }>;
 }
 
-export async function GET({ params }: RouteParams) {
+export async function GET(request: NextRequest, { params }: RouteParams) {
 	try {
 		const { id } = await params;
 		const { data: comment, error } = await commentsService.getCommentById(id);
@@ -139,7 +139,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
 	}
 }
 
-export async function DELETE({ params }: RouteParams) {
+export async function DELETE(request: NextRequest, { params }: RouteParams) {
 	try {
 		const { id } = await params;
 		const { error } = await commentsService.deleteComment(id);
