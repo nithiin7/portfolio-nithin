@@ -28,11 +28,9 @@
 		display: flex;
 		align-items: center;
 		text-decoration: none;
-		transition: transform 0.3s ease;
 		filter: drop-shadow(0 rem(4) rem(8) rgba(0, 0, 0, 0.15));
 
 		&:hover {
-			transform: scale(1.05);
 			filter: drop-shadow(0 rem(6) rem(12) rgba(0, 0, 0, 0.2));
 		}
 

@@ -1,0 +1,94 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.commentBox {
+	background-color: $color-surface;
+	border: 1px solid $color-border;
+	border-radius: 12px;
+	padding: 1rem;
+	cursor: pointer;
+	transition: $transition;
+	user-select: none;
+
+	&:hover {
+		border-color: $color-accent;
+		box-shadow: 0 4px 12px rgba($color-accent, 0.1);
+	}
+
+	&__content {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+	}
+
+	&__avatar {
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		background-color: $color-grey-light;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: $color-text-secondary;
+		flex-shrink: 0;
+	}
+
+	&__input {
+		flex: 1;
+		min-width: 0;
+	}
+
+	&__placeholder {
+		color: $color-bg-light;
+		font-size: 0.95rem;
+		font-weight: 400;
+		line-height: 1.4;
+	}
+
+	&__icon {
+		color: $color-bg-light;
+		opacity: 0.6;
+		flex-shrink: 0;
+		transition: $transition;
+
+		.commentBox:hover & {
+			opacity: 1;
+			color: $color-accent;
+		}
+	}
+}
+
+@media (max-width: 768px) {
+	.commentBox {
+		padding: 0.75rem;
+
+		&__content {
+			gap: 0.5rem;
+		}
+
+		&__avatar {
+			width: 36px;
+			height: 36px;
+		}
+
+		&__placeholder {
+			font-size: 0.9rem;
+		}
+	}
+}
+
+[data-theme='light'] {
+	.commentBox {
+		background-color: $color-surface;
+		border-color: $color-border;
+
+		&:hover {
+			border-color: $color-accent;
+		}
+
+		&__avatar {
+			background-color: $color-grey-light;
+			color: $color-text-secondary;
+		}
+	}
+}

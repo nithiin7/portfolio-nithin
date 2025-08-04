@@ -151,7 +151,6 @@ export default [
 					disallowTypeAnnotations: false,
 				},
 			],
-			'no-console': 'warn',
 		},
 	},
 	{

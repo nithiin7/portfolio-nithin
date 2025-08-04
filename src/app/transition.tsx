@@ -25,6 +25,27 @@ const anim = (variants: Variants) => {
 	};
 };
 
+const getPageWelcomeText = (pathname: string): string => {
+	switch (pathname) {
+		case '/':
+			return 'Welcome.';
+		case '/contact':
+			return "Let's Connect.";
+		case '/blog':
+			return 'Explore Stories.';
+		case '/portfolio':
+			return 'Discover Work.';
+		default:
+			if (pathname.startsWith('/blog/')) {
+				return 'Read & Reflect.';
+			}
+			if (pathname.startsWith('/portfolio/')) {
+				return 'View Project.';
+			}
+			return 'Welcome.';
+	}
+};
+
 const Curve = ({
 	children,
 	backgroundColor,
@@ -63,7 +84,7 @@ const Curve = ({
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.4 }}
 					>
-						{pathname === '/contact' ? "Let's Connect." : 'Welcome.'}
+						{getPageWelcomeText(pathname)}
 					</motion.p>
 				</motion.div>
 				{dimensions.width != null && dimensions.height != null && (

@@ -3,13 +3,14 @@ import { motion } from 'motion/react';
 import type { FC } from 'react';
 import { useState } from 'react';
 
-import type { Comment } from 'types/comment';
+import { CommentBox } from 'components/utilities';
+import type { Comment, CommentFormData } from 'types/comment';
 
 import styles from './CommentCard.module.scss';
 
 interface CommentCardProps {
 	comment: Comment;
-	onReply?: (parentId: string, authorName: string) => void;
+	onSubmit?: (data: CommentFormData) => Promise<void>;
 	replyingTo?: string;
 	className?: string;
 }
@@ -19,7 +20,7 @@ interface CommentCardProps {
  */
 const CommentCard: FC<CommentCardProps> = ({
 	comment,
-	onReply,
+	onSubmit,
 	replyingTo,
 	className = '',
 }) => {
@@ -89,15 +90,15 @@ const CommentCard: FC<CommentCardProps> = ({
 				<p className={styles.commentCard__text}>{comment.content}</p>
 			</div>
 			<div className={styles.commentCard__actions}>
-				<motion.button
-					className={styles.commentCard__replyButton}
-					onClick={() => onReply?.(comment.id, comment.authorName)}
-					whileHover={{ scale: 1.05 }}
-					whileTap={{ scale: 0.95 }}
-					transition={{ duration: 0.2 }}
-				>
-					Reply
-				</motion.button>
+				{onSubmit && (
+					<CommentBox
+						onSubmit={onSubmit}
+						replyingTo={comment.authorName}
+						replyingToId={comment.id}
+						placeholder={`Reply to ${comment.authorName}...`}
+						className={styles.commentCard__replyBox}
+					/>
+				)}
 				{comment.replies && comment.replies.length > 0 && (
 					<motion.button
 						className={styles.commentCard__toggleReplies}
@@ -125,7 +126,7 @@ const CommentCard: FC<CommentCardProps> = ({
 						<CommentCard
 							key={reply.id}
 							comment={reply}
-							onReply={onReply}
+							onSubmit={onSubmit}
 							replyingTo={comment.authorName}
 							className={styles.commentCard__reply}
 						/>

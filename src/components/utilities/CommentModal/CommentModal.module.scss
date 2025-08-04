@@ -1,0 +1,41 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.commentModal {
+	&__form {
+		.commentForm {
+			box-shadow: none;
+			border: none;
+			padding: 0;
+			background: none;
+
+			&__replyHeader {
+				margin-bottom: 1rem;
+			}
+
+			&__form {
+				gap: 1rem;
+			}
+
+			&__row {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 1rem;
+
+				@media (max-width: 768px) {
+					grid-template-columns: 1fr;
+				}
+			}
+
+			&__input,
+			&__textarea {
+				margin-bottom: 0;
+			}
+
+			&__submit {
+				margin-top: 0.5rem;
+				width: 100%;
+			}
+		}
+	}
+}

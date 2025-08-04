@@ -7,6 +7,7 @@ import {
 	loadBlogPosts,
 	convertContentfulBlogPost,
 } from 'helpers/contentful';
+import type { BlogPost } from 'types/blog';
 
 export async function generateMetadata(): Promise<Metadata> {
 	const props = await loadData('blog');
@@ -76,7 +77,7 @@ export async function generateMetadata(): Promise<Metadata> {
 			'article:author': 'Nithin Pradeep',
 			'article:section': 'Technology',
 			'article:tag': latestPosts
-				.flatMap((post: any) => post.tags || [])
+				.flatMap((post: BlogPost) => post.tags || [])
 				.slice(0, 10),
 		},
 	};

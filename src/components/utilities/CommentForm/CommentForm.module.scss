@@ -10,12 +10,6 @@
 	backdrop-filter: blur(10px);
 	transition: $transition;
 
-	&:hover {
-		background: rgba($color-white, 0.04);
-		border-color: rgba(255, 87, 34, 0.2);
-		box-shadow: 0 rem(8) rem(32) rgba(255, 87, 34, 0.1);
-	}
-
 	&__replyHeader {
 		display: flex;
 		align-items: center;
