@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import type { FC } from 'react';
 import { useState, useEffect } from 'react';
 
-import { CommentCard, CommentForm } from 'components/utilities';
+import { CommentCard, CommentBox } from 'components/utilities';
 import type { Comment, CommentFormData } from 'types/comment';
 
 import styles from './CommentSection.module.scss';
@@ -24,8 +24,6 @@ const CommentSection: FC<CommentSectionProps> = ({
 }) => {
 	const [comments, setComments] = useState<Comment[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
-	const [replyingTo, setReplyingTo] = useState<string | null>(null);
-	const [replyingToName, setReplyingToName] = useState<string>('');
 
 	useEffect(() => {
 		const loadComments = async () => {
@@ -81,9 +79,6 @@ const CommentSection: FC<CommentSectionProps> = ({
 				} else {
 					setComments((prev) => [...prev, newComment]);
 				}
-
-				setReplyingTo(null);
-				setReplyingToName('');
 			} else {
 				const errorData = await response.json();
 				console.error('Error submitting comment:', errorData.error);
@@ -91,16 +86,6 @@ const CommentSection: FC<CommentSectionProps> = ({
 		} catch (error) {
 			console.error('Error submitting comment:', error);
 		}
-	};
-
-	const handleReply = (commentId: string, authorName: string) => {
-		setReplyingTo(commentId);
-		setReplyingToName(authorName);
-	};
-
-	const handleCancelReply = () => {
-		setReplyingTo(null);
-		setReplyingToName('');
 	};
 
 	const topLevelComments = comments.filter((comment) => !comment.parentId);
@@ -141,11 +126,9 @@ const CommentSection: FC<CommentSectionProps> = ({
 					Share your thoughts and join the conversation
 				</p>
 			</motion.div>
-			<CommentForm
+			<CommentBox
 				onSubmit={handleSubmitComment}
-				replyingTo={replyingToName}
-				replyingToId={replyingTo || undefined}
-				onCancelReply={handleCancelReply}
+				placeholder="Share your thoughts on this article..."
 				className={styles.commentSection__form}
 			/>
 			<motion.div
@@ -183,7 +166,7 @@ const CommentSection: FC<CommentSectionProps> = ({
 						>
 							<CommentCard
 								comment={comment}
-								onReply={handleReply}
+								onSubmit={handleSubmitComment}
 								className={styles.commentSection__comment}
 							/>
 						</motion.div>
