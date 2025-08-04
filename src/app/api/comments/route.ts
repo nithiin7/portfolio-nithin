@@ -53,9 +53,9 @@ export async function POST(request: NextRequest) {
 			);
 		}
 
-		if (content.length < 10 || content.length > 1000) {
+		if (content.length < 1 || content.length > 1000) {
 			return NextResponse.json(
-				{ error: 'Comment must be between 10 and 1000 characters' },
+				{ error: 'Comment must be between 1 and 1000 characters' },
 				{ status: 400 }
 			);
 		}

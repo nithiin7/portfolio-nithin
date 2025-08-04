@@ -1,8 +1,10 @@
 'use client';
 import { motion } from 'motion/react';
+import Image from 'next/image';
 import Link from 'next/link';
 import type { FC } from 'react';
 
+import { ArrowIcon } from 'assets/icons';
 import type { BlogPost } from 'types/blog';
 
 import styles from './BlogCard.module.scss';
@@ -26,11 +28,12 @@ const BlogCard: FC<BlogCardProps> = ({ post }) => {
 				<div className={styles.BlogCard__image_container}>
 					{post.featuredImage && (
 						<div className={styles.BlogCard__image_wrapper}>
-							<img
+							<Image
 								src={post.featuredImage.url}
 								alt={post.featuredImage.title || post.title}
 								className={styles.BlogCard__image}
-								loading="lazy"
+								width={500}
+								height={500}
 							/>
 							<div className={styles.BlogCard__image_overlay} />
 						</div>
@@ -61,21 +64,7 @@ const BlogCard: FC<BlogCardProps> = ({ post }) => {
 							))}
 						</div>
 						<div className={styles.BlogCard__arrow}>
-							<svg
-								width="24"
-								height="24"
-								viewBox="0 0 24 24"
-								fill="none"
-								xmlns="http://www.w3.org/2000/svg"
-							>
-								<path
-									d="M7 17L17 7M17 7H7M17 7V17"
-									stroke="currentColor"
-									strokeWidth="2"
-									strokeLinecap="round"
-									strokeLinejoin="round"
-								/>
-							</svg>
+							<ArrowIcon />
 						</div>
 					</div>
 				</div>

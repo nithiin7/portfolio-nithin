@@ -6,6 +6,7 @@ import Link from 'next/link';
 import type { FC } from 'react';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
+import { WhatsAppIcon } from 'assets/icons';
 import { Navbar } from 'components/layouts';
 import { BlogCard } from 'components/pages';
 import {
@@ -231,7 +232,7 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 									className={`${styles.blogDetail__social_button} ${styles.blogDetail__social_button_whatsapp}`}
 									aria-label="Share on WhatsApp"
 								>
-									📱
+									<WhatsAppIcon />
 								</button>
 							</div>
 						</motion.div>
@@ -328,7 +329,8 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 									),
 									'embedded-asset-block': (node) => {
 										const asset = post.content?.links?.assets?.block?.find(
-											(asset: any) => asset.sys.id === node.data.target.sys.id
+											(asset: { sys: { id: string } }) =>
+												asset.sys.id === node.data.target.sys.id
 										);
 										if (asset) {
 											return (

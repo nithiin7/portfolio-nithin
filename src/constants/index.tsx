@@ -8,21 +8,19 @@ import type { Song } from 'types/song';
 import type { FooterLink, LinkItem } from 'types/utils';
 
 export const links: LinkItem[] = [
-	{ title: 'Home', href: '/' },
+	{ title: 'About', href: '/#about' },
+	{ title: 'Blogs', href: '/blog' },
+	{ title: 'Companies', href: '/#collaborations' },
 	{ title: 'Services', href: '/#services' },
 	{ title: 'Works', href: '/#portfolio' },
-	{ title: 'About', href: '/#about' },
-	{ title: 'Companies', href: '/#collaborations' },
-	{ title: 'Blog', href: '/blog' },
-	{ title: 'Contact', href: '/contact' },
 ];
 
 export const headerLinks: LinkItem[] = [
+	{ title: 'About', href: '/#about' },
+	{ title: 'Blogs', href: '/blog' },
+	{ title: 'Companies', href: '/#collaborations' },
 	{ title: 'Services', href: '/#services' },
 	{ title: 'Works', href: '/#portfolio' },
-	{ title: 'About', href: '/#about' },
-	{ title: 'Companies', href: '/#collaborations' },
-	{ title: 'Blog', href: '/blog' },
 ];
 
 export const socialsMenu: LinkItem[] = [

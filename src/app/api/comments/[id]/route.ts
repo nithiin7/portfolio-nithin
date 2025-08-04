@@ -7,10 +7,9 @@ interface RouteParams {
 	params: Promise<{ id: string }>;
 }
 
-export async function GET(request: NextRequest, { params }: RouteParams) {
+export async function GET({ params }: RouteParams) {
 	try {
 		const { id } = await params;
-
 		const { data: comment, error } = await commentsService.getCommentById(id);
 
 		if (error) {
@@ -56,9 +55,9 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 			);
 		}
 
-		if (content.length < 10 || content.length > 1000) {
+		if (content.length < 1 || content.length > 1000) {
 			return NextResponse.json(
-				{ error: 'Comment must be between 10 and 1000 characters' },
+				{ error: 'Comment must be between 1 and 1000 characters' },
 				{ status: 400 }
 			);
 		}
@@ -109,9 +108,9 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
 		}
 
 		if (body.content) {
-			if (body.content.length < 10 || body.content.length > 1000) {
+			if (body.content.length < 1 || body.content.length > 1000) {
 				return NextResponse.json(
-					{ error: 'Comment must be between 10 and 1000 characters' },
+					{ error: 'Comment must be between 1 and 1000 characters' },
 					{ status: 400 }
 				);
 			}
@@ -140,10 +139,9 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
 	}
 }
 
-export async function DELETE(request: NextRequest, { params }: RouteParams) {
+export async function DELETE({ params }: RouteParams) {
 	try {
 		const { id } = await params;
-
 		const { error } = await commentsService.deleteComment(id);
 
 		if (error) {
