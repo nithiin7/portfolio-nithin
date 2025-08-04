@@ -3,7 +3,7 @@ import { ReactLenis } from '@studio-freight/react-lenis';
 import { useEffect } from 'react';
 
 import { ThemeProvider } from 'contexts/ThemeContext';
-import { init } from 'services/analytics';
+import { init } from 'helpers/analytics';
 
 interface ProviderProps {
 	children: React.ReactNode;

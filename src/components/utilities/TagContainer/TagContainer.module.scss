@@ -1,0 +1,10 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.tagContainer {
+	display: flex;
+	flex-wrap: wrap;
+	gap: rem(8);
+	margin-bottom: rem(30);
+	justify-content: flex-start;
+}

@@ -20,11 +20,15 @@ git clone git@bitbucket.org:nithin-private/portfolio-nithin.git
 ```
 
 Install the project dependencies by running npm install.
-Create a .env file at the root of the project and add your Contentful API keys:
+Create a .env file at the root of the project and add your API keys:
 
 ```
 NEXT_PUBLIC_SPACE_ID=<your_space_id>
 NEXT_PUBLIC_AUTHORIZATION_TOKEN=<your_access_token>
+
+# Supabase (for comments)
+NEXT_PUBLIC_SUPABASE_URL=<your_supabase_url>
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<your_supabase_anon_key>
 ```
 
 Run the development server using npm run dev.

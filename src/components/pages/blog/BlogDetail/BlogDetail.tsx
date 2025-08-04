@@ -4,11 +4,25 @@ import { motion } from 'motion/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { FC } from 'react';
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
 import { Navbar } from 'components/layouts';
 import { BlogCard } from 'components/pages';
-import { MaskText, TableOfContents, Subscribe } from 'components/utilities';
-import { formatDate } from 'helpers/blog';
+import {
+	MaskText,
+	TableOfContents,
+	Subscribe,
+	CommentSection,
+	Tag,
+	TagContainer,
+} from 'components/utilities';
+import {
+	formatDate,
+	shareOnFacebook,
+	shareOnTwitter,
+	shareOnLinkedIn,
+	shareOnWhatsApp,
+} from 'helpers';
 import type { BlogPost } from 'types/blog';
 
 import styles from './BlogDetail.module.scss';
@@ -22,42 +36,40 @@ interface BlogDetailProps {
  * Blog detail client component with data fetching and modern animations
  */
 const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
-	const shareOnFacebook = () => {
+	const handleShareOnFacebook = () => {
 		if (!post) return;
-		const url = encodeURIComponent(window.location.href);
-		const text = encodeURIComponent(post.title);
-		window.open(
-			`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`,
-			'_blank'
-		);
+		shareOnFacebook({
+			url: window.location.href,
+			title: post.title,
+			description: post.excerpt,
+		});
 	};
 
-	const shareOnTwitter = () => {
+	const handleShareOnTwitter = () => {
 		if (!post) return;
-		const url = encodeURIComponent(window.location.href);
-		const text = encodeURIComponent(post.title);
-		window.open(
-			`https://twitter.com/intent/tweet?url=${url}&text=${text}`,
-			'_blank'
-		);
+		shareOnTwitter({
+			url: window.location.href,
+			title: post.title,
+			description: post.excerpt,
+		});
 	};
 
-	const shareOnLinkedIn = () => {
+	const handleShareOnLinkedIn = () => {
 		if (!post) return;
-		const url = encodeURIComponent(window.location.href);
-		const title = encodeURIComponent(post.title);
-		const summary = encodeURIComponent(post.excerpt);
-		window.open(
-			`https://www.linkedin.com/sharing/share-offsite/?url=${url}&title=${title}&summary=${summary}`,
-			'_blank'
-		);
+		shareOnLinkedIn({
+			url: window.location.href,
+			title: post.title,
+			description: post.excerpt,
+		});
 	};
 
-	const shareOnWhatsApp = () => {
+	const handleShareOnWhatsApp = () => {
 		if (!post) return;
-		const url = encodeURIComponent(window.location.href);
-		const text = encodeURIComponent(`${post.title} - ${post.excerpt}`);
-		window.open(`https://wa.me/?text=${text}%20${url}`, '_blank');
+		shareOnWhatsApp({
+			url: window.location.href,
+			title: post.title,
+			description: post.excerpt,
+		});
 	};
 
 	if (!post) {
@@ -194,28 +206,28 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 							<h4 className={styles.blogDetail__social_title}>SHARE</h4>
 							<div className={styles.blogDetail__social_buttons}>
 								<button
-									onClick={shareOnFacebook}
+									onClick={handleShareOnFacebook}
 									className={`${styles.blogDetail__social_button} ${styles.blogDetail__social_button_facebook}`}
 									aria-label="Share on Facebook"
 								>
 									f
 								</button>
 								<button
-									onClick={shareOnTwitter}
+									onClick={handleShareOnTwitter}
 									className={`${styles.blogDetail__social_button} ${styles.blogDetail__social_button_twitter}`}
 									aria-label="Share on Twitter"
 								>
 									𝕏
 								</button>
 								<button
-									onClick={shareOnLinkedIn}
+									onClick={handleShareOnLinkedIn}
 									className={`${styles.blogDetail__social_button} ${styles.blogDetail__social_button_linkedin}`}
 									aria-label="Share on LinkedIn"
 								>
 									in
 								</button>
 								<button
-									onClick={shareOnWhatsApp}
+									onClick={handleShareOnWhatsApp}
 									className={`${styles.blogDetail__social_button} ${styles.blogDetail__social_button_whatsapp}`}
 									aria-label="Share on WhatsApp"
 								>
@@ -226,25 +238,18 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 					</div>
 				</motion.section>
 				{post.tags.length > 0 && (
-					<motion.section
-						className={styles.blogDetail__tags}
-						initial={{ opacity: 0, y: 20 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.6, delay: 0.9 }}
-					>
+					<TagContainer delay={0.9}>
 						{post.tags.map((tag, index) => (
-							<motion.span
+							<Tag
 								key={tag}
-								className={styles.blogDetail__tag}
-								initial={{ opacity: 0, scale: 0.8 }}
-								animate={{ opacity: 1, scale: 1 }}
-								transition={{ duration: 0.4, delay: 1.0 + index * 0.1 }}
-								whileHover={{ scale: 1.05 }}
+								variant="secondary"
+								size="medium"
+								delay={1.0 + index * 0.1}
 							>
 								{tag}
-							</motion.span>
+							</Tag>
 						))}
-					</motion.section>
+					</TagContainer>
 				)}
 				<div className={styles.blogDetail__content_wrapper}>
 					<motion.article
@@ -384,6 +389,17 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 					</motion.section>
 				)}
 				<Subscribe delay={1.6} />
+				<GoogleReCaptchaProvider
+					reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+					scriptProps={{
+						async: true,
+						defer: true,
+						appendTo: 'body',
+						nonce: undefined,
+					}}
+				>
+					<CommentSection postId={post.id} postSlug={post.slug} />
+				</GoogleReCaptchaProvider>
 			</motion.div>
 		</div>
 	);
