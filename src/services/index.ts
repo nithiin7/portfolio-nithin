@@ -1,15 +1,13 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 
-import { supabase } from 'clients/supabase';
+import { getSupabaseClient } from 'clients/supabase';
 
 /**
  * Base service class providing generic CRUD operations for Supabase tables
  */
 export class BaseService {
-	protected client: SupabaseClient;
-
-	constructor() {
-		this.client = supabase;
+	protected get client(): SupabaseClient {
+		return getSupabaseClient();
 	}
 
 	/**
