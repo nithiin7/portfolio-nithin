@@ -13,6 +13,9 @@ const nextConfig = {
 		NEXT_PUBLIC_TEMPLATE_ID: 'template_va5jl1g',
 		NEXT_PUBLIC_GOOGLE_GTM_ID: 'GTM-P4D6XZ2C',
 		NEXT_PUBLIC_EMAILJS_ID: 'g4AdPHbp-OKcLJaca',
+		NEXT_PUBLIC_SUPABASE_URL: 'https://olitsvyfbbkdjksmoteo.supabase.co',
+		NEXT_PUBLIC_SUPABASE_ANON_KEY:
+			'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9saXRzdnlmYmJrZGprc21vdGVvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQzMTMzOTUsImV4cCI6MjA2OTg4OTM5NX0.fDzKyRu0-Frb6uK4JEWhQ9q0vdxYZF5JQQFEYfgo9_A',
 	},
 	images: {
 		remotePatterns: [
