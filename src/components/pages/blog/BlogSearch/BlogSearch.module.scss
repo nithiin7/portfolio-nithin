@@ -75,7 +75,6 @@
 		color: $color-accent;
 		border-radius: 50%;
 		cursor: pointer;
-		transition: all 0.3s ease;
 		flex-shrink: 0;
 
 		&:hover {
@@ -94,14 +93,17 @@
 		display: flex;
 		align-items: center;
 		background: $color-background;
-		border: 2px solid rgba($color-border, 0.2);
-		border-radius: rem(16);
+		border: rem(2) solid $color-accent;
+		border-radius: rem(12);
 		padding: rem(16) rem(20);
-		transition: all 0.3s ease;
+		box-shadow: 0 rem(4) rem(12) rgba($color-accent, 0.1);
 
 		&:focus-within {
-			border-color: $color-accent;
-			box-shadow: 0 0 0 4px rgba($color-accent, 0.1);
+			border-color: $color-accent-hover;
+			box-shadow:
+				0 0 0 rem(4) rgba($color-accent, 0.15),
+				0 rem(6) rem(16) rgba($color-accent, 0.2);
+			transform: translateY(rem(-1));
 		}
 	}
 
@@ -112,10 +114,14 @@
 		color: $color-text-primary;
 		font-size: rem(16);
 		font-family: $font-primary;
+		font-weight: 500;
 		outline: none;
+		letter-spacing: 0.02em;
 
 		&::placeholder {
 			color: $color-text-secondary;
+			font-weight: 400;
+			opacity: 0.8;
 		}
 	}
 
@@ -123,15 +129,20 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: rem(24);
-		height: rem(24);
+		width: rem(28);
+		height: rem(28);
 		border: none;
-		background: rgba($color-accent, 0.1);
+		background: rgba($color-accent, 0.15);
 		color: $color-accent;
 		border-radius: 50%;
 		cursor: pointer;
 		transition: all 0.2s ease;
-		margin-left: rem(8);
+		margin-left: rem(12);
+
+		&:hover {
+			background: rgba($color-accent, 0.25);
+			transform: scale(1.1);
+		}
 	}
 
 	&__results {

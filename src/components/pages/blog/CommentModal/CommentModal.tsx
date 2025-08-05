@@ -1,7 +1,8 @@
 'use client';
 import type { FC } from 'react';
 
-import { CommentForm, Modal } from 'components/utilities';
+import { CommentForm } from 'components/pages';
+import { Modal } from 'components/utilities';
 import type { CommentFormData } from 'types/comment';
 
 import styles from './CommentModal.module.scss';

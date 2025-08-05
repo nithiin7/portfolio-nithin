@@ -8,15 +8,8 @@ import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
 import { WhatsAppIcon } from 'assets/icons';
 import { Navbar } from 'components/layouts';
-import { BlogCard } from 'components/pages';
-import {
-	MaskText,
-	TableOfContents,
-	Subscribe,
-	CommentSection,
-	Tag,
-	TagContainer,
-} from 'components/utilities';
+import { BlogCard, CommentSection, TableOfContents } from 'components/pages';
+import { MaskText, Subscribe, Tag, TagContainer } from 'components/utilities';
 import {
 	formatDate,
 	shareOnFacebook,

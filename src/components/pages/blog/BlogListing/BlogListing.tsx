@@ -4,14 +4,13 @@ import type { FC } from 'react';
 import { useState } from 'react';
 
 import { Navbar } from 'components/layouts';
-import { BlogCard } from 'components/pages';
 import {
-	MaskText,
 	BlogBackground,
-	BlogSearch,
+	BlogCard,
 	BlogNoResults,
-	Subscribe,
-} from 'components/utilities';
+	BlogSearch,
+} from 'components/pages';
+import { MaskText, Subscribe } from 'components/utilities';
 import type { BlogPost } from 'types/blog';
 
 import styles from './BlogListing.module.scss';
