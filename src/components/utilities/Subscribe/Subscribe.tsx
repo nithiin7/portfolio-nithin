@@ -1,13 +1,19 @@
 'use client';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { motion } from 'motion/react';
 import type { FC } from 'react';
 import { useState } from 'react';
-import * as yup from 'yup';
+import type { SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 import { emailSchema } from 'helpers/validations';
 import { subscribeToNewsletter } from 'models/subscription';
 
 import styles from './Subscribe.module.scss';
+
+interface SubscribeFormData {
+	email: string;
+}
 
 interface SubscribeProps {
 	className?: string;
@@ -18,47 +24,35 @@ interface SubscribeProps {
  * Reusable Subscribe component for newsletter signup
  */
 const Subscribe: FC<SubscribeProps> = ({ className = '', delay = 0 }) => {
-	const [email, setEmail] = useState('');
-	const [error, setError] = useState('');
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [isSuccess, setIsSuccess] = useState(false);
 
-	const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const value = e.target.value;
-		setEmail(value);
+	const {
+		formState: { errors },
+		register,
+		handleSubmit,
+		reset,
+	} = useForm<SubscribeFormData>({
+		resolver: yupResolver(emailSchema),
+		defaultValues: {
+			email: '',
+		},
+	});
 
-		if (error) {
-			setError('');
-		}
-	};
-
-	const handleSubmit = async (e: React.FormEvent) => {
-		e.preventDefault();
+	const onSubmit: SubmitHandler<SubscribeFormData> = async (data) => {
 		setIsSubmitting(true);
-		setError('');
 
 		try {
-			await emailSchema.validate({ email });
-
-			// Call the API to subscribe the email
-			await subscribeToNewsletter(email);
+			await subscribeToNewsletter(data.email);
 
 			setIsSuccess(true);
-			setEmail('');
+			reset();
 
 			setTimeout(() => {
 				setIsSuccess(false);
 			}, 5000);
-		} catch (validationError) {
-			if (validationError instanceof yup.ValidationError) {
-				setError(validationError.errors[0]);
-			} else {
-				setError(
-					validationError instanceof Error
-						? validationError.message
-						: 'Something went wrong. Please try again.'
-				);
-			}
+		} catch (error) {
+			console.error('Error subscribing to newsletter:', error);
 		} finally {
 			setIsSubmitting(false);
 		}
@@ -94,18 +88,22 @@ const Subscribe: FC<SubscribeProps> = ({ className = '', delay = 0 }) => {
 						</p>
 					</motion.div>
 				) : (
-					<form onSubmit={handleSubmit} className={styles.subscribe__form}>
+					<form
+						onSubmit={handleSubmit(onSubmit)}
+						className={styles.subscribe__form}
+					>
 						<div className={styles.subscribe__inputWrapper}>
 							<input
 								type="email"
 								placeholder="Enter your email"
-								className={`${styles.subscribe__input} ${error ? styles.subscribe__inputError : ''}`}
-								value={email}
-								onChange={handleEmailChange}
+								className={`${styles.subscribe__input} ${errors?.email ? styles.subscribe__inputError : ''}`}
 								disabled={isSubmitting}
+								{...register('email')}
 							/>
-							{error && (
-								<span className={styles.subscribe__error}>{error}</span>
+							{errors?.email && (
+								<span className={styles.subscribe__error}>
+									{errors.email.message}
+								</span>
 							)}
 						</div>
 						<button

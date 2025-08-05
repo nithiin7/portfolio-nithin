@@ -78,7 +78,6 @@ const ContactForm: FC<ContactFormProps> = ({ className = '' }) => {
 				return;
 			}
 
-			// Add the token to the form
 			const formElement = form.current;
 			if (formElement) {
 				const recaptchaInput = document.createElement('input');
