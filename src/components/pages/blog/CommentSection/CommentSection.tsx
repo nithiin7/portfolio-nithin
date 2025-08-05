@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import type { FC } from 'react';
 import { useState, useEffect } from 'react';
 
-import { CommentCard, CommentBox } from 'components/utilities';
+import { CommentBox, CommentCard } from 'components/pages';
 import type { Comment, CommentFormData } from 'types/comment';
 
 import styles from './CommentSection.module.scss';

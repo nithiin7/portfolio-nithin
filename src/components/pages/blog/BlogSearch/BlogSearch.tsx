@@ -117,10 +117,11 @@ const BlogSearch: FC<BlogSearchProps> = ({ posts, onFilterChange }) => {
 				{isSearchOpen && (
 					<motion.div
 						className={styles.BlogSearch__search_container}
-						initial={{ opacity: 0, height: 0 }}
-						animate={{ opacity: 1, height: 'auto' }}
-						exit={{ opacity: 0, height: 0 }}
+						initial={{ opacity: 0, scaleY: 0 }}
+						animate={{ opacity: 1, scaleY: 1 }}
+						exit={{ opacity: 0, scaleY: 0 }}
 						transition={{ duration: 0.3, ease: [0.33, 1, 0.68, 1] }}
+						style={{ transformOrigin: 'top' }}
 					>
 						<div className={styles.BlogSearch__search_wrapper}>
 							<input

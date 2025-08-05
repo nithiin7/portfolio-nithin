@@ -5,6 +5,7 @@ import { useState } from 'react';
 import * as yup from 'yup';
 
 import { emailSchema } from 'helpers/validations';
+import { subscribeToNewsletter } from 'models/subscription';
 
 import styles from './Subscribe.module.scss';
 
@@ -39,7 +40,8 @@ const Subscribe: FC<SubscribeProps> = ({ className = '', delay = 0 }) => {
 		try {
 			await emailSchema.validate({ email });
 
-			console.log('Subscribing email:', email);
+			// Call the API to subscribe the email
+			await subscribeToNewsletter(email);
 
 			setIsSuccess(true);
 			setEmail('');
@@ -51,7 +53,11 @@ const Subscribe: FC<SubscribeProps> = ({ className = '', delay = 0 }) => {
 			if (validationError instanceof yup.ValidationError) {
 				setError(validationError.errors[0]);
 			} else {
-				setError('Something went wrong. Please try again.');
+				setError(
+					validationError instanceof Error
+						? validationError.message
+						: 'Something went wrong. Please try again.'
+				);
 			}
 		} finally {
 			setIsSubmitting(false);

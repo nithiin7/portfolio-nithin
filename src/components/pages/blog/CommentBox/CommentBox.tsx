@@ -4,7 +4,7 @@ import type { FC } from 'react';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 
-import { CommentModal } from 'components/utilities';
+import { CommentModal } from 'components/pages';
 import type { CommentFormData } from 'types/comment';
 
 import styles from './CommentBox.module.scss';
