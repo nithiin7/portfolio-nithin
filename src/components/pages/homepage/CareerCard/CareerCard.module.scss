@@ -1,0 +1,183 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.CareerCard {
+	background: $color-surface;
+	border-radius: 16px;
+	padding: 2.5rem;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	backdrop-filter: blur(10px);
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+	position: relative;
+	overflow: hidden;
+
+	&::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 4px;
+	}
+
+	&__content {
+		position: relative;
+		z-index: 1;
+	}
+
+	&__header {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+		gap: 2rem;
+		margin-bottom: 1rem;
+	}
+
+	&__company {
+		font-size: 1.75rem;
+		font-weight: 600;
+		color: $color-grey-pale;
+		margin-bottom: 0.5rem;
+		line-height: 1.2;
+	}
+
+	&__position {
+		font-size: 1.25rem;
+		color: $color-grey-pale;
+		margin-bottom: 0.75rem;
+		font-weight: 500;
+		line-height: 1.3;
+	}
+
+	&__meta {
+		display: flex;
+		flex-direction: column;
+		font-size: 0.9rem;
+		color: $color-grey-medium;
+		text-align: right;
+		min-width: 120px;
+	}
+
+	&__type {
+		background: $color-grey-pale;
+		color: $color-black;
+		padding: 0.25rem 0.75rem;
+		border-radius: 12px;
+		font-size: 0.8rem;
+		font-weight: 500;
+		text-transform: capitalize;
+		display: inline-block;
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		align-items: flex-end;
+		align-self: end;
+		margin-top: 0.5rem;
+	}
+
+	&__description {
+		list-style: none;
+		margin-bottom: 2rem;
+
+		li {
+			position: relative;
+			padding-left: 1.75rem;
+			margin-bottom: 1rem;
+			line-height: 1.6;
+			color: $color-grey-pale;
+
+			&::before {
+				content: '→';
+				position: absolute;
+				left: 0;
+				font-weight: bold;
+				font-size: 1.1rem;
+			}
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+	}
+
+	&__technologies {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		margin-top: 1.5rem;
+		padding-top: 1.5rem;
+		border-top: 1px solid rgba(255, 255, 255, 0.1);
+	}
+
+	&__techTag {
+		background: $color-tech-bg;
+		color: $color-tech-text;
+		padding: 0.5rem 1rem;
+		border-radius: 20px;
+		font-size: 0.85rem;
+		font-weight: 500;
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		transition: all 0.2s ease;
+
+		&:hover {
+			background: $color-tech-bg-hover;
+			transform: translateY(-1px);
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+		}
+	}
+}
+
+@media (max-width: 768px) {
+	.CareerCard {
+		padding: 2rem;
+
+		&__header {
+			flex-direction: column;
+			gap: 1rem;
+			align-items: flex-start;
+		}
+
+		&__company {
+			font-size: 1.5rem;
+		}
+
+		&__position {
+			font-size: 1.125rem;
+		}
+
+		&__meta {
+			flex-direction: row;
+			text-align: left;
+			min-width: auto;
+			gap: 1rem;
+		}
+
+		&__technologies {
+			gap: 0.5rem;
+		}
+
+		&__techTag {
+			padding: 0.375rem 0.75rem;
+			font-size: 0.8rem;
+		}
+	}
+}
+
+@media (max-width: 480px) {
+	.CareerCard {
+		padding: 1.5rem;
+
+		&__company {
+			font-size: 1.25rem;
+		}
+
+		&__position {
+			font-size: 1rem;
+		}
+
+		&__description {
+			li {
+				padding-left: 1.5rem;
+				font-size: 0.95rem;
+			}
+		}
+	}
+}
