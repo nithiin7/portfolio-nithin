@@ -1,6 +1,8 @@
 'use client';
 import { motion } from 'motion/react';
 
+import PaytmLogo from 'assets/logos/paytm-payments-bank.svg';
+import WhiteRabbitLogo from 'assets/logos/white-rabbit.svg';
 import type { Experience } from 'types/career';
 
 import styles from './CareerCard.module.scss';
@@ -38,6 +40,21 @@ const CareerCard: React.FC<CareerCardProps> = ({
 	experience,
 	className = '',
 }) => {
+	const getLogoComponent = (companyName: string) => {
+		const normalizedCompanyName = companyName.toLowerCase().trim();
+
+		if (normalizedCompanyName === 'paytm payments bank') {
+			return PaytmLogo;
+		}
+		if (normalizedCompanyName === 'white rabbit group') {
+			return WhiteRabbitLogo;
+		}
+
+		return null;
+	};
+
+	const LogoComponent = getLogoComponent(experience.company);
+
 	return (
 		<motion.div
 			className={`${styles.CareerCard} ${className}`}
@@ -50,11 +67,20 @@ const CareerCard: React.FC<CareerCardProps> = ({
 		>
 			<div className={styles.CareerCard__content}>
 				<div className={styles.CareerCard__header}>
-					<div>
-						<h3 className={styles.CareerCard__company}>{experience.company}</h3>
-						<h4 className={styles.CareerCard__position}>
-							{experience.position}
-						</h4>
+					<div className={styles.CareerCard__companyInfo}>
+						<div className={styles.CareerCard__logo}>
+							{LogoComponent && (
+								<LogoComponent className={styles.CareerCard__logoImage} />
+							)}
+						</div>
+						<div>
+							<h3 className={styles.CareerCard__company}>
+								{experience.company}
+							</h3>
+							<h4 className={styles.CareerCard__position}>
+								{experience.position}
+							</h4>
+						</div>
 					</div>
 					<div className={styles.CareerCard__meta}>
 						<span>{experience.duration}</span>
@@ -63,9 +89,11 @@ const CareerCard: React.FC<CareerCardProps> = ({
 					</div>
 				</div>
 				<ul className={styles.CareerCard__description}>
-					{experience.description.map((item, index) => (
-						<li key={index}>{item}</li>
-					))}
+					<div
+						dangerouslySetInnerHTML={{
+							__html: experience.description,
+						}}
+					/>
 				</ul>
 				<div className={styles.CareerCard__technologies}>
 					{experience.technologies.map((tech, index) => (
