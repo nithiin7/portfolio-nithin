@@ -3,7 +3,7 @@
 
 .blogDetail {
 	min-height: 100vh;
-	background: $color-background;
+	background: $color-primary;
 	color: $color-text-primary;
 	padding: 0;
 	position: relative;
@@ -152,7 +152,7 @@
 	}
 
 	&__title {
-		color: $color-white;
+		color: #ffffff;
 		font-size: clamp(2.5rem, 1.5rem + 3vw, 4rem);
 		letter-spacing: -0.025em;
 		margin-bottom: rem(20);
@@ -167,7 +167,7 @@
 	}
 
 	&__excerpt {
-		color: rgba($color-white, 0.9);
+		color: rgba(#ffffff, 0.9);
 		font-size: clamp(1.125rem, 2.5vw, 1.5rem);
 		line-height: 150%;
 		max-width: rem(800);
@@ -195,11 +195,11 @@
 		display: flex;
 		align-items: center;
 		gap: rem(12);
-		background: rgba($color-white, 0.1);
+		background: rgba(#ffffff, 0.1);
 		padding: rem(8) rem(16);
 		border-radius: rem(25);
 		backdrop-filter: blur(10px);
-		border: 1px solid rgba($color-white, 0.2);
+		border: 1px solid rgba(#ffffff, 0.2);
 	}
 
 	&__meta_avatar {
@@ -207,11 +207,11 @@
 		height: rem(32);
 		border-radius: 50%;
 		object-fit: cover;
-		border: 2px solid rgba($color-white, 0.3);
+		border: 2px solid rgba(#ffffff, 0.3);
 	}
 
 	&__meta_name {
-		color: $color-white;
+		color: #ffffff;
 		font-size: rem(14);
 		font-weight: 500;
 	}
@@ -225,8 +225,8 @@
 
 	&__meta_readtime,
 	&__meta_date {
-		background: rgba($color-white, 0.1);
-		color: $color-white;
+		background: rgba(#ffffff, 0.1);
+		color: #ffffff;
 		padding: rem(6) rem(12);
 		border-radius: rem(16);
 		font-size: rem(12);

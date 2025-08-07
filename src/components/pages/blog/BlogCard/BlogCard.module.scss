@@ -2,7 +2,7 @@
 @use 'styles/shared/variables' as *;
 
 .BlogCard {
-	background: $color-background;
+	background: $color-primary;
 	border-radius: rem(20);
 	overflow: hidden;
 	position: relative;
