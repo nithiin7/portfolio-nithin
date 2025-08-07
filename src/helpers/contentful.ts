@@ -101,35 +101,6 @@ export const convertContentfulTag = (contentfulTag: BlogTagItem): BlogTag => {
 	};
 };
 
-export const getRichTextContent = (
-	content: { json: Document } | null | undefined
-): string => {
-	if (!content?.json) return '';
-
-	return JSON.stringify(content.json);
-};
-
-export const getImageUrl = (
-	image: { url: string } | null | undefined,
-	fallback?: string
-): string => {
-	return image?.url || fallback || '';
-};
-
-export const formatDate = (dateString: string): string => {
-	return new Date(dateString).toLocaleDateString('en-US', {
-		year: 'numeric',
-		month: 'long',
-		day: 'numeric',
-	});
-};
-
-export const calculateReadTime = (content: string): number => {
-	const wordsPerMinute = 200;
-	const words = content.trim().split(/\s+/).length;
-	return Math.ceil(words / wordsPerMinute);
-};
-
 /**
  * Fetches all blog posts from Contentful using Apollo Client.
  *
