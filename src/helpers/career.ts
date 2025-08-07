@@ -34,7 +34,7 @@ interface TransformedCareerData {
 		year: string;
 		company: string;
 		position: string;
-		description: string[];
+		description: string;
 		technologies: string[];
 		duration: string;
 		location?: string;
@@ -60,7 +60,7 @@ export const transformCareerData = (
 			year: exp.year || '',
 			company: exp.company || '',
 			position: exp.title || '',
-			description: parseCommaSeparatedString(exp.description || ''),
+			description: exp.description || '',
 			technologies: parseCommaSeparatedString(exp.technologies || ''),
 			duration: exp.duration || '',
 			location: exp.location,
