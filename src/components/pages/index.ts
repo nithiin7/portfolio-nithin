@@ -1,5 +1,6 @@
 // Homepage
 export { default as HomeAbout } from './homepage/HomeAbout/HomeAbout';
+export { default as HomeCareer } from './homepage/HomeCareer/HomeCareer';
 export { default as HomeCollaborations } from './homepage/HomeCollaborations/HomeCollaborations';
 export { default as HomeHeader } from './homepage/HomeHeader/HomeHeader';
 export { default as HomePortfolio } from './homepage/HomePortfolio/HomePortfolio';
@@ -16,6 +17,7 @@ export { default as PortfolioCard } from './portfolio/PortfolioCard/PortfolioCar
 export { default as PortfolioModal } from './portfolio/PortfolioModal/PortfolioModal';
 export { default as PortfolioDetails } from './portfolio/PortfolioDetails/PortfolioDetails';
 export { default as PortfolioGallery } from './portfolio/PortfolioGallery/PortfolioGallery';
+export { default as CareerCard } from './homepage/CareerCard/CareerCard';
 
 // Blog
 export { default as BlogCard } from './blog/BlogCard/BlogCard';

@@ -86,6 +86,20 @@ export const GET_PAGE = gql`
 													institution
 													review
 												}
+												... on CareerExperience {
+													sys {
+														id
+													}
+													title
+													company
+													year
+													duration
+													location
+													type
+													description
+													technologies
+													order
+												}
 											}
 										}
 									}

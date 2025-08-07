@@ -1,0 +1,174 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.HomeCareer {
+	background-color: $color-black;
+	padding: 5% 4%;
+	position: relative;
+	overflow: hidden;
+
+	h2 {
+		mix-blend-mode: exclusion;
+		color: $color-grey-pale;
+		line-height: 92.5%;
+		max-width: 15ch;
+		position: relative;
+		z-index: 1;
+		font-size: clamp(3.5rem, 2.3571rem + 4.5143vi, 10.5rem);
+		font-weight: 700;
+		text-wrap: balance;
+		letter-spacing: -0.025em;
+		text-transform: uppercase;
+		@media #{$md} {
+			margin-bottom: -2rem;
+		}
+	}
+
+	p {
+		font-weight: 500;
+		padding-left: 0.25rem;
+		text-wrap: balance;
+		max-width: 45ch;
+		font-size: 1.25rem;
+		line-height: 130%;
+		color: $color-grey-medium;
+		margin-top: 3rem;
+		@media #{$md} {
+			font-size: 1.5rem;
+		}
+	}
+
+	&__timeline {
+		display: flex;
+		flex-direction: column;
+		gap: 3rem;
+		align-items: center;
+		margin-top: 3rem;
+	}
+
+	&__years {
+		display: flex;
+		gap: 2rem;
+		justify-content: center;
+		flex-wrap: wrap;
+		position: relative;
+
+		&::before {
+			content: '';
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			width: calc(100% - 80px);
+			height: 2px;
+			z-index: -1;
+		}
+	}
+
+	&__card {
+		width: 100%;
+		max-width: 800px;
+	}
+}
+
+.CareerYearButton {
+	background: $color-grey-pale;
+	border: 2px solid transparent;
+	border-radius: 50%;
+	width: 80px;
+	height: 80px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: 600;
+	font-size: 1.125rem;
+	cursor: pointer;
+	position: relative;
+	color: $color-text-primary;
+	transition: all 0.3s ease;
+	z-index: 1;
+
+	&:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 8px 25px rgba(255, 87, 34, 0.15);
+	}
+
+	&--active {
+		color: $color-white;
+		box-shadow: 0 0 20px rgba(255, 87, 34, 0.3);
+		transform: translateY(-2px);
+
+		&:hover {
+			box-shadow: 0 0 25px rgba(255, 87, 34, 0.4);
+		}
+	}
+
+	&:focus-visible {
+		outline: 2px solid $color-white;
+		outline-offset: 4px;
+	}
+}
+
+@media (max-width: 768px) {
+	.HomeCareer {
+		padding: 6rem 0;
+
+		&__container {
+			padding: 0 1.5rem;
+		}
+
+		&__header {
+			h2 {
+				font-size: 2.5rem;
+			}
+
+			p {
+				font-size: 1rem;
+			}
+		}
+
+		&__timeline {
+			gap: 2rem;
+		}
+
+		&__years {
+			gap: 1.5rem;
+
+			&::before {
+				display: none;
+			}
+		}
+	}
+
+	.CareerYearButton {
+		width: 70px;
+		height: 70px;
+		font-size: 1rem;
+	}
+}
+
+@media (max-width: 480px) {
+	.HomeCareer {
+		padding: 4rem 0;
+
+		&__container {
+			padding: 0 1rem;
+		}
+
+		&__header {
+			h2 {
+				font-size: 2rem;
+			}
+		}
+
+		&__years {
+			gap: 1rem;
+		}
+	}
+
+	.CareerYearButton {
+		width: 60px;
+		height: 60px;
+		font-size: 0.9rem;
+	}
+}
