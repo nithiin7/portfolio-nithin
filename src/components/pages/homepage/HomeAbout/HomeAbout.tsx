@@ -1,7 +1,7 @@
 'use client';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import type { Document } from '@contentful/rich-text-types';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'motion/react';
 import Image from 'next/image';
 import type { FC } from 'react';
 import { useRef } from 'react';
