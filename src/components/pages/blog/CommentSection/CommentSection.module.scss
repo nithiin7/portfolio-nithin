@@ -1,7 +1,7 @@
 @use 'styles/shared/mixin' as *;
 @use 'styles/shared/variables' as *;
 
-.commentSection {
+.CommentSection {
 	margin-top: rem(80);
 	padding-top: rem(60);
 	border-top: 1px solid rgba($color-border, 0.1);

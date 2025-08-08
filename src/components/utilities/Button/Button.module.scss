@@ -18,26 +18,31 @@
 	text-transform: uppercase;
 	font-weight: 700;
 	overflow: hidden;
+
 	&:hover {
 		.Button__PerspectiveText {
 			transform: rotateX(90deg);
+
 			p {
 				&:nth-of-type(1) {
 					transform: translateY(-100%);
 					opacity: 0;
 				}
+
 				&:nth-of-type(2) {
 					opacity: 1;
 				}
 			}
 		}
 	}
-	.Button__slider {
+
+	&__slider {
 		position: relative;
 		height: 100%;
 		width: 100%;
 	}
-	.Button__el {
+
+	&__el {
 		height: 100%;
 		width: 100%;
 		&:nth-of-type(2) {
@@ -45,7 +50,8 @@
 			top: 100%;
 		}
 	}
-	.Button__PerspectiveText {
+
+	&__PerspectiveText {
 		width: 100%;
 		height: 100%;
 		display: flex;
@@ -53,6 +59,7 @@
 		justify-content: center;
 		transition: transform 0.75s cubic-bezier(0.76, 0, 0.24, 1);
 		transform-style: preserve-3d;
+
 		p {
 			transition: all 0.75s cubic-bezier(0.76, 0, 0.24, 1);
 			line-height: 1;
@@ -64,6 +71,7 @@
 			}
 		}
 	}
+
 	@media #{$md} {
 		padding-top: 1.75rem;
 		padding-bottom: 1.75rem;

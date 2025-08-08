@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import type { FC, ReactNode } from 'react';
 import { useEffect } from 'react';
 
+import { CloseIcon } from 'assets/icons';
+
 import styles from './Modal.module.scss';
 
 interface ModalProps {
@@ -58,7 +60,7 @@ const Modal: FC<ModalProps> = ({
 		<AnimatePresence>
 			{isOpen && (
 				<motion.div
-					className={`${styles.modal} ${className || ''}`}
+					className={`${styles.Modal} ${className || ''}`}
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
 					exit={{ opacity: 0 }}
@@ -66,42 +68,28 @@ const Modal: FC<ModalProps> = ({
 					onClick={handleBackdropClick}
 				>
 					<motion.div
-						className={styles.modal__content}
+						className={styles.Modal__content}
 						initial={{ opacity: 0, scale: 0.9, y: 20 }}
 						animate={{ opacity: 1, scale: 1, y: 0 }}
 						exit={{ opacity: 0, scale: 0.9, y: 20 }}
 						transition={{ duration: 0.4, ease: [0.33, 1, 0.68, 1] }}
 					>
 						{title && (
-							<div className={styles.modal__header}>
-								<h2 className={styles.modal__title}>{title}</h2>
+							<div className={styles.Modal__header}>
+								<h2 className={styles.Modal__title}>{title}</h2>
 								<motion.button
-									className={styles.modal__close}
+									className={styles.Modal__close}
 									onClick={onClose}
 									whileHover={{ scale: 1.1 }}
 									whileTap={{ scale: 0.9 }}
 									transition={{ duration: 0.2 }}
 									aria-label="Close modal"
 								>
-									<svg
-										width="24"
-										height="24"
-										viewBox="0 0 24 24"
-										fill="none"
-										xmlns="http://www.w3.org/2000/svg"
-									>
-										<path
-											d="M18 6L6 18M6 6L18 18"
-											stroke="currentColor"
-											strokeWidth="2"
-											strokeLinecap="round"
-											strokeLinejoin="round"
-										/>
-									</svg>
+									<CloseIcon />
 								</motion.button>
 							</div>
 						)}
-						<div className={styles.modal__body}>{children}</div>
+						<div className={styles.Modal__body}>{children}</div>
 					</motion.div>
 				</motion.div>
 			)}

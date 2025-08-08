@@ -1,7 +1,7 @@
 @use 'styles/shared/mixin' as *;
 @use 'styles/shared/variables' as *;
 
-.tableOfContents {
+.TableOfContents {
 	position: sticky;
 	top: rem(120);
 	border-radius: rem(12);
@@ -102,7 +102,6 @@
 		}
 	}
 
-	// Scrollbar styling
 	&::-webkit-scrollbar {
 		width: rem(4);
 	}
@@ -120,7 +119,6 @@
 		}
 	}
 
-	// Responsive
 	@media #{$md} {
 		position: static;
 		width: 100%;

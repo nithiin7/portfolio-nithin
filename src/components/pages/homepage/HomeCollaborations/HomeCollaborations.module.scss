@@ -7,6 +7,7 @@
 	border-bottom-left-radius: 1.5rem;
 	border-bottom-right-radius: 1.5rem;
 	padding-bottom: rem(200);
+
 	h2 {
 		color: $color-grey-pale;
 		padding-bottom: 2rem;
@@ -14,10 +15,12 @@
 		text-transform: uppercase;
 		text-align: left;
 		font-size: 2.5rem;
+
 		@media #{$md} {
 			font-size: clamp(3.5rem, 2.3571rem + 4.5143vi, 10.5rem);
 		}
 	}
+
 	&__collaborations {
 		width: 100%;
 		display: flex;
@@ -25,22 +28,27 @@
 		justify-content: space-between;
 		gap: rem(100);
 		align-items: center;
+
 		@media #{$md} {
 			flex-direction: row;
 		}
 	}
+
 	&__companies {
 		height: rem(100);
 		width: 100%;
 		max-width: rem(250);
+
 		svg {
 			height: 100%;
 			width: 100%;
 		}
+
 		@media #{$md} {
 			width: 33%;
 		}
 	}
+
 	[data-theme='light'] & .HomeCollaborations__companies svg {
 		filter: brightness(0.5) saturate(0.8);
 	}

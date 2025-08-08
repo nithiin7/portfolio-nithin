@@ -43,7 +43,7 @@ const CommentModal: FC<CommentModalProps> = ({
 				replyingTo={replyingTo}
 				replyingToId={replyingToId}
 				onCancelReply={handleCancelReply}
-				className={styles.commentModal__form}
+				className={styles.CommentModal__form}
 			/>
 		</Modal>
 	);

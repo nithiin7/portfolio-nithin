@@ -1,7 +1,7 @@
 @use 'styles/shared/mixin' as *;
 @use 'styles/shared/variables' as *;
 
-.modal {
+.Modal {
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -71,41 +71,5 @@
 
 	&__body {
 		padding: 1.5rem;
-	}
-}
-
-@media (max-width: 768px) {
-	.modal {
-		padding: 0.5rem;
-
-		&__content {
-			max-height: 95vh;
-		}
-
-		&__header {
-			padding: 1rem;
-		}
-
-		&__title {
-			font-size: 1.25rem;
-		}
-
-		&__body {
-			padding: 1rem;
-		}
-	}
-}
-
-[data-theme='light'] {
-	.modal {
-		&__content {
-			background-color: $color-background;
-			border: 1px solid $color-border;
-		}
-
-		&__header {
-			background-color: $color-surface;
-			border-bottom: 1px solid $color-border;
-		}
 	}
 }

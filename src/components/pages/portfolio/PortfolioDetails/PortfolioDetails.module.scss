@@ -6,12 +6,15 @@
 	margin: 0 auto;
 	padding: 2rem 1rem;
 	min-height: 100vh;
+
 	@media (max-width: #{$md}) {
 		padding: 1rem;
 	}
+
 	@media (max-width: #{$sm}) {
 		padding: 0.75rem;
 	}
+
 	&__header {
 		display: flex;
 		align-items: center;
@@ -19,20 +22,24 @@
 		margin-bottom: 3rem;
 		padding-bottom: 1rem;
 		border-bottom: rem(1) solid $color-border;
+
 		@media (max-width: #{$lg}) {
 			margin-bottom: 2.5rem;
 		}
+
 		@media (max-width: #{$md}) {
 			flex-direction: column;
 			align-items: flex-start;
 			gap: 1rem;
 			margin-bottom: 2rem;
 		}
+
 		@media (max-width: #{$sm}) {
 			margin-bottom: 1.5rem;
 			gap: 0.75rem;
 		}
 	}
+
 	&__backButton {
 		display: flex;
 		align-items: center;
@@ -43,93 +50,116 @@
 		transition: all 0.3s ease;
 		padding: 0.5rem 1rem;
 		border-radius: 0.5rem;
+
 		&:hover {
 			color: $color-title-hover;
 			background-color: $color-hover-bg;
 			transform: translateX(-5px);
 		}
+
 		span {
 			font-size: 1rem;
+
 			@media (max-width: #{$sm}) {
 				font-size: 0.875rem;
 			}
 		}
 	}
+
 	&__projectNumber {
 		color: $color-number;
 		font-size: 1.125rem;
 		font-family: 'Courier New', monospace;
 		font-weight: 500;
 		transition: color 0.3s ease;
+
 		@media (max-width: #{$md}) {
 			font-size: 1rem;
 		}
+
 		@media (max-width: #{$sm}) {
 			font-size: 0.875rem;
 		}
 	}
+
 	&__content {
 		@media #{$md} {
 			display: grid;
 			grid-template-columns: 2fr 1fr;
 			gap: 3rem;
 		}
+
 		@media (max-width: #{$lg}) {
 			grid-template-columns: 1fr;
 			gap: 2rem;
 		}
+
 		@media (max-width: #{$md}) {
 			gap: 1.5rem;
 		}
+
 		@media (max-width: #{$sm}) {
 			gap: 1rem;
 		}
 	}
+
 	&__mainSection {
 		display: flex;
 		flex-direction: column;
 		gap: 2rem;
+
 		@media (max-width: #{$md}) {
 			gap: 1.5rem;
 		}
+
 		@media (max-width: #{$sm}) {
 			gap: 1rem;
 		}
 	}
+
 	&__projectHeader {
 		margin-bottom: 1rem;
+
 		@media (max-width: #{$sm}) {
 			margin-bottom: 0.75rem;
 		}
 	}
+
 	&__projectTitle {
 		font-size: clamp(2rem, 6vw, 4rem);
 		font-weight: 700;
 		margin: 0 0 0.5rem 0;
 		line-height: 1.1;
 		color: $color-text-dark;
+
 		@media (max-width: #{$lg}) {
 			font-size: clamp(1.75rem, 7vw, 3rem);
 		}
+
 		@media (max-width: #{$md}) {
 			font-size: clamp(1.5rem, 8vw, 2.5rem);
 		}
+
 		@media (max-width: #{$sm}) {
 			font-size: clamp(1.25rem, 9vw, 2rem);
 		}
 	}
+
 	&__projectYear {
 		color: $color-year;
 		font-size: 1.125rem;
 		margin: 0;
 		transition: color 0.3s ease;
+
 		@media (max-width: #{$md}) {
 			font-size: 1rem;
 		}
+
 		@media (max-width: #{$sm}) {
 			font-size: 0.875rem;
 		}
 	}
+
 	&__projectImage {
 		width: 100%;
 		border-radius: 1rem;
@@ -137,10 +167,12 @@
 		box-shadow: 0 4px 20px $color-shadow;
 		transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 		position: relative;
+
 		&:hover {
 			transform: translateY(-8px) scale(1.02);
 			box-shadow: 0 12px 40px $color-shadow-hover;
 		}
+
 		img {
 			width: 100%;
 			height: auto;
@@ -148,46 +180,57 @@
 			display: block;
 			transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 		}
+
 		&:hover img {
 			transform: scale(1.05);
 		}
+
 		@media (max-width: #{$md}) {
 			border-radius: 0.75rem;
 		}
+
 		@media (max-width: #{$sm}) {
 			border-radius: 0.5rem;
 		}
 	}
+
 	&__projectDescription {
 		p {
 			font-size: 1.125rem;
 			line-height: 1.7;
 			color: $color-text;
 			margin: 0;
+
 			@media (max-width: #{$lg}) {
 				font-size: 1rem;
 			}
+
 			@media (max-width: #{$md}) {
 				font-size: 0.95rem;
 			}
+
 			@media (max-width: #{$sm}) {
 				font-size: 0.875rem;
 				line-height: 1.6;
 			}
 		}
 	}
+
 	&__projectLinks {
 		display: flex;
 		gap: 1rem;
 		flex-wrap: wrap;
+
 		@media (max-width: #{$md}) {
 			flex-direction: column;
 			gap: 0.75rem;
 		}
+
 		@media (max-width: #{$sm}) {
 			gap: 0.5rem;
 		}
 	}
+
 	&__projectLink {
 		display: flex;
 		align-items: center;
@@ -202,6 +245,7 @@
 		font-size: 0.875rem;
 		position: relative;
 		overflow: hidden;
+
 		&::before {
 			content: '';
 			position: absolute;
@@ -217,37 +261,46 @@
 			);
 			transition: left 0.5s;
 		}
+
 		&:hover {
 			background-color: $color-tech-bg-hover;
 			transform: translateY(-3px) scale(1.05);
 			box-shadow: 0 8px 20px $color-shadow;
 		}
+
 		&:hover::before {
 			left: 100%;
 		}
+
 		@media (max-width: #{$md}) {
 			padding: 0.625rem 1.25rem;
 			font-size: 0.8rem;
 		}
+
 		@media (max-width: #{$sm}) {
 			padding: 0.5rem 1rem;
 			font-size: 0.75rem;
 		}
 	}
+
 	&__sidebar {
 		display: flex;
 		flex-direction: column;
 		gap: 2rem;
+
 		@media (max-width: #{$lg}) {
 			order: -1;
 		}
+
 		@media (max-width: #{$md}) {
 			gap: 1.5rem;
 		}
+
 		@media (max-width: #{$sm}) {
 			gap: 1rem;
 		}
 	}
+
 	&__techSection,
 	&__featuresSection {
 		background-color: $color-hover-bg;
@@ -256,6 +309,7 @@
 		transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 		position: relative;
 		overflow: hidden;
+
 		&::before {
 			content: '';
 			position: absolute;
@@ -272,6 +326,7 @@
 			transform: translateX(-100%);
 			transition: transform 0.6s ease;
 		}
+
 		@media (max-width: #{$md}) {
 			padding: 1rem;
 			border-radius: 0.75rem;
@@ -281,29 +336,35 @@
 			border-radius: 0.5rem;
 		}
 	}
+
 	&__sectionTitle {
 		font-size: 1.25rem;
 		font-weight: 600;
 		margin: 0 0 1rem 0;
 		color: $color-text-dark;
+
 		@media (max-width: #{$md}) {
 			font-size: 1.125rem;
 			margin-bottom: 0.75rem;
 		}
+
 		@media (max-width: #{$sm}) {
 			font-size: 1rem;
 			margin-bottom: 0.5rem;
 		}
 	}
+
 	&__techTags {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 0.5rem;
 		cursor: default;
+
 		@media (max-width: #{$sm}) {
 			gap: 0.375rem;
 		}
 	}
+
 	&__techTag {
 		padding: 0.5rem 1rem;
 		background-color: $color-tech-bg;
@@ -315,6 +376,7 @@
 		white-space: nowrap;
 		position: relative;
 		overflow: hidden;
+
 		&::before {
 			content: '';
 			position: absolute;
@@ -329,24 +391,29 @@
 				width 0.4s,
 				height 0.4s;
 		}
+
 		&:hover {
 			background-color: $color-tech-bg-hover;
 			transform: translateY(-3px) scale(1.1);
 			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 		}
+
 		&:hover::before {
 			width: 100%;
 			height: 100%;
 		}
+
 		@media (max-width: #{$md}) {
 			padding: 0.375rem 0.75rem;
 			font-size: 0.8rem;
 		}
+
 		@media (max-width: #{$sm}) {
 			padding: 0.25rem 0.625rem;
 			font-size: 0.75rem;
 		}
 	}
+
 	&__featuresList {
 		list-style: none;
 		padding: 0;
@@ -354,15 +421,18 @@
 		display: flex;
 		flex-direction: column;
 		gap: 0.75rem;
+
 		@media (max-width: #{$sm}) {
 			gap: 0.5rem;
 		}
 	}
+
 	&__featureItem {
 		position: relative;
 		padding-left: 1.5rem;
 		color: $color-text;
 		line-height: 1.5;
+
 		&::before {
 			content: '•';
 			position: absolute;
@@ -371,10 +441,12 @@
 			font-weight: bold;
 			font-size: 1.2em;
 		}
+
 		@media (max-width: #{$md}) {
 			padding-left: 1.25rem;
 			font-size: 0.95rem;
 		}
+
 		@media (max-width: #{$sm}) {
 			padding-left: 1rem;
 			font-size: 0.875rem;

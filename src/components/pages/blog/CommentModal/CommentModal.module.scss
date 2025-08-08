@@ -1,9 +1,9 @@
 @use 'styles/shared/mixin' as *;
 @use 'styles/shared/variables' as *;
 
-.commentModal {
+.CommentModal {
 	&__form {
-		.commentForm {
+		.CommentForm {
 			box-shadow: none;
 			border: none;
 			padding: 0;

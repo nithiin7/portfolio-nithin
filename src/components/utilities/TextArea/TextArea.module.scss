@@ -19,12 +19,14 @@
 		outline-offset: rem(2);
 		transition-property: all;
 		transition-duration: 0.3s;
+
 		&::placeholder {
 			color: $color-grey-placeholder;
 			font-family: $font-primary;
 			font-size: 1rem;
 		}
 	}
+
 	&__label {
 		label {
 			font-size: 1rem;
@@ -33,14 +35,17 @@
 			color: $color-secondary;
 			margin-bottom: 0.25rem;
 		}
+
 		span {
 			color: $color-warning;
 			padding-left: 0.25rem;
 		}
 	}
+
 	&__errors {
 		height: rem(20);
 	}
+
 	&__formErrors {
 		color: $color-warning;
 		font-size: rem(12);

@@ -60,29 +60,29 @@ const Subscribe: FC<SubscribeProps> = ({ className = '', delay = 0 }) => {
 
 	return (
 		<motion.section
-			className={`${styles.subscribe} ${className}`}
+			className={`${styles.Subscribe} ${className}`}
 			initial={{ opacity: 0, y: 30 }}
 			animate={{ opacity: 1, y: 0 }}
 			transition={{ duration: 0.8, delay, ease: [0.33, 1, 0.68, 1] }}
 		>
-			<div className={styles.subscribe__content}>
-				<h2 className={styles.subscribe__title}>STAY UPDATED</h2>
-				<p className={styles.subscribe__text}>
+			<div className={styles.Subscribe__content}>
+				<h2 className={styles.Subscribe__title}>STAY UPDATED</h2>
+				<p className={styles.Subscribe__text}>
 					Get notified when I publish new articles about design, development,
 					and creative insights.
 				</p>
 				{isSuccess ? (
 					<motion.div
-						className={styles.subscribe__success}
+						className={styles.Subscribe__success}
 						initial={{ opacity: 0, scale: 0.9 }}
 						animate={{ opacity: 1, scale: 1 }}
 						transition={{ duration: 0.5, ease: [0.33, 1, 0.68, 1] }}
 					>
-						<div className={styles.subscribe__successIcon}>✓</div>
-						<h3 className={styles.subscribe__successTitle}>
+						<div className={styles.Subscribe__successIcon}>✓</div>
+						<h3 className={styles.Subscribe__successTitle}>
 							Successfully Subscribed!
 						</h3>
-						<p className={styles.subscribe__successText}>
+						<p className={styles.Subscribe__successText}>
 							Thank you for subscribing. You'll now receive updates about
 							design, development, and creative insights.
 						</p>
@@ -90,25 +90,25 @@ const Subscribe: FC<SubscribeProps> = ({ className = '', delay = 0 }) => {
 				) : (
 					<form
 						onSubmit={handleSubmit(onSubmit)}
-						className={styles.subscribe__form}
+						className={styles.Subscribe__form}
 					>
-						<div className={styles.subscribe__inputWrapper}>
+						<div className={styles.Subscribe__inputWrapper}>
 							<input
 								type="email"
 								placeholder="Enter your email"
-								className={`${styles.subscribe__input} ${errors?.email ? styles.subscribe__inputError : ''}`}
+								className={`${styles.Subscribe__input} ${errors?.email ? styles.Subscribe__inputError : ''}`}
 								disabled={isSubmitting}
 								{...register('email')}
 							/>
 							{errors?.email && (
-								<span className={styles.subscribe__error}>
+								<span className={styles.Subscribe__error}>
 									{errors.email.message}
 								</span>
 							)}
 						</div>
 						<button
 							type="submit"
-							className={styles.subscribe__button}
+							className={styles.Subscribe__button}
 							disabled={isSubmitting}
 						>
 							{isSubmitting ? 'Subscribing...' : 'Subscribe'}

@@ -68,30 +68,30 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 
 	if (!post) {
 		return (
-			<div className={styles.blogDetail}>
+			<div className={styles.BlogDetail}>
 				<Navbar />
 				<motion.div
-					className={styles.blogDetail__container}
+					className={styles.BlogDetail__container}
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
 					transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
 				>
 					<motion.nav
-						className={styles.blogDetail__breadcrumb}
+						className={styles.BlogDetail__breadcrumb}
 						initial={{ opacity: 0, y: 20 }}
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.6, delay: 0.2 }}
 					>
-						<Link href="/blog" className={styles.blogDetail__breadcrumb_link}>
+						<Link href="/blog" className={styles.BlogDetail__breadcrumb_link}>
 							← &nbsp;Back to Blog
 						</Link>
 					</motion.nav>
-					<div className={styles.blogDetail__error}>
+					<div className={styles.BlogDetail__error}>
 						<h1>Article Not Found</h1>
 						<p>
 							The article you're looking for doesn't exist or has been removed.
 						</p>
-						<Link href="/blog" className={styles.blogDetail__error_link}>
+						<Link href="/blog" className={styles.BlogDetail__error_link}>
 							Back to Blog
 						</Link>
 					</div>
@@ -101,45 +101,45 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 	}
 
 	return (
-		<div className={styles.blogDetail}>
+		<div className={styles.BlogDetail}>
 			<Navbar />
 			<motion.div
-				className={styles.blogDetail__container}
+				className={styles.BlogDetail__container}
 				initial={{ opacity: 0 }}
 				animate={{ opacity: 1 }}
 				transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
 			>
 				<motion.nav
-					className={styles.blogDetail__breadcrumb}
+					className={styles.BlogDetail__breadcrumb}
 					initial={{ opacity: 0, y: 20 }}
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.6, delay: 0.2 }}
 				>
-					<Link href="/blog" className={styles.blogDetail__breadcrumb_link}>
+					<Link href="/blog" className={styles.BlogDetail__breadcrumb_link}>
 						← &nbsp;Back to Blog
 					</Link>
 				</motion.nav>
 				<motion.section
-					className={styles.blogDetail__hero}
+					className={styles.BlogDetail__hero}
 					initial={{ opacity: 0, y: 30 }}
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.8, delay: 0.3 }}
 				>
 					{post.featuredImage && (
-						<div className={styles.blogDetail__hero_background}>
+						<div className={styles.BlogDetail__hero_background}>
 							<Image
 								src={post.featuredImage.url}
 								alt={post.featuredImage.title || post.title}
 								fill
-								className={styles.blogDetail__hero_bg_image}
+								className={styles.BlogDetail__hero_bg_image}
 								priority
 							/>
-							<div className={styles.blogDetail__hero_overlay} />
+							<div className={styles.BlogDetail__hero_overlay} />
 						</div>
 					)}
-					<div className={styles.blogDetail__hero_content}>
+					<div className={styles.BlogDetail__hero_content}>
 						<motion.div
-							className={styles.blogDetail__category}
+							className={styles.BlogDetail__category}
 							initial={{ opacity: 0, scale: 0.8 }}
 							animate={{ opacity: 1, scale: 1 }}
 							transition={{ duration: 0.6, delay: 0.4 }}
@@ -147,7 +147,7 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 							{post.category}
 						</motion.div>
 						<motion.h1
-							className={styles.blogDetail__title}
+							className={styles.BlogDetail__title}
 							initial={{ opacity: 0, y: 30 }}
 							animate={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.8, delay: 0.5 }}
@@ -155,7 +155,7 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 							<MaskText phrases={[post.title]} />
 						</motion.h1>
 						<motion.p
-							className={styles.blogDetail__excerpt}
+							className={styles.BlogDetail__excerpt}
 							initial={{ opacity: 0, y: 20 }}
 							animate={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.6, delay: 0.6 }}
@@ -163,66 +163,66 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 							{post.excerpt}
 						</motion.p>
 						<motion.div
-							className={styles.blogDetail__meta}
+							className={styles.BlogDetail__meta}
 							initial={{ opacity: 0, y: 20 }}
 							animate={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.6, delay: 0.7 }}
 						>
-							<div className={styles.blogDetail__meta_author}>
+							<div className={styles.BlogDetail__meta_author}>
 								{post.authorAvatar && (
 									<Image
 										src={post.authorAvatar.url}
 										alt={post.authorAvatar.title || post.authorName}
 										width={32}
 										height={32}
-										className={styles.blogDetail__meta_avatar}
+										className={styles.BlogDetail__meta_avatar}
 									/>
 								)}
-								<span className={styles.blogDetail__meta_name}>
+								<span className={styles.BlogDetail__meta_name}>
 									{post.authorName}
 								</span>
 							</div>
-							<div className={styles.blogDetail__meta_info}>
-								<span className={styles.blogDetail__meta_readtime}>
+							<div className={styles.BlogDetail__meta_info}>
+								<span className={styles.BlogDetail__meta_readtime}>
 									{post.readTime} Mins. Read
 								</span>
-								<span className={styles.blogDetail__meta_date}>
+								<span className={styles.BlogDetail__meta_date}>
 									{formatDate(post.publishedAt, 'long')}
 								</span>
 							</div>
 						</motion.div>
 						<motion.div
-							className={styles.blogDetail__social}
+							className={styles.BlogDetail__social}
 							initial={{ opacity: 0, y: 20 }}
 							animate={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.6, delay: 0.8 }}
 						>
-							<h4 className={styles.blogDetail__social_title}>SHARE</h4>
-							<div className={styles.blogDetail__social_buttons}>
+							<h4 className={styles.BlogDetail__social_title}>SHARE</h4>
+							<div className={styles.BlogDetail__social_buttons}>
 								<button
 									onClick={handleShareOnFacebook}
-									className={`${styles.blogDetail__social_button} ${styles.blogDetail__social_button_facebook}`}
+									className={`${styles.BlogDetail__social_button} ${styles.BlogDetail__social_button_facebook}`}
 									aria-label="Share on Facebook"
 								>
 									f
 								</button>
 								<button
 									onClick={handleShareOnTwitter}
-									className={`${styles.blogDetail__social_button} ${styles.blogDetail__social_button_twitter}`}
+									className={`${styles.BlogDetail__social_button} ${styles.BlogDetail__social_button_twitter}`}
 									aria-label="Share on Twitter"
 								>
 									𝕏
 								</button>
 								<button
 									onClick={handleShareOnLinkedIn}
-									className={`${styles.blogDetail__social_button} ${styles.blogDetail__social_button_linkedin}`}
+									className={`${styles.BlogDetail__social_button} ${styles.BlogDetail__social_button_linkedin}`}
 									aria-label="Share on LinkedIn"
 								>
 									in
 								</button>
 								<button
 									onClick={handleShareOnWhatsApp}
-									className={`${styles.blogDetail__social_button} ${styles.blogDetail__social_button_whatsapp}`}
+									className={`${styles.BlogDetail__social_button} ${styles.BlogDetail__social_button_whatsapp}`}
 									aria-label="Share on WhatsApp"
 								>
 									<WhatsAppIcon />
@@ -245,9 +245,9 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 						))}
 					</TagContainer>
 				)}
-				<div className={styles.blogDetail__content_wrapper}>
+				<div className={styles.BlogDetail__content_wrapper}>
 					<motion.article
-						className={styles.blogDetail__content}
+						className={styles.BlogDetail__content}
 						initial={{ opacity: 0, y: 30 }}
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.8, delay: 1.1 }}
@@ -256,56 +256,56 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 							documentToReactComponents(post.content.json, {
 								renderNode: {
 									'heading-1': (node, children) => (
-										<h1 className={styles.blogDetail__content_h1}>
+										<h1 className={styles.BlogDetail__content_h1}>
 											{children}
 										</h1>
 									),
 									'heading-2': (node, children) => (
-										<h2 className={styles.blogDetail__content_h2}>
+										<h2 className={styles.BlogDetail__content_h2}>
 											{children}
 										</h2>
 									),
 									'heading-3': (node, children) => (
-										<h3 className={styles.blogDetail__content_h3}>
+										<h3 className={styles.BlogDetail__content_h3}>
 											{children}
 										</h3>
 									),
 									'heading-4': (node, children) => (
-										<h4 className={styles.blogDetail__content_h4}>
+										<h4 className={styles.BlogDetail__content_h4}>
 											{children}
 										</h4>
 									),
 									'heading-5': (node, children) => (
-										<h5 className={styles.blogDetail__content_h5}>
+										<h5 className={styles.BlogDetail__content_h5}>
 											{children}
 										</h5>
 									),
 									'heading-6': (node, children) => (
-										<h6 className={styles.blogDetail__content_h6}>
+										<h6 className={styles.BlogDetail__content_h6}>
 											{children}
 										</h6>
 									),
 									paragraph: (node, children) => (
-										<p className={styles.blogDetail__content_p}>{children}</p>
+										<p className={styles.BlogDetail__content_p}>{children}</p>
 									),
 									'list-item': (node, children) => (
-										<li className={styles.blogDetail__content_li}>
+										<li className={styles.BlogDetail__content_li}>
 											{children}
 										</li>
 									),
 									'ordered-list': (node, children) => (
-										<ol className={styles.blogDetail__content_ol}>
+										<ol className={styles.BlogDetail__content_ol}>
 											{children}
 										</ol>
 									),
 									'unordered-list': (node, children) => (
-										<ul className={styles.blogDetail__content_ul}>
+										<ul className={styles.BlogDetail__content_ul}>
 											{children}
 										</ul>
 									),
 									blockquote: (node, children) => (
 										<blockquote
-											className={styles.blogDetail__content_blockquote}
+											className={styles.BlogDetail__content_blockquote}
 										>
 											{children}
 										</blockquote>
@@ -313,7 +313,7 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 									hyperlink: (node, children) => (
 										<a
 											href={node.data.uri}
-											className={styles.blogDetail__content_link}
+											className={styles.BlogDetail__content_link}
 											target="_blank"
 											rel="noopener noreferrer"
 										>
@@ -327,17 +327,17 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 										);
 										if (asset) {
 											return (
-												<figure className={styles.blogDetail__content_image}>
+												<figure className={styles.BlogDetail__content_image}>
 													<Image
 														src={asset.url}
 														alt={asset.title || 'Blog image'}
 														width={800}
 														height={600}
-														className={styles.blogDetail__content_img}
+														className={styles.BlogDetail__content_img}
 													/>
 													{asset.description && (
 														<figcaption
-															className={styles.blogDetail__content_caption}
+															className={styles.BlogDetail__content_caption}
 														>
 															{asset.description}
 														</figcaption>
@@ -350,26 +350,26 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 								},
 							})
 						) : (
-							<div className={styles.blogDetail__content_empty}>
+							<div className={styles.BlogDetail__content_empty}>
 								<p>No content available for this article.</p>
 							</div>
 						)}
 					</motion.article>
-					<div className={styles.blogDetail__toc_wrapper}>
-						<TableOfContents className={styles.blogDetail__toc} />
+					<div className={styles.BlogDetail__toc_wrapper}>
+						<TableOfContents className={styles.BlogDetail__toc} />
 					</div>
 				</div>
 				{relatedPosts.length > 0 && (
 					<motion.section
-						className={styles.blogDetail__related}
+						className={styles.BlogDetail__related}
 						initial={{ opacity: 0, y: 30 }}
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.8, delay: 1.3 }}
 					>
-						<h2 className={styles.blogDetail__related_title}>
+						<h2 className={styles.BlogDetail__related_title}>
 							Related Articles
 						</h2>
-						<div className={styles.blogDetail__related_grid}>
+						<div className={styles.BlogDetail__related_grid}>
 							{relatedPosts.map((relatedPost, index) => (
 								<motion.div
 									key={relatedPost.id}

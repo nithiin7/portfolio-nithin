@@ -7,15 +7,19 @@
 	color: $color-white;
 	min-height: 100vh;
 	padding: 5% 4%;
+
 	@media (max-width: #{$md}) {
 		padding: 3rem 1rem;
 	}
+
 	&__header {
 		margin-bottom: 5rem;
+
 		@media (max-width: #{$md}) {
 			margin-bottom: 3rem;
 		}
 	}
+
 	&__title {
 		font-size: clamp(3rem, 8vw, 8rem);
 		font-weight: 700;
@@ -23,10 +27,12 @@
 		line-height: 0.9;
 		margin: 0;
 		color: $color-grey-pale;
+
 		@media (max-width: #{$md}) {
 			font-size: clamp(2rem, 12vw, 4rem);
 		}
 	}
+
 	&__container {
 		position: relative;
 		min-height: rem(600);
@@ -34,6 +40,7 @@
 			min-height: rem(400);
 		}
 	}
+
 	&__list {
 		display: flex;
 		flex-direction: column;

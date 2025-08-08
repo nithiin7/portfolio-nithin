@@ -10,9 +10,11 @@
 	cursor: pointer;
 	text-decoration: none;
 	transition: all 0.3s ease;
+
 	&:hover {
 		text-decoration: none;
 	}
+
 	&__content {
 		display: flex;
 		align-items: center;

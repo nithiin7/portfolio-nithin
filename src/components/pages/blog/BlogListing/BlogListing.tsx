@@ -56,46 +56,6 @@ const BlogListing: FC<BlogListingProps> = ({ posts }) => {
 							</p>
 						</motion.div>
 					</section>
-					<div className={styles.blog__loading}>
-						<div className={styles.blog__loading_spinner} />
-						<p>Loading articles...</p>
-					</div>
-				</motion.div>
-			</div>
-		);
-	}
-
-	if (posts.length === 0) {
-		return (
-			<div className={styles.blog}>
-				<Navbar />
-				<BlogBackground />
-				<motion.div
-					className={styles.blog__container}
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
-				>
-					<section className={styles.blog__header}>
-						<motion.div
-							className={styles.blog__header_content}
-							initial={{ opacity: 0, y: 30 }}
-							animate={{ opacity: 1, y: 0 }}
-							transition={{
-								duration: 0.8,
-								delay: 0.2,
-								ease: [0.33, 1, 0.68, 1],
-							}}
-						>
-							<h1 className={styles.blog__title}>
-								<MaskText phrases={['Thoughts & Insights']} />
-							</h1>
-							<p className={styles.blog__subtitle}>
-								Exploring design, development, and the intersection of
-								creativity and technology
-							</p>
-						</motion.div>
-					</section>
 					<div className={styles.blog__error}>
 						<p>Error loading articles. Please try again later.</p>
 					</div>

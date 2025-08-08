@@ -3,6 +3,7 @@
 
 .HomeTestimonial {
 	padding: 5% 4%;
+
 	h2 {
 		color: $color-secondary;
 		font-size: clamp(3.5rem, 2.3571rem + 4.5143vi, 10.5rem);
@@ -14,6 +15,7 @@
 		letter-spacing: -0.025em;
 		text-align: left;
 	}
+
 	&__testimonial {
 		display: flex;
 		flex-direction: column;

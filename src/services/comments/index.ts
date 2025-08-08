@@ -1,6 +1,5 @@
+import { baseService } from 'services/index';
 import type { Comment, CommentFormData } from 'types/comment';
-
-import { baseService } from '../index';
 
 /**
  * Database comment interface (snake_case columns)

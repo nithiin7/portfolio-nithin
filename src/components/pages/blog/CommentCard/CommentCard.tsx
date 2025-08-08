@@ -62,46 +62,46 @@ const CommentCard: FC<CommentCardProps> = ({
 
 	return (
 		<motion.div
-			className={`${styles.commentCard} ${className}`}
+			className={`${styles.CommentCard} ${className}`}
 			initial={{ opacity: 0, y: 20 }}
 			animate={{ opacity: 1, y: 0 }}
 			transition={{ duration: 0.6, ease: [0.33, 1, 0.68, 1] }}
 			layout
 		>
-			<div className={styles.commentCard__header}>
-				<div className={styles.commentCard__avatar}>
-					<span className={styles.commentCard__initials}>
+			<div className={styles.CommentCard__header}>
+				<div className={styles.CommentCard__avatar}>
+					<span className={styles.CommentCard__initials}>
 						{getInitials(comment.authorName)}
 					</span>
 				</div>
-				<div className={styles.commentCard__meta}>
-					<h4 className={styles.commentCard__author}>{comment.authorName}</h4>
-					<span className={styles.commentCard__date}>
+				<div className={styles.CommentCard__meta}>
+					<h4 className={styles.CommentCard__author}>{comment.authorName}</h4>
+					<span className={styles.CommentCard__date}>
 						{formatDate(comment.createdAt)}
 					</span>
 				</div>
 			</div>
-			<div className={styles.commentCard__content}>
+			<div className={styles.CommentCard__content}>
 				{replyingTo && (
-					<div className={styles.commentCard__replyTo}>
+					<div className={styles.CommentCard__replyTo}>
 						Replying to <strong>{replyingTo}</strong>
 					</div>
 				)}
-				<p className={styles.commentCard__text}>{comment.content}</p>
+				<p className={styles.CommentCard__text}>{comment.content}</p>
 			</div>
-			<div className={styles.commentCard__actions}>
+			<div className={styles.CommentCard__actions}>
 				{onSubmit && (
 					<CommentBox
 						onSubmit={onSubmit}
 						replyingTo={comment.authorName}
 						replyingToId={comment.id}
 						placeholder={`Reply to ${comment.authorName}...`}
-						className={styles.commentCard__replyBox}
+						className={styles.CommentCard__replyBox}
 					/>
 				)}
 				{comment.replies && comment.replies.length > 0 && (
 					<motion.button
-						className={styles.commentCard__toggleReplies}
+						className={styles.CommentCard__toggleReplies}
 						onClick={() => setIsExpanded(!isExpanded)}
 						whileHover={{ scale: 1.05 }}
 						whileTap={{ scale: 0.95 }}
@@ -114,7 +114,7 @@ const CommentCard: FC<CommentCardProps> = ({
 			</div>
 			{comment.replies && comment.replies.length > 0 && (
 				<motion.div
-					className={styles.commentCard__replies}
+					className={styles.CommentCard__replies}
 					initial={false}
 					animate={{
 						height: isExpanded ? 'auto' : 0,
@@ -128,7 +128,7 @@ const CommentCard: FC<CommentCardProps> = ({
 							comment={reply}
 							onSubmit={onSubmit}
 							replyingTo={comment.authorName}
-							className={styles.commentCard__reply}
+							className={styles.CommentCard__reply}
 						/>
 					))}
 				</motion.div>

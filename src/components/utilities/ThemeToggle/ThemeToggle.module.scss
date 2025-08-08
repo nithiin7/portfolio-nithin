@@ -16,13 +16,16 @@
 	transition: all 0.3s ease;
 	overflow: hidden;
 	box-shadow: 0 rem(4) rem(12) var(--color-shadow);
+
 	&:hover {
 		box-shadow: 0 rem(6) rem(16) var(--color-shadow-hover);
 		transform: translateY(-2px);
 	}
+
 	svg {
 		display: block;
 	}
+
 	&__container {
 		position: relative;
 		width: rem(20);
@@ -32,6 +35,7 @@
 		justify-content: center;
 		z-index: 2;
 	}
+
 	&__sun,
 	&__moon {
 		position: absolute;
@@ -41,6 +45,7 @@
 		color: var(--color-toggle-fill);
 		transition: all 0.3s ease;
 	}
+
 	&__background {
 		position: absolute;
 		top: 50%;
@@ -52,18 +57,22 @@
 		background: var(--color-accent);
 		z-index: 1;
 	}
+
 	@media #{$md} {
 		width: rem(56);
 		height: rem(56);
+
 		.ThemeToggle__container {
 			width: rem(24);
 			height: rem(24);
 		}
+
 		.ThemeToggle__sun,
 		.ThemeToggle__moon {
 			width: rem(24);
 			height: rem(24);
 		}
+
 		.ThemeToggle__background {
 			width: rem(24);
 			height: rem(24);

@@ -6,22 +6,27 @@
 	border-top-left-radius: 1.5rem;
 	border-top-right-radius: 1.5rem;
 	padding: 3.5rem 1.5rem;
+
 	@media #{$md} {
 		padding: 5% 4%;
 	}
+
 	&__header {
 		display: flex;
 		color: $color-grey-pale;
 		flex-direction: column;
+
 		@media #{$lg} {
 			flex-direction: row;
 			justify-content: space-between;
 			align-items: center;
 		}
+
 		h2 {
 			font-size: clamp(3.5rem, 2.3571rem + 4.5143vi, 10.5rem);
 			font-weight: 700;
 		}
+
 		p {
 			font-weight: 500;
 			padding-left: 0.25rem;
@@ -30,6 +35,7 @@
 			font-size: 1.25rem;
 			line-height: 130%;
 			color: $color-grey-medium;
+
 			@media #{$md} {
 				font-size: 1.5rem;
 			}

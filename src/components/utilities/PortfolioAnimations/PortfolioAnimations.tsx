@@ -1,5 +1,4 @@
 'use client';
-
 import { motion, useInView, useAnimation } from 'motion/react';
 import Image from 'next/image';
 import React, { useEffect, useRef } from 'react';
@@ -27,7 +26,7 @@ export const PortfolioAnimations: React.FC<PortfolioAnimationsProps> = ({
 		}
 	}, [isInView, controls]);
 
-	const animations = {
+	const animationsPortfolio = {
 		fadeIn: {
 			hidden: { opacity: 0 },
 			visible: {
@@ -92,7 +91,7 @@ export const PortfolioAnimations: React.FC<PortfolioAnimationsProps> = ({
 	return (
 		<motion.div
 			ref={ref}
-			variants={animations[animation]}
+			variants={animationsPortfolio[animation]}
 			initial="hidden"
 			animate={controls}
 			className={className}

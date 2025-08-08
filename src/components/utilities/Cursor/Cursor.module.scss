@@ -3,11 +3,13 @@
 
 .Cursor {
 	display: none;
+
 	&__rounded {
 		border-radius: 100%;
 		mix-blend-mode: difference;
 		pointer-events: none;
 	}
+
 	@media #{$md} {
 		display: block;
 		position: absolute;

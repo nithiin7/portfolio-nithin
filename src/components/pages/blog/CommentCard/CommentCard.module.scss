@@ -1,7 +1,7 @@
 @use 'styles/shared/mixin' as *;
 @use 'styles/shared/variables' as *;
 
-.commentCard {
+.CommentCard {
 	background: $color-grey-verylight;
 	border: 1px solid rgba($color-border, 0.15);
 	border-radius: rem(16);

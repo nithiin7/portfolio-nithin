@@ -1,7 +1,7 @@
 @use 'styles/shared/mixin' as *;
 @use 'styles/shared/variables' as *;
 
-.commentForm {
+.CommentForm {
 	background: rgba($color-white, 0.02);
 	border: 1px solid rgba($color-border, 0.1);
 	border-radius: rem(20);

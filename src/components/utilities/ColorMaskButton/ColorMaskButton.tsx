@@ -3,6 +3,8 @@ import { motion } from 'motion/react';
 import type { FC } from 'react';
 import { useState } from 'react';
 
+import { ArrowRightIcon } from 'assets/icons';
+
 import styles from './ColorMaskButton.module.scss';
 
 interface ColorMaskButtonProps {
@@ -74,21 +76,7 @@ const ColorMaskButton: FC<ColorMaskButtonProps> = ({
 				}}
 				transition={{ duration: 0.4, ease: [0.76, 0, 0.24, 1] }}
 			>
-				<svg
-					width="16"
-					height="16"
-					viewBox="0 0 16 16"
-					fill="none"
-					xmlns="http://www.w3.org/2000/svg"
-				>
-					<path
-						d="M8 1L15 8L8 15M15 8H1"
-						stroke="currentColor"
-						strokeWidth="1.5"
-						strokeLinecap="round"
-						strokeLinejoin="round"
-					/>
-				</svg>
+				<ArrowRightIcon />
 			</motion.div>
 			<motion.div
 				className={styles.ColorMaskButton__background}

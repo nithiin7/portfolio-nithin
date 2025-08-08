@@ -1,7 +1,7 @@
 @use 'styles/shared/mixin' as *;
 @use 'styles/shared/variables' as *;
 
-.blogDetail {
+.BlogDetail {
 	min-height: 100vh;
 	background: $color-primary;
 	color: $color-text-primary;
@@ -15,6 +15,10 @@
 		padding: 0 rem(20);
 		position: relative;
 		z-index: 2;
+
+		@media #{$md} {
+			padding: 0 rem(15);
+		}
 	}
 
 	&__loading {
@@ -85,6 +89,7 @@
 		@media #{$md} {
 			min-height: rem(500);
 			margin: rem(20) 0;
+			padding: rem(30) 0 rem(20) 0;
 		}
 	}
 
@@ -187,7 +192,7 @@
 			flex-direction: row;
 			justify-content: center;
 			flex-wrap: wrap;
-			gap: rem(20);
+			gap: rem(12);
 		}
 	}
 
@@ -221,6 +226,11 @@
 		gap: rem(16);
 		flex-wrap: wrap;
 		justify-content: center;
+
+		@media #{$md} {
+			flex-direction: row;
+			gap: rem(8);
+		}
 	}
 
 	&__meta_readtime,
@@ -321,6 +331,7 @@
 		@media #{$md} {
 			display: flex;
 			flex-direction: row;
+			margin-bottom: rem(60);
 		}
 
 		@media #{$lg} {
@@ -516,12 +527,13 @@
 	}
 
 	&__toc_wrapper {
-		width: 100%;
-		padding-left: 0;
-		margin-bottom: rem(40);
+		display: none;
 
 		@media #{$md} {
+			display: block;
 			width: 20%;
+			margin-bottom: rem(40);
+			padding-left: 0;
 			position: relative;
 			padding-left: rem(20);
 		}
@@ -529,6 +541,10 @@
 
 	&__related {
 		margin-bottom: rem(80);
+
+		@media #{$md} {
+			margin-bottom: rem(60);
+		}
 	}
 
 	&__related_title {
@@ -553,40 +569,6 @@
 		@media #{$lg} {
 			grid-template-columns: repeat(3, 1fr);
 			gap: rem(50);
-		}
-	}
-}
-
-@media (max-width: #{$md}) {
-	.blogDetail {
-		&__container {
-			padding: 0 rem(15);
-		}
-
-		&__breadcrumb {
-			padding: rem(100) 0 rem(15) 0;
-		}
-
-		&__hero {
-			padding: rem(30) 0 rem(20) 0;
-		}
-
-		&__meta {
-			flex-direction: column;
-			gap: rem(12);
-		}
-
-		&__meta_info {
-			flex-direction: column;
-			gap: rem(8);
-		}
-
-		&__content {
-			margin-bottom: rem(60);
-		}
-
-		&__related {
-			margin-bottom: rem(60);
 		}
 	}
 }

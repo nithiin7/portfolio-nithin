@@ -12,6 +12,7 @@
 	top: 20%;
 	padding: 2.5rem;
 	row-gap: 2.5rem;
+
 	svg {
 		height: auto;
 		width: 50%;
@@ -21,6 +22,7 @@
 		opacity: 0.2;
 		bottom: -50%;
 	}
+
 	blockquote {
 		font-size: 2rem;
 		color: $color-text;
@@ -31,6 +33,7 @@
 		flex-grow: 1;
 		max-width: 40ch;
 	}
+
 	&__reviewer {
 		color: $color-grey-dark;
 		font-weight: 700;
@@ -40,28 +43,33 @@
 		width: fit-content;
 		display: flex;
 	}
+
 	&__img {
 		border-radius: rem(9999);
 		overflow: hidden;
 		flex-shrink: 0;
 		width: 3.5rem;
 		height: 3.5rem;
+
 		img {
 			height: 100%;
 			width: 100%;
 			object-fit: cover;
 		}
 	}
+
 	&__info {
 		row-gap: 0;
 		display: flex;
 		flex-direction: column;
 		font-size: 1.125rem;
 	}
+
 	&__name {
 		color: $color-secondary;
 		letter-spacing: 0;
 	}
+
 	&__institution {
 		color: $color-text-secondary;
 		line-height: 130%;
