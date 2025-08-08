@@ -10,6 +10,7 @@ export { default as ServiceCard } from './homepage/ServiceCard/ServiceCard';
 export { default as TestimonialCard } from './homepage/TestimonialCard/TestimonialCard';
 
 // Contact
+export { default as Contact } from './contact/Contact/Contact';
 export { default as ContactForm } from './contact/ContactForm/ContactForm';
 
 // Portfolio
