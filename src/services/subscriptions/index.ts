@@ -1,20 +1,13 @@
 import type {
 	NewsletterSubscription,
 	NewsletterSubscriptionFormData,
+	DatabaseNewsletterSubscription,
+	DatabaseNewsletterSubscriptionCreate,
+	ServiceResponse,
+	ServiceError,
 } from 'types/subscription';
 
 import { baseService } from '../index';
-
-/**
- * Database newsletter subscription interface (snake_case columns)
- */
-interface DatabaseNewsletterSubscription {
-	id: string;
-	email: string;
-	is_active: boolean;
-	subscribed_at: string;
-	updated_at: string;
-}
 
 /**
  * Newsletter subscriptions service providing subscription-specific operations
@@ -42,7 +35,7 @@ export class NewsletterSubscriptionsService {
 	 */
 	private transformToDatabase(
 		subscriptionData: NewsletterSubscriptionFormData
-	): Record<string, any> {
+	): DatabaseNewsletterSubscriptionCreate {
 		return {
 			email: subscriptionData.email,
 		};
@@ -53,7 +46,7 @@ export class NewsletterSubscriptionsService {
 	 */
 	async subscribeEmail(
 		subscriptionData: NewsletterSubscriptionFormData
-	): Promise<{ data: NewsletterSubscription | null; error: any }> {
+	): Promise<ServiceResponse<NewsletterSubscription>> {
 		try {
 			const { data: existingSubscription, error: checkError } =
 				await baseService.get<DatabaseNewsletterSubscription>(this.tableName, {
@@ -112,7 +105,7 @@ export class NewsletterSubscriptionsService {
 	 */
 	async unsubscribeEmail(
 		email: string
-	): Promise<{ data: NewsletterSubscription | null; error: any }> {
+	): Promise<ServiceResponse<NewsletterSubscription>> {
 		try {
 			const { data: existingSubscription, error: checkError } =
 				await baseService.get<DatabaseNewsletterSubscription>(this.tableName, {
@@ -154,10 +147,9 @@ export class NewsletterSubscriptionsService {
 	/**
 	 * Get all active subscriptions
 	 */
-	async getActiveSubscriptions(): Promise<{
-		data: NewsletterSubscription[] | null;
-		error: any;
-	}> {
+	async getActiveSubscriptions(): Promise<
+		ServiceResponse<NewsletterSubscription[]>
+	> {
 		try {
 			const { data, error } =
 				await baseService.get<DatabaseNewsletterSubscription>(
@@ -190,7 +182,7 @@ export class NewsletterSubscriptionsService {
 	 */
 	async getSubscriptionByEmail(
 		email: string
-	): Promise<{ data: NewsletterSubscription | null; error: any }> {
+	): Promise<ServiceResponse<NewsletterSubscription>> {
 		try {
 			const { data, error } =
 				await baseService.get<DatabaseNewsletterSubscription>(this.tableName, {
@@ -221,7 +213,7 @@ export class NewsletterSubscriptionsService {
 	 */
 	async getSubscriptionById(
 		id: string
-	): Promise<{ data: NewsletterSubscription | null; error: any }> {
+	): Promise<ServiceResponse<NewsletterSubscription>> {
 		try {
 			const { data, error } =
 				await baseService.getById<DatabaseNewsletterSubscription>(
@@ -247,7 +239,7 @@ export class NewsletterSubscriptionsService {
 	/**
 	 * Delete a subscription
 	 */
-	async deleteSubscription(id: string): Promise<{ error: any }> {
+	async deleteSubscription(id: string): Promise<{ error: ServiceError }> {
 		try {
 			const { error } = await baseService.delete(this.tableName, id);
 			return { error };

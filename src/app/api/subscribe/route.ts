@@ -28,7 +28,12 @@ export async function POST(request: NextRequest) {
 		if (error) {
 			console.error('Error subscribing email:', error);
 
-			if (error.code === '23505') {
+			if (
+				typeof error === 'object' &&
+				error !== null &&
+				'code' in error &&
+				error.code === '23505'
+			) {
 				return NextResponse.json(
 					{ error: 'This email is already subscribed' },
 					{ status: 409 }

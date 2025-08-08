@@ -3,6 +3,34 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { getSupabaseClient } from 'clients/supabase';
 
 /**
+ * Service error type
+ */
+type ServiceError = Error | string | unknown | null;
+
+/**
+ * Service response type
+ */
+interface ServiceResponse<T> {
+	data: T | null;
+	error: ServiceError;
+}
+
+/**
+ * Generic filters type
+ */
+type Filters = Record<string, string | number | boolean | null | undefined>;
+
+/**
+ * Generic data type for database operations
+ */
+type DatabaseData = Record<string, any>;
+
+/**
+ * Query builder function type
+ */
+type QueryBuilder = (query: any) => any;
+
+/**
  * Base service class providing generic CRUD operations for Supabase tables
  */
 export class BaseService {
@@ -13,15 +41,15 @@ export class BaseService {
 	/**
 	 * Generic GET operation with optional filters
 	 */
-	async get<T = any>(
+	async get<T = unknown>(
 		table: string,
-		filters?: Record<string, any>,
+		filters?: Filters,
 		options?: {
 			orderBy?: { column: string; ascending?: boolean };
 			limit?: number;
 			select?: string;
 		}
-	): Promise<{ data: T[] | null; error: any }> {
+	): Promise<ServiceResponse<T[]>> {
 		try {
 			let query = this.client.from(table).select(options?.select || '*');
 
@@ -58,11 +86,11 @@ export class BaseService {
 	/**
 	 * Generic GET operation for a single record by ID
 	 */
-	async getById<T = any>(
+	async getById<T = unknown>(
 		table: string,
 		id: string,
 		select?: string
-	): Promise<{ data: T | null; error: any }> {
+	): Promise<ServiceResponse<T>> {
 		try {
 			const { data, error } = await this.client
 				.from(table)
@@ -80,10 +108,10 @@ export class BaseService {
 	/**
 	 * Generic POST operation for creating new records
 	 */
-	async post<T = any>(
+	async post<T = unknown>(
 		table: string,
-		data: Record<string, any>
-	): Promise<{ data: T | null; error: any }> {
+		data: DatabaseData
+	): Promise<ServiceResponse<T>> {
 		try {
 			const { data: result, error } = await this.client
 				.from(table)
@@ -101,11 +129,11 @@ export class BaseService {
 	/**
 	 * Generic PUT operation for full updates
 	 */
-	async put<T = any>(
+	async put<T = unknown>(
 		table: string,
 		id: string,
-		data: Record<string, any>
-	): Promise<{ data: T | null; error: any }> {
+		data: DatabaseData
+	): Promise<ServiceResponse<T>> {
 		try {
 			const { data: result, error } = await this.client
 				.from(table)
@@ -124,11 +152,11 @@ export class BaseService {
 	/**
 	 * Generic PATCH operation for partial updates
 	 */
-	async patch<T = any>(
+	async patch<T = unknown>(
 		table: string,
 		id: string,
-		data: Record<string, any>
-	): Promise<{ data: T | null; error: any }> {
+		data: DatabaseData
+	): Promise<ServiceResponse<T>> {
 		try {
 			const { data: result, error } = await this.client
 				.from(table)
@@ -147,7 +175,7 @@ export class BaseService {
 	/**
 	 * Generic DELETE operation
 	 */
-	async delete(table: string, id: string): Promise<{ error: any }> {
+	async delete(table: string, id: string): Promise<{ error: ServiceError }> {
 		try {
 			const { error } = await this.client.from(table).delete().eq('id', id);
 
@@ -161,10 +189,10 @@ export class BaseService {
 	/**
 	 * Generic query operation for complex queries
 	 */
-	async query<T = any>(
+	async query<T = unknown>(
 		table: string,
-		queryBuilder: (query: any) => any
-	): Promise<{ data: T[] | null; error: any }> {
+		queryBuilder: QueryBuilder
+	): Promise<ServiceResponse<T[]>> {
 		try {
 			let query = this.client.from(table).select('*');
 			query = queryBuilder(query);
