@@ -15,18 +15,15 @@ export const getRelatedPosts = (
 	const currentTags = currentPost.tags || [];
 	const currentCategory = currentPost.category;
 
-	// Score posts based on tag and category matches
 	const scoredPosts = allPosts
 		.filter((post) => post.id !== currentPost.id)
 		.map((post) => {
 			let score = 0;
 
-			// Category match
 			if (post.category === currentCategory) {
 				score += 3;
 			}
 
-			// Tag matches
 			const postTags = post.tags || [];
 			const tagMatches = currentTags.filter((tag) => postTags.includes(tag));
 			score += tagMatches.length * 2;

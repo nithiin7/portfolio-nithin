@@ -20,3 +20,4 @@ export { default as Tag } from './Tag/Tag';
 export type { TagProps } from './Tag/Tag';
 export { default as TagContainer } from './TagContainer/TagContainer';
 export type { TagContainerProps } from './TagContainer/TagContainer';
+export { default as TransitionSVG } from './TransitionSVG/TransitionSVG';

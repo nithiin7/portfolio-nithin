@@ -1,5 +1,8 @@
 import * as yup from 'yup';
 
+/**
+ * Contact form validation schema
+ */
 export const contactSchema = yup
 	.object({
 		name: yup
@@ -22,6 +25,9 @@ export const contactSchema = yup
 	})
 	.required();
 
+/**
+ * Email form validation schema
+ */
 export const emailSchema = yup
 	.object({
 		email: yup
@@ -31,6 +37,9 @@ export const emailSchema = yup
 	})
 	.required();
 
+/**
+ * Comment form validation schema
+ */
 export const commentSchema = yup.object({
 	authorName: yup
 		.string()

@@ -6,6 +6,7 @@
 	left: rem(25);
 	top: rem(25);
 	z-index: 100;
+
 	&__backdrop {
 		position: fixed;
 		top: 0;
@@ -19,6 +20,7 @@
 		cursor: pointer;
 		transition: backdrop-filter 0.3s ease;
 	}
+
 	&__controls {
 		display: flex;
 		align-items: center;
@@ -29,6 +31,7 @@
 			gap: rem(16);
 		}
 	}
+
 	&__book {
 		position: fixed;
 		top: rem(25);
@@ -36,15 +39,18 @@
 		z-index: 110;
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 		border-radius: rem(99);
+
 		&:hover {
 			box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 			transform: translateY(-2px);
 		}
+
 		@media #{$md} {
 			top: rem(32);
 			right: rem(32);
 		}
 	}
+
 	&__bookCallMobile {
 		margin-top: rem(32);
 		display: flex;
@@ -53,21 +59,25 @@
 			margin-top: rem(40);
 		}
 	}
+
 	&__bookCallMobileButton {
 		width: 100%;
 		justify-content: center;
 		max-width: rem(280);
 	}
+
 	&__toggle-inmenu {
 		position: absolute;
 		top: rem(24);
 		right: rem(32);
 		z-index: 130;
+
 		@media #{$md} {
 			top: rem(32);
 			right: rem(48);
 		}
 	}
+
 	&__button {
 		cursor: pointer;
 		display: flex;
@@ -82,15 +92,18 @@
 		border: none;
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 		transition: all 0.3s ease;
+
 		@media #{$md} {
 			height: 5rem;
 			width: 5rem;
 			box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 		}
+
 		&:hover {
 			box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 			transform: translateY(-2px);
 		}
+
 		span {
 			width: 2rem;
 			height: rem(1.75);
@@ -98,13 +111,16 @@
 			pointer-events: none;
 			transition: all cubic-bezier(0.16, 1, 0.3, 1) 0.5s;
 			border-radius: rem(2);
+
 			@media #{$md} {
 				width: 2.25rem;
 				height: rem(2);
 			}
+
 			&.active {
 				transform: translate(0, rem(6)) rotate(45deg) skewX(0) skewY(0)
 					scaleX(1) scaleY(1);
+
 				&:nth-of-type(2) {
 					transform: translate(0, rem(0)) rotate(-45deg) skewX(0) skewY(0)
 						scaleX(1) scaleY(1);
@@ -112,6 +128,7 @@
 			}
 		}
 	}
+
 	&__container {
 		width: 100vw;
 		height: 100vh;
@@ -122,6 +139,7 @@
 		top: 0;
 		left: 0;
 	}
+
 	&__sub-container {
 		max-width: 36rem;
 		padding-top: 2.5rem;
@@ -137,12 +155,14 @@
 		position: relative;
 		pointer-events: auto;
 	}
+
 	&__background {
 		opacity: 0.25;
 		position: absolute;
 		top: 0;
 		right: 0;
 	}
+
 	&__nav {
 		display: flex;
 		flex-direction: column;
@@ -155,25 +175,31 @@
 		height: 100%;
 		justify-content: center;
 		font-weight: 700;
+
 		@media #{$md} {
 			font-size: 3.5rem;
 			padding-left: 6rem;
 			padding-right: 5rem;
 		}
+
 		ul {
 			list-style: none;
 		}
+
 		a {
 			color: $color-primary;
 			text-decoration: none;
 			position: relative;
 			top: 0;
+
 			&:hover {
 				color: $color-accent;
+
 				&::before {
 					opacity: 1;
 				}
 			}
+
 			&::before {
 				content: '';
 				position: absolute;
@@ -188,6 +214,7 @@
 			}
 		}
 	}
+
 	&__socials {
 		display: flex;
 		justify-content: flex-end;
@@ -196,11 +223,13 @@
 		padding-right: 3.5rem;
 		list-style: none;
 		margin: 0;
+
 		ul {
 			list-style: none;
 			display: flex;
 			gap: 2rem;
 		}
+
 		a {
 			color: $color-grey-light;
 			text-decoration: none;
@@ -209,6 +238,7 @@
 			text-transform: uppercase;
 			letter-spacing: rem(0.5);
 			transition: color 0.3s ease;
+
 			&:hover {
 				color: $color-primary;
 			}

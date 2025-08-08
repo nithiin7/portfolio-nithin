@@ -1,3 +1,5 @@
+import type { LenisInstance } from '@studio-freight/react-lenis';
+
 /**
  * Helper function to parse comma-separated strings into arrays
  * @param str - The comma-separated string to parse
@@ -13,6 +15,11 @@ export const parseCommaSeparatedString = (str: string): string[] => {
 		.filter((item) => item.length > 0);
 };
 
+/**
+ * Get rich text content from a Contentful document
+ * @param content - The Contentful document
+ * @returns Rich text content as a string
+ */
 export const getRichTextContent = (
 	content: { json: Document } | null | undefined
 ): string => {
@@ -21,11 +28,30 @@ export const getRichTextContent = (
 	return JSON.stringify(content.json);
 };
 
+/**
+ * Get image URL from a Contentful image
+ * @param image - The Contentful image
+ * @param fallback - Fallback image URL
+ * @returns Image URL
+ */
 export const getImageUrl = (
 	image: { url: string } | null | undefined,
 	fallback?: string
 ): string => {
 	return image?.url || fallback || '';
+};
+
+/**
+ * Scrolls to a specified section using Lenis smooth scrolling.
+ *
+ * @param {string} to - The ID of the section to scroll to.
+ */
+export const handleScroll = (to: string, lenis: LenisInstance) => {
+	if (lenis) {
+		lenis.scrollTo(`#${to}`, {
+			duration: 2,
+		});
+	}
 };
 
 /**
@@ -40,7 +66,7 @@ export const calculateReadTime = (
 ): number => {
 	const words = content.trim().split(/\s+/).length;
 	const minutes = Math.ceil(words / wordsPerMinute);
-	return Math.max(1, minutes); // Minimum 1 minute
+	return Math.max(1, minutes);
 };
 
 /**
@@ -91,7 +117,6 @@ export const formatDate = (
  * @returns Truncated excerpt
  */
 export const generateExcerpt = (content: string, maxLength = 150): string => {
-	// Remove HTML tags
 	const plainText = content.replace(/<[^>]*>/g, '');
 
 	if (plainText.length <= maxLength) {
@@ -109,9 +134,9 @@ export const generateExcerpt = (content: string, maxLength = 150): string => {
 export const slugify = (text: string): string => {
 	return text
 		.toLowerCase()
-		.replace(/[^\w\s-]/g, '') // Remove special characters
-		.replace(/[\s_-]+/g, '-') // Replace spaces and underscores with hyphens
-		.replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
+		.replace(/[^\w\s-]/g, '')
+		.replace(/[\s_-]+/g, '-')
+		.replace(/^-+|-+$/g, '');
 };
 
 export {

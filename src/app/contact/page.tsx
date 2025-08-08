@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
 
-import { loadData } from 'helpers/contentful';
 import { Contact } from 'components/pages';
+import { loadData } from 'helpers/contentful';
 
 export async function generateMetadata(): Promise<Metadata> {
 	const props = await loadData('contact');

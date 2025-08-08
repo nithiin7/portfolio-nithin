@@ -1,5 +1,10 @@
 import { gql } from '@apollo/client';
 
+/**
+ * Query to get a portfolio by id
+ * @param id - The id of the portfolio to get
+ * @returns The portfolio data
+ */
 export const GET_PORTFOLIO = gql`
 	query Portfolio($id: Int!) {
 		portfolioDetailsCollection(where: { id: $id }, limit: 1) {

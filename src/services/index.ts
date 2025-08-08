@@ -179,5 +179,4 @@ export class BaseService {
 	}
 }
 
-// Export a singleton instance
 export const baseService = new BaseService();
