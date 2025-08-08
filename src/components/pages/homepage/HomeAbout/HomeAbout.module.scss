@@ -4,8 +4,10 @@
 .HomeAbout {
 	background-color: $color-black;
 	padding: 5% 4%;
+
 	&__container {
 		position: relative;
+
 		h2 {
 			margin-bottom: 2rem;
 			mix-blend-mode: exclusion;
@@ -19,13 +21,16 @@
 			text-wrap: balance;
 			letter-spacing: -0.025em;
 			text-transform: uppercase;
+
 			@media #{$md} {
 				margin-bottom: -2rem;
 			}
 		}
 	}
+
 	&__image-left {
 		display: none;
+
 		@media #{$md} {
 			opacity: 0.1;
 			transform: translate(-50%, -50%) rotate(0) skewX(0) skewY(0) scaleX(1)
@@ -36,13 +41,16 @@
 			position: absolute;
 			vertical-align: middle;
 		}
+
 		@media #{$lg} {
 			max-width: 56rem;
 			display: block;
 		}
 	}
+
 	&__image-right {
 		display: none;
+
 		@media #{$md} {
 			opacity: 0.1;
 			transform: translate(-50%, -50%) rotate(0) skewX(0) skewY(0) scaleX(1)
@@ -53,11 +61,13 @@
 			position: absolute;
 			vertical-align: middle;
 		}
+
 		@media #{$lg} {
 			max-width: 48rem;
 			display: block;
 		}
 	}
+
 	&__image {
 		max-width: 32rem;
 		overflow: hidden;
@@ -67,6 +77,7 @@
 		z-index: 0;
 		position: relative;
 		pointer-events: none;
+
 		img {
 			border-radius: 1rem;
 			margin-left: auto;
@@ -79,6 +90,7 @@
 			height: auto;
 			vertical-align: middle;
 		}
+
 		&__gradient {
 			border-radius: 1rem;
 			opacity: 0.75;
@@ -89,6 +101,7 @@
 			position: absolute;
 		}
 	}
+
 	&__description {
 		margin-top: 3rem;
 		font-size: 2rem;
@@ -101,9 +114,11 @@
 		position: relative;
 		text-wrap: pretty;
 		line-height: 130%;
+
 		@media #{$md} {
 			margin-top: -3rem;
 		}
+
 		span {
 			max-width: 44ch;
 		}

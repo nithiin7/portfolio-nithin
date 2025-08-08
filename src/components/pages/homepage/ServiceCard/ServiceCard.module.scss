@@ -6,6 +6,7 @@
 	background-color: $color-black;
 	margin-top: rem(40);
 	height: 80vh;
+
 	&__header {
 		display: flex;
 		gap: rem(15);
@@ -20,31 +21,39 @@
 		letter-spacing: -0.0275em;
 		border-top: rem(1) solid;
 		border-top-color: $color-secondary;
+
 		h3 {
 			font-weight: 600;
 		}
+
 		svg {
 			height: rem(35);
 			width: rem(35);
+
 			@media #{$md} {
 				height: rem(50);
 				width: rem(50);
 			}
 		}
+
 		@media #{$md} {
 			font-size: 3rem;
 		}
+
 		@media #{$xl} {
 			font-size: 3.5rem;
 		}
 	}
+
 	&__body {
 		display: flex;
 		justify-content: space-between;
 		flex-direction: column;
+
 		@media #{$md} {
 			flex-direction: row;
 		}
+
 		p {
 			font-size: 1.25rem;
 			color: $color-grey-medium;
@@ -54,11 +63,13 @@
 			text-wrap: pretty;
 			width: 100%;
 			line-height: 130%;
+
 			@media #{$md} {
 				width: 50%;
 			}
 		}
 	}
+
 	&__services {
 		font-size: 1.5rem;
 		display: flex;
@@ -66,17 +77,20 @@
 		row-gap: 1rem;
 		width: 100%;
 		padding-top: 2rem;
+
 		@media #{$md} {
 			width: 50%;
 			font-size: 2rem;
 			padding-top: 0;
 			text-align: end;
 		}
+
 		span {
 			color: $color-grey-light;
 			font-weight: 500;
 		}
 	}
+
 	&__background {
 		opacity: 0.5;
 		font-weight: 800;

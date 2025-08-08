@@ -47,14 +47,14 @@ const CommentBox: FC<CommentBoxProps> = ({
 	return (
 		<>
 			<motion.div
-				className={`${styles.commentBox} ${className}`}
+				className={`${styles.CommentBox} ${className}`}
 				onClick={handleBoxClick}
 				whileHover={{ scale: 1.02 }}
 				whileTap={{ scale: 0.98 }}
 				transition={{ duration: 0.2 }}
 			>
-				<div className={styles.commentBox__content}>
-					<div className={styles.commentBox__avatar}>
+				<div className={styles.CommentBox__content}>
+					<div className={styles.CommentBox__avatar}>
 						<svg
 							width="20"
 							height="20"
@@ -80,12 +80,12 @@ const CommentBox: FC<CommentBoxProps> = ({
 							/>
 						</svg>
 					</div>
-					<div className={styles.commentBox__input}>
-						<span className={styles.commentBox__placeholder}>
+					<div className={styles.CommentBox__input}>
+						<span className={styles.CommentBox__placeholder}>
 							{replyingTo ? `Reply to ${replyingTo}...` : placeholder}
 						</span>
 					</div>
-					<div className={styles.commentBox__icon}>
+					<div className={styles.CommentBox__icon}>
 						<svg
 							width="16"
 							height="16"

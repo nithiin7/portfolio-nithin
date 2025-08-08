@@ -1,20 +1,13 @@
-import type { Comment, CommentFormData } from 'types/comment';
-
-import { baseService } from '../index';
-
-/**
- * Database comment interface (snake_case columns)
- */
-interface DatabaseComment {
-	id: string;
-	post_id: string;
-	author_name: string;
-	author_email: string;
-	content: string;
-	parent_id: string | null;
-	created_at: string;
-	updated_at: string;
-}
+import { baseService } from 'services/index';
+import type {
+	Comment,
+	CommentFormData,
+	DatabaseComment,
+	DatabaseCommentCreate,
+	DatabaseCommentUpdate,
+	ServiceError,
+	ServiceResponse,
+} from 'types/comment';
 
 /**
  * Comments service providing comment-specific operations
@@ -43,7 +36,7 @@ export class CommentsService {
 	 */
 	private transformToDatabase(
 		comment: CommentFormData & { postId: string }
-	): Record<string, any> {
+	): DatabaseCommentCreate {
 		return {
 			post_id: comment.postId,
 			author_name: comment.authorName,
@@ -58,7 +51,7 @@ export class CommentsService {
 	 */
 	async getCommentsByPostId(
 		postId: string
-	): Promise<{ data: Comment[] | null; error: any }> {
+	): Promise<ServiceResponse<Comment[]>> {
 		try {
 			const { data, error } = await baseService.get<DatabaseComment>(
 				this.tableName,
@@ -84,9 +77,7 @@ export class CommentsService {
 	/**
 	 * Get a single comment by ID
 	 */
-	async getCommentById(
-		id: string
-	): Promise<{ data: Comment | null; error: any }> {
+	async getCommentById(id: string): Promise<ServiceResponse<Comment>> {
 		try {
 			const { data, error } = await baseService.getById<DatabaseComment>(
 				this.tableName,
@@ -110,7 +101,7 @@ export class CommentsService {
 	 */
 	async createComment(
 		commentData: CommentFormData & { postId: string }
-	): Promise<{ data: Comment | null; error: any }> {
+	): Promise<ServiceResponse<Comment>> {
 		try {
 			const dbData = this.transformToDatabase(commentData);
 
@@ -137,9 +128,9 @@ export class CommentsService {
 	async updateComment(
 		id: string,
 		commentData: Partial<CommentFormData>
-	): Promise<{ data: Comment | null; error: any }> {
+	): Promise<ServiceResponse<Comment>> {
 		try {
-			const updateData: Record<string, any> = {};
+			const updateData: DatabaseCommentUpdate = {};
 
 			if (commentData.authorName !== undefined) {
 				updateData.author_name = commentData.authorName;
@@ -172,7 +163,7 @@ export class CommentsService {
 	/**
 	 * Delete a comment
 	 */
-	async deleteComment(id: string): Promise<{ error: any }> {
+	async deleteComment(id: string): Promise<{ error: ServiceError }> {
 		try {
 			const { error } = await baseService.delete(this.tableName, id);
 			return { error };
@@ -185,9 +176,7 @@ export class CommentsService {
 	/**
 	 * Get replies for a specific comment
 	 */
-	async getReplies(
-		parentId: string
-	): Promise<{ data: Comment[] | null; error: any }> {
+	async getReplies(parentId: string): Promise<ServiceResponse<Comment[]>> {
 		try {
 			const { data, error } = await baseService.get<DatabaseComment>(
 				this.tableName,
@@ -215,7 +204,7 @@ export class CommentsService {
 	 */
 	async getCommentsWithReplies(
 		postId: string
-	): Promise<{ data: Comment[] | null; error: any }> {
+	): Promise<ServiceResponse<Comment[]>> {
 		try {
 			// Get all comments for the post
 			const { data: allComments, error } =

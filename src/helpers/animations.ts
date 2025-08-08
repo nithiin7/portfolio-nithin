@@ -1,5 +1,8 @@
 import type { Variants } from 'motion/react';
 
+/**
+ * Animation variants for the text.
+ */
 export const text: Variants = {
 	initial: {
 		opacity: 1,
@@ -17,6 +20,9 @@ export const text: Variants = {
 	},
 };
 
+/**
+ * Animation variants for the curve.
+ */
 export const curve = (initialPath: string, targetPath: string): Variants => {
 	return {
 		initial: {
@@ -33,6 +39,9 @@ export const curve = (initialPath: string, targetPath: string): Variants => {
 	};
 };
 
+/**
+ * Animation variants for the menu items.
+ */
 export const translate: Variants = {
 	initial: {
 		top: '-300px',

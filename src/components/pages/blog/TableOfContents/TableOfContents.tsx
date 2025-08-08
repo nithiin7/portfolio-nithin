@@ -24,11 +24,9 @@ const TableOfContents: FC<TableOfContentsProps> = ({ className }) => {
 	const [activeId, setActiveId] = useState<string>('');
 
 	useEffect(() => {
-		// Get all headings from the article content
 		const articleContent = document.querySelector('article');
 		if (!articleContent) return;
 
-		// Only get h1 and h2 headings as shown in the image
 		const headingElements = articleContent.querySelectorAll('h1, h2');
 		const tocItems: TocItem[] = [];
 
@@ -39,7 +37,6 @@ const TableOfContents: FC<TableOfContentsProps> = ({ className }) => {
 				'';
 			if (!id) return;
 
-			// Add id to heading if it doesn't have one
 			if (!heading.id) {
 				heading.id = id;
 			}
@@ -53,7 +50,6 @@ const TableOfContents: FC<TableOfContentsProps> = ({ className }) => {
 
 		setHeadings(tocItems);
 
-		// Set up intersection observer for active heading detection
 		const observer = new IntersectionObserver(
 			(entries) => {
 				entries.forEach((entry) => {
@@ -75,7 +71,6 @@ const TableOfContents: FC<TableOfContentsProps> = ({ className }) => {
 	const scrollToHeading = (id: string) => {
 		const element = document.getElementById(id);
 		if (element) {
-			// Smooth scroll with offset for fixed header
 			const headerOffset = 120;
 			const elementPosition = element.getBoundingClientRect().top;
 			const offsetPosition =
@@ -86,7 +81,6 @@ const TableOfContents: FC<TableOfContentsProps> = ({ className }) => {
 				behavior: 'smooth',
 			});
 
-			// Update active state immediately for better UX
 			setActiveId(id);
 		}
 	};
@@ -97,24 +91,24 @@ const TableOfContents: FC<TableOfContentsProps> = ({ className }) => {
 
 	return (
 		<motion.nav
-			className={`${styles.tableOfContents} ${className || ''}`}
+			className={`${styles.TableOfContents} ${className || ''}`}
 			initial={{ opacity: 0, x: 20 }}
 			animate={{ opacity: 1, x: 0 }}
 			transition={{ duration: 0.6, delay: 0.8 }}
 		>
-			<div className={styles.tableOfContents__line} />
-			<ul className={styles.tableOfContents__list}>
+			<div className={styles.TableOfContents__line} />
+			<ul className={styles.TableOfContents__list}>
 				{headings.map((heading) => (
 					<motion.li
 						key={heading.id}
-						className={`${styles.tableOfContents__item} ${
-							activeId === heading.id ? styles.tableOfContents__item_active : ''
+						className={`${styles.TableOfContents__item} ${
+							activeId === heading.id ? styles.TableOfContents__item_active : ''
 						}`}
 						whileHover={{ x: 4 }}
 						transition={{ duration: 0.2 }}
 					>
 						<button
-							className={styles.tableOfContents__link}
+							className={styles.TableOfContents__link}
 							onClick={() => scrollToHeading(heading.id)}
 						>
 							{heading.text}

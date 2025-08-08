@@ -49,22 +49,3 @@
 		}
 	}
 }
-
-@media (max-width: #{$md}) {
-	.BlogNoResults {
-		padding: rem(60) rem(20);
-
-		&__title {
-			font-size: rem(20);
-		}
-
-		&__text {
-			font-size: rem(15);
-		}
-
-		&__button {
-			padding: rem(10) rem(20);
-			font-size: rem(15);
-		}
-	}
-}

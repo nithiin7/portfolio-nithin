@@ -1,5 +1,10 @@
 import { gql } from '@apollo/client';
 
+/**
+ * Query to get a page by slug
+ * @param page - The slug of the page to get
+ * @returns The page data
+ */
 export const GET_PAGE = gql`
 	query Home($page: String!) {
 		pageCollection(where: { slug: $page }, limit: 1) {
@@ -120,6 +125,12 @@ export const GET_PAGE = gql`
 	}
 `;
 
+/**
+ * Query to get all blog posts
+ * @param limit - The limit of the blog posts to get
+ * @param skip - The skip of the blog posts to get
+ * @returns The blog posts data
+ */
 export const GET_ALL_BLOG_POSTS = gql`
 	query GetAllBlogPosts($limit: Int = 10, $skip: Int = 0) {
 		blogPostCollection(
@@ -158,6 +169,11 @@ export const GET_ALL_BLOG_POSTS = gql`
 	}
 `;
 
+/**
+ * Query to get a blog post by slug
+ * @param slug - The slug of the blog post to get
+ * @returns The blog post data
+ */
 export const GET_BLOG_POST_BY_SLUG = gql`
 	query GetBlogPostBySlug($slug: String!) {
 		blogPostCollection(where: { slug: $slug }, limit: 1) {
@@ -206,6 +222,10 @@ export const GET_BLOG_POST_BY_SLUG = gql`
 	}
 `;
 
+/**
+ * Query to get all blog categories
+ * @returns The blog categories data
+ */
 export const GET_BLOG_CATEGORIES = gql`
 	query GetBlogCategories {
 		blogCategoryCollection(order: [name_ASC]) {
@@ -221,6 +241,10 @@ export const GET_BLOG_CATEGORIES = gql`
 	}
 `;
 
+/**
+ * Query to get all blog tags
+ * @returns The blog tags data
+ */
 export const GET_BLOG_TAGS = gql`
 	query GetBlogTags {
 		blogTagCollection(order: [name_ASC]) {
@@ -235,6 +259,13 @@ export const GET_BLOG_TAGS = gql`
 	}
 `;
 
+/**
+ * Query to get all blog posts by category
+ * @param category - The category of the blog posts to get
+ * @param limit - The limit of the blog posts to get
+ * @param skip - The skip of the blog posts to get
+ * @returns The blog posts data
+ */
 export const GET_BLOG_POSTS_BY_CATEGORY = gql`
 	query GetBlogPostsByCategory(
 		$category: String!
@@ -275,6 +306,13 @@ export const GET_BLOG_POSTS_BY_CATEGORY = gql`
 	}
 `;
 
+/**
+ * Query to get all blog posts by tag
+ * @param tag - The tag of the blog posts to get
+ * @param limit - The limit of the blog posts to get
+ * @param skip - The skip of the blog posts to get
+ * @returns The blog posts data
+ */
 export const GET_BLOG_POSTS_BY_TAG = gql`
 	query GetBlogPostsByTag($tag: String!, $limit: Int = 10, $skip: Int = 0) {
 		blogPostCollection(

@@ -7,6 +7,7 @@
 	position: relative;
 	overflow: hidden;
 	max-height: 100vh;
+
 	&::before {
 		content: '';
 		position: absolute;
@@ -22,25 +23,30 @@
 		pointer-events: none;
 		z-index: 1;
 	}
+
 	&__nav {
 		margin-top: rem(15);
+
 		svg {
 			height: rem(75);
 			width: rem(75);
 			filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.15))
 				drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+
 			@media #{$md} {
 				height: rem(100);
 				width: rem(100);
 			}
 		}
 	}
+
 	&__logoWrapper {
 		filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.2))
 			drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
 		transform-style: preserve-3d;
 		perspective: 1000px;
 	}
+
 	&__navigation {
 		pointer-events: auto;
 		cursor: auto;
@@ -48,6 +54,7 @@
 			display: none;
 		}
 	}
+
 	&__top {
 		display: flex;
 		justify-content: space-between;
@@ -55,6 +62,7 @@
 		width: 100%;
 		padding: 0 rem(15);
 	}
+
 	&__list {
 		display: flex;
 		align-items: center;
@@ -66,9 +74,11 @@
 			gap: rem(16);
 		}
 	}
+
 	&__item {
 		position: relative;
 	}
+
 	&__link {
 		position: relative;
 		color: $color-text-dark;
@@ -82,19 +92,23 @@
 		transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 		display: block;
 		white-space: nowrap;
+
 		@media #{$md} {
 			font-size: rem(16);
 			padding: rem(10) rem(16);
 		}
+
 		&:hover {
 			color: $color-text;
 			background: rgba(255, 255, 255, 0.1);
 			backdrop-filter: blur(10px);
 		}
+
 		&:active {
 			transform: scale(0.95);
 		}
 	}
+
 	&__underline {
 		position: absolute;
 		bottom: rem(4);
@@ -110,12 +124,14 @@
 			right: rem(16);
 		}
 	}
+
 	&__cta {
 		margin-left: rem(8);
 		@media #{$md} {
 			margin-left: rem(16);
 		}
 	}
+
 	&__button {
 		font-size: rem(14) !important;
 		padding: rem(8) rem(16) !important;
@@ -124,6 +140,7 @@
 			padding: rem(10) rem(20) !important;
 		}
 	}
+
 	&__header {
 		height: calc(100vh - 122px);
 		width: 100%;
@@ -135,10 +152,12 @@
 		margin: 0 auto;
 		padding: 5% 4%;
 		z-index: 2;
+
 		@media #{$md} {
 			align-items: center;
 			text-align: center;
 		}
+
 		svg {
 			position: absolute;
 			top: 50%;
@@ -149,6 +168,7 @@
 			animation: float 6s ease-in-out infinite;
 		}
 	}
+
 	&__description {
 		position: relative;
 		width: 100%;
@@ -163,9 +183,11 @@
 		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 		text-align: center;
 		align-items: center;
+
 		@media #{$md} {
 			padding-bottom: 0;
 		}
+
 		button {
 			background: none;
 			border: none;
@@ -177,16 +199,19 @@
 			color: $color-text-dark;
 			position: relative;
 		}
+
 		h1 {
 			font-size: clamp(3rem, -0.057rem + 10.0714vw, 10.25rem);
 			line-height: 92.5%;
 			font-weight: 800;
 			white-space: normal;
 			font-family: 'Host Grotesk', sans-serif;
+
 			@media #{$md} {
 				white-space: nowrap;
 			}
 		}
+
 		p {
 			max-width: 30ch;
 			text-wrap: pretty;
@@ -195,6 +220,7 @@
 			font-weight: 400;
 			color: $color-text;
 			position: relative;
+
 			&::after {
 				content: '';
 				position: absolute;
@@ -206,6 +232,7 @@
 				transition: width 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 				animation: underlineReveal 2s ease-out 1.5s forwards;
 			}
+
 			@media #{$md} {
 				&::after {
 					left: 50%;

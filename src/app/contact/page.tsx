@@ -1,157 +1,106 @@
-'use client';
-import { motion, useMotionValue, useSpring } from 'motion/react';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
+import type { Metadata } from 'next';
+import Script from 'next/script';
 
-import Logo from 'assets/logos/logo.svg';
-import { ContactForm } from 'components/pages';
-import { MaskText } from 'components/utilities';
-import { useTheme } from 'contexts/ThemeContext';
-import type { Settings } from 'types/anim';
+import { Contact } from 'components/pages';
+import { loadData } from 'helpers/contentful';
 
-import styles from './Contact.module.scss';
+export async function generateMetadata(): Promise<Metadata> {
+	const props = await loadData('contact');
+	const path = props?.data.pageCollection.items[0];
 
-const settings: Settings = {
-	damping: 100,
-	stiffness: 600,
-	maxDistance: 300,
-	intensity: 0.1,
-};
-
-const Contact: React.FC = () => {
-	const [componentRef, setComponentRef] = useState<HTMLDivElement | null>(null);
-
-	const { theme } = useTheme();
-
-	const x = useMotionValue(0);
-	const y = useMotionValue(0);
-
-	const springConfig = {
-		damping: settings.damping,
-		stiffness: settings.stiffness,
+	return {
+		title: path.title,
+		description: path.description,
+		keywords: path.keywords,
+		openGraph: {
+			type: 'website',
+			locale: 'en_US',
+			url: 'https://portfolio-nithin.vercel.app/contact',
+			title: path.title,
+			description: path.description,
+			siteName: 'Nithin Pradeep - Portfolio',
+			images: [
+				{
+					url: '/opengraph-image.jpeg',
+					width: 1200,
+					height: 630,
+					alt: 'Contact Nithin Pradeep - Full Stack Developer',
+				},
+			],
+		},
+		twitter: {
+			card: 'summary_large_image',
+			title: path.title,
+			description: path.description,
+			creator: '@nithiin7',
+			images: ['/opengraph-image.jpeg'],
+		},
+		robots: {
+			index: true,
+			follow: true,
+			googleBot: {
+				index: true,
+				follow: true,
+				'max-video-preview': -1,
+				'max-image-preview': 'large',
+				'max-snippet': -1,
+			},
+		},
+		alternates: {
+			canonical: 'https://portfolio-nithin.vercel.app/contact',
+		},
 	};
-	const springX = useSpring(x, springConfig);
-	const springY = useSpring(y, springConfig);
+}
 
-	useEffect(() => {
-		const calculateDistance = (e: MouseEvent) => {
-			if (componentRef) {
-				const rect = componentRef.getBoundingClientRect();
-				const centerX = rect.left + rect.width / 2;
-				const centerY = rect.top + rect.height / 2;
-				const distanceX = e.clientX - centerX;
-				const distanceY = e.clientY - centerY;
-
-				if (
-					Math.abs(distanceX) < settings.maxDistance &&
-					Math.abs(distanceY) < settings.maxDistance
-				) {
-					const proximityFactor =
-						1 -
-						Math.max(Math.abs(distanceX), Math.abs(distanceY)) /
-							settings.maxDistance;
-					x.set(distanceX * proximityFactor * settings.intensity);
-					y.set(distanceY * proximityFactor * settings.intensity);
-				} else {
-					x.set(0);
-					y.set(0);
-				}
-			}
-		};
-
-		const handleMouseMove = (e: MouseEvent) => {
-			calculateDistance(e);
-		};
-
-		document.addEventListener(
-			'mousemove',
-			handleMouseMove as unknown as EventListener
-		);
-
-		return () => {
-			document.removeEventListener(
-				'mousemove',
-				handleMouseMove as unknown as EventListener
-			);
-		};
-	}, [componentRef, x, y]);
-
-	return (
-		<GoogleReCaptchaProvider
-			reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
-			scriptProps={{
-				async: true,
-				defer: true,
-				appendTo: 'body',
-				nonce: undefined,
-			}}
-		>
-			<div className={styles.contact}>
-				<header>
-					<div className={styles.contact__nav}>
-						<motion.div
-							ref={setComponentRef}
-							style={{
-								x: springX,
-								y: springY,
-								zIndex: 99,
-							}}
-						>
-							<Link href="/" aria-label="Back to home" title="Back">
-								<Logo />
-							</Link>
-						</motion.div>
-					</div>
-					<svg
-						className={styles.contact__bg}
-						width="1186"
-						height="1186"
-						viewBox="0 0 1186 1186"
-						fill="none"
-						xmlns="http://www.w3.org/2000/svg"
-						aria-hidden="true"
-					>
-						<circle
-							cx="593"
-							cy="593"
-							r="593"
-							fill="url(#paint0_linear_4949_267)"
-						></circle>
-						<defs>
-							<linearGradient
-								id="paint0_linear_4949_267"
-								x1="593"
-								y1="0"
-								x2="593"
-								y2="1186"
-								gradientUnits="userSpaceOnUse"
-							>
-								<stop
-									stopColor={theme === 'dark' ? '#DDDDD5' : '#393632'}
-								></stop>
-								<stop
-									offset="1"
-									stopColor={theme === 'dark' ? '#DDDDD5' : '#393632'}
-									stopOpacity="0"
-								></stop>
-							</linearGradient>
-						</defs>
-					</svg>
-					<div className={styles.contact__header}>
-						<h1>
-							<MaskText
-								phrases={['Say No More. Lets Bring your project to life']}
-							/>
-						</h1>
-					</div>
-				</header>
-				<section>
-					<ContactForm />
-				</section>
-			</div>
-		</GoogleReCaptchaProvider>
-	);
+const contactStructuredData = {
+	'@context': 'https://schema.org',
+	'@type': 'ContactPage',
+	name: 'Contact Nithin Pradeep',
+	description:
+		'Get in touch with Nithin Pradeep for web development projects and collaborations',
+	url: 'https://portfolio-nithin.vercel.app/contact',
+	mainEntity: {
+		'@type': 'Person',
+		name: 'Nithin Pradeep',
+		jobTitle: 'Full Stack Developer',
+		url: 'https://portfolio-nithin.vercel.app/',
+		sameAs: [
+			'https://github.com/nithiin7',
+			'https://www.linkedin.com/in/nithin-p7/',
+			'https://www.instagram.com/__nithiin__/',
+			'https://www.twitter.com/_nithiin7/',
+		],
+	},
+	breadcrumb: {
+		'@type': 'BreadcrumbList',
+		itemListElement: [
+			{
+				'@type': 'ListItem',
+				position: 1,
+				name: 'Home',
+				item: 'https://portfolio-nithin.vercel.app/',
+			},
+			{
+				'@type': 'ListItem',
+				position: 2,
+				name: 'Contact',
+				item: 'https://portfolio-nithin.vercel.app/contact',
+			},
+		],
+	},
 };
 
-export default Contact;
+export default function ContactPage(): React.ReactElement {
+	return (
+		<>
+			<Script
+				id="contact-structured-data"
+				type="application/ld+json"
+				dangerouslySetInnerHTML={{
+					__html: JSON.stringify(contactStructuredData),
+				}}
+			/>
+			<Contact />
+		</>
+	);
+}

@@ -4,7 +4,8 @@ import { AnimatePresence, motion } from 'motion/react';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-import { text, curve, translate } from 'helpers/animations';
+import { TransitionSVG } from 'components/utilities';
+import { text } from 'helpers/animations';
 
 interface CurveProps {
 	children: React.ReactNode;
@@ -88,7 +89,7 @@ const Curve = ({
 					</motion.p>
 				</motion.div>
 				{dimensions.width != null && dimensions.height != null && (
-					<SVG width={dimensions.width} height={dimensions.height} />
+					<TransitionSVG width={dimensions.width} height={dimensions.height} />
 				)}
 				<div>{children}</div>
 			</div>
@@ -97,32 +98,3 @@ const Curve = ({
 };
 
 export default Curve;
-
-interface SVGProps {
-	height: number;
-	width: number;
-}
-
-const SVG = ({ height, width }: SVGProps): React.ReactElement => {
-	const initialPath = `
-        M0 300 
-        Q${width / 2} 0 ${width} 300
-        L${width} ${height + 300}
-        Q${width / 2} ${height + 600} 0 ${height + 300}
-        L0 0
-    `;
-
-	const targetPath = `
-        M0 300
-        Q${width / 2} 0 ${width} 300
-        L${width} ${height}
-        Q${width / 2} ${height} 0 ${height}
-        L0 0
-    `;
-
-	return (
-		<motion.svg className="motion-svg" {...anim(translate)}>
-			<motion.path {...anim(curve(initialPath, targetPath))} fill="black" />
-		</motion.svg>
-	);
-};

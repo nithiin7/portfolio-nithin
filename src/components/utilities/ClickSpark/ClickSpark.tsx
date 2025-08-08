@@ -38,7 +38,6 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
 		const canvas = canvasRef.current;
 		if (!canvas) return;
 
-		// Set canvas to full viewport size
 		const resizeCanvas = () => {
 			canvas.width = window.innerWidth;
 			canvas.height = window.innerHeight;

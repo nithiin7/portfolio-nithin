@@ -41,16 +41,20 @@
 	}
 
 	&__logo {
-		flex-shrink: 0;
-		width: 48px;
-		height: 48px;
-		border-radius: 8px;
-		overflow: hidden;
-		background: rgba(255, 255, 255, 0.05);
-		border: 1px solid rgba(255, 255, 255, 0.1);
-		display: flex;
-		align-items: center;
-		justify-content: center;
+		display: none;
+		@media #{$md} {
+			display: block;
+			flex-shrink: 0;
+			width: 48px;
+			height: 48px;
+			border-radius: 8px;
+			overflow: hidden;
+			background: rgba(255, 255, 255, 0.05);
+			border: 1px solid rgba(255, 255, 255, 0.1);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
 	}
 
 	&__logoImage {
@@ -130,81 +134,6 @@
 			background: $color-tech-bg-hover;
 			transform: translateY(-1px);
 			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-		}
-	}
-}
-
-@media (max-width: 768px) {
-	.CareerCard {
-		padding: 2rem;
-
-		&__header {
-			flex-direction: column;
-			gap: 1rem;
-			align-items: flex-start;
-		}
-
-		&__companyInfo {
-			gap: 0.75rem;
-		}
-
-		&__logo {
-			width: 40px;
-			height: 40px;
-		}
-
-		&__company {
-			font-size: 1.5rem;
-		}
-
-		&__position {
-			font-size: 1.125rem;
-		}
-
-		&__meta {
-			flex-direction: row;
-			text-align: left;
-			min-width: auto;
-			gap: 1rem;
-		}
-
-		&__technologies {
-			gap: 0.5rem;
-		}
-
-		&__techTag {
-			padding: 0.375rem 0.75rem;
-			font-size: 0.8rem;
-		}
-	}
-}
-
-@media (max-width: 480px) {
-	.CareerCard {
-		padding: 1.5rem;
-
-		&__companyInfo {
-			gap: 0.5rem;
-		}
-
-		&__logo {
-			width: 36px;
-			height: 36px;
-		}
-
-		&__company {
-			font-size: 1.25rem;
-		}
-
-		&__position {
-			font-size: 1rem;
-		}
-
-		&__description {
-			li {
-				padding-left: 1.5rem;
-				font-size: 0.95rem;
-			}
 		}
 	}
 }

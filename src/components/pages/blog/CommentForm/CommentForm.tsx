@@ -81,16 +81,16 @@ const CommentForm: FC<CommentFormProps> = ({
 	if (formSent) {
 		return (
 			<motion.div
-				className={`${styles.commentForm} ${styles.commentForm__success} ${className}`}
+				className={`${styles.CommentForm} ${styles.CommentForm__success} ${className}`}
 				initial={{ opacity: 0, scale: 0.9 }}
 				animate={{ opacity: 1, scale: 1 }}
 				transition={{ duration: 0.5, ease: [0.33, 1, 0.68, 1] }}
 			>
-				<div className={styles.commentForm__successIcon}>✓</div>
-				<h3 className={styles.commentForm__successTitle}>
+				<div className={styles.CommentForm__successIcon}>✓</div>
+				<h3 className={styles.CommentForm__successTitle}>
 					Comment Posted Successfully!
 				</h3>
-				<p className={styles.commentForm__successMessage}>
+				<p className={styles.CommentForm__successMessage}>
 					Thank you for your comment. It will be visible shortly.
 				</p>
 			</motion.div>
@@ -99,23 +99,23 @@ const CommentForm: FC<CommentFormProps> = ({
 
 	return (
 		<motion.div
-			className={`${styles.commentForm} ${className}`}
+			className={`${styles.CommentForm} ${className}`}
 			initial={{ opacity: 0, y: 20 }}
 			animate={{ opacity: 1, y: 0 }}
 			transition={{ duration: 0.6, ease: [0.33, 1, 0.68, 1] }}
 		>
 			{replyingTo && (
 				<motion.div
-					className={styles.commentForm__replyHeader}
+					className={styles.CommentForm__replyHeader}
 					initial={{ opacity: 0, x: -20 }}
 					animate={{ opacity: 1, x: 0 }}
 					transition={{ duration: 0.4 }}
 				>
-					<span className={styles.commentForm__replyText}>
+					<span className={styles.CommentForm__replyText}>
 						Replying to <strong>{replyingTo}</strong>
 					</span>
 					<motion.button
-						className={styles.commentForm__cancelReply}
+						className={styles.CommentForm__cancelReply}
 						onClick={onCancelReply}
 						whileHover={{ scale: 1.05 }}
 						whileTap={{ scale: 0.95 }}
@@ -127,9 +127,9 @@ const CommentForm: FC<CommentFormProps> = ({
 			)}
 			<form
 				onSubmit={handleSubmit(handleFormSubmit)}
-				className={styles.commentForm__form}
+				className={styles.CommentForm__form}
 			>
-				<div className={styles.commentForm__row}>
+				<div className={styles.CommentForm__row}>
 					<Controller
 						name="authorName"
 						control={control}
@@ -138,7 +138,7 @@ const CommentForm: FC<CommentFormProps> = ({
 								{...field}
 								label="Name *"
 								placeholder="Your name"
-								className={styles.commentForm__input}
+								className={styles.CommentForm__input}
 								errors={errors.authorName ? [errors.authorName.message!] : []}
 							/>
 						)}
@@ -152,7 +152,7 @@ const CommentForm: FC<CommentFormProps> = ({
 								label="Email *"
 								type="email"
 								placeholder="your.email@example.com"
-								className={styles.commentForm__input}
+								className={styles.CommentForm__input}
 								errors={errors.authorEmail ? [errors.authorEmail.message!] : []}
 							/>
 						)}
@@ -166,7 +166,7 @@ const CommentForm: FC<CommentFormProps> = ({
 							{...field}
 							label="Comment *"
 							placeholder="Share your thoughts..."
-							className={styles.commentForm__textarea}
+							className={styles.CommentForm__textarea}
 							errors={errors.content ? [errors.content.message!] : []}
 							rows={4}
 						/>
@@ -174,7 +174,7 @@ const CommentForm: FC<CommentFormProps> = ({
 				/>
 				<motion.button
 					type="submit"
-					className={styles.commentForm__submit}
+					className={styles.CommentForm__submit}
 					disabled={isSubmitting}
 					whileHover={{ scale: 1.02 }}
 					whileTap={{ scale: 0.98 }}
@@ -182,7 +182,7 @@ const CommentForm: FC<CommentFormProps> = ({
 				>
 					{isSubmitting ? (
 						<>
-							<span className={styles.commentForm__spinner} />
+							<span className={styles.CommentForm__spinner} />
 							Posting...
 						</>
 					) : (

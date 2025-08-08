@@ -6,6 +6,10 @@ interface UseScrollDirectionReturn {
 	scrollY: number;
 }
 
+/**
+ * Custom hook to track scroll direction and visibility
+ * @returns The scroll direction, scroll position, and visibility
+ */
 export const useScrollDirection = (): UseScrollDirectionReturn => {
 	const [scrollY, setScrollY] = useState(0);
 	const [scrollDirection, setScrollDirection] = useState<'up' | 'down' | null>(

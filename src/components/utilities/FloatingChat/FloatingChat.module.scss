@@ -1,7 +1,7 @@
 @use 'styles/shared/mixin' as *;
 @use 'styles/shared/variables' as *;
 
-.floatingButton {
+.FloatingButton {
 	position: fixed;
 	bottom: rem(30);
 	right: rem(30);
@@ -54,7 +54,7 @@
 	}
 }
 
-.chatWindow {
+.ChatWindow {
 	position: fixed;
 	bottom: rem(100);
 	right: rem(30);
@@ -89,7 +89,7 @@
 	}
 }
 
-.chatHeader {
+.ChatHeader {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -106,7 +106,7 @@
 		font-weight: 600;
 	}
 
-	.closeButton {
+	.CloseButton {
 		background: none;
 		border: none;
 		color: white;
@@ -139,7 +139,7 @@
 	}
 }
 
-.chatContent {
+.ChatContent {
 	flex: 1;
 	overflow: hidden;
 	border-radius: 0 0 rem(16) rem(16);
@@ -155,17 +155,5 @@
 
 	@media (prefers-reduced-motion: reduce) {
 		will-change: auto;
-	}
-}
-
-// Dark theme support
-@media (prefers-color-scheme: dark) {
-	.chatWindow {
-		background: #1a1a1a;
-		border: 1px solid #333;
-	}
-
-	.chatHeader {
-		background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
 	}
 }

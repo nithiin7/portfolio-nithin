@@ -6,6 +6,7 @@
 	text-align: center;
 	font-size: rem(14.4);
 	position: relative;
+
 	&__contact {
 		padding-left: 4%;
 		padding-right: 4%;
@@ -13,6 +14,7 @@
 		margin-top: 3rem;
 		display: flex;
 		flex-direction: column;
+
 		span {
 			font-size: 1rem;
 			color: $color-secondary;
@@ -24,6 +26,7 @@
 				font-size: 1.25rem;
 			}
 		}
+
 		a {
 			position: relative;
 			color: inherit;
@@ -48,6 +51,7 @@
 					height: 0.5rem;
 				}
 			}
+
 			&:hover {
 				&::before {
 					transform-origin: left;
@@ -55,21 +59,25 @@
 						scaleY(1);
 				}
 			}
+
 			img {
 				width: 100%;
 				height: auto;
 			}
 		}
 	}
+
 	a {
 		color: $color-text;
 	}
+
 	&__column {
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		text-align: center;
 	}
+
 	&__bg {
 		opacity: 1;
 		z-index: -20;
@@ -82,6 +90,7 @@
 		max-width: 100%;
 		vertical-align: middle;
 	}
+
 	&__music {
 		border-radius: rem(50);
 		background-color: $color-text-secondary;
@@ -94,16 +103,20 @@
 		align-items: center;
 		box-shadow: rgba(149, 157, 165, 0.2) rem(0) rem(8) rem(24);
 		margin-top: rem(80);
+
 		@media #{$sm} {
 			width: rem(380);
 		}
+
 		.music__title {
 			text-align: left;
+
 			h2 {
 				font-size: rem(15);
 				font-weight: 400;
 				color: $color-primary;
 			}
+
 			span {
 				font-size: rem(16);
 				font-weight: 600;
@@ -113,6 +126,7 @@
 			}
 		}
 	}
+
 	&__permalinks {
 		display: flex;
 		flex-wrap: wrap;
@@ -121,16 +135,19 @@
 		gap: rem(24);
 		margin: 0 auto rem(48);
 		cursor: pointer;
+
 		@media #{$lm} {
 			gap: rem(32);
 			flex-direction: row;
 		}
+
 		a {
 			&:hover {
 				color: $color-black;
 			}
 		}
 	}
+
 	&__socials {
 		display: flex;
 		justify-content: center;
@@ -139,6 +156,7 @@
 		@media #{$lm} {
 			margin-bottom: rem(32);
 		}
+
 		.social-link {
 			background: $color-text;
 			color: $color-white;
@@ -146,12 +164,14 @@
 			border-radius: rem(11.2);
 			display: flex;
 			border: rem(1) solid transparent;
+
 			&:hover {
 				background: transparent;
 				color: $color-text;
 				border-color: $color-text;
 			}
 		}
+
 		a {
 			background: $color-text;
 			color: $color-white;
@@ -159,6 +179,7 @@
 			border-radius: rem(11.2);
 			display: flex;
 			border: rem(1) solid transparent;
+
 			&:hover {
 				background: transparent;
 				color: $color-text;
@@ -166,15 +187,18 @@
 			}
 		}
 	}
+
 	&__copyright {
 		margin-bottom: rem(50);
 		color: $color-text;
 	}
+
 	&__logo {
 		display: flex;
 		justify-content: center;
 		padding-bottom: rem(32);
 		padding-top: rem(50);
+
 		img {
 			width: auto;
 			height: auto;

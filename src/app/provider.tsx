@@ -13,18 +13,6 @@ export default function Provider({
 	children,
 }: Readonly<ProviderProps>): React.ReactElement {
 	useEffect(() => {
-		console.log(
-			`
-			%c  _______  __    _  __   __  _______  __   __ 
-			 |       ||  |  | ||  | |  ||       ||  | |  |
-			 |    ___||   |_| ||  |_|  ||   _   ||  |_|  |
-			 |   |___ |       ||       ||  | |  ||       |
-			 |    ___||  _    ||_     _||  |_|  ||_     _|
-			 |   |___ | | |   |  |   |  |       |  |   |  
-			 |_______||_|  |__|  |___|  |_______|  |___|  
-			`,
-			'color: cyan; font-size: 12px;'
-		);
 		init();
 	}, []);
 

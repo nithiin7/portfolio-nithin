@@ -6,10 +6,7 @@ import Link from 'next/link';
 import { FiArrowLeft, FiExternalLink, FiGithub } from 'react-icons/fi';
 
 import { PortfolioGallery } from 'components/pages';
-import {
-	PortfolioAnimations,
-	StaggeredContainer,
-} from 'components/utilities/PortfolioAnimations';
+import { PortfolioAnimations, StaggeredContainer } from 'components/utilities';
 
 import styles from './PortfolioDetails.module.scss';
 

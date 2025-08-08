@@ -75,17 +75,3 @@
 		}
 	}
 }
-
-@media (max-width: #{$md}) {
-	.blog {
-		padding: 1rem 0;
-
-		&__container {
-			padding: 0 rem(15);
-		}
-
-		&__grid {
-			gap: rem(30);
-		}
-	}
-}

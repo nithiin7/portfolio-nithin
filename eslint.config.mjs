@@ -5,6 +5,7 @@ import a11yPlugin from 'eslint-plugin-jsx-a11y';
 import prettierPlugin from 'eslint-plugin-prettier';
 import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
+import storybook from 'eslint-plugin-storybook';
 import tseslint from 'typescript-eslint';
 
 export default [
@@ -185,4 +186,5 @@ export default [
 			'import/no-default-export': 'off',
 		},
 	},
+	...storybook.configs['flat/recommended'],
 ];

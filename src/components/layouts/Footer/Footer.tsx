@@ -11,6 +11,7 @@ import { FooterLogo } from 'assets/logos/FooterLogo';
 import { MagneticButton } from 'components/utilities';
 import { footerLinks, socials, songs } from 'constants/index';
 import { useTheme } from 'contexts/ThemeContext';
+import { handleScroll } from 'helpers';
 import type { Social } from 'types/social';
 import type { Song } from 'types/song';
 import type { FooterLink } from 'types/utils';
@@ -38,19 +39,6 @@ const Footer = (): ReactElement => {
 	const getRandomSong = (): Song => {
 		const randomIndex = Math.floor(Math.random() * songs.length);
 		return songs[randomIndex];
-	};
-
-	/**
-	 * Scrolls to a specified section using Lenis smooth scrolling.
-	 *
-	 * @param {string} to - The ID of the section to scroll to.
-	 */
-	const handleScroll = (to: string) => {
-		if (lenis) {
-			lenis.scrollTo(`#${to}`, {
-				duration: 2,
-			});
-		}
 	};
 
 	useEffect(() => {
@@ -102,7 +90,7 @@ const Footer = (): ReactElement => {
 								href={`#${link.href}`}
 								data-text={link.key}
 								onClick={() => {
-									handleScroll(link.href);
+									handleScroll(link.href, lenis);
 								}}
 							>
 								{link.key}

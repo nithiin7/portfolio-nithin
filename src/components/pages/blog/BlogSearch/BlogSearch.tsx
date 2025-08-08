@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import type { FC } from 'react';
 import { useState, useMemo, useEffect } from 'react';
 
+import { SearchIcon } from 'assets/icons';
 import type { BlogPost } from 'types/blog';
 
 import styles from './BlogSearch.module.scss';
@@ -28,7 +29,6 @@ const BlogSearch: FC<BlogSearchProps> = ({ posts, onFilterChange }) => {
 		return ['All', ...Array.from(categories).sort()];
 	}, [posts]);
 
-	// Filter posts based on search term and selected category
 	const filteredPosts = useMemo(() => {
 		return posts.filter((post) => {
 			const matchesSearch =
@@ -96,21 +96,7 @@ const BlogSearch: FC<BlogSearchProps> = ({ posts, onFilterChange }) => {
 					whileHover={{ scale: 1.1 }}
 					whileTap={{ scale: 0.9 }}
 				>
-					<svg
-						width="20"
-						height="20"
-						viewBox="0 0 24 24"
-						fill="none"
-						xmlns="http://www.w3.org/2000/svg"
-					>
-						<path
-							d="M21 21L16.514 16.506L21 21ZM19 10.5C19 15.194 15.194 19 10.5 19C5.806 19 2 15.194 2 10.5C2 5.806 5.806 2 10.5 2C15.194 2 19 5.806 19 10.5Z"
-							stroke="currentColor"
-							strokeWidth="2"
-							strokeLinecap="round"
-							strokeLinejoin="round"
-						/>
-					</svg>
+					<SearchIcon size={20} />
 				</motion.button>
 			</div>
 			<AnimatePresence>

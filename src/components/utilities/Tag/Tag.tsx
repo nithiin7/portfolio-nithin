@@ -23,9 +23,9 @@ const Tag: FC<TagProps> = ({
 	animated = true,
 	delay = 0,
 }) => {
-	const baseClass = styles.tag;
-	const variantClass = styles[`tag_${variant}`];
-	const sizeClass = styles[`tag_${size}`];
+	const baseClass = styles.Tag;
+	const variantClass = styles[`Tag__${variant}`];
+	const sizeClass = styles[`Tag__${size}`];
 	const combinedClass =
 		`${baseClass} ${variantClass} ${sizeClass} ${className}`.trim();
 

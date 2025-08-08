@@ -1,7 +1,7 @@
 @use 'styles/shared/mixin' as *;
 @use 'styles/shared/variables' as *;
 
-.commentBox {
+.CommentBox {
 	background-color: $color-surface;
 	border: 1px solid $color-border;
 	border-radius: 12px;
@@ -54,41 +54,6 @@
 		.commentBox:hover & {
 			opacity: 1;
 			color: $color-accent;
-		}
-	}
-}
-
-@media (max-width: 768px) {
-	.commentBox {
-		padding: 0.75rem;
-
-		&__content {
-			gap: 0.5rem;
-		}
-
-		&__avatar {
-			width: 36px;
-			height: 36px;
-		}
-
-		&__placeholder {
-			font-size: 0.9rem;
-		}
-	}
-}
-
-[data-theme='light'] {
-	.commentBox {
-		background-color: $color-surface;
-		border-color: $color-border;
-
-		&:hover {
-			border-color: $color-accent;
-		}
-
-		&__avatar {
-			background-color: $color-grey-light;
-			color: $color-text-secondary;
 		}
 	}
 }

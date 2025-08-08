@@ -18,7 +18,7 @@ const FloatingChat: React.FC<FloatingChatProps> = ({ chatbotUrl }) => {
 	return (
 		<>
 			<motion.button
-				className={styles.floatingButton}
+				className={styles.FloatingButton}
 				onClick={toggleChat}
 				whileHover={{ scale: 1.05 }}
 				whileTap={{ scale: 0.98 }}
@@ -79,7 +79,7 @@ const FloatingChat: React.FC<FloatingChatProps> = ({ chatbotUrl }) => {
 			<AnimatePresence mode="wait">
 				{isOpen && (
 					<motion.div
-						className={styles.chatWindow}
+						className={styles.ChatWindow}
 						initial={{ opacity: 0, scale: 0.9, y: 10 }}
 						animate={{ opacity: 1, scale: 1, y: 0 }}
 						exit={{ opacity: 0, scale: 0.9, y: 10 }}
@@ -92,7 +92,7 @@ const FloatingChat: React.FC<FloatingChatProps> = ({ chatbotUrl }) => {
 						}}
 					>
 						<motion.div
-							className={styles.chatHeader}
+							className={styles.ChatHeader}
 							initial={{ opacity: 0, y: -5 }}
 							animate={{ opacity: 1, y: 0 }}
 							transition={{
@@ -104,7 +104,7 @@ const FloatingChat: React.FC<FloatingChatProps> = ({ chatbotUrl }) => {
 							<h3>Chat with Nithin</h3>
 							<button
 								onClick={toggleChat}
-								className={styles.closeButton}
+								className={styles.CloseButton}
 								aria-label="Close chat"
 							>
 								<svg
@@ -125,7 +125,7 @@ const FloatingChat: React.FC<FloatingChatProps> = ({ chatbotUrl }) => {
 							</button>
 						</motion.div>
 						<motion.div
-							className={styles.chatContent}
+							className={styles.ChatContent}
 							initial={{ opacity: 0 }}
 							animate={{ opacity: 1 }}
 							transition={{

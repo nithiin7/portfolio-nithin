@@ -1,7 +1,7 @@
 @use 'styles/shared/mixin' as *;
 @use 'styles/shared/variables' as *;
 
-.subscribe {
+.Subscribe {
 	width: 100%;
 	padding: rem(60) 0;
 	background: linear-gradient(
@@ -243,19 +243,6 @@
 		@media #{$md} {
 			padding: rem(18) rem(36);
 			font-size: rem(18);
-		}
-	}
-}
-
-// Responsive adjustments
-@media (max-width: #{$md}) {
-	.subscribe {
-		padding: rem(40) 0;
-		margin: 0 rem(-15);
-		border-radius: 0;
-
-		&__content {
-			padding: 0 rem(20);
 		}
 	}
 }
