@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { useState } from 'react';
 
 import { PortfolioCard, PortfolioModal } from 'components/pages';
-import { MaskText } from 'components/utilities';
+import { Button, MaskText } from 'components/utilities';
 import type { PortfolioItem } from 'types/portfolio';
 
 import styles from './HomePortfolio.module.scss';
@@ -32,6 +32,17 @@ const HomePortfolio: FC<HomePortfolioProps> = ({
 	portfolio = [],
 }) => {
 	const [modal, setModal] = useState({ active: false, index: 0 });
+	const [visibleCount, setVisibleCount] = useState(5);
+
+	const ITEMS_PER_PAGE = 5;
+	const hasMoreItems = visibleCount < portfolio.length;
+	const visiblePortfolio = portfolio.slice(0, visibleCount);
+
+	const handleShowMore = () => {
+		setVisibleCount((prev) =>
+			Math.min(prev + ITEMS_PER_PAGE, portfolio.length)
+		);
+	};
 
 	if (!portfolio || portfolio.length === 0) {
 		return null;
@@ -48,7 +59,7 @@ const HomePortfolio: FC<HomePortfolioProps> = ({
 				<div className={styles.HomePortfolio__container}>
 					<PortfolioModal modal={modal} projects={portfolio} />
 					<div className={styles.HomePortfolio__list}>
-						{portfolio.map((project, index) => (
+						{visiblePortfolio.map((project, index) => (
 							<PortfolioCard
 								key={`${project.title}-${index}`}
 								project={project}
@@ -58,6 +69,15 @@ const HomePortfolio: FC<HomePortfolioProps> = ({
 							/>
 						))}
 					</div>
+					{hasMoreItems && (
+						<div className={styles.HomePortfolio__showMore}>
+							<Button
+								text="Show More"
+								className={styles.HomePortfolio__button}
+								onClick={handleShowMore}
+							/>
+						</div>
+					)}
 				</div>
 			</section>
 		</div>

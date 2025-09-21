@@ -8,6 +8,7 @@ interface ButtonProps {
 	text?: string;
 	className?: string;
 	variant?: string;
+	onClick?: () => void;
 }
 
 /**
@@ -19,14 +20,16 @@ const Button: FC<ButtonProps> = ({
 	text = '',
 	className = '',
 	variant = '',
+	onClick,
 }) => {
 	return (
 		<button
 			className={[styles.Button, styles[`Button__${variant}`], className].join(
 				' '
 			)}
-			type="submit"
+			type="button"
 			aria-label="submit"
+			onClick={onClick}
 		>
 			<motion.div className={styles.Button__slider}>
 				<div className={styles.Button__el}>

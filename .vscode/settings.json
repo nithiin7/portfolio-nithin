@@ -14,5 +14,11 @@
 		"javascriptreact",
 		"typescript",
 		"typescriptreact"
+	],
+	"cSpell.words": [
+		"eslintcache",
+		"nuxt",
+		"Supabase",
+		"Vercel"
 	]
 }
