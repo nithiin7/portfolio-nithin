@@ -45,4 +45,22 @@
 		display: flex;
 		flex-direction: column;
 	}
+
+	&__showMore {
+		display: flex;
+		justify-content: center;
+		margin-top: 3rem;
+
+		@media #{$md} {
+			margin-top: 4rem;
+		}
+	}
+
+	&__button {
+		transition: all 0.3s ease;
+
+		&:hover {
+			transform: translateY(-2px);
+		}
+	}
 }

@@ -10,6 +10,7 @@ import {
 	PerformanceOptimizer,
 	ClickSpark,
 	FloatingChat,
+	FloatingResume,
 } from 'components/utilities';
 import { loadData } from 'helpers/contentful';
 
@@ -200,6 +201,7 @@ export default function RootLayout({
 							{children}
 							<Footer />
 							<FloatingChat chatbotUrl="https://nithiin7-portfolio-resume.hf.space" />
+							<FloatingResume resumeUrl="/resume.pdf" />
 						</ClickSpark>
 					</Curve>
 				</Provider>

@@ -14,6 +14,7 @@ export { default as TextArea } from './TextArea/TextArea';
 export { default as TextInput } from './TextInput/TextInput';
 export { default as ThemeToggle } from './ThemeToggle/ThemeToggle';
 export { default as FloatingChat } from './FloatingChat/FloatingChat';
+export { default as FloatingResume } from './FloatingResume/FloatingResume';
 export { default as Subscribe } from './Subscribe/Subscribe';
 export { default as Modal } from './Modal/Modal';
 export { default as Tag } from './Tag/Tag';
