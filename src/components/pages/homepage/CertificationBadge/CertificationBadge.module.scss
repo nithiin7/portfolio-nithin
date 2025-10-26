@@ -1,0 +1,101 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.CertificationBadge {
+	position: relative;
+	width: 200px;
+	height: 200px;
+	flex-shrink: 0;
+	background: none;
+	border: none;
+	cursor: pointer;
+	padding: 0;
+
+	@media #{$sm} {
+		width: 150px;
+		height: 150px;
+	}
+
+	&__circle {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		border-radius: 50%;
+		background: $color-grey-pale;
+		border: 2px solid $color-grey-medium;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		overflow: visible;
+		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+		transition: $transition;
+
+		&:hover {
+			border-color: $color-accent;
+			box-shadow: 0 8px 30px rgba($color-accent, 0.3);
+		}
+	}
+
+	&__logo {
+		position: relative;
+		z-index: 2;
+		width: 80px;
+		height: 80px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: $color-white;
+		border-radius: 50%;
+		padding: 1rem;
+
+		@media #{$sm} {
+			width: 60px;
+			height: 60px;
+			padding: 0.75rem;
+		}
+
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: contain;
+		}
+	}
+
+	&__ring {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		animation: rotate 20s linear infinite;
+
+		svg {
+			width: 100%;
+			height: 100%;
+		}
+	}
+
+	&__text {
+		fill: $color-grey-medium;
+		font-size: 14px;
+		font-family: $font-secondary;
+		font-weight: 500;
+		letter-spacing: 2px;
+		text-transform: uppercase;
+
+		@media #{$sm} {
+			font-size: 11px;
+			letter-spacing: 1.5px;
+		}
+	}
+}
+
+@keyframes rotate {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+

@@ -50,6 +50,15 @@ export interface Content {
 	descriptionLong?: {
 		json: Document;
 	};
+	name?: string;
+	provider?: string;
+	logo?: string;
+	issuedDate?: string;
+	expiryDate?: string;
+	credentialId?: string;
+	description?: string;
+	skills?: string[];
+	certificateUrl?: string;
 }
 
 export interface ImageData {

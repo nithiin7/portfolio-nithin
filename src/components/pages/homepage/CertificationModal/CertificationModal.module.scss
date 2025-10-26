@@ -1,0 +1,142 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.CertificationModal {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+
+	&__header {
+		display: flex;
+		align-items: center;
+		gap: 1.5rem;
+		padding: 1.5rem;
+		background: $color-white;
+		border-radius: 8px;
+		margin-bottom: 1rem;
+
+		@media #{$sm} {
+			flex-direction: column;
+			text-align: center;
+			gap: 1rem;
+		}
+	}
+
+	&__logo {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+
+		img {
+			width: 80px;
+			height: 80px;
+			object-fit: contain;
+		}
+
+		@media #{$sm} {
+			img {
+				width: 60px;
+				height: 60px;
+			}
+		}
+	}
+
+	&__content {
+		flex: 1;
+		text-align: left;
+
+		@media #{$sm} {
+			text-align: center;
+		}
+	}
+
+	&__name {
+		font-size: 1.75rem;
+		font-weight: 600;
+		color: $color-border;
+		margin-bottom: 0.5rem;
+		font-family: $font-secondary;
+
+		@media #{$sm} {
+			font-size: 1.5rem;
+		}
+	}
+
+	&__provider {
+		font-size: 1.125rem;
+		color: $color-accent;
+		font-weight: 500;
+
+		@media #{$sm} {
+			font-size: 1rem;
+		}
+	}
+
+	&__details {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		padding: 1.5rem;
+		background: $color-surface;
+		border-radius: 8px;
+		border: 1px solid $color-border;
+	}
+
+	&__detailItem {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 1rem;
+
+		@media #{$sm} {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 0.25rem;
+		}
+	}
+
+	&__label {
+		font-size: 0.875rem;
+		font-weight: 600;
+		color: $color-text-secondary;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+	}
+
+	&__value {
+		font-size: 1rem;
+		color: $color-primary;
+		font-weight: 500;
+
+		&--code {
+			font-family: 'Monaco', 'Courier New', monospace;
+			font-size: 0.875rem;
+			background: $color-tech-bg;
+			padding: 0.25rem 0.5rem;
+			border-radius: 4px;
+			color: $color-tech-text;
+		}
+	}
+
+	&__description {
+		padding: 1rem 0;
+		border-top: 1px solid $color-border;
+		border-bottom: 1px solid $color-border;
+
+		p {
+			font-size: 1rem;
+			line-height: 1.7;
+			color: $color-text;
+			margin: 0;
+		}
+	}
+
+
+	&__actions {
+		display: flex;
+		justify-content: center;
+		padding-top: 1rem;
+	}
+}
+

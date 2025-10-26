@@ -1,6 +1,7 @@
 import {
 	HomeAbout,
 	HomeCareer,
+	HomeCertifications,
 	HomeCollaborations,
 	HomeHeader,
 	HomePortfolio,
@@ -9,6 +10,7 @@ import {
 } from 'components/pages';
 import { transformCareerData } from 'helpers/career';
 import { loadData } from 'helpers/contentful';
+import type { Certification } from 'types/certification';
 
 export default async function Home() {
 	const props = await loadData('home');
@@ -28,14 +30,12 @@ export default async function Home() {
 			sections[3]?.contentsCollection?.items?.[1]?.contentsCollection?.items ||
 			[],
 	};
-
 	const careerDataProps = transformCareerData({
 		data: sections[6]?.contentsCollection?.items?.[0] || {},
 		career:
 			sections[6]?.contentsCollection?.items?.[1]?.contentsCollection?.items ||
 			[],
 	});
-
 	const collaborationsData = {
 		data: sections[4]?.contentsCollection?.items?.[0] || {},
 	};
@@ -45,6 +45,11 @@ export default async function Home() {
 			sections[5]?.contentsCollection?.items?.[1]?.contentsCollection?.items ||
 			[],
 	};
+	const certificationsData = {
+		data: sections[7]?.contentsCollection?.items?.[0] || {},
+		certifications: (sections[7]?.contentsCollection?.items?.[1]
+			?.contentsCollection?.items || []) as unknown as Certification[],
+	};
 
 	return (
 		<>
@@ -53,6 +58,7 @@ export default async function Home() {
 			<HomePortfolio {...portfolioData} />
 			<HomeAbout data={aboutData} />
 			<HomeCareer {...careerDataProps} />
+			<HomeCertifications {...certificationsData} />
 			<HomeCollaborations {...collaborationsData} />
 			<HomeTestimonial {...testimonialData} />
 		</>
