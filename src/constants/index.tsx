@@ -13,6 +13,7 @@ export const links: LinkItem[] = [
 	{ title: 'Companies', href: '/#collaborations' },
 	{ title: 'Services', href: '/#services' },
 	{ title: 'Works', href: '/#portfolio' },
+	{ title: 'Certifications', href: '/#certifications' },
 ];
 
 export const headerLinks: LinkItem[] = [
@@ -44,6 +45,7 @@ export const footerLinks: FooterLink[] = [
 	{ key: 'portfolio', href: 'portfolio' },
 	{ key: 'about', href: 'about' },
 	{ key: 'career', href: 'career' },
+	{ key: 'certifications', href: 'certifications' },
 	{ key: 'collaborations', href: 'collaborations' },
 	{ key: 'testimonials', href: 'testimonials' },
 ];

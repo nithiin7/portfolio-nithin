@@ -1,6 +1,7 @@
 // Homepage
 export { default as HomeAbout } from './homepage/HomeAbout/HomeAbout';
 export { default as HomeCareer } from './homepage/HomeCareer/HomeCareer';
+export { default as HomeCertifications } from './homepage/HomeCertifications/HomeCertifications';
 export { default as HomeCollaborations } from './homepage/HomeCollaborations/HomeCollaborations';
 export { default as HomeHeader } from './homepage/HomeHeader/HomeHeader';
 export { default as HomePortfolio } from './homepage/HomePortfolio/HomePortfolio';

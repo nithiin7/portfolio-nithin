@@ -105,6 +105,15 @@ export const GET_PAGE = gql`
 													technologies
 													order
 												}
+												... on Certification {
+													name
+													provider
+													logo
+													certificateUrl
+													issuedDate
+													expiryDate
+													credentialId
+												}
 											}
 										}
 									}
