@@ -51,6 +51,12 @@
 		margin: 0 auto;
 	}
 
+	&__cta {
+		margin-top: rem(24);
+		display: flex;
+		justify-content: center;
+	}
+
 	&__search {
 		margin-bottom: rem(10);
 	}

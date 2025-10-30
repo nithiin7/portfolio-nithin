@@ -12,6 +12,8 @@ interface ColorMaskButtonProps {
 	text?: string;
 	href?: string;
 	variant?: 'default' | 'menu';
+	target?: string;
+	rel?: string;
 }
 
 /**
@@ -26,6 +28,8 @@ const ColorMaskButton: FC<ColorMaskButtonProps> = ({
 	text = 'Book a Call',
 	href = '/contact',
 	variant = 'default',
+	target,
+	rel,
 }) => {
 	const [isHovered, setIsHovered] = useState(false);
 
@@ -42,6 +46,8 @@ const ColorMaskButton: FC<ColorMaskButtonProps> = ({
 			whileTap={{ scale: 0.98 }}
 			transition={{ duration: 0.2, ease: [0.76, 0, 0.24, 1] }}
 			href={href}
+			target={target}
+			rel={rel}
 		>
 			<div className={styles.ColorMaskButton__content}>
 				<motion.div

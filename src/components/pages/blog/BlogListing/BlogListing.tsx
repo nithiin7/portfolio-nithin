@@ -10,7 +10,7 @@ import {
 	BlogNoResults,
 	BlogSearch,
 } from 'components/pages';
-import { MaskText, Subscribe } from 'components/utilities';
+import { MaskText, Subscribe, ColorMaskButton } from 'components/utilities';
 import type { BlogPost } from 'types/blog';
 
 import styles from './BlogListing.module.scss';
@@ -88,6 +88,15 @@ const BlogListing: FC<BlogListingProps> = ({ posts }) => {
 							Exploring design, development, and the intersection of creativity
 							and technology
 						</p>
+						<div className={styles.blog__cta}>
+							<ColorMaskButton
+								text="Read more on DEV.to"
+								href="https://dev.to/nithiin7"
+								variant="default"
+								target="_blank"
+								rel="noopener noreferrer"
+							/>
+						</div>
 					</motion.div>
 				</section>
 				<section className={styles.blog__search}>

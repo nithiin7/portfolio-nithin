@@ -1,6 +1,7 @@
 import { FaGithub, FaBitbucket, FaLinkedinIn } from 'react-icons/fa';
 import { FiInstagram } from 'react-icons/fi';
 import { IoLogoTwitter } from 'react-icons/io';
+import { SiCredly, SiDevdotto } from 'react-icons/si';
 
 import type { Contact } from 'types/contact';
 import type { Social } from 'types/social';
@@ -27,7 +28,7 @@ export const headerLinks: LinkItem[] = [
 export const socialsMenu: LinkItem[] = [
 	{ title: 'Linkedin', href: 'https://www.linkedin.com/in/nithin-p7/' },
 	{ title: 'Instagram', href: 'https://www.instagram.com/__nithiin__/' },
-	{ title: 'Twitter', href: 'https://twitter.com/_nithiin7' },
+	{ title: 'Github', href: 'https://github.com/nithiin7' },
 ];
 
 export const contactOptions: Contact[] = [
@@ -72,6 +73,16 @@ export const socials: Social[] = [
 		icon: <FaBitbucket />,
 	},
 	{ link: 'https://github.com/nithiin7', title: 'Github', icon: <FaGithub /> },
+	{
+		link: 'https://www.credly.com/users/nithin-pradeep.53925824',
+		title: 'Credly',
+		icon: <SiCredly />,
+	},
+	{
+		link: 'https://dev.to/nithiin7',
+		title: 'DEV',
+		icon: <SiDevdotto />,
+	},
 ];
 
 export const songs: Song[] = [
