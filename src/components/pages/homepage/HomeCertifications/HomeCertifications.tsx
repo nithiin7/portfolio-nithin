@@ -72,6 +72,14 @@ const HomeCertifications: FC<HomeCertificationsProps> = ({
 							<MaskText phrases={[data.title || 'Certifications']} />
 						</h2>
 						{data.subtitle && <p>{data.subtitle}</p>}
+						<a
+							className={styles.HomeCertifications__headerLink}
+							href="https://www.credly.com/users/nithin-pradeep.53925824"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							View badges on Credly →
+						</a>
 					</div>
 
 					<div className={styles.HomeCertifications__track}>
