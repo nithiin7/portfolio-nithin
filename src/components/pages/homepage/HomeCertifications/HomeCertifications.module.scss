@@ -84,8 +84,8 @@
 			left: 0;
 			background: linear-gradient(
 				to right,
-				$color-black 0%,
-				rgba($color-black, 0) 100%
+                $color-surface 0%,
+                rgba($color-surface, 0) 100%
 			);
 		}
 
@@ -93,8 +93,8 @@
 			right: 0;
 			background: linear-gradient(
 				to left,
-				$color-black 0%,
-				rgba($color-black, 0) 100%
+                $color-surface 0%,
+                rgba($color-surface, 0) 100%
 			);
 		}
 	}
