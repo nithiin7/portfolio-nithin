@@ -62,7 +62,9 @@ const CertificationBadge: FC<CertificationBadgeProps> = ({
 
 	return (
 		<motion.button
-			className={styles.CertificationBadge}
+			className={`${styles.CertificationBadge} ${
+				certification.highlight ? styles.CertificationBadge_highlighted : ''
+			}`}
 			variants={badgeVariants}
 			initial="initial"
 			whileHover="hover"
@@ -70,7 +72,13 @@ const CertificationBadge: FC<CertificationBadgeProps> = ({
 			onClick={onClick}
 			aria-label={`View details for ${certification.name}`}
 		>
-			<motion.div className={styles.CertificationBadge__circle}>
+			<motion.div
+				className={`${styles.CertificationBadge__circle} ${
+					certification.highlight
+						? styles.CertificationBadge__circle_highlighted
+						: ''
+				}`}
+			>
 				<motion.div
 					className={styles.CertificationBadge__logo}
 					variants={logoVariants}

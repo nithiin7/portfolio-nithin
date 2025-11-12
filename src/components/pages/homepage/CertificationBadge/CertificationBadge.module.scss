@@ -34,6 +34,25 @@
 			border-color: $color-accent;
 			box-shadow: 0 8px 30px rgba($color-accent, 0.3);
 		}
+
+		&_highlighted {
+			border: 3px solid $color-accent;
+			box-shadow: 0 4px 25px rgba($color-accent, 0.5),
+				0 0 40px rgba($color-accent, 0.3);
+			background: linear-gradient(
+				135deg,
+				rgba($color-accent, 0.1) 0%,
+				$color-grey-pale 100%
+			);
+			animation: pulse-glow 3s ease-in-out infinite;
+
+			&:hover {
+				border-color: $color-accent-hover;
+				box-shadow: 0 8px 35px rgba($color-accent, 0.6),
+					0 0 50px rgba($color-accent, 0.4);
+				animation: none;
+			}
+		}
 	}
 
 	&__logo {
@@ -96,6 +115,18 @@
 	}
 	to {
 		transform: rotate(360deg);
+	}
+}
+
+@keyframes pulse-glow {
+	0%,
+	100% {
+		box-shadow: 0 4px 25px rgba($color-accent, 0.5),
+			0 0 40px rgba($color-accent, 0.3);
+	}
+	50% {
+		box-shadow: 0 4px 30px rgba($color-accent, 0.7),
+			0 0 50px rgba($color-accent, 0.5);
 	}
 }
 

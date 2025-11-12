@@ -9,4 +9,5 @@ export interface Certification {
 	credentialId?: string;
 	description?: string;
 	skills?: string[];
+	highlight?: boolean;
 }
