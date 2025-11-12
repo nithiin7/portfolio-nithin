@@ -59,6 +59,7 @@ export interface Content {
 	description?: string;
 	skills?: string[];
 	certificateUrl?: string;
+	highlight?: boolean;
 }
 
 export interface ImageData {

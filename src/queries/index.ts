@@ -113,6 +113,7 @@ export const GET_PAGE = gql`
 													issuedDate
 													expiryDate
 													credentialId
+													highlight
 												}
 											}
 										}
