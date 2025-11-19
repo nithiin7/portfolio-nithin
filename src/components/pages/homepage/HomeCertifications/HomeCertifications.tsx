@@ -40,7 +40,6 @@ const HomeCertifications: FC<HomeCertificationsProps> = ({
 	const [selectedCertification, setSelectedCertification] =
 		useState<Certification | null>(null);
 
-	// Duplicate certifications for seamless infinite scroll
 	const duplicatedCertifications = [
 		...certifications,
 		...certifications,

@@ -104,7 +104,7 @@ const CertificationBadge: FC<CertificationBadgeProps> = ({
 								href={`#circlePath-${certification.id}`}
 								startOffset="0%"
 							>
-								{certification.name} • {certification.name} •{' '}
+								• {certification.name} •
 							</textPath>
 						</text>
 					</svg>
