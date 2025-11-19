@@ -47,7 +47,7 @@ export const GET_PAGE = gql`
 									}
 									... on Section {
 										name
-										contentsCollection(limit: 10) {
+										contentsCollection(limit: 50) {
 											items {
 												... on Title {
 													name

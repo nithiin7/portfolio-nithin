@@ -1,6 +1,7 @@
 'use client';
-import { motion } from 'motion/react';
-import { useRef, useState, type FC } from 'react';
+import gsap from 'gsap';
+import { useEffect, useRef, useState, type FC } from 'react';
+import { useInView } from 'react-intersection-observer';
 
 import CertificationBadge from 'components/pages/homepage/CertificationBadge/CertificationBadge';
 import CertificationModal from 'components/pages/homepage/CertificationModal/CertificationModal';
@@ -36,11 +37,19 @@ const HomeCertifications: FC<HomeCertificationsProps> = ({
 	},
 	certifications = [],
 }) => {
-	const ref = useRef(null);
 	const [selectedCertification, setSelectedCertification] =
 		useState<Certification | null>(null);
+	const carouselRef = useRef<HTMLDivElement>(null);
+	const tweenRef = useRef<gsap.core.Tween | null>(null);
+	const { ref: inViewRef, inView } = useInView({
+		threshold: 0.3,
+		triggerOnce: true,
+	});
 
-	// Duplicate certifications for seamless infinite scroll
+	const setRefs = (node: HTMLElement | null) => {
+		inViewRef(node);
+	};
+
 	const duplicatedCertifications = [
 		...certifications,
 		...certifications,
@@ -55,15 +64,52 @@ const HomeCertifications: FC<HomeCertificationsProps> = ({
 		setSelectedCertification(null);
 	};
 
+	useEffect(() => {
+		if (!carouselRef.current || !inView) return;
+
+		const totalWidthPercent = 100 / 3;
+
+		const ctx = gsap.context(() => {
+			tweenRef.current = gsap.to(carouselRef.current, {
+				xPercent: -totalWidthPercent,
+				ease: 'none',
+				duration: 30,
+				repeat: -1,
+			});
+		});
+
+		return () => ctx.revert();
+	}, [inView]);
+
+	useEffect(() => {
+		if (!tweenRef.current) return;
+
+		if (selectedCertification) {
+			tweenRef.current.pause();
+		} else {
+			tweenRef.current.play();
+		}
+	}, [selectedCertification]);
+
+	const handleMouseEnter = () => {
+		tweenRef.current?.pause();
+	};
+
+	const handleMouseLeave = () => {
+		if (!selectedCertification) {
+			tweenRef.current?.play();
+		}
+	};
+
 	if (!certifications || certifications.length === 0) {
 		return null;
 	}
 
 	return (
 		<>
-			<motion.section
+			<section
 				id="certifications"
-				ref={ref}
+				ref={setRefs}
 				className={`${styles.HomeCertifications} ${className}`}
 			>
 				<div className={styles.HomeCertifications__container}>
@@ -83,19 +129,12 @@ const HomeCertifications: FC<HomeCertificationsProps> = ({
 					</div>
 
 					<div className={styles.HomeCertifications__track}>
-						<motion.div
+						<div
 							className={styles.HomeCertifications__carousel}
-							animate={{
-								x: [0, -100 / 3 + '%'],
-							}}
-							transition={{
-								x: {
-									repeat: Infinity,
-									repeatType: 'loop',
-									duration: 30,
-									ease: 'linear',
-								},
-							}}
+							ref={carouselRef}
+							onMouseEnter={handleMouseEnter}
+							onMouseLeave={handleMouseLeave}
+							style={{ display: 'flex', width: '300%' }}
 						>
 							{duplicatedCertifications.map((certification, index) => (
 								<CertificationBadge
@@ -104,10 +143,10 @@ const HomeCertifications: FC<HomeCertificationsProps> = ({
 									onClick={() => handleBadgeClick(certification)}
 								/>
 							))}
-						</motion.div>
+						</div>
 					</div>
 				</div>
-			</motion.section>
+			</section>
 
 			<Modal
 				isOpen={!!selectedCertification}
