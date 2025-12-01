@@ -44,7 +44,6 @@ export async function generateMetadata(): Promise<Metadata> {
 			template: '%s | Nithin Pradeep - Full Stack Developer',
 		},
 		description: path.description,
-		keywords: path.keywords,
 		authors: [{ name: 'Nithin Pradeep', url: 'https://github.com/nithiin7' }],
 		creator: 'Nithin Pradeep',
 		publisher: 'Nithin Pradeep',

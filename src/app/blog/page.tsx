@@ -22,14 +22,6 @@ export async function generateMetadata(): Promise<Metadata> {
 		description:
 			path?.description ||
 			'Explore insights on design, development, and the intersection of creativity and technology. Read articles about web development, design trends, and industry best practices.',
-		keywords: path?.keywords || [
-			'blog',
-			'web development',
-			'design',
-			'technology',
-			'insights',
-			'articles',
-		],
 		openGraph: {
 			type: 'website',
 			locale: 'en_US',

@@ -14,7 +14,6 @@ export interface ContentItem {
 	title: string;
 	description: string;
 	ogtitle: string;
-	keywords: string[];
 	sectionCollection: SectionCollection;
 }
 
@@ -85,7 +84,6 @@ export interface PortfolioDetails {
 	slug: string;
 	title: string;
 	shortDescription: string;
-	keywords: string[];
 	description: {
 		json: Document;
 	};
@@ -151,7 +149,6 @@ export interface BlogPostItem {
 	readTime: number;
 	seoTitle?: string;
 	seoDescription?: string;
-	seoKeywords?: string[];
 }
 
 export interface BlogCategoryCollection {

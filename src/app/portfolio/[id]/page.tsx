@@ -27,7 +27,6 @@ export async function generateMetadata({
 	return {
 		title: project.title,
 		description: project.shortDescription,
-		keywords: project.keywords,
 		openGraph: {
 			type: 'website',
 			locale: 'en_US',

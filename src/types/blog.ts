@@ -40,7 +40,6 @@ export interface BlogPost {
 	updatedDate: string;
 	seoTitle: string;
 	seoDescription: string;
-	seoKeywords: string[];
 }
 
 export interface BlogCategory {

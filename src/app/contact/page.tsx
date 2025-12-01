@@ -11,7 +11,6 @@ export async function generateMetadata(): Promise<Metadata> {
 	return {
 		title: path.title,
 		description: path.description,
-		keywords: path.keywords,
 		openGraph: {
 			type: 'website',
 			locale: 'en_US',
