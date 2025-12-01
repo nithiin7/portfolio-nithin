@@ -14,7 +14,6 @@ export const GET_PAGE = gql`
 				slug
 				ogtitle
 				ogurl
-				keywords
 				description
 				sectionCollection(limit: 10) {
 					items {
@@ -173,7 +172,6 @@ export const GET_ALL_BLOG_POSTS = gql`
 				readTime
 				seoTitle
 				seoDescription
-				seoKeywords
 			}
 		}
 	}
@@ -226,7 +224,6 @@ export const GET_BLOG_POST_BY_SLUG = gql`
 				readTime
 				seoTitle
 				seoDescription
-				seoKeywords
 			}
 		}
 	}

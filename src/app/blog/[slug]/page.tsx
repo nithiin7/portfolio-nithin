@@ -37,7 +37,6 @@ export async function generateMetadata({
 	return {
 		title: convertedPost.seoTitle || convertedPost.title,
 		description: convertedPost.seoDescription || convertedPost.excerpt,
-		keywords: convertedPost.seoKeywords || convertedPost.tags,
 		openGraph: {
 			type: 'article',
 			locale: 'en_US',
@@ -144,7 +143,6 @@ export default async function BlogDetails({
 			: 0,
 		timeRequired: `PT${convertedPost.readTime}M`,
 		articleSection: convertedPost.category,
-		keywords: convertedPost.tags.join(', '),
 		url: `https://portfolio-nithin.vercel.app/blog/${slug}`,
 		breadcrumb: {
 			'@type': 'BreadcrumbList',

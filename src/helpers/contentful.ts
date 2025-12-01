@@ -76,7 +76,6 @@ export const convertContentfulBlogPost = (
 		updatedDate: contentfulPost.updatedDate || contentfulPost.publishedDate,
 		seoTitle: contentfulPost.seoTitle || '',
 		seoDescription: contentfulPost.seoDescription || '',
-		seoKeywords: contentfulPost.seoKeywords || [],
 	};
 };
 

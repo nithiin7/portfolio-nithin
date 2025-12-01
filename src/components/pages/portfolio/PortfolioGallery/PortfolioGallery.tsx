@@ -79,7 +79,7 @@ const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({
 							>
 								<Image
 									src={image.url}
-									alt={image.alt}
+									alt={image.alt ?? 'Project image'}
 									className={styles.PortfolioGallery__galleryImage}
 									width={1000}
 									height={1000}
@@ -126,7 +126,7 @@ const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({
 							<div className={styles.PortfolioGallery__lightboxImageContainer}>
 								<Image
 									src={images[currentImageIndex].url}
-									alt={images[currentImageIndex].alt}
+									alt={images[currentImageIndex].alt ?? 'Project image'}
 									className={styles.PortfolioGallery__lightboxImage}
 									width={1000}
 									height={1000}
