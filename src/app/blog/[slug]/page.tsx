@@ -10,6 +10,15 @@ import {
 	loadBlogPosts,
 } from 'helpers/contentful';
 
+export async function generateStaticParams() {
+	const { data } = await loadBlogPosts(100, 0);
+	return (
+		data?.blogPostCollection?.items?.map((item: { slug: string }) => ({
+			slug: item.slug,
+		})) ?? []
+	);
+}
+
 interface BlogDetailLayoutProps {
 	params: Promise<{
 		slug: string;
