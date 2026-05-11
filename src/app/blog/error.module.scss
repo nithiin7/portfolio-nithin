@@ -1,0 +1,84 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.BlogError {
+	min-height: 100vh;
+	background: $color-primary;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: rem(40) rem(20);
+
+	&__content {
+		text-align: center;
+		max-width: rem(560);
+	}
+
+	&__code {
+		font-size: rem(96);
+		font-weight: 700;
+		color: $color-accent;
+		line-height: 1;
+		margin-bottom: rem(16);
+		opacity: 0.4;
+	}
+
+	&__title {
+		color: $color-secondary;
+		font-size: clamp(rem(28), 5vw, rem(40));
+		font-weight: 700;
+		letter-spacing: -0.025em;
+		margin-bottom: rem(16);
+	}
+
+	&__message {
+		color: $color-text-secondary;
+		font-size: rem(18);
+		line-height: 1.6;
+		margin-bottom: rem(40);
+	}
+
+	&__actions {
+		display: flex;
+		gap: rem(16);
+		justify-content: center;
+		flex-wrap: wrap;
+	}
+
+	&__retry {
+		padding: rem(14) rem(32);
+		background: $color-secondary;
+		color: $color-primary;
+		border: none;
+		border-radius: rem(9999);
+		font-size: rem(15);
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		cursor: pointer;
+		transition: $transition;
+
+		&:hover {
+			opacity: 0.85;
+		}
+	}
+
+	&__back {
+		padding: rem(14) rem(32);
+		background: transparent;
+		color: $color-text-secondary;
+		border: rem(1) solid $color-border;
+		border-radius: rem(9999);
+		font-size: rem(15);
+		font-weight: 500;
+		text-decoration: none;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		transition: $transition;
+
+		&:hover {
+			color: $color-secondary;
+			border-color: $color-secondary;
+		}
+	}
+}
