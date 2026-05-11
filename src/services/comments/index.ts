@@ -23,7 +23,6 @@ export class CommentsService {
 			id: dbComment.id,
 			postId: dbComment.post_id,
 			authorName: dbComment.author_name,
-			authorEmail: dbComment.author_email,
 			content: dbComment.content,
 			createdAt: dbComment.created_at,
 			updatedAt: dbComment.updated_at,
