@@ -55,9 +55,11 @@ export async function GET(request: NextRequest) {
 	}
 }
 
-async function verifyRecaptcha(token: string): Promise<boolean> {
+async function verifyRecaptcha(
+	token: string
+): Promise<{ valid: boolean; score: number }> {
 	const secret = process.env.RECAPTCHA_SECRET_KEY;
-	if (!secret) return false;
+	if (!secret) return { valid: false, score: 0 };
 
 	const res = await fetch('https://www.google.com/recaptcha/api/siteverify', {
 		method: 'POST',
@@ -66,7 +68,8 @@ async function verifyRecaptcha(token: string): Promise<boolean> {
 	});
 
 	const json = (await res.json()) as { success: boolean; score?: number };
-	return json.success && (json.score ?? 1) >= 0.5;
+	const score = json.score ?? 0;
+	return { valid: json.success && score >= 0.5, score };
 }
 
 export async function POST(request: NextRequest) {
@@ -95,7 +98,15 @@ export async function POST(request: NextRequest) {
 			);
 		}
 
-		if (!recaptchaToken || !(await verifyRecaptcha(recaptchaToken))) {
+		if (!recaptchaToken) {
+			return NextResponse.json(
+				{ error: 'reCAPTCHA verification failed' },
+				{ status: 400 }
+			);
+		}
+
+		const recaptcha = await verifyRecaptcha(recaptchaToken);
+		if (!recaptcha.valid) {
 			return NextResponse.json(
 				{ error: 'reCAPTCHA verification failed' },
 				{ status: 400 }
@@ -117,12 +128,15 @@ export async function POST(request: NextRequest) {
 			);
 		}
 
+		const isApproved = recaptcha.score >= 0.8;
+
 		const { data: newComment, error } = await commentsService.createComment({
 			postId,
 			authorName,
 			authorEmail,
 			content,
 			parentId,
+			isApproved,
 		});
 
 		if (error || !newComment) {
@@ -133,7 +147,10 @@ export async function POST(request: NextRequest) {
 			);
 		}
 
-		return NextResponse.json({ comment: newComment }, { status: 201 });
+		return NextResponse.json(
+			{ comment: newComment, pending: !isApproved },
+			{ status: 201 }
+		);
 	} catch (error) {
 		console.error('Error creating comment:', error);
 		return NextResponse.json(

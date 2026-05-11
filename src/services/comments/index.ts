@@ -34,7 +34,7 @@ export class CommentsService {
 	 * Transform Comment interface to database format
 	 */
 	private transformToDatabase(
-		comment: CommentFormData & { postId: string }
+		comment: CommentFormData & { postId: string; isApproved: boolean }
 	): DatabaseCommentCreate {
 		return {
 			post_id: comment.postId,
@@ -42,6 +42,7 @@ export class CommentsService {
 			author_email: comment.authorEmail,
 			content: comment.content,
 			parent_id: comment.parentId || null,
+			is_approved: comment.isApproved,
 		};
 	}
 
@@ -99,7 +100,7 @@ export class CommentsService {
 	 * Create a new comment
 	 */
 	async createComment(
-		commentData: CommentFormData & { postId: string }
+		commentData: CommentFormData & { postId: string; isApproved: boolean }
 	): Promise<ServiceResponse<Comment>> {
 		try {
 			const dbData = this.transformToDatabase(commentData);

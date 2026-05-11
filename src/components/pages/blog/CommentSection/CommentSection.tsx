@@ -2,6 +2,7 @@
 import { motion } from 'motion/react';
 import type { FC } from 'react';
 import { useState, useEffect } from 'react';
+import { toast } from 'sonner';
 
 import { CommentBox, CommentCard } from 'components/pages';
 import type { Comment, CommentFormData } from 'types/comment';
@@ -66,7 +67,12 @@ const CommentSection: FC<CommentSectionProps> = ({
 				const result = await response.json();
 				const newComment = result.comment;
 
-				if (data.parentId) {
+				if (result.pending) {
+					toast.info('Comment submitted', {
+						description:
+							'Your comment is pending review and will appear once approved.',
+					});
+				} else if (data.parentId) {
 					const updatedComments = comments.map((comment) => {
 						if (comment.id === data.parentId) {
 							return {

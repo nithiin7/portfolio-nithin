@@ -36,6 +36,7 @@ export interface DatabaseComment {
 	parent_id: string | null;
 	created_at: string;
 	updated_at: string;
+	is_approved: boolean;
 }
 
 /**
@@ -47,6 +48,7 @@ export interface DatabaseCommentCreate {
 	author_email: string;
 	content: string;
 	parent_id: string | null;
+	is_approved: boolean;
 }
 
 /**
