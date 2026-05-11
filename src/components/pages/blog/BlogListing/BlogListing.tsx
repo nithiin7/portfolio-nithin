@@ -1,7 +1,7 @@
 'use client';
 import { motion, AnimatePresence } from 'motion/react';
 import type { FC } from 'react';
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 
 import { Navbar } from 'components/layouts';
 import {
@@ -100,7 +100,9 @@ const BlogListing: FC<BlogListingProps> = ({ posts }) => {
 					</motion.div>
 				</section>
 				<section className={styles.blog__search}>
-					<BlogSearch posts={posts} onFilterChange={setFilteredPosts} />
+					<Suspense>
+						<BlogSearch posts={posts} onFilterChange={setFilteredPosts} />
+					</Suspense>
 				</section>
 				<section className={styles.blog__content}>
 					<AnimatePresence mode="wait">

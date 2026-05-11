@@ -1,5 +1,6 @@
 'use client';
 import { motion, AnimatePresence } from 'motion/react';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import type { FC } from 'react';
 import { useState, useMemo, useEffect } from 'react';
 
@@ -13,13 +14,16 @@ interface BlogSearchProps {
 	onFilterChange: (filteredPosts: BlogPost[]) => void;
 }
 
-/**
- * BlogSearch component with horizontal category tabs and search functionality
- */
 const BlogSearch: FC<BlogSearchProps> = ({ posts, onFilterChange }) => {
-	const [searchTerm, setSearchTerm] = useState('');
-	const [selectedCategory, setSelectedCategory] = useState<string>('All');
-	const [isSearchOpen, setIsSearchOpen] = useState(false);
+	const router = useRouter();
+	const pathname = usePathname();
+	const searchParams = useSearchParams();
+
+	const [searchTerm, setSearchTerm] = useState(searchParams.get('q') ?? '');
+	const [selectedCategory, setSelectedCategory] = useState<string>(
+		searchParams.get('category') ?? 'All'
+	);
+	const [isSearchOpen, setIsSearchOpen] = useState(!!searchParams.get('q'));
 
 	const allCategories = useMemo(() => {
 		const categories = new Set<string>();
@@ -47,6 +51,16 @@ const BlogSearch: FC<BlogSearchProps> = ({ posts, onFilterChange }) => {
 	useEffect(() => {
 		onFilterChange(filteredPosts);
 	}, [filteredPosts, onFilterChange]);
+
+	useEffect(() => {
+		const params = new URLSearchParams();
+		if (searchTerm) params.set('q', searchTerm);
+		if (selectedCategory !== 'All') params.set('category', selectedCategory);
+		const next = params.toString();
+		if (next !== searchParams.toString()) {
+			router.replace(`${pathname}${next ? `?${next}` : ''}`, { scroll: false });
+		}
+	}, [searchTerm, selectedCategory, pathname, router, searchParams]);
 
 	const handleCategoryChange = (category: string) => {
 		setSelectedCategory(category);
