@@ -65,6 +65,84 @@
 		margin-bottom: rem(100);
 	}
 
+	&__load_more {
+		display: flex;
+		justify-content: center;
+		margin-top: rem(60);
+
+		&_btn {
+			display: inline-flex;
+			align-items: center;
+			gap: rem(12);
+			padding: rem(16) rem(32);
+			background: $color-primary;
+			border: rem(1) solid $color-secondary;
+			border-radius: rem(50);
+			color: $color-secondary;
+			font-weight: 600;
+			font-size: rem(14);
+			text-transform: uppercase;
+			letter-spacing: rem(0.75);
+			cursor: pointer;
+			overflow: hidden;
+			position: relative;
+			z-index: 1;
+
+			&:hover:not(:disabled) {
+				color: $color-primary;
+			}
+
+			&:disabled {
+				opacity: 0.5;
+				cursor: default;
+			}
+
+			&:focus-visible {
+				outline: rem(2) solid $color-secondary;
+				outline-offset: rem(2);
+			}
+
+			&:active:not(:disabled) {
+				transform: scale(0.96);
+			}
+		}
+
+		&_content {
+			position: relative;
+			overflow: hidden;
+			height: rem(20);
+			display: flex;
+			align-items: center;
+			z-index: 2;
+		}
+
+		&_text {
+			white-space: nowrap;
+			position: relative;
+			display: flex;
+			align-items: center;
+			height: rem(20);
+
+			&_dup {
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+		}
+
+		&_bg {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			border-radius: rem(50);
+			background: $color-secondary;
+			transform-origin: center;
+			z-index: 1;
+		}
+	}
+
 	&__grid {
 		display: grid;
 		gap: rem(40);

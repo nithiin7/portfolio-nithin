@@ -1,8 +1,9 @@
 'use client';
 import { motion, AnimatePresence } from 'motion/react';
 import type { FC } from 'react';
-import { useState, Suspense } from 'react';
+import { useState, Suspense, useTransition } from 'react';
 
+import { fetchMorePosts } from 'app/blog/actions';
 import { Navbar } from 'components/layouts';
 import {
 	BlogBackground,
@@ -17,13 +18,23 @@ import styles from './BlogListing.module.scss';
 
 interface BlogListingProps {
 	posts: BlogPost[];
+	total: number;
 }
 
-/**
- * Blog listing page component with modern animations and design
- */
-const BlogListing: FC<BlogListingProps> = ({ posts }) => {
+const BlogListing: FC<BlogListingProps> = ({ posts, total }) => {
+	const [allPosts, setAllPosts] = useState<BlogPost[]>(posts);
 	const [filteredPosts, setFilteredPosts] = useState<BlogPost[]>(posts);
+	const [isPending, startTransition] = useTransition();
+	const [loadMoreHovered, setLoadMoreHovered] = useState(false);
+
+	const hasMore = allPosts.length < total;
+
+	const handleLoadMore = () => {
+		startTransition(async () => {
+			const next = await fetchMorePosts(allPosts.length);
+			setAllPosts((prev) => [...prev, ...next]);
+		});
+	};
 
 	if (posts.length === 0) {
 		return (
@@ -101,7 +112,7 @@ const BlogListing: FC<BlogListingProps> = ({ posts }) => {
 				</section>
 				<section className={styles.blog__search}>
 					<Suspense>
-						<BlogSearch posts={posts} onFilterChange={setFilteredPosts} />
+						<BlogSearch posts={allPosts} onFilterChange={setFilteredPosts} />
 					</Suspense>
 				</section>
 				<section className={styles.blog__content}>
@@ -136,6 +147,56 @@ const BlogListing: FC<BlogListingProps> = ({ posts }) => {
 							<BlogNoResults />
 						)}
 					</AnimatePresence>
+					{hasMore && (
+						<motion.div
+							className={styles.blog__load_more}
+							initial={{ opacity: 0 }}
+							animate={{ opacity: 1 }}
+							transition={{ duration: 0.4 }}
+						>
+							<motion.button
+								className={styles.blog__load_more_btn}
+								onClick={handleLoadMore}
+								disabled={isPending}
+								onMouseEnter={() => setLoadMoreHovered(true)}
+								onMouseLeave={() => setLoadMoreHovered(false)}
+								whileHover={{ scale: isPending ? 1 : 1.02 }}
+								whileTap={{ scale: isPending ? 1 : 0.98 }}
+								transition={{ duration: 0.2, ease: [0.76, 0, 0.24, 1] }}
+							>
+								<div className={styles.blog__load_more_content}>
+									<motion.span
+										className={styles.blog__load_more_text}
+										animate={{
+											y: loadMoreHovered ? -30 : 0,
+											opacity: loadMoreHovered ? 0 : 1,
+										}}
+										transition={{ duration: 0.4, ease: [0.76, 0, 0.24, 1] }}
+									>
+										{isPending ? 'Loading...' : 'Load more'}
+									</motion.span>
+									<motion.span
+										className={`${styles.blog__load_more_text} ${styles.blog__load_more_text_dup}`}
+										animate={{
+											y: loadMoreHovered ? 0 : 30,
+											opacity: loadMoreHovered ? 1 : 0,
+										}}
+										transition={{ duration: 0.4, ease: [0.76, 0, 0.24, 1] }}
+									>
+										{isPending ? 'Loading...' : 'Load more'}
+									</motion.span>
+								</div>
+								<motion.div
+									className={styles.blog__load_more_bg}
+									animate={{
+										scale: loadMoreHovered ? 1 : 0,
+										opacity: loadMoreHovered ? 1 : 0,
+									}}
+									transition={{ duration: 0.4, ease: [0.76, 0, 0.24, 1] }}
+								/>
+							</motion.button>
+						</motion.div>
+					)}
 				</section>
 				<Subscribe delay={1.2} />
 			</motion.div>

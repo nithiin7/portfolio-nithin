@@ -137,8 +137,8 @@ const blogListingStructuredData = {
 
 export default async function BlogPage(): Promise<React.ReactElement> {
 	const blogData = await loadBlogPosts(10, 0);
-	const latestPosts = blogData.data.blogPostCollection.items;
-	const posts = latestPosts.map(convertContentfulBlogPost);
+	const { total, items } = blogData.data.blogPostCollection;
+	const posts = items.map(convertContentfulBlogPost);
 
 	return (
 		<>
@@ -149,7 +149,7 @@ export default async function BlogPage(): Promise<React.ReactElement> {
 					__html: JSON.stringify(blogListingStructuredData),
 				}}
 			/>
-			<BlogListing posts={posts} />
+			<BlogListing posts={posts} total={total} />
 		</>
 	);
 }
