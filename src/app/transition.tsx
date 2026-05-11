@@ -1,4 +1,5 @@
 'use client';
+import { useLenis } from '@studio-freight/react-lenis';
 import type { Variants } from 'motion/react';
 import { AnimatePresence, motion } from 'motion/react';
 import { usePathname } from 'next/navigation';
@@ -57,6 +58,11 @@ const Curve = ({
 	});
 
 	const pathname = usePathname();
+	const lenis = useLenis();
+
+	useEffect(() => {
+		lenis?.scrollTo(0, { immediate: true });
+	}, [pathname, lenis]);
 
 	useEffect(() => {
 		const resize = () => {
