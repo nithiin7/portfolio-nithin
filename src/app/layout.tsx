@@ -7,7 +7,6 @@ import 'styles/globals.scss';
 
 import { Footer, Menu } from 'components/layouts';
 import {
-	PerformanceOptimizer,
 	ClickSpark,
 	FloatingChat,
 	FloatingResume,
@@ -187,7 +186,6 @@ export default function RootLayout({
 						__html: JSON.stringify(structuredData),
 					}}
 				/>
-				<PerformanceOptimizer />
 				<Provider>
 					<Curve>
 						<ClickSpark

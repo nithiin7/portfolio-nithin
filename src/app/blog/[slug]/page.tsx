@@ -112,7 +112,7 @@ export default async function BlogDetails({
 
 	const convertedPost = convertContentfulBlogPost(postItem);
 
-	const { data: allPostsData } = await loadBlogPosts(50, 0);
+	const { data: allPostsData } = await loadBlogPosts(100, 0);
 	const allPosts = allPostsData.blogPostCollection.items.map(
 		convertContentfulBlogPost
 	);
