@@ -26,6 +26,7 @@ interface SubscribeProps {
 const Subscribe: FC<SubscribeProps> = ({ className = '', delay = 0 }) => {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [isSuccess, setIsSuccess] = useState(false);
+	const [isError, setIsError] = useState(false);
 
 	const {
 		formState: { errors },
@@ -53,6 +54,8 @@ const Subscribe: FC<SubscribeProps> = ({ className = '', delay = 0 }) => {
 			}, 5000);
 		} catch (error) {
 			console.error('Error subscribing to newsletter:', error);
+			setIsError(true);
+			setTimeout(() => setIsError(false), 5000);
 		} finally {
 			setIsSubmitting(false);
 		}
@@ -114,6 +117,17 @@ const Subscribe: FC<SubscribeProps> = ({ className = '', delay = 0 }) => {
 							{isSubmitting ? 'Subscribing...' : 'Subscribe'}
 						</button>
 					</form>
+				)}
+				{isError && (
+					<motion.p
+						className={styles.Subscribe__submitError}
+						initial={{ opacity: 0, y: -8 }}
+						animate={{ opacity: 1, y: 0 }}
+						exit={{ opacity: 0, y: -8 }}
+						transition={{ duration: 0.3 }}
+					>
+						Something went wrong. Please try again.
+					</motion.p>
 				)}
 			</div>
 		</motion.section>

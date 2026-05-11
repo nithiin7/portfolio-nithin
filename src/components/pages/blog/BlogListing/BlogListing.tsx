@@ -23,7 +23,7 @@ interface BlogListingProps {
  * Blog listing page component with modern animations and design
  */
 const BlogListing: FC<BlogListingProps> = ({ posts }) => {
-	const [filteredPosts, setFilteredPosts] = useState<BlogPost[]>([]);
+	const [filteredPosts, setFilteredPosts] = useState<BlogPost[]>(posts);
 
 	if (posts.length === 0) {
 		return (

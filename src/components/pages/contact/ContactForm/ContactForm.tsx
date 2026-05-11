@@ -131,7 +131,7 @@ const ContactForm: FC<ContactFormProps> = ({ className = '' }) => {
 					>
 						<path
 							d="M7.29417 12.9577L10.5048 16.1681L17.6729 9"
-							stroke="$color-secondary"
+							stroke="var(--color-secondary)"
 							strokeWidth="2.5"
 							strokeLinecap="round"
 							strokeLinejoin="round"
@@ -140,7 +140,7 @@ const ContactForm: FC<ContactFormProps> = ({ className = '' }) => {
 							cx="12"
 							cy="12"
 							r="10"
-							stroke="$color-secondary"
+							stroke="var(--color-secondary)"
 							strokeWidth="2"
 						/>
 					</svg>

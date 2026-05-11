@@ -117,23 +117,22 @@
 	}
 
 	&__inputError {
-		border-color: #ef4444;
+		border-color: $color-error;
 		box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
 
 		&:focus {
-			border-color: #ef4444;
+			border-color: $color-error;
 			box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
 		}
 	}
 
 	&__error {
-		position: absolute;
-		top: 100%;
-		left: 0;
-		color: #ef4444;
+		display: block;
+		color: $color-error;
 		font-size: rem(14);
-		margin-top: rem(4);
+		margin-top: rem(6);
 		font-weight: 500;
+		text-align: left;
 	}
 
 	&__success {
@@ -180,6 +179,14 @@
 		margin: 0;
 		max-width: rem(400);
 		margin: 0 auto;
+	}
+
+	&__submitError {
+		margin: rem(12) 0 0;
+		color: $color-error;
+		font-size: rem(14);
+		font-weight: 500;
+		text-align: center;
 	}
 
 	&__button {
