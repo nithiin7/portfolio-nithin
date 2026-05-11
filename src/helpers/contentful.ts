@@ -2,7 +2,7 @@ import type { ApolloQueryResult } from '@apollo/client';
 import type { Document } from '@contentful/rich-text-types';
 
 import { GET_PAGE, GET_ALL_BLOG_POSTS, GET_BLOG_POST_BY_SLUG } from 'queries';
-import { GET_PORTFOLIO } from 'queries/portfolio';
+import { GET_PORTFOLIO, GET_ALL_PORTFOLIO_IDS } from 'queries/portfolio';
 import type { BlogPost, BlogCategory, BlogTag } from 'types/blog';
 import type { PageData, PortfolioData } from 'types/contentful';
 import type {
@@ -138,4 +138,22 @@ const loadBlogPostBySlug = async (
 	return data;
 };
 
-export { loadData, loadPortfolioData, loadBlogPosts, loadBlogPostBySlug };
+const loadAllPortfolioIds = async (): Promise<number[]> => {
+	const apolloClient = initializeApollo();
+	const { data } = await apolloClient.query({
+		query: GET_ALL_PORTFOLIO_IDS,
+	});
+	return (
+		data?.portfolioDetailsCollection?.items
+			?.map((item: { id: number }) => item.id)
+			.filter(Boolean) ?? []
+	);
+};
+
+export {
+	loadData,
+	loadPortfolioData,
+	loadBlogPosts,
+	loadBlogPostBySlug,
+	loadAllPortfolioIds,
+};
