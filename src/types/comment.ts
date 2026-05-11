@@ -15,6 +15,7 @@ export interface CommentFormData {
 	authorEmail: string;
 	content: string;
 	parentId?: string;
+	recaptchaToken?: string;
 }
 
 export interface CommentSectionProps {

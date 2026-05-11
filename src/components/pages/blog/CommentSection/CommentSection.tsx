@@ -58,6 +58,7 @@ const CommentSection: FC<CommentSectionProps> = ({
 					authorEmail: data.authorEmail,
 					content: data.content,
 					parentId: data.parentId,
+					recaptchaToken: data.recaptchaToken,
 				}),
 			});
 

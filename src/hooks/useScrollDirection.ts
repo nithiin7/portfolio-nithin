@@ -23,20 +23,24 @@ export const useScrollDirection = (): UseScrollDirectionReturn => {
 
 		const updateScrollDirection = () => {
 			const currentScrollY = window.scrollY;
+			const direction =
+				currentScrollY > lastScrollY
+					? 'down'
+					: currentScrollY < lastScrollY
+						? 'up'
+						: null;
 
-			if (currentScrollY > lastScrollY) {
-				setScrollDirection('down');
-			} else if (currentScrollY < lastScrollY) {
-				setScrollDirection('up');
+			if (direction) {
+				setScrollDirection(direction);
 			}
 
 			setScrollY(currentScrollY);
 
 			if (currentScrollY <= 0) {
 				setIsVisible(true);
-			} else if (scrollDirection === 'up') {
+			} else if (direction === 'up') {
 				setIsVisible(true);
-			} else if (scrollDirection === 'down') {
+			} else if (direction === 'down') {
 				setIsVisible(false);
 			}
 
@@ -54,7 +58,7 @@ export const useScrollDirection = (): UseScrollDirectionReturn => {
 		window.addEventListener('scroll', onScroll);
 
 		return () => window.removeEventListener('scroll', onScroll);
-	}, [scrollDirection]);
+	}, []);
 
 	return { isVisible, scrollDirection, scrollY };
 };

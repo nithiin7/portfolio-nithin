@@ -33,14 +33,42 @@ export async function GET(request: NextRequest) {
 	}
 }
 
+async function verifyRecaptcha(token: string): Promise<boolean> {
+	const secret = process.env.RECAPTCHA_SECRET_KEY;
+	if (!secret) return false;
+
+	const res = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+		body: `secret=${encodeURIComponent(secret)}&response=${encodeURIComponent(token)}`,
+	});
+
+	const json = (await res.json()) as { success: boolean; score?: number };
+	return json.success && (json.score ?? 1) >= 0.5;
+}
+
 export async function POST(request: NextRequest) {
 	try {
 		const body = await request.json();
-		const { postId, authorName, authorEmail, content, parentId } = body;
+		const {
+			postId,
+			authorName,
+			authorEmail,
+			content,
+			parentId,
+			recaptchaToken,
+		} = body;
 
 		if (!postId || !authorName || !authorEmail || !content) {
 			return NextResponse.json(
 				{ error: 'Missing required fields' },
+				{ status: 400 }
+			);
+		}
+
+		if (!recaptchaToken || !(await verifyRecaptcha(recaptchaToken))) {
+			return NextResponse.json(
+				{ error: 'reCAPTCHA verification failed' },
 				{ status: 400 }
 			);
 		}
