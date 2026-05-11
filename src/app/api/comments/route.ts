@@ -3,6 +3,28 @@ import { NextResponse } from 'next/server';
 
 import { commentsService } from 'services/comments';
 
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+const RATE_LIMIT_MAX = 5;
+const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
+
+function checkRateLimit(request: NextRequest): boolean {
+	const ip =
+		request.headers.get('x-forwarded-for')?.split(',')[0].trim() ||
+		request.headers.get('x-real-ip') ||
+		'unknown';
+	const now = Date.now();
+	const record = rateLimitMap.get(ip);
+
+	if (!record || now > record.resetAt) {
+		rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
+		return false;
+	}
+
+	if (record.count >= RATE_LIMIT_MAX) return true;
+	record.count++;
+	return false;
+}
+
 export async function GET(request: NextRequest) {
 	const { searchParams } = new URL(request.url);
 	const postId = searchParams.get('postId');
@@ -48,6 +70,13 @@ async function verifyRecaptcha(token: string): Promise<boolean> {
 }
 
 export async function POST(request: NextRequest) {
+	if (checkRateLimit(request)) {
+		return NextResponse.json(
+			{ error: 'Too many requests. Please try again later.' },
+			{ status: 429 }
+		);
+	}
+
 	try {
 		const body = await request.json();
 		const {
