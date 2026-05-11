@@ -9,6 +9,7 @@ import { useRef, useState } from 'react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import type { SubmitHandler } from 'react-hook-form';
 import { Controller, useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import { TextArea, TextInput } from 'components/utilities';
 import { contactOptions } from 'constants/index';
@@ -100,6 +101,7 @@ const ContactForm: FC<ContactFormProps> = ({ className = '' }) => {
 			}, 10000);
 		} catch (error) {
 			console.error('Error submitting form:', error);
+			toast.error('Something went wrong. Please try again.');
 			setIsSubmitting(false);
 		} finally {
 			setIsSubmitting(false);

@@ -1,0 +1,19 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.Toast {
+	font-family: var(--font-roboto), sans-serif;
+	border: 1px solid $color-border;
+	border-radius: rem(8);
+}
+
+.Toast__title {
+	font-size: rem(14);
+	font-weight: 500;
+	color: $color-text;
+}
+
+.Toast__description {
+	font-size: rem(13);
+	color: $color-text-secondary;
+}
