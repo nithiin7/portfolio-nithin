@@ -25,6 +25,7 @@ const CommentSection: FC<CommentSectionProps> = ({
 }) => {
 	const [comments, setComments] = useState<Comment[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
+	const [fetchError, setFetchError] = useState(false);
 
 	useEffect(() => {
 		const loadComments = async () => {
@@ -34,10 +35,10 @@ const CommentSection: FC<CommentSectionProps> = ({
 					const data = await response.json();
 					setComments(data.comments || []);
 				} else {
-					console.error('Error loading comments:', response.statusText);
+					setFetchError(true);
 				}
-			} catch (error) {
-				console.error('Error loading comments:', error);
+			} catch {
+				setFetchError(true);
 			} finally {
 				setIsLoading(false);
 			}
@@ -108,6 +109,21 @@ const CommentSection: FC<CommentSectionProps> = ({
 				<div className={styles.CommentSection__loading}>
 					<div className={styles.CommentSection__spinner} />
 					<p>Loading comments...</p>
+				</div>
+			</motion.div>
+		);
+	}
+
+	if (fetchError) {
+		return (
+			<motion.div
+				className={`${styles.CommentSection} ${className}`}
+				initial={{ opacity: 0 }}
+				animate={{ opacity: 1 }}
+				transition={{ duration: 0.6 }}
+			>
+				<div className={styles.CommentSection__loading}>
+					<p>Comments are currently unavailable. Please try again later.</p>
 				</div>
 			</motion.div>
 		);

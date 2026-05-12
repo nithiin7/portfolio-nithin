@@ -6,20 +6,26 @@
 	top: rem(120);
 	border-radius: rem(12);
 	padding: rem(24) rem(16);
-	max-height: calc(100vh - rem(200));
+	max-height: calc(100vh - rem(160));
 	overflow-y: auto;
-	width: rem(280);
+	width: 100%;
 	background: rgba($color-surface, 0.8);
 	backdrop-filter: blur(10px);
 
-	@media #{$lg} {
-		width: rem(320);
+	&__title {
+		font-size: rem(11);
+		font-weight: 600;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: $color-text-secondary;
+		margin: 0 0 rem(16) rem(16);
+		opacity: 0.7;
 	}
 
 	&__line {
 		position: absolute;
 		left: rem(8);
-		top: rem(24);
+		top: rem(56);
 		bottom: rem(24);
 		width: 2px;
 		background: linear-gradient(
@@ -59,18 +65,12 @@
 			opacity: 0;
 			transition: $transition;
 		}
-	}
 
-	&__item_active {
-		&::before {
-			opacity: 1;
-			box-shadow: 0 0 0 rem(4) rgba($color-accent, 0.2);
-		}
-
-		.tableOfContents__link {
-			color: $color-accent;
-			font-weight: 600;
-			transform: translateX(rem(4));
+		&_active {
+			&::before {
+				opacity: 1;
+				box-shadow: 0 0 0 rem(4) rgba($color-accent, 0.2);
+			}
 		}
 	}
 
@@ -78,7 +78,7 @@
 		background: none;
 		border: none;
 		color: $color-text-secondary;
-		font-size: rem(14);
+		font-size: rem(13);
 		line-height: 140%;
 		text-align: left;
 		padding: rem(8) rem(0);
@@ -92,13 +92,16 @@
 
 		&:hover {
 			color: $color-accent;
-			background: rgba($color-accent, 0.05);
-			transform: translateX(rem(2));
 		}
 
 		&:focus {
 			outline: none;
 			box-shadow: 0 0 0 2px rgba($color-accent, 0.3);
+		}
+
+		&_active {
+			color: $color-accent;
+			font-weight: 600;
 		}
 	}
 
@@ -117,12 +120,5 @@
 		&:hover {
 			background: $color-accent;
 		}
-	}
-
-	@media #{$md} {
-		position: static;
-		width: 100%;
-		max-height: none;
-		margin-bottom: rem(40);
 	}
 }

@@ -4,10 +4,10 @@ import { motion } from 'motion/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { FC } from 'react';
+import { useState, useEffect } from 'react';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
 import { WhatsAppIcon } from 'assets/icons';
-import { Navbar } from 'components/layouts';
 import { BlogCard, CommentSection, TableOfContents } from 'components/pages';
 import { MaskText, Subscribe, Tag, TagContainer } from 'components/utilities';
 import {
@@ -30,6 +30,23 @@ interface BlogDetailProps {
  * Blog detail client component with data fetching and modern animations
  */
 const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
+	const [readProgress, setReadProgress] = useState(0);
+
+	useEffect(() => {
+		const handleScroll = () => {
+			const article = document.querySelector('article');
+			if (!article) return;
+			const articleTop = article.offsetTop;
+			const articleHeight = article.scrollHeight;
+			const scrolled = window.scrollY - articleTop + window.innerHeight * 0.8;
+			setReadProgress(
+				Math.min(100, Math.max(0, (scrolled / articleHeight) * 100))
+			);
+		};
+		window.addEventListener('scroll', handleScroll, { passive: true });
+		return () => window.removeEventListener('scroll', handleScroll);
+	}, []);
+
 	const handleShareOnFacebook = () => {
 		if (!post) return;
 		shareOnFacebook({
@@ -69,7 +86,6 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 	if (!post) {
 		return (
 			<div className={styles.BlogDetail}>
-				<Navbar />
 				<motion.div
 					className={styles.BlogDetail__container}
 					initial={{ opacity: 0 }}
@@ -102,7 +118,10 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 
 	return (
 		<div className={styles.BlogDetail}>
-			<Navbar />
+			<div
+				className={styles.BlogDetail__progress}
+				style={{ width: `${readProgress}%` }}
+			/>
 			<motion.div
 				className={styles.BlogDetail__container}
 				initial={{ opacity: 0 }}
