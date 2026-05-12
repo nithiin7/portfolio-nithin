@@ -15,6 +15,7 @@
 	text-transform: uppercase;
 	letter-spacing: rem(0.75);
 	cursor: pointer;
+	box-shadow: 0 rem(4) rem(16) rgba(0, 0, 0, 0.1);
 	transition: all 0.4s cubic-bezier(0.76, 0, 0.24, 1);
 	overflow: hidden;
 	position: relative;

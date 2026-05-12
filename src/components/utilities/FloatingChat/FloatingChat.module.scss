@@ -1,10 +1,20 @@
 @use 'styles/shared/mixin' as *;
 @use 'styles/shared/variables' as *;
 
-.FloatingButton {
+.container {
 	position: fixed;
 	bottom: rem(30);
 	right: rem(30);
+	z-index: 1000;
+
+	@media #{$md} {
+		bottom: rem(40);
+		right: rem(40);
+	}
+}
+
+.FloatingButton {
+	position: relative;
 	width: rem(60);
 	height: rem(60);
 	border-radius: 50%;
@@ -12,7 +22,6 @@
 	border: none;
 	cursor: pointer;
 	box-shadow: 0 rem(8) rem(32) rgba(0, 0, 0, 0.15);
-	z-index: 1000;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -41,8 +50,6 @@
 	@media #{$md} {
 		width: rem(70);
 		height: rem(70);
-		bottom: rem(40);
-		right: rem(40);
 	}
 
 	@media (prefers-reduced-motion: reduce) {
@@ -51,6 +58,32 @@
 		&:hover {
 			transform: none;
 		}
+	}
+}
+
+.tooltip {
+	position: absolute;
+	bottom: calc(100% + rem(12));
+	right: 0;
+	padding: rem(6) rem(10);
+	background: rgba(0, 0, 0, 0.9);
+	color: $color-white;
+	font-size: rem(11);
+	font-weight: 500;
+	border-radius: rem(4);
+	white-space: nowrap;
+	box-shadow: 0 rem(2) rem(8) rgba(0, 0, 0, 0.2);
+	z-index: 1001;
+	pointer-events: none;
+	backdrop-filter: blur(4px);
+
+	&::after {
+		content: '';
+		position: absolute;
+		top: 100%;
+		right: rem(27);
+		border: rem(3) solid transparent;
+		border-top-color: rgba(0, 0, 0, 0.9);
 	}
 }
 
