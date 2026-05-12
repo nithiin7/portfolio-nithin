@@ -17,9 +17,31 @@
 		z-index: 2;
 	}
 
+	&__backButton {
+		display: inline-flex;
+		align-items: center;
+		gap: rem(8);
+		color: $color-text-secondary;
+		text-decoration: none;
+		font-size: rem(14);
+		font-weight: 500;
+		letter-spacing: 0.02em;
+		transition: $transition;
+		padding-top: rem(120);
+
+		&:hover {
+			color: $color-secondary;
+			transform: translateX(rem(-4));
+		}
+
+		span {
+			font-size: rem(14);
+		}
+	}
+
 	&__header {
 		text-align: center;
-		padding: rem(120) 0 rem(60) 0;
+		padding: rem(32) 0 rem(60) 0;
 
 		&_content {
 			max-width: rem(800);

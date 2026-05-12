@@ -1,7 +1,9 @@
 'use client';
 import { motion, AnimatePresence } from 'motion/react';
+import Link from 'next/link';
 import type { FC } from 'react';
 import { useState, useMemo, useEffect, useTransition } from 'react';
+import { FiArrowLeft } from 'react-icons/fi';
 
 import { fetchFilteredPosts } from 'app/blog/actions';
 import {
@@ -184,6 +186,10 @@ const BlogListing: FC<BlogListingProps> = ({
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
 			>
+				<Link href="/" className={styles.blog__backButton}>
+					<FiArrowLeft size={16} />
+					<span>Back to Home</span>
+				</Link>
 				<section className={styles.blog__header}>
 					<motion.div
 						className={styles.blog__header_content}
