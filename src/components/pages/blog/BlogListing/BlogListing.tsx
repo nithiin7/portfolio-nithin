@@ -1,9 +1,9 @@
 'use client';
 import { motion, AnimatePresence } from 'motion/react';
 import type { FC } from 'react';
-import { useState, Suspense, useTransition } from 'react';
+import { useState, useMemo, useEffect, useTransition } from 'react';
 
-import { fetchMorePosts } from 'app/blog/actions';
+import { fetchFilteredPosts } from 'app/blog/actions';
 import { Navbar } from 'components/layouts';
 import {
 	BlogBackground,
@@ -19,20 +19,100 @@ import styles from './BlogListing.module.scss';
 interface BlogListingProps {
 	posts: BlogPost[];
 	total: number;
+	allCategories: string[];
+	allTags: string[];
+	initialCategory: string;
+	initialTags: string[];
 }
 
-const BlogListing: FC<BlogListingProps> = ({ posts, total }) => {
+const BlogListing: FC<BlogListingProps> = ({
+	posts,
+	total,
+	allCategories,
+	allTags,
+	initialCategory,
+	initialTags,
+}) => {
 	const [allPosts, setAllPosts] = useState<BlogPost[]>(posts);
-	const [filteredPosts, setFilteredPosts] = useState<BlogPost[]>(posts);
-	const [isPending, startTransition] = useTransition();
+	const [displayTotal, setDisplayTotal] = useState(total);
+	const [activeCategory, setActiveCategory] = useState(initialCategory);
+	const [activeTags, setActiveTags] = useState<string[]>(initialTags);
+	const [searchTerm, setSearchTerm] = useState('');
 	const [loadMoreHovered, setLoadMoreHovered] = useState(false);
+	const [isFiltering, startFilterTransition] = useTransition();
+	const [isLoadingMore, startLoadMoreTransition] = useTransition();
 
-	const hasMore = allPosts.length < total;
+	const hasMore = allPosts.length < displayTotal;
+
+	const filteredPosts = useMemo(() => {
+		if (!searchTerm) return allPosts;
+		const lower = searchTerm.toLowerCase();
+		return allPosts.filter(
+			(post) =>
+				post.title.toLowerCase().includes(lower) ||
+				post.excerpt.toLowerCase().includes(lower) ||
+				post.category.toLowerCase().includes(lower)
+		);
+	}, [allPosts, searchTerm]);
+
+	useEffect(() => {
+		const params = new URLSearchParams();
+		if (activeCategory !== 'All') params.set('category', activeCategory);
+		activeTags.forEach((t) => params.append('tag', t));
+		const qs = params.toString();
+		window.history.replaceState(
+			{},
+			'',
+			`${window.location.pathname}${qs ? `?${qs}` : ''}`
+		);
+	}, [activeCategory, activeTags]);
+
+	const handleCategoryChange = (category: string) => {
+		setActiveCategory(category);
+		setActiveTags([]);
+		startFilterTransition(async () => {
+			const result = await fetchFilteredPosts(
+				0,
+				category !== 'All' ? category : undefined,
+				[]
+			);
+			setAllPosts(result.posts);
+			setDisplayTotal(result.total);
+		});
+	};
+
+	const handleTagToggle = (tag: string) => {
+		const next = activeTags.includes(tag)
+			? activeTags.filter((t) => t !== tag)
+			: [...activeTags, tag];
+		setActiveTags(next);
+		setActiveCategory('All');
+		startFilterTransition(async () => {
+			const result = await fetchFilteredPosts(0, undefined, next);
+			setAllPosts(result.posts);
+			setDisplayTotal(result.total);
+		});
+	};
+
+	const handleClearAll = () => {
+		setActiveCategory('All');
+		setActiveTags([]);
+		setSearchTerm('');
+		startFilterTransition(async () => {
+			const result = await fetchFilteredPosts(0);
+			setAllPosts(result.posts);
+			setDisplayTotal(result.total);
+		});
+	};
 
 	const handleLoadMore = () => {
-		startTransition(async () => {
-			const next = await fetchMorePosts(allPosts.length);
-			setAllPosts((prev) => [...prev, ...next]);
+		startLoadMoreTransition(async () => {
+			const result = await fetchFilteredPosts(
+				allPosts.length,
+				activeCategory !== 'All' ? activeCategory : undefined,
+				activeTags
+			);
+			setAllPosts((prev) => [...prev, ...result.posts]);
 		});
 	};
 
@@ -111,22 +191,28 @@ const BlogListing: FC<BlogListingProps> = ({ posts, total }) => {
 					</motion.div>
 				</section>
 				<section className={styles.blog__search}>
-					<Suspense>
-						<BlogSearch posts={allPosts} onFilterChange={setFilteredPosts} />
-					</Suspense>
+					<BlogSearch
+						allCategories={allCategories}
+						allTags={allTags}
+						activeCategory={activeCategory}
+						activeTags={activeTags}
+						searchTerm={searchTerm}
+						filteredCount={filteredPosts.length}
+						isFiltering={isFiltering}
+						onCategoryChange={handleCategoryChange}
+						onTagToggle={handleTagToggle}
+						onSearchChange={setSearchTerm}
+						onClearAll={handleClearAll}
+					/>
 				</section>
 				<section className={styles.blog__content}>
 					<AnimatePresence mode="wait">
 						{filteredPosts.length > 0 ? (
 							<motion.div
 								className={styles.blog__grid}
+								animate={{ opacity: isFiltering ? 0.4 : 1 }}
 								initial={{ opacity: 0 }}
-								animate={{ opacity: 1 }}
-								transition={{
-									duration: 0.8,
-									delay: 0.4,
-									ease: [0.33, 1, 0.68, 1],
-								}}
+								transition={{ duration: 0.3 }}
 							>
 								{filteredPosts.map((post, index) => (
 									<motion.div
@@ -135,7 +221,7 @@ const BlogListing: FC<BlogListingProps> = ({ posts, total }) => {
 										animate={{ opacity: 1, y: 0 }}
 										transition={{
 											duration: 0.6,
-											delay: 0.6 + index * 0.1,
+											delay: 0.4 + index * 0.08,
 											ease: [0.33, 1, 0.68, 1],
 										}}
 									>
@@ -157,11 +243,11 @@ const BlogListing: FC<BlogListingProps> = ({ posts, total }) => {
 							<motion.button
 								className={styles.blog__load_more_btn}
 								onClick={handleLoadMore}
-								disabled={isPending}
+								disabled={isLoadingMore || isFiltering}
 								onMouseEnter={() => setLoadMoreHovered(true)}
 								onMouseLeave={() => setLoadMoreHovered(false)}
-								whileHover={{ scale: isPending ? 1 : 1.02 }}
-								whileTap={{ scale: isPending ? 1 : 0.98 }}
+								whileHover={{ scale: isLoadingMore ? 1 : 1.02 }}
+								whileTap={{ scale: isLoadingMore ? 1 : 0.98 }}
 								transition={{ duration: 0.2, ease: [0.76, 0, 0.24, 1] }}
 							>
 								<div className={styles.blog__load_more_content}>
@@ -173,7 +259,7 @@ const BlogListing: FC<BlogListingProps> = ({ posts, total }) => {
 										}}
 										transition={{ duration: 0.4, ease: [0.76, 0, 0.24, 1] }}
 									>
-										{isPending ? 'Loading...' : 'Load more'}
+										{isLoadingMore ? 'Loading...' : 'Load more'}
 									</motion.span>
 									<motion.span
 										className={`${styles.blog__load_more_text} ${styles.blog__load_more_text_dup}`}
@@ -183,7 +269,7 @@ const BlogListing: FC<BlogListingProps> = ({ posts, total }) => {
 										}}
 										transition={{ duration: 0.4, ease: [0.76, 0, 0.24, 1] }}
 									>
-										{isPending ? 'Loading...' : 'Load more'}
+										{isLoadingMore ? 'Loading...' : 'Load more'}
 									</motion.span>
 								</div>
 								<motion.div

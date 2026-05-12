@@ -1,7 +1,15 @@
 import type { ApolloQueryResult } from '@apollo/client';
 import type { Document } from '@contentful/rich-text-types';
 
-import { GET_PAGE, GET_ALL_BLOG_POSTS, GET_BLOG_POST_BY_SLUG } from 'queries';
+import {
+	GET_PAGE,
+	GET_ALL_BLOG_POSTS,
+	GET_BLOG_POST_BY_SLUG,
+	GET_BLOG_POSTS_BY_CATEGORY,
+	GET_BLOG_POSTS_BY_TAG,
+	GET_BLOG_CATEGORIES,
+	GET_BLOG_TAGS,
+} from 'queries';
 import { GET_PORTFOLIO, GET_ALL_PORTFOLIO_IDS } from 'queries/portfolio';
 import type { BlogPost, BlogCategory, BlogTag } from 'types/blog';
 import type { PageData, PortfolioData } from 'types/contentful';
@@ -107,6 +115,44 @@ export const convertContentfulTag = (contentfulTag: BlogTagItem): BlogTag => {
  * @param {number} skip - The number of posts to skip.
  * @returns {Promise<ApolloQueryResult<any>>} - A promise that resolves to the blog posts data from Contentful.
  */
+const loadBlogPostsByCategory = async (
+	category: string,
+	limit = 10,
+	skip = 0
+): Promise<ApolloQueryResult<any>> => {
+	const apolloClient = initializeApollo();
+	const data = await apolloClient.query({
+		query: GET_BLOG_POSTS_BY_CATEGORY,
+		variables: { category, limit, skip },
+	});
+	return data;
+};
+
+const loadBlogPostsByTag = async (
+	tags: string[],
+	limit = 10,
+	skip = 0
+): Promise<ApolloQueryResult<any>> => {
+	const apolloClient = initializeApollo();
+	const data = await apolloClient.query({
+		query: GET_BLOG_POSTS_BY_TAG,
+		variables: { tags, limit, skip },
+	});
+	return data;
+};
+
+const loadBlogCategories = async (): Promise<ApolloQueryResult<any>> => {
+	const apolloClient = initializeApollo();
+	const data = await apolloClient.query({ query: GET_BLOG_CATEGORIES });
+	return data;
+};
+
+const loadBlogTags = async (): Promise<ApolloQueryResult<any>> => {
+	const apolloClient = initializeApollo();
+	const data = await apolloClient.query({ query: GET_BLOG_TAGS });
+	return data;
+};
+
 const loadBlogPosts = async (
 	limit = 10,
 	skip = 0
@@ -154,6 +200,10 @@ export {
 	loadData,
 	loadPortfolioData,
 	loadBlogPosts,
+	loadBlogPostsByCategory,
+	loadBlogPostsByTag,
+	loadBlogCategories,
+	loadBlogTags,
 	loadBlogPostBySlug,
 	loadAllPortfolioIds,
 };

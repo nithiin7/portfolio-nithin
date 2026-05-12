@@ -5,20 +5,43 @@ import { BlogListing } from 'components/pages';
 import {
 	loadData,
 	loadBlogPosts,
+	loadBlogPostsByCategory,
+	loadBlogPostsByTag,
+	loadBlogCategories,
+	loadBlogTags,
 	convertContentfulBlogPost,
 } from 'helpers/contentful';
 import type { BlogPost } from 'types/blog';
+import type { BlogCategoryItem, BlogTagItem } from 'types/contentful';
 
-export async function generateMetadata(): Promise<Metadata> {
+interface BlogPageProps {
+	searchParams: Promise<{
+		category?: string;
+		tag?: string | string[];
+	}>;
+}
+
+function resolveTagParam(tag: string | string[] | undefined): string[] {
+	if (!tag) return [];
+	return Array.isArray(tag) ? tag : [tag];
+}
+
+export async function generateMetadata({
+	searchParams,
+}: BlogPageProps): Promise<Metadata> {
+	const { category, tag } = await searchParams;
+	const tags = resolveTagParam(tag);
 	const props = await loadData('blog');
 	const path = props?.data.pageCollection.items[0];
 
-	const blogData = await loadBlogPosts(10, 0);
-
-	const latestPosts = blogData.data.blogPostCollection.items;
+	const titleSuffix = category
+		? ` — ${category}`
+		: tags.length > 0
+			? ` — #${tags[0]}`
+			: '';
 
 	return {
-		title: path?.title || 'Blog - Nithin Pradeep',
+		title: `${path?.title || 'Blog - Nithin Pradeep'}${titleSuffix}`,
 		description:
 			path?.description ||
 			'Explore insights on design, development, and the intersection of creativity and technology. Read articles about web development, design trends, and industry best practices.',
@@ -26,7 +49,7 @@ export async function generateMetadata(): Promise<Metadata> {
 			type: 'website',
 			locale: 'en_US',
 			url: 'https://portfolio-nithin.vercel.app/blog',
-			title: path?.title || 'Blog - Nithin Pradeep',
+			title: `${path?.title || 'Blog - Nithin Pradeep'}${titleSuffix}`,
 			description:
 				path?.description ||
 				'Explore insights on design, development, and the intersection of creativity and technology.',
@@ -42,7 +65,7 @@ export async function generateMetadata(): Promise<Metadata> {
 		},
 		twitter: {
 			card: 'summary_large_image',
-			title: path?.title || 'Blog - Nithin Pradeep',
+			title: `${path?.title || 'Blog - Nithin Pradeep'}${titleSuffix}`,
 			description:
 				path?.description ||
 				'Explore insights on design, development, and the intersection of creativity and technology.',
@@ -62,15 +85,6 @@ export async function generateMetadata(): Promise<Metadata> {
 		},
 		alternates: {
 			canonical: 'https://portfolio-nithin.vercel.app/blog',
-		},
-		other: {
-			'article:published_time': latestPosts[0]?.publishedDate,
-			'article:modified_time': latestPosts[0]?.updatedDate,
-			'article:author': 'Nithin Pradeep',
-			'article:section': 'Technology',
-			'article:tag': latestPosts
-				.flatMap((post: BlogPost) => post.tags || [])
-				.slice(0, 10),
 		},
 	};
 }
@@ -135,10 +149,35 @@ const blogListingStructuredData = {
 	},
 };
 
-export default async function BlogPage(): Promise<React.ReactElement> {
-	const blogData = await loadBlogPosts(10, 0);
+export default async function BlogPage({
+	searchParams,
+}: BlogPageProps): Promise<React.ReactElement> {
+	const { category, tag } = await searchParams;
+	const initialTags = resolveTagParam(tag);
+
+	const [blogData, categoriesData, tagsData] = await Promise.all([
+		category
+			? loadBlogPostsByCategory(category, 10, 0)
+			: initialTags.length > 0
+				? loadBlogPostsByTag(initialTags, 10, 0)
+				: loadBlogPosts(10, 0),
+		loadBlogCategories(),
+		loadBlogTags(),
+	]);
+
 	const { total, items } = blogData.data.blogPostCollection;
-	const posts = items.map(convertContentfulBlogPost);
+	const posts: BlogPost[] = items.map(convertContentfulBlogPost);
+
+	const allCategories: string[] = [
+		'All',
+		...categoriesData.data.blogCategoryCollection.items.map(
+			(c: BlogCategoryItem) => c.name
+		),
+	];
+
+	const allTags: string[] = tagsData.data.blogTagCollection.items.map(
+		(t: BlogTagItem) => t.name
+	);
 
 	return (
 		<>
@@ -149,7 +188,14 @@ export default async function BlogPage(): Promise<React.ReactElement> {
 					__html: JSON.stringify(blogListingStructuredData),
 				}}
 			/>
-			<BlogListing posts={posts} total={total} />
+			<BlogListing
+				posts={posts}
+				total={total}
+				allCategories={allCategories}
+				allTags={allTags}
+				initialCategory={category ?? 'All'}
+				initialTags={initialTags}
+			/>
 		</>
 	);
 }
