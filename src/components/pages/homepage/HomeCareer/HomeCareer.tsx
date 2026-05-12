@@ -79,19 +79,12 @@ const HomeCareer: React.FC<HomeCareerProps> = ({
 	const activeExperience = experiences.find((exp) => exp.year === activeYear);
 
 	const yearButtonVariants = {
-		inactive: {
-			scale: 1,
-			backgroundColor: 'var(--color-surface)',
-		},
+		inactive: { opacity: 0.6 },
 		active: {
-			scale: 1.1,
-			backgroundColor: 'var(--color-accent)',
-			transition: { duration: 0.3, ease: [0.76, 0, 0.24, 1] },
-		},
-		hover: {
-			scale: 1.05,
+			opacity: 1,
 			transition: { duration: 0.2 },
 		},
+		hover: { opacity: 0.85 },
 	};
 
 	if (!experiences || experiences.length === 0) {
@@ -130,7 +123,6 @@ const HomeCareer: React.FC<HomeCareerProps> = ({
 								variants={yearButtonVariants}
 								initial="inactive"
 								animate={activeYear === experience.year ? 'active' : 'inactive'}
-								whileHover="hover"
 								onClick={() => setActiveYear(experience.year)}
 								aria-label={`View career experience from ${experience.year}`}
 								aria-pressed={activeYear === experience.year}
