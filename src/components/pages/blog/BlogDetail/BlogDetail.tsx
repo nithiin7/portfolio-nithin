@@ -26,11 +26,9 @@ interface BlogDetailProps {
 	relatedPosts: BlogPost[];
 }
 
-/**
- * Blog detail client component with data fetching and modern animations
- */
 const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 	const [readProgress, setReadProgress] = useState(0);
+	const [showShareRail, setShowShareRail] = useState(false);
 
 	useEffect(() => {
 		const handleScroll = () => {
@@ -42,6 +40,7 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 			setReadProgress(
 				Math.min(100, Math.max(0, (scrolled / articleHeight) * 100))
 			);
+			setShowShareRail(window.scrollY > articleTop - 120);
 		};
 		window.addEventListener('scroll', handleScroll, { passive: true });
 		return () => window.removeEventListener('scroll', handleScroll);
@@ -123,6 +122,43 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 				style={{ width: `${readProgress}%` }}
 			/>
 			<motion.div
+				className={styles.BlogDetail__share_rail}
+				initial={{ opacity: 0, x: -16 }}
+				animate={{ opacity: showShareRail ? 1 : 0, x: showShareRail ? 0 : -16 }}
+				transition={{ duration: 0.4, ease: [0.33, 1, 0.68, 1] }}
+				style={{ pointerEvents: showShareRail ? 'auto' : 'none' }}
+				aria-hidden={!showShareRail}
+			>
+				<button
+					onClick={handleShareOnFacebook}
+					className={`${styles.BlogDetail__rail_button} ${styles.BlogDetail__rail_button_facebook}`}
+					aria-label="Share on Facebook"
+				>
+					f
+				</button>
+				<button
+					onClick={handleShareOnTwitter}
+					className={`${styles.BlogDetail__rail_button} ${styles.BlogDetail__rail_button_twitter}`}
+					aria-label="Share on Twitter"
+				>
+					𝕏
+				</button>
+				<button
+					onClick={handleShareOnLinkedIn}
+					className={`${styles.BlogDetail__rail_button} ${styles.BlogDetail__rail_button_linkedin}`}
+					aria-label="Share on LinkedIn"
+				>
+					in
+				</button>
+				<button
+					onClick={handleShareOnWhatsApp}
+					className={`${styles.BlogDetail__rail_button} ${styles.BlogDetail__rail_button_whatsapp}`}
+					aria-label="Share on WhatsApp"
+				>
+					<WhatsAppIcon />
+				</button>
+			</motion.div>
+			<motion.div
 				className={styles.BlogDetail__container}
 				initial={{ opacity: 0 }}
 				animate={{ opacity: 1 }}
@@ -181,75 +217,37 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 						>
 							{post.excerpt}
 						</motion.p>
-						<motion.div
-							className={styles.BlogDetail__meta}
-							initial={{ opacity: 0, y: 20 }}
-							animate={{ opacity: 1, y: 0 }}
-							transition={{ duration: 0.6, delay: 0.7 }}
-						>
-							<div className={styles.BlogDetail__meta_author}>
-								{post.authorAvatar && (
-									<Image
-										src={post.authorAvatar.url}
-										alt={post.authorAvatar.title || post.authorName}
-										width={32}
-										height={32}
-										className={styles.BlogDetail__meta_avatar}
-									/>
-								)}
-								<span className={styles.BlogDetail__meta_name}>
-									{post.authorName}
-								</span>
-							</div>
-							<div className={styles.BlogDetail__meta_info}>
-								<span className={styles.BlogDetail__meta_readtime}>
-									{post.readTime} Mins. Read
-								</span>
-								<span className={styles.BlogDetail__meta_date}>
-									{formatDate(post.publishedAt, 'long')}
-								</span>
-							</div>
-						</motion.div>
-						<motion.div
-							className={styles.BlogDetail__social}
-							initial={{ opacity: 0, y: 20 }}
-							animate={{ opacity: 1, y: 0 }}
-							transition={{ duration: 0.6, delay: 0.8 }}
-						>
-							<h4 className={styles.BlogDetail__social_title}>SHARE</h4>
-							<div className={styles.BlogDetail__social_buttons}>
-								<button
-									onClick={handleShareOnFacebook}
-									className={`${styles.BlogDetail__social_button} ${styles.BlogDetail__social_button_facebook}`}
-									aria-label="Share on Facebook"
-								>
-									f
-								</button>
-								<button
-									onClick={handleShareOnTwitter}
-									className={`${styles.BlogDetail__social_button} ${styles.BlogDetail__social_button_twitter}`}
-									aria-label="Share on Twitter"
-								>
-									𝕏
-								</button>
-								<button
-									onClick={handleShareOnLinkedIn}
-									className={`${styles.BlogDetail__social_button} ${styles.BlogDetail__social_button_linkedin}`}
-									aria-label="Share on LinkedIn"
-								>
-									in
-								</button>
-								<button
-									onClick={handleShareOnWhatsApp}
-									className={`${styles.BlogDetail__social_button} ${styles.BlogDetail__social_button_whatsapp}`}
-									aria-label="Share on WhatsApp"
-								>
-									<WhatsAppIcon />
-								</button>
-							</div>
-						</motion.div>
 					</div>
 				</motion.section>
+				<motion.div
+					className={styles.BlogDetail__byline}
+					initial={{ opacity: 0, y: 16 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.6, delay: 0.7 }}
+				>
+					<div className={styles.BlogDetail__byline_author}>
+						{post.authorAvatar && (
+							<Image
+								src={post.authorAvatar.url}
+								alt={post.authorAvatar.title || post.authorName}
+								width={36}
+								height={36}
+								className={styles.BlogDetail__byline_avatar}
+							/>
+						)}
+						<span className={styles.BlogDetail__byline_name}>
+							{post.authorName}
+						</span>
+					</div>
+					<span className={styles.BlogDetail__byline_divider} />
+					<span className={styles.BlogDetail__byline_readtime}>
+						{post.readTime} min read
+					</span>
+					<span className={styles.BlogDetail__byline_divider} />
+					<span className={styles.BlogDetail__byline_date}>
+						{formatDate(post.publishedAt, 'long')}
+					</span>
+				</motion.div>
 				{post.tags.length > 0 && (
 					<TagContainer delay={0.9}>
 						{post.tags.map((tag, index) => (
