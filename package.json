@@ -39,7 +39,7 @@
 		"gsap": "^3.13.0",
 		"loadash": "^1.0.0",
 		"motion": "^12.9.2",
-		"next": "^15.4.6",
+		"next": "^15.5.18",
 		"react": "^19.1.1",
 		"react-dom": "^19.1.1",
 		"react-google-recaptcha-v3": "^1.11.0",
