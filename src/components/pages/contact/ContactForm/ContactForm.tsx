@@ -3,15 +3,14 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { sendForm } from 'emailjs-com';
 import { motion } from 'motion/react';
-import Link from 'next/link';
 import type { FC } from 'react';
 import { useRef, useState } from 'react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import type { SubmitHandler } from 'react-hook-form';
 import { Controller, useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import { TextArea, TextInput } from 'components/utilities';
-import { contactOptions } from 'constants/index';
 import { contactSchema } from 'helpers/validations';
 
 import styles from './ContactForm.module.scss';
@@ -100,6 +99,7 @@ const ContactForm: FC<ContactFormProps> = ({ className = '' }) => {
 			}, 10000);
 		} catch (error) {
 			console.error('Error submitting form:', error);
+			toast.error('Something went wrong. Please try again.');
 			setIsSubmitting(false);
 		} finally {
 			setIsSubmitting(false);
@@ -131,7 +131,7 @@ const ContactForm: FC<ContactFormProps> = ({ className = '' }) => {
 					>
 						<path
 							d="M7.29417 12.9577L10.5048 16.1681L17.6729 9"
-							stroke="$color-secondary"
+							stroke="var(--color-secondary)"
 							strokeWidth="2.5"
 							strokeLinecap="round"
 							strokeLinejoin="round"
@@ -140,7 +140,7 @@ const ContactForm: FC<ContactFormProps> = ({ className = '' }) => {
 							cx="12"
 							cy="12"
 							r="10"
-							stroke="$color-secondary"
+							stroke="var(--color-secondary)"
 							strokeWidth="2"
 						/>
 					</svg>
@@ -198,7 +198,7 @@ const ContactForm: FC<ContactFormProps> = ({ className = '' }) => {
 										{...field}
 										placeholder="Hey! Let's connect."
 										label="Message"
-										rows={7}
+										rows={4}
 										errors={
 											errors?.message?.message ? [errors?.message?.message] : []
 										}
@@ -224,21 +224,6 @@ const ContactForm: FC<ContactFormProps> = ({ className = '' }) => {
 					</form>
 				</div>
 			)}
-			<div className={styles.ContactForm__socials}>
-				<div className={styles.ContactForm__options}>
-					<h3>FURTHER ENQUIRIES OR COLLABORATION</h3>
-					{contactOptions.map((option, index) => (
-						<div
-							key={`${option.subtitle}-${index}`}
-							className={styles.ContactForm__link}
-						>
-							<Link href={option.link} title={option.subtitle}>
-								{option.subtitle}
-							</Link>
-						</div>
-					))}
-				</div>
-			</div>
 		</div>
 	);
 };

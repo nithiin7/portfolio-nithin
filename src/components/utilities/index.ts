@@ -9,7 +9,6 @@ export { default as ColorMaskButton } from './ColorMaskButton/ColorMaskButton';
 export { default as Cursor } from './Cursor/Cursor';
 export { default as MagneticButton } from './MagneticButton/MagneticButton';
 export { default as MaskText } from './MaskText/MaskText';
-export { default as PerformanceOptimizer } from './PerformanceOptimizer/PerformanceOptimizer';
 export { default as TextArea } from './TextArea/TextArea';
 export { default as TextInput } from './TextInput/TextInput';
 export { default as ThemeToggle } from './ThemeToggle/ThemeToggle';
@@ -21,6 +20,7 @@ export { default as Tag } from './Tag/Tag';
 export type { TagProps } from './Tag/Tag';
 export { default as TagContainer } from './TagContainer/TagContainer';
 export type { TagContainerProps } from './TagContainer/TagContainer';
+export { default as Toast } from './Toast/Toast';
 export { default as TransitionSVG } from './TransitionSVG/TransitionSVG';
 export {
 	PortfolioAnimations,

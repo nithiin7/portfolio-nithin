@@ -41,6 +41,7 @@
 	--color-toggle-border: rgba(255, 255, 255, 0.1);
 	--color-shadow: rgba(0, 0, 0, 0.1);
 	--color-shadow-hover: rgba(0, 0, 0, 0.15);
+	--color-error: #ef4444;
 }
 
 [data-theme='light'] {
@@ -86,4 +87,5 @@
 	--color-toggle-border: rgba(8, 8, 7, 0.1);
 	--color-shadow: rgba(0, 0, 0, 0.05);
 	--color-shadow-hover: rgba(0, 0, 0, 0.1);
+	--color-error: #ef4444;
 }

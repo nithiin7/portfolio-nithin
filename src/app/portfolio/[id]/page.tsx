@@ -2,7 +2,12 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { PortfolioDetails } from 'components/pages';
-import { loadPortfolioData } from 'helpers/contentful';
+import { loadPortfolioData, loadAllPortfolioIds } from 'helpers/contentful';
+
+export async function generateStaticParams() {
+	const ids = await loadAllPortfolioIds();
+	return ids.map((id) => ({ id: String(id) }));
+}
 
 interface PortfolioDetailsPageProps {
 	params: Promise<{

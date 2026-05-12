@@ -59,7 +59,7 @@ const TableOfContents: FC<TableOfContentsProps> = ({ className }) => {
 				});
 			},
 			{
-				rootMargin: '-20% 0px -35% 0px',
+				rootMargin: '-10% 0px -60% 0px',
 			}
 		);
 
@@ -71,7 +71,7 @@ const TableOfContents: FC<TableOfContentsProps> = ({ className }) => {
 	const scrollToHeading = (id: string) => {
 		const element = document.getElementById(id);
 		if (element) {
-			const headerOffset = 120;
+			const headerOffset = 140;
 			const elementPosition = element.getBoundingClientRect().top;
 			const offsetPosition =
 				elementPosition + window.pageYOffset - headerOffset;
@@ -96,6 +96,7 @@ const TableOfContents: FC<TableOfContentsProps> = ({ className }) => {
 			animate={{ opacity: 1, x: 0 }}
 			transition={{ duration: 0.6, delay: 0.8 }}
 		>
+			<p className={styles.TableOfContents__title}>In this article</p>
 			<div className={styles.TableOfContents__line} />
 			<ul className={styles.TableOfContents__list}>
 				{headings.map((heading) => (
@@ -108,7 +109,11 @@ const TableOfContents: FC<TableOfContentsProps> = ({ className }) => {
 						transition={{ duration: 0.2 }}
 					>
 						<button
-							className={styles.TableOfContents__link}
+							className={`${styles.TableOfContents__link} ${
+								activeId === heading.id
+									? styles.TableOfContents__link_active
+									: ''
+							}`}
 							onClick={() => scrollToHeading(heading.id)}
 						>
 							{heading.text}

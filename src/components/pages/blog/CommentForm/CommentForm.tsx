@@ -64,7 +64,7 @@ const CommentForm: FC<CommentFormProps> = ({
 				return;
 			}
 
-			await onSubmit(data);
+			await onSubmit({ ...data, recaptchaToken: token });
 			setFormSent(true);
 			reset();
 

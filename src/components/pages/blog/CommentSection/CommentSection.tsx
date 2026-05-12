@@ -2,6 +2,7 @@
 import { motion } from 'motion/react';
 import type { FC } from 'react';
 import { useState, useEffect } from 'react';
+import { toast } from 'sonner';
 
 import { CommentBox, CommentCard } from 'components/pages';
 import type { Comment, CommentFormData } from 'types/comment';
@@ -24,6 +25,7 @@ const CommentSection: FC<CommentSectionProps> = ({
 }) => {
 	const [comments, setComments] = useState<Comment[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
+	const [fetchError, setFetchError] = useState(false);
 
 	useEffect(() => {
 		const loadComments = async () => {
@@ -33,10 +35,10 @@ const CommentSection: FC<CommentSectionProps> = ({
 					const data = await response.json();
 					setComments(data.comments || []);
 				} else {
-					console.error('Error loading comments:', response.statusText);
+					setFetchError(true);
 				}
-			} catch (error) {
-				console.error('Error loading comments:', error);
+			} catch {
+				setFetchError(true);
 			} finally {
 				setIsLoading(false);
 			}
@@ -58,6 +60,7 @@ const CommentSection: FC<CommentSectionProps> = ({
 					authorEmail: data.authorEmail,
 					content: data.content,
 					parentId: data.parentId,
+					recaptchaToken: data.recaptchaToken,
 				}),
 			});
 
@@ -65,7 +68,12 @@ const CommentSection: FC<CommentSectionProps> = ({
 				const result = await response.json();
 				const newComment = result.comment;
 
-				if (data.parentId) {
+				if (result.pending) {
+					toast.info('Comment submitted', {
+						description:
+							'Your comment is pending review and will appear once approved.',
+					});
+				} else if (data.parentId) {
 					const updatedComments = comments.map((comment) => {
 						if (comment.id === data.parentId) {
 							return {
@@ -101,6 +109,21 @@ const CommentSection: FC<CommentSectionProps> = ({
 				<div className={styles.CommentSection__loading}>
 					<div className={styles.CommentSection__spinner} />
 					<p>Loading comments...</p>
+				</div>
+			</motion.div>
+		);
+	}
+
+	if (fetchError) {
+		return (
+			<motion.div
+				className={`${styles.CommentSection} ${className}`}
+				initial={{ opacity: 0 }}
+				animate={{ opacity: 1 }}
+				transition={{ duration: 0.6 }}
+			>
+				<div className={styles.CommentSection__loading}>
+					<p>Comments are currently unavailable. Please try again later.</p>
 				</div>
 			</motion.div>
 		);

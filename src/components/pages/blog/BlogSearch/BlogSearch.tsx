@@ -1,62 +1,43 @@
 'use client';
 import { motion, AnimatePresence } from 'motion/react';
 import type { FC } from 'react';
-import { useState, useMemo, useEffect } from 'react';
+import { useState } from 'react';
 
 import { SearchIcon } from 'assets/icons';
-import type { BlogPost } from 'types/blog';
 
 import styles from './BlogSearch.module.scss';
 
 interface BlogSearchProps {
-	posts: BlogPost[];
-	onFilterChange: (filteredPosts: BlogPost[]) => void;
+	allCategories: string[];
+	allTags: string[];
+	activeCategory: string;
+	activeTags: string[];
+	searchTerm: string;
+	filteredCount: number;
+	isFiltering: boolean;
+	onCategoryChange: (category: string) => void;
+	onTagToggle: (tag: string) => void;
+	onSearchChange: (value: string) => void;
+	onClearAll: () => void;
 }
 
-/**
- * BlogSearch component with horizontal category tabs and search functionality
- */
-const BlogSearch: FC<BlogSearchProps> = ({ posts, onFilterChange }) => {
-	const [searchTerm, setSearchTerm] = useState('');
-	const [selectedCategory, setSelectedCategory] = useState<string>('All');
+const BlogSearch: FC<BlogSearchProps> = ({
+	allCategories,
+	allTags,
+	activeCategory,
+	activeTags,
+	searchTerm,
+	filteredCount,
+	isFiltering,
+	onCategoryChange,
+	onTagToggle,
+	onSearchChange,
+	onClearAll,
+}) => {
 	const [isSearchOpen, setIsSearchOpen] = useState(false);
 
-	const allCategories = useMemo(() => {
-		const categories = new Set<string>();
-		posts.forEach((post) => {
-			categories.add(post.category);
-		});
-		return ['All', ...Array.from(categories).sort()];
-	}, [posts]);
-
-	const filteredPosts = useMemo(() => {
-		return posts.filter((post) => {
-			const matchesSearch =
-				searchTerm === '' ||
-				post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-				post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
-				post.category.toLowerCase().includes(searchTerm.toLowerCase());
-
-			const matchesCategory =
-				selectedCategory === 'All' || post.category === selectedCategory;
-
-			return matchesSearch && matchesCategory;
-		});
-	}, [posts, searchTerm, selectedCategory]);
-
-	useEffect(() => {
-		onFilterChange(filteredPosts);
-	}, [filteredPosts, onFilterChange]);
-
-	const handleCategoryChange = (category: string) => {
-		setSelectedCategory(category);
-	};
-
-	const clearFilters = () => {
-		setSearchTerm('');
-		setSelectedCategory('All');
-		setIsSearchOpen(false);
-	};
+	const hasActiveFilter =
+		searchTerm || activeCategory !== 'All' || activeTags.length > 0;
 
 	return (
 		<motion.div
@@ -65,17 +46,18 @@ const BlogSearch: FC<BlogSearchProps> = ({ posts, onFilterChange }) => {
 			animate={{ opacity: 1, y: 0 }}
 			transition={{ duration: 0.6, delay: 0.3, ease: [0.33, 1, 0.68, 1] }}
 		>
+			{/* Category row */}
 			<div className={styles.BlogSearch__container}>
 				<div className={styles.BlogSearch__categories}>
 					{allCategories.map((category, index) => (
 						<motion.button
 							key={category}
 							className={`${styles.BlogSearch__category} ${
-								selectedCategory === category
+								activeCategory === category
 									? styles.BlogSearch__category_active
 									: ''
 							}`}
-							onClick={() => handleCategoryChange(category)}
+							onClick={() => onCategoryChange(category)}
 							initial={{ opacity: 0, y: 10 }}
 							animate={{ opacity: 1, y: 0 }}
 							transition={{
@@ -99,6 +81,45 @@ const BlogSearch: FC<BlogSearchProps> = ({ posts, onFilterChange }) => {
 					<SearchIcon size={20} />
 				</motion.button>
 			</div>
+
+			{/* Tag pills */}
+			{allTags.length > 0 && (
+				<motion.div
+					className={styles.BlogSearch__tags_section}
+					initial={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					transition={{ duration: 0.4, delay: 0.5 }}
+				>
+					<span className={styles.BlogSearch__tags_label}>Filter by topic</span>
+					<div className={styles.BlogSearch__tags}>
+						{allTags.map((tag, index) => {
+							const isActive = activeTags.includes(tag);
+							return (
+								<motion.button
+									key={tag}
+									className={`${styles.BlogSearch__tag} ${
+										isActive ? styles.BlogSearch__tag_active : ''
+									}`}
+									onClick={() => onTagToggle(tag)}
+									initial={{ opacity: 0, scale: 0.85 }}
+									animate={{ opacity: 1, scale: 1 }}
+									transition={{
+										duration: 0.25,
+										delay: 0.5 + index * 0.03,
+										ease: [0.33, 1, 0.68, 1],
+									}}
+									whileHover={{ scale: 1.06 }}
+									whileTap={{ scale: 0.94 }}
+								>
+									{tag}
+								</motion.button>
+							);
+						})}
+					</div>
+				</motion.div>
+			)}
+
+			{/* Search input */}
 			<AnimatePresence>
 				{isSearchOpen && (
 					<motion.div
@@ -114,14 +135,14 @@ const BlogSearch: FC<BlogSearchProps> = ({ posts, onFilterChange }) => {
 								type="text"
 								placeholder="Search articles..."
 								value={searchTerm}
-								onChange={(e) => setSearchTerm(e.target.value)}
+								onChange={(e) => onSearchChange(e.target.value)}
 								className={styles.BlogSearch__search_input}
 								autoFocus
 							/>
 							{searchTerm && (
 								<motion.button
 									className={styles.BlogSearch__clear_button}
-									onClick={() => setSearchTerm('')}
+									onClick={() => onSearchChange('')}
 									initial={{ opacity: 0, scale: 0 }}
 									animate={{ opacity: 1, scale: 1 }}
 									exit={{ opacity: 0, scale: 0 }}
@@ -143,8 +164,10 @@ const BlogSearch: FC<BlogSearchProps> = ({ posts, onFilterChange }) => {
 					</motion.div>
 				)}
 			</AnimatePresence>
+
+			{/* Results bar */}
 			<AnimatePresence>
-				{(searchTerm || selectedCategory !== 'All') && (
+				{hasActiveFilter && (
 					<motion.div
 						className={styles.BlogSearch__results}
 						initial={{ opacity: 0, y: 10 }}
@@ -153,12 +176,19 @@ const BlogSearch: FC<BlogSearchProps> = ({ posts, onFilterChange }) => {
 						transition={{ duration: 0.3 }}
 					>
 						<span className={styles.BlogSearch__results_text}>
-							{filteredPosts.length} article
-							{filteredPosts.length !== 1 ? 's' : ''} found
+							{isFiltering ? (
+								<span className={styles.BlogSearch__results_loading}>
+									Filtering…
+								</span>
+							) : (
+								<>
+									{filteredCount} article{filteredCount !== 1 ? 's' : ''} found
+								</>
+							)}
 						</span>
 						<motion.button
 							className={styles.BlogSearch__clear_all}
-							onClick={clearFilters}
+							onClick={onClearAll}
 							whileHover={{ scale: 1.05 }}
 							whileTap={{ scale: 0.95 }}
 						>

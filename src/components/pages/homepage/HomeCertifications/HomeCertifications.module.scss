@@ -84,8 +84,8 @@
 			left: 0;
 			background: linear-gradient(
 				to right,
-                $color-surface 0%,
-                rgba($color-surface, 0) 100%
+				$color-black 0%,
+				rgba($color-black, 0) 100%
 			);
 		}
 
@@ -93,20 +93,20 @@
 			right: 0;
 			background: linear-gradient(
 				to left,
-                $color-surface 0%,
-                rgba($color-surface, 0) 100%
+				$color-black 0%,
+				rgba($color-black, 0) 100%
 			);
 		}
 	}
 
 	&__carousel {
 		display: flex;
-		gap: 3.5rem;
+		gap: 1rem;
 		will-change: transform;
 		padding: 0 4%;
 
 		@media #{$sm} {
-			gap: 2.5rem;
+			gap: 1rem;
 			padding: 0 2rem;
 		}
 	}

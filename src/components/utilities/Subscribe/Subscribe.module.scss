@@ -77,12 +77,14 @@
 		@media #{$md} {
 			flex-direction: row;
 			gap: rem(15);
+			align-items: flex-start;
 		}
 	}
 
 	&__inputWrapper {
 		position: relative;
 		width: 100%;
+		padding-bottom: rem(22);
 	}
 
 	&__input {
@@ -117,23 +119,23 @@
 	}
 
 	&__inputError {
-		border-color: #ef4444;
+		border-color: $color-error;
 		box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
 
 		&:focus {
-			border-color: #ef4444;
+			border-color: $color-error;
 			box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
 		}
 	}
 
 	&__error {
 		position: absolute;
-		top: 100%;
+		bottom: 0;
 		left: 0;
-		color: #ef4444;
+		color: $color-error;
 		font-size: rem(14);
-		margin-top: rem(4);
 		font-weight: 500;
+		text-align: left;
 	}
 
 	&__success {
@@ -182,6 +184,14 @@
 		margin: 0 auto;
 	}
 
+	&__submitError {
+		margin: rem(12) 0 0;
+		color: $color-error;
+		font-size: rem(14);
+		font-weight: 500;
+		text-align: center;
+	}
+
 	&__button {
 		padding: rem(16) rem(20);
 		background: $color-accent;
@@ -196,6 +206,7 @@
 		position: relative;
 		overflow: hidden;
 		width: rem(180);
+		white-space: nowrap;
 
 		&::before {
 			content: '';
@@ -243,6 +254,7 @@
 		@media #{$md} {
 			padding: rem(18) rem(36);
 			font-size: rem(18);
+			width: rem(200);
 		}
 	}
 }

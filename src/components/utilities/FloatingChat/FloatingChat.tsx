@@ -10,6 +10,7 @@ interface FloatingChatProps {
 
 const FloatingChat: React.FC<FloatingChatProps> = ({ chatbotUrl }) => {
 	const [isOpen, setIsOpen] = useState(false);
+	const [showTooltip, setShowTooltip] = useState(false);
 
 	const toggleChat = useCallback(() => {
 		setIsOpen((prev) => !prev);
@@ -17,65 +18,85 @@ const FloatingChat: React.FC<FloatingChatProps> = ({ chatbotUrl }) => {
 
 	return (
 		<>
-			<motion.button
-				className={styles.FloatingButton}
-				onClick={toggleChat}
-				whileHover={{ scale: 1.05 }}
-				whileTap={{ scale: 0.98 }}
-				initial={{ scale: 0, opacity: 0 }}
-				animate={{ scale: 1, opacity: 1 }}
-				transition={{
-					duration: 0.2,
-					ease: [0.4, 0, 0.2, 1],
-					type: 'spring',
-					stiffness: 300,
-					damping: 25,
-				}}
-				aria-label="Open chat"
-			>
-				<motion.div
-					animate={{ rotate: isOpen ? 45 : 0 }}
+			<div className={styles.container}>
+				<motion.button
+					className={styles.FloatingButton}
+					onClick={toggleChat}
+					onMouseEnter={() => setShowTooltip(true)}
+					onMouseLeave={() => setShowTooltip(false)}
+					whileHover={{ scale: 1.05 }}
+					whileTap={{ scale: 0.98 }}
+					initial={{ scale: 0, opacity: 0 }}
+					animate={{ scale: 1, opacity: 1 }}
 					transition={{
-						duration: 0.15,
+						duration: 0.2,
 						ease: [0.4, 0, 0.2, 1],
+						type: 'spring',
+						stiffness: 300,
+						damping: 25,
 					}}
-					className={styles.icon}
+					aria-label="Open chat"
 				>
-					{isOpen ? (
-						<svg
-							width="24"
-							height="24"
-							viewBox="0 0 24 24"
-							fill="none"
-							xmlns="http://www.w3.org/2000/svg"
+					<motion.div
+						animate={{ rotate: isOpen ? 45 : 0 }}
+						transition={{
+							duration: 0.15,
+							ease: [0.4, 0, 0.2, 1],
+						}}
+						className={styles.icon}
+					>
+						{isOpen ? (
+							<svg
+								width="24"
+								height="24"
+								viewBox="0 0 24 24"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<path
+									d="M18 6L6 18M6 6L18 18"
+									stroke="currentColor"
+									strokeWidth="2"
+									strokeLinecap="round"
+									strokeLinejoin="round"
+								/>
+							</svg>
+						) : (
+							<svg
+								width="24"
+								height="24"
+								viewBox="0 0 24 24"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<path
+									d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+									stroke="currentColor"
+									strokeWidth="2"
+									strokeLinecap="round"
+									strokeLinejoin="round"
+								/>
+							</svg>
+						)}
+					</motion.div>
+				</motion.button>
+				<AnimatePresence>
+					{showTooltip && !isOpen && (
+						<motion.div
+							className={styles.tooltip}
+							initial={{ opacity: 0, y: 10 }}
+							animate={{ opacity: 1, y: 0 }}
+							exit={{ opacity: 0, y: 10 }}
+							transition={{
+								duration: 0.2,
+								ease: [0.4, 0, 0.2, 1],
+							}}
 						>
-							<path
-								d="M18 6L6 18M6 6L18 18"
-								stroke="currentColor"
-								strokeWidth="2"
-								strokeLinecap="round"
-								strokeLinejoin="round"
-							/>
-						</svg>
-					) : (
-						<svg
-							width="24"
-							height="24"
-							viewBox="0 0 24 24"
-							fill="none"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<path
-								d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
-								stroke="currentColor"
-								strokeWidth="2"
-								strokeLinecap="round"
-								strokeLinejoin="round"
-							/>
-						</svg>
+							Chat with Me
+						</motion.div>
 					)}
-				</motion.div>
-			</motion.button>
+				</AnimatePresence>
+			</div>
 			<AnimatePresence mode="wait">
 				{isOpen && (
 					<motion.div

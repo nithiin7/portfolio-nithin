@@ -2,7 +2,7 @@ export interface Comment {
 	id: string;
 	postId: string;
 	authorName: string;
-	authorEmail: string;
+	authorEmail?: string;
 	content: string;
 	createdAt: string;
 	updatedAt?: string;
@@ -15,6 +15,7 @@ export interface CommentFormData {
 	authorEmail: string;
 	content: string;
 	parentId?: string;
+	recaptchaToken?: string;
 }
 
 export interface CommentSectionProps {
@@ -35,6 +36,7 @@ export interface DatabaseComment {
 	parent_id: string | null;
 	created_at: string;
 	updated_at: string;
+	is_approved: boolean;
 }
 
 /**
@@ -46,6 +48,7 @@ export interface DatabaseCommentCreate {
 	author_email: string;
 	content: string;
 	parent_id: string | null;
+	is_approved: boolean;
 }
 
 /**

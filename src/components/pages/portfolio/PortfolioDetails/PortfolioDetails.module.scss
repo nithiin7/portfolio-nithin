@@ -2,249 +2,198 @@
 @use 'styles/shared/variables' as *;
 
 .PortfolioDetailsPage {
-	max-width: 1920px;
+	max-width: rem(1920);
 	margin: 0 auto;
-	padding: 2rem 1rem;
+	padding: rem(100) 5% rem(80);
 	min-height: 100vh;
+
+	@media #{$md} {
+		padding: rem(130) 5% rem(100);
+	}
 
 	&__header {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		margin-bottom: 3rem;
-		padding-bottom: 1rem;
-		border-bottom: rem(1) solid $color-border;
+		margin-bottom: rem(56);
 	}
 
 	&__backButton {
-		display: flex;
+		display: inline-flex;
 		align-items: center;
-		gap: 0.5rem;
-		color: $color-text;
+		gap: rem(8);
+		color: $color-text-secondary;
 		text-decoration: none;
+		font-size: rem(14);
 		font-weight: 500;
-		transition: all 0.3s ease;
-		padding: 0.5rem 1rem;
-		border-radius: 0.5rem;
+		letter-spacing: 0.02em;
+		transition: $transition;
 
 		&:hover {
-			color: $color-title-hover;
-			background-color: $color-hover-bg;
-			transform: translateX(-5px);
+			color: $color-text-dark;
+			transform: translateX(-4px);
 		}
 
 		span {
-			font-size: 1rem;
+			font-size: rem(14);
 		}
 	}
 
 	&__projectNumber {
 		color: $color-number;
-		font-size: 1.125rem;
+		font-size: rem(13);
 		font-family: 'Courier New', monospace;
 		font-weight: 500;
-		transition: color 0.3s ease;
+		letter-spacing: 0.1em;
 	}
 
 	&__content {
-		@media #{$md} {
-			display: grid;
-			grid-template-columns: 2fr 1fr;
-			gap: 3rem;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: rem(48);
+
+		@media #{$lg} {
+			grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+			gap: rem(72);
+			align-items: start;
 		}
 	}
 
 	&__mainSection {
 		display: flex;
 		flex-direction: column;
-		gap: 2rem;
+		gap: rem(40);
+		min-width: 0;
 	}
 
 	&__projectHeader {
-		margin-bottom: 1rem;
+		display: flex;
+		flex-direction: column;
+		gap: rem(10);
 	}
 
 	&__projectTitle {
-		font-size: clamp(2rem, 6vw, 4rem);
+		font-size: clamp(rem(32), 6vw, rem(72));
 		font-weight: 700;
-		margin: 0 0 0.5rem 0;
-		line-height: 1.1;
+		margin: 0;
+		line-height: 1.05;
+		letter-spacing: -0.03em;
 		color: $color-text-dark;
 	}
 
 	&__projectYear {
-		color: $color-year;
-		font-size: 1.125rem;
+		color: $color-number;
+		font-size: rem(13);
+		font-family: 'Courier New', monospace;
+		letter-spacing: 0.1em;
 		margin: 0;
-		transition: color 0.3s ease;
 	}
 
 	&__projectImage {
 		width: 100%;
-		border-radius: 1rem;
+		border-radius: rem(12);
 		overflow: hidden;
-		box-shadow: 0 4px 20px $color-shadow;
-		transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-		position: relative;
-
-		&:hover {
-			transform: translateY(-8px) scale(1.02);
-			box-shadow: 0 12px 40px $color-shadow-hover;
-		}
+		aspect-ratio: 16 / 9;
+		background-color: $color-hover-bg;
 
 		img {
 			width: 100%;
-			height: auto;
-			object-fit: contain;
+			height: 100%;
+			object-fit: cover;
+			object-position: center top;
 			display: block;
-			transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-		}
-
-		&:hover img {
-			transform: scale(1.05);
 		}
 	}
 
 	&__projectDescription {
 		p {
-			font-size: 1.125rem;
-			line-height: 1.7;
-			color: $color-text;
-			margin: 0;
+			font-size: rem(17);
+			line-height: 1.75;
+			color: $color-text-secondary;
+			margin: 0 0 rem(16) 0;
+
+			&:last-child {
+				margin-bottom: 0;
+			}
 		}
 	}
 
 	&__projectLinks {
 		display: flex;
-		gap: 1rem;
+		gap: rem(12);
 		flex-wrap: wrap;
 	}
 
 	&__projectLink {
-		display: flex;
+		display: inline-flex;
 		align-items: center;
-		gap: 0.5rem;
-		padding: 0.75rem 1.5rem;
-		background-color: $color-tech-bg;
-		color: $color-tech-text;
+		gap: rem(8);
+		padding: rem(10) rem(24);
+		border: rem(1) solid $color-border;
+		color: $color-text-dark;
 		text-decoration: none;
-		border-radius: 2rem;
+		border-radius: rem(4);
 		font-weight: 500;
-		transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-		font-size: 0.875rem;
-		position: relative;
-		overflow: hidden;
-
-		&::before {
-			content: '';
-			position: absolute;
-			top: 0;
-			left: -100%;
-			width: 100%;
-			height: 100%;
-			background: linear-gradient(
-				90deg,
-				transparent,
-				rgba(255, 255, 255, 0.2),
-				transparent
-			);
-			transition: left 0.5s;
-		}
+		font-size: rem(14);
+		letter-spacing: 0.02em;
+		transition: $transition;
 
 		&:hover {
-			background-color: $color-tech-bg-hover;
-			transform: translateY(-3px) scale(1.05);
-			box-shadow: 0 8px 20px $color-shadow;
-		}
-
-		&:hover::before {
-			left: 100%;
+			background-color: $color-text-dark;
+			color: $color-primary;
+			border-color: $color-text-dark;
 		}
 	}
 
 	&__sidebar {
 		display: flex;
 		flex-direction: column;
-		gap: 2rem;
+		gap: rem(0);
+
+		@media #{$lg} {
+			position: sticky;
+			top: rem(100);
+		}
 	}
 
 	&__techSection,
 	&__featuresSection {
-		background-color: $color-hover-bg;
-		padding: 1.5rem;
-		border-radius: 1rem;
-		transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-		position: relative;
-		overflow: hidden;
+		padding: rem(24) 0;
+		border-top: rem(1) solid $color-border;
 
-		&::before {
-			content: '';
-			position: absolute;
-			top: 0;
-			left: 0;
-			right: 0;
-			height: 3px;
-			background: linear-gradient(
-				90deg,
-				transparent,
-				rgba(255, 255, 255, 0.3),
-				transparent
-			);
-			transform: translateX(-100%);
-			transition: transform 0.6s ease;
+		&:last-child {
+			border-bottom: rem(1) solid $color-border;
 		}
 	}
 
 	&__sectionTitle {
-		font-size: 1.25rem;
+		font-size: rem(11);
 		font-weight: 600;
-		margin: 0 0 1rem 0;
-		color: $color-text-dark;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: $color-number;
+		margin: 0 0 rem(16) 0;
 	}
 
 	&__techTags {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.5rem;
-		cursor: default;
+		gap: rem(6);
 	}
 
 	&__techTag {
-		padding: 0.5rem 1rem;
+		padding: rem(5) rem(12);
 		background-color: $color-tech-bg;
 		color: $color-tech-text;
-		border-radius: 2rem;
-		font-size: 0.875rem;
+		border-radius: rem(3);
+		font-size: rem(12);
 		font-weight: 500;
-		transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+		letter-spacing: 0.02em;
+		transition: $transition;
 		white-space: nowrap;
-		position: relative;
-		overflow: hidden;
-
-		&::before {
-			content: '';
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			width: 0;
-			height: 0;
-			background: rgba(255, 255, 255, 0.1);
-			border-radius: 50%;
-			transform: translate(-50%, -50%);
-			transition:
-				width 0.4s,
-				height 0.4s;
-		}
 
 		&:hover {
 			background-color: $color-tech-bg-hover;
-			transform: translateY(-3px) scale(1.1);
-			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-		}
-
-		&:hover::before {
-			width: 100%;
-			height: 100%;
 		}
 	}
 
@@ -254,22 +203,25 @@
 		margin: 0;
 		display: flex;
 		flex-direction: column;
-		gap: 0.75rem;
+		gap: rem(10);
 	}
 
 	&__featureItem {
 		position: relative;
-		padding-left: 1.5rem;
-		color: $color-text;
-		line-height: 1.5;
+		padding-left: rem(14);
+		color: $color-text-secondary;
+		font-size: rem(14);
+		line-height: 1.6;
 
 		&::before {
-			content: '•';
+			content: '';
 			position: absolute;
 			left: 0;
-			color: $color-text-dark;
-			font-weight: bold;
-			font-size: 1.2em;
+			top: rem(8);
+			width: rem(4);
+			height: rem(4);
+			border-radius: 50%;
+			background-color: $color-border;
 		}
 	}
 }

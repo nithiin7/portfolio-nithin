@@ -88,13 +88,10 @@ const CareerCard: React.FC<CareerCardProps> = ({
 						<span className={styles.CareerCard__type}>{experience.type}</span>
 					</div>
 				</div>
-				<ul className={styles.CareerCard__description}>
-					<div
-						dangerouslySetInnerHTML={{
-							__html: experience.description,
-						}}
-					/>
-				</ul>
+				<div
+					className={styles.CareerCard__description}
+					dangerouslySetInnerHTML={{ __html: experience.description }}
+				/>
 				<div className={styles.CareerCard__technologies}>
 					{experience.technologies.map((tech, index) => (
 						<span

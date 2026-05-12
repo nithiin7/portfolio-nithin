@@ -2,100 +2,105 @@
 @use 'src/styles/shared/mixin' as *;
 
 .contact {
-	position: relative;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	padding: rem(120) 4% rem(60);
 
-	&__nav {
-		position: absolute;
-		left: rem(15);
-		top: rem(15);
-		z-index: 99;
+	&__backButton {
+		display: inline-flex;
+		align-items: center;
+		gap: rem(8);
+		color: $color-text-secondary;
+		text-decoration: none;
+		font-size: rem(14);
+		font-weight: 500;
+		letter-spacing: 0.02em;
+		transition: $transition;
+		margin-bottom: rem(32);
 
-		a {
-			pointer-events: all;
-			display: inline-block;
-			padding: rem(10);
-			border-radius: rem(8);
-			transition: all 0.3s ease;
-			cursor: pointer;
-			position: relative;
-			z-index: 100;
+		&:hover {
+			color: $color-secondary;
+			transform: translateX(rem(-4));
 		}
 
-		svg {
-			height: rem(75);
-			width: rem(75);
-			pointer-events: all;
-			filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.2))
-				drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
-
-			@media #{$md} {
-				height: rem(100);
-				width: rem(100);
-			}
-		}
-
-		@media #{$md} {
-			left: rem(25);
-			top: rem(25);
+		span {
+			font-size: rem(14);
 		}
 	}
 
-	&__bg {
-		opacity: 1;
-		z-index: -20;
-		transform: none;
-		width: 40%;
-		height: fit-content;
-		position: absolute;
-		top: 4rem;
-		left: 50%;
-		pointer-events: none;
-		display: block;
-		max-width: 100%;
-	}
-
-	&__header {
-		position: relative;
+	&__inner {
+		flex: 1;
 		display: flex;
-		padding-top: 8rem;
+		align-items: center;
+	}
+
+	&__grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: rem(60);
+		width: 100%;
+		max-width: rem(1200);
+		margin: 0 auto;
+
+		@media #{$lg} {
+			grid-template-columns: 1fr 1.4fr;
+			gap: rem(80);
+			align-items: center;
+		}
+	}
+
+	&__left {
+		display: flex;
+		flex-direction: column;
+		gap: rem(40);
 
 		h1 {
-			font-size: 3em;
+			font-size: clamp(2.5rem, 4vw, 4.5rem);
 			color: $color-secondary;
 			font-weight: 700;
-			display: flex;
 			max-width: 15ch;
-			flex-direction: column;
 			text-wrap: balance;
 			line-height: 92.5%;
 			letter-spacing: -0.0275em;
 			text-transform: uppercase;
-
-			@media #{$md} {
-				font-size: 4em;
-			}
-
-			@media #{$lg} {
-				font-size: 5.65rem;
-			}
 		}
 	}
 
-	section {
-		position: relative;
-		padding: 5% 4%;
-		overflow-y: clip;
-		display: flex;
-		align-items: center;
-		justify-content: flex-start;
+	&__right {
+		width: 100%;
 	}
 
-	header {
-		position: relative;
-		padding: 5% 4%;
-		overflow-y: clip;
+	&__socials {
 		display: flex;
-		align-items: center;
-		justify-content: flex-start;
+		flex-direction: column;
+		gap: rem(10);
+		padding-top: rem(24);
+		border-top: rem(1) solid $color-grey-light;
+	}
+
+	&__socialsLabel {
+		color: $color-secondary;
+		text-transform: uppercase;
+		font-weight: 600;
+		font-size: rem(11);
+		letter-spacing: rem(1.5);
+		opacity: 0.5;
+		margin-bottom: rem(4);
+	}
+
+	&__link {
+		a {
+			color: $color-text;
+			line-height: 130%;
+			font-weight: 400;
+			font-size: rem(16);
+			text-decoration: none;
+			transition: color 0.2s ease;
+
+			&:hover {
+				color: $color-secondary;
+			}
+		}
 	}
 }

@@ -321,9 +321,9 @@ export const GET_BLOG_POSTS_BY_CATEGORY = gql`
  * @returns The blog posts data
  */
 export const GET_BLOG_POSTS_BY_TAG = gql`
-	query GetBlogPostsByTag($tag: String!, $limit: Int = 10, $skip: Int = 0) {
+	query GetBlogPostsByTag($tags: [String!]!, $limit: Int = 10, $skip: Int = 0) {
 		blogPostCollection(
-			where: { tags_contains_some: [$tag] }
+			where: { tags_contains_some: $tags }
 			limit: $limit
 			skip: $skip
 			order: [publishedDate_DESC]
