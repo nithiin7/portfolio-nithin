@@ -3,7 +3,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { sendForm } from 'emailjs-com';
 import { motion } from 'motion/react';
-import Link from 'next/link';
 import type { FC } from 'react';
 import { useRef, useState } from 'react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
@@ -12,7 +11,6 @@ import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import { TextArea, TextInput } from 'components/utilities';
-import { contactOptions } from 'constants/index';
 import { contactSchema } from 'helpers/validations';
 
 import styles from './ContactForm.module.scss';
@@ -200,7 +198,7 @@ const ContactForm: FC<ContactFormProps> = ({ className = '' }) => {
 										{...field}
 										placeholder="Hey! Let's connect."
 										label="Message"
-										rows={7}
+										rows={4}
 										errors={
 											errors?.message?.message ? [errors?.message?.message] : []
 										}
@@ -226,21 +224,6 @@ const ContactForm: FC<ContactFormProps> = ({ className = '' }) => {
 					</form>
 				</div>
 			)}
-			<div className={styles.ContactForm__socials}>
-				<div className={styles.ContactForm__options}>
-					<h3>FURTHER ENQUIRIES OR COLLABORATION</h3>
-					{contactOptions.map((option, index) => (
-						<div
-							key={`${option.subtitle}-${index}`}
-							className={styles.ContactForm__link}
-						>
-							<Link href={option.link} title={option.subtitle}>
-								{option.subtitle}
-							</Link>
-						</div>
-					))}
-				</div>
-			</div>
 		</div>
 	);
 };

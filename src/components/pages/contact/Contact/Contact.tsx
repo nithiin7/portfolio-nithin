@@ -1,82 +1,15 @@
 'use client';
-import { motion, useMotionValue, useSpring } from 'motion/react';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
+import { FiArrowLeft } from 'react-icons/fi';
 
-import Logo from 'assets/logos/logo.svg';
 import { ContactForm } from 'components/pages';
 import { MaskText } from 'components/utilities';
-import { useTheme } from 'contexts/ThemeContext';
-import type { Settings } from 'types/anim';
+import { contactOptions } from 'constants/index';
 
 import styles from './Contact.module.scss';
 
-const settings: Settings = {
-	damping: 100,
-	stiffness: 600,
-	maxDistance: 300,
-	intensity: 0.1,
-};
-
 const Contact: React.FC = () => {
-	const [componentRef, setComponentRef] = useState<HTMLDivElement | null>(null);
-
-	const { theme } = useTheme();
-
-	const x = useMotionValue(0);
-	const y = useMotionValue(0);
-
-	const springConfig = {
-		damping: settings.damping,
-		stiffness: settings.stiffness,
-	};
-	const springX = useSpring(x, springConfig);
-	const springY = useSpring(y, springConfig);
-
-	useEffect(() => {
-		const calculateDistance = (e: MouseEvent) => {
-			if (componentRef) {
-				const rect = componentRef.getBoundingClientRect();
-				const centerX = rect.left + rect.width / 2;
-				const centerY = rect.top + rect.height / 2;
-				const distanceX = e.clientX - centerX;
-				const distanceY = e.clientY - centerY;
-
-				if (
-					Math.abs(distanceX) < settings.maxDistance &&
-					Math.abs(distanceY) < settings.maxDistance
-				) {
-					const proximityFactor =
-						1 -
-						Math.max(Math.abs(distanceX), Math.abs(distanceY)) /
-							settings.maxDistance;
-					x.set(distanceX * proximityFactor * settings.intensity);
-					y.set(distanceY * proximityFactor * settings.intensity);
-				} else {
-					x.set(0);
-					y.set(0);
-				}
-			}
-		};
-
-		const handleMouseMove = (e: MouseEvent) => {
-			calculateDistance(e);
-		};
-
-		document.addEventListener(
-			'mousemove',
-			handleMouseMove as unknown as EventListener
-		);
-
-		return () => {
-			document.removeEventListener(
-				'mousemove',
-				handleMouseMove as unknown as EventListener
-			);
-		};
-	}, [componentRef, x, y]);
-
 	return (
 		<GoogleReCaptchaProvider
 			reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
@@ -88,67 +21,39 @@ const Contact: React.FC = () => {
 			}}
 		>
 			<div className={styles.contact}>
-				<header>
-					<div className={styles.contact__nav}>
-						<motion.div
-							ref={setComponentRef}
-							style={{
-								x: springX,
-								y: springY,
-								zIndex: 99,
-							}}
-						>
-							<Link href="/" aria-label="Back to home" title="Back">
-								<Logo />
-							</Link>
-						</motion.div>
+				<Link href="/" className={styles.contact__backButton}>
+					<FiArrowLeft size={16} />
+					<span>Back to Home</span>
+				</Link>
+				<div className={styles.contact__inner}>
+					<div className={styles.contact__grid}>
+						<div className={styles.contact__left}>
+							<h1>
+								<MaskText
+									phrases={['Say No More. Lets Bring your project to life']}
+								/>
+							</h1>
+							<div className={styles.contact__socials}>
+								<p className={styles.contact__socialsLabel}>
+									Further Enquiries or Collaboration
+								</p>
+								{contactOptions.map((option, index) => (
+									<div
+										key={`${option.subtitle}-${index}`}
+										className={styles.contact__link}
+									>
+										<Link href={option.link} title={option.subtitle}>
+											{option.subtitle}
+										</Link>
+									</div>
+								))}
+							</div>
+						</div>
+						<div className={styles.contact__right}>
+							<ContactForm />
+						</div>
 					</div>
-					<svg
-						className={styles.contact__bg}
-						width="1186"
-						height="1186"
-						viewBox="0 0 1186 1186"
-						fill="none"
-						xmlns="http://www.w3.org/2000/svg"
-						aria-hidden="true"
-					>
-						<circle
-							cx="593"
-							cy="593"
-							r="593"
-							fill="url(#paint0_linear_4949_267)"
-						></circle>
-						<defs>
-							<linearGradient
-								id="paint0_linear_4949_267"
-								x1="593"
-								y1="0"
-								x2="593"
-								y2="1186"
-								gradientUnits="userSpaceOnUse"
-							>
-								<stop
-									stopColor={theme === 'dark' ? '#DDDDD5' : '#393632'}
-								></stop>
-								<stop
-									offset="1"
-									stopColor={theme === 'dark' ? '#DDDDD5' : '#393632'}
-									stopOpacity="0"
-								></stop>
-							</linearGradient>
-						</defs>
-					</svg>
-					<div className={styles.contact__header}>
-						<h1>
-							<MaskText
-								phrases={['Say No More. Lets Bring your project to life']}
-							/>
-						</h1>
-					</div>
-				</header>
-				<section>
-					<ContactForm />
-				</section>
+				</div>
 			</div>
 		</GoogleReCaptchaProvider>
 	);

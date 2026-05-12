@@ -2,22 +2,16 @@
 @use 'styles/shared/variables' as *;
 
 .ContactForm {
-	display: flex;
-	flex-direction: column-reverse;
-	gap: rem(50);
 	width: 100%;
-
-	@media #{$md} {
-		flex-direction: row;
-		gap: rem(100);
-	}
 
 	&__container {
 		width: 100%;
+	}
 
-		@media #{$md} {
-			width: 50%;
-		}
+	&__form {
+		display: flex;
+		flex-direction: column;
+		gap: rem(4);
 	}
 
 	&__button {
@@ -37,6 +31,7 @@
 		text-transform: uppercase;
 		font-weight: 700;
 		overflow: hidden;
+		margin-top: rem(8);
 
 		&:hover {
 			.ContactForm__PerspectiveText {
@@ -104,11 +99,10 @@
 		justify-content: center;
 		text-align: center;
 		gap: rem(25);
-		width: 50%;
 
 		svg {
-			height: rem(150);
-			width: rem(150);
+			height: rem(120);
+			width: rem(120);
 		}
 
 		p {
@@ -120,31 +114,6 @@
 			font-size: rem(18);
 			text-wrap: balance;
 			max-width: 30ch;
-		}
-	}
-
-	&__socials {
-		max-width: 20ch;
-
-		h3 {
-			color: $color-secondary;
-			letter-spacing: 0;
-			line-height: 130%;
-			text-transform: uppercase;
-			font-weight: 700;
-			font-size: rem(18);
-			text-wrap: balance;
-			margin-bottom: rem(20);
-		}
-	}
-
-	&__link {
-		a {
-			color: $color-text;
-			line-height: 130%;
-			font-weight: 400;
-			overflow: hidden;
-			font-size: 1.125rem;
 		}
 	}
 }

@@ -1,8 +1,4 @@
-'use client';
-
 import type { ReactElement } from 'react';
-
-import { useTheme } from 'contexts/ThemeContext';
 
 interface FooterBackgroundProps {
 	className?: string;
@@ -18,8 +14,6 @@ interface FooterBackgroundProps {
 const FooterBackground = ({
 	className,
 }: FooterBackgroundProps): ReactElement => {
-	const { theme } = useTheme();
-
 	return (
 		<svg
 			width="1186"
@@ -45,10 +39,10 @@ const FooterBackground = ({
 					y2="1186"
 					gradientUnits="userSpaceOnUse"
 				>
-					<stop stopColor={theme === 'dark' ? '#2E2E2E' : '#393632'}></stop>
+					<stop style={{ stopColor: 'var(--color-grey-verylight)' }}></stop>
 					<stop
 						offset="1"
-						stopColor={theme === 'dark' ? '#2E2E2E' : '#393632'}
+						style={{ stopColor: 'var(--color-grey-verylight)' }}
 						stopOpacity="0"
 					></stop>
 				</linearGradient>
