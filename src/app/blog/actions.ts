@@ -20,6 +20,10 @@ export async function fetchFilteredPosts(
 	} else {
 		blogData = await loadBlogPosts(10, skip);
 	}
-	const { total, items } = blogData.data.blogPostCollection;
-	return { posts: items.map(convertContentfulBlogPost), total };
+	const collection = blogData?.data?.blogPostCollection;
+	if (!collection) return { posts: [], total: 0 };
+	return {
+		posts: collection.items.map(convertContentfulBlogPost),
+		total: collection.total,
+	};
 }

@@ -59,6 +59,14 @@
 		gap: rem(16);
 	}
 
+	&__filter_error {
+		text-align: center;
+		color: $color-error;
+		font-size: rem(14);
+		font-weight: 500;
+		margin: 0 0 rem(12);
+	}
+
 	&__search {
 		margin-bottom: rem(10);
 	}

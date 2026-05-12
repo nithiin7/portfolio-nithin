@@ -38,6 +38,7 @@ const BlogListing: FC<BlogListingProps> = ({
 	const [activeTags, setActiveTags] = useState<string[]>(initialTags);
 	const [searchTerm, setSearchTerm] = useState('');
 	const [loadMoreHovered, setLoadMoreHovered] = useState(false);
+	const [filterError, setFilterError] = useState(false);
 	const [isFiltering, startFilterTransition] = useTransition();
 	const [isLoadingMore, startLoadMoreTransition] = useTransition();
 
@@ -69,14 +70,20 @@ const BlogListing: FC<BlogListingProps> = ({
 	const handleCategoryChange = (category: string) => {
 		setActiveCategory(category);
 		setActiveTags([]);
+		setFilterError(false);
 		startFilterTransition(async () => {
-			const result = await fetchFilteredPosts(
-				0,
-				category !== 'All' ? category : undefined,
-				[]
-			);
-			setAllPosts(result.posts);
-			setDisplayTotal(result.total);
+			try {
+				const result = await fetchFilteredPosts(
+					0,
+					category !== 'All' ? category : undefined,
+					[]
+				);
+				setAllPosts(result.posts);
+				setDisplayTotal(result.total);
+			} catch {
+				setFilterError(true);
+				setActiveCategory(initialCategory);
+			}
 		});
 	};
 
@@ -86,10 +93,16 @@ const BlogListing: FC<BlogListingProps> = ({
 			: [...activeTags, tag];
 		setActiveTags(next);
 		setActiveCategory('All');
+		setFilterError(false);
 		startFilterTransition(async () => {
-			const result = await fetchFilteredPosts(0, undefined, next);
-			setAllPosts(result.posts);
-			setDisplayTotal(result.total);
+			try {
+				const result = await fetchFilteredPosts(0, undefined, next);
+				setAllPosts(result.posts);
+				setDisplayTotal(result.total);
+			} catch {
+				setFilterError(true);
+				setActiveTags([]);
+			}
 		});
 	};
 
@@ -97,21 +110,30 @@ const BlogListing: FC<BlogListingProps> = ({
 		setActiveCategory('All');
 		setActiveTags([]);
 		setSearchTerm('');
+		setFilterError(false);
 		startFilterTransition(async () => {
-			const result = await fetchFilteredPosts(0);
-			setAllPosts(result.posts);
-			setDisplayTotal(result.total);
+			try {
+				const result = await fetchFilteredPosts(0);
+				setAllPosts(result.posts);
+				setDisplayTotal(result.total);
+			} catch {
+				setFilterError(true);
+			}
 		});
 	};
 
 	const handleLoadMore = () => {
 		startLoadMoreTransition(async () => {
-			const result = await fetchFilteredPosts(
-				allPosts.length,
-				activeCategory !== 'All' ? activeCategory : undefined,
-				activeTags
-			);
-			setAllPosts((prev) => [...prev, ...result.posts]);
+			try {
+				const result = await fetchFilteredPosts(
+					allPosts.length,
+					activeCategory !== 'All' ? activeCategory : undefined,
+					activeTags
+				);
+				setAllPosts((prev) => [...prev, ...result.posts]);
+			} catch {
+				setFilterError(true);
+			}
 		});
 	};
 
@@ -194,6 +216,16 @@ const BlogListing: FC<BlogListingProps> = ({
 						</div>
 					</motion.div>
 				</section>
+				{filterError && (
+					<motion.p
+						className={styles.blog__filter_error}
+						initial={{ opacity: 0, y: -8 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{ duration: 0.3 }}
+					>
+						Failed to load filtered results. Please try again.
+					</motion.p>
+				)}
 				<section className={styles.blog__search}>
 					<BlogSearch
 						allCategories={allCategories}
