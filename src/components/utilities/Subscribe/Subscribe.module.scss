@@ -77,12 +77,14 @@
 		@media #{$md} {
 			flex-direction: row;
 			gap: rem(15);
+			align-items: flex-start;
 		}
 	}
 
 	&__inputWrapper {
 		position: relative;
 		width: 100%;
+		padding-bottom: rem(22);
 	}
 
 	&__input {
@@ -127,10 +129,11 @@
 	}
 
 	&__error {
-		display: block;
+		position: absolute;
+		bottom: 0;
+		left: 0;
 		color: $color-error;
 		font-size: rem(14);
-		margin-top: rem(6);
 		font-weight: 500;
 		text-align: left;
 	}
@@ -203,6 +206,7 @@
 		position: relative;
 		overflow: hidden;
 		width: rem(180);
+		white-space: nowrap;
 
 		&::before {
 			content: '';
@@ -250,6 +254,7 @@
 		@media #{$md} {
 			padding: rem(18) rem(36);
 			font-size: rem(18);
+			width: rem(200);
 		}
 	}
 }

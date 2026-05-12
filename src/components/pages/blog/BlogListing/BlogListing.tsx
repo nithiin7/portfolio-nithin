@@ -4,7 +4,6 @@ import type { FC } from 'react';
 import { useState, useMemo, useEffect, useTransition } from 'react';
 
 import { fetchFilteredPosts } from 'app/blog/actions';
-import { Navbar } from 'components/layouts';
 import {
 	BlogBackground,
 	BlogCard,
@@ -119,7 +118,6 @@ const BlogListing: FC<BlogListingProps> = ({
 	if (posts.length === 0) {
 		return (
 			<div className={styles.blog}>
-				<Navbar />
 				<BlogBackground />
 				<motion.div
 					className={styles.blog__container}
@@ -157,7 +155,6 @@ const BlogListing: FC<BlogListingProps> = ({
 
 	return (
 		<div className={styles.blog}>
-			<Navbar />
 			<BlogBackground />
 			<motion.div
 				className={styles.blog__container}
@@ -180,6 +177,13 @@ const BlogListing: FC<BlogListingProps> = ({
 							and technology
 						</p>
 						<div className={styles.blog__cta}>
+							<ColorMaskButton
+								text="Read on Medium"
+								href="https://medium.com/@nithiin7"
+								variant="default"
+								target="_blank"
+								rel="noopener noreferrer"
+							/>
 							<ColorMaskButton
 								text="Read more on DEV.to"
 								href="https://dev.to/nithiin7"

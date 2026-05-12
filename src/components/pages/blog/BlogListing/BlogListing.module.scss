@@ -54,7 +54,9 @@
 	&__cta {
 		margin-top: rem(24);
 		display: flex;
+		flex-wrap: wrap;
 		justify-content: center;
+		gap: rem(16);
 	}
 
 	&__search {
