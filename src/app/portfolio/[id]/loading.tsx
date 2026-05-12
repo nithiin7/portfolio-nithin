@@ -17,6 +17,7 @@ export default function PortfolioDetailsLoading(): React.ReactElement {
 					<div className={styles.PortfolioDetailsLoading__description}>
 						<div className={styles.PortfolioDetailsLoading__description_line} />
 						<div className={styles.PortfolioDetailsLoading__description_line} />
+						<div className={styles.PortfolioDetailsLoading__description_line} />
 						<div
 							className={styles.PortfolioDetailsLoading__description_line_short}
 						/>

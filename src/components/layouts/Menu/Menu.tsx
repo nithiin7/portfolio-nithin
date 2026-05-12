@@ -1,5 +1,6 @@
 'use client';
 import { AnimatePresence, motion, useScroll } from 'motion/react';
+import { usePathname } from 'next/navigation';
 import type { ReactElement, MouseEvent } from 'react';
 import { useEffect, useRef, useState } from 'react';
 
@@ -38,10 +39,18 @@ const Menu = ({
 	className = '',
 	variant = 'default',
 }: MenuProps): ReactElement => {
+	const pathname = usePathname();
+	const isHomePage = pathname === '/';
+
 	const [isMenuActive, setIsMenuActive] = useState<boolean>(false);
-	const [hidden, setHidden] = useState<boolean>(false);
+	const [hidden, setHidden] = useState<boolean>(!isHomePage);
 
 	const prevScrollYRef = useRef(0);
+
+	useEffect(() => {
+		setHidden(!isHomePage);
+		setIsMenuActive(false);
+	}, [isHomePage]);
 
 	const menuRef = useKeyboardNavigation({
 		onEscape: () => setIsMenuActive(false),
@@ -82,23 +91,29 @@ const Menu = ({
 	};
 
 	useEffect(() => {
-		/**
-		 * Handles scroll behavior to toggle the menu's visibility based on scroll direction.
-		 */
 		const handleScroll = () => {
 			const currentScrollY = scrollY.get();
 			const prevScrollY = prevScrollYRef.current;
 			const viewportHeight = window.innerHeight;
 
-			if (currentScrollY < prevScrollY) {
-				setHidden(false);
-			} else if (
-				currentScrollY > viewportHeight &&
-				currentScrollY > prevScrollY
-			) {
-				setHidden(true);
-				if (isMenuActive) {
-					setIsMenuActive(false);
+			if (isHomePage) {
+				// Homepage: only reveal after scrolling past the hero, hide when scrolling back up
+				if (currentScrollY < prevScrollY) {
+					setHidden(false);
+				} else if (
+					currentScrollY > viewportHeight &&
+					currentScrollY > prevScrollY
+				) {
+					setHidden(true);
+					if (isMenuActive) setIsMenuActive(false);
+				}
+			} else {
+				// Other pages: standard sticky behaviour — hide on scroll down, show on scroll up
+				if (currentScrollY <= 50 || currentScrollY < prevScrollY) {
+					setHidden(true);
+				} else if (currentScrollY > 50 && currentScrollY > prevScrollY) {
+					setHidden(false);
+					if (isMenuActive) setIsMenuActive(false);
 				}
 			}
 
@@ -110,7 +125,7 @@ const Menu = ({
 		return () => {
 			window.removeEventListener('scroll', handleScroll);
 		};
-	}, [scrollY, isMenuActive]);
+	}, [scrollY, isMenuActive, isHomePage]);
 
 	return (
 		<>
