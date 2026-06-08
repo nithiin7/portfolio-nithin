@@ -31,6 +31,7 @@
 		"@studio-freight/react-lenis": "^0.0.43",
 		"@supabase/supabase-js": "^2.54.0",
 		"@svgr/webpack": "^8.1.0",
+		"@vercel/analytics": "^2.0.1",
 		"contentful": "^11.7.15",
 		"deepmerge": "^4.3.1",
 		"emailjs-com": "^3.2.0",
