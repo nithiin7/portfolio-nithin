@@ -102,12 +102,14 @@ const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({
 			{lightboxOpen && (
 				<div
 					className={styles.PortfolioGallery__lightbox}
+					role="presentation"
 					onClick={closeLightbox}
 					onKeyDown={handleKeyDown}
 					tabIndex={0}
 				>
 					<div
 						className={styles.PortfolioGallery__lightboxContent}
+						role="presentation"
 						onClick={(e) => e.stopPropagation()}
 					>
 						<button

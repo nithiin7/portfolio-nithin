@@ -46,16 +46,16 @@ Source for [portfolio-nithin.vercel.app](https://portfolio-nithin.vercel.app) �
 
 ## 🛠 Tech Stack
 
-| Layer | Tools |
-| --- | --- |
-| Framework | Next.js 15 (App Router, Turbopack), React 19, TypeScript |
-| Styling | SCSS Modules, CSS custom properties (theming) |
-| Content | Contentful CMS, Apollo Client (GraphQL) |
-| Data | Supabase (comments, newsletter) |
-| Animation | Motion (Framer Motion), GSAP, Lenis |
-| Forms | React Hook Form, Yup, EmailJS, reCAPTCHA v3 |
-| Tooling | Storybook, Plop, Husky, Commitlint, ESLint, Prettier |
-| Observability | Sentry, Google Tag Manager |
+| Layer         | Tools                                                    |
+| ------------- | -------------------------------------------------------- |
+| Framework     | Next.js 15 (App Router, Turbopack), React 19, TypeScript |
+| Styling       | SCSS Modules, CSS custom properties (theming)            |
+| Content       | Contentful CMS, Apollo Client (GraphQL)                  |
+| Data          | Supabase (comments, newsletter)                          |
+| Animation     | Motion (Framer Motion), GSAP, Lenis                      |
+| Forms         | React Hook Form, Yup, EmailJS, reCAPTCHA v3              |
+| Tooling       | Storybook, Plop, Husky, Commitlint, ESLint, Prettier     |
+| Observability | Sentry, Google Tag Manager                               |
 
 ## 🚀 Getting Started
 
@@ -94,16 +94,16 @@ Then open [http://localhost:3000](http://localhost:3000).
 
 ## 📜 Available Scripts
 
-| Command | Description |
-| --- | --- |
-| `npm run dev` | Start the dev server with Turbopack |
-| `npm run build` | Create a production build |
-| `npm run start` | Serve the production build |
-| `npm run lint` / `npm run eslint` | Lint the codebase |
-| `npm run prettier:fix` | Format the codebase |
-| `npm run storybook` | Launch Storybook on port 6006 |
-| `npm run generate` | Scaffold a component or page via Plop |
-| `npm run release` | Cut a release with standard-version |
+| Command                           | Description                           |
+| --------------------------------- | ------------------------------------- |
+| `npm run dev`                     | Start the dev server with Turbopack   |
+| `npm run build`                   | Create a production build             |
+| `npm run start`                   | Serve the production build            |
+| `npm run lint` / `npm run eslint` | Lint the codebase                     |
+| `npm run prettier:fix`            | Format the codebase                   |
+| `npm run storybook`               | Launch Storybook on port 6006         |
+| `npm run generate`                | Scaffold a component or page via Plop |
+| `npm run release`                 | Cut a release with standard-version   |
 
 ## 🗂 Project Structure
 

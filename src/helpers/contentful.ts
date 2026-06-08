@@ -12,11 +12,16 @@ import {
 } from 'queries';
 import { GET_PORTFOLIO, GET_ALL_PORTFOLIO_IDS } from 'queries/portfolio';
 import type { BlogPost, BlogCategory, BlogTag } from 'types/blog';
-import type { PageData, PortfolioData } from 'types/contentful';
 import type {
+	PageData,
+	PortfolioData,
 	BlogPostItem,
 	BlogCategoryItem,
 	BlogTagItem,
+	BlogPostsResponse,
+	BlogPostBySlugResponse,
+	BlogCategoriesResponse,
+	BlogTagsResponse,
 } from 'types/contentful';
 
 import { initializeApollo } from '../../lib/apolloClient';
@@ -113,15 +118,15 @@ export const convertContentfulTag = (contentfulTag: BlogTagItem): BlogTag => {
  *
  * @param {number} limit - The maximum number of posts to fetch.
  * @param {number} skip - The number of posts to skip.
- * @returns {Promise<ApolloQueryResult<any>>} - A promise that resolves to the blog posts data from Contentful.
+ * @returns {Promise<ApolloQueryResult<BlogPostsResponse>>} - A promise that resolves to the blog posts data from Contentful.
  */
 const loadBlogPostsByCategory = async (
 	category: string,
 	limit = 10,
 	skip = 0
-): Promise<ApolloQueryResult<any>> => {
+): Promise<ApolloQueryResult<BlogPostsResponse>> => {
 	const apolloClient = initializeApollo();
-	const data = await apolloClient.query({
+	const data = await apolloClient.query<BlogPostsResponse>({
 		query: GET_BLOG_POSTS_BY_CATEGORY,
 		variables: { category, limit, skip },
 	});
@@ -132,33 +137,39 @@ const loadBlogPostsByTag = async (
 	tags: string[],
 	limit = 10,
 	skip = 0
-): Promise<ApolloQueryResult<any>> => {
+): Promise<ApolloQueryResult<BlogPostsResponse>> => {
 	const apolloClient = initializeApollo();
-	const data = await apolloClient.query({
+	const data = await apolloClient.query<BlogPostsResponse>({
 		query: GET_BLOG_POSTS_BY_TAG,
 		variables: { tags, limit, skip },
 	});
 	return data;
 };
 
-const loadBlogCategories = async (): Promise<ApolloQueryResult<any>> => {
+const loadBlogCategories = async (): Promise<
+	ApolloQueryResult<BlogCategoriesResponse>
+> => {
 	const apolloClient = initializeApollo();
-	const data = await apolloClient.query({ query: GET_BLOG_CATEGORIES });
+	const data = await apolloClient.query<BlogCategoriesResponse>({
+		query: GET_BLOG_CATEGORIES,
+	});
 	return data;
 };
 
-const loadBlogTags = async (): Promise<ApolloQueryResult<any>> => {
+const loadBlogTags = async (): Promise<ApolloQueryResult<BlogTagsResponse>> => {
 	const apolloClient = initializeApollo();
-	const data = await apolloClient.query({ query: GET_BLOG_TAGS });
+	const data = await apolloClient.query<BlogTagsResponse>({
+		query: GET_BLOG_TAGS,
+	});
 	return data;
 };
 
 const loadBlogPosts = async (
 	limit = 10,
 	skip = 0
-): Promise<ApolloQueryResult<any>> => {
+): Promise<ApolloQueryResult<BlogPostsResponse>> => {
 	const apolloClient = initializeApollo();
-	const data = await apolloClient.query({
+	const data = await apolloClient.query<BlogPostsResponse>({
 		query: GET_ALL_BLOG_POSTS,
 		variables: { limit, skip },
 	});
@@ -170,13 +181,13 @@ const loadBlogPosts = async (
  * Fetches a specific blog post by slug from Contentful using Apollo Client.
  *
  * @param {string} slug - The slug of the blog post to fetch.
- * @returns {Promise<ApolloQueryResult<any>>} - A promise that resolves to the blog post data from Contentful.
+ * @returns {Promise<ApolloQueryResult<BlogPostBySlugResponse>>} - A promise that resolves to the blog post data from Contentful.
  */
 const loadBlogPostBySlug = async (
 	slug: string
-): Promise<ApolloQueryResult<any>> => {
+): Promise<ApolloQueryResult<BlogPostBySlugResponse>> => {
 	const apolloClient = initializeApollo();
-	const data = await apolloClient.query({
+	const data = await apolloClient.query<BlogPostBySlugResponse>({
 		query: GET_BLOG_POST_BY_SLUG,
 		variables: { slug },
 	});
