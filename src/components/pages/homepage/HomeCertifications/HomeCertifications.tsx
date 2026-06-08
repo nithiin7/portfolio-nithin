@@ -132,6 +132,7 @@ const HomeCertifications: FC<HomeCertificationsProps> = ({
 						<div
 							className={styles.HomeCertifications__carousel}
 							ref={carouselRef}
+							role="presentation"
 							onMouseEnter={handleMouseEnter}
 							onMouseLeave={handleMouseLeave}
 							style={{ display: 'flex', width: '300%' }}

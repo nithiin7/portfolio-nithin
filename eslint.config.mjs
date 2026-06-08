@@ -155,14 +155,6 @@ export default [
 		},
 	},
 	{
-		files: [
-			'**/*.ts',
-			'**/*.tsx',
-			'**/*.js',
-			'**/*.jsx',
-			'**/*.mjs',
-			'**/*.cjs',
-		],
 		ignores: [
 			'node_modules/**',
 			'.next/**',
@@ -175,6 +167,7 @@ export default [
 			'*.config.mjs',
 			'next.config.js',
 			'next.config.mjs',
+			'next-env.d.ts',
 			'postcss.config.js',
 			'tailwind.config.js',
 			'tailwind.config.ts',

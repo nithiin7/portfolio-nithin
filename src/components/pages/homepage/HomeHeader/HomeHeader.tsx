@@ -175,9 +175,9 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 	/**
 	 * Handles smooth scrolling to sections when navigation links are clicked.
 	 * @param {string} href - The href attribute of the clicked link
-	 * @param {MouseEvent} e - The click event
+	 * @param {{ preventDefault: () => void }} e - The click event
 	 */
-	const handleNavClick = (href: string, e: MouseEvent) => {
+	const handleNavClick = (href: string, e: { preventDefault: () => void }) => {
 		if (href.startsWith('/#')) {
 			e.preventDefault();
 			const targetId = href.replace('/#', '');
@@ -336,7 +336,7 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 								<motion.a
 									href={link.href}
 									className={styles.HomeHeader__link}
-									onClick={(e) => handleNavClick(link.href, e as any)}
+									onClick={(e) => handleNavClick(link.href, e)}
 									whileHover={{
 										y: -2,
 										transition: { duration: 0.2, ease: 'easeOut' },

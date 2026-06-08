@@ -21,14 +21,23 @@ interface ServiceResponse<T> {
 type Filters = Record<string, string | number | boolean | null | undefined>;
 
 /**
- * Generic data type for database operations
+ * Generic data type for database operations - accepts any DTO shape
+ * (e.g. `DatabaseCommentCreate`) without requiring an index signature
  */
-type DatabaseData = Record<string, any>;
+type DatabaseData = object;
+
+/**
+ * Supabase query builder returned by `client.from(table).select(...)`,
+ * used as the input/output of a query transformation callback
+ */
+type SupabaseQueryBuilder = ReturnType<
+	ReturnType<SupabaseClient['from']>['select']
+>;
 
 /**
  * Query builder function type
  */
-type QueryBuilder = (query: any) => any;
+type QueryBuilder = (query: SupabaseQueryBuilder) => SupabaseQueryBuilder;
 
 /**
  * Base service class providing generic CRUD operations for Supabase tables

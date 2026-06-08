@@ -43,18 +43,18 @@ const Modal: FC<ModalProps> = ({
 		}
 	};
 
-	const handleEscapeKey = (e: KeyboardEvent) => {
-		if (e.key === 'Escape') {
-			onClose();
-		}
-	};
-
 	useEffect(() => {
-		if (isOpen) {
-			document.addEventListener('keydown', handleEscapeKey);
-			return () => document.removeEventListener('keydown', handleEscapeKey);
-		}
-	}, [isOpen]);
+		if (!isOpen) return;
+
+		const handleEscapeKey = (e: KeyboardEvent) => {
+			if (e.key === 'Escape') {
+				onClose();
+			}
+		};
+
+		document.addEventListener('keydown', handleEscapeKey);
+		return () => document.removeEventListener('keydown', handleEscapeKey);
+	}, [isOpen, onClose]);
 
 	return (
 		<AnimatePresence>
