@@ -70,7 +70,7 @@ Source for [portfolio-nithin.vercel.app](https://portfolio-nithin.vercel.app) �
 ```bash
 git clone git@github.com:nithiin7/portfolio-nithin.git
 cd portfolio-nithin
-npm install
+yarn install
 ```
 
 Create a `.env` file at the project root (see `.env.example` for the full list):
@@ -87,23 +87,23 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=<your_supabase_anon_key>
 Start the dev server:
 
 ```bash
-npm run dev
+yarn dev
 ```
 
 Then open [http://localhost:3000](http://localhost:3000).
 
 ## 📜 Available Scripts
 
-| Command                           | Description                           |
-| --------------------------------- | ------------------------------------- |
-| `npm run dev`                     | Start the dev server with Turbopack   |
-| `npm run build`                   | Create a production build             |
-| `npm run start`                   | Serve the production build            |
-| `npm run lint` / `npm run eslint` | Lint the codebase                     |
-| `npm run prettier:fix`            | Format the codebase                   |
-| `npm run storybook`               | Launch Storybook on port 6006         |
-| `npm run generate`                | Scaffold a component or page via Plop |
-| `npm run release`                 | Cut a release with standard-version   |
+| Command                     | Description                           |
+| --------------------------- | ------------------------------------- |
+| `yarn dev`                  | Start the dev server with Turbopack   |
+| `yarn build`                | Create a production build             |
+| `yarn start`                | Serve the production build            |
+| `yarn lint` / `yarn eslint` | Lint the codebase                     |
+| `yarn prettier:fix`         | Format the codebase                   |
+| `yarn storybook`            | Launch Storybook on port 6006         |
+| `yarn generate`             | Scaffold a component or page via Plop |
+| `yarn release`              | Cut a release with standard-version   |
 
 ## 🗂 Project Structure
 
