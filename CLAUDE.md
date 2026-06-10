@@ -167,7 +167,7 @@ Default to **no comments**. Only comment when the _why_ is non-obvious (hidden c
 - **Barrel exports**: Every component folder group has an `index.ts`. Add new exports there; import from the barrel, not the file directly.
 - **Service layer**: Never call `supabase.from(...)` directly in components or API routes — go through `commentsService` / `subscriptionsService` / `baseService`.
 - **Content converters**: Use `convertContentfulBlogPost`, `convertContentfulCategory`, etc. from `helpers/contentful.ts` when mapping API responses to app types.
-- **Plop generators**: Use `yarn generate` to scaffold new components or pages — it creates the `.tsx`, `.module.scss`, `index.ts`, and `.stories.ts` files from templates.
+- **Plop generators**: Use `pnpm generate` to scaffold new components or pages — it creates the `.tsx`, `.module.scss`, `index.ts`, and `.stories.ts` files from templates.
 
 ---
 
@@ -197,20 +197,20 @@ Default to **no comments**. Only comment when the _why_ is non-obvious (hidden c
 ## 7. Dev Commands
 
 ```bash
-yarn dev              # Start dev server (Next.js + Turbopack)
-yarn build            # Production build
-yarn start            # Start production server
-yarn lint             # Next.js built-in lint
-yarn eslint           # ESLint check
-yarn eslint:fix       # ESLint auto-fix
-yarn prettier         # Prettier check
-yarn prettier:fix     # Prettier auto-fix
-yarn generate         # Plop — scaffold a new component or page
-yarn storybook        # Storybook dev server on :6006
-yarn build-storybook  # Build Storybook static site
-yarn release          # standard-version release (patch)
-yarn release:minor    # minor version bump
-yarn release:major    # major version bump
+pnpm dev              # Start dev server (Next.js + Turbopack)
+pnpm build            # Production build
+pnpm start            # Start production server
+pnpm lint             # Next.js built-in lint
+pnpm eslint           # ESLint check
+pnpm eslint:fix       # ESLint auto-fix
+pnpm prettier         # Prettier check
+pnpm prettier:fix     # Prettier auto-fix
+pnpm generate         # Plop — scaffold a new component or page
+pnpm storybook        # Storybook dev server on :6006
+pnpm build-storybook  # Build Storybook static site
+pnpm release          # standard-version release (patch)
+pnpm release:minor    # minor version bump
+pnpm release:major    # major version bump
 ```
 
 Pre-commit hook runs `prettier:fix` + `eslint:fix` on staged files via lint-staged. Commit messages must follow Conventional Commits (`feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, etc.).
@@ -241,7 +241,7 @@ Pre-commit hook runs `prettier:fix` + `eslint:fix` on staged files via lint-stag
 
 **Do:**
 
-- Use `yarn generate` (Plop) when creating new components — it scaffolds all required files.
+- Use `pnpm generate` (Plop) when creating new components — it scaffolds all required files.
 - Import from barrel `index.ts` files: `import { Button } from 'components/utilities'`.
 - Use `$color-*` SCSS variables for all colors — never hardcode hex values.
 - Keep reusable animation variants in `helpers/animations.ts`.
@@ -277,7 +277,7 @@ Pre-commit hook runs `prettier:fix` + `eslint:fix` on staged files via lint-stag
 - Styling: SCSS Modules with `$color-*` vars. No inline styles except for Motion `style` props.
 - Data fetching: Server Components with Apollo for Contentful. Service classes for Supabase.
 - Forms: React Hook Form + Yup — don't invent alternatives.
-- Code generation: Always suggest `yarn generate` for new components; follow the Plop template structure.
+- Code generation: Always suggest `pnpm generate` for new components; follow the Plop template structure.
 
 **Before making changes:**
 

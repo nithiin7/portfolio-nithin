@@ -93,14 +93,25 @@
 	},
 	"lint-staged": {
 		"./*/**/*.{js,jsx,ts,tsx}": [
-			"npm run prettier:fix",
-			"npm run eslint:fix"
+			"pnpm run prettier:fix",
+			"pnpm run eslint:fix"
 		],
 		"*.{json,md}": [
-			"npm run prettier:fix"
+			"pnpm run prettier:fix"
 		]
 	},
-	"resolutions": {
-		"@types/react": "19.0.10"
+	"pnpm": {
+		"overrides": {
+			"@types/react": "19.0.10"
+		},
+		"onlyBuiltDependencies": [
+			"@parcel/watcher",
+			"@sentry/cli",
+			"core-js",
+			"core-js-pure",
+			"esbuild",
+			"sharp",
+			"unrs-resolver"
+		]
 	}
 }
