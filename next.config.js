@@ -20,6 +20,7 @@ const nextConfig = {
 			'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9saXRzdnlmYmJrZGprc21vdGVvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQzMTMzOTUsImV4cCI6MjA2OTg4OTM5NX0.fDzKyRu0-Frb6uK4JEWhQ9q0vdxYZF5JQQFEYfgo9_A',
 	},
 	images: {
+		qualities: [90, 100],
 		remotePatterns: [
 			{
 				protocol: 'https',
@@ -89,6 +90,8 @@ export default withSentryConfig(nextConfig, {
 	project: 'javascript-nextjs',
 	silent: true,
 	widenClientFileUpload: true,
-	disableLogger: true,
-	automaticVercelMonitors: true,
+	webpack: {
+		treeshake: { removeDebugLogging: true },
+		automaticVercelMonitors: true,
+	},
 });
