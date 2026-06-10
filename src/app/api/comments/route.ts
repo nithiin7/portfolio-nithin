@@ -38,20 +38,12 @@ export async function GET(request: NextRequest) {
 			await commentsService.getCommentsByPostId(postId);
 
 		if (error) {
-			console.error('Error fetching comments:', error);
-			return NextResponse.json(
-				{ error: 'Failed to fetch comments' },
-				{ status: 500 }
-			);
+			return NextResponse.json({ comments: [] });
 		}
 
 		return NextResponse.json({ comments: comments || [] });
-	} catch (error) {
-		console.error('Error in GET /api/comments:', error);
-		return NextResponse.json(
-			{ error: 'Internal server error' },
-			{ status: 500 }
-		);
+	} catch {
+		return NextResponse.json({ comments: [] });
 	}
 }
 
