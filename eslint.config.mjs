@@ -67,7 +67,9 @@ export default [
 		},
 		rules: {
 			'import/no-unresolved': 'error',
-			'import/named': 'error',
+			// TypeScript validates named imports; the import plugin cannot follow
+			// motion/react's export-map re-exports and false-positives in CI.
+			'import/named': 'off',
 			'import/default': 'error',
 			'import/export': 'error',
 			'import/order': [
