@@ -362,7 +362,7 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 													isFirstParagraph = false;
 													return (
 														<p
-															className={`${styles.BlogDetail__content_p} ${styles.BlogDetail__content_p_dropcap}`}
+															className={`${styles.BlogDetail__content_p} ${styles.BlogDetail__content_p_lede}`}
 														>
 															{children}
 														</p>
