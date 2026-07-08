@@ -1,6 +1,17 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
+import {
+	createRateLimiter,
+	isRecaptchaConfigured,
+	verifyRecaptcha,
+} from 'helpers/apiProtection';
+
+const isRateLimited = createRateLimiter({
+	max: 10,
+	windowMs: 10 * 60 * 1000,
+});
+
 // Keep this profile in sync with the resume and Contentful content — it is
 // the only knowledge the palette AI has about Nithin.
 const PROFILE = `
@@ -38,6 +49,13 @@ export async function POST(request: NextRequest) {
 		);
 	}
 
+	if (isRateLimited(request)) {
+		return NextResponse.json(
+			{ error: 'Too many questions — please try again in a few minutes.' },
+			{ status: 429 }
+		);
+	}
+
 	try {
 		const body = await request.json();
 		const question =
@@ -55,6 +73,22 @@ export async function POST(request: NextRequest) {
 				{ error: 'Question is too long (max 500 characters)' },
 				{ status: 400 }
 			);
+		}
+
+		// Skipped only when no RECAPTCHA_SECRET_KEY is configured (local dev).
+		if (isRecaptchaConfigured()) {
+			const token =
+				typeof body.recaptchaToken === 'string' ? body.recaptchaToken : '';
+			const recaptcha = token
+				? await verifyRecaptcha(token)
+				: { valid: false, score: 0 };
+
+			if (!recaptcha.valid) {
+				return NextResponse.json(
+					{ error: 'Verification failed — please try again.' },
+					{ status: 400 }
+				);
+			}
 		}
 
 		const response = await fetch('https://api.openai.com/v1/chat/completions', {

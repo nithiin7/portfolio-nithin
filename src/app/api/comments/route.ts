@@ -1,29 +1,13 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
+import { createRateLimiter, verifyRecaptcha } from 'helpers/apiProtection';
 import { commentsService } from 'services/comments';
 
-const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
-const RATE_LIMIT_MAX = 5;
-const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
-
-function checkRateLimit(request: NextRequest): boolean {
-	const ip =
-		request.headers.get('x-forwarded-for')?.split(',')[0].trim() ||
-		request.headers.get('x-real-ip') ||
-		'unknown';
-	const now = Date.now();
-	const record = rateLimitMap.get(ip);
-
-	if (!record || now > record.resetAt) {
-		rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
-		return false;
-	}
-
-	if (record.count >= RATE_LIMIT_MAX) return true;
-	record.count++;
-	return false;
-}
+const checkRateLimit = createRateLimiter({
+	max: 5,
+	windowMs: 10 * 60 * 1000,
+});
 
 export async function GET(request: NextRequest) {
 	const { searchParams } = new URL(request.url);
@@ -45,23 +29,6 @@ export async function GET(request: NextRequest) {
 	} catch {
 		return NextResponse.json({ comments: [] });
 	}
-}
-
-async function verifyRecaptcha(
-	token: string
-): Promise<{ valid: boolean; score: number }> {
-	const secret = process.env.RECAPTCHA_SECRET_KEY;
-	if (!secret) return { valid: false, score: 0 };
-
-	const res = await fetch('https://www.google.com/recaptcha/api/siteverify', {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-		body: `secret=${encodeURIComponent(secret)}&response=${encodeURIComponent(token)}`,
-	});
-
-	const json = (await res.json()) as { success: boolean; score?: number };
-	const score = json.score ?? 0;
-	return { valid: json.success && score >= 0.5, score };
 }
 
 export async function POST(request: NextRequest) {

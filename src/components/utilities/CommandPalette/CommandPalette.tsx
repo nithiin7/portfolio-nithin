@@ -3,6 +3,10 @@ import { AnimatePresence, motion } from 'motion/react';
 import { usePathname, useRouter } from 'next/navigation';
 import type { KeyboardEvent as ReactKeyboardEvent, ReactElement } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+	GoogleReCaptchaProvider,
+	useGoogleReCaptcha,
+} from 'react-google-recaptcha-v3';
 import { BsStars } from 'react-icons/bs';
 import {
 	FiAward,
@@ -48,6 +52,22 @@ interface CommandPaletteProps {
 	resumeUrl: string;
 }
 
+type ExecuteRecaptcha = (action?: string) => Promise<string>;
+
+const RecaptchaBridge = ({
+	onReady,
+}: {
+	onReady: (execute: ExecuteRecaptcha) => void;
+}): null => {
+	const { executeRecaptcha } = useGoogleReCaptcha();
+
+	useEffect(() => {
+		if (executeRecaptcha) onReady(executeRecaptcha);
+	}, [executeRecaptcha, onReady]);
+
+	return null;
+};
+
 const navIcons: Record<string, ReactElement> = {
 	About: <FiUser />,
 	Blogs: <FiBookOpen />,
@@ -76,6 +96,8 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 
 	const inputRef = useRef<HTMLInputElement>(null);
 	const listRef = useRef<HTMLUListElement>(null);
+	const executeRecaptchaRef = useRef<ExecuteRecaptcha | null>(null);
+	const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
 
 	useEffect(() => {
 		if (!/Mac|iPhone|iPad/i.test(navigator.userAgent)) {
@@ -95,6 +117,7 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 		setQuery('');
 		setSelectedIndex(0);
 		setAsk({ status: 'idle', question: '', answer: '' });
+		executeRecaptchaRef.current = null;
 	}, []);
 
 	useEffect(() => {
@@ -210,30 +233,43 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 		);
 	}, [query]);
 
-	const askAI = useCallback(async (question: string) => {
-		setAsk({ status: 'loading', question, answer: '' });
-		try {
-			const response = await fetch('/api/ask', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ question }),
-			});
-			const data = await response.json();
-			if (!response.ok) {
-				throw new Error(data.error ?? 'Something went wrong');
+	const askAI = useCallback(
+		async (question: string) => {
+			setAsk({ status: 'loading', question, answer: '' });
+			try {
+				let recaptchaToken: string | undefined;
+				if (recaptchaSiteKey) {
+					// The script loads when the palette opens; wait briefly if the
+					// user asks before it is ready.
+					for (let i = 0; i < 20 && !executeRecaptchaRef.current; i++) {
+						await new Promise((resolve) => setTimeout(resolve, 100));
+					}
+					recaptchaToken = await executeRecaptchaRef.current?.('ask_ai');
+				}
+
+				const response = await fetch('/api/ask', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ question, recaptchaToken }),
+				});
+				const data = await response.json();
+				if (!response.ok) {
+					throw new Error(data.error ?? 'Something went wrong');
+				}
+				setAsk({ status: 'done', question, answer: data.answer });
+			} catch (error) {
+				setAsk({
+					status: 'error',
+					question,
+					answer:
+						error instanceof Error
+							? error.message
+							: 'Something went wrong. Please try again.',
+				});
 			}
-			setAsk({ status: 'done', question, answer: data.answer });
-		} catch (error) {
-			setAsk({
-				status: 'error',
-				question,
-				answer:
-					error instanceof Error
-						? error.message
-						: 'Something went wrong. Please try again.',
-			});
-		}
-	}, []);
+		},
+		[recaptchaSiteKey]
+	);
 
 	const navigate = useCallback(
 		(href: string) => {
@@ -304,6 +340,23 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 
 	return (
 		<>
+			{isOpen && recaptchaSiteKey && (
+				<GoogleReCaptchaProvider
+					reCaptchaKey={recaptchaSiteKey}
+					scriptProps={{
+						async: true,
+						defer: true,
+						appendTo: 'body',
+						nonce: undefined,
+					}}
+				>
+					<RecaptchaBridge
+						onReady={(execute) => {
+							executeRecaptchaRef.current = execute;
+						}}
+					/>
+				</GoogleReCaptchaProvider>
+			)}
 			<AnimatePresence>
 				{!isOpen && (
 					<motion.button
