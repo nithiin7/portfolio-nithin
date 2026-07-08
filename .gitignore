@@ -45,3 +45,4 @@ jspm_packages
 
 # macOS
 .DS_Store
+tsconfig.tsbuildinfo
