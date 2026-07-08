@@ -358,7 +358,7 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 				</GoogleReCaptchaProvider>
 			)}
 			<AnimatePresence>
-				{!isOpen && (
+				{!isOpen && !pathname?.startsWith('/blog/') && (
 					<motion.button
 						className={[
 							styles.CommandPalette__hint,
