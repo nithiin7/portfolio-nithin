@@ -40,6 +40,9 @@ interface Command {
 	href?: string;
 }
 
+const MAX_ASK_QUESTIONS_PER_SESSION = 5;
+const ASK_COUNT_STORAGE_KEY = 'cp_ask_count';
+
 type AskStatus = 'idle' | 'loading' | 'done' | 'error';
 
 interface AskState {
@@ -93,11 +96,17 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 		question: '',
 		answer: '',
 	});
+	const [askCount, setAskCount] = useState(0);
 
 	const inputRef = useRef<HTMLInputElement>(null);
 	const listRef = useRef<HTMLUListElement>(null);
 	const executeRecaptchaRef = useRef<ExecuteRecaptcha | null>(null);
 	const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+
+	useEffect(() => {
+		const stored = Number(sessionStorage.getItem(ASK_COUNT_STORAGE_KEY));
+		if (Number.isFinite(stored) && stored > 0) setAskCount(stored);
+	}, []);
 
 	useEffect(() => {
 		if (!/Mac|iPhone|iPad/i.test(navigator.userAgent)) {
@@ -235,7 +244,21 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 
 	const askAI = useCallback(
 		async (question: string) => {
+			if (askCount >= MAX_ASK_QUESTIONS_PER_SESSION) {
+				setAsk({
+					status: 'error',
+					question,
+					answer: `You've reached the ${MAX_ASK_QUESTIONS_PER_SESSION}-question limit for this session. Try the chat bubble or the contact page instead.`,
+				});
+				return;
+			}
+
 			setAsk({ status: 'loading', question, answer: '' });
+			setAskCount((prev) => {
+				const next = prev + 1;
+				sessionStorage.setItem(ASK_COUNT_STORAGE_KEY, String(next));
+				return next;
+			});
 			try {
 				let recaptchaToken: string | undefined;
 				if (recaptchaSiteKey) {
@@ -268,7 +291,7 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 				});
 			}
 		},
-		[recaptchaSiteKey]
+		[askCount, recaptchaSiteKey]
 	);
 
 	const navigate = useCallback(
