@@ -10,6 +10,7 @@ import 'styles/globals.scss';
 import { Footer, Menu } from 'components/layouts';
 import {
 	ClickSpark,
+	CommandPalette,
 	FloatingChat,
 	FloatingResume,
 	Toast,
@@ -202,6 +203,7 @@ export default function RootLayout({
 							<Footer />
 							<FloatingChat chatbotUrl="https://nithiin7-portfolio-resume.hf.space" />
 							<FloatingResume resumeUrl="/resume.pdf" />
+							<CommandPalette resumeUrl="/resume.pdf" />
 							<Toast />
 						</ClickSpark>
 					</Curve>

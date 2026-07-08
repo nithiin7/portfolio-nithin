@@ -1,4 +1,5 @@
 'use client';
+import type { Variants } from 'motion/react';
 import { motion } from 'motion/react';
 
 import PaytmLogo from 'assets/logos/paytm-payments-bank.svg';
@@ -12,7 +13,7 @@ interface CareerCardProps {
 	className?: string;
 }
 
-const cardVariants = {
+const cardVariants: Variants = {
 	hidden: {
 		opacity: 0,
 		scale: 0.95,

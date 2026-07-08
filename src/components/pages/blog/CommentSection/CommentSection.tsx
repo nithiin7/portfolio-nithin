@@ -88,11 +88,14 @@ const CommentSection: FC<CommentSectionProps> = ({
 					setComments((prev) => [...prev, newComment]);
 				}
 			} else {
-				const errorData = await response.json();
-				console.error('Error submitting comment:', errorData.error);
+				toast.error('Failed to submit comment', {
+					description: 'Please try again later.',
+				});
 			}
-		} catch (error) {
-			console.error('Error submitting comment:', error);
+		} catch {
+			toast.error('Failed to submit comment', {
+				description: 'Please try again later.',
+			});
 		}
 	};
 

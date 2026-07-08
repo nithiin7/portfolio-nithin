@@ -42,3 +42,7 @@ jspm_packages
 
 # Sentry Config File
 .env.sentry-build-plugin
+
+# macOS
+.DS_Store
+tsconfig.tsbuildinfo
