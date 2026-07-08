@@ -1,4 +1,5 @@
 'use client';
+import type { Variants } from 'motion/react';
 import { motion, useInView, useAnimation } from 'motion/react';
 import Image from 'next/image';
 import React, { useEffect, useRef } from 'react';
@@ -26,7 +27,10 @@ export const PortfolioAnimations: React.FC<PortfolioAnimationsProps> = ({
 		}
 	}, [isInView, controls]);
 
-	const animationsPortfolio = {
+	const animationsPortfolio: Record<
+		NonNullable<PortfolioAnimationsProps['animation']>,
+		Variants
+	> = {
 		fadeIn: {
 			hidden: { opacity: 0 },
 			visible: {
@@ -126,7 +130,7 @@ export const StaggeredContainer: React.FC<StaggeredContainerProps> = ({
 		},
 	};
 
-	const itemVariants = {
+	const itemVariants: Variants = {
 		hidden: { opacity: 0, y: 20 },
 		visible: {
 			opacity: 1,

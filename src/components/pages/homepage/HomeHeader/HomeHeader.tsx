@@ -1,4 +1,5 @@
 'use client';
+import type { Variants } from 'motion/react';
 import {
 	motion,
 	useMotionValue,
@@ -37,7 +38,7 @@ const settings: Settings = {
 	intensity: 0.1,
 };
 
-const containerVariants = {
+const containerVariants: Variants = {
 	hidden: { opacity: 0 },
 	visible: {
 		opacity: 1,
@@ -49,7 +50,7 @@ const containerVariants = {
 	},
 };
 
-const logoVariants = {
+const logoVariants: Variants = {
 	hidden: {
 		opacity: 0,
 		y: -40,
@@ -69,7 +70,7 @@ const logoVariants = {
 	},
 };
 
-const backgroundVariants = {
+const backgroundVariants: Variants = {
 	hidden: {
 		opacity: 0,
 		scale: 0.9,
@@ -87,7 +88,7 @@ const backgroundVariants = {
 	},
 };
 
-const contentVariants = {
+const contentVariants: Variants = {
 	hidden: {
 		opacity: 0,
 		y: 60,
@@ -103,7 +104,7 @@ const contentVariants = {
 	},
 };
 
-const descriptionVariants = {
+const descriptionVariants: Variants = {
 	hidden: {
 		opacity: 0,
 		y: 20,
@@ -119,7 +120,7 @@ const descriptionVariants = {
 	},
 };
 
-const navigationVariants = {
+const navigationVariants: Variants = {
 	hidden: {
 		opacity: 0,
 		y: -20,
@@ -135,7 +136,7 @@ const navigationVariants = {
 	},
 };
 
-const navItemVariants = {
+const navItemVariants: Variants = {
 	hidden: {
 		opacity: 0,
 		y: 10,

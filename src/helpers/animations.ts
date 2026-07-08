@@ -62,7 +62,7 @@ export const translate: Variants = {
 /**
  * Animation configuration for the menu items.
  */
-export const animate = {
+export const animate: Variants = {
 	initial: {
 		opacity: 0,
 		y: '100%',
@@ -92,7 +92,7 @@ export const animate = {
 /**
  * Animation states for the menu visibility.
  */
-export const menu = {
+export const menu: Variants = {
 	visible: {
 		opacity: 1,
 		scale: 1,
@@ -114,7 +114,7 @@ export const menu = {
 /**
  * Animation variants for opening and closing the menu container.
  */
-export const variants = {
+export const variants: Variants = {
 	open: {
 		width: '36rem',
 		opacity: 1,
@@ -150,7 +150,7 @@ export const variants = {
 /**
  * Animation variants for the backdrop overlay.
  */
-export const backdropVariants = {
+export const backdropVariants: Variants = {
 	open: {
 		opacity: 1,
 		backdropFilter: 'blur(8px)',
@@ -173,7 +173,7 @@ export const backdropVariants = {
 /**
  * Animation for the background decoration.
  */
-export const backgroundVariants = {
+export const backgroundVariants: Variants = {
 	initial: {
 		opacity: 0,
 		scale: 0.8,

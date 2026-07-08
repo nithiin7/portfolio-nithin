@@ -1,4 +1,5 @@
 'use client';
+import type { Variants } from 'motion/react';
 import { motion } from 'motion/react';
 import Image from 'next/image';
 import type { FC } from 'react';
@@ -21,7 +22,7 @@ interface CertificationModalProps {
  * @returns {JSX.Element} The rendered CertificationModal component.
  */
 const CertificationModal: FC<CertificationModalProps> = ({ certification }) => {
-	const contentVariants = {
+	const contentVariants: Variants = {
 		initial: {
 			opacity: 0,
 			y: 20,

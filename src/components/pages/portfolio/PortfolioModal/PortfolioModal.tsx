@@ -1,5 +1,6 @@
 'use client';
 import gsap from 'gsap';
+import type { Variants } from 'motion/react';
 import { motion } from 'motion/react';
 import Image from 'next/image';
 import { useRef, useEffect } from 'react';
@@ -15,7 +16,7 @@ interface PortfolioModalProps {
 }
 
 const PortfolioModal: FC<PortfolioModalProps> = ({ modal, projects }) => {
-	const scaleAnimation = {
+	const scaleAnimation: Variants = {
 		initial: { scale: 0, x: '-50%', y: '-50%' },
 		enter: {
 			scale: 1,
