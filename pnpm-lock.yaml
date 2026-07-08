@@ -14,6 +14,9 @@ importers:
       '@contentful/rich-text-react-renderer':
         specifier: ^15.19.0
         version: 15.22.11(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@contentful/rich-text-types':
+        specifier: ^17.2.7
+        version: 17.2.7
       '@hookform/resolvers':
         specifier: ^3.3.2
         version: 3.10.0(react-hook-form@7.78.0(react@19.2.7))
@@ -894,6 +897,10 @@ packages:
   '@contentful/rich-text-types@16.8.5':
     resolution: {integrity: sha512-q18RJuJCOuYveGiCIjE5xLCQc5lZ3L2Qgxrlg/H2YEobDFqdtmklazRi1XwEWaK3tMg6yVXBzKKkQfLB4qW14A==}
     engines: {node: '>=6.0.0'}
+
+  '@contentful/rich-text-types@17.2.7':
+    resolution: {integrity: sha512-aIdozk8vk5gsYcallOrwEiL6+GSlMXZorDOmiVELfpbVaXMJPJPlf2CBw3LUzviAqCw0UPQcKHHCwG7SdY7u5w==}
+    engines: {node: '>=20.0.0'}
 
   '@emnapi/core@1.10.0':
     resolution: {integrity: sha512-yq6OkJ4p82CAfPl0u9mQebQHKPJkY7WrIuk205cTYnYe+k2Z8YBh11FrbRG/H6ihirqcacOgl2BIO8oyMQLeXw==}
@@ -7402,6 +7409,8 @@ snapshots:
       react-dom: 19.2.7(react@19.2.7)
 
   '@contentful/rich-text-types@16.8.5': {}
+
+  '@contentful/rich-text-types@17.2.7': {}
 
   '@emnapi/core@1.10.0':
     dependencies:
