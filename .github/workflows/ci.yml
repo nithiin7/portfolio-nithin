@@ -18,20 +18,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: yarn
+          node-version: 24
+          cache: pnpm
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Lint
-        run: yarn eslint
+        run: pnpm eslint
 
       - name: Format check
-        run: yarn prettier
+        run: pnpm prettier
 
       - name: Typecheck
-        run: yarn tsc --noEmit
+        run: pnpm exec tsc --noEmit
