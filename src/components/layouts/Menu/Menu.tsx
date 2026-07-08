@@ -67,18 +67,18 @@ const Menu = ({
 	 */
 	const handleNavClick = (href: string, e: MouseEvent<HTMLAnchorElement>) => {
 		if (href.startsWith('/#')) {
-			e.preventDefault();
 			const targetId = href.replace('/#', '');
 			const targetElement = document.getElementById(targetId);
 
 			if (targetElement) {
+				e.preventDefault();
 				targetElement.scrollIntoView({
 					behavior: 'smooth',
 					block: 'start',
 				});
-
-				setIsMenuActive(false);
 			}
+
+			setIsMenuActive(false);
 		}
 	};
 
