@@ -87,8 +87,7 @@
 		cursor: pointer;
 
 		&--active {
-			background: $color-bg-selection;
-			color: var(--color-primary);
+			background: color-mix(in srgb, var(--color-accent) 20%, transparent);
 		}
 
 		&-icon {
