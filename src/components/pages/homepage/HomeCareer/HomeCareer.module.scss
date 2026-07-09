@@ -1,90 +1,312 @@
 @use 'styles/shared/mixin' as *;
 @use 'styles/shared/variables' as *;
 
+$motion: 'screen and (prefers-reduced-motion: no-preference)';
+$story: 'screen and (min-width: 1024px) and (prefers-reduced-motion: no-preference)';
+
 .HomeCareer {
 	background-color: $color-black;
 	padding: 5% 4%;
 	position: relative;
-	overflow: hidden;
+	z-index: 1;
 
-	h2 {
-		mix-blend-mode: exclusion;
-		color: $color-grey-pale;
-		line-height: 92.5%;
-		max-width: 15ch;
+	&__intro {
+		h2 {
+			mix-blend-mode: exclusion;
+			color: $color-grey-pale;
+			line-height: 92.5%;
+			max-width: 15ch;
+			position: relative;
+			z-index: 1;
+			font-size: clamp(3.5rem, 2.3571rem + 4.5143vi, 10.5rem);
+			font-weight: 700;
+			text-wrap: balance;
+			letter-spacing: -0.025em;
+			text-transform: uppercase;
+		}
+
+		p {
+			font-weight: 500;
+			padding-left: 0.25rem;
+			text-wrap: balance;
+			max-width: 45ch;
+			font-size: 1.25rem;
+			line-height: 130%;
+			color: $color-grey-medium;
+			margin-top: 3rem;
+			@media #{$md} {
+				font-size: 1.5rem;
+			}
+		}
+	}
+
+	&__stage {
+		margin-top: 4rem;
+	}
+
+	&__meta,
+	&__rail,
+	&__stepper {
+		display: none;
+	}
+
+	&__cards {
 		position: relative;
-		z-index: 1;
-		font-size: clamp(3.5rem, 2.3571rem + 4.5143vi, 10.5rem);
-		font-weight: 700;
-		text-wrap: balance;
-		letter-spacing: -0.025em;
-		text-transform: uppercase;
-		@media #{$md} {
-			margin-bottom: -2rem;
-		}
-	}
-
-	p {
-		font-weight: 500;
-		padding-left: 0.25rem;
-		text-wrap: balance;
-		max-width: 45ch;
-		font-size: 1.25rem;
-		line-height: 130%;
-		color: $color-grey-medium;
-		margin-top: 3rem;
-		@media #{$md} {
-			font-size: 1.5rem;
-		}
-	}
-
-	&__timeline {
 		display: flex;
 		flex-direction: column;
-		gap: 2.5rem;
-		align-items: flex-start;
-		margin-top: 3rem;
+		gap: 4.5rem;
+		padding-left: 2.25rem;
+
+		&::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			width: 2px;
+			border-radius: 1px;
+			background: $color-border;
+		}
 	}
 
-	&__years {
-		display: flex;
-		gap: 0;
-		flex-wrap: wrap;
-		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-		width: 100%;
-	}
-
-	&__card {
-		width: 100%;
-	}
-}
-
-.CareerYearButton {
-	background: transparent;
-	border: none;
-	border-bottom: 2px solid transparent;
-	padding: 0.625rem 1.25rem;
-	margin-bottom: -1px;
-	font-weight: 500;
-	font-size: 0.9375rem;
-	cursor: pointer;
-	color: $color-grey-medium;
-	transition:
-		color 0.25s ease,
-		border-color 0.25s ease;
-	letter-spacing: 0.02em;
-
-	&:hover {
+	&__cardYear {
+		display: block;
+		position: relative;
+		font-size: 2rem;
+		font-weight: 700;
+		letter-spacing: -0.02em;
 		color: $color-grey-pale;
+		margin-bottom: 1.25rem;
+
+		&::before {
+			content: '';
+			position: absolute;
+			left: calc(-2.25rem + 1px);
+			top: 50%;
+			transform: translate(-50%, -50%);
+			width: rem(11);
+			height: rem(11);
+			border-radius: 50%;
+			background: $color-accent;
+			border: 2px solid $color-black;
+			box-shadow: 0 0 0 3px
+				color-mix(in srgb, #{$color-accent} 20%, transparent);
+		}
 	}
 
-	&--active {
-		color: $color-grey-pale;
-		border-bottom-color: $color-accent;
+	@media #{$motion} {
+		&__stage {
+			display: flex;
+			flex-direction: column;
+			gap: 1.25rem;
+			height: 100vh;
+			height: 100svh;
+			padding: 1.25rem 0 1.5rem;
+			min-height: 0;
+			margin-top: 2.5rem;
+		}
+
+		&__meta {
+			display: grid;
+			grid-template-areas:
+				'year counter'
+				'company company';
+			grid-template-columns: 1fr auto;
+			align-items: baseline;
+			gap: 0.25rem 1rem;
+		}
+
+		&__counter {
+			grid-area: counter;
+			font-size: 0.875rem;
+			font-weight: 500;
+			letter-spacing: 0.12em;
+			color: $color-grey-pale;
+		}
+
+		&__counterTotal {
+			color: $color-grey-medium;
+		}
+
+		&__year {
+			grid-area: year;
+			display: flex;
+			font-size: clamp(2.75rem, 9vw, 4rem);
+			font-weight: 700;
+			line-height: 1;
+			letter-spacing: -0.03em;
+			color: $color-grey-pale;
+			font-variant-numeric: tabular-nums;
+		}
+
+		&__yearDigit {
+			display: inline-grid;
+			overflow: hidden;
+
+			span {
+				grid-area: 1 / 1;
+				display: block;
+			}
+		}
+
+		&__company {
+			grid-area: company;
+			font-size: 1rem;
+			font-weight: 500;
+			color: $color-grey-medium;
+		}
+
+		&__stepper {
+			display: block;
+			position: relative;
+			height: 2px;
+			border-radius: 1px;
+			background: $color-border;
+			margin: 0.5rem rem(7) 0.75rem;
+		}
+
+		&__stepperFill {
+			position: absolute;
+			inset: 0;
+			border-radius: 1px;
+			background: $color-accent;
+			transform: scaleX(0);
+			transform-origin: left center;
+		}
+
+		&__node {
+			position: absolute;
+			transform: translate(-50%, -50%);
+			width: rem(13);
+			height: rem(13);
+			border-radius: 50%;
+			background: $color-black;
+			border: 2px solid $color-grey-medium;
+			transition:
+				background 0.3s ease,
+				border-color 0.3s ease,
+				box-shadow 0.3s ease;
+
+			&--passed {
+				background: $color-accent;
+				border-color: $color-accent;
+			}
+
+			&--active {
+				box-shadow: 0 0 0 rem(6)
+					color-mix(in srgb, #{$color-accent} 18%, transparent);
+			}
+		}
+
+		&__cards {
+			display: grid;
+			gap: 0;
+			padding-left: 0;
+			flex: 1;
+			min-height: 0;
+			overflow-y: auto;
+
+			&::before {
+				content: none;
+			}
+		}
+
+		&__card {
+			grid-area: 1 / 1;
+			will-change: transform, opacity;
+
+			&:not(:first-child) {
+				opacity: 0;
+				visibility: hidden;
+			}
+		}
+
+		&__cardYear {
+			display: none;
+		}
 	}
 
-	&:focus-visible {
-		outline: 2px solid $color-outline-focus;
-		outline-offset: 2px;
+	@media #{$story} {
+		&__pin {
+			display: flex;
+			flex-direction: column;
+			height: 100vh;
+			padding: 2rem 0 2.5rem;
+			gap: 1.5rem;
+		}
+
+		&__intro {
+			p {
+				margin-top: 1.25rem;
+			}
+		}
+
+		&__stage {
+			display: grid;
+			grid-template-columns: minmax(0, 0.85fr) rem(120) minmax(0, 1.35fr);
+			grid-template-rows: minmax(0, 1fr);
+			gap: 3rem;
+			align-items: center;
+			flex: 1;
+			height: auto;
+			padding: 0;
+			margin-top: 0;
+		}
+
+		&__meta {
+			display: flex;
+			flex-direction: column;
+			gap: 1.25rem;
+		}
+
+		&__counter {
+			font-size: 0.9375rem;
+		}
+
+		&__year {
+			font-size: clamp(4rem, 6.5vw, 7rem);
+		}
+
+		&__company {
+			font-size: 1.125rem;
+		}
+
+		&__stepper {
+			display: none;
+		}
+
+		&__rail {
+			display: block;
+			position: relative;
+			align-self: stretch;
+
+			svg {
+				width: 100%;
+				height: 100%;
+				overflow: visible;
+			}
+		}
+
+		&__railTrack,
+		&__railProgress {
+			fill: none;
+			stroke-linecap: round;
+		}
+
+		&__railTrack {
+			stroke: $color-border;
+			stroke-width: 1;
+		}
+
+		&__railProgress {
+			stroke: $color-accent;
+			stroke-width: 2;
+			opacity: 0;
+		}
+
+		&__cards {
+			align-self: center;
+			max-height: 100%;
+		}
 	}
 }
