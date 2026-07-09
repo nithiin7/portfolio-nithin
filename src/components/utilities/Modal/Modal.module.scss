@@ -9,8 +9,8 @@
 	bottom: 0;
 	width: 100%;
 	height: 100%;
-	background-color: rgba($color-black, 0.6);
-	backdrop-filter: blur(8px);
+	background-color: rgba($color-black, 0.65);
+	backdrop-filter: blur(10px);
 	z-index: 1000;
 	display: flex;
 	align-items: center;
@@ -19,21 +19,38 @@
 
 	&__content {
 		background-color: $color-background;
-		border-radius: 12px;
-		box-shadow: 0 20px 40px rgba($color-black, 0.2);
+		border-radius: 20px;
+		box-shadow:
+			0 30px 60px -20px rgba($color-black, 0.35),
+			0 10px 24px -12px rgba($color-black, 0.25),
+			inset 0 1px 0 rgba(255, 255, 255, 0.05);
 		max-width: 600px;
 		width: 100%;
-		height: 90vh;
-		max-height: 90vh;
+		max-height: 85vh;
 		overflow: hidden;
 		position: relative;
 		border: 1px solid $color-border;
 		display: flex;
 		flex-direction: column;
 
+		&::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			height: 2px;
+			background: linear-gradient(
+				90deg,
+				$color-line-gradient-start 0%,
+				$color-line-gradient-middle 50%,
+				$color-line-gradient-end 100%
+			);
+			opacity: 0.5;
+		}
+
 		@media #{$sm} {
-			height: 95vh;
-			max-height: 95vh;
+			max-height: 92vh;
 		}
 	}
 
@@ -41,15 +58,14 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: 1.5rem 1.5rem 1rem;
+		padding: 1.25rem 1.5rem;
 		border-bottom: 1px solid $color-border;
 		background-color: $color-surface;
-		border-radius: 12px 12px 0 0;
 		flex-shrink: 0;
 	}
 
 	&__title {
-		font-size: 1.5rem;
+		font-size: 1.375rem;
 		font-weight: 600;
 		color: $color-primary;
 		margin: 0;
@@ -57,33 +73,35 @@
 	}
 
 	&__close {
-		background: none;
-		border: none;
+		width: 36px;
+		height: 36px;
+		flex-shrink: 0;
+		background: $color-hover-bg;
+		border: 1px solid $color-border;
 		color: $color-primary;
 		cursor: pointer;
-		padding: 0.5rem;
-		border-radius: 6px;
+		border-radius: 50%;
 		transition: $transition;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 
 		&:hover {
-			background-color: $color-hover-bg;
+			background-color: $color-accent;
+			border-color: $color-accent;
+			color: $color-white;
 		}
 
 		svg {
-			width: 20px;
-			height: 20px;
+			width: 16px;
+			height: 16px;
 		}
 	}
 
 	&__body {
 		padding: 1.5rem;
 		overflow-y: auto;
-		flex: 1;
 		min-height: 0;
-		height: 0; /* This forces the flex item to respect the container height */
 		-webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 	}
 }

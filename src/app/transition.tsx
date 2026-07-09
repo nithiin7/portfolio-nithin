@@ -63,6 +63,7 @@ const Curve = ({
 	useEffect(() => {
 		const targetId = window.location.hash.slice(1);
 		const target = targetId ? document.getElementById(targetId) : null;
+		lenis?.resize();
 		lenis?.scrollTo(target ?? 0, { immediate: true });
 	}, [pathname, lenis]);
 

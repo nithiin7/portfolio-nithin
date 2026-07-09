@@ -32,25 +32,6 @@
 		}
 	}
 
-	&__book {
-		position: fixed;
-		top: rem(25);
-		right: rem(25);
-		z-index: 110;
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-		border-radius: rem(99);
-
-		&:hover {
-			box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-			transform: translateY(-2px);
-		}
-
-		@media #{$md} {
-			top: rem(32);
-			right: rem(32);
-		}
-	}
-
 	&__bookCallMobile {
 		margin-top: rem(32);
 		display: flex;

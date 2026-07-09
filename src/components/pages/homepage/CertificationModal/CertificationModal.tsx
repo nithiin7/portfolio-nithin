@@ -4,7 +4,7 @@ import { motion } from 'motion/react';
 import Image from 'next/image';
 import type { FC } from 'react';
 
-import { Button } from 'components/utilities';
+import { Button, Tag, TagContainer } from 'components/utilities';
 import type { Certification } from 'types/certification';
 
 import styles from './CertificationModal.module.scss';
@@ -46,6 +46,10 @@ const CertificationModal: FC<CertificationModalProps> = ({ certification }) => {
 		});
 	};
 
+	const isExpired = certification.expiryDate
+		? new Date(certification.expiryDate) < new Date()
+		: false;
+
 	return (
 		<div className={styles.CertificationModal}>
 			<motion.div
@@ -59,18 +63,28 @@ const CertificationModal: FC<CertificationModalProps> = ({ certification }) => {
 					<Image
 						src={certification.logo}
 						alt={certification.name}
-						width={80}
-						height={80}
+						width={72}
+						height={72}
 						unoptimized
 					/>
 				</div>
 				<div className={styles.CertificationModal__content}>
+					<span className={styles.CertificationModal__provider}>
+						{certification.provider}
+					</span>
 					<h3 className={styles.CertificationModal__name}>
 						{certification.name}
 					</h3>
-					<p className={styles.CertificationModal__provider}>
-						{certification.provider}
-					</p>
+					{certification.expiryDate && (
+						<Tag
+							variant={isExpired ? 'secondary' : 'accent'}
+							size="small"
+							animated={false}
+							className={styles.CertificationModal__status}
+						>
+							{isExpired ? 'Expired' : 'Active'}
+						</Tag>
+					)}
 				</div>
 			</motion.div>
 
@@ -82,7 +96,7 @@ const CertificationModal: FC<CertificationModalProps> = ({ certification }) => {
 				custom={1}
 			>
 				<div className={styles.CertificationModal__detailItem}>
-					<span className={styles.CertificationModal__label}>Issued:</span>
+					<span className={styles.CertificationModal__label}>Issued</span>
 					<span className={styles.CertificationModal__value}>
 						{formatDate(certification.issuedDate)}
 					</span>
@@ -90,7 +104,7 @@ const CertificationModal: FC<CertificationModalProps> = ({ certification }) => {
 
 				{certification.expiryDate && (
 					<div className={styles.CertificationModal__detailItem}>
-						<span className={styles.CertificationModal__label}>Expires:</span>
+						<span className={styles.CertificationModal__label}>Expires</span>
 						<span className={styles.CertificationModal__value}>
 							{formatDate(certification.expiryDate)}
 						</span>
@@ -100,7 +114,7 @@ const CertificationModal: FC<CertificationModalProps> = ({ certification }) => {
 				{certification.credentialId && (
 					<div className={styles.CertificationModal__detailItem}>
 						<span className={styles.CertificationModal__label}>
-							Credential ID:
+							Credential ID
 						</span>
 						<span
 							className={`${styles.CertificationModal__value} ${styles['CertificationModal__value--code']}`}
@@ -119,7 +133,34 @@ const CertificationModal: FC<CertificationModalProps> = ({ certification }) => {
 					animate="animate"
 					custom={2}
 				>
+					<span className={styles.CertificationModal__sectionLabel}>About</span>
 					<p>{certification.description}</p>
+				</motion.div>
+			)}
+
+			{certification.skills && certification.skills.length > 0 && (
+				<motion.div
+					className={styles.CertificationModal__skills}
+					variants={contentVariants}
+					initial="initial"
+					animate="animate"
+					custom={3}
+				>
+					<span className={styles.CertificationModal__sectionLabel}>
+						Skills
+					</span>
+					<TagContainer animated={false}>
+						{certification.skills.map((skill) => (
+							<Tag
+								key={skill}
+								variant="secondary"
+								size="small"
+								animated={false}
+							>
+								{skill}
+							</Tag>
+						))}
+					</TagContainer>
 				</motion.div>
 			)}
 
@@ -129,7 +170,7 @@ const CertificationModal: FC<CertificationModalProps> = ({ certification }) => {
 					variants={contentVariants}
 					initial="initial"
 					animate="animate"
-					custom={3}
+					custom={4}
 				>
 					<Button
 						text="View Certificate"

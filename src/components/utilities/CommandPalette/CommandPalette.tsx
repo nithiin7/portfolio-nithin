@@ -303,7 +303,7 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 					return;
 				}
 			}
-			router.push(href);
+			router.push(href, { scroll: false });
 		},
 		[router]
 	);

@@ -5,7 +5,7 @@ import type { ReactElement, MouseEvent } from 'react';
 import { useEffect, useRef, useState } from 'react';
 
 import MenuBackground from 'assets/images/menu-bg.svg';
-import { ColorMaskButton, ThemeToggle } from 'components/utilities';
+import { ThemeToggle } from 'components/utilities';
 import { links, socialsMenu } from 'constants/index';
 import {
 	animate,
@@ -41,7 +41,6 @@ const Menu = ({
 }: MenuProps): ReactElement => {
 	const pathname = usePathname();
 	const isHomePage = pathname === '/';
-	const isContactPage = pathname === '/contact';
 
 	const [isMenuActive, setIsMenuActive] = useState<boolean>(false);
 	const [hidden, setHidden] = useState<boolean>(!isHomePage);
@@ -286,21 +285,6 @@ const Menu = ({
 							)}
 						</AnimatePresence>
 					</motion.div>
-				</motion.div>
-				<motion.div
-					className={styles.menu__book}
-					aria-hidden={hidden || isContactPage}
-					aria-controls="menu"
-					variants={menu}
-					initial={'hidden'}
-					animate={hidden && !isContactPage ? 'visible' : 'hidden'}
-					transition={{ ease: [0.1, 0.25, 0.3, 1], duration: 0.6 }}
-				>
-					<ColorMaskButton
-						className={styles.menu__bookCall}
-						variant="default"
-						href="/contact"
-					/>
 				</motion.div>
 			</nav>
 		</>
