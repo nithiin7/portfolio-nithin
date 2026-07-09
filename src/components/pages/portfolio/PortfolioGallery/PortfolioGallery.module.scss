@@ -104,9 +104,9 @@
 	}
 
 	&__lightboxClose {
-		position: absolute;
-		top: -50px;
-		right: 0;
+		position: fixed;
+		top: 1.5rem;
+		right: 1.5rem;
 		background: none;
 		border: none;
 		color: white;
