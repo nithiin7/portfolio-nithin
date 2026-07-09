@@ -2,7 +2,7 @@
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import type { Document } from '@contentful/rich-text-types';
 import Image from 'next/image';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { FiArrowLeft, FiExternalLink, FiGithub } from 'react-icons/fi';
 
 import { PortfolioGallery } from 'components/pages';
@@ -28,14 +28,20 @@ interface PortfolioDetailsProps {
 }
 
 export default function PortfolioDetails({ project }: PortfolioDetailsProps) {
+	const router = useRouter();
+
 	return (
 		<div className={styles.PortfolioDetailsPage}>
 			<PortfolioAnimations animation="slideUp" delay={0.05}>
 				<div className={styles.PortfolioDetailsPage__header}>
-					<Link href="/" className={styles.PortfolioDetailsPage__backButton}>
+					<button
+						type="button"
+						onClick={() => router.push('/#portfolio', { scroll: false })}
+						className={styles.PortfolioDetailsPage__backButton}
+					>
 						<FiArrowLeft size={16} />
 						<span>Back to Portfolio</span>
-					</Link>
+					</button>
 					<div className={styles.PortfolioDetailsPage__projectNumber}>
 						{String(project.id).padStart(2, '0')}
 					</div>
