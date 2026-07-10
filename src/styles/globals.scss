@@ -145,7 +145,7 @@ html.lenis {
 		pointer-events: none;
 		left: 0;
 		top: 0;
-		z-index: 99;
+		z-index: 2000;
 	}
 	.background {
 		background-color: black;
@@ -157,7 +157,7 @@ html.lenis {
 		top: 40%;
 		color: white;
 		font-size: 46px;
-		z-index: 100;
+		z-index: 2001;
 		transform: translateX(-50%);
 		text-align: center;
 		font-family: 'Host Grotesk', sans-serif;
