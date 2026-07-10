@@ -245,19 +245,19 @@
 		}
 
 		&-content {
-			display: flex;
+			display: none;
 			align-items: center;
 			gap: rem(8);
 			overflow: hidden;
 			white-space: nowrap;
+
+			@media #{$md} {
+				display: flex;
+			}
 		}
 
 		&-label {
-			display: none;
-
-			@media #{$md} {
-				display: inline;
-			}
+			display: inline;
 		}
 
 		&-keys {

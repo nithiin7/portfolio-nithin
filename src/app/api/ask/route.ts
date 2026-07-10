@@ -12,21 +12,38 @@ const isRateLimited = createRateLimiter({
 	windowMs: 10 * 60 * 1000,
 });
 
-// Keep this profile in sync with the resume and Contentful content — it is
-// the only knowledge the palette AI has about Nithin.
 const PROFILE = `
-Nithin Pradeep is a Full Stack Developer based in India, currently working at
-Paytm Payments Bank. He specializes in React, Next.js, TypeScript, Node.js and
-modern frontend engineering — animation-heavy interfaces (Motion/Framer Motion,
-GSAP), GraphQL (Apollo, Contentful), Supabase/Postgres, SCSS, and component
-systems documented in Storybook. This portfolio site itself is built with
-Next.js App Router, React Server Components, Contentful and Supabase.
+Nithin P — Software Engineer, Kochi, Kerala, India. 4 years experience.
 
-Links:
+EXPERIENCE:
+- Paytm Payments Bank, Software Engineer, Noida (Jul'25-present): built
+  on-prem MCP servers for Jira/Confluence/file servers (OAuth+PAT, proxied,
+  no external network exposure); RAG pipeline (Python+ChromaDB) over
+  circulars/notices/Excel/Word for 6 teams; Text-to-Query AI agent
+  (LangGraph + self-hosted LLM); led org-wide AI access policy.
+- White Rabbit Group, Senior Software Engineer, Kochi (Feb'25-Jul'25):
+  migrated Spotify and Game Awards sites (1M+ concurrent users) to Next.js
+  SSR + CDN, 50% faster loads, 10% infra cost cut.
+- White Rabbit Group, Software Engineer, Kochi (Jul'22-Feb'25): built UIs
+  and Node.js/PHP backends; mentored as Squad Champ across 15+ client
+  projects; led company site revamp to Next.js + Contentful CMS (+50% perf).
+
+SKILLS: JavaScript, TypeScript, Python, PHP, React, Next.js, Node.js,
+Laravel, .NET; AWS, Docker, GCP; LangGraph, LangChain, n8n, MCP, Agentic AI,
+LLMs. Also: Motion/Framer Motion, GSAP, GraphQL/Apollo, Contentful,
+Supabase/Postgres, SCSS, Storybook. This portfolio itself is built with
+Next.js App Router, RSC, Contentful and Supabase.
+
+EDUCATION: B-Tech Computer Science, SCMS School of Engineering and
+Technology, GPA 8.88 (Jul'22).
+
+CERTIFICATIONS: IBM AI Developer (Dec'25), Meta Front-End Developer (Nov'25).
+
+LINKS:
 - GitHub: https://github.com/nithiin7
 - LinkedIn: https://www.linkedin.com/in/nithin-p7/
 - Email: nithinp150@gmail.com
-- Resume: available for download on this site (/resume.pdf)
+- Resume: /resume.pdf
 - Contact page: /contact
 `;
 
