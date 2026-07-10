@@ -6,7 +6,7 @@ import type { ReactElement } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { Link as ScrollLink } from 'react-scroll';
 
-import { FooterBackground, SpotifyIcon } from 'assets/icons';
+import { EqualizerIcon, FooterBackground, SpotifyIcon } from 'assets/icons';
 import { FooterLogo } from 'assets/logos/FooterLogo';
 import { MagneticButton } from 'components/utilities';
 import { footerLinks, socials, songs } from 'constants/index';
@@ -85,7 +85,14 @@ const Footer = (): ReactElement => {
 						<SpotifyIcon />
 					</div>
 					<div className={styles['music__title']}>
-						<h2>On repeat</h2>
+						<div className={styles['music__heading']}>
+							<h2>On repeat</h2>
+							{randomSong && (
+								<span className={styles['music__equalizer']} aria-hidden="true">
+									<EqualizerIcon />
+								</span>
+							)}
+						</div>
 						{randomSong && (
 							<div className={styles['music__marquee']} ref={marqueeRef}>
 								<div
