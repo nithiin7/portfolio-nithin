@@ -5,8 +5,6 @@ import { CommentForm } from 'components/pages';
 import { Modal } from 'components/utilities';
 import type { CommentFormData } from 'types/comment';
 
-import styles from './CommentModal.module.scss';
-
 interface CommentModalProps {
 	isOpen: boolean;
 	onClose: () => void;
@@ -43,7 +41,6 @@ const CommentModal: FC<CommentModalProps> = ({
 				replyingTo={replyingTo}
 				replyingToId={replyingToId}
 				onCancelReply={handleCancelReply}
-				className={styles.CommentModal__form}
 			/>
 		</Modal>
 	);

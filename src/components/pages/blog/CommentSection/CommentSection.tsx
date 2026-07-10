@@ -4,6 +4,7 @@ import type { FC } from 'react';
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 
+import { ChatIcon } from 'assets/icons';
 import { CommentBox, CommentCard } from 'components/pages';
 import type { Comment, CommentFormData } from 'types/comment';
 
@@ -146,7 +147,10 @@ const CommentSection: FC<CommentSectionProps> = ({
 				transition={{ duration: 0.6, delay: 0.2 }}
 			>
 				<h2 className={styles.CommentSection__title}>
-					Comments ({topLevelComments.length})
+					Comments{' '}
+					<span className={styles.CommentSection__count}>
+						({topLevelComments.length})
+					</span>
 				</h2>
 				<p className={styles.CommentSection__subtitle}>
 					Share your thoughts and join the conversation
@@ -170,7 +174,9 @@ const CommentSection: FC<CommentSectionProps> = ({
 						animate={{ opacity: 1, scale: 1 }}
 						transition={{ duration: 0.5, delay: 0.6 }}
 					>
-						<div className={styles.CommentSection__emptyIcon}>💬</div>
+						<div className={styles.CommentSection__emptyIcon}>
+							<ChatIcon />
+						</div>
 						<h3 className={styles.CommentSection__emptyTitle}>
 							No comments yet
 						</h3>

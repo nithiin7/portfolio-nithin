@@ -2,35 +2,52 @@
 @use 'styles/shared/variables' as *;
 
 .CommentBox {
-	background-color: $color-surface;
-	border: 1px solid $color-border;
-	border-radius: 12px;
-	padding: 1rem;
+	background: transparent;
+	border: rem(1) solid color-mix(in srgb, var(--color-secondary) 25%, transparent);
+	border-radius: rem(50);
+	padding: rem(10) rem(20) rem(10) rem(12);
 	cursor: pointer;
-	transition: $transition;
+	transition:
+		border-color 0.3s ease,
+		background 0.3s ease;
 	user-select: none;
 
+	&:focus-visible {
+		outline: rem(2) solid $color-secondary;
+		outline-offset: rem(2);
+	}
+
 	&:hover {
-		border-color: $color-accent;
-		box-shadow: 0 4px 12px rgba($color-accent, 0.1);
+		border-color: color-mix(in srgb, var(--color-secondary) 55%, transparent);
+		background: color-mix(in srgb, var(--color-secondary) 4%, transparent);
+
+		.CommentBox__icon {
+			color: $color-accent;
+			opacity: 1;
+		}
 	}
 
 	&__content {
 		display: flex;
 		align-items: center;
-		gap: 0.75rem;
+		gap: rem(12);
 	}
 
 	&__avatar {
-		width: 40px;
-		height: 40px;
+		width: rem(36);
+		height: rem(36);
 		border-radius: 50%;
-		background-color: $color-grey-light;
+		background: color-mix(in srgb, var(--color-secondary) 10%, transparent);
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		color: $color-text-secondary;
+		color: $color-secondary;
 		flex-shrink: 0;
+
+		svg {
+			width: rem(16);
+			height: rem(16);
+		}
 	}
 
 	&__input {
@@ -39,21 +56,17 @@
 	}
 
 	&__placeholder {
-		color: $color-bg-light;
-		font-size: 0.95rem;
-		font-weight: 400;
-		line-height: 1.4;
+		color: $color-text-secondary;
+		font-size: rem(15);
+		line-height: 140%;
 	}
 
 	&__icon {
-		color: $color-bg-light;
+		color: $color-text-secondary;
 		opacity: 0.6;
 		flex-shrink: 0;
-		transition: $transition;
-
-		.commentBox:hover & {
-			opacity: 1;
-			color: $color-accent;
-		}
+		transition:
+			color 0.3s ease,
+			opacity 0.3s ease;
 	}
 }

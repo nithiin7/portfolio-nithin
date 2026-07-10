@@ -136,7 +136,7 @@ const CommentForm: FC<CommentFormProps> = ({
 						render={({ field }) => (
 							<TextInput
 								{...field}
-								label="Name *"
+								label="Name"
 								placeholder="Your name"
 								className={styles.CommentForm__input}
 								errors={errors.authorName ? [errors.authorName.message!] : []}
@@ -149,7 +149,7 @@ const CommentForm: FC<CommentFormProps> = ({
 						render={({ field }) => (
 							<TextInput
 								{...field}
-								label="Email *"
+								label="Email"
 								type="email"
 								placeholder="your.email@example.com"
 								className={styles.CommentForm__input}
@@ -164,7 +164,7 @@ const CommentForm: FC<CommentFormProps> = ({
 					render={({ field }) => (
 						<TextArea
 							{...field}
-							label="Comment *"
+							label="Comment"
 							placeholder="Share your thoughts..."
 							className={styles.CommentForm__textarea}
 							errors={errors.content ? [errors.content.message!] : []}
