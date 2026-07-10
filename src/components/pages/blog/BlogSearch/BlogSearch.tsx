@@ -37,7 +37,7 @@ const BlogSearch: FC<BlogSearchProps> = ({
 	const [isSearchOpen, setIsSearchOpen] = useState(false);
 
 	const hasActiveFilter =
-		searchTerm || activeCategory !== 'All' || activeTags.length > 0;
+		searchTerm.trim() || activeCategory !== 'All' || activeTags.length > 0;
 
 	return (
 		<motion.div

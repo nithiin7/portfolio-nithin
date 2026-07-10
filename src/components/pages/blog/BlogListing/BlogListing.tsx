@@ -1,6 +1,7 @@
 'use client';
 import { motion, AnimatePresence } from 'motion/react';
 import Link from 'next/link';
+import { parseAsArrayOf, parseAsString, useQueryState } from 'nuqs';
 import type { FC } from 'react';
 import { useState, useMemo, useEffect, useTransition } from 'react';
 import { FiArrowLeft } from 'react-icons/fi';
@@ -22,8 +23,6 @@ interface BlogListingProps {
 	total: number;
 	allCategories: string[];
 	allTags: string[];
-	initialCategory: string;
-	initialTags: string[];
 }
 
 const BlogListing: FC<BlogListingProps> = ({
@@ -31,79 +30,102 @@ const BlogListing: FC<BlogListingProps> = ({
 	total,
 	allCategories,
 	allTags,
-	initialCategory,
-	initialTags,
 }) => {
+	const [activeCategory, setActiveCategory] = useQueryState(
+		'category',
+		parseAsString.withDefault('All')
+	);
+	const [activeTags, setActiveTags] = useQueryState(
+		'tag',
+		parseAsArrayOf(parseAsString).withDefault([])
+	);
+	const [searchTerm, setSearchTerm] = useQueryState(
+		'q',
+		parseAsString.withDefault('')
+	);
 	const [allPosts, setAllPosts] = useState<BlogPost[]>(posts);
 	const [displayTotal, setDisplayTotal] = useState(total);
-	const [activeCategory, setActiveCategory] = useState(initialCategory);
-	const [activeTags, setActiveTags] = useState<string[]>(initialTags);
-	const [searchTerm, setSearchTerm] = useState('');
+	const [searchPool, setSearchPool] = useState<BlogPost[] | null>(null);
 	const [loadMoreHovered, setLoadMoreHovered] = useState(false);
 	const [filterError, setFilterError] = useState(false);
 	const [isFiltering, startFilterTransition] = useTransition();
 	const [isLoadingMore, startLoadMoreTransition] = useTransition();
+	const [isSearchLoading, startSearchTransition] = useTransition();
 
-	const hasMore = allPosts.length < displayTotal;
+	const trimmedSearchTerm = searchTerm.trim();
+	const hasMore = !trimmedSearchTerm && allPosts.length < displayTotal;
+	const isFilterPending = isFiltering || isSearchLoading;
 
 	const filteredPosts = useMemo(() => {
-		if (!searchTerm) return allPosts;
-		const lower = searchTerm.toLowerCase();
-		return allPosts.filter(
+		if (!trimmedSearchTerm) return allPosts;
+		const pool = searchPool ?? allPosts;
+		const lower = trimmedSearchTerm.toLowerCase();
+		return pool.filter(
 			(post) =>
 				post.title.toLowerCase().includes(lower) ||
 				post.excerpt.toLowerCase().includes(lower) ||
 				post.category.toLowerCase().includes(lower)
 		);
-	}, [allPosts, searchTerm]);
+	}, [allPosts, searchPool, trimmedSearchTerm]);
 
 	useEffect(() => {
-		const params = new URLSearchParams();
-		if (activeCategory !== 'All') params.set('category', activeCategory);
-		activeTags.forEach((t) => params.append('tag', t));
-		const qs = params.toString();
-		window.history.replaceState(
-			{},
-			'',
-			`${window.location.pathname}${qs ? `?${qs}` : ''}`
-		);
-	}, [activeCategory, activeTags]);
+		if (!trimmedSearchTerm || searchPool !== null) return;
+		startSearchTransition(async () => {
+			try {
+				const result = await fetchFilteredPosts(
+					0,
+					activeCategory !== 'All' ? activeCategory : undefined,
+					activeTags,
+					displayTotal
+				);
+				setSearchPool(result.posts);
+			} catch {
+				setFilterError(true);
+			}
+		});
+	}, [trimmedSearchTerm, searchPool, activeCategory, activeTags, displayTotal]);
 
 	const handleCategoryChange = (category: string) => {
+		const previousCategory = activeCategory;
 		setActiveCategory(category);
-		setActiveTags([]);
+		setSearchPool(null);
 		setFilterError(false);
 		startFilterTransition(async () => {
 			try {
 				const result = await fetchFilteredPosts(
 					0,
 					category !== 'All' ? category : undefined,
-					[]
+					activeTags
 				);
 				setAllPosts(result.posts);
 				setDisplayTotal(result.total);
 			} catch {
 				setFilterError(true);
-				setActiveCategory(initialCategory);
+				setActiveCategory(previousCategory);
 			}
 		});
 	};
 
 	const handleTagToggle = (tag: string) => {
+		const previousTags = activeTags;
 		const next = activeTags.includes(tag)
 			? activeTags.filter((t) => t !== tag)
 			: [...activeTags, tag];
 		setActiveTags(next);
-		setActiveCategory('All');
+		setSearchPool(null);
 		setFilterError(false);
 		startFilterTransition(async () => {
 			try {
-				const result = await fetchFilteredPosts(0, undefined, next);
+				const result = await fetchFilteredPosts(
+					0,
+					activeCategory !== 'All' ? activeCategory : undefined,
+					next
+				);
 				setAllPosts(result.posts);
 				setDisplayTotal(result.total);
 			} catch {
 				setFilterError(true);
-				setActiveTags([]);
+				setActiveTags(previousTags);
 			}
 		});
 	};
@@ -112,6 +134,7 @@ const BlogListing: FC<BlogListingProps> = ({
 		setActiveCategory('All');
 		setActiveTags([]);
 		setSearchTerm('');
+		setSearchPool(null);
 		setFilterError(false);
 		startFilterTransition(async () => {
 			try {
@@ -139,7 +162,12 @@ const BlogListing: FC<BlogListingProps> = ({
 		});
 	};
 
-	if (posts.length === 0) {
+	const hasActiveFilter =
+		activeCategory !== 'All' ||
+		activeTags.length > 0 ||
+		Boolean(trimmedSearchTerm);
+
+	if (posts.length === 0 && !hasActiveFilter) {
 		return (
 			<div className={styles.blog}>
 				<BlogBackground />
@@ -240,7 +268,7 @@ const BlogListing: FC<BlogListingProps> = ({
 						activeTags={activeTags}
 						searchTerm={searchTerm}
 						filteredCount={filteredPosts.length}
-						isFiltering={isFiltering}
+						isFiltering={isFilterPending}
 						onCategoryChange={handleCategoryChange}
 						onTagToggle={handleTagToggle}
 						onSearchChange={setSearchTerm}
@@ -252,7 +280,7 @@ const BlogListing: FC<BlogListingProps> = ({
 						{filteredPosts.length > 0 ? (
 							<motion.div
 								className={styles.blog__grid}
-								animate={{ opacity: isFiltering ? 0.4 : 1 }}
+								animate={{ opacity: isFilterPending ? 0.4 : 1 }}
 								initial={{ opacity: 0 }}
 								transition={{ duration: 0.3 }}
 							>
@@ -285,7 +313,7 @@ const BlogListing: FC<BlogListingProps> = ({
 							<motion.button
 								className={styles.blog__load_more_btn}
 								onClick={handleLoadMore}
-								disabled={isLoadingMore || isFiltering}
+								disabled={isLoadingMore || isFilterPending}
 								onMouseEnter={() => setLoadMoreHovered(true)}
 								onMouseLeave={() => setLoadMoreHovered(false)}
 								whileHover={{ scale: isLoadingMore ? 1 : 1.02 }}

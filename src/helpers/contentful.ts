@@ -5,8 +5,7 @@ import {
 	GET_PAGE,
 	GET_ALL_BLOG_POSTS,
 	GET_BLOG_POST_BY_SLUG,
-	GET_BLOG_POSTS_BY_CATEGORY,
-	GET_BLOG_POSTS_BY_TAG,
+	GET_FILTERED_BLOG_POSTS,
 	GET_BLOG_CATEGORIES,
 	GET_BLOG_TAGS,
 } from 'queries';
@@ -114,34 +113,35 @@ export const convertContentfulTag = (contentfulTag: BlogTagItem): BlogTag => {
 };
 
 /**
- * Fetches all blog posts from Contentful using Apollo Client.
+ * Fetches blog posts from Contentful filtered by category and/or tags (AND combined).
  *
+ * @param {string} [category] - The category to filter by.
+ * @param {string[]} [tags] - Tags a post must contain all of.
  * @param {number} limit - The maximum number of posts to fetch.
  * @param {number} skip - The number of posts to skip.
  * @returns {Promise<ApolloQueryResult<BlogPostsResponse>>} - A promise that resolves to the blog posts data from Contentful.
  */
-const loadBlogPostsByCategory = async (
-	category: string,
+const loadFilteredBlogPosts = async (
+	category?: string,
+	tags: string[] = [],
 	limit = 10,
 	skip = 0
 ): Promise<ApolloQueryResult<BlogPostsResponse>> => {
 	const apolloClient = initializeApollo();
+	const variables: {
+		category?: string;
+		tags?: string[];
+		limit: number;
+		skip: number;
+	} = {
+		limit,
+		skip,
+	};
+	if (category) variables.category = category;
+	if (tags.length > 0) variables.tags = tags;
 	const data = await apolloClient.query<BlogPostsResponse>({
-		query: GET_BLOG_POSTS_BY_CATEGORY,
-		variables: { category, limit, skip },
-	});
-	return data;
-};
-
-const loadBlogPostsByTag = async (
-	tags: string[],
-	limit = 10,
-	skip = 0
-): Promise<ApolloQueryResult<BlogPostsResponse>> => {
-	const apolloClient = initializeApollo();
-	const data = await apolloClient.query<BlogPostsResponse>({
-		query: GET_BLOG_POSTS_BY_TAG,
-		variables: { tags, limit, skip },
+		query: GET_FILTERED_BLOG_POSTS,
+		variables,
 	});
 	return data;
 };
@@ -211,8 +211,7 @@ export {
 	loadData,
 	loadPortfolioData,
 	loadBlogPosts,
-	loadBlogPostsByCategory,
-	loadBlogPostsByTag,
+	loadFilteredBlogPosts,
 	loadBlogCategories,
 	loadBlogTags,
 	loadBlogPostBySlug,
