@@ -22,9 +22,10 @@ export interface DatabaseNewsletterSubscription {
 }
 
 /**
- * Database newsletter subscription creation interface (without id and timestamps)
+ * Database newsletter subscription creation interface (id generated client-side, no timestamps)
  */
 export interface DatabaseNewsletterSubscriptionCreate {
+	id: string;
 	email: string;
 }
 
