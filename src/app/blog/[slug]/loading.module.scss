@@ -39,7 +39,7 @@
 
 	&__breadcrumb {
 		@extend %shimmer;
-		margin-top: rem(80);
+		margin-top: rem(72);
 		margin-left: rem(10);
 		width: rem(110);
 		height: rem(20);
@@ -47,13 +47,13 @@
 
 	&__hero {
 		@extend %shimmer;
-		min-height: rem(600);
+		min-height: rem(420);
 		border-radius: rem(20);
-		margin: rem(40) 0;
+		margin: rem(24) 0;
 
 		@media #{$md} {
-			min-height: rem(500);
-			margin: rem(20) 0;
+			min-height: rem(340);
+			margin: rem(16) 0;
 		}
 	}
 

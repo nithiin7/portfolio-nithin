@@ -115,20 +115,28 @@ export class BaseService {
 	}
 
 	/**
-	 * Generic POST operation for creating new records
+	 * Generic POST operation for creating new records.
+	 * Pass `select: false` when the anon role cannot read the row back
+	 * (column-level grants / RLS block INSERT ... RETURNING).
 	 */
 	async post<T = unknown>(
 		table: string,
-		data: DatabaseData
+		data: DatabaseData,
+		options?: { select?: string | false }
 	): Promise<ServiceResponse<T>> {
 		try {
-			const { data: result, error } = await this.client
-				.from(table)
-				.insert(data)
-				.select()
+			const insert = this.client.from(table).insert(data);
+
+			if (options?.select === false) {
+				const { error } = await insert;
+				return { data: null, error };
+			}
+
+			const { data: result, error } = await insert
+				.select(options?.select || '*')
 				.single();
 
-			return { data: result, error };
+			return { data: error ? null : (result as T), error };
 		} catch (error) {
 			console.error(`Error in BaseService.post for table ${table}:`, error);
 			return { data: null, error };

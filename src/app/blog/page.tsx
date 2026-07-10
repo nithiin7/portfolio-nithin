@@ -4,9 +4,7 @@ import Script from 'next/script';
 import { BlogListing } from 'components/pages';
 import {
 	loadData,
-	loadBlogPosts,
-	loadBlogPostsByCategory,
-	loadBlogPostsByTag,
+	loadFilteredBlogPosts,
 	loadBlogCategories,
 	loadBlogTags,
 	convertContentfulBlogPost,
@@ -23,7 +21,8 @@ interface BlogPageProps {
 
 function resolveTagParam(tag: string | string[] | undefined): string[] {
 	if (!tag) return [];
-	return Array.isArray(tag) ? tag : [tag];
+	const raw = Array.isArray(tag) ? tag.join(',') : tag;
+	return raw.split(',').filter(Boolean);
 }
 
 export async function generateMetadata({
@@ -156,11 +155,7 @@ export default async function BlogPage({
 	const initialTags = resolveTagParam(tag);
 
 	const [blogData, categoriesData, tagsData] = await Promise.all([
-		category
-			? loadBlogPostsByCategory(category, 10, 0)
-			: initialTags.length > 0
-				? loadBlogPostsByTag(initialTags, 10, 0)
-				: loadBlogPosts(10, 0),
+		loadFilteredBlogPosts(category, initialTags, 10, 0),
 		loadBlogCategories(),
 		loadBlogTags(),
 	]);
@@ -193,8 +188,6 @@ export default async function BlogPage({
 				total={total}
 				allCategories={allCategories}
 				allTags={allTags}
-				initialCategory={category ?? 'All'}
-				initialTags={initialTags}
 			/>
 		</>
 	);

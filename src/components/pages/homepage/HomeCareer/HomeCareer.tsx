@@ -45,7 +45,7 @@ interface HomeCareerProps {
 const HomeCareer: React.FC<HomeCareerProps> = ({
 	className = '',
 	data = {
-		title: 'Career Journey',
+		title: 'Career Journey.',
 		subtitle: 'Building digital experiences across different industries',
 	},
 	experiences = [],
@@ -184,7 +184,7 @@ const HomeCareer: React.FC<HomeCareerProps> = ({
 			<div ref={pinRef} className={styles.HomeCareer__pin}>
 				<div className={styles.HomeCareer__intro}>
 					<h2>
-						<MaskText phrases={[data.title || 'Career Journey']} />
+						<MaskText phrases={[data.title || 'Career Journey.']} />
 					</h2>
 					{data.subtitle && <p>{data.subtitle}</p>}
 				</div>

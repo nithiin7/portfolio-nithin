@@ -30,7 +30,7 @@ const Contact: React.FC = () => {
 						<div className={styles.contact__left}>
 							<h1>
 								<MaskText
-									phrases={['Say No More. Lets Bring your project to life']}
+									phrases={['Say No More. Lets Bring your project to life.']}
 								/>
 							</h1>
 							<div className={styles.contact__socials}>

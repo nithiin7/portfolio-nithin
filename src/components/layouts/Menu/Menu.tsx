@@ -1,5 +1,5 @@
 'use client';
-import { AnimatePresence, motion, useScroll } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import { usePathname } from 'next/navigation';
 import type { ReactElement, MouseEvent } from 'react';
 import { useEffect, useRef, useState } from 'react';
@@ -21,6 +21,8 @@ import {
 
 import styles from './Menu.module.scss';
 
+const SCROLL_IDLE_DELAY = 150;
+
 export interface MenuProps {
 	className?: string;
 	variant?: 'default' | 'alternative';
@@ -40,17 +42,18 @@ const Menu = ({
 	variant = 'default',
 }: MenuProps): ReactElement => {
 	const pathname = usePathname();
-	const isHomePage = pathname === '/';
 
 	const [isMenuActive, setIsMenuActive] = useState<boolean>(false);
-	const [hidden, setHidden] = useState<boolean>(!isHomePage);
+	const [showMenu, setShowMenu] = useState<boolean>(false);
 
-	const prevScrollYRef = useRef(0);
+	const scrollIdleTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
+		null
+	);
 
 	useEffect(() => {
-		setHidden(!isHomePage);
+		setShowMenu(false);
 		setIsMenuActive(false);
-	}, [isHomePage]);
+	}, [pathname]);
 
 	const menuRef = useKeyboardNavigation({
 		onEscape: () => setIsMenuActive(false),
@@ -81,8 +84,6 @@ const Menu = ({
 		}
 	};
 
-	const { scrollY } = useScroll();
-
 	/**
 	 * Handle backdrop click to close menu.
 	 */
@@ -92,40 +93,30 @@ const Menu = ({
 
 	useEffect(() => {
 		const handleScroll = () => {
-			const currentScrollY = scrollY.get();
-			const prevScrollY = prevScrollYRef.current;
-			const viewportHeight = window.innerHeight;
-
-			if (isHomePage) {
-				// Homepage: only reveal after scrolling past the hero, hide when scrolling back up
-				if (currentScrollY < prevScrollY) {
-					setHidden(false);
-				} else if (
-					currentScrollY > viewportHeight &&
-					currentScrollY > prevScrollY
-				) {
-					setHidden(true);
-					if (isMenuActive) setIsMenuActive(false);
-				}
-			} else {
-				// Other pages: standard sticky behaviour — hide on scroll down, show on scroll up
-				if (currentScrollY <= 50 || currentScrollY < prevScrollY) {
-					setHidden(true);
-				} else if (currentScrollY > 50 && currentScrollY > prevScrollY) {
-					setHidden(false);
-					if (isMenuActive) setIsMenuActive(false);
-				}
+			if (scrollIdleTimeoutRef.current) {
+				clearTimeout(scrollIdleTimeoutRef.current);
 			}
 
-			prevScrollYRef.current = currentScrollY;
+			setShowMenu(false);
+			if (isMenuActive) setIsMenuActive(false);
+
+			// Never reveal within the first viewport height of scroll.
+			if (window.scrollY < window.innerHeight) return;
+
+			scrollIdleTimeoutRef.current = setTimeout(() => {
+				setShowMenu(true);
+			}, SCROLL_IDLE_DELAY);
 		};
 
 		window.addEventListener('scroll', handleScroll);
 
 		return () => {
 			window.removeEventListener('scroll', handleScroll);
+			if (scrollIdleTimeoutRef.current) {
+				clearTimeout(scrollIdleTimeoutRef.current);
+			}
 		};
-	}, [scrollY, isMenuActive, isHomePage]);
+	}, [isMenuActive]);
 
 	return (
 		<>
@@ -152,11 +143,11 @@ const Menu = ({
 				aria-label="Main navigation"
 			>
 				<motion.div
-					aria-hidden={hidden}
+					aria-hidden={!showMenu}
 					aria-controls="menu"
 					variants={menu}
 					initial={'hidden'}
-					animate={hidden ? 'visible' : 'hidden'}
+					animate={showMenu ? 'visible' : 'hidden'}
 					transition={{ ease: [0.1, 0.25, 0.3, 1], duration: 0.6 }}
 				>
 					<div className={styles.menu__controls}>
@@ -164,8 +155,8 @@ const Menu = ({
 							aria-label="Toggle navigation menu"
 							aria-expanded={isMenuActive}
 							aria-controls="menu-panel"
-							aria-hidden={hidden}
-							tabIndex={hidden ? -1 : 0}
+							aria-hidden={!showMenu}
+							tabIndex={showMenu ? 0 : -1}
 							whileHover={{ scale: 0.95 }}
 							className={styles.menu__button}
 							onClick={() => setIsMenuActive(!isMenuActive)}

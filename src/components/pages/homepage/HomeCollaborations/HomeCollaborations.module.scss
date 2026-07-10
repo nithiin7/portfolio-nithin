@@ -3,7 +3,7 @@
 
 .HomeCollaborations {
 	background-color: $color-black;
-	padding: 5% 4%;
+	@include section-padding;
 	border-bottom-left-radius: 1.5rem;
 	border-bottom-right-radius: 1.5rem;
 	padding-bottom: rem(200);
@@ -14,10 +14,24 @@
 		font-weight: 700;
 		text-transform: uppercase;
 		text-align: left;
-		font-size: 2.5rem;
+		font-size: $heading-size-section;
+		overflow-wrap: break-word;
+		word-break: break-word;
+	}
 
-		@media #{$md} {
-			font-size: clamp(3.5rem, 2.3571rem + 4.5143vi, 10.5rem);
+	&__titleFull {
+		display: none;
+
+		@media #{$sm} {
+			display: block;
+		}
+	}
+
+	&__titleShort {
+		display: block;
+
+		@media #{$sm} {
+			display: none;
 		}
 	}
 

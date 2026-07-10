@@ -2,39 +2,38 @@
 @use 'styles/shared/variables' as *;
 
 .CommentCard {
-	background: $color-grey-verylight;
-	border: 1px solid rgba($color-border, 0.15);
-	border-radius: rem(16);
-	padding: rem(24);
-	margin-bottom: rem(20);
-	backdrop-filter: blur(10px);
-	transition: $transition;
-	box-shadow: 0 rem(4) rem(16) rgba($color-shadow, 0.1);
+	background: color-mix(in srgb, var(--color-secondary) 6%, transparent);
+	border: rem(1) solid color-mix(in srgb, var(--color-secondary) 12%, transparent);
+	border-radius: rem(20);
+	padding: rem(20);
+
+	@media #{$md} {
+		padding: rem(24);
+	}
 
 	&__header {
 		display: flex;
 		align-items: center;
-		gap: rem(16);
-		margin-bottom: rem(16);
+		gap: rem(12);
+		margin-bottom: rem(14);
 	}
 
 	&__avatar {
-		width: rem(48);
-		height: rem(48);
+		width: rem(40);
+		height: rem(40);
 		border-radius: 50%;
-		background: linear-gradient(135deg, $color-primary, $color-secondary);
+		background: $color-secondary;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		flex-shrink: 0;
-		box-shadow: 0 rem(4) rem(16) rgba($color-shadow, 0.2);
 	}
 
 	&__initials {
-		color: $color-white;
+		color: $color-primary;
 		font-weight: 600;
-		font-size: rem(16);
-		letter-spacing: 0.5px;
+		font-size: rem(13);
+		letter-spacing: 0.05em;
 	}
 
 	&__meta {
@@ -43,16 +42,16 @@
 	}
 
 	&__author {
-		color: $color-text-primary;
-		font-size: rem(16);
+		color: $color-secondary;
+		font-size: rem(15);
 		font-weight: 600;
-		line-height: 1.4;
+		line-height: 140%;
+		margin: 0;
 	}
 
 	&__date {
 		color: $color-text-secondary;
-		font-size: rem(14);
-		font-weight: 500;
+		font-size: rem(13);
 	}
 
 	&__content {
@@ -60,13 +59,15 @@
 	}
 
 	&__replyTo {
+		display: inline-flex;
+		align-items: center;
+		gap: rem(4);
 		color: $color-text-secondary;
-		font-size: rem(14);
-		margin-bottom: rem(8);
-		padding: rem(8) rem(12);
-		background: rgba(255, 87, 34, 0.1);
-		border-radius: rem(8);
-		border-left: 3px solid $color-accent;
+		font-size: rem(12);
+		padding: rem(4) rem(12);
+		background: color-mix(in srgb, var(--color-accent) 10%, transparent);
+		border-radius: rem(50);
+		margin-bottom: rem(10);
 
 		strong {
 			color: $color-accent;
@@ -75,9 +76,9 @@
 	}
 
 	&__text {
-		color: $color-text-primary;
-		font-size: rem(16);
-		line-height: 1.6;
+		color: $color-text-secondary;
+		font-size: rem(15);
+		line-height: 160%;
 		margin: 0;
 		word-wrap: break-word;
 	}
@@ -85,157 +86,51 @@
 	&__actions {
 		display: flex;
 		align-items: center;
-		gap: rem(8);
+		gap: rem(12);
 		flex-wrap: wrap;
 	}
 
-	&__replyButton,
 	&__toggleReplies {
 		background: none;
 		border: none;
 		color: $color-accent;
-		font-size: rem(14);
+		font-size: rem(13);
 		font-weight: 600;
+		font-family: $font-primary;
 		cursor: pointer;
-		padding: rem(8) rem(16);
-		border-radius: rem(8);
-		transition: $transition;
-		text-decoration: none;
-		background: rgba(255, 87, 34, 0.1);
+		padding: rem(8) rem(14);
+		border-radius: rem(50);
+		transition: background 0.3s ease;
+		white-space: nowrap;
 
 		&:hover {
-			background: rgba(255, 87, 34, 0.1);
-			color: #ff7043;
+			background: color-mix(in srgb, var(--color-accent) 10%, transparent);
 		}
 
-		&:focus {
-			outline: 2px solid $color-primary;
-			outline-offset: 2px;
+		&:focus-visible {
+			outline: rem(2) solid $color-secondary;
+			outline-offset: rem(2);
 		}
 	}
 
 	&__replyBox {
 		flex: 1;
-		min-width: 200px;
-		max-width: 400px;
-
-		.commentBox {
-			background-color: rgba($color-surface, 0.8);
-			border-color: rgba($color-border, 0.2);
-			padding: rem(8) rem(12);
-
-			&:hover {
-				border-color: $color-accent;
-				background-color: rgba($color-surface, 0.9);
-			}
-
-			&__content {
-				gap: rem(4);
-			}
-
-			&__avatar {
-				width: rem(28);
-				height: rem(28);
-			}
-
-			&__placeholder {
-				font-size: rem(13);
-			}
-
-			&__icon {
-				width: rem(14);
-				height: rem(14);
-			}
-		}
+		min-width: rem(200);
+		max-width: rem(360);
 	}
 
 	&__replies {
 		margin-top: rem(20);
-		padding-left: rem(24);
-		border-left: 2px solid rgba(255, 87, 34, 0.2);
+		padding-left: rem(16);
+		border-left: rem(1) solid
+			color-mix(in srgb, var(--color-secondary) 15%, transparent);
 		overflow: hidden;
-	}
+		display: flex;
+		flex-direction: column;
+		gap: rem(12);
 
-	&__reply {
-		margin-bottom: rem(16);
-
-		&:last-child {
-			margin-bottom: 0;
-		}
-
-		.commentCard {
-			background: rgba($color-surface, 0.6);
-			border-color: rgba($color-border, 0.1);
-			padding: rem(20);
-
-			&:hover {
-				background: rgba($color-surface, 0.7);
-				border-color: rgba($color-primary, 0.15);
-			}
-
-			.commentCard__avatar {
-				width: rem(40);
-				height: rem(40);
-
-				.commentCard__initials {
-					font-size: rem(14);
-				}
-			}
-
-			.commentCard__author {
-				font-size: rem(15);
-			}
-
-			.commentCard__text {
-				font-size: rem(15);
-			}
-		}
-	}
-
-	@media #{$md} {
-		padding: rem(20);
-
-		&__header {
-			gap: rem(12);
-		}
-
-		&__avatar {
-			width: rem(40);
-			height: rem(40);
-
-			.commentCard__initials {
-				font-size: rem(14);
-			}
-		}
-
-		&__author {
-			font-size: rem(15);
-		}
-
-		&__text {
-			font-size: rem(15);
-		}
-
-		&__replies {
-			padding-left: rem(16);
-		}
-	}
-
-	@media #{$sm} {
-		padding: rem(16);
-
-		&__header {
-			flex-direction: column;
-			align-items: flex-start;
-			gap: rem(12);
-		}
-
-		&__actions {
-			gap: rem(12);
-		}
-
-		&__replies {
-			padding-left: rem(12);
+		@media #{$md} {
+			padding-left: rem(24);
 		}
 	}
 }

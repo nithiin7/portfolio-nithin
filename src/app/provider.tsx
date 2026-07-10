@@ -1,5 +1,6 @@
 'use client';
 import { ReactLenis } from '@studio-freight/react-lenis';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import { useEffect } from 'react';
 
 import { ThemeProvider } from 'contexts/ThemeContext';
@@ -17,10 +18,12 @@ export default function Provider({
 	}, []);
 
 	return (
-		<ThemeProvider>
-			<main>
-				<ReactLenis root>{children}</ReactLenis>
-			</main>
-		</ThemeProvider>
+		<NuqsAdapter>
+			<ThemeProvider>
+				<main>
+					<ReactLenis root>{children}</ReactLenis>
+				</main>
+			</ThemeProvider>
+		</NuqsAdapter>
 	);
 }

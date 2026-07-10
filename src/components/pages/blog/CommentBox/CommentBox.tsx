@@ -1,5 +1,4 @@
 'use client';
-import { motion } from 'motion/react';
 import type { FC } from 'react';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -46,12 +45,17 @@ const CommentBox: FC<CommentBoxProps> = ({
 
 	return (
 		<>
-			<motion.div
+			<div
 				className={`${styles.CommentBox} ${className}`}
 				onClick={handleBoxClick}
-				whileHover={{ scale: 1.02 }}
-				whileTap={{ scale: 0.98 }}
-				transition={{ duration: 0.2 }}
+				onKeyDown={(e) => {
+					if (e.key === 'Enter' || e.key === ' ') {
+						e.preventDefault();
+						handleBoxClick();
+					}
+				}}
+				role="button"
+				tabIndex={0}
 			>
 				<div className={styles.CommentBox__content}>
 					<div className={styles.CommentBox__avatar}>
@@ -103,7 +107,7 @@ const CommentBox: FC<CommentBoxProps> = ({
 						</svg>
 					</div>
 				</div>
-			</motion.div>
+			</div>
 			{typeof window !== 'undefined' &&
 				createPortal(
 					<CommentModal

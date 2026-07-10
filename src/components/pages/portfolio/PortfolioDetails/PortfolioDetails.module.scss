@@ -8,14 +8,14 @@
 	min-height: 100vh;
 
 	@media #{$md} {
-		padding: rem(130) 5% rem(100);
+		padding: rem(120) 5% rem(100);
 	}
 
 	&__header {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		margin-bottom: rem(56);
+		margin-bottom: rem(40);
 	}
 
 	&__backButton {
@@ -99,7 +99,13 @@
 		border-radius: rem(12);
 		overflow: hidden;
 		aspect-ratio: 16 / 9;
+		max-height: 46vh;
 		background-color: $color-hover-bg;
+
+		@media #{$lg} {
+			aspect-ratio: 21 / 9;
+			max-height: 56vh;
+		}
 
 		img {
 			width: 100%;

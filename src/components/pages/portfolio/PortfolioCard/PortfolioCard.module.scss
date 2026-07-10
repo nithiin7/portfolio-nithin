@@ -3,7 +3,7 @@
 
 .PortfolioCard__item {
 	border-bottom: rem(1) solid $color-border;
-	padding: 1.5rem 0.5rem;
+	padding: 1.5rem 0;
 	text-decoration: none;
 	color: inherit;
 	transition: all 0.3s ease;
@@ -11,7 +11,7 @@
 	overflow: hidden;
 
 	@media #{$md} {
-		padding: 2rem 1rem;
+		padding: 2rem 0;
 	}
 
 	&:hover {

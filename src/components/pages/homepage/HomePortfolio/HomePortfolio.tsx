@@ -49,38 +49,36 @@ const HomePortfolio: FC<HomePortfolioProps> = ({
 	}
 
 	return (
-		<div className={`${styles.HomePortfolio} ${className}`}>
-			<section id="portfolio" className={styles.HomePortfolio}>
-				<div className={styles.HomePortfolio__header}>
-					<h2 className={styles.HomePortfolio__title}>
-						<MaskText phrases={[data.title ?? 'Featured Work']} />
-					</h2>
+		<section id="portfolio" className={`${styles.HomePortfolio} ${className}`}>
+			<div className={styles.HomePortfolio__header}>
+				<h2 className={styles.HomePortfolio__title}>
+					<MaskText phrases={[data.title ?? 'Featured Work']} />
+				</h2>
+			</div>
+			<div className={styles.HomePortfolio__container}>
+				<PortfolioModal modal={modal} projects={portfolio} />
+				<div className={styles.HomePortfolio__list}>
+					{visiblePortfolio.map((project, index) => (
+						<PortfolioCard
+							key={`${project.title}-${index}`}
+							project={project}
+							index={index}
+							title={project.title}
+							setModal={setModal}
+						/>
+					))}
 				</div>
-				<div className={styles.HomePortfolio__container}>
-					<PortfolioModal modal={modal} projects={portfolio} />
-					<div className={styles.HomePortfolio__list}>
-						{visiblePortfolio.map((project, index) => (
-							<PortfolioCard
-								key={`${project.title}-${index}`}
-								project={project}
-								index={index}
-								title={project.title}
-								setModal={setModal}
-							/>
-						))}
+				{hasMoreItems && (
+					<div className={styles.HomePortfolio__showMore}>
+						<Button
+							text="Show More"
+							className={styles.HomePortfolio__button}
+							onClick={handleShowMore}
+						/>
 					</div>
-					{hasMoreItems && (
-						<div className={styles.HomePortfolio__showMore}>
-							<Button
-								text="Show More"
-								className={styles.HomePortfolio__button}
-								onClick={handleShowMore}
-							/>
-						</div>
-					)}
-				</div>
-			</section>
-		</div>
+				)}
+			</div>
+		</section>
 	);
 };
 

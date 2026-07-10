@@ -40,9 +40,10 @@ export interface DatabaseComment {
 }
 
 /**
- * Database comment creation interface (without id and timestamps)
+ * Database comment creation interface (id generated client-side, no timestamps)
  */
 export interface DatabaseCommentCreate {
+	id: string;
 	post_id: string;
 	author_name: string;
 	author_email: string;

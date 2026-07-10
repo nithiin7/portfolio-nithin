@@ -267,63 +267,23 @@ export const GET_BLOG_TAGS = gql`
 `;
 
 /**
- * Query to get all blog posts by category
- * @param category - The category of the blog posts to get
+ * Query to get blog posts filtered by category and/or tags (combined as AND).
+ * Omit a variable entirely (rather than passing null) to skip that filter.
+ * @param category - The category to filter by
+ * @param tags - The tags a post must contain all of
  * @param limit - The limit of the blog posts to get
  * @param skip - The skip of the blog posts to get
  * @returns The blog posts data
  */
-export const GET_BLOG_POSTS_BY_CATEGORY = gql`
-	query GetBlogPostsByCategory(
-		$category: String!
+export const GET_FILTERED_BLOG_POSTS = gql`
+	query GetFilteredBlogPosts(
+		$category: String
+		$tags: [String!]
 		$limit: Int = 10
 		$skip: Int = 0
 	) {
 		blogPostCollection(
-			where: { category: $category }
-			limit: $limit
-			skip: $skip
-			order: [publishedDate_DESC]
-		) {
-			total
-			items {
-				sys {
-					id
-				}
-				title
-				slug
-				excerpt
-				featuredImage {
-					url
-					title
-					description
-				}
-				category
-				tags
-				authorName
-				authorAvatar {
-					url
-					title
-				}
-				publishedDate
-				updatedDate
-				readTime
-			}
-		}
-	}
-`;
-
-/**
- * Query to get all blog posts by tag
- * @param tag - The tag of the blog posts to get
- * @param limit - The limit of the blog posts to get
- * @param skip - The skip of the blog posts to get
- * @returns The blog posts data
- */
-export const GET_BLOG_POSTS_BY_TAG = gql`
-	query GetBlogPostsByTag($tags: [String!]!, $limit: Int = 10, $skip: Int = 0) {
-		blogPostCollection(
-			where: { tags_contains_some: $tags }
+			where: { category: $category, tags_contains_all: $tags }
 			limit: $limit
 			skip: $skip
 			order: [publishedDate_DESC]

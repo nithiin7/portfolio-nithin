@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import type { SubmitHandler } from 'react-hook-form';
 import { Controller, useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import { TextArea, TextInput } from 'components/utilities';
 import { commentSchema } from 'helpers/validations';
@@ -52,6 +53,9 @@ const CommentForm: FC<CommentFormProps> = ({
 
 	const handleFormSubmit: SubmitHandler<CommentFormData> = async (data) => {
 		if (!executeRecaptcha) {
+			toast.error('Spam protection failed to load', {
+				description: 'Please refresh the page and try again.',
+			});
 			return;
 		}
 
@@ -61,6 +65,9 @@ const CommentForm: FC<CommentFormProps> = ({
 			const token = await executeRecaptcha('comment_form');
 
 			if (!token) {
+				toast.error('Spam protection failed to load', {
+					description: 'Please refresh the page and try again.',
+				});
 				return;
 			}
 
@@ -136,7 +143,7 @@ const CommentForm: FC<CommentFormProps> = ({
 						render={({ field }) => (
 							<TextInput
 								{...field}
-								label="Name *"
+								label="Name"
 								placeholder="Your name"
 								className={styles.CommentForm__input}
 								errors={errors.authorName ? [errors.authorName.message!] : []}
@@ -149,7 +156,7 @@ const CommentForm: FC<CommentFormProps> = ({
 						render={({ field }) => (
 							<TextInput
 								{...field}
-								label="Email *"
+								label="Email"
 								type="email"
 								placeholder="your.email@example.com"
 								className={styles.CommentForm__input}
@@ -164,7 +171,7 @@ const CommentForm: FC<CommentFormProps> = ({
 					render={({ field }) => (
 						<TextArea
 							{...field}
-							label="Comment *"
+							label="Comment"
 							placeholder="Share your thoughts..."
 							className={styles.CommentForm__textarea}
 							errors={errors.content ? [errors.content.message!] : []}

@@ -9,6 +9,11 @@ import type {
 	ServiceResponse,
 } from 'types/comment';
 
+// Columns the anon role can SELECT — `*` fails because author_email is
+// excluded via column-level grants (migrations/supabase-security-fix.sql)
+const COMMENT_COLUMNS =
+	'id,post_id,author_name,content,parent_id,created_at,updated_at';
+
 /**
  * Comments service providing comment-specific operations
  */
@@ -37,6 +42,7 @@ export class CommentsService {
 		comment: CommentFormData & { postId: string; isApproved: boolean }
 	): DatabaseCommentCreate {
 		return {
+			id: crypto.randomUUID(),
 			post_id: comment.postId,
 			author_name: comment.authorName,
 			author_email: comment.authorEmail,
@@ -58,6 +64,7 @@ export class CommentsService {
 				{ post_id: postId },
 				{
 					orderBy: { column: 'created_at', ascending: true },
+					select: COMMENT_COLUMNS,
 				}
 			);
 
@@ -81,7 +88,8 @@ export class CommentsService {
 		try {
 			const { data, error } = await baseService.getById<DatabaseComment>(
 				this.tableName,
-				id
+				id,
+				COMMENT_COLUMNS
 			);
 
 			if (error || !data) {
@@ -105,17 +113,29 @@ export class CommentsService {
 		try {
 			const dbData = this.transformToDatabase(commentData);
 
-			const { data, error } = await baseService.post<DatabaseComment>(
-				this.tableName,
-				dbData
-			);
+			// No INSERT ... RETURNING: unapproved rows fail the moderation RLS
+			// SELECT policy, so the row is built locally from a client-generated id
+			const { error } = await baseService.post(this.tableName, dbData, {
+				select: false,
+			});
 
-			if (error || !data) {
+			if (error) {
 				return { data: null, error };
 			}
 
-			const transformedComment = this.transformComment(data);
-			return { data: transformedComment, error: null };
+			const now = new Date().toISOString();
+			return {
+				data: {
+					id: dbData.id,
+					postId: dbData.post_id,
+					authorName: dbData.author_name,
+					content: dbData.content,
+					createdAt: now,
+					updatedAt: now,
+					parentId: dbData.parent_id || undefined,
+				},
+				error: null,
+			};
 		} catch (error) {
 			console.error('Error in CommentsService.createComment:', error);
 			return { data: null, error };
@@ -183,6 +203,7 @@ export class CommentsService {
 				{ parent_id: parentId },
 				{
 					orderBy: { column: 'created_at', ascending: true },
+					select: COMMENT_COLUMNS,
 				}
 			);
 

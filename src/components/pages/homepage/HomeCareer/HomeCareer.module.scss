@@ -6,7 +6,7 @@ $story: 'screen and (min-width: 1024px) and (prefers-reduced-motion: no-preferen
 
 .HomeCareer {
 	background-color: $color-black;
-	padding: 5% 4%;
+	@include section-padding;
 	position: relative;
 	z-index: 1;
 
@@ -18,7 +18,7 @@ $story: 'screen and (min-width: 1024px) and (prefers-reduced-motion: no-preferen
 			max-width: 15ch;
 			position: relative;
 			z-index: 1;
-			font-size: clamp(3.5rem, 2.3571rem + 4.5143vi, 10.5rem);
+			font-size: $heading-size-section;
 			font-weight: 700;
 			text-wrap: balance;
 			letter-spacing: -0.025em;

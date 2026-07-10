@@ -6,11 +6,7 @@
 	background-color: $color-black;
 	color: $color-white;
 	min-height: 100vh;
-	padding: 3rem 1rem;
-
-	@media #{$md} {
-		padding: 5% 4%;
-	}
+	@include section-padding;
 
 	&__header {
 		margin-bottom: 5rem;
@@ -26,11 +22,7 @@
 		line-height: 0.9;
 		margin: 0;
 		color: $color-grey-pale;
-		font-size: clamp(2rem, 12vw, 4rem);
-
-		@media #{$md} {
-			font-size: clamp(3rem, 8vw, 8rem);
-		}
+		font-size: $heading-size-section;
 	}
 
 	&__container {

@@ -82,7 +82,14 @@ const HomeCollaborations: FC<HomeCollaborationsProps> = ({
 		>
 			<section id="collaborations">
 				<h2>
-					<MaskText phrases={[data.title ?? '']} />
+					<MaskText
+						className={styles.HomeCollaborations__titleFull}
+						phrases={[data.title ?? '']}
+					/>
+					<MaskText
+						className={styles.HomeCollaborations__titleShort}
+						phrases={['Collabs']}
+					/>
 				</h2>
 				<div className={styles.HomeCollaborations__collaborations}>
 					{logoComponents.map(({ Component, name, url }) => (

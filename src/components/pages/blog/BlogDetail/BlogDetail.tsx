@@ -1,10 +1,11 @@
 'use client';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
-import { motion } from 'motion/react';
+import { useLenis } from '@studio-freight/react-lenis';
+import { motion, useMotionValue } from 'motion/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { FC } from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import { toast } from 'sonner';
 
@@ -28,27 +29,40 @@ interface BlogDetailProps {
 }
 
 const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
-	const [readProgress, setReadProgress] = useState(0);
+	const readProgress = useMotionValue(0);
 	const [showShareRail, setShowShareRail] = useState(false);
 	const [showBackToTop, setShowBackToTop] = useState(false);
 	const [linkCopied, setLinkCopied] = useState(false);
+	const articleRef = useRef<HTMLElement>(null);
+	const metricsRef = useRef({ articleTop: 0, trackLength: 1 });
 
 	useEffect(() => {
-		const handleScroll = () => {
-			const article = document.querySelector('article');
-			if (!article) return;
-			const articleTop = article.offsetTop;
-			const articleHeight = article.scrollHeight;
-			const scrolled = window.scrollY - articleTop + window.innerHeight * 0.8;
-			setReadProgress(
-				Math.min(100, Math.max(0, (scrolled / articleHeight) * 100))
-			);
-			setShowShareRail(window.scrollY > articleTop - 120);
-			setShowBackToTop(window.scrollY > 400);
+		const article = articleRef.current;
+		if (!article) return;
+
+		const measure = () => {
+			metricsRef.current = {
+				articleTop: article.offsetTop,
+				trackLength: Math.max(article.scrollHeight - window.innerHeight, 1),
+			};
 		};
-		window.addEventListener('scroll', handleScroll, { passive: true });
-		return () => window.removeEventListener('scroll', handleScroll);
+
+		measure();
+		window.addEventListener('load', measure);
+		window.addEventListener('resize', measure);
+		return () => {
+			window.removeEventListener('load', measure);
+			window.removeEventListener('resize', measure);
+		};
 	}, []);
+
+	useLenis(({ scroll }) => {
+		const { articleTop, trackLength } = metricsRef.current;
+		const scrolled = scroll - articleTop;
+		readProgress.set(Math.min(1, Math.max(0, scrolled / trackLength)));
+		setShowShareRail(scroll > articleTop - 120);
+		setShowBackToTop(scroll > 400);
+	});
 
 	const handleShareOnFacebook = () => {
 		if (!post) return;
@@ -128,9 +142,9 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 
 	return (
 		<div className={styles.BlogDetail}>
-			<div
+			<motion.div
 				className={styles.BlogDetail__progress}
-				style={{ width: `${readProgress}%` }}
+				style={{ scaleX: readProgress }}
 			/>
 			<motion.div
 				className={styles.BlogDetail__share_rail}
@@ -316,6 +330,7 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 				)}
 				<div className={styles.BlogDetail__content_wrapper}>
 					<motion.article
+						ref={articleRef}
 						className={styles.BlogDetail__content}
 						initial={{ opacity: 0, y: 30 }}
 						animate={{ opacity: 1, y: 0 }}

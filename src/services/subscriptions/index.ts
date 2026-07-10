@@ -37,6 +37,7 @@ export class NewsletterSubscriptionsService {
 		subscriptionData: NewsletterSubscriptionFormData
 	): DatabaseNewsletterSubscriptionCreate {
 		return {
+			id: crypto.randomUUID(),
 			email: subscriptionData.email,
 		};
 	}
@@ -79,18 +80,27 @@ export class NewsletterSubscriptionsService {
 
 			const dbData = this.transformToDatabase(subscriptionData);
 
-			const { data, error } =
-				await baseService.post<DatabaseNewsletterSubscription>(
-					this.tableName,
-					dbData
-				);
+			// No INSERT ... RETURNING: anon has no SELECT policy on this table
+			// (supabase-security-fix.sql), so the row is built locally
+			const { error } = await baseService.post(this.tableName, dbData, {
+				select: false,
+			});
 
-			if (error || !data) {
+			if (error) {
 				return { data: null, error };
 			}
 
-			const transformedSubscription = this.transformSubscription(data);
-			return { data: transformedSubscription, error: null };
+			const now = new Date().toISOString();
+			return {
+				data: {
+					id: dbData.id,
+					email: dbData.email,
+					isActive: true,
+					subscribedAt: now,
+					updatedAt: now,
+				},
+				error: null,
+			};
 		} catch (error) {
 			console.error(
 				'Error in NewsletterSubscriptionsService.subscribeEmail:',

@@ -6,6 +6,7 @@ export default function BlogLoading(): React.ReactElement {
 	return (
 		<div className={styles.BlogLoading}>
 			<div className={styles.BlogLoading__container}>
+				<div className={styles.BlogLoading__backButton} />
 				<div className={styles.BlogLoading__header}>
 					<div className={styles.BlogLoading__title} />
 					<div className={styles.BlogLoading__subtitle} />

@@ -13,10 +13,11 @@
 		position: fixed;
 		top: 0;
 		left: 0;
+		width: 100%;
 		height: rem(3);
 		background: $color-accent;
 		z-index: 200;
-		transition: width 0.1s linear;
+		transform-origin: left center;
 		pointer-events: none;
 	}
 
@@ -157,7 +158,7 @@
 	}
 
 	&__breadcrumb {
-		margin-top: rem(120);
+		margin-top: rem(72);
 		margin-left: rem(10);
 	}
 
@@ -179,19 +180,19 @@
 
 	&__hero {
 		position: relative;
-		min-height: rem(600);
+		min-height: rem(420);
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		margin: rem(40) 0 0 0;
+		margin: rem(24) 0 0 0;
 		border-radius: rem(20);
 		overflow: hidden;
 		box-shadow: 0 rem(20) rem(60) rgba($color-black, 0.15);
 
 		@media #{$md} {
-			min-height: rem(500);
-			margin: rem(20) 0 0 0;
-			padding: rem(30) 0 rem(20) 0;
+			min-height: rem(340);
+			margin: rem(16) 0 0 0;
+			padding: rem(20) 0 rem(16) 0;
 		}
 	}
 
@@ -230,12 +231,12 @@
 		z-index: 3;
 		max-width: rem(1200);
 		margin: 0 auto;
-		padding: rem(60) rem(40);
+		padding: rem(40) rem(24);
 		text-align: center;
 		color: $color-white;
 
 		@media #{$md} {
-			padding: rem(40) rem(20);
+			padding: rem(28) rem(20);
 		}
 	}
 
@@ -287,13 +288,13 @@
 		display: flex;
 		align-items: center;
 		gap: rem(14);
-		padding: rem(20) rem(40);
+		padding: rem(16) rem(24);
 		flex-wrap: wrap;
 		border-bottom: 1px solid $color-border;
 		margin-bottom: rem(10);
 
 		@media #{$md} {
-			padding: rem(16) rem(20);
+			padding: rem(12) rem(20);
 		}
 	}
 
@@ -350,6 +351,7 @@
 		max-width: rem(760);
 		margin: 0 auto;
 		padding: 0 rem(20);
+		min-width: 0;
 
 		@media #{$lg} {
 			margin: 0;
@@ -478,7 +480,9 @@
 		border: 1px solid color-mix(in srgb, var(--color-secondary) 14%, transparent);
 		border-radius: rem(5);
 		padding: rem(2) rem(6);
-		white-space: nowrap;
+		white-space: pre-wrap;
+		overflow-wrap: break-word;
+		word-break: break-word;
 	}
 
 	&__content hr {

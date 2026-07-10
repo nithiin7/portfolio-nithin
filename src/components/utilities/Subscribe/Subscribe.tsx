@@ -6,6 +6,7 @@ import { useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
+import { ArrowRightIcon } from 'assets/icons';
 import { emailSchema } from 'helpers/validations';
 import { subscribeToNewsletter } from 'models/subscription';
 
@@ -69,7 +70,8 @@ const Subscribe: FC<SubscribeProps> = ({ className = '', delay = 0 }) => {
 			transition={{ duration: 0.8, delay, ease: [0.33, 1, 0.68, 1] }}
 		>
 			<div className={styles.Subscribe__content}>
-				<h2 className={styles.Subscribe__title}>STAY UPDATED</h2>
+				<span className={styles.Subscribe__label}>Newsletter</span>
+				<h2 className={styles.Subscribe__title}>Stay Updated</h2>
 				<p className={styles.Subscribe__text}>
 					Get notified when I publish new articles about design, development,
 					and creative insights.
@@ -115,6 +117,7 @@ const Subscribe: FC<SubscribeProps> = ({ className = '', delay = 0 }) => {
 							disabled={isSubmitting}
 						>
 							{isSubmitting ? 'Subscribing...' : 'Subscribe'}
+							{!isSubmitting && <ArrowRightIcon />}
 						</button>
 					</form>
 				)}
