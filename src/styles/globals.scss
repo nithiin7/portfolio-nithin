@@ -110,6 +110,9 @@
 .grainy__filter {
 	pointer-events: none;
 	position: absolute;
+	width: 0;
+	height: 0;
+	overflow: hidden;
 	cursor: none;
 }
 

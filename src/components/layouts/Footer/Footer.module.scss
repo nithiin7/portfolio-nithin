@@ -110,6 +110,10 @@
 
 		.music__title {
 			text-align: left;
+			// Flex items default to min-width: auto, which would keep this
+			// column as wide as the unwrapped song name and defeat overflow
+			// clipping below — this lets it actually shrink to the row width.
+			min-width: 0;
 
 			h2 {
 				font-size: rem(15);
@@ -117,11 +121,30 @@
 				color: $color-primary;
 			}
 
-			span {
-				font-size: rem(16);
-				font-weight: 600;
+			.music__marquee {
+				overflow: hidden;
+			}
+
+			.music__marqueeTrack {
+				display: inline-flex;
+				gap: rem(48);
+				white-space: nowrap;
+
+				&--scrolling {
+					animation-name: music-marquee;
+					animation-timing-function: linear;
+					animation-iteration-count: infinite;
+
+					&:hover {
+						animation-play-state: paused;
+					}
+				}
+
 				a {
+					font-size: rem(16);
+					font-weight: 600;
 					color: $color-white;
+					white-space: nowrap;
 				}
 			}
 		}
@@ -203,5 +226,14 @@
 			width: auto;
 			height: auto;
 		}
+	}
+}
+
+@keyframes music-marquee {
+	from {
+		transform: translateX(0);
+	}
+	to {
+		transform: translateX(calc(-1 * var(--marquee-distance)));
 	}
 }

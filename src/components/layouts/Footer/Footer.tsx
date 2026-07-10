@@ -3,7 +3,7 @@ import { useLenis } from '@studio-freight/react-lenis';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import type { ReactElement } from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link as ScrollLink } from 'react-scroll';
 
 import { FooterBackground, SpotifyIcon } from 'assets/icons';
@@ -18,6 +18,9 @@ import type { FooterLink } from 'types/utils';
 
 import styles from './Footer.module.scss';
 
+const MARQUEE_GAP = 48;
+const MARQUEE_SPEED = 50;
+
 /**
  * Footer component displaying various links, social icons, and a randomly selected song.
  * Includes a contact link if on the homepage.
@@ -27,6 +30,9 @@ import styles from './Footer.module.scss';
  */
 const Footer = (): ReactElement => {
 	const [randomSong, setRandomSong] = useState<Song | null>(null);
+	const [marqueeDistance, setMarqueeDistance] = useState(0);
+	const marqueeRef = useRef<HTMLDivElement>(null);
+	const songNameRef = useRef<HTMLAnchorElement>(null);
 	const lenis = useLenis();
 	const pathname = usePathname();
 	const { theme } = useTheme();
@@ -45,6 +51,20 @@ const Footer = (): ReactElement => {
 		const randomSong = getRandomSong();
 		setRandomSong(randomSong);
 	}, []);
+
+	useEffect(() => {
+		if (!randomSong || !marqueeRef.current || !songNameRef.current) {
+			setMarqueeDistance(0);
+			return;
+		}
+
+		const overflow =
+			songNameRef.current.scrollWidth > marqueeRef.current.clientWidth;
+
+		setMarqueeDistance(
+			overflow ? songNameRef.current.scrollWidth + MARQUEE_GAP : 0
+		);
+	}, [randomSong]);
 
 	return (
 		<footer className={styles['footer']}>
@@ -67,16 +87,46 @@ const Footer = (): ReactElement => {
 					<div className={styles['music__title']}>
 						<h2>On repeat</h2>
 						{randomSong && (
-							<span>
-								<a
-									target="_blank"
-									rel="noopener noreferrer"
-									href={randomSong.link}
-									title={randomSong.name}
+							<div className={styles['music__marquee']} ref={marqueeRef}>
+								<div
+									className={`${styles['music__marqueeTrack']} ${
+										marqueeDistance
+											? styles['music__marqueeTrack--scrolling']
+											: ''
+									}`}
+									style={
+										marqueeDistance
+											? ({
+													'--marquee-distance': `${marqueeDistance}px`,
+													animationDuration: `${
+														marqueeDistance / MARQUEE_SPEED
+													}s`,
+												} as React.CSSProperties)
+											: undefined
+									}
 								>
-									{randomSong.name}
-								</a>
-							</span>
+									<a
+										ref={songNameRef}
+										target="_blank"
+										rel="noopener noreferrer"
+										href={randomSong.link}
+										title={randomSong.name}
+									>
+										{randomSong.name}
+									</a>
+									{marqueeDistance > 0 && (
+										<a
+											aria-hidden="true"
+											tabIndex={-1}
+											target="_blank"
+											rel="noopener noreferrer"
+											href={randomSong.link}
+										>
+											{randomSong.name}
+										</a>
+									)}
+								</div>
+							</div>
 						)}
 					</div>
 				</div>

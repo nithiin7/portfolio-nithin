@@ -5,11 +5,7 @@
 	background-color: $color-black;
 	border-top-left-radius: 1.5rem;
 	border-top-right-radius: 1.5rem;
-	padding: 3.5rem 1.5rem;
-
-	@media #{$md} {
-		padding: 5% 4%;
-	}
+	@include section-padding;
 
 	&__header {
 		display: flex;
@@ -23,7 +19,7 @@
 		}
 
 		h2 {
-			font-size: clamp(3.5rem, 2.3571rem + 4.5143vi, 10.5rem);
+			font-size: $heading-size-section;
 			font-weight: 700;
 		}
 

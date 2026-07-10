@@ -2,11 +2,11 @@
 @use 'styles/shared/variables' as *;
 
 .HomeTestimonial {
-	padding: 5% 4%;
+	@include section-padding;
 
 	h2 {
 		color: $color-secondary;
-		font-size: clamp(3.5rem, 2.3571rem + 4.5143vi, 10.5rem);
+		font-size: $heading-size-section;
 		font-weight: 700;
 		text-transform: uppercase;
 		padding-bottom: 0.75rem;

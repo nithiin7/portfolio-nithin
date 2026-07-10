@@ -3,7 +3,8 @@
 
 .HomeCertifications {
 	background-color: $color-black;
-	padding: 5% 0;
+	padding: max(#{$section-spacing-y-min}, #{$section-spacing-y}) 0;
+	padding-top: max(#{$section-top-clearance-min}, #{$section-spacing-y});
 	overflow: hidden;
 	position: relative;
 
@@ -22,12 +23,14 @@
 
 		h2 {
 			color: $color-grey-pale;
-			font-size: clamp(3.5rem, 2.3571rem + 4.5143vi, 10.5rem);
+			font-size: $heading-size-section;
 			font-weight: 700;
 			text-transform: uppercase;
 			line-height: 92.5%;
 			letter-spacing: -0.025em;
 			text-wrap: balance;
+			overflow-wrap: break-word;
+			word-break: break-word;
 			margin-bottom: 1rem;
 		}
 
@@ -55,6 +58,22 @@
 				opacity: 0.85;
 				border-color: $color-accent;
 			}
+		}
+	}
+
+	&__titleFull {
+		display: none;
+
+		@media #{$sm} {
+			display: block;
+		}
+	}
+
+	&__titleShort {
+		display: block;
+
+		@media #{$sm} {
+			display: none;
 		}
 	}
 

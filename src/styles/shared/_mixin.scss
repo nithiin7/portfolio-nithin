@@ -14,3 +14,15 @@ $lg: 'screen and (min-width:' + (1024px) + ')';
 $xl: 'screen and (min-width:' + (1280px) + ')';
 $xxl: 'screen and (min-width:' + (1440px) + ')';
 $xxxl: 'screen and (min-width:' + (1920px) + ')';
+
+$section-spacing-y: 5%;
+$section-spacing-x: 4%;
+$section-spacing-y-min: rem(56);
+$section-spacing-x-min: rem(24);
+$section-top-clearance-min: rem(120);
+
+@mixin section-padding {
+	padding: max(#{$section-spacing-y-min}, #{$section-spacing-y})
+		max(#{$section-spacing-x-min}, #{$section-spacing-x});
+	padding-top: max(#{$section-top-clearance-min}, #{$section-spacing-y});
+}

@@ -115,7 +115,14 @@ const HomeCertifications: FC<HomeCertificationsProps> = ({
 				<div className={styles.HomeCertifications__container}>
 					<div className={styles.HomeCertifications__header}>
 						<h2>
-							<MaskText phrases={[data.title || 'Certifications']} />
+							<MaskText
+								className={styles.HomeCertifications__titleFull}
+								phrases={[data.title || 'Certifications']}
+							/>
+							<MaskText
+								className={styles.HomeCertifications__titleShort}
+								phrases={['Certs']}
+							/>
 						</h2>
 						{data.subtitle && <p>{data.subtitle}</p>}
 						<a
