@@ -46,3 +46,7 @@ jspm_packages
 # macOS
 .DS_Store
 tsconfig.tsbuildinfo
+
+# Playwright
+/test-results/
+/playwright-report/
