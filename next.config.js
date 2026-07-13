@@ -5,20 +5,6 @@ import { withSentryConfig } from '@sentry/nextjs';
  */
 const nextConfig = {
 	reactStrictMode: true,
-	env: {
-		NEXT_PUBLIC_SPACE_ID: '3tceq0itz5kj',
-		NEXT_PUBLIC_VERSION: 'v1',
-		NEXT_PUBLIC_ENVIRONMENT: 'master',
-		NEXT_PUBLIC_AUTHORIZATION_TOKEN:
-			'EoivlAc4VSaHS3gkCNXTYB--HKkf3gSKBR8nn_NY5DA',
-		NEXT_PUBLIC_SERVICE_ID: 'service_hh0l7yp',
-		NEXT_PUBLIC_TEMPLATE_ID: 'template_va5jl1g',
-		NEXT_PUBLIC_GOOGLE_GTM_ID: 'GTM-P4D6XZ2C',
-		NEXT_PUBLIC_EMAILJS_ID: 'g4AdPHbp-OKcLJaca',
-		NEXT_PUBLIC_SUPABASE_URL: 'https://tvoalyqxfqkdgkrqalec.supabase.co',
-		NEXT_PUBLIC_SUPABASE_ANON_KEY:
-			'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR2b2FseXF4ZnFrZGdrcnFhbGVjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM3MDA5NDIsImV4cCI6MjA5OTI3Njk0Mn0.yjGaQHx7VBl4J-2ZQ9BOLr2KA7i8mdBPnxtAVKhwWcI',
-	},
 	images: {
 		qualities: [90, 100],
 		remotePatterns: [
