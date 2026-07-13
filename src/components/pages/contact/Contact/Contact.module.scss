@@ -7,25 +7,28 @@
 	flex-direction: column;
 	padding: rem(120) 4% rem(60);
 
+	&__breadcrumb {
+		margin-bottom: rem(32);
+	}
+
 	&__backButton {
 		display: inline-flex;
 		align-items: center;
 		gap: rem(8);
 		color: $color-text-secondary;
 		text-decoration: none;
-		font-size: rem(14);
+		font-size: rem(16);
 		font-weight: 500;
 		letter-spacing: 0.02em;
 		transition: $transition;
-		margin-bottom: rem(32);
 
 		&:hover {
-			color: $color-secondary;
+			color: $color-accent;
 			transform: translateX(rem(-4));
 		}
 
 		span {
-			font-size: rem(14);
+			font-size: rem(16);
 		}
 	}
 
