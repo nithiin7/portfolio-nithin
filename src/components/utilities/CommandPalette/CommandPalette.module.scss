@@ -215,12 +215,12 @@
 
 	&__hint {
 		position: fixed;
-		bottom: rem(30);
+		bottom: max(rem(16), env(safe-area-inset-bottom));
 		left: 50%;
 		z-index: 1000;
 		display: flex;
 		align-items: center;
-		padding: rem(13) rem(18);
+		padding: rem(10);
 		background: $color-secondary;
 		color: $color-white;
 		border: 1px solid var(--color-toggle-border);
@@ -232,7 +232,7 @@
 		transition: padding 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
 		&--collapsed {
-			padding: rem(13);
+			padding: rem(10);
 		}
 
 		&:hover {
@@ -280,6 +280,11 @@
 
 		@media #{$md} {
 			bottom: rem(40);
+			padding: rem(13) rem(18);
+
+			&--collapsed {
+				padding: rem(13);
+			}
 		}
 	}
 }

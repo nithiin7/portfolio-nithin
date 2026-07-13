@@ -146,16 +146,22 @@
 		width: 100%;
 		position: relative;
 		display: flex;
+		flex-direction: column;
+		justify-content: center;
 		text-align: left;
-		align-items: flex-end;
+		align-items: flex-start;
 		overflow: hidden;
 		margin: 0 auto;
 		padding: 5% 4%;
+		padding-bottom: rem(56);
 		z-index: 2;
 
 		@media #{$md} {
+			flex-direction: row;
+			justify-content: center;
 			align-items: center;
 			text-align: center;
+			padding-bottom: 5%;
 		}
 
 		svg {
@@ -169,6 +175,48 @@
 		}
 	}
 
+	&__scrollCue {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: rem(8);
+		position: absolute;
+		left: 50%;
+		bottom: rem(76);
+		transform: translateX(-50%);
+		background: none;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		color: $color-text-dark;
+		font-size: rem(11);
+		font-weight: 500;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		z-index: 10;
+
+		@media #{$md} {
+			display: none;
+		}
+	}
+
+	&__scrollCueTrack {
+		width: rem(22);
+		height: rem(34);
+		border-radius: rem(12);
+		border: 1px solid color-mix(in srgb, $color-text-dark 25%, transparent);
+		display: flex;
+		justify-content: center;
+		padding-top: rem(6);
+	}
+
+	&__scrollCueDot {
+		width: rem(4);
+		height: rem(4);
+		border-radius: 50%;
+		background: currentColor;
+	}
+
 	&__description {
 		position: relative;
 		width: 100%;
@@ -179,14 +227,9 @@
 		flex-direction: column;
 		row-gap: 2.5rem;
 		color: $color-text-dark;
-		padding-bottom: rem(60);
 		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 		text-align: center;
 		align-items: center;
-
-		@media #{$md} {
-			padding-bottom: 0;
-		}
 
 		button {
 			background: none;
