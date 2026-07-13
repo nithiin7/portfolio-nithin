@@ -17,25 +17,24 @@
 		z-index: 2;
 	}
 
-	&__backButton {
+	&__breadcrumb {
+		margin-top: rem(72);
+		margin-left: rem(10);
+	}
+
+	&__breadcrumb_link {
+		color: $color-text-secondary;
+		text-decoration: none;
+		font-size: rem(16);
+		font-weight: 500;
+		transition: $transition;
 		display: inline-flex;
 		align-items: center;
 		gap: rem(8);
-		color: $color-text-secondary;
-		text-decoration: none;
-		font-size: rem(14);
-		font-weight: 500;
-		letter-spacing: 0.02em;
-		transition: $transition;
-		padding-top: rem(72);
 
 		&:hover {
-			color: $color-secondary;
-			transform: translateX(rem(-4));
-		}
-
-		span {
-			font-size: rem(14);
+			color: $color-accent;
+			transform: translateX(-4px);
 		}
 	}
 

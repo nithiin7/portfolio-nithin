@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { parseAsArrayOf, parseAsString, useQueryState } from 'nuqs';
 import type { FC } from 'react';
 import { useState, useMemo, useEffect, useTransition } from 'react';
-import { FiArrowLeft } from 'react-icons/fi';
 
 import { fetchFilteredPosts } from 'app/blog/actions';
 import {
@@ -214,10 +213,16 @@ const BlogListing: FC<BlogListingProps> = ({
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
 			>
-				<Link href="/" className={styles.blog__backButton}>
-					<FiArrowLeft size={16} />
-					<span>Back to Home</span>
-				</Link>
+				<motion.nav
+					className={styles.blog__breadcrumb}
+					initial={{ opacity: 0, y: 20 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.6, delay: 0.2 }}
+				>
+					<Link href="/" className={styles.blog__breadcrumb_link}>
+						← &nbsp;Back to Home
+					</Link>
+				</motion.nav>
 				<section className={styles.blog__header}>
 					<motion.div
 						className={styles.blog__header_content}
