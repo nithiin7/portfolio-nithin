@@ -3,20 +3,31 @@
 
 .CertificationBadge {
 	flex-shrink: 0;
-	width: 180px;
+	scroll-snap-align: start;
+	width: 152px;
 	background: $color-surface;
 	border: 1px solid rgba(255, 255, 255, 0.08);
 	border-radius: 10px;
-	padding: 1.25rem 1rem;
+	padding: 1rem 0.875rem;
 	cursor: pointer;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	gap: 0.875rem;
+	gap: 0.75rem;
 	text-align: left;
 	transition:
 		border-color 0.2s ease,
 		box-shadow 0.2s ease;
+
+	@media #{$sm} {
+		width: 168px;
+	}
+
+	@media #{$md} {
+		width: 180px;
+		padding: 1.25rem 1rem;
+		gap: 0.875rem;
+	}
 
 	&:hover {
 		border-color: rgba(255, 255, 255, 0.18);

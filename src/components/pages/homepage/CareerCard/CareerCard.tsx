@@ -84,8 +84,20 @@ const CareerCard: React.FC<CareerCardProps> = ({
 						</div>
 					</div>
 					<div className={styles.CareerCard__meta}>
-						<span>{experience.duration}</span>
-						{experience.location && <span>{experience.location}</span>}
+						<span className={styles.CareerCard__metaText}>
+							<span>{experience.duration}</span>
+							{experience.location && (
+								<>
+									<span
+										className={styles.CareerCard__metaDot}
+										aria-hidden="true"
+									>
+										•
+									</span>
+									<span>{experience.location}</span>
+								</>
+							)}
+						</span>
 						<span className={styles.CareerCard__type}>{experience.type}</span>
 					</div>
 				</div>

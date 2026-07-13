@@ -204,7 +204,7 @@ $story: 'screen and (min-width: 1024px) and (prefers-reduced-motion: no-preferen
 			padding-left: 0;
 			flex: 1;
 			min-height: 0;
-			overflow-y: auto;
+			overflow: hidden;
 
 			&::before {
 				content: none;

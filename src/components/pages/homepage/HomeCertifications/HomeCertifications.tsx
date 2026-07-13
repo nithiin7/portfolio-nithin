@@ -1,6 +1,7 @@
 'use client';
 import gsap from 'gsap';
 import { useEffect, useRef, useState, type FC } from 'react';
+import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { useInView } from 'react-intersection-observer';
 
 import CertificationBadge from 'components/pages/homepage/CertificationBadge/CertificationBadge';
@@ -9,6 +10,9 @@ import { MaskText, Modal } from 'components/utilities';
 import type { Certification } from 'types/certification';
 
 import styles from './HomeCertifications.module.scss';
+
+const MARQUEE_QUERY =
+	'(min-width: 768px) and (prefers-reduced-motion: no-preference)';
 
 interface HomeCertificationsProps {
 	className?: string;
@@ -39,6 +43,10 @@ const HomeCertifications: FC<HomeCertificationsProps> = ({
 }) => {
 	const [selectedCertification, setSelectedCertification] =
 		useState<Certification | null>(null);
+	const [isMarquee, setIsMarquee] = useState(false);
+	const [canScrollLeft, setCanScrollLeft] = useState(false);
+	const [canScrollRight, setCanScrollRight] = useState(false);
+	const trackRef = useRef<HTMLDivElement>(null);
 	const carouselRef = useRef<HTMLDivElement>(null);
 	const tweenRef = useRef<gsap.core.Tween | null>(null);
 	const { ref: inViewRef, inView } = useInView({
@@ -56,6 +64,10 @@ const HomeCertifications: FC<HomeCertificationsProps> = ({
 		...certifications,
 	];
 
+	const certificationsToRender = isMarquee
+		? duplicatedCertifications
+		: certifications;
+
 	const handleBadgeClick = (certification: Certification) => {
 		setSelectedCertification(certification);
 	};
@@ -65,7 +77,55 @@ const HomeCertifications: FC<HomeCertificationsProps> = ({
 	};
 
 	useEffect(() => {
-		if (!carouselRef.current || !inView) return;
+		const mql = window.matchMedia(MARQUEE_QUERY);
+		setIsMarquee(mql.matches);
+
+		const handleChange = (event: MediaQueryListEvent) => {
+			setIsMarquee(event.matches);
+		};
+
+		mql.addEventListener('change', handleChange);
+		return () => mql.removeEventListener('change', handleChange);
+	}, []);
+
+	useEffect(() => {
+		const track = trackRef.current;
+		if (!track || isMarquee) {
+			setCanScrollLeft(false);
+			setCanScrollRight(false);
+			return;
+		}
+
+		const updateScrollState = () => {
+			setCanScrollLeft(track.scrollLeft > 4);
+			setCanScrollRight(
+				track.scrollLeft + track.clientWidth < track.scrollWidth - 4
+			);
+		};
+
+		updateScrollState();
+		track.addEventListener('scroll', updateScrollState, { passive: true });
+
+		const resizeObserver = new ResizeObserver(updateScrollState);
+		resizeObserver.observe(track);
+
+		return () => {
+			track.removeEventListener('scroll', updateScrollState);
+			resizeObserver.disconnect();
+		};
+	}, [isMarquee, certifications.length]);
+
+	const scrollByDirection = (direction: 1 | -1) => {
+		const track = trackRef.current;
+		if (!track) return;
+		track.scrollBy({
+			left: direction * track.clientWidth * 0.85,
+			behavior: 'smooth',
+		});
+	};
+
+	useEffect(() => {
+		if (!carouselRef.current || !inView || !isMarquee) return;
 
 		const totalWidthPercent = 100 / 3;
 
@@ -79,7 +139,7 @@ const HomeCertifications: FC<HomeCertificationsProps> = ({
 		});
 
 		return () => ctx.revert();
-	}, [inView]);
+	}, [inView, isMarquee]);
 
 	useEffect(() => {
 		if (!tweenRef.current) return;
@@ -135,23 +195,50 @@ const HomeCertifications: FC<HomeCertificationsProps> = ({
 						</a>
 					</div>
 
-					<div className={styles.HomeCertifications__track}>
-						<div
-							className={styles.HomeCertifications__carousel}
-							ref={carouselRef}
-							role="presentation"
-							onMouseEnter={handleMouseEnter}
-							onMouseLeave={handleMouseLeave}
-							style={{ display: 'flex', width: '300%' }}
-						>
-							{duplicatedCertifications.map((certification, index) => (
-								<CertificationBadge
-									key={`${certification.id}-${index}`}
-									certification={certification}
-									onClick={() => handleBadgeClick(certification)}
-								/>
-							))}
+					<div className={styles.HomeCertifications__trackWrapper}>
+						<div className={styles.HomeCertifications__track} ref={trackRef}>
+							<div
+								className={styles.HomeCertifications__carousel}
+								ref={carouselRef}
+								role="presentation"
+								onMouseEnter={handleMouseEnter}
+								onMouseLeave={handleMouseLeave}
+								style={{
+									display: 'flex',
+									width: isMarquee ? '300%' : undefined,
+								}}
+							>
+								{certificationsToRender.map((certification, index) => (
+									<CertificationBadge
+										key={`${certification.id}-${index}`}
+										certification={certification}
+										onClick={() => handleBadgeClick(certification)}
+									/>
+								))}
+							</div>
 						</div>
+						{!isMarquee && (
+							<>
+								<button
+									type="button"
+									className={styles.HomeCertifications__arrow}
+									onClick={() => scrollByDirection(-1)}
+									disabled={!canScrollLeft}
+									aria-label="Scroll to previous certifications"
+								>
+									<FiChevronLeft size={18} />
+								</button>
+								<button
+									type="button"
+									className={`${styles.HomeCertifications__arrow} ${styles['HomeCertifications__arrow--next']}`}
+									onClick={() => scrollByDirection(1)}
+									disabled={!canScrollRight}
+									aria-label="Scroll to more certifications"
+								>
+									<FiChevronRight size={18} />
+								</button>
+							</>
+						)}
 					</div>
 				</div>
 			</section>
