@@ -93,6 +93,9 @@ export async function generateMetadata(): Promise<Metadata> {
 		},
 		alternates: {
 			canonical: 'https://portfolio-nithin.vercel.app/',
+			types: {
+				'application/rss+xml': 'https://portfolio-nithin.vercel.app/feed.xml',
+			},
 		},
 	};
 }
