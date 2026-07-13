@@ -177,11 +177,11 @@ const HomeCertifications: FC<HomeCertificationsProps> = ({
 						<h2>
 							<MaskText
 								className={styles.HomeCertifications__titleFull}
-								phrases={[data.title || 'Certifications']}
+								phrases={[data.title || 'Certifications.']}
 							/>
 							<MaskText
 								className={styles.HomeCertifications__titleShort}
-								phrases={['Certs']}
+								phrases={['Certs.']}
 							/>
 						</h2>
 						{data.subtitle && <p>{data.subtitle}</p>}

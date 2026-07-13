@@ -88,7 +88,7 @@ const HomeCollaborations: FC<HomeCollaborationsProps> = ({
 					/>
 					<MaskText
 						className={styles.HomeCollaborations__titleShort}
-						phrases={['Collabs']}
+						phrases={['Collabs.']}
 					/>
 				</h2>
 				<div className={styles.HomeCollaborations__collaborations}>

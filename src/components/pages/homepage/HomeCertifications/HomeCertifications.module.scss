@@ -64,7 +64,7 @@
 	&__titleFull {
 		display: none;
 
-		@media #{$sm} {
+		@media #{$md} {
 			display: block;
 		}
 	}
@@ -72,7 +72,7 @@
 	&__titleShort {
 		display: block;
 
-		@media #{$sm} {
+		@media #{$md} {
 			display: none;
 		}
 	}
