@@ -48,8 +48,10 @@ const TestimonialCard: FC<TestimonialCardProps> = ({
 					/>
 				</div>
 				<div className={styles.TestimonialCard__info}>
-					<span className={styles.Info__name}>{item.reviewer}</span>
-					<span className={styles.Info__institution}>{item.institution}</span>
+					<span className={styles.TestimonialCard__name}>{item.reviewer}</span>
+					<span className={styles.TestimonialCard__institution}>
+						{item.institution}
+					</span>
 				</div>
 			</div>
 		</div>
