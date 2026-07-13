@@ -103,20 +103,23 @@
 	}
 
 	&__description {
-		margin-top: 3rem;
-		font-size: 2rem;
+		margin-top: 1.5rem;
+		font-size: clamp(1.0625rem, 0.95rem + 1.4vw, 2rem);
 		color: $color-grey-medium;
 		font-weight: 500;
 		width: 100%;
 		display: flex;
-		align-items: flex-end;
-		justify-content: flex-end;
+		align-items: flex-start;
+		justify-content: flex-start;
 		position: relative;
 		text-wrap: pretty;
-		line-height: 130%;
+		line-height: 150%;
 
 		@media #{$md} {
 			margin-top: -3rem;
+			align-items: flex-end;
+			justify-content: flex-end;
+			line-height: 130%;
 		}
 
 		span {

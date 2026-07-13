@@ -122,6 +122,10 @@
 		@media #{$md} {
 			padding: 0 rem(15);
 		}
+
+		@media #{$xxxxl} {
+			max-width: rem(2400);
+		}
 	}
 
 	&__loading {
@@ -194,6 +198,10 @@
 			margin: rem(16) 0 0 0;
 			padding: rem(20) 0 rem(16) 0;
 		}
+
+		@media #{$xxxxl} {
+			min-height: rem(520);
+		}
 	}
 
 	&__hero_background {
@@ -237,6 +245,14 @@
 
 		@media #{$md} {
 			padding: rem(28) rem(20);
+		}
+
+		@media #{$xxl} {
+			max-width: rem(1320);
+		}
+
+		@media #{$xxxxl} {
+			max-width: rem(1600);
 		}
 	}
 
@@ -344,6 +360,14 @@
 			justify-content: center;
 			gap: rem(60);
 		}
+
+		@media #{$xl} {
+			gap: rem(80);
+		}
+
+		@media #{$xxl} {
+			gap: rem(100);
+		}
 	}
 
 	&__content {
@@ -358,6 +382,14 @@
 			flex: 1;
 			max-width: rem(760);
 			padding: 0 rem(40);
+		}
+
+		@media #{$xl} {
+			max-width: rem(820);
+		}
+
+		@media #{$xxl} {
+			max-width: rem(860);
 		}
 
 		> :first-child {
@@ -477,7 +509,8 @@
 		font-style: normal;
 		color: $color-secondary;
 		background: color-mix(in srgb, var(--color-secondary) 8%, transparent);
-		border: 1px solid color-mix(in srgb, var(--color-secondary) 14%, transparent);
+		border: 1px solid
+			color-mix(in srgb, var(--color-secondary) 14%, transparent);
 		border-radius: rem(5);
 		padding: rem(2) rem(6);
 		white-space: pre-wrap;
@@ -579,11 +612,17 @@
 	&__content_link {
 		color: inherit;
 		font-weight: 500;
-		transition: color 250ms ease, text-decoration-color 250ms ease;
+		transition:
+			color 250ms ease,
+			text-decoration-color 250ms ease;
 		text-decoration: underline;
 		text-decoration-thickness: rem(1.5);
 		text-underline-offset: rem(4);
-		text-decoration-color: color-mix(in srgb, var(--color-accent) 55%, transparent);
+		text-decoration-color: color-mix(
+			in srgb,
+			var(--color-accent) 55%,
+			transparent
+		);
 
 		&:hover {
 			color: $color-accent;
@@ -600,7 +639,8 @@
 		max-width: 100%;
 		height: auto;
 		border-radius: rem(10);
-		border: 1px solid color-mix(in srgb, var(--color-secondary) 10%, transparent);
+		border: 1px solid
+			color-mix(in srgb, var(--color-secondary) 10%, transparent);
 	}
 
 	&__content_caption {
@@ -653,7 +693,9 @@
 		font-weight: 700;
 		z-index: 100;
 		box-shadow: 0 rem(4) rem(16) rgba($color-black, 0.2);
-		transition: background 400ms ease, box-shadow 400ms ease;
+		transition:
+			background 400ms ease,
+			box-shadow 400ms ease;
 
 		&:hover {
 			background: $color-accent-hover;
@@ -665,7 +707,6 @@
 		}
 	}
 
-
 	&__toc_wrapper {
 		display: none;
 
@@ -674,6 +715,14 @@
 			width: rem(260);
 			flex-shrink: 0;
 			position: relative;
+		}
+
+		@media #{$xl} {
+			width: rem(280);
+		}
+
+		@media #{$xxl} {
+			width: rem(300);
 		}
 	}
 

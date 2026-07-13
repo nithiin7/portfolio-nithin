@@ -3,8 +3,8 @@
 
 .container {
 	position: fixed;
-	bottom: rem(30);
-	right: rem(30);
+	bottom: max(rem(16), env(safe-area-inset-bottom));
+	right: rem(16);
 	z-index: 1000;
 
 	@media #{$md} {
@@ -15,8 +15,8 @@
 
 .FloatingButton {
 	position: relative;
-	width: rem(60);
-	height: rem(60);
+	width: rem(46);
+	height: rem(46);
 	border-radius: 50%;
 	background: $color-secondary;
 	border: none;
@@ -89,10 +89,11 @@
 
 .ChatWindow {
 	position: fixed;
-	bottom: rem(100);
-	right: rem(30);
-	width: rem(350);
-	height: rem(500);
+	bottom: rem(74);
+	right: rem(16);
+	left: rem(16);
+	width: auto;
+	height: min(rem(500), 65vh);
 	background: white;
 	border-radius: rem(16);
 	box-shadow: 0 rem(20) rem(60) rgba(0, 0, 0, 0.15);
@@ -110,6 +111,7 @@
 		height: rem(550);
 		bottom: rem(120);
 		right: rem(40);
+		left: auto;
 	}
 
 	@media #{$lg} {

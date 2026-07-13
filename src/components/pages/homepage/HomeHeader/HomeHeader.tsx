@@ -448,6 +448,28 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 						{data.items[1].descriptionShort}
 					</motion.p>
 				</motion.div>
+				<motion.button
+					type="button"
+					className={styles.HomeHeader__scrollCue}
+					initial={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					transition={{ duration: 0.6, delay: 1.6 }}
+					onClick={(e) => handleNavClick('/#services', e)}
+					aria-label="Scroll to next section"
+				>
+					<span className={styles.HomeHeader__scrollCueTrack}>
+						<motion.span
+							className={styles.HomeHeader__scrollCueDot}
+							animate={{ y: [0, 14, 0], opacity: [1, 0.3, 1] }}
+							transition={{
+								duration: 1.8,
+								repeat: Infinity,
+								ease: 'easeInOut',
+							}}
+						/>
+					</span>
+					Scroll
+				</motion.button>
 			</div>
 			<Cursor isHovered={isHovered} />
 		</motion.header>

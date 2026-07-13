@@ -28,19 +28,19 @@
 		font-family: inherit;
 		color: $color-text-secondary;
 		text-decoration: none;
-		font-size: rem(14);
+		font-size: rem(16);
 		font-weight: 500;
 		letter-spacing: 0.02em;
 		cursor: pointer;
 		transition: $transition;
 
 		&:hover {
-			color: $color-text-dark;
-			transform: translateX(-4px);
+			color: $color-accent;
+			transform: translateX(rem(-4));
 		}
 
 		span {
-			font-size: rem(14);
+			font-size: rem(16);
 		}
 	}
 

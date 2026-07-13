@@ -1,4 +1,5 @@
 'use client';
+import { motion } from 'motion/react';
 import Link from 'next/link';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import { FiArrowLeft } from 'react-icons/fi';
@@ -21,10 +22,17 @@ const Contact: React.FC = () => {
 			}}
 		>
 			<div className={styles.contact}>
-				<Link href="/" className={styles.contact__backButton}>
-					<FiArrowLeft size={16} />
-					<span>Back to Home</span>
-				</Link>
+				<motion.nav
+					className={styles.contact__breadcrumb}
+					initial={{ opacity: 0, y: 20 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.6, delay: 0.2 }}
+				>
+					<Link href="/" className={styles.contact__backButton}>
+						<FiArrowLeft size={16} />
+						<span>Back to Home</span>
+					</Link>
+				</motion.nav>
 				<div className={styles.contact__inner}>
 					<div className={styles.contact__grid}>
 						<div className={styles.contact__left}>

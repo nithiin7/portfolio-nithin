@@ -37,29 +37,59 @@
 
 	&__collaborations {
 		width: 100%;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		gap: rem(100);
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: rem(36) rem(16);
 		align-items: center;
+		justify-items: center;
+
+		@media #{$sm} {
+			gap: rem(40) rem(24);
+		}
 
 		@media #{$md} {
-			flex-direction: row;
+			display: flex;
+			flex-wrap: nowrap;
+			justify-content: space-between;
+			gap: rem(40);
 		}
 	}
 
 	&__companies {
-		height: rem(100);
-		width: 100%;
-		max-width: rem(250);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: rem(36);
+
+		&:last-child {
+			grid-column: 1 / -1;
+		}
 
 		svg {
+			display: block;
+			width: auto;
 			height: 100%;
-			width: 100%;
+			max-width: rem(110);
+		}
+
+		@media #{$sm} {
+			height: rem(44);
+
+			svg {
+				max-width: rem(130);
+			}
 		}
 
 		@media #{$md} {
-			width: 33%;
+			height: rem(64);
+
+			&:last-child {
+				grid-column: auto;
+			}
+
+			svg {
+				max-width: rem(180);
+			}
 		}
 	}
 

@@ -20,8 +20,9 @@
 	&__categories {
 		display: flex;
 		align-items: center;
-		gap: rem(40);
+		gap: rem(16);
 		flex: 1;
+		min-width: 0;
 
 		@media #{$md} {
 			gap: rem(20);
@@ -39,11 +40,21 @@
 		padding: rem(8) rem(0);
 		position: relative;
 		transition: color 0.3s ease;
+		flex: 1 1 auto;
+		min-width: 0;
+		max-width: 100%;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+
+		@media #{$md} {
+			flex: none;
+		}
 
 		&::after {
 			content: '';
 			position: absolute;
-			bottom: rem(-4);
+			bottom: 0;
 			left: 0;
 			width: 0;
 			height: 2px;
