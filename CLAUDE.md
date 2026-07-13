@@ -10,7 +10,7 @@ Personal portfolio website for **Nithin Pradeep** (Full Stack Developer). A cont
 
 **Tech stack:**
 
-- Next.js 15 (App Router, Turbopack in dev)
+- Next.js 16 (App Router, Turbopack in dev)
 - React 19 + TypeScript (strict mode)
 - SCSS Modules for styling
 - Contentful CMS → Apollo Client (GraphQL) for all page/blog/portfolio content
