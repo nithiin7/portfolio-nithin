@@ -204,6 +204,23 @@ export class BaseService {
 	}
 
 	/**
+	 * Generic RPC call for Postgres functions
+	 */
+	async rpc<T = unknown>(
+		fn: string,
+		args?: Record<string, unknown>
+	): Promise<ServiceResponse<T>> {
+		try {
+			const { data, error } = await this.client.rpc(fn, args);
+
+			return { data: error ? null : (data as T), error };
+		} catch (error) {
+			console.error(`Error in BaseService.rpc for function ${fn}:`, error);
+			return { data: null, error };
+		}
+	}
+
+	/**
 	 * Generic query operation for complex queries
 	 */
 	async query<T = unknown>(
