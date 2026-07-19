@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { FC } from 'react';
+import { ViewTransition } from 'react';
 
 import { ArrowIcon } from 'assets/icons';
 import type { BlogPost } from 'types/blog';
@@ -27,16 +28,24 @@ const BlogCard: FC<BlogCardProps> = ({ post }) => {
 			<Link href={`/blog/${post.slug}`} className={styles.BlogCard__link}>
 				<div className={styles.BlogCard__image_container}>
 					{post.featuredImage && (
-						<div className={styles.BlogCard__image_wrapper}>
-							<Image
-								src={post.featuredImage.url}
-								alt={post.featuredImage.title || post.title}
-								className={styles.BlogCard__image}
-								width={500}
-								height={500}
-							/>
-							<div className={styles.BlogCard__image_overlay} />
-						</div>
+						<ViewTransition
+							name={`blog-image-${post.slug}`}
+							share="blog-image-morph"
+							enter="none"
+							exit="none"
+							update="none"
+						>
+							<div className={styles.BlogCard__image_wrapper}>
+								<Image
+									src={post.featuredImage.url}
+									alt={post.featuredImage.title || post.title}
+									className={styles.BlogCard__image}
+									width={500}
+									height={500}
+								/>
+								<div className={styles.BlogCard__image_overlay} />
+							</div>
+						</ViewTransition>
 					)}
 					<div className={styles.BlogCard__category}>{post.category}</div>
 				</div>

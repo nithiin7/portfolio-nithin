@@ -190,3 +190,29 @@ html.lenis {
 		}
 	}
 }
+
+::view-transition-group(.blog-image-morph) {
+	animation-duration: 0.55s;
+	animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+::view-transition-image-pair(.blog-image-morph) {
+	border-radius: rem(20);
+	overflow: clip;
+}
+
+::view-transition-old(.blog-image-morph),
+::view-transition-new(.blog-image-morph) {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	::view-transition-group(*),
+	::view-transition-image-pair(*),
+	::view-transition-old(*),
+	::view-transition-new(*) {
+		animation: none !important;
+	}
+}

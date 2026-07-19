@@ -5,7 +5,7 @@ import { motion, useMotionValue } from 'motion/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { FC } from 'react';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, ViewTransition } from 'react';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import { toast } from 'sonner';
 
@@ -238,12 +238,7 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 			>
 				↑
 			</motion.button>
-			<motion.div
-				className={styles.BlogDetail__container}
-				initial={{ opacity: 0 }}
-				animate={{ opacity: 1 }}
-				transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
-			>
+			<div className={styles.BlogDetail__container}>
 				<motion.nav
 					className={styles.BlogDetail__breadcrumb}
 					initial={{ opacity: 0, y: 20 }}
@@ -254,23 +249,26 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 						← &nbsp;Back to Blog
 					</Link>
 				</motion.nav>
-				<motion.section
-					className={styles.BlogDetail__hero}
-					initial={{ opacity: 0, y: 30 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.8, delay: 0.3 }}
-				>
+				<section className={styles.BlogDetail__hero}>
 					{post.featuredImage && (
-						<div className={styles.BlogDetail__hero_background}>
-							<Image
-								src={post.featuredImage.url}
-								alt={post.featuredImage.title || post.title}
-								fill
-								className={styles.BlogDetail__hero_bg_image}
-								priority
-							/>
-							<div className={styles.BlogDetail__hero_overlay} />
-						</div>
+						<ViewTransition
+							name={`blog-image-${post.slug}`}
+							share="blog-image-morph"
+							enter="none"
+							exit="none"
+							update="none"
+						>
+							<div className={styles.BlogDetail__hero_background}>
+								<Image
+									src={post.featuredImage.url}
+									alt={post.featuredImage.title || post.title}
+									fill
+									className={styles.BlogDetail__hero_bg_image}
+									priority
+								/>
+								<div className={styles.BlogDetail__hero_overlay} />
+							</div>
+						</ViewTransition>
 					)}
 					<div className={styles.BlogDetail__hero_content}>
 						<motion.div
@@ -298,7 +296,7 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 							{post.excerpt}
 						</motion.p>
 					</div>
-				</motion.section>
+				</section>
 				<motion.div
 					className={styles.BlogDetail__byline}
 					initial={{ opacity: 0, y: 16 }}
@@ -519,7 +517,7 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 				>
 					<CommentSection postId={post.id} postSlug={post.slug} />
 				</GoogleReCaptchaProvider>
-			</motion.div>
+			</div>
 		</div>
 	);
 };

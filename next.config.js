@@ -10,6 +10,9 @@ const withBundleAnalyzer = bundleAnalyzer({
  */
 const nextConfig = {
 	reactStrictMode: true,
+	experimental: {
+		viewTransition: true,
+	},
 	images: {
 		qualities: [90, 100],
 		remotePatterns: [
