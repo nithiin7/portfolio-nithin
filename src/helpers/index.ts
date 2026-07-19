@@ -1,4 +1,4 @@
-import type { LenisInstance } from '@studio-freight/react-lenis';
+import type Lenis from 'lenis';
 
 /**
  * Helper function to parse comma-separated strings into arrays
@@ -46,7 +46,7 @@ export const getImageUrl = (
  *
  * @param {string} to - The ID of the section to scroll to.
  */
-export const handleScroll = (to: string, lenis: LenisInstance) => {
+export const handleScroll = (to: string, lenis: Lenis | undefined) => {
 	if (lenis) {
 		lenis.scrollTo(`#${to}`, {
 			duration: 2,

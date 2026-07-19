@@ -1,6 +1,6 @@
 'use client';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
-import { useLenis } from '@studio-freight/react-lenis';
+import { useLenis } from 'lenis/react';
 import { motion, useMotionValue } from 'motion/react';
 import Image from 'next/image';
 import Link from 'next/link';
