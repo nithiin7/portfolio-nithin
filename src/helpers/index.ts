@@ -139,16 +139,6 @@ export const slugify = (text: string): string => {
 		.replace(/^-+|-+$/g, '');
 };
 
-export {
-	convertContentfulBlogPost,
-	convertContentfulCategory,
-	convertContentfulTag,
-	loadBlogPosts,
-	loadBlogPostBySlug,
-	loadData,
-	loadPortfolioData,
-} from './contentful';
-
 export * from './analytics';
 export * from './animations';
 export * from './blog';
