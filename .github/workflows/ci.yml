@@ -65,10 +65,10 @@ jobs:
     name: E2E smoke tests
     runs-on: ubuntu-latest
     env:
-      NEXT_PUBLIC_ENVIRONMENT: ${{ secrets.NEXT_PUBLIC_ENVIRONMENT }}
-      NEXT_PUBLIC_SPACE_ID: ${{ secrets.NEXT_PUBLIC_SPACE_ID }}
-      NEXT_PUBLIC_VERSION: ${{ secrets.NEXT_PUBLIC_VERSION }}
-      NEXT_PUBLIC_AUTHORIZATION_TOKEN: ${{ secrets.NEXT_PUBLIC_AUTHORIZATION_TOKEN }}
+      CONTENTFUL_ENVIRONMENT: ${{ secrets.CONTENTFUL_ENVIRONMENT }}
+      CONTENTFUL_SPACE_ID: ${{ secrets.CONTENTFUL_SPACE_ID }}
+      CONTENTFUL_VERSION: ${{ secrets.CONTENTFUL_VERSION }}
+      CONTENTFUL_ACCESS_TOKEN: ${{ secrets.CONTENTFUL_ACCESS_TOKEN }}
       NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
       NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
       NEXT_PUBLIC_RECAPTCHA_SITE_KEY: ${{ secrets.NEXT_PUBLIC_RECAPTCHA_SITE_KEY }}
@@ -80,7 +80,7 @@ jobs:
       # skips e2e cleanly on repos/forks without Contentful credentials
       - name: Check secrets
         id: secrets
-        run: echo "available=${{ env.NEXT_PUBLIC_SPACE_ID != '' }}" >> "$GITHUB_OUTPUT"
+        run: echo "available=${{ env.CONTENTFUL_SPACE_ID != '' }}" >> "$GITHUB_OUTPUT"
 
       - name: Setup pnpm
         if: steps.secrets.outputs.available == 'true'
