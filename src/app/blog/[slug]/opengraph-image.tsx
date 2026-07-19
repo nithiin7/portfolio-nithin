@@ -9,7 +9,6 @@ export const alt = 'Blog post - Nithin Pradeep';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
-// css2 with a text= param serves a TTF subset directly, which ImageResponse can consume
 async function loadGoogleFont(
 	family: string,
 	weight: number,
@@ -17,7 +16,13 @@ async function loadGoogleFont(
 ): Promise<ArrayBuffer> {
 	const css = await (
 		await fetch(
-			`https://fonts.googleapis.com/css2?family=${family}:wght@${weight}&text=${encodeURIComponent(text)}`
+			`https://fonts.googleapis.com/css2?family=${family}:wght@${weight}&text=${encodeURIComponent(text)}`,
+			{
+				headers: {
+					'User-Agent':
+						'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8) AppleWebKit/533.21.1 (KHTML, like Gecko) Version/5.0.5 Safari/533.21.1',
+				},
+			}
 		)
 	).text();
 	const resource = css.match(
