@@ -10,6 +10,8 @@ import {
 	loadBlogPosts,
 } from 'helpers/contentful';
 
+export const revalidate = 3600;
+
 export async function generateStaticParams() {
 	const { data } = await loadBlogPosts(100, 0);
 	return (

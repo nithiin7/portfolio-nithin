@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation';
 import { PortfolioDetails } from 'components/pages';
 import { loadPortfolioData, loadAllPortfolioIds } from 'helpers/contentful';
 
+export const revalidate = 3600;
+
 export async function generateStaticParams() {
 	const ids = await loadAllPortfolioIds();
 	return ids.map((id) => ({ id: String(id) }));
