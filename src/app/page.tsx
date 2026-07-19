@@ -12,6 +12,8 @@ import { transformCareerData } from 'helpers/career';
 import { loadData } from 'helpers/contentful';
 import type { Certification } from 'types/certification';
 
+export const revalidate = 3600;
+
 const HomeCareer = dynamic(
 	() => import('components/pages/homepage/HomeCareer/HomeCareer')
 );

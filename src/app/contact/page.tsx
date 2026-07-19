@@ -4,6 +4,8 @@ import Script from 'next/script';
 import { Contact } from 'components/pages';
 import { loadData } from 'helpers/contentful';
 
+export const revalidate = 3600;
+
 export async function generateMetadata(): Promise<Metadata> {
 	const props = await loadData('contact');
 	const path = props?.data.pageCollection.items[0];

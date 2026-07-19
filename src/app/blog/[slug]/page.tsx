@@ -10,6 +10,8 @@ import {
 	loadBlogPosts,
 } from 'helpers/contentful';
 
+export const revalidate = 3600;
+
 export async function generateStaticParams() {
 	const { data } = await loadBlogPosts(100, 0);
 	return (
@@ -53,14 +55,6 @@ export async function generateMetadata({
 			title: convertedPost.seoTitle || convertedPost.title,
 			description: convertedPost.seoDescription || convertedPost.excerpt,
 			siteName: 'Nithin Pradeep - Portfolio',
-			images: [
-				{
-					url: convertedPost.featuredImage?.url || '/opengraph-image.jpeg',
-					width: 1200,
-					height: 630,
-					alt: convertedPost.featuredImage?.title || convertedPost.title,
-				},
-			],
 			publishedTime: convertedPost.publishedDate,
 			modifiedTime: convertedPost.updatedDate,
 			authors: [convertedPost.authorName],
@@ -71,7 +65,6 @@ export async function generateMetadata({
 			title: convertedPost.seoTitle || convertedPost.title,
 			description: convertedPost.seoDescription || convertedPost.excerpt,
 			creator: '@nithiin7',
-			images: [convertedPost.featuredImage?.url || '/opengraph-image.jpeg'],
 		},
 		robots: {
 			index: true,

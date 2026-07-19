@@ -19,6 +19,7 @@ import {
 	shareOnLinkedIn,
 	shareOnWhatsApp,
 } from 'helpers';
+import { clientEnv } from 'helpers/env';
 import type { BlogPost } from 'types/blog';
 
 import styles from './BlogDetail.module.scss';
@@ -35,6 +36,19 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 	const [linkCopied, setLinkCopied] = useState(false);
 	const articleRef = useRef<HTMLElement>(null);
 	const metricsRef = useRef({ articleTop: 0, trackLength: 1 });
+	const viewTracked = useRef(false);
+
+	useEffect(() => {
+		// Ref guard prevents double-counting from StrictMode's dev double-invoke
+		if (viewTracked.current) return;
+		viewTracked.current = true;
+
+		fetch('/api/views', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ slug: post.slug }),
+		}).catch(() => {});
+	}, [post.slug]);
 
 	useEffect(() => {
 		const article = articleRef.current;
@@ -495,7 +509,7 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 				)}
 				<Subscribe delay={1.6} />
 				<GoogleReCaptchaProvider
-					reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+					reCaptchaKey={clientEnv.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
 					scriptProps={{
 						async: true,
 						defer: true,

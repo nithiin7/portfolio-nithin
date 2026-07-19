@@ -1,3 +1,5 @@
+import 'server-only';
+
 import {
 	ApolloClient,
 	ApolloLink,
@@ -7,6 +9,8 @@ import {
 import { ErrorLink } from '@apollo/client/link/error';
 import * as Sentry from '@sentry/nextjs';
 import { cache } from 'react';
+
+import { serverEnv } from 'helpers/env';
 
 const errorLink = new ErrorLink(({ error, operation }) => {
 	if (process.env.NODE_ENV !== 'production') {
@@ -21,9 +25,9 @@ const errorLink = new ErrorLink(({ error, operation }) => {
 });
 
 const httpLink = new HttpLink({
-	uri: `https://graphql.contentful.com/content/${process.env.CONTENTFUL_VERSION}/spaces/${process.env.CONTENTFUL_SPACE_ID}/environments/${process.env.CONTENTFUL_ENVIRONMENT}`,
+	uri: `https://graphql.contentful.com/content/${serverEnv.CONTENTFUL_VERSION}/spaces/${serverEnv.CONTENTFUL_SPACE_ID}/environments/${serverEnv.CONTENTFUL_ENVIRONMENT}`,
 	headers: {
-		Authorization: `Bearer ${process.env.CONTENTFUL_ACCESS_TOKEN ?? ''}`,
+		Authorization: `Bearer ${serverEnv.CONTENTFUL_ACCESS_TOKEN}`,
 	},
 });
 

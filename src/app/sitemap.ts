@@ -3,6 +3,8 @@ import type { MetadataRoute } from 'next';
 import { loadAllPortfolioIds, loadBlogPosts } from 'helpers/contentful';
 import { convertContentfulBlogPost } from 'helpers/contentful';
 
+export const revalidate = 3600;
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	const baseUrl = 'https://portfolio-nithin.vercel.app';
 	const currentDate = new Date().toISOString();

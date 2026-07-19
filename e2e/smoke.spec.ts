@@ -27,6 +27,19 @@ test('blog post detail renders from listing', async ({ page }) => {
 	await expect(page.locator('h1').first()).toBeVisible();
 });
 
+test('blog post og image renders as png', async ({ page, request }) => {
+	await page.goto('/blog');
+
+	const firstPost = page.locator('a[href^="/blog/"]').first();
+	const href = await firstPost.getAttribute('href');
+
+	const response = await request.get(`${href}/opengraph-image`);
+
+	expect(response.status()).toBe(200);
+	expect(response.headers()['content-type']).toContain('image/png');
+	expect((await response.body()).byteLength).toBeGreaterThan(0);
+});
+
 test('contact form shows validation errors on empty submit', async ({
 	page,
 }) => {

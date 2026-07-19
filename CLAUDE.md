@@ -34,7 +34,7 @@ portfolio-nithin/
 ├── public/                     # Static assets (SVGs, resume PDF, favicons)
 ├── src/
 │   ├── app/                    # Next.js App Router
-│   │   ├── api/                # Route handlers (comments, subscribe)
+│   │   ├── api/                # Route handlers (comments, subscribe, revalidate)
 │   │   ├── blog/               # Blog listing + [slug] detail pages
 │   │   ├── contact/            # Contact page
 │   │   ├── portfolio/[id]/     # Portfolio detail page
