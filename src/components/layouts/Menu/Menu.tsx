@@ -144,7 +144,6 @@ const Menu = ({
 			>
 				<motion.div
 					aria-hidden={!showMenu}
-					aria-controls="menu"
 					variants={menu}
 					initial={'hidden'}
 					animate={showMenu ? 'visible' : 'hidden'}
@@ -154,7 +153,7 @@ const Menu = ({
 						<motion.button
 							aria-label="Toggle navigation menu"
 							aria-expanded={isMenuActive}
-							aria-controls="menu-panel"
+							aria-controls={isMenuActive ? 'menu-panel' : undefined}
 							aria-hidden={!showMenu}
 							tabIndex={showMenu ? 0 : -1}
 							whileHover={{ scale: 0.95 }}
@@ -222,7 +221,6 @@ const Menu = ({
 															<motion.a
 																whileHover={{ left: '15px' }}
 																href={link.href}
-																role="menuitem"
 																onClick={(e) => handleNavClick(link.href, e)}
 															>
 																{link.title}

@@ -84,11 +84,16 @@ const MagneticButton = ({
 			ref={buttonRef}
 			href={href}
 			title={title}
+			aria-label={title}
 			className={`${styles.MagneticButton} ${className}`}
 			target="_blank"
 			rel="noopener noreferrer"
 		>
-			<div ref={magneticRef} className={styles.MagneticButton__content}>
+			<div
+				ref={magneticRef}
+				aria-hidden="true"
+				className={styles.MagneticButton__content}
+			>
 				{children}
 			</div>
 		</a>

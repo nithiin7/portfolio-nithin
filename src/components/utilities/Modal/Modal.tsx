@@ -1,9 +1,10 @@
 'use client';
 import { motion, AnimatePresence } from 'motion/react';
 import type { FC, ReactNode } from 'react';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { CloseIcon } from 'assets/icons';
+import { useFocusTrap } from 'hooks/useKeyboardNavigation';
 
 import styles from './Modal.module.scss';
 
@@ -25,6 +26,9 @@ const Modal: FC<ModalProps> = ({
 	children,
 	className,
 }) => {
+	const contentRef = useFocusTrap(isOpen);
+	const previousFocusRef = useRef<HTMLElement | null>(null);
+
 	useEffect(() => {
 		if (isOpen) {
 			document.body.style.overflow = 'hidden';
@@ -36,6 +40,16 @@ const Modal: FC<ModalProps> = ({
 			document.body.style.overflow = 'unset';
 		};
 	}, [isOpen]);
+
+	useEffect(() => {
+		if (isOpen) {
+			previousFocusRef.current = document.activeElement as HTMLElement | null;
+			contentRef.current?.focus();
+		} else {
+			previousFocusRef.current?.focus();
+			previousFocusRef.current = null;
+		}
+	}, [isOpen, contentRef]);
 
 	const handleBackdropClick = (e: React.MouseEvent) => {
 		if (e.target === e.currentTarget) {
@@ -68,7 +82,12 @@ const Modal: FC<ModalProps> = ({
 					onClick={handleBackdropClick}
 				>
 					<motion.div
+						ref={contentRef}
 						className={styles.Modal__content}
+						role="dialog"
+						aria-modal="true"
+						aria-label={title || 'Modal'}
+						tabIndex={-1}
 						initial={{ opacity: 0, scale: 0.9, y: 20 }}
 						animate={{ opacity: 1, scale: 1, y: 0 }}
 						exit={{ opacity: 0, scale: 0.9, y: 20 }}
