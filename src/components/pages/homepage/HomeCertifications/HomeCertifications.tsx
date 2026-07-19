@@ -1,15 +1,20 @@
 'use client';
 import gsap from 'gsap';
+import dynamic from 'next/dynamic';
 import { useEffect, useRef, useState, type FC } from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { useInView } from 'react-intersection-observer';
 
 import CertificationBadge from 'components/pages/homepage/CertificationBadge/CertificationBadge';
-import CertificationModal from 'components/pages/homepage/CertificationModal/CertificationModal';
 import { MaskText, Modal } from 'components/utilities';
 import type { Certification } from 'types/certification';
 
 import styles from './HomeCertifications.module.scss';
+
+const CertificationModal = dynamic(
+	() =>
+		import('components/pages/homepage/CertificationModal/CertificationModal')
+);
 
 const MARQUEE_QUERY =
 	'(min-width: 768px) and (prefers-reduced-motion: no-preference)';

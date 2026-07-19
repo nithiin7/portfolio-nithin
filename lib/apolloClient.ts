@@ -1,97 +1,38 @@
-import type { NormalizedCacheObject } from '@apollo/client';
-import { ApolloClient, HttpLink, InMemoryCache, from } from '@apollo/client';
-import { onError } from '@apollo/client/link/error';
-import { concatPagination } from '@apollo/client/utilities';
-import merge from 'deepmerge';
-import isEqual from 'lodash/isEqual';
-import { useMemo } from 'react';
+import {
+	ApolloClient,
+	ApolloLink,
+	HttpLink,
+	InMemoryCache,
+} from '@apollo/client';
+import { ErrorLink } from '@apollo/client/link/error';
+import * as Sentry from '@sentry/nextjs';
+import { cache } from 'react';
 
-export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
-
-let apolloClient: ApolloClient<NormalizedCacheObject> | undefined;
-
-const errorLink = onError(({ graphQLErrors, networkError }) => {
-	if (graphQLErrors) {
-		graphQLErrors.forEach(({ message, locations, path }) =>
-			console.log(
-				`[GraphQL error]: Message: ${message}, Location: ${JSON.stringify(locations)}, Path: ${path}`
-			)
-		);
+const errorLink = new ErrorLink(({ error, operation }) => {
+	if (process.env.NODE_ENV !== 'production') {
+		console.error(`[Contentful GraphQL] ${operation.operationName}:`, error);
+		return;
 	}
-	if (networkError) {
-		console.log(`[Network error]: ${networkError}`);
-	}
+
+	Sentry.captureException(error, {
+		tags: { source: 'contentful-graphql' },
+		extra: { operationName: operation.operationName },
+	});
 });
 
 const httpLink = new HttpLink({
-	uri: `https://graphql.contentful.com/content/${process.env.NEXT_PUBLIC_VERSION}/spaces/${process.env.NEXT_PUBLIC_SPACE_ID}/environments/${process.env.NEXT_PUBLIC_ENVIRONMENT}`,
-	credentials: 'same-origin',
+	uri: `https://graphql.contentful.com/content/${process.env.CONTENTFUL_VERSION}/spaces/${process.env.CONTENTFUL_SPACE_ID}/environments/${process.env.CONTENTFUL_ENVIRONMENT}`,
 	headers: {
-		Authorization: `Bearer ${process.env.NEXT_PUBLIC_AUTHORIZATION_TOKEN ?? ''}`,
+		Authorization: `Bearer ${process.env.CONTENTFUL_ACCESS_TOKEN ?? ''}`,
 	},
 });
 
-const createApolloClient = (): ApolloClient<NormalizedCacheObject> => {
-	return new ApolloClient({
-		ssrMode: typeof window === 'undefined',
-		link: from([errorLink, httpLink]),
-		cache: new InMemoryCache({
-			typePolicies: {
-				Query: {
-					fields: {
-						allPosts: concatPagination(),
-					},
-				},
-			},
-		}),
-	});
-};
-
-export const initializeApollo = (
-	initialState: NormalizedCacheObject | null = null
-): ApolloClient<NormalizedCacheObject> => {
-	const _apolloClient = apolloClient ?? createApolloClient();
-
-	if (initialState) {
-		const existingCache = _apolloClient.extract();
-		const data = merge(existingCache, initialState, {
-			arrayMerge: (destinationArray: unknown[], sourceArray: unknown[]) => [
-				...sourceArray,
-				...destinationArray.filter((d) =>
-					sourceArray.every((s) => !isEqual(d, s))
-				),
-			],
-		});
-		_apolloClient.cache.restore(data);
-	}
-	if (typeof window === 'undefined') return _apolloClient;
-	apolloClient ??= _apolloClient;
-
-	return _apolloClient;
-};
-
-interface ApolloPageProps {
-	[key: string]: unknown;
-	props?: Record<string, unknown>;
-}
-
-export const addApolloState = (
-	client: ApolloClient<NormalizedCacheObject>,
-	pageProps: ApolloPageProps
-): ApolloPageProps => {
-	if (pageProps?.props) {
-		pageProps.props[APOLLO_STATE_PROP_NAME] = client.cache.extract();
-	}
-
-	return pageProps;
-};
-
-export const useApollo = (
-	pageProps: ApolloPageProps
-): ApolloClient<NormalizedCacheObject> => {
-	const state = pageProps[APOLLO_STATE_PROP_NAME] as
-		| NormalizedCacheObject
-		| undefined;
-	const store = useMemo(() => initializeApollo(state), [state]);
-	return store;
-};
+// cache() shares one client per server request, so repeated queries
+// (e.g. loadData('home') in both layout and page) hit the in-memory cache
+export const getApolloClient = cache(
+	(): ApolloClient =>
+		new ApolloClient({
+			link: ApolloLink.from([errorLink, httpLink]),
+			cache: new InMemoryCache(),
+		})
+);

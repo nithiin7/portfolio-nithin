@@ -206,6 +206,9 @@ pnpm eslint:fix       # ESLint auto-fix
 pnpm prettier         # Prettier check
 pnpm prettier:fix     # Prettier auto-fix
 pnpm generate         # Plop — scaffold a new component or page
+pnpm test             # Vitest unit tests (helpers + services)
+pnpm test:watch       # Vitest watch mode
+pnpm test:e2e         # Playwright smoke tests (starts dev server automatically)
 pnpm storybook        # Storybook dev server on :6006
 pnpm build-storybook  # Build Storybook static site
 pnpm release          # standard-version release (patch)

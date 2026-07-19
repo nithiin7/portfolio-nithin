@@ -1,7 +1,7 @@
+import dynamic from 'next/dynamic';
+
 import {
 	HomeAbout,
-	HomeCareer,
-	HomeCertifications,
 	HomeCollaborations,
 	HomeHeader,
 	HomePortfolio,
@@ -11,6 +11,14 @@ import {
 import { transformCareerData } from 'helpers/career';
 import { loadData } from 'helpers/contentful';
 import type { Certification } from 'types/certification';
+
+const HomeCareer = dynamic(
+	() => import('components/pages/homepage/HomeCareer/HomeCareer')
+);
+const HomeCertifications = dynamic(
+	() =>
+		import('components/pages/homepage/HomeCertifications/HomeCertifications')
+);
 
 export default async function Home() {
 	const props = await loadData('home');

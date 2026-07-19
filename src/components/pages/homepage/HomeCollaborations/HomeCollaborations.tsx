@@ -99,8 +99,9 @@ const HomeCollaborations: FC<HomeCollaborationsProps> = ({
 							rel="noopener noreferrer"
 							className={styles.HomeCollaborations__companies}
 							key={name}
+							aria-label={name}
 						>
-							<Component />
+							<Component aria-hidden="true" />
 						</Link>
 					))}
 				</div>

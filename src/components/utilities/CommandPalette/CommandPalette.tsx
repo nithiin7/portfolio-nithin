@@ -25,6 +25,7 @@ import {
 
 import { links } from 'constants/index';
 import { useTheme } from 'contexts/ThemeContext';
+import { useFocusTrap } from 'hooks/useKeyboardNavigation';
 
 import styles from './CommandPalette.module.scss';
 
@@ -100,6 +101,7 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 
 	const inputRef = useRef<HTMLInputElement>(null);
 	const listRef = useRef<HTMLUListElement>(null);
+	const panelRef = useFocusTrap(isOpen);
 	const executeRecaptchaRef = useRef<ExecuteRecaptcha | null>(null);
 	const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
 
@@ -434,6 +436,7 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 						data-lenis-prevent
 					>
 						<motion.div
+							ref={panelRef}
 							className={styles.CommandPalette__panel}
 							role="dialog"
 							aria-modal="true"

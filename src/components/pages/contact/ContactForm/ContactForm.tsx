@@ -1,7 +1,7 @@
 'use client';
 
+import { sendForm } from '@emailjs/browser';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { sendForm } from 'emailjs-com';
 import { motion } from 'motion/react';
 import type { FC } from 'react';
 import { useRef, useState } from 'react';
@@ -90,7 +90,7 @@ const ContactForm: FC<ContactFormProps> = ({ className = '' }) => {
 				process.env.NEXT_PUBLIC_SERVICE_ID!,
 				process.env.NEXT_PUBLIC_TEMPLATE_ID!,
 				form.current!,
-				process.env.NEXT_PUBLIC_EMAILJS_ID
+				{ publicKey: process.env.NEXT_PUBLIC_EMAILJS_ID }
 			);
 
 			setFormSent(true);

@@ -76,8 +76,8 @@ yarn install
 Create a `.env` file at the project root (see `.env.example` for the full list):
 
 ```bash
-NEXT_PUBLIC_SPACE_ID=<your_contentful_space_id>
-NEXT_PUBLIC_AUTHORIZATION_TOKEN=<your_contentful_access_token>
+CONTENTFUL_SPACE_ID=<your_contentful_space_id>
+CONTENTFUL_ACCESS_TOKEN=<your_contentful_access_token>
 
 # Supabase (comments + newsletter)
 NEXT_PUBLIC_SUPABASE_URL=<your_supabase_url>
