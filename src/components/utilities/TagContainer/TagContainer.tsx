@@ -9,11 +9,7 @@ export interface TagContainerProps {
 	animated?: boolean;
 	delay?: number;
 	justifyContent?:
-		| 'flex-start'
-		| 'center'
-		| 'flex-end'
-		| 'space-between'
-		| 'space-around';
+		'flex-start' | 'center' | 'flex-end' | 'space-between' | 'space-around';
 }
 
 /**
