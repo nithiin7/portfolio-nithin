@@ -19,6 +19,7 @@ import {
 	shareOnLinkedIn,
 	shareOnWhatsApp,
 } from 'helpers';
+import { clientEnv } from 'helpers/env';
 import type { BlogPost } from 'types/blog';
 
 import styles from './BlogDetail.module.scss';
@@ -495,7 +496,7 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 				)}
 				<Subscribe delay={1.6} />
 				<GoogleReCaptchaProvider
-					reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+					reCaptchaKey={clientEnv.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
 					scriptProps={{
 						async: true,
 						defer: true,

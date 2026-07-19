@@ -25,6 +25,7 @@ import {
 
 import { links } from 'constants/index';
 import { useTheme } from 'contexts/ThemeContext';
+import { clientEnv } from 'helpers/env';
 import { useFocusTrap } from 'hooks/useKeyboardNavigation';
 
 import styles from './CommandPalette.module.scss';
@@ -103,7 +104,7 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 	const listRef = useRef<HTMLUListElement>(null);
 	const panelRef = useFocusTrap(isOpen);
 	const executeRecaptchaRef = useRef<ExecuteRecaptcha | null>(null);
-	const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+	const recaptchaSiteKey = clientEnv.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
 
 	useEffect(() => {
 		const stored = Number(sessionStorage.getItem(ASK_COUNT_STORAGE_KEY));
@@ -262,15 +263,12 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 				return next;
 			});
 			try {
-				let recaptchaToken: string | undefined;
-				if (recaptchaSiteKey) {
-					// The script loads when the palette opens; wait briefly if the
-					// user asks before it is ready.
-					for (let i = 0; i < 20 && !executeRecaptchaRef.current; i++) {
-						await new Promise((resolve) => setTimeout(resolve, 100));
-					}
-					recaptchaToken = await executeRecaptchaRef.current?.('ask_ai');
+				// The script loads when the palette opens; wait briefly if the
+				// user asks before it is ready.
+				for (let i = 0; i < 20 && !executeRecaptchaRef.current; i++) {
+					await new Promise((resolve) => setTimeout(resolve, 100));
 				}
+				const recaptchaToken = await executeRecaptchaRef.current?.('ask_ai');
 
 				const response = await fetch('/api/ask', {
 					method: 'POST',
@@ -293,7 +291,7 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 				});
 			}
 		},
-		[askCount, recaptchaSiteKey]
+		[askCount]
 	);
 
 	const navigate = useCallback(
@@ -365,7 +363,7 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 
 	return (
 		<>
-			{isOpen && recaptchaSiteKey && (
+			{isOpen && (
 				<GoogleReCaptchaProvider
 					reCaptchaKey={recaptchaSiteKey}
 					scriptProps={{

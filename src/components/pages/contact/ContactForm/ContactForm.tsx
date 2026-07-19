@@ -11,6 +11,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import { TextArea, TextInput } from 'components/utilities';
+import { clientEnv } from 'helpers/env';
 import { contactSchema } from 'helpers/validations';
 
 import styles from './ContactForm.module.scss';
@@ -87,10 +88,10 @@ const ContactForm: FC<ContactFormProps> = ({ className = '' }) => {
 			}
 
 			await sendForm(
-				process.env.NEXT_PUBLIC_SERVICE_ID!,
-				process.env.NEXT_PUBLIC_TEMPLATE_ID!,
+				clientEnv.NEXT_PUBLIC_SERVICE_ID,
+				clientEnv.NEXT_PUBLIC_TEMPLATE_ID,
 				form.current!,
-				{ publicKey: process.env.NEXT_PUBLIC_EMAILJS_ID }
+				{ publicKey: clientEnv.NEXT_PUBLIC_EMAILJS_ID }
 			);
 
 			setFormSent(true);

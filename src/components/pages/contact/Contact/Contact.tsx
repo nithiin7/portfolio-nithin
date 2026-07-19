@@ -7,13 +7,14 @@ import { FiArrowLeft } from 'react-icons/fi';
 import { ContactForm } from 'components/pages';
 import { MaskText } from 'components/utilities';
 import { contactOptions } from 'constants/index';
+import { clientEnv } from 'helpers/env';
 
 import styles from './Contact.module.scss';
 
 const Contact: React.FC = () => {
 	return (
 		<GoogleReCaptchaProvider
-			reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+			reCaptchaKey={clientEnv.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
 			scriptProps={{
 				async: true,
 				defer: true,
