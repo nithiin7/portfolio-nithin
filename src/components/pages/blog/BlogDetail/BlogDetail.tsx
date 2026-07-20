@@ -265,6 +265,7 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 									fill
 									className={styles.BlogDetail__hero_bg_image}
 									priority
+									sizes="100vw"
 								/>
 								<div className={styles.BlogDetail__hero_overlay} />
 							</div>
@@ -449,6 +450,7 @@ const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
 																width={800}
 																height={600}
 																className={styles.BlogDetail__content_img}
+																sizes="(min-width: 760px) 760px, 100vw"
 															/>
 															{asset.description && (
 																<figcaption

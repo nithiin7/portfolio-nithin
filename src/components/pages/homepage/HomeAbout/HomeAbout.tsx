@@ -106,7 +106,7 @@ const HomeAbout: FC<HomeAboutProps> = ({
 									alt="about-me"
 									height={1000}
 									width={1000}
-									quality={100}
+									sizes="(min-width: 768px) 32rem, 100vw"
 								/>
 							)}
 							<div

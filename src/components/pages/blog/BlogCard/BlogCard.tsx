@@ -42,6 +42,7 @@ const BlogCard: FC<BlogCardProps> = ({ post }) => {
 									className={styles.BlogCard__image}
 									width={500}
 									height={500}
+									sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
 								/>
 								<div className={styles.BlogCard__image_overlay} />
 							</div>

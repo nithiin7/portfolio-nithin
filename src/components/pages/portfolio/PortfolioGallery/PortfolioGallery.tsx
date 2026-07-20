@@ -83,6 +83,7 @@ const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({
 									className={styles.PortfolioGallery__galleryImage}
 									width={1000}
 									height={1000}
+									sizes="(min-width: 1200px) 25vw, (min-width: 768px) 33vw, 100vw"
 								/>
 								<div className={styles.PortfolioGallery__galleryOverlay}>
 									<span className={styles.PortfolioGallery__galleryOverlayText}>
@@ -132,6 +133,7 @@ const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({
 									className={styles.PortfolioGallery__lightboxImage}
 									width={1000}
 									height={1000}
+									sizes="100vw"
 								/>
 								{images[currentImageIndex].caption && (
 									<p className={styles.PortfolioGallery__lightboxCaption}>

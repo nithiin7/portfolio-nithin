@@ -85,6 +85,7 @@ export default function PortfolioDetails({ project }: PortfolioDetailsProps) {
 									width={1200}
 									height={675}
 									priority
+									sizes="(min-width: 1024px) 70vw, 100vw"
 								/>
 							</div>
 						</ViewTransition>
