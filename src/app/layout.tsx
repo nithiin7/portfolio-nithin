@@ -21,7 +21,7 @@ import Curve from './transition';
 
 const roboto = Roboto({
 	subsets: ['latin'],
-	weight: ['100', '300', '400', '500', '700', '900'],
+	weight: ['300', '400', '500', '700'],
 	style: ['normal', 'italic'],
 	variable: '--font-roboto',
 	display: 'swap',
@@ -171,16 +171,15 @@ export default function RootLayout({
 				<meta name="msapplication-TileColor" content="#da532c" />
 				<meta name="theme-color" content="#ffffff" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
-				<link rel="preconnect" href="https://fonts.googleapis.com" />
 				<link
 					rel="preconnect"
-					href="https://fonts.gstatic.com"
+					href="https://images.ctfassets.net"
 					crossOrigin="anonymous"
 				/>
 				<link rel="dns-prefetch" href="https://www.google-analytics.com" />
 				<link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 			</head>
-			<body className={`${roboto.className} ${familjenGrotesk.className}`}>
+			<body>
 				<Script
 					id="structured-data"
 					type="application/ld+json"

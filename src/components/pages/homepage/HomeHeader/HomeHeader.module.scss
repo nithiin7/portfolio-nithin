@@ -246,9 +246,9 @@
 		h1 {
 			font-size: clamp(3rem, -0.057rem + 10.0714vw, 10.25rem);
 			line-height: 95%;
-			font-weight: 800;
+			font-weight: 700;
 			white-space: normal;
-			font-family: 'Host Grotesk', sans-serif;
+			font-family: $font-secondary;
 
 			> :first-child {
 				color: $color-text;
