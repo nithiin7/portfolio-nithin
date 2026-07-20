@@ -1,4 +1,5 @@
 'use client';
+import { useLenis } from 'lenis/react';
 import type { Variants } from 'motion/react';
 import {
 	motion,
@@ -16,6 +17,7 @@ import Cursor from 'components/utilities/Cursor/Cursor';
 import MaskText from 'components/utilities/MaskText/MaskText';
 import { headerLinks } from 'constants/index';
 import { useTheme } from 'contexts/ThemeContext';
+import { handleScroll } from 'helpers';
 import type { Settings } from 'types/anim';
 
 import styles from './HomeHeader.module.scss';
@@ -172,9 +174,13 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 	const [isHovered, setIsHovered] = useState(false);
 	const [activeNavItem, setActiveNavItem] = useState<string | null>(null);
 	const headerRef = useRef<HTMLElement>(null);
+	const lenis = useLenis();
 
 	/**
 	 * Handles smooth scrolling to sections when navigation links are clicked.
+	 * Uses Lenis rather than native scrollIntoView, since the target sections
+	 * have scroll-linked entrance transforms that fight the browser's own
+	 * smooth-scroll and cause it to overshoot.
 	 * @param {string} href - The href attribute of the clicked link
 	 * @param {{ preventDefault: () => void }} e - The click event
 	 */
@@ -182,14 +188,7 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 		if (href.startsWith('/#')) {
 			e.preventDefault();
 			const targetId = href.replace('/#', '');
-			const targetElement = document.getElementById(targetId);
-
-			if (targetElement) {
-				targetElement.scrollIntoView({
-					behavior: 'smooth',
-					block: 'start',
-				});
-			}
+			handleScroll(targetId, lenis);
 		}
 	};
 

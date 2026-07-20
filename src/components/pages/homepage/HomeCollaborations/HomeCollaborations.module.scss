@@ -37,18 +37,19 @@
 
 	&__collaborations {
 		width: 100%;
-		display: grid;
-		grid-template-columns: repeat(2, 1fr);
-		gap: rem(36) rem(16);
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
 		align-items: center;
-		justify-items: center;
+		row-gap: rem(36);
+		column-gap: rem(16);
 
 		@media #{$sm} {
-			gap: rem(40) rem(24);
+			row-gap: rem(40);
+			column-gap: rem(24);
 		}
 
 		@media #{$md} {
-			display: flex;
 			flex-wrap: nowrap;
 			justify-content: space-between;
 			gap: rem(40);
@@ -60,10 +61,6 @@
 		align-items: center;
 		justify-content: center;
 		height: rem(36);
-
-		&:last-child {
-			grid-column: 1 / -1;
-		}
 
 		svg {
 			display: block;
@@ -82,10 +79,6 @@
 
 		@media #{$md} {
 			height: rem(64);
-
-			&:last-child {
-				grid-column: auto;
-			}
 
 			svg {
 				max-width: rem(180);

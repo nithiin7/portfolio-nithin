@@ -27,6 +27,7 @@ const Cursor: FC<CursorProps> = ({
 	const size = isHovered ? 300 : 30;
 
 	const delayedMouse = useRef({ x: 0, y: 0 });
+	const animationIdRef = useRef<number | null>(null);
 
 	/**
 	 * Performs linear interpolation between two values.
@@ -57,8 +58,33 @@ const Cursor: FC<CursorProps> = ({
 	);
 
 	/**
+	 * Animates the cursor by updating its position using a smooth interpolation.
+	 * This function is recursively called using requestAnimationFrame to create
+	 * a smooth animation effect.
+	 *
+	 * Stops rescheduling once the cursor has caught up to the mouse — mirrors
+	 * ClickSpark's pattern of only looping while there's work to do — and
+	 * manageMouseMove restarts it on the next move.
+	 */
+	const animate = useCallback(() => {
+		const { x, y } = delayedMouse.current;
+		const nextX = lerp(x, mouse.current.x, 0.075);
+		const nextY = lerp(y, mouse.current.y, 0.075);
+		delayedMouse.current = { x: nextX, y: nextY };
+		moveCircle(nextX, nextY);
+
+		const hasConverged =
+			Math.abs(mouse.current.x - nextX) < 0.1 &&
+			Math.abs(mouse.current.y - nextY) < 0.1;
+
+		animationIdRef.current = hasConverged
+			? null
+			: window.requestAnimationFrame(animate);
+	}, [lerp, moveCircle]);
+
+	/**
 	 * Handles mouse movement events to update the mouse position
-	 * and move the custom cursor accordingly.
+	 * and resume the animation loop if it had paused at idle.
 	 *
 	 * @param {MouseEvent} e - The mouse event containing the current mouse position.
 	 */
@@ -71,32 +97,22 @@ const Cursor: FC<CursorProps> = ({
 				y: clientY,
 			};
 
-			moveCircle(mouse.current.x, mouse.current.y);
+			if (animationIdRef.current === null) {
+				animationIdRef.current = window.requestAnimationFrame(animate);
+			}
 		},
-		[moveCircle]
+		[animate]
 	);
 
-	/**
-	 * Animates the cursor by updating its position using a smooth interpolation.
-	 * This function is recursively called using requestAnimationFrame to create
-	 * a smooth animation effect.
-	 */
-	const animate = useCallback(() => {
-		const { x, y } = delayedMouse.current;
-		delayedMouse.current = {
-			x: lerp(x, mouse.current.x, 0.075),
-			y: lerp(y, mouse.current.y, 0.075),
-		};
-		moveCircle(delayedMouse.current.x, delayedMouse.current.y);
-		window.requestAnimationFrame(animate);
-	}, [delayedMouse, lerp, moveCircle]);
-
 	useEffect(() => {
-		animate();
+		animationIdRef.current = window.requestAnimationFrame(animate);
 		window.addEventListener('mousemove', manageMouseMove);
 
 		return () => {
 			window.removeEventListener('mousemove', manageMouseMove);
+			if (animationIdRef.current !== null) {
+				window.cancelAnimationFrame(animationIdRef.current);
+			}
 		};
 	}, [animate, manageMouseMove]);
 

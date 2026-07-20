@@ -42,7 +42,7 @@ $color-error: var(--color-error);
 
 $transition: all 400ms ease;
 
-$font-primary: 'Roboto', sans-serif;
-$font-secondary: 'Host Grotesk', sans-serif;
+$font-primary: var(--font-roboto), sans-serif;
+$font-secondary: var(--font-familjen-grotesk), sans-serif;
 
 $heading-size-section: clamp(3.5rem, 2.3571rem + 4.5143vi, 10.5rem);

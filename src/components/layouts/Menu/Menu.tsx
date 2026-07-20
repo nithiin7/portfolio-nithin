@@ -1,4 +1,5 @@
 'use client';
+import { useLenis } from 'lenis/react';
 import { AnimatePresence, motion } from 'motion/react';
 import { usePathname } from 'next/navigation';
 import type { ReactElement, MouseEvent } from 'react';
@@ -7,6 +8,7 @@ import { useEffect, useRef, useState } from 'react';
 import MenuBackground from 'assets/images/menu-bg.svg';
 import { ThemeToggle } from 'components/utilities';
 import { links, socialsMenu } from 'constants/index';
+import { handleScroll as scrollToSection } from 'helpers';
 import {
 	animate,
 	backdropVariants,
@@ -61,6 +63,7 @@ const Menu = ({
 	});
 
 	const menuContainerRef = useFocusTrap(isMenuActive);
+	const lenis = useLenis();
 
 	/**
 	 * Handles smooth scrolling to sections when navigation links are clicked.
@@ -69,17 +72,9 @@ const Menu = ({
 	 */
 	const handleNavClick = (href: string, e: MouseEvent<HTMLAnchorElement>) => {
 		if (href.startsWith('/#')) {
+			e.preventDefault();
 			const targetId = href.replace('/#', '');
-			const targetElement = document.getElementById(targetId);
-
-			if (targetElement) {
-				e.preventDefault();
-				targetElement.scrollIntoView({
-					behavior: 'smooth',
-					block: 'start',
-				});
-			}
-
+			scrollToSection(targetId, lenis);
 			setIsMenuActive(false);
 		}
 	};

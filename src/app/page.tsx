@@ -2,11 +2,9 @@ import dynamic from 'next/dynamic';
 
 import {
 	HomeAbout,
-	HomeCollaborations,
 	HomeHeader,
 	HomePortfolio,
 	HomeServices,
-	HomeTestimonial,
 } from 'components/pages';
 import { transformCareerData } from 'helpers/career';
 import { loadData } from 'helpers/contentful';
@@ -20,6 +18,13 @@ const HomeCareer = dynamic(
 const HomeCertifications = dynamic(
 	() =>
 		import('components/pages/homepage/HomeCertifications/HomeCertifications')
+);
+const HomeCollaborations = dynamic(
+	() =>
+		import('components/pages/homepage/HomeCollaborations/HomeCollaborations')
+);
+const HomeTestimonial = dynamic(
+	() => import('components/pages/homepage/HomeTestimonial/HomeTestimonial')
 );
 
 export default async function Home() {

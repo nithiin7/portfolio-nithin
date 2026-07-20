@@ -10,8 +10,12 @@ const withBundleAnalyzer = bundleAnalyzer({
  */
 const nextConfig = {
 	reactStrictMode: true,
+	experimental: {
+		viewTransition: true,
+		optimizePackageImports: ['react-icons'],
+	},
 	images: {
-		qualities: [90, 100],
+		qualities: [75],
 		remotePatterns: [
 			{
 				protocol: 'https',
@@ -27,7 +31,7 @@ const nextConfig = {
 			},
 		],
 	},
-	webpack(config) {
+	webpack(config, { isServer }) {
 		config.module.rules.push({
 			test: /\.svg$/,
 			use: [
@@ -51,6 +55,34 @@ const nextConfig = {
 				},
 			],
 		});
+
+		if (!isServer && config.optimization?.splitChunks) {
+			config.optimization.splitChunks.cacheGroups = {
+				...config.optimization.splitChunks.cacheGroups,
+				gsapCore: {
+					test: /[\\/]node_modules[\\/]gsap[\\/](?!(ScrollTrigger|Observer))/,
+					name: 'gsap-core',
+					chunks: 'all',
+					priority: 40,
+					enforce: true,
+				},
+				gsapScroll: {
+					test: /[\\/]node_modules[\\/]gsap[\\/](ScrollTrigger|Observer)/,
+					name: 'gsap-scroll',
+					chunks: 'async',
+					priority: 41,
+					enforce: true,
+				},
+				contentfulRichText: {
+					test: /[\\/]node_modules[\\/]@contentful[\\/]rich-text-react-renderer[\\/]/,
+					name: 'contentful-rich-text',
+					chunks: 'all',
+					priority: 40,
+					enforce: true,
+				},
+			};
+		}
+
 		return config;
 	},
 	turbopack: {

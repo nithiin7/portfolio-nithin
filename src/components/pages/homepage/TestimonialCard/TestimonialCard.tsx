@@ -39,13 +39,7 @@ const TestimonialCard: FC<TestimonialCardProps> = ({
 			<blockquote>{item.review}</blockquote>
 			<div className={styles.TestimonialCard__reviewer}>
 				<div className={styles.TestimonialCard__img}>
-					<Image
-						src={item.avatar.url}
-						alt="Avatar"
-						width={60}
-						height={60}
-						quality={90}
-					/>
+					<Image src={item.avatar.url} alt="Avatar" width={60} height={60} />
 				</div>
 				<div className={styles.TestimonialCard__info}>
 					<span className={styles.TestimonialCard__name}>{item.reviewer}</span>
