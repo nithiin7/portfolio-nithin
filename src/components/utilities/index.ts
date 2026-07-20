@@ -5,7 +5,7 @@ export type {
 } from './BackgroundShapes/BackgroundShapes';
 export { default as Button } from './Button/Button';
 export { default as ClickSpark } from './ClickSpark/ClickSpark';
-export { default as CommandPalette } from './CommandPalette/CommandPalette';
+export { default as CommandPalette } from './CommandPalette/CommandPaletteLazy';
 export { default as ColorMaskButton } from './ColorMaskButton/ColorMaskButton';
 export { default as Cursor } from './Cursor/Cursor';
 export { default as MagneticButton } from './MagneticButton/MagneticButton';
