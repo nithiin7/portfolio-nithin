@@ -191,7 +191,9 @@ html.lenis {
 	}
 }
 
-::view-transition-group(.blog-image-morph) {
+::view-transition-group(.blog-image-morph),
+::view-transition-group(.portfolio-image-morph),
+::view-transition-group(.portfolio-title-morph) {
 	animation-duration: 0.55s;
 	animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
 }
@@ -201,8 +203,15 @@ html.lenis {
 	overflow: clip;
 }
 
+::view-transition-image-pair(.portfolio-image-morph) {
+	border-radius: rem(12);
+	overflow: clip;
+}
+
 ::view-transition-old(.blog-image-morph),
-::view-transition-new(.blog-image-morph) {
+::view-transition-new(.blog-image-morph),
+::view-transition-old(.portfolio-image-morph),
+::view-transition-new(.portfolio-image-morph) {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;

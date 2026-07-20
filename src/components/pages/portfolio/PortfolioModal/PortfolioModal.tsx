@@ -3,7 +3,7 @@ import gsap from 'gsap';
 import type { Variants } from 'motion/react';
 import { motion } from 'motion/react';
 import Image from 'next/image';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, ViewTransition } from 'react';
 import type { FC } from 'react';
 
 import type { PortfolioItem } from 'types/portfolio';
@@ -102,21 +102,29 @@ const PortfolioModal: FC<PortfolioModalProps> = ({ modal, projects }) => {
 				>
 					{projects.map((project, idx) => {
 						return (
-							<div
-								className={styles.PortfolioModal__modal}
-								style={{ backgroundColor: project.color || '#f0f0f0' }}
+							<ViewTransition
 								key={`modal_${idx}`}
+								name={idx === index ? `portfolio-image-${idx + 1}` : 'auto'}
+								share="portfolio-image-morph"
+								enter="none"
+								exit="none"
+								update="none"
 							>
-								{project.image?.url && (
-									<Image
-										src={project.image.url}
-										width={300}
-										height={300}
-										alt={project.title || 'Project image'}
-										priority={idx === index}
-									/>
-								)}
-							</div>
+								<div
+									className={styles.PortfolioModal__modal}
+									style={{ backgroundColor: project.color || '#f0f0f0' }}
+								>
+									{project.image?.url && (
+										<Image
+											src={project.image.url}
+											width={300}
+											height={300}
+											alt={project.title || 'Project image'}
+											priority={idx === index}
+										/>
+									)}
+								</div>
+							</ViewTransition>
 						);
 					})}
 				</div>

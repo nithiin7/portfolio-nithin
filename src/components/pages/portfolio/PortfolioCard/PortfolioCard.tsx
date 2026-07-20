@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { FC } from 'react';
+import { ViewTransition } from 'react';
 
 import styles from './PortfolioCard.module.scss';
 
@@ -50,9 +51,17 @@ const PortfolioCard: FC<PortfolioCardProps> = ({
 						{String(index + 1).padStart(2, '0')}
 					</div>
 					<div className={styles.PortfolioCard__item_info}>
-						<h3 className={styles.PortfolioCard__item_title}>
-							{project.title}
-						</h3>
+						<ViewTransition
+							name={`portfolio-title-${index + 1}`}
+							share="portfolio-title-morph"
+							enter="none"
+							exit="none"
+							update="none"
+						>
+							<h3 className={styles.PortfolioCard__item_title}>
+								{project.title}
+							</h3>
+						</ViewTransition>
 						{project.year && (
 							<p className={styles.PortfolioCard__item_year}>{project.year}</p>
 						)}

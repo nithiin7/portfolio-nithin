@@ -3,7 +3,7 @@ import { useLenis } from 'lenis/react';
 import type { Variants } from 'motion/react';
 import { AnimatePresence, motion } from 'motion/react';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 
 import { TransitionSVG } from 'components/utilities';
 import { text } from 'helpers/animations';
@@ -60,7 +60,7 @@ const Curve = ({
 	const pathname = usePathname();
 	const lenis = useLenis();
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		const targetId = window.location.hash.slice(1);
 		const target = targetId ? document.getElementById(targetId) : null;
 		lenis?.resize();

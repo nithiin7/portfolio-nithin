@@ -3,6 +3,7 @@ import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import type { Document } from '@contentful/rich-text-types';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { ViewTransition } from 'react';
 import { FiArrowLeft, FiExternalLink, FiGithub } from 'react-icons/fi';
 
 import { PortfolioGallery } from 'components/pages';
@@ -50,21 +51,33 @@ export default function PortfolioDetails({ project }: PortfolioDetailsProps) {
 
 			<div className={styles.PortfolioDetailsPage__content}>
 				<div className={styles.PortfolioDetailsPage__mainSection}>
-					<PortfolioAnimations animation="slideUp" delay={0.1}>
-						<div className={styles.PortfolioDetailsPage__projectHeader}>
+					<div className={styles.PortfolioDetailsPage__projectHeader}>
+						<ViewTransition
+							name={`portfolio-title-${project.id}`}
+							share="portfolio-title-morph"
+							enter="none"
+							exit="none"
+							update="none"
+						>
 							<h1 className={styles.PortfolioDetailsPage__projectTitle}>
 								{project.title}
 							</h1>
-							{project.year && (
-								<p className={styles.PortfolioDetailsPage__projectYear}>
-									{project.year}
-								</p>
-							)}
-						</div>
-					</PortfolioAnimations>
+						</ViewTransition>
+						{project.year && (
+							<p className={styles.PortfolioDetailsPage__projectYear}>
+								{project.year}
+							</p>
+						)}
+					</div>
 
 					{project.spotlightImage?.url && (
-						<PortfolioAnimations animation="scaleIn" delay={0.15}>
+						<ViewTransition
+							name={`portfolio-image-${project.id}`}
+							share="portfolio-image-morph"
+							enter="none"
+							exit="none"
+							update="none"
+						>
 							<div className={styles.PortfolioDetailsPage__projectImage}>
 								<Image
 									src={project.spotlightImage.url}
@@ -74,7 +87,7 @@ export default function PortfolioDetails({ project }: PortfolioDetailsProps) {
 									priority
 								/>
 							</div>
-						</PortfolioAnimations>
+						</ViewTransition>
 					)}
 
 					<PortfolioAnimations animation="slideUp" delay={0.2}>
