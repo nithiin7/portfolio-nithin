@@ -1,3 +1,4 @@
+import { GoogleTagManager } from '@next/third-parties/google';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata } from 'next';
@@ -213,6 +214,9 @@ export default function RootLayout({
 				</svg>
 				<Analytics />
 				<SpeedInsights />
+				{process.env.NEXT_PUBLIC_GOOGLE_GTM_ID && (
+					<GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GOOGLE_GTM_ID} />
+				)}
 			</body>
 		</html>
 	);

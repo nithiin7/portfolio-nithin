@@ -74,9 +74,6 @@ importers:
       react-google-recaptcha-v3:
         specifier: ^1.11.0
         version: 1.11.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      react-gtm-module:
-        specifier: ^2.0.11
-        version: 2.0.11
       react-hook-form:
         specifier: ^7.82.0
         version: 7.82.0(react@19.2.7)
@@ -162,9 +159,6 @@ importers:
       '@types/react-dom':
         specifier: ^19.2.3
         version: 19.2.3(@types/react@19.2.17)
-      '@types/react-gtm-module':
-        specifier: ^2.0.4
-        version: 2.0.4
       '@types/react-scroll':
         specifier: ^1.8.10
         version: 1.8.10
@@ -2425,9 +2419,6 @@ packages:
     resolution: {integrity: sha512-jp2L/eY6fn+KgVVQAOqYItbF0VY/YApe5Mz2F0aykSO8gx31bYCZyvSeYxCHKvzHG5eZjc+zyaS5BrBWya2+kQ==}
     peerDependencies:
       '@types/react': ^19.2.0
-
-  '@types/react-gtm-module@2.0.4':
-    resolution: {integrity: sha512-5wPMWsUE5AI6O0B0K1/zbs0rFHBKu+7NWXQwDXhqvA12ooLD6W1AYiWZqR4UiOd7ixZDV1H5Ys301zEsqyIfNg==}
 
   '@types/react-scroll@1.8.10':
     resolution: {integrity: sha512-RD4Z7grbdNGOKwKnUBKar6zNxqaW3n8m9QSrfvljW+gmkj1GArb8AFBomVr6xMOgHPD3v1uV3BrIf01py57daQ==}
@@ -5831,9 +5822,6 @@ packages:
     peerDependencies:
       react: ^16.3 || ^17.0 || ^18.0 || ^19.0
       react-dom: ^17.0 || ^18.0 || ^19.0
-
-  react-gtm-module@2.0.11:
-    resolution: {integrity: sha512-8gyj4TTxeP7eEyc2QKawEuQoAZdjKvMY4pgWfycGmqGByhs17fR+zEBs0JUDq4US/l+vbTl+6zvUIx27iDo/Vw==}
 
   react-hook-form@7.82.0:
     resolution: {integrity: sha512-Zw/uFZ2dO+02GHlBn7JFGn8kZJ7LdM33B/0BXOovzFay+CMhf94JMw5BVu+F1tVkUKjNvBuaE3fz5BJhga10Tg==}
@@ -9299,8 +9287,6 @@ snapshots:
   '@types/react-dom@19.2.3(@types/react@19.2.17)':
     dependencies:
       '@types/react': 19.2.17
-
-  '@types/react-gtm-module@2.0.4': {}
 
   '@types/react-scroll@1.8.10':
     dependencies:
@@ -12988,8 +12974,6 @@ snapshots:
       hoist-non-react-statics: 3.3.2
       react: 19.2.7
       react-dom: 19.2.7(react@19.2.7)
-
-  react-gtm-module@2.0.11: {}
 
   react-hook-form@7.82.0(react@19.2.7):
     dependencies:
