@@ -12,6 +12,7 @@ const nextConfig = {
 	reactStrictMode: true,
 	experimental: {
 		viewTransition: true,
+		optimizePackageImports: ['react-icons'],
 	},
 	images: {
 		qualities: [75],

@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import type { ReactElement } from 'react';
 import { useEffect, useRef, useState } from 'react';
-import { Link as ScrollLink } from 'react-scroll';
 
 import { EqualizerIcon, FooterBackground, SpotifyIcon } from 'assets/icons';
 import { FooterLogo } from 'assets/logos/FooterLogo';
@@ -142,16 +141,16 @@ const Footer = (): ReactElement => {
 				<ul className={styles['footer__permalinks']}>
 					{footerLinks.map((link: FooterLink) => (
 						<li key={link.key}>
-							<ScrollLink
-								to={link.href}
+							<a
 								href={`#${link.href}`}
 								data-text={link.key}
-								onClick={() => {
+								onClick={(event) => {
+									event.preventDefault();
 									handleScroll(link.href, lenis);
 								}}
 							>
 								{link.key}
-							</ScrollLink>
+							</a>
 						</li>
 					))}
 				</ul>
