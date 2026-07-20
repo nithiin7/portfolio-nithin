@@ -44,14 +44,31 @@ export const getImageUrl = (
 /**
  * Scrolls to a specified section using Lenis smooth scrolling.
  *
+ * Resolves the target's position via the offsetTop/offsetParent chain rather
+ * than a selector or getBoundingClientRect: some sections apply a CSS
+ * transform (scroll-linked entrance animation) that is still settling when
+ * the scroll starts, so a transform-based measurement produces a moving
+ * target and the scroll overshoots.
+ *
  * @param {string} to - The ID of the section to scroll to.
  */
 export const handleScroll = (to: string, lenis: Lenis | undefined) => {
-	if (lenis) {
-		lenis.scrollTo(`#${to}`, {
-			duration: 2,
-		});
+	if (!lenis) return;
+
+	const target = document.getElementById(to);
+	if (!target) return;
+
+	let top = 0;
+	let el: HTMLElement | null = target;
+
+	while (el) {
+		top += el.offsetTop;
+		el = el.offsetParent as HTMLElement | null;
 	}
+
+	lenis.scrollTo(top, {
+		duration: 2,
+	});
 };
 
 /**
