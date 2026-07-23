@@ -11,6 +11,7 @@ vi.mock('services/index', () => ({
 		post: vi.fn(),
 		patch: vi.fn(),
 		delete: vi.fn(),
+		getWhereIn: vi.fn(),
 	},
 }));
 
@@ -69,6 +70,40 @@ describe('getCommentsByPostId', () => {
 		const result = await commentsService.getCommentsByPostId('post-1');
 
 		expect(result).toEqual({ data: null, error });
+	});
+});
+
+describe('getCommentCounts', () => {
+	it('returns a post-id-keyed map counting rows including replies', async () => {
+		vi.mocked(baseService.getWhereIn).mockResolvedValue({
+			data: [
+				{ post_id: 'post-1' },
+				{ post_id: 'post-1' },
+				{ post_id: 'post-2' },
+			],
+			error: null,
+		});
+
+		const result = await commentsService.getCommentCounts(['post-1', 'post-2']);
+
+		expect(baseService.getWhereIn).toHaveBeenCalledWith(
+			'comments',
+			'post_id',
+			['post-1', 'post-2'],
+			{ select: 'post_id' }
+		);
+		expect(result.data).toEqual({ 'post-1': 2, 'post-2': 1 });
+	});
+
+	it('omits posts with no comments', async () => {
+		vi.mocked(baseService.getWhereIn).mockResolvedValue({
+			data: [],
+			error: null,
+		});
+
+		const result = await commentsService.getCommentCounts(['post-1']);
+
+		expect(result.data).toEqual({});
 	});
 });
 

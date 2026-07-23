@@ -119,6 +119,8 @@
 	&__meta {
 		display: flex;
 		align-items: center;
+		flex-wrap: wrap;
+		row-gap: rem(4);
 		gap: rem(16);
 		margin-bottom: rem(16);
 		font-size: rem(14);
@@ -129,7 +131,8 @@
 		font-weight: 500;
 	}
 
-	&__read_time {
+	&__read_time,
+	&__stat {
 		position: relative;
 		padding-left: rem(16);
 

@@ -93,6 +93,36 @@ export class BaseService {
 	}
 
 	/**
+	 * Generic GET operation filtering a column against a list of values
+	 * (Supabase `.in()`), for batch lookups by slug/id.
+	 */
+	async getWhereIn<T = unknown>(
+		table: string,
+		column: string,
+		values: (string | number)[],
+		options?: { select?: string }
+	): Promise<ServiceResponse<T[]>> {
+		if (values.length === 0) {
+			return { data: [], error: null };
+		}
+
+		try {
+			const { data, error } = await this.client
+				.from(table)
+				.select(options?.select || '*')
+				.in(column, values);
+
+			return { data: error ? null : (data as T[]), error };
+		} catch (error) {
+			console.error(
+				`Error in BaseService.getWhereIn for table ${table}:`,
+				error
+			);
+			return { data: null, error };
+		}
+	}
+
+	/**
 	 * Generic GET operation for a single record by ID
 	 */
 	async getById<T = unknown>(
