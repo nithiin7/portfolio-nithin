@@ -1,0 +1,23 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.StatMetric {
+	display: flex;
+	flex-direction: column;
+	gap: rem(4);
+	min-width: 0;
+
+	&__value {
+		font-size: rem(22);
+		font-weight: 600;
+		line-height: 1.1;
+		letter-spacing: -0.01em;
+		color: $color-grey-pale;
+		white-space: nowrap;
+	}
+
+	&__label {
+		font-size: rem(12);
+		color: $color-grey-medium;
+	}
+}

@@ -1,0 +1,19 @@
+@use 'styles/shared/mixin' as *;
+
+.WakaTimeStatCard {
+	&__metrics {
+		display: flex;
+		flex-wrap: wrap;
+		gap: rem(16) rem(40);
+	}
+
+	&__languages {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: rem(14) rem(32);
+
+		@media #{$lm} {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+}

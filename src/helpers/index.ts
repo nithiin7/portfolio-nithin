@@ -115,17 +115,34 @@ export const formatDate = (
 				day: 'numeric',
 				year: 'numeric',
 			});
-		case 'relative':
+		case 'relative': {
 			if (diffInDays === 0) return 'Today';
 			if (diffInDays === 1) return 'Yesterday';
 			if (diffInDays < 7) return `${diffInDays} days ago`;
-			if (diffInDays < 30) return `${Math.floor(diffInDays / 7)} weeks ago`;
-			if (diffInDays < 365) return `${Math.floor(diffInDays / 30)} months ago`;
-			return `${Math.floor(diffInDays / 365)} years ago`;
+
+			const weeks = Math.floor(diffInDays / 7);
+			if (diffInDays < 30) return `${weeks} week${weeks > 1 ? 's' : ''} ago`;
+
+			const months = Math.floor(diffInDays / 30);
+			if (diffInDays < 365)
+				return `${months} month${months > 1 ? 's' : ''} ago`;
+
+			const years = Math.floor(diffInDays / 365);
+			return `${years} year${years > 1 ? 's' : ''} ago`;
+		}
 		default:
 			return date.toLocaleDateString('en-US');
 	}
 };
+
+/**
+ * Format a number in compact notation (1284 → 1.3K)
+ */
+export const formatCompactNumber = (value: number): string =>
+	new Intl.NumberFormat('en-US', {
+		notation: 'compact',
+		maximumFractionDigits: 1,
+	}).format(value);
 
 /**
  * Generate excerpt from content

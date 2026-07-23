@@ -9,6 +9,7 @@ import {
 } from 'react-google-recaptcha-v3';
 import { BsStars } from 'react-icons/bs';
 import {
+	FiActivity,
 	FiAward,
 	FiBookOpen,
 	FiBriefcase,
@@ -203,6 +204,15 @@ const CommandPalette = ({
 				icon: navIcons[link.title] ?? <FiFolder />,
 				href: link.href,
 			})),
+			{
+				id: 'stats',
+				type: 'navigate',
+				title: 'Live Stats',
+				section: 'Navigate',
+				icon: <FiActivity />,
+				keywords: 'stats dashboard live github wakatime coding activity',
+				href: '/stats',
+			},
 			{
 				id: 'contact',
 				type: 'navigate',

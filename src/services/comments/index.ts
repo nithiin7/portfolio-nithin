@@ -225,6 +225,28 @@ export class CommentsService {
 	}
 
 	/**
+	 * Get the total number of comments across every post, for site-wide
+	 * stats. RLS already restricts anon SELECT to approved rows, so this
+	 * is naturally an approved-only count.
+	 */
+	async getTotalCommentCount(): Promise<ServiceResponse<number>> {
+		try {
+			const { data, error } = await baseService.get<
+				Pick<DatabaseComment, 'id'>
+			>(this.tableName, undefined, { select: 'id' });
+
+			if (error) {
+				return { data: null, error };
+			}
+
+			return { data: (data ?? []).length, error: null };
+		} catch (error) {
+			console.error('Error in CommentsService.getTotalCommentCount:', error);
+			return { data: null, error };
+		}
+	}
+
+	/**
 	 * Get replies for a specific comment
 	 */
 	async getReplies(parentId: string): Promise<ServiceResponse<Comment[]>> {

@@ -1,0 +1,102 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.ActivityChart {
+	position: relative;
+	display: flex;
+	align-items: stretch;
+	gap: rem(8);
+	flex: 1;
+	min-height: rem(140);
+
+	&::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: rem(22);
+		height: rem(1);
+		background-color: var(--color-toggle-border);
+	}
+
+	&__column {
+		position: relative;
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: rem(8);
+		min-width: 0;
+
+		&:hover .ActivityChart__tooltip {
+			opacity: 1;
+			transform: translateX(-50%) translateY(0);
+		}
+
+		&:hover .ActivityChart__bar {
+			background-color: $color-accent-hover;
+		}
+	}
+
+	&__tooltip {
+		position: absolute;
+		bottom: calc(100% + #{rem(4)});
+		left: 50%;
+		transform: translateX(-50%) translateY(rem(4));
+		display: flex;
+		flex-direction: column;
+		gap: rem(2);
+		align-items: center;
+		padding: rem(6) rem(10);
+		border-radius: rem(8);
+		background-color: $color-secondary;
+		border: rem(1) solid var(--color-toggle-border);
+		font-size: rem(11);
+		color: $color-grey-medium;
+		white-space: nowrap;
+		opacity: 0;
+		pointer-events: none;
+		transition:
+			opacity 0.2s ease,
+			transform 0.2s ease;
+		z-index: 2;
+
+		strong {
+			font-size: rem(12);
+			font-weight: 600;
+			color: $color-grey-pale;
+		}
+	}
+
+	&__track {
+		flex: 1;
+		width: 100%;
+		max-width: rem(24);
+		display: flex;
+		align-items: flex-end;
+		justify-content: center;
+	}
+
+	&__bar {
+		width: 100%;
+		border-radius: rem(4) rem(4) 0 0;
+		background-color: $color-accent;
+		transform-origin: bottom;
+		transition: background-color 0.2s ease;
+	}
+
+	&__empty {
+		width: 100%;
+		height: rem(3);
+		border-radius: rem(2) rem(2) 0 0;
+		background-color: color-mix(in srgb, #{$color-primary} 15%, transparent);
+	}
+
+	&__label {
+		height: rem(14);
+		line-height: rem(14);
+		font-size: rem(11);
+		font-weight: 500;
+		color: $color-grey-medium;
+	}
+}

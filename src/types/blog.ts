@@ -58,3 +58,15 @@ export interface BlogTag {
 	slug: string;
 	postCount: number;
 }
+
+export interface BlogTopPost {
+	title: string;
+	slug: string;
+	viewCount: number;
+}
+
+export interface BlogStats {
+	totalViews: number;
+	totalComments: number;
+	topPosts: BlogTopPost[];
+}

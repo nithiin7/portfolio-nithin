@@ -1,0 +1,45 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.MeterBar {
+	display: flex;
+	flex-direction: column;
+	gap: rem(6);
+	min-width: 0;
+
+	&__row {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: rem(12);
+	}
+
+	&__label {
+		font-size: rem(13);
+		font-weight: 500;
+		color: $color-grey-pale;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	&__detail {
+		font-size: rem(12);
+		color: $color-grey-medium;
+		white-space: nowrap;
+	}
+
+	&__track {
+		height: rem(6);
+		border-radius: rem(3);
+		background-color: color-mix(in srgb, #{$color-primary} 8%, transparent);
+		overflow: hidden;
+	}
+
+	&__fill {
+		height: 100%;
+		border-radius: rem(3);
+		background-color: $color-primary;
+		transform-origin: left;
+	}
+}
