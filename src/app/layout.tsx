@@ -16,9 +16,12 @@ import {
 	SkipLink,
 	Toast,
 } from 'components/utilities';
+import { loadBlogPosts, loadPortfolioSearchItems } from 'helpers/contentful';
 
 import Provider from './provider';
 import Curve from './transition';
+
+export const revalidate = 3600;
 
 const roboto = Roboto({
 	subsets: ['latin'],
@@ -141,9 +144,18 @@ interface RootLayoutProps {
 	children: React.ReactNode;
 }
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
-}: Readonly<RootLayoutProps>): React.ReactElement {
+}: Readonly<RootLayoutProps>): Promise<React.ReactElement> {
+	const [blogData, portfolioItems] = await Promise.all([
+		loadBlogPosts(100, 0),
+		loadPortfolioSearchItems(),
+	]);
+
+	const blogSearchItems = (blogData.data?.blogPostCollection?.items ?? []).map(
+		(post) => ({ title: post.title, slug: post.slug })
+	);
+
 	return (
 		<html
 			lang="en"
@@ -202,7 +214,11 @@ export default function RootLayout({
 							{children}
 							<Footer />
 							<FloatingChat chatbotUrl="https://nithiin7-portfolio-resume.hf.space" />
-							<CommandPalette resumeUrl="/resume.pdf" />
+							<CommandPalette
+								resumeUrl="/resume.pdf"
+								blogPosts={blogSearchItems}
+								portfolioItems={portfolioItems}
+							/>
 							<Toast />
 						</ClickSpark>
 					</Curve>

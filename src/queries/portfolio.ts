@@ -15,6 +15,21 @@ export const GET_ALL_PORTFOLIO_IDS = gql`
 	}
 `;
 
+/**
+ * Query to get id + title for every portfolio item, for search/command palette use
+ * @returns The portfolio search items data
+ */
+export const GET_ALL_PORTFOLIO_TITLES = gql`
+	query GetAllPortfolioTitles {
+		portfolioDetailsCollection(limit: 100) {
+			items {
+				id
+				title
+			}
+		}
+	}
+`;
+
 export const GET_PORTFOLIO = gql`
 	query Portfolio($id: Int!) {
 		portfolioDetailsCollection(where: { id: $id }, limit: 1) {

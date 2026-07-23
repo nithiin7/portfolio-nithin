@@ -77,6 +77,17 @@ export interface PortfolioDetailsCollection {
 	items: PortfolioDetails[];
 }
 
+export interface PortfolioSearchItem {
+	id: number;
+	title: string;
+}
+
+export interface PortfolioSearchResponse {
+	portfolioDetailsCollection: {
+		items: PortfolioSearchItem[];
+	};
+}
+
 export interface PortfolioDetails {
 	__typename: string;
 	id: number;
