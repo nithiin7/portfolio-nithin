@@ -211,7 +211,9 @@ export default async function RootLayout({
 							duration={400}
 						>
 							<Menu />
-							{children}
+							<main id="main-content" tabIndex={-1}>
+								{children}
+							</main>
 							<Footer />
 							<FloatingChat chatbotUrl="https://nithiin7-portfolio-resume.hf.space" />
 							<CommandPalette
