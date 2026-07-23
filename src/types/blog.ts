@@ -40,6 +40,8 @@ export interface BlogPost {
 	updatedDate: string;
 	seoTitle: string;
 	seoDescription: string;
+	viewCount?: number;
+	commentCount?: number;
 }
 
 export interface BlogCategory {

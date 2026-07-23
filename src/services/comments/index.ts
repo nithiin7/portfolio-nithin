@@ -194,6 +194,37 @@ export class CommentsService {
 	}
 
 	/**
+	 * Get comment counts for a batch of posts, keyed by post ID. Counts
+	 * top-level comments and replies together; posts with no comments are
+	 * absent from the result — callers should default missing IDs to 0.
+	 */
+	async getCommentCounts(
+		postIds: string[]
+	): Promise<ServiceResponse<Record<string, number>>> {
+		try {
+			const { data, error } = await baseService.getWhereIn<
+				Pick<DatabaseComment, 'post_id'>
+			>(this.tableName, 'post_id', postIds, { select: 'post_id' });
+
+			if (error) {
+				return { data: null, error };
+			}
+
+			const counts = (data ?? []).reduce<Record<string, number>>(
+				(acc, comment) => {
+					acc[comment.post_id] = (acc[comment.post_id] ?? 0) + 1;
+					return acc;
+				},
+				{}
+			);
+			return { data: counts, error: null };
+		} catch (error) {
+			console.error('Error in CommentsService.getCommentCounts:', error);
+			return { data: null, error };
+		}
+	}
+
+	/**
 	 * Get replies for a specific comment
 	 */
 	async getReplies(parentId: string): Promise<ServiceResponse<Comment[]>> {

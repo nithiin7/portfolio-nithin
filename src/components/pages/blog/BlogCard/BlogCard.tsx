@@ -14,6 +14,11 @@ interface BlogCardProps {
 	post: BlogPost;
 }
 
+const compactCount = new Intl.NumberFormat('en-US', {
+	notation: 'compact',
+	maximumFractionDigits: 1,
+}).format;
+
 /**
  * BlogCard component displays a single blog post with hover animations
  * and modern design following the project's patterns
@@ -62,6 +67,16 @@ const BlogCard: FC<BlogCardProps> = ({ post }) => {
 						<span className={styles.BlogCard__read_time}>
 							{post.readTime} min read
 						</span>
+						{typeof post.viewCount === 'number' && (
+							<span className={styles.BlogCard__stat}>
+								{compactCount(post.viewCount)} views
+							</span>
+						)}
+						{typeof post.commentCount === 'number' && (
+							<span className={styles.BlogCard__stat}>
+								{compactCount(post.commentCount)} comments
+							</span>
+						)}
 					</div>
 					<h3 className={styles.BlogCard__title}>{post.title}</h3>
 					<p className={styles.BlogCard__excerpt}>{post.excerpt}</p>

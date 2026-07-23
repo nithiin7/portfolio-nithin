@@ -7,6 +7,7 @@ vi.mock('services/index', () => ({
 	baseService: {
 		get: vi.fn(),
 		rpc: vi.fn(),
+		getWhereIn: vi.fn(),
 	},
 }));
 
@@ -60,6 +61,39 @@ describe('getViewCount', () => {
 
 		expect(result.data).toBe(0);
 		expect(result.error).toBeNull();
+	});
+});
+
+describe('getViewCounts', () => {
+	it('returns a slug-keyed map of view counts', async () => {
+		vi.mocked(baseService.getWhereIn).mockResolvedValue({
+			data: [
+				{ slug: 'a', view_count: 10, updated_at: '' },
+				{ slug: 'b', view_count: 5, updated_at: '' },
+			],
+			error: null,
+		});
+
+		const result = await viewsService.getViewCounts(['a', 'b']);
+
+		expect(baseService.getWhereIn).toHaveBeenCalledWith(
+			'blog_views',
+			'slug',
+			['a', 'b'],
+			{ select: 'slug,view_count' }
+		);
+		expect(result.data).toEqual({ a: 10, b: 5 });
+	});
+
+	it('omits slugs with no recorded views', async () => {
+		vi.mocked(baseService.getWhereIn).mockResolvedValue({
+			data: [],
+			error: null,
+		});
+
+		const result = await viewsService.getViewCounts(['new-post']);
+
+		expect(result.data).toEqual({});
 	});
 });
 

@@ -4,6 +4,7 @@ import type { Variants } from 'motion/react';
 import {
 	motion,
 	useMotionValue,
+	useReducedMotion,
 	useSpring,
 	useScroll,
 	useTransform,
@@ -193,6 +194,7 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 	};
 
 	const { theme } = useTheme();
+	const prefersReducedMotion = useReducedMotion();
 
 	const x = useMotionValue(0);
 	const y = useMotionValue(0);
@@ -206,27 +208,61 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 
 	const { scrollY } = useScroll();
 
-	const headerTopY = useTransform(scrollY, [0, 300], [0, -100]);
+	const headerTopY = useTransform(
+		scrollY,
+		[0, 300],
+		prefersReducedMotion ? [0, 0] : [0, -100]
+	);
 	const headerTopOpacity = useTransform(scrollY, [0, 250], [1, 0]);
 
-	const navY = useTransform(scrollY, [0, 350], [0, -150]);
+	const navY = useTransform(
+		scrollY,
+		[0, 350],
+		prefersReducedMotion ? [0, 0] : [0, -150]
+	);
 	const navOpacity = useTransform(scrollY, [0, 300], [1, 0]);
 
-	const logoY = useTransform(scrollY, [0, 400], [0, -120]);
+	const logoY = useTransform(
+		scrollY,
+		[0, 400],
+		prefersReducedMotion ? [0, 0] : [0, -120]
+	);
 	const logoOpacity = useTransform(scrollY, [0, 350], [1, 0]);
 
-	const ctaY = useTransform(scrollY, [0, 450], [0, -180]);
+	const ctaY = useTransform(
+		scrollY,
+		[0, 450],
+		prefersReducedMotion ? [0, 0] : [0, -180]
+	);
 	const ctaOpacity = useTransform(scrollY, [0, 400], [1, 0]);
 
-	const contentY = useTransform(scrollY, [0, 500], [0, -200]);
+	const contentY = useTransform(
+		scrollY,
+		[0, 500],
+		prefersReducedMotion ? [0, 0] : [0, -200]
+	);
 	const contentOpacity = useTransform(scrollY, [0, 450], [1, 0]);
-	const contentScale = useTransform(scrollY, [0, 500], [1, 0.8]);
+	const contentScale = useTransform(
+		scrollY,
+		[0, 500],
+		prefersReducedMotion ? [1, 1] : [1, 0.8]
+	);
 
-	const backgroundY = useTransform(scrollY, [0, 500], [0, -200]);
-	const backgroundScale = useTransform(scrollY, [0, 600], [1, 1.2]);
+	const backgroundY = useTransform(
+		scrollY,
+		[0, 500],
+		prefersReducedMotion ? [0, 0] : [0, -200]
+	);
+	const backgroundScale = useTransform(
+		scrollY,
+		[0, 600],
+		prefersReducedMotion ? [1, 1] : [1, 1.2]
+	);
 	const backgroundOpacity = useTransform(scrollY, [0, 500], [1, 0.3]);
 
 	useEffect(() => {
+		if (prefersReducedMotion) return;
+
 		/**
 		 * Calculates the distance between the cursor and the center of the component.
 		 * Updates the x and y motion values based on proximity to the component center,
@@ -274,7 +310,7 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 		return () => {
 			document.removeEventListener('mousemove', handleMouseMove);
 		};
-	}, [componentRef, x, y]);
+	}, [componentRef, x, y, prefersReducedMotion]);
 
 	return (
 		<motion.header

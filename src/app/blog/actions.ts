@@ -1,4 +1,5 @@
 'use server';
+import { enrichPostsWithCounts } from 'helpers/blog';
 import {
 	loadFilteredBlogPosts,
 	convertContentfulBlogPost,
@@ -15,7 +16,9 @@ export async function fetchFilteredPosts(
 	const collection = blogData?.data?.blogPostCollection;
 	if (!collection) return { posts: [], total: 0 };
 	return {
-		posts: collection.items.map(convertContentfulBlogPost),
+		posts: await enrichPostsWithCounts(
+			collection.items.map(convertContentfulBlogPost)
+		),
 		total: collection.total,
 	};
 }

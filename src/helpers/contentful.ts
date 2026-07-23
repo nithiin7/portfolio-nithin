@@ -14,11 +14,17 @@ import {
 	GET_BLOG_CATEGORIES,
 	GET_BLOG_TAGS,
 } from 'queries';
-import { GET_PORTFOLIO, GET_ALL_PORTFOLIO_IDS } from 'queries/portfolio';
+import {
+	GET_PORTFOLIO,
+	GET_ALL_PORTFOLIO_IDS,
+	GET_ALL_PORTFOLIO_TITLES,
+} from 'queries/portfolio';
 import type { BlogPost, BlogCategory, BlogTag } from 'types/blog';
 import type {
 	PageData,
 	PortfolioData,
+	PortfolioSearchItem,
+	PortfolioSearchResponse,
 	BlogPostItem,
 	BlogCategoryItem,
 	BlogTagItem,
@@ -149,6 +155,14 @@ const loadAllPortfolioIds = async (): Promise<number[]> => {
 	);
 };
 
+const loadPortfolioSearchItems = async (): Promise<PortfolioSearchItem[]> => {
+	const { data } = await runQuery<PortfolioSearchResponse>(
+		GET_ALL_PORTFOLIO_TITLES
+	);
+
+	return data?.portfolioDetailsCollection?.items ?? [];
+};
+
 export {
 	loadData,
 	loadPortfolioData,
@@ -158,4 +172,5 @@ export {
 	loadBlogTags,
 	loadBlogPostBySlug,
 	loadAllPortfolioIds,
+	loadPortfolioSearchItems,
 };

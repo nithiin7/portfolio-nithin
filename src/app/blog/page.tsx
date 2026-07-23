@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 
 import { BlogListing } from 'components/pages';
+import { enrichPostsWithCounts } from 'helpers/blog';
 import {
 	loadData,
 	loadFilteredBlogPosts,
@@ -161,7 +162,9 @@ export default async function BlogPage({
 	]);
 
 	const { total, items } = blogData.data.blogPostCollection;
-	const posts: BlogPost[] = items.map(convertContentfulBlogPost);
+	const posts: BlogPost[] = await enrichPostsWithCounts(
+		items.map(convertContentfulBlogPost)
+	);
 
 	const allCategories: string[] = [
 		'All',

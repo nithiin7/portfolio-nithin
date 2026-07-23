@@ -37,6 +37,11 @@ const MagneticButton = ({
 
 		if (!button || !magnetic) return;
 
+		const prefersReducedMotion = window.matchMedia(
+			'(prefers-reduced-motion: reduce)'
+		).matches;
+		if (prefersReducedMotion) return;
+
 		const handleMouseEnter = () => {
 			gsap.to(magnetic, {
 				duration: 0.3,

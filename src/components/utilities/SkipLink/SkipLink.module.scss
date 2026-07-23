@@ -1,0 +1,22 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.SkipLink {
+	position: absolute;
+	top: rem(-100);
+	left: rem(16);
+	z-index: 200;
+	padding: rem(12) rem(20);
+	background: $color-primary;
+	color: $color-text;
+	border-radius: rem(6);
+	font-size: rem(14);
+	font-weight: 600;
+	transition: top 0.2s ease;
+
+	&:focus-visible {
+		top: rem(16);
+		outline: rem(2) solid $color-outline-focus;
+		outline-offset: rem(2);
+	}
+}

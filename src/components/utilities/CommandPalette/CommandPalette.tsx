@@ -12,7 +12,9 @@ import {
 	FiAward,
 	FiBookOpen,
 	FiBriefcase,
+	FiCode,
 	FiDownload,
+	FiFileText,
 	FiFolder,
 	FiHome,
 	FiLayers,
@@ -53,9 +55,23 @@ interface AskState {
 	answer: string;
 }
 
+interface BlogSearchItem {
+	title: string;
+	slug: string;
+}
+
+interface PortfolioSearchItem {
+	id: number;
+	title: string;
+}
+
 interface CommandPaletteProps {
 	resumeUrl: string;
+	blogPosts?: BlogSearchItem[];
+	portfolioItems?: PortfolioSearchItem[];
 }
+
+const MAX_CONTENT_RESULTS = 5;
 
 type ExecuteRecaptcha = (action?: string) => Promise<string>;
 
@@ -82,7 +98,11 @@ const navIcons: Record<string, ReactElement> = {
 	Certifications: <FiAward />,
 };
 
-const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
+const CommandPalette = ({
+	resumeUrl,
+	blogPosts = [],
+	portfolioItems = [],
+}: CommandPaletteProps): ReactElement => {
 	const router = useRouter();
 	const pathname = usePathname();
 	const { theme, toggleTheme } = useTheme();
@@ -212,17 +232,48 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 		[theme]
 	);
 
+	const blogCommands = useMemo<Command[]>(
+		() =>
+			blogPosts.map((post) => ({
+				id: `blog-${post.slug}`,
+				type: 'navigate',
+				title: post.title,
+				section: 'Blog Posts',
+				icon: <FiFileText />,
+				href: `/blog/${post.slug}`,
+			})),
+		[blogPosts]
+	);
+
+	const portfolioCommands = useMemo<Command[]>(
+		() =>
+			portfolioItems.map((item) => ({
+				id: `portfolio-${item.id}`,
+				type: 'navigate',
+				title: item.title,
+				section: 'Portfolio',
+				icon: <FiCode />,
+				href: `/portfolio/${item.id}`,
+			})),
+		[portfolioItems]
+	);
+
 	const items = useMemo<Command[]>(() => {
 		const trimmed = query.trim().toLowerCase();
-		const matches = trimmed
-			? commands.filter((command) =>
-					`${command.title} ${command.keywords ?? ''}`
-						.toLowerCase()
-						.includes(trimmed)
-				)
-			: commands;
+		if (!trimmed) return commands;
 
-		if (!trimmed) return matches;
+		const filterBy = (list: Command[]) =>
+			list.filter((command) =>
+				`${command.title} ${command.keywords ?? ''}`
+					.toLowerCase()
+					.includes(trimmed)
+			);
+
+		const matches = [
+			...filterBy(commands),
+			...filterBy(blogCommands).slice(0, MAX_CONTENT_RESULTS),
+			...filterBy(portfolioCommands).slice(0, MAX_CONTENT_RESULTS),
+		];
 
 		return [
 			...matches,
@@ -234,7 +285,7 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 				icon: <BsStars />,
 			},
 		];
-	}, [commands, query]);
+	}, [commands, blogCommands, portfolioCommands, query]);
 
 	useEffect(() => {
 		setSelectedIndex(0);

@@ -14,8 +14,9 @@ export default defineConfig({
 		],
 	},
 	test: {
-		environment: 'node',
-		include: ['src/**/*.test.ts'],
+		environment: 'jsdom',
+		include: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
+		setupFiles: ['./vitest.setup.ts'],
 		env: {
 			CONTENTFUL_SPACE_ID: 'test-space',
 			CONTENTFUL_ENVIRONMENT: 'test-env',
