@@ -16,6 +16,7 @@ export { default as ThemeToggle } from './ThemeToggle/ThemeToggle';
 export { default as FloatingChat } from './FloatingChat/FloatingChatLazy';
 export { default as Subscribe } from './Subscribe/Subscribe';
 export { default as Modal } from './Modal/Modal';
+export { default as SkipLink } from './SkipLink/SkipLink';
 export { default as Tag } from './Tag/Tag';
 export type { TagProps } from './Tag/Tag';
 export { default as TagContainer } from './TagContainer/TagContainer';

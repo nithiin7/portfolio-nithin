@@ -20,7 +20,7 @@ export default function Provider({
 		>
 			<NuqsAdapter>
 				<ThemeProvider>
-					<main>
+					<main id="main-content" tabIndex={-1}>
 						<ReactLenis root>{children}</ReactLenis>
 					</main>
 				</ThemeProvider>

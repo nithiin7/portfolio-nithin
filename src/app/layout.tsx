@@ -13,6 +13,7 @@ import {
 	ClickSpark,
 	CommandPalette,
 	FloatingChat,
+	SkipLink,
 	Toast,
 } from 'components/utilities';
 
@@ -187,6 +188,7 @@ export default function RootLayout({
 						__html: JSON.stringify(structuredData),
 					}}
 				/>
+				<SkipLink targetId="main-content" />
 				<Provider>
 					<Curve>
 						<ClickSpark

@@ -241,6 +241,11 @@
 			appearance: none;
 			color: $color-text-dark;
 			position: relative;
+
+			&:focus-visible {
+				outline: rem(2) solid $color-outline-focus;
+				outline-offset: rem(4);
+			}
 		}
 
 		h1 {
