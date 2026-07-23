@@ -22,9 +22,7 @@ export default function Provider({
 			<NuqsAdapter>
 				<ThemeProvider>
 					<MotionConfig reducedMotion="user">
-						<main id="main-content" tabIndex={-1}>
-							<ReactLenis root>{children}</ReactLenis>
-						</main>
+						<ReactLenis root>{children}</ReactLenis>
 					</MotionConfig>
 				</ThemeProvider>
 			</NuqsAdapter>

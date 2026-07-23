@@ -6,9 +6,9 @@ import { useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
+import { subscribeToNewsletter } from 'app/actions';
 import { ArrowRightIcon } from 'assets/icons';
 import { emailSchema } from 'helpers/validations';
-import { subscribeToNewsletter } from 'models/subscription';
 
 import styles from './Subscribe.module.scss';
 
@@ -44,22 +44,21 @@ const Subscribe: FC<SubscribeProps> = ({ className = '', delay = 0 }) => {
 	const onSubmit: SubmitHandler<SubscribeFormData> = async (data) => {
 		setIsSubmitting(true);
 
-		try {
-			await subscribeToNewsletter(data.email);
+		const result = await subscribeToNewsletter(data.email);
 
+		if (result.success) {
 			setIsSuccess(true);
 			reset();
 
 			setTimeout(() => {
 				setIsSuccess(false);
 			}, 5000);
-		} catch (error) {
-			console.error('Error subscribing to newsletter:', error);
+		} else {
 			setIsError(true);
 			setTimeout(() => setIsError(false), 5000);
-		} finally {
-			setIsSubmitting(false);
 		}
+
+		setIsSubmitting(false);
 	};
 
 	return (

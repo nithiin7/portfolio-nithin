@@ -1,0 +1,151 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.Stats {
+	background-color: $color-black;
+	min-height: 100vh;
+	@include section-padding;
+	border-bottom-left-radius: 1.5rem;
+	border-bottom-right-radius: 1.5rem;
+	padding-bottom: rem(200);
+
+	&__header {
+		max-width: 60ch;
+		margin-bottom: rem(48);
+
+		h1 {
+			color: $color-grey-pale;
+			line-height: 92.5%;
+			font-size: $heading-size-section;
+			font-weight: 700;
+			text-wrap: balance;
+			letter-spacing: -0.025em;
+			text-transform: uppercase;
+			margin-bottom: rem(24);
+		}
+
+		p {
+			color: $color-grey-medium;
+			font-size: clamp(1rem, 0.9rem + 0.5vw, 1.25rem);
+			line-height: 150%;
+			text-wrap: pretty;
+		}
+	}
+
+	&__back {
+		display: flex;
+		width: fit-content;
+		align-items: center;
+		margin-bottom: rem(40);
+		color: $color-grey-medium;
+		font-size: rem(15);
+		font-weight: 500;
+		text-decoration: none;
+		transition: $transition;
+
+		&:hover {
+			color: $color-accent;
+			transform: translateX(rem(-4));
+		}
+	}
+
+	&__badge {
+		display: inline-flex;
+		align-items: center;
+		gap: rem(8);
+		padding: rem(6) rem(14);
+		margin-bottom: rem(24);
+		border-radius: rem(999);
+		border: rem(1) solid var(--color-toggle-border);
+		font-size: rem(11);
+		font-weight: 600;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: $color-grey-medium;
+	}
+
+	&__badgeDot {
+		width: rem(7);
+		height: rem(7);
+		border-radius: 50%;
+		background-color: $color-accent;
+		animation: stats-pulse 1.8s ease-in-out infinite;
+	}
+
+	&__tiles {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: rem(32) rem(20);
+		margin-bottom: rem(56);
+
+		@media #{$lg} {
+			grid-template-columns: repeat(4, 1fr);
+		}
+
+		> div {
+			min-width: 0;
+		}
+	}
+
+	&__grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: rem(20);
+
+		@media #{$md} {
+			grid-template-columns: repeat(2, 1fr);
+		}
+
+		@media #{$xl} {
+			grid-template-columns: repeat(12, 1fr);
+		}
+	}
+
+	&__cell {
+		min-width: 0;
+
+		> :first-child {
+			height: 100%;
+		}
+
+		&--wide {
+			@media #{$md} {
+				grid-column: span 2;
+			}
+
+			@media #{$xl} {
+				grid-column: span 7;
+			}
+		}
+
+		&--medium {
+			@media #{$xl} {
+				grid-column: span 5;
+			}
+		}
+
+		&--small {
+			@media #{$xl} {
+				grid-column: span 4;
+			}
+		}
+
+		&--compact {
+			@media #{$xl} {
+				grid-column: span 3;
+			}
+		}
+	}
+}
+
+@keyframes stats-pulse {
+	0%,
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+	50% {
+		opacity: 0.4;
+		transform: scale(0.7);
+	}
+}

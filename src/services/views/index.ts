@@ -91,6 +91,24 @@ export class ViewsService {
 			[];
 		return { data: views, error: null };
 	}
+
+	/**
+	 * Get the summed view count across every post, for site-wide stats
+	 */
+	async getTotalViews(): Promise<ServiceResponse<number>> {
+		const { data, error } = await baseService.get<DatabaseBlogView>(
+			this.tableName,
+			undefined,
+			{ select: 'view_count' }
+		);
+
+		if (error) {
+			return { data: null, error };
+		}
+
+		const total = (data ?? []).reduce((sum, view) => sum + view.view_count, 0);
+		return { data: total, error: null };
+	}
 }
 
 // Export a singleton instance

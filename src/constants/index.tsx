@@ -8,6 +8,10 @@ import type { Social } from 'types/social';
 import type { Song } from 'types/song';
 import type { FooterLink, LinkItem } from 'types/utils';
 
+export const GITHUB_USERNAME = 'nithiin7';
+export const DEVTO_USERNAME = 'nithiin7';
+export const HUGGINGFACE_SPACE_ID = 'nithiin7/Portfolio_Resume';
+
 export const links: LinkItem[] = [
 	{ title: 'About', href: '/#about' },
 	{ title: 'Blogs', href: '/blog' },
@@ -23,6 +27,7 @@ export const headerLinks: LinkItem[] = [
 	{ title: 'Companies', href: '/#collaborations' },
 	{ title: 'Services', href: '/#services' },
 	{ title: 'Works', href: '/#portfolio' },
+	{ title: 'Stats', href: '/stats' },
 ];
 
 export const socialsMenu: LinkItem[] = [

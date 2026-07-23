@@ -1,0 +1,58 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.BlogStatCard {
+	&__metrics {
+		display: flex;
+		flex-wrap: wrap;
+		gap: rem(16) rem(40);
+	}
+
+	&__posts {
+		list-style: none;
+		display: flex;
+		flex-direction: column;
+		gap: rem(12);
+		margin: 0;
+		padding: 0;
+
+		li {
+			display: flex;
+			align-items: baseline;
+			gap: rem(12);
+			min-width: 0;
+
+			a {
+				flex: 1;
+				font-size: rem(14);
+				font-weight: 600;
+				color: $color-grey-pale;
+				text-decoration: none;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				transition: color 0.25s ease;
+
+				&:hover {
+					color: $color-accent;
+				}
+			}
+		}
+	}
+
+	&__rank {
+		font-size: rem(12);
+		font-weight: 600;
+		font-variant-numeric: tabular-nums;
+		color: $color-grey-medium;
+		flex-shrink: 0;
+	}
+
+	&__views {
+		font-size: rem(12);
+		font-variant-numeric: tabular-nums;
+		color: $color-grey-medium;
+		white-space: nowrap;
+		flex-shrink: 0;
+	}
+}
