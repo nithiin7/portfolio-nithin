@@ -1,4 +1,6 @@
+import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
+import Script from 'next/script';
 
 import {
 	HomeAbout,
@@ -26,6 +28,82 @@ const HomeCollaborations = dynamic(
 const HomeTestimonial = dynamic(
 	() => import('components/pages/homepage/HomeTestimonial/HomeTestimonial')
 );
+
+const defaultTitle =
+	'Nithin Pradeep - AI Innovator & Software Engineer | Building Intelligent Digital Experiences';
+const defaultDescription =
+	'AI innovator, full-stack developer, and automation engineer. Engineer of intelligent solutions using Next.js, Node.js, Docker, n8n, and AI/ML platforms.';
+
+export async function generateMetadata(): Promise<Metadata> {
+	const props = await loadData('home');
+	const path = props?.data?.pageCollection?.items?.[0];
+
+	const title = path?.title || defaultTitle;
+	const description = path?.description || defaultDescription;
+
+	return {
+		title,
+		description,
+		openGraph: {
+			type: 'website',
+			locale: 'en_US',
+			url: 'https://portfolio-nithin.vercel.app/',
+			title,
+			description,
+			siteName: 'Nithin Pradeep - Portfolio',
+			images: [
+				{
+					url: '/opengraph-image.jpeg',
+					width: 1200,
+					height: 630,
+					alt: 'Nithin Pradeep - Full Stack Developer Portfolio',
+				},
+			],
+		},
+		twitter: {
+			card: 'summary_large_image',
+			title,
+			description,
+			creator: '@nithiin7',
+			images: ['/opengraph-image.jpeg'],
+		},
+		robots: {
+			index: true,
+			follow: true,
+			googleBot: {
+				index: true,
+				follow: true,
+				'max-video-preview': -1,
+				'max-image-preview': 'large',
+				'max-snippet': -1,
+			},
+		},
+		alternates: {
+			canonical: 'https://portfolio-nithin.vercel.app/',
+		},
+	};
+}
+
+const homeStructuredData = {
+	'@context': 'https://schema.org',
+	'@type': 'WebSite',
+	name: 'Nithin Pradeep - Portfolio',
+	url: 'https://portfolio-nithin.vercel.app/',
+	description: defaultDescription,
+	author: {
+		'@type': 'Person',
+		name: 'Nithin Pradeep',
+		jobTitle: 'Full Stack Developer',
+		url: 'https://portfolio-nithin.vercel.app/',
+		sameAs: [
+			'https://github.com/nithiin7',
+			'https://www.linkedin.com/in/nithinpradeep/',
+			'https://www.instagram.com/__nithiin__/',
+			'https://www.twitter.com/_nithiin7/',
+			'https://www.linkedin.com/in/nithin-p7/',
+		],
+	},
+};
 
 export default async function Home() {
 	const props = await loadData('home');
@@ -68,6 +146,13 @@ export default async function Home() {
 
 	return (
 		<>
+			<Script
+				id="home-structured-data"
+				type="application/ld+json"
+				dangerouslySetInnerHTML={{
+					__html: JSON.stringify(homeStructuredData),
+				}}
+			/>
 			<HomeHeader data={headerData} />
 			<HomeServices {...servicesData} />
 			<HomePortfolio {...portfolioData} />
