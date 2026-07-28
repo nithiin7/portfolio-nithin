@@ -10,6 +10,7 @@
 		"module": "esnext",
 		"moduleResolution": "bundler",
 		"resolveJsonModule": true,
+		"allowImportingTsExtensions": true,
 		"isolatedModules": true,
 		"jsx": "react-jsx",
 		"baseUrl": "./src/",
@@ -21,6 +22,7 @@
 		"target": "ES2017",
 		"paths": {
 			"assets/*": ["assets/*"],
+			"data/*": ["../data/*"],
 			"components/*": ["components/*"],
 			"helpers/*": ["helpers/*"],
 			"queries/*": ["queries/*"],

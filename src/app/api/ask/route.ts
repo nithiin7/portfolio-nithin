@@ -1,11 +1,17 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
+import embeddingsData from 'data/embeddings.json';
 import {
 	createRateLimiter,
 	isRecaptchaConfigured,
 	verifyRecaptcha,
 } from 'helpers/apiProtection';
+import {
+	embedTexts,
+	findRelevantChunks,
+	type EmbeddingsFile,
+} from 'helpers/rag';
 
 const isRateLimited = createRateLimiter({
 	max: 10,
@@ -50,11 +56,29 @@ LINKS:
 const SYSTEM_PROMPT = `You are the AI assistant on Nithin Pradeep's portfolio
 website, answering questions from visitors and recruiters. Answer in the third
 person ("Nithin has..."). Be concise — under 100 words, no markdown. Only use
-the facts below; if you don't know something, say so and point the visitor to
-the contact page or the resume download. Never invent employers, dates or
-projects.
+the facts below and the retrieved context, if any; if you don't know something,
+say so and point the visitor to the contact page or the resume download. Never
+invent employers, dates or projects.
 
 ${PROFILE}`;
+
+const embeddings = embeddingsData as EmbeddingsFile;
+
+const buildSystemPrompt = async (
+	question: string,
+	apiKey: string
+): Promise<string> => {
+	if (embeddings.chunks.length === 0) return SYSTEM_PROMPT;
+
+	const [queryVector] = await embedTexts([question], apiKey);
+	const relevant = findRelevantChunks(queryVector, embeddings.chunks);
+
+	if (relevant.length === 0) return SYSTEM_PROMPT;
+
+	const context = relevant.map((chunk) => chunk.text).join('\n\n---\n\n');
+
+	return `${SYSTEM_PROMPT}\n\nRETRIEVED CONTEXT (relevant to this question):\n\n${context}`;
+};
 
 export async function POST(request: NextRequest) {
 	const apiKey = process.env.OPENAI_API_KEY;
@@ -108,6 +132,17 @@ export async function POST(request: NextRequest) {
 			}
 		}
 
+		let systemPrompt: string;
+		try {
+			systemPrompt = await buildSystemPrompt(question, apiKey);
+		} catch (error) {
+			console.error('OpenAI embeddings error:', error);
+			return NextResponse.json(
+				{ error: 'The AI is unavailable right now. Please try again.' },
+				{ status: 502 }
+			);
+		}
+
 		const response = await fetch('https://api.openai.com/v1/chat/completions', {
 			method: 'POST',
 			headers: {
@@ -117,7 +152,7 @@ export async function POST(request: NextRequest) {
 			body: JSON.stringify({
 				model: 'gpt-4o-mini',
 				messages: [
-					{ role: 'system', content: SYSTEM_PROMPT },
+					{ role: 'system', content: systemPrompt },
 					{ role: 'user', content: question },
 				],
 				max_tokens: 300,
