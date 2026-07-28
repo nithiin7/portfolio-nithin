@@ -21,6 +21,8 @@
 		"prepare": "husky",
 		"pre-commit": "lint-staged",
 		"generate": "plop",
+		"embed": "node --env-file-if-exists=.env scripts/embed.ts",
+		"embed:check": "node scripts/embed.ts --check",
 		"test": "vitest run",
 		"test:watch": "vitest",
 		"test:e2e": "playwright test",
@@ -117,6 +119,9 @@
 		],
 		"*.{json,md}": [
 			"pnpm run prettier:fix"
+		],
+		"data/knowledge/**/*.md": [
+			"pnpm run embed:check"
 		]
 	},
 	"pnpm": {

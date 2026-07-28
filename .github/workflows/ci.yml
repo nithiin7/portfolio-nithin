@@ -39,6 +39,9 @@ jobs:
       - name: Typecheck
         run: pnpm exec tsc --noEmit
 
+      - name: Check embeddings are up to date
+        run: pnpm embed:check
+
   unit-tests:
     name: Unit tests
     runs-on: ubuntu-latest

@@ -1,3 +1,4 @@
 templates/
 next-env.d.ts
 pnpm-lock.yaml
+data/embeddings.json
