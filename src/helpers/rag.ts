@@ -1,5 +1,3 @@
-export const EMBEDDING_MODEL = 'text-embedding-3-small';
-
 const MAX_CHUNK_CHARS = 1500;
 
 export interface SourceChunk {
@@ -15,10 +13,6 @@ export interface EmbeddedChunk extends SourceChunk {
 export interface EmbeddingsFile {
 	model: string;
 	chunks: EmbeddedChunk[];
-}
-
-interface OpenAIEmbeddingResponse {
-	data: { embedding: number[]; index: number }[];
 }
 
 const splitLongText = (text: string): string[] => {
@@ -91,32 +85,6 @@ export const chunkMarkdown = (
 	}
 
 	return chunks;
-};
-
-export const embedTexts = async (
-	texts: string[],
-	apiKey: string
-): Promise<number[][]> => {
-	const response = await fetch('https://api.openai.com/v1/embeddings', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${apiKey}`,
-		},
-		body: JSON.stringify({ model: EMBEDDING_MODEL, input: texts }),
-	});
-
-	if (!response.ok) {
-		throw new Error(
-			`OpenAI embeddings request failed: ${response.status} ${await response.text()}`
-		);
-	}
-
-	const data = (await response.json()) as OpenAIEmbeddingResponse;
-
-	return data.data
-		.sort((a, b) => a.index - b.index)
-		.map((item) => item.embedding);
 };
 
 export const cosineSimilarity = (a: number[], b: number[]): number => {

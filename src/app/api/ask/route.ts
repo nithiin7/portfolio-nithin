@@ -1,17 +1,14 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
+import { createChatCompletion, createEmbeddings } from 'clients/openai';
 import embeddingsData from 'data/embeddings.json';
 import {
 	createRateLimiter,
 	isRecaptchaConfigured,
 	verifyRecaptcha,
 } from 'helpers/apiProtection';
-import {
-	embedTexts,
-	findRelevantChunks,
-	type EmbeddingsFile,
-} from 'helpers/rag';
+import { findRelevantChunks, type EmbeddingsFile } from 'helpers/rag';
 
 const isRateLimited = createRateLimiter({
 	max: 10,
@@ -70,7 +67,7 @@ const buildSystemPrompt = async (
 ): Promise<string> => {
 	if (embeddings.chunks.length === 0) return SYSTEM_PROMPT;
 
-	const [queryVector] = await embedTexts([question], apiKey);
+	const [queryVector] = await createEmbeddings([question], apiKey);
 	const relevant = findRelevantChunks(queryVector, embeddings.chunks);
 
 	if (relevant.length === 0) return SYSTEM_PROMPT;
@@ -132,45 +129,23 @@ export async function POST(request: NextRequest) {
 			}
 		}
 
-		let systemPrompt: string;
+		let answer: string | undefined;
 		try {
-			systemPrompt = await buildSystemPrompt(question, apiKey);
-		} catch (error) {
-			console.error('OpenAI embeddings error:', error);
-			return NextResponse.json(
-				{ error: 'The AI is unavailable right now. Please try again.' },
-				{ status: 502 }
-			);
-		}
-
-		const response = await fetch('https://api.openai.com/v1/chat/completions', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${apiKey}`,
-			},
-			body: JSON.stringify({
-				model: 'gpt-4o-mini',
-				messages: [
+			const systemPrompt = await buildSystemPrompt(question, apiKey);
+			answer = await createChatCompletion(
+				[
 					{ role: 'system', content: systemPrompt },
 					{ role: 'user', content: question },
 				],
-				max_tokens: 300,
-				temperature: 0.5,
-			}),
-		});
-
-		if (!response.ok) {
-			const errorBody = await response.text();
-			console.error('OpenAI error:', response.status, errorBody);
+				apiKey
+			);
+		} catch (error) {
+			console.error('OpenAI error:', error);
 			return NextResponse.json(
 				{ error: 'The AI is unavailable right now. Please try again.' },
 				{ status: 502 }
 			);
 		}
-
-		const data = await response.json();
-		const answer = data.choices?.[0]?.message?.content?.trim();
 
 		if (!answer) {
 			return NextResponse.json(

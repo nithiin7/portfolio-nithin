@@ -2,10 +2,9 @@ import { createHash } from 'node:crypto';
 import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
+import { EMBEDDING_MODEL, createEmbeddings } from '../src/clients/openai.ts';
 import {
-	EMBEDDING_MODEL,
 	chunkMarkdown,
-	embedTexts,
 	type EmbeddingsFile,
 	type SourceChunk,
 } from '../src/helpers/rag.ts';
@@ -94,7 +93,7 @@ const main = async (): Promise<void> => {
 
 		for (let i = 0; i < pending.length; i += BATCH_SIZE) {
 			const batch = pending.slice(i, i + BATCH_SIZE);
-			const vectors = await embedTexts(
+			const vectors = await createEmbeddings(
 				batch.map((chunk) => chunk.text),
 				apiKey
 			);
