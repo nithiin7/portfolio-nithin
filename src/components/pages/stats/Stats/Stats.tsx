@@ -141,7 +141,7 @@ const Stats: FC<StatsProps> = ({
 					</Link>
 					<span className={styles.Stats__badge}>
 						<span className={styles.Stats__badgeDot} aria-hidden="true" />
-						Live data · refreshed hourly
+						Live data · refreshed every 30 min
 					</span>
 					<h1>
 						<MaskText phrases={['Live Stats']} />

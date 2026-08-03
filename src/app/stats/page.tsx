@@ -8,7 +8,7 @@ import { loadGithubStats } from 'helpers/github';
 import { loadHuggingFaceStats } from 'helpers/huggingface';
 import { loadWakaTimeStats } from 'helpers/wakatime';
 
-export const revalidate = 3600;
+export const revalidate = 1800;
 
 const title = 'Live Stats | Nithin Pradeep';
 const description =
