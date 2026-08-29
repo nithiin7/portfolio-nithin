@@ -104,7 +104,11 @@ const PortfolioModal: FC<PortfolioModalProps> = ({ modal, projects }) => {
 						return (
 							<ViewTransition
 								key={`modal_${idx}`}
-								name={idx === index ? `portfolio-image-${idx + 1}` : 'auto'}
+								name={
+									active && idx === index
+										? `portfolio-image-${idx + 1}`
+										: 'auto'
+								}
 								share="portfolio-image-morph"
 								enter="none"
 								exit="none"

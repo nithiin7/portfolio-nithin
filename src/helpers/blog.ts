@@ -37,6 +37,26 @@ export const getRelatedPosts = (
 	return scoredPosts.slice(0, limit);
 };
 
+const COUNTS_TIMEOUT_MS = 2000;
+
+/**
+ * Races a Supabase count lookup against a timeout so a slow/unreachable
+ * project (e.g. a paused free-tier instance) can't stall the page render —
+ * counts are decorative and fall back to 0 either way.
+ */
+const withTimeout = <T>(
+	promise: Promise<{ data: T | null; error: unknown }>
+): Promise<{ data: T | null; error: unknown }> =>
+	Promise.race([
+		promise,
+		new Promise<{ data: T | null; error: unknown }>((resolve) =>
+			setTimeout(
+				() => resolve({ data: null, error: 'timeout' }),
+				COUNTS_TIMEOUT_MS
+			)
+		),
+	]);
+
 /**
  * Attach view and comment counts to a batch of posts for listing cards.
  * Missing rows in either service default to 0 rather than being dropped.
@@ -47,8 +67,8 @@ export const enrichPostsWithCounts = async (
 	if (posts.length === 0) return posts;
 
 	const [{ data: viewCounts }, { data: commentCounts }] = await Promise.all([
-		viewsService.getViewCounts(posts.map((post) => post.slug)),
-		commentsService.getCommentCounts(posts.map((post) => post.id)),
+		withTimeout(viewsService.getViewCounts(posts.map((post) => post.slug))),
+		withTimeout(commentsService.getCommentCounts(posts.map((post) => post.id))),
 	]);
 
 	return posts.map((post) => ({
