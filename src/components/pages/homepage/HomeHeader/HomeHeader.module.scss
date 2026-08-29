@@ -72,6 +72,10 @@
 		align-items: center;
 		width: 100%;
 		padding: 0 rem(15);
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 20;
 	}
 
 	&__list {
@@ -164,7 +168,7 @@
 	}
 
 	&__header {
-		height: calc(100vh - 122px);
+		height: 100vh;
 		width: 100%;
 		position: relative;
 		display: flex;
