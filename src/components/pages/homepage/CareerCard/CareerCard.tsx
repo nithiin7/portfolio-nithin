@@ -2,6 +2,7 @@
 import type { Variants } from 'motion/react';
 import { motion } from 'motion/react';
 
+import EYLogo from 'assets/logos/ey.svg';
 import PaytmLogo from 'assets/logos/paytm-payments-bank.svg';
 import WhiteRabbitLogo from 'assets/logos/white-rabbit.svg';
 import type { Experience } from 'types/career';
@@ -49,6 +50,9 @@ const CareerCard: React.FC<CareerCardProps> = ({
 		}
 		if (normalizedCompanyName === 'white rabbit group') {
 			return WhiteRabbitLogo;
+		}
+		if (normalizedCompanyName === 'ey') {
+			return EYLogo;
 		}
 
 		return null;
