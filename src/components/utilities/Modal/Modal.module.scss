@@ -18,11 +18,15 @@
 	padding: rem(16);
 
 	&__content {
-		background-color: $color-primary;
-		border: rem(1) solid color-mix(in srgb, var(--color-secondary) 15%, transparent);
+		background-color: color-mix(in srgb, var(--color-primary) 82%, transparent);
+		backdrop-filter: blur(24px) saturate(160%);
+		border: rem(1) solid
+			color-mix(in srgb, var(--color-secondary) 15%, transparent);
 		border-radius: rem(24);
-		box-shadow: 0 rem(30) rem(60) rem(-20)
-			color-mix(in srgb, var(--color-black) 35%, transparent);
+		box-shadow:
+			inset 0 1px 0 color-mix(in srgb, var(--color-white) 10%, transparent),
+			0 rem(30) rem(60) rem(-20)
+				color-mix(in srgb, var(--color-black) 35%, transparent);
 		max-width: rem(600);
 		width: 100%;
 		max-height: 88vh;
@@ -57,7 +61,8 @@
 		height: rem(36);
 		flex-shrink: 0;
 		background: transparent;
-		border: rem(1) solid color-mix(in srgb, var(--color-secondary) 20%, transparent);
+		border: rem(1) solid
+			color-mix(in srgb, var(--color-secondary) 20%, transparent);
 		color: $color-secondary;
 		cursor: pointer;
 		border-radius: 50%;
