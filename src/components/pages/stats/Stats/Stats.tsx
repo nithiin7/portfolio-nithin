@@ -10,6 +10,7 @@ import {
 	DevToStatCard,
 	GithubStatCard,
 	HuggingFaceStatCard,
+	NowActivity,
 	StatTile,
 	WakaTimeStatCard,
 } from 'components/pages';
@@ -18,6 +19,7 @@ import {
 	PortfolioAnimations,
 	StaggeredContainer,
 } from 'components/utilities';
+import { buildNowActivity } from 'helpers/nowActivity';
 import type { BlogStats } from 'types/blog';
 import type { DevToStats } from 'types/devto';
 import type { GithubStats } from 'types/github';
@@ -60,6 +62,8 @@ const Stats: FC<StatsProps> = ({
 	const codingHours = wakatime
 		? Math.round((wakatime.totalSeconds / 3600) * 10) / 10
 		: 0;
+
+	const nowActivity = buildNowActivity(wakatime, github, devto);
 
 	const tiles = [
 		wakatime && (
@@ -151,6 +155,7 @@ const Stats: FC<StatsProps> = ({
 						pulled straight from GitHub, WakaTime, Dev.to, and this site.
 					</p>
 				</div>
+				<NowActivity items={nowActivity} />
 				{tiles.length > 0 && (
 					<StaggeredContainer className={styles.Stats__tiles}>
 						{tiles}
