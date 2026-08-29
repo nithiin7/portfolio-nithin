@@ -36,6 +36,9 @@ export { default as DevToStatCard } from './stats/DevToStatCard/DevToStatCard';
 export { default as HuggingFaceStatCard } from './stats/HuggingFaceStatCard/HuggingFaceStatCard';
 export { default as BlogStatCard } from './stats/BlogStatCard/BlogStatCard';
 
+// Resume
+export { default as Resume } from './resume/Resume/Resume';
+
 // Blog
 export { default as BlogCard } from './blog/BlogCard/BlogCard';
 export { default as BlogDetail } from './blog/BlogDetail/BlogDetail';
