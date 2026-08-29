@@ -1,6 +1,7 @@
 'use client';
-import { gsap } from 'gsap';
-import { useRef, useEffect, type ReactElement, type ReactNode } from 'react';
+import type { ReactElement, ReactNode } from 'react';
+
+import { useMagneticHover } from 'hooks/useMagneticHover';
 
 import styles from './MagneticButton.module.scss';
 
@@ -28,65 +29,14 @@ const MagneticButton = ({
 	title,
 	className = '',
 }: MagneticButtonProps): ReactElement => {
-	const buttonRef = useRef<HTMLAnchorElement>(null);
-	const magneticRef = useRef<HTMLDivElement>(null);
-
-	useEffect(() => {
-		const button = buttonRef.current;
-		const magnetic = magneticRef.current;
-
-		if (!button || !magnetic) return;
-
-		const prefersReducedMotion = window.matchMedia(
-			'(prefers-reduced-motion: reduce)'
-		).matches;
-		if (prefersReducedMotion) return;
-
-		const handleMouseEnter = () => {
-			gsap.to(magnetic, {
-				duration: 0.3,
-				scale: 1.1,
-				ease: 'power2.out',
-			});
-		};
-
-		const handleMouseLeave = () => {
-			gsap.to(magnetic, {
-				duration: 0.3,
-				scale: 1,
-				x: 0,
-				y: 0,
-				ease: 'power2.out',
-			});
-		};
-
-		const handleMouseMove = (e: MouseEvent) => {
-			const rect = button.getBoundingClientRect();
-			const x = e.clientX - rect.left - rect.width / 2;
-			const y = e.clientY - rect.top - rect.height / 2;
-
-			gsap.to(magnetic, {
-				duration: 0.3,
-				x: x * 0.6,
-				y: y * 0.6,
-				ease: 'power2.out',
-			});
-		};
-
-		button.addEventListener('mouseenter', handleMouseEnter);
-		button.addEventListener('mouseleave', handleMouseLeave);
-		button.addEventListener('mousemove', handleMouseMove);
-
-		return () => {
-			button.removeEventListener('mouseenter', handleMouseEnter);
-			button.removeEventListener('mouseleave', handleMouseLeave);
-			button.removeEventListener('mousemove', handleMouseMove);
-		};
-	}, []);
+	const { boundsRef, magneticRef } = useMagneticHover<
+		HTMLAnchorElement,
+		HTMLDivElement
+	>({ strength: 0.6, scale: 1.1 });
 
 	return (
 		<a
-			ref={buttonRef}
+			ref={boundsRef}
 			href={href}
 			title={title}
 			aria-label={title}

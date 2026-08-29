@@ -24,6 +24,17 @@
 		z-index: 1;
 	}
 
+	&::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+		opacity: 0.035;
+		mix-blend-mode: overlay;
+		pointer-events: none;
+		z-index: 2;
+	}
+
 	&__nav {
 		margin-top: rem(15);
 
@@ -141,6 +152,17 @@
 		}
 	}
 
+	&__magneticBounds {
+		display: inline-flex;
+		padding: rem(12);
+		margin: rem(-12);
+	}
+
+	&__magneticContent {
+		display: inline-flex;
+		will-change: transform;
+	}
+
 	&__header {
 		height: calc(100vh - 122px);
 		width: 100%;
@@ -163,15 +185,23 @@
 			text-align: center;
 			padding-bottom: 5%;
 		}
+	}
+
+	&__backgroundFloat {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 40%;
+		transform: translateX(-50%) translateY(-50%);
+		pointer-events: none;
+		filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.1));
+		animation: float 6s ease-in-out infinite;
+		z-index: -20;
 
 		svg {
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			width: 40%;
-			pointer-events: none;
-			filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.1));
-			animation: float 6s ease-in-out infinite;
+			width: 100%;
+			height: auto;
+			display: block;
 		}
 	}
 
@@ -215,6 +245,31 @@
 		height: rem(4);
 		border-radius: 50%;
 		background: currentColor;
+	}
+
+	&__status {
+		display: inline-flex;
+		align-items: center;
+		gap: rem(8);
+		padding: rem(6) rem(14);
+		border-radius: rem(999);
+		border: 1px solid color-mix(in srgb, $color-text-dark 20%, transparent);
+		background: color-mix(in srgb, $color-text-dark 6%, transparent);
+		backdrop-filter: blur(10px);
+		font-size: rem(12);
+		font-weight: 500;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: $color-text-dark;
+	}
+
+	&__statusDot {
+		width: rem(6);
+		height: rem(6);
+		border-radius: 50%;
+		background: $color-accent;
+		box-shadow: 0 0 0 0 color-mix(in srgb, $color-accent 60%, transparent);
+		animation: statusPulse 2s ease-out infinite;
 	}
 
 	&__description {
@@ -298,10 +353,10 @@
 @keyframes float {
 	0%,
 	100% {
-		transform: translateX(-50%) translateY(-50%) rotate(0deg);
+		transform: translateX(-50%) translateY(-50%) rotate(0deg) scale(1);
 	}
 	50% {
-		transform: translateX(-50%) translateY(-50%) rotate(1deg);
+		transform: translateX(-50%) translateY(-50%) rotate(1.5deg) scale(1.02);
 	}
 }
 
@@ -316,5 +371,17 @@
 	100% {
 		width: 100%;
 		opacity: 1;
+	}
+}
+
+@keyframes statusPulse {
+	0% {
+		box-shadow: 0 0 0 0 color-mix(in srgb, $color-accent 60%, transparent);
+	}
+	70% {
+		box-shadow: 0 0 0 rem(6) color-mix(in srgb, $color-accent 0%, transparent);
+	}
+	100% {
+		box-shadow: 0 0 0 0 color-mix(in srgb, $color-accent 0%, transparent);
 	}
 }
