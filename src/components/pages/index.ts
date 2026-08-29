@@ -35,6 +35,10 @@ export { default as WakaTimeStatCard } from './stats/WakaTimeStatCard/WakaTimeSt
 export { default as DevToStatCard } from './stats/DevToStatCard/DevToStatCard';
 export { default as HuggingFaceStatCard } from './stats/HuggingFaceStatCard/HuggingFaceStatCard';
 export { default as BlogStatCard } from './stats/BlogStatCard/BlogStatCard';
+export { default as NowActivity } from './stats/NowActivity/NowActivity';
+
+// Resume
+export { default as Resume } from './resume/Resume/Resume';
 
 // Blog
 export { default as BlogCard } from './blog/BlogCard/BlogCard';

@@ -6,8 +6,8 @@ export default function manifest(): MetadataRoute.Manifest {
 		short_name: 'Nithin Pradeep',
 		start_url: '/',
 		display: 'standalone',
-		background_color: '#ffffff',
-		theme_color: '#ffffff',
+		background_color: '#393632',
+		theme_color: '#393632',
 		icons: [
 			{
 				src: '/android-chrome-192x192.png',

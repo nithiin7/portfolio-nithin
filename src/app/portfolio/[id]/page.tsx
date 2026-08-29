@@ -41,21 +41,12 @@ export async function generateMetadata({
 			title: project.title,
 			description: project.shortDescription,
 			siteName: 'Nithin Pradeep - Portfolio',
-			images: [
-				{
-					url: '/opengraph-image.jpeg',
-					width: 1200,
-					height: 630,
-					alt: project.title,
-				},
-			],
 		},
 		twitter: {
 			card: 'summary_large_image',
 			title: project.title,
 			description: project.shortDescription,
 			creator: '@nithiin7',
-			images: ['/opengraph-image.jpeg'],
 		},
 		robots: {
 			index: true,

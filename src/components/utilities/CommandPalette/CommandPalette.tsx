@@ -223,6 +223,15 @@ const CommandPalette = ({
 				href: '/contact',
 			},
 			{
+				id: 'resume',
+				type: 'navigate',
+				title: 'Resume',
+				section: 'Navigate',
+				icon: <FiFileText />,
+				keywords: 'resume cv experience skills',
+				href: '/resume',
+			},
+			{
 				id: 'theme',
 				type: 'action',
 				title: `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`,
@@ -231,9 +240,9 @@ const CommandPalette = ({
 				keywords: 'theme dark light mode toggle appearance',
 			},
 			{
-				id: 'resume',
+				id: 'download-resume',
 				type: 'action',
-				title: 'Download resume',
+				title: 'Download resume (PDF)',
 				section: 'Actions',
 				icon: <FiDownload />,
 				keywords: 'resume cv download pdf',
@@ -383,7 +392,7 @@ const CommandPalette = ({
 
 			close();
 
-			if (command.id === 'resume') {
+			if (command.id === 'download-resume') {
 				const link = document.createElement('a');
 				link.href = resumeUrl;
 				link.download = 'Nithin_Resume.pdf';

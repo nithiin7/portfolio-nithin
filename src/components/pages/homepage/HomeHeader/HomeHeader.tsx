@@ -4,6 +4,7 @@ import type { Variants } from 'motion/react';
 import {
 	motion,
 	useMotionValue,
+	useMotionTemplate,
 	useReducedMotion,
 	useSpring,
 	useScroll,
@@ -19,9 +20,12 @@ import MaskText from 'components/utilities/MaskText/MaskText';
 import { headerLinks } from 'constants/index';
 import { useTheme } from 'contexts/ThemeContext';
 import { handleScroll } from 'helpers';
+import { useMagneticHover } from 'hooks/useMagneticHover';
 import type { Settings } from 'types/anim';
 
 import styles from './HomeHeader.module.scss';
+
+const AVAILABILITY_STATUS = 'Available for new projects';
 
 interface HomeHeaderProps {
 	className?: string;
@@ -103,6 +107,22 @@ const contentVariants: Variants = {
 			duration: 1.2,
 			ease: [0.25, 0.46, 0.45, 0.94],
 			delay: 0.6,
+		},
+	},
+};
+
+const statusVariants: Variants = {
+	hidden: {
+		opacity: 0,
+		y: 16,
+	},
+	visible: {
+		opacity: 1,
+		y: 0,
+		transition: {
+			duration: 0.8,
+			ease: [0.25, 0.46, 0.45, 0.94],
+			delay: 0.4,
 		},
 	},
 };
@@ -206,6 +226,18 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 	const springX = useSpring(x, springConfig);
 	const springY = useSpring(y, springConfig);
 
+	const blobX = useMotionValue(0);
+	const blobY = useMotionValue(0);
+	const blobSpringConfig = { damping: 50, stiffness: 40 };
+	const blobSpringX = useSpring(blobX, blobSpringConfig);
+	const blobSpringY = useSpring(blobY, blobSpringConfig);
+
+	const { boundsRef: ctaBoundsRef, magneticRef: ctaMagneticRef } =
+		useMagneticHover<HTMLDivElement, HTMLDivElement>({
+			strength: 0.4,
+			scale: 1.06,
+		});
+
 	const { scrollY } = useScroll();
 
 	const headerTopY = useTransform(
@@ -248,7 +280,7 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 		prefersReducedMotion ? [1, 1] : [1, 0.8]
 	);
 
-	const backgroundY = useTransform(
+	const backgroundScrollY = useTransform(
 		scrollY,
 		[0, 500],
 		prefersReducedMotion ? [0, 0] : [0, -200]
@@ -259,6 +291,10 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 		prefersReducedMotion ? [1, 1] : [1, 1.2]
 	);
 	const backgroundOpacity = useTransform(scrollY, [0, 500], [1, 0.3]);
+	const backgroundY = useTransform(
+		() => backgroundScrollY.get() + blobSpringY.get()
+	);
+	const backgroundTransform = useMotionTemplate`translate(${blobSpringX}px, ${backgroundY}px) scale(${backgroundScale})`;
 
 	useEffect(() => {
 		if (prefersReducedMotion) return;
@@ -296,13 +332,19 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 		};
 
 		/**
-		 * Mousemove event handler that triggers `calculateDistance` to update the
-		 * motion values based on cursor position.
+		 * Drives the background blob toward the cursor, scaled down and relative
+		 * to viewport center rather than a single element (unlike `calculateDistance`).
 		 *
 		 * @param {MouseEvent} e - The mousemove event.
 		 */
+		const updateBlobPosition = (e: MouseEvent) => {
+			blobX.set((e.clientX - window.innerWidth / 2) * 0.04);
+			blobY.set((e.clientY - window.innerHeight / 2) * 0.04);
+		};
+
 		const handleMouseMove = (e: MouseEvent) => {
 			calculateDistance(e);
+			updateBlobPosition(e);
 		};
 
 		document.addEventListener('mousemove', handleMouseMove);
@@ -310,7 +352,7 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 		return () => {
 			document.removeEventListener('mousemove', handleMouseMove);
 		};
-	}, [componentRef, x, y, prefersReducedMotion]);
+	}, [componentRef, x, y, blobX, blobY, prefersReducedMotion]);
 
 	return (
 		<motion.header
@@ -407,52 +449,59 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 						opacity: ctaOpacity,
 					}}
 				>
-					<ColorMaskButton
-						text="Book a Call"
-						href="/contact"
-						className={styles.HomeHeader__button}
-					/>
+					<div ref={ctaBoundsRef} className={styles.HomeHeader__magneticBounds}>
+						<div
+							ref={ctaMagneticRef}
+							className={styles.HomeHeader__magneticContent}
+						>
+							<ColorMaskButton
+								text="Book a Call"
+								href="/contact"
+								className={styles.HomeHeader__button}
+							/>
+						</div>
+					</div>
 				</motion.div>
 			</div>
 			<div id="home" className={styles.HomeHeader__header}>
-				<motion.svg
-					width="1186"
-					height="1186"
-					viewBox="0 0 1186 1186"
-					fill="none"
-					xmlns="http://www.w3.org/2000/svg"
-					variants={backgroundVariants}
-					style={{
-						opacity: backgroundOpacity,
-						zIndex: -20,
-						transform: `translateX(-50%) translateY(-50%) scale(${backgroundScale})`,
-						y: backgroundY,
-					}}
-				>
-					<circle
-						cx="593"
-						cy="593"
-						r="593"
-						fill="url(#paint0_linear_4949_267)"
-					/>
-					<defs>
-						<linearGradient
-							id="paint0_linear_4949_267"
-							x1="593"
-							y1="0"
-							x2="593"
-							y2="1186"
-							gradientUnits="userSpaceOnUse"
-						>
-							<stop stopColor={theme === 'dark' ? '#DDDDD5' : '#393632'} />
-							<stop
-								offset="1"
-								stopColor={theme === 'dark' ? '#DDDDD5' : '#393632'}
-								stopOpacity="0"
-							/>
-						</linearGradient>
-					</defs>
-				</motion.svg>
+				<div className={styles.HomeHeader__backgroundFloat}>
+					<motion.svg
+						width="1186"
+						height="1186"
+						viewBox="0 0 1186 1186"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+						variants={backgroundVariants}
+						style={{
+							opacity: backgroundOpacity,
+							transform: backgroundTransform,
+						}}
+					>
+						<circle
+							cx="593"
+							cy="593"
+							r="593"
+							fill="url(#paint0_linear_4949_267)"
+						/>
+						<defs>
+							<linearGradient
+								id="paint0_linear_4949_267"
+								x1="593"
+								y1="0"
+								x2="593"
+								y2="1186"
+								gradientUnits="userSpaceOnUse"
+							>
+								<stop stopColor={theme === 'dark' ? '#DDDDD5' : '#393632'} />
+								<stop
+									offset="1"
+									stopColor={theme === 'dark' ? '#DDDDD5' : '#393632'}
+									stopOpacity="0"
+								/>
+							</linearGradient>
+						</defs>
+					</motion.svg>
+				</div>
 				<motion.div
 					className={styles.HomeHeader__description}
 					variants={contentVariants}
@@ -462,16 +511,30 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 						scale: contentScale,
 					}}
 				>
+					<motion.div
+						className={styles.HomeHeader__status}
+						variants={statusVariants}
+						initial="hidden"
+						animate="visible"
+					>
+						<span className={styles.HomeHeader__statusDot} />
+						{AVAILABILITY_STATUS}
+					</motion.div>
 					<motion.button
 						className={styles.HomeHeader__title}
 						onMouseEnter={() => setIsHovered(true)}
 						onMouseLeave={() => setIsHovered(false)}
 					>
 						<h1 className={styles.HomeHeader__animatedTitle}>
-							<MaskText phrases={[data.items[0]?.title ?? '']} delay={0.75} />
+							<MaskText
+								phrases={[data.items[0]?.title ?? '']}
+								delay={0.75}
+								charVariant="flip"
+							/>
 							<MaskText
 								phrases={[data.items[0]?.subTitle ?? '']}
 								delay={1.25}
+								charVariant="flip"
 							/>
 						</h1>
 					</motion.button>

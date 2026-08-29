@@ -1,0 +1,177 @@
+@use 'styles/shared/mixin' as *;
+@use 'styles/shared/variables' as *;
+
+.Resume {
+	max-width: rem(840);
+	margin: 0 auto;
+	padding: rem(100) 5% rem(80);
+	min-height: 100vh;
+
+	@media #{$md} {
+		padding: rem(120) 5% rem(100);
+	}
+
+	&__header {
+		display: flex;
+		flex-direction: column;
+		gap: rem(12);
+	}
+
+	&__name {
+		font-size: clamp(rem(32), 5vw, rem(56));
+		font-weight: 700;
+		margin: 0;
+		line-height: 1.05;
+		letter-spacing: -0.03em;
+		color: $color-text-dark;
+	}
+
+	&__role {
+		color: $color-accent;
+		font-size: rem(18);
+		font-weight: 600;
+		margin: 0;
+	}
+
+	&__tagline {
+		color: $color-text-secondary;
+		font-size: rem(16);
+		line-height: 1.6;
+		max-width: 60ch;
+		margin: 0;
+	}
+
+	&__contactRow {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: rem(16);
+		margin-top: rem(8);
+		font-size: rem(14);
+	}
+
+	&__contactLink {
+		display: inline-flex;
+		align-items: center;
+		color: $color-text-secondary;
+		text-decoration: none;
+		transition: $transition;
+
+		&:hover {
+			color: $color-accent;
+		}
+	}
+
+	&__actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: rem(16);
+		margin-top: rem(16);
+	}
+
+	&__downloadLink {
+		display: inline-flex;
+		align-items: center;
+		gap: rem(8);
+		padding: rem(10) rem(24);
+		border: rem(1) solid $color-border;
+		color: $color-text-dark;
+		text-decoration: none;
+		border-radius: rem(4);
+		font-weight: 500;
+		font-size: rem(14);
+		letter-spacing: 0.02em;
+		transition: $transition;
+
+		&:hover {
+			background-color: $color-text-dark;
+			color: $color-primary;
+			border-color: $color-text-dark;
+		}
+	}
+
+	&__section {
+		margin-top: rem(56);
+		padding-top: rem(40);
+		border-top: rem(1) solid $color-border;
+	}
+
+	&__sectionTitle {
+		font-size: rem(11);
+		font-weight: 600;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: $color-number;
+		margin: 0 0 rem(20) 0;
+	}
+
+	&__summary p {
+		font-size: rem(16);
+		line-height: 1.75;
+		color: $color-text-secondary;
+		margin: 0 0 rem(16) 0;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	&__skillsGroup {
+		margin-bottom: rem(20);
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	&__skillsHeading {
+		font-size: rem(14);
+		font-weight: 600;
+		color: $color-text-dark;
+		margin: 0 0 rem(10) 0;
+	}
+
+	&__skillsList {
+		display: flex;
+		flex-wrap: wrap;
+		gap: rem(8);
+	}
+
+	&__experienceList {
+		display: flex;
+		flex-direction: column;
+		gap: rem(32);
+	}
+
+	&__certificationsGrid {
+		display: flex;
+		flex-wrap: wrap;
+		gap: rem(16);
+	}
+
+	&__footer {
+		margin-top: rem(56);
+		display: flex;
+		justify-content: center;
+	}
+
+	&__footerLink {
+		display: inline-flex;
+		align-items: center;
+		gap: rem(8);
+		padding: rem(12) rem(28);
+		border-radius: rem(4);
+		background-color: $color-text-dark;
+		color: $color-primary;
+		text-decoration: none;
+		font-weight: 500;
+		font-size: rem(14);
+		letter-spacing: 0.02em;
+		transition: $transition;
+
+		&:hover {
+			opacity: 0.85;
+		}
+	}
+}
