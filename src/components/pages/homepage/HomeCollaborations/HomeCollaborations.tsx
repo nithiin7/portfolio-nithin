@@ -3,7 +3,9 @@ import { motion, useScroll, useTransform } from 'motion/react';
 import Link from 'next/link';
 import { useRef, type FC } from 'react';
 
+import EYLogo from 'assets/logos/ey.svg';
 import GameAwardsLogo from 'assets/logos/game-awards.svg';
+import HSBCLogo from 'assets/logos/hsbc.svg';
 import PaytmLogo from 'assets/logos/paytm-payments-bank.svg';
 import SpotifyCodesLogo from 'assets/logos/spotify-codes.svg';
 import SpotifyLogo from 'assets/logos/spotify.svg';
@@ -44,6 +46,16 @@ const logoComponents = [
 		Component: SpotifyCodesLogo,
 		name: 'SpotifyCodesLogo',
 		url: 'https://www.spotifycodes.com/',
+	},
+	{
+		Component: HSBCLogo,
+		name: 'HSBCLogo',
+		url: 'https://www.hsbc.com/',
+	},
+	{
+		Component: EYLogo,
+		name: 'EYLogo',
+		url: 'https://www.ey.com/',
 	},
 ];
 

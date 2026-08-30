@@ -50,6 +50,11 @@
 		}
 
 		@media #{$md} {
+			row-gap: rem(32);
+			column-gap: rem(24);
+		}
+
+		@media #{$xxl} {
 			flex-wrap: nowrap;
 			justify-content: space-between;
 			gap: rem(40);
@@ -78,6 +83,14 @@
 		}
 
 		@media #{$md} {
+			height: rem(52);
+
+			svg {
+				max-width: rem(140);
+			}
+		}
+
+		@media #{$xxl} {
 			height: rem(64);
 
 			svg {
