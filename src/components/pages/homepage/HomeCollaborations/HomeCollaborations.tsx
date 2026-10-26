@@ -6,6 +6,7 @@ import { useRef, type FC } from 'react';
 import EYLogo from 'assets/logos/ey.svg';
 import GameAwardsLogo from 'assets/logos/game-awards.svg';
 import HSBCLogo from 'assets/logos/hsbc.svg';
+import MorganStanleyLogo from 'assets/logos/morgan-stanley.svg';
 import PaytmLogo from 'assets/logos/paytm-payments-bank.svg';
 import SpotifyCodesLogo from 'assets/logos/spotify-codes.svg';
 import SpotifyLogo from 'assets/logos/spotify.svg';
@@ -57,6 +58,12 @@ const logoComponents = [
 		name: 'EYLogo',
 		url: 'https://www.ey.com/',
 	},
+	{
+		Component: MorganStanleyLogo,
+		name: 'Morgan Stanley',
+		className: styles['HomeCollaborations__companies--morgan-stanley'],
+		url: 'https://www.morganstanley.com/',
+	},
 ];
 
 /**
@@ -104,12 +111,12 @@ const HomeCollaborations: FC<HomeCollaborationsProps> = ({
 					/>
 				</h2>
 				<div className={styles.HomeCollaborations__collaborations}>
-					{logoComponents.map(({ Component, name, url }) => (
+					{logoComponents.map(({ Component, name, className, url }) => (
 						<Link
 							href={url}
 							target="_blank"
 							rel="noopener noreferrer"
-							className={styles.HomeCollaborations__companies}
+							className={`${styles.HomeCollaborations__companies} ${className ?? ''}`}
 							key={name}
 							aria-label={name}
 						>

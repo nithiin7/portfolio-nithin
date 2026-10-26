@@ -55,14 +55,14 @@
 		}
 
 		@media #{$xxl} {
-			flex-wrap: nowrap;
-			justify-content: space-between;
+			justify-content: center;
 			gap: rem(40);
 		}
 	}
 
 	&__companies {
 		display: flex;
+		flex: 0 0 auto;
 		align-items: center;
 		justify-content: center;
 		height: rem(36);
@@ -97,6 +97,10 @@
 				max-width: rem(180);
 			}
 		}
+	}
+
+	&__companies--morgan-stanley svg {
+		filter: invert(1);
 	}
 
 	[data-theme='light'] & .HomeCollaborations__companies svg {
