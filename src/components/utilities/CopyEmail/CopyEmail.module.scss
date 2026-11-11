@@ -1,0 +1,69 @@
+@use 'styles/shared/mixin' as *;
+
+.CopyEmail {
+	display: inline-flex;
+	align-items: baseline;
+	flex-wrap: wrap;
+	gap: var(--space-2) var(--space-3);
+	max-width: 100%;
+	min-height: rem(44);
+	padding: 0;
+	border: 0;
+	background: none;
+	color: inherit;
+	font: inherit;
+	text-align: left;
+	cursor: copy;
+
+	&__address {
+		position: relative;
+		overflow-wrap: anywhere;
+
+		// Underline draws in from the left and exits to the right
+		&::after {
+			content: '';
+			position: absolute;
+			left: 0;
+			right: 0;
+			bottom: -0.08em;
+			height: 1px;
+			background-color: currentColor;
+			transform: scaleX(0);
+			transform-origin: right;
+			transition: transform var(--dur-1) var(--ease);
+		}
+	}
+
+	&:hover &__address::after,
+	&:focus-visible &__address::after {
+		transform: scaleX(1);
+		transform-origin: left;
+	}
+
+	&__hint {
+		display: inline-block;
+		overflow: clip;
+		font-family: var(--font-mono);
+		font-size: var(--step--1);
+		font-weight: 400;
+		letter-spacing: var(--tracking-mono);
+		line-height: 1.2;
+		text-transform: uppercase;
+		color: var(--muted);
+
+		span {
+			display: block;
+			animation: copy-email-rise var(--dur-1) var(--ease-out);
+		}
+	}
+
+	&[data-copied='true'] &__hint {
+		color: var(--accent-text);
+	}
+}
+
+@keyframes copy-email-rise {
+	from {
+		transform: translateY(100%);
+	}
+}

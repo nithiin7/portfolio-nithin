@@ -16,6 +16,7 @@ export const siteConfig = {
 		open: true,
 		label: 'Available for new projects',
 	},
+	email: 'nithinp150@gmail.com',
 	url,
 	title: 'Nithin Pradeep — Senior Technical Consultant @ EY',
 	titleTemplate: '%s | Nithin Pradeep',

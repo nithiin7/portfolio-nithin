@@ -1,119 +1,183 @@
 @use 'styles/shared/mixin' as *;
-@use 'styles/shared/variables' as *;
 
 .ContactForm {
 	width: 100%;
 
-	&__container {
-		width: 100%;
-	}
-
 	&__form {
-		display: flex;
-		flex-direction: column;
-		gap: rem(4);
-	}
-
-	&__button {
-		width: max-content;
-		display: inline-block;
-		background: $color-secondary;
-		color: $color-primary;
-		padding-top: 1.25rem;
-		padding-bottom: 1.25rem;
-		padding-left: 2.5rem;
-		padding-right: 2.5rem;
-		cursor: pointer;
-		border: rem(1) solid $color-secondary;
-		border-radius: rem(9999);
-		letter-spacing: 0;
-		line-height: 130%;
-		text-transform: uppercase;
-		font-weight: 700;
-		overflow: hidden;
-		margin-top: rem(8);
-
-		&:hover {
-			.ContactForm__PerspectiveText {
-				transform: rotateX(90deg);
-				p {
-					&:nth-of-type(1) {
-						transform: translateY(-100%);
-						opacity: 0;
-					}
-					&:nth-of-type(2) {
-						opacity: 1;
-					}
-				}
-			}
-		}
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--space-5) var(--grid-gutter);
 
 		@media #{$md} {
-			padding-top: 1.75rem;
-			padding-bottom: 1.75rem;
-			padding-left: 3rem;
-			padding-right: 3rem;
-		}
-	}
+			grid-template-columns: repeat(2, minmax(0, 1fr));
 
-	&__PerspectiveText {
-		width: 100%;
-		height: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		transition: transform 0.75s cubic-bezier(0.76, 0, 0.24, 1);
-		transform-style: preserve-3d;
-
-		p {
-			transition: all 0.75s cubic-bezier(0.76, 0, 0.24, 1);
-			line-height: 1;
-			&:nth-of-type(2) {
-				position: absolute;
-				transform: rotateX(-90deg) translateY(rem(9));
-				transform-origin: bottom center;
-				opacity: 0;
+			> :not(.ContactForm__half) {
+				grid-column: 1 / -1;
 			}
 		}
 	}
 
-	&__slider {
-		position: relative;
-		height: 100%;
-		width: 100%;
+	&__actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--space-4) var(--space-6);
+		margin-top: var(--space-2);
 	}
 
-	&__el {
-		height: 100%;
-		width: 100%;
-		&:nth-of-type(2) {
-			position: absolute;
-			top: 100%;
+	&__submit {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-3);
+		min-height: rem(56);
+		padding: 0 var(--space-6);
+		border: 0;
+		border-radius: var(--radius-pill);
+		background-color: var(--fg);
+		color: var(--bg);
+		font-family: var(--font-text);
+		font-size: var(--step-0);
+		font-weight: 600;
+		cursor: pointer;
+		transition: background-color var(--dur-1) var(--ease);
+
+		&:hover:not(:disabled),
+		&:focus-visible {
+			background-color: var(--accent);
+			color: var(--accent-fg);
 		}
+
+		&:focus-visible {
+			outline: 2px solid var(--focus);
+			outline-offset: 3px;
+		}
+
+		&:disabled {
+			cursor: progress;
+			opacity: 0.7;
+		}
+	}
+
+	// Label rolls up to an identical copy on hover
+	&__roll {
+		position: relative;
+		display: inline-block;
+		overflow: clip;
+
+		span {
+			display: block;
+			transition: transform var(--dur-1) var(--ease);
+		}
+
+		span + span {
+			position: absolute;
+			inset: 100% 0 auto;
+		}
+	}
+
+	&__submit:hover:not(:disabled) &__roll span,
+	&__submit:focus-visible &__roll span {
+		transform: translateY(-100%);
+	}
+
+	&__arrow {
+		transition: transform var(--dur-1) var(--ease);
+	}
+
+	&__submit:hover:not(:disabled) &__arrow {
+		transform: translateX(var(--space-1));
+	}
+
+	&__error {
+		grid-column: 1 / -1;
+		margin: 0;
+		color: var(--danger);
+		font-size: var(--step--1);
 	}
 
 	&__success {
 		display: flex;
 		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		text-align: center;
-		gap: rem(25);
+		align-items: flex-start;
+		gap: var(--space-5);
+		padding-top: var(--space-5);
+		border-top: 1px solid var(--line-strong);
+	}
 
-		svg {
-			height: rem(120);
-			width: rem(120);
+	&__label {
+		display: flex;
+		align-items: center;
+		gap: var(--space-3);
+		margin: 0;
+		font-family: var(--font-mono);
+		font-size: var(--step--1);
+		letter-spacing: var(--tracking-mono);
+		text-transform: uppercase;
+		color: var(--muted);
+	}
+
+	&__tick {
+		display: inline-grid;
+		place-items: center;
+		width: rem(24);
+		height: rem(24);
+		border-radius: var(--radius-pill);
+		background-color: var(--accent);
+		color: var(--accent-fg);
+		font-size: rem(12);
+	}
+
+	&__thanks {
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: var(--step-5);
+		font-weight: 500;
+		line-height: var(--leading-tight);
+		letter-spacing: var(--tracking-display);
+
+		&:focus {
+			outline: none;
 		}
 
-		p {
-			color: $color-secondary;
+		em {
+			font-family: var(--font-serif);
+			font-style: italic;
+			font-weight: 400;
 			letter-spacing: 0;
-			line-height: 130%;
-			text-transform: uppercase;
-			font-weight: 700;
-			font-size: rem(18);
-			text-wrap: balance;
-			max-width: 30ch;
+			color: var(--accent-text);
+		}
+	}
+
+	&__note {
+		max-width: 40ch;
+		margin: 0;
+		color: var(--fg-subtle);
+		font-size: var(--step-1);
+		line-height: var(--leading-body);
+		overflow-wrap: anywhere;
+
+		strong {
+			color: var(--fg);
+			font-weight: 500;
+		}
+	}
+
+	&__again {
+		min-height: rem(44);
+		padding: 0;
+		border: 0;
+		background: none;
+		color: var(--fg);
+		font-family: var(--font-mono);
+		font-size: var(--step--1);
+		letter-spacing: var(--tracking-mono);
+		text-transform: uppercase;
+		text-decoration: underline;
+		text-underline-offset: 0.3em;
+		cursor: pointer;
+
+		&:hover {
+			color: var(--accent-text);
 		}
 	}
 }

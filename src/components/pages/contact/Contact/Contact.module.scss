@@ -1,117 +1,160 @@
-@use 'styles/shared/variables' as *;
 @use 'styles/shared/mixin' as *;
 
-.contact {
-	min-height: 100vh;
-	display: flex;
-	flex-direction: column;
-	padding: rem(100) 4% rem(48);
+.Contact {
+	min-height: 100svh;
+	padding-top: calc(var(--nav-height) + var(--space-8));
+	padding-bottom: var(--section-pad);
+	// Legacy global styles still paint the page; this keeps the theme honest.
+	background-color: var(--bg);
+	color: var(--fg);
 
-	@media #{$md} {
-		padding: rem(120) 4% rem(60);
+	&__head,
+	&__body {
+		@include grid-12;
 	}
 
-	&__breadcrumb {
-		margin-bottom: rem(32);
-	}
+	&__head {
+		row-gap: var(--space-5);
+		margin-bottom: var(--space-8);
 
-	&__backButton {
-		display: inline-flex;
-		align-items: center;
-		gap: rem(8);
-		color: $color-text-secondary;
-		text-decoration: none;
-		font-size: rem(16);
-		font-weight: 500;
-		letter-spacing: 0.02em;
-		transition: $transition;
-
-		&:hover {
-			color: $color-accent;
-			transform: translateX(rem(-4));
-		}
-
-		span {
-			font-size: rem(16);
+		&::before {
+			content: '';
+			grid-column: 1 / -1;
+			height: 1px;
+			background-color: var(--line-strong);
 		}
 	}
 
-	&__inner {
-		flex: 1;
-		display: flex;
-		align-items: flex-start;
+	&__label {
+		margin: 0;
+		font-family: var(--font-mono);
+		font-size: var(--step--1);
+		font-weight: 400;
+		letter-spacing: var(--tracking-mono);
+		text-transform: uppercase;
+		color: var(--muted);
+	}
+
+	&__head &__label {
+		grid-column: 1 / -1;
 
 		@media #{$md} {
-			align-items: center;
+			grid-column: span 3;
 		}
 	}
 
-	&__grid {
-		display: grid;
-		grid-template-columns: 1fr;
-		gap: rem(60);
-		width: 100%;
-		max-width: rem(1200);
-		margin: 0 auto;
+	&__title {
+		grid-column: 1 / -1;
+		max-width: 18ch;
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: var(--step-5);
+		font-weight: 500;
+		line-height: var(--leading-tight);
+		letter-spacing: var(--tracking-display);
+		text-wrap: balance;
+
+		@media #{$md} {
+			grid-column: span 9;
+		}
+	}
+
+	&__body {
+		row-gap: var(--space-9);
+		align-items: start;
+	}
+
+	&__form {
+		grid-column: 1 / -1;
 
 		@media #{$lg} {
-			grid-template-columns: 1fr 1.4fr;
-			gap: rem(80);
-			align-items: center;
+			grid-column: 1 / span 7;
 		}
 	}
 
-	&__left {
-		display: flex;
-		flex-direction: column;
-		gap: rem(40);
+	&__aside {
+		grid-column: 1 / -1;
 
-		h1 {
-			font-size: clamp(2.5rem, 4vw, 4.5rem);
-			color: $color-secondary;
-			font-weight: 700;
-			max-width: 15ch;
-			text-wrap: balance;
-			line-height: 92.5%;
-			letter-spacing: -0.0275em;
-			text-transform: uppercase;
+		@media #{$lg} {
+			grid-column: 9 / -1;
 		}
 	}
 
-	&__right {
-		width: 100%;
+	&__details {
+		display: grid;
+		margin: 0;
+
+		dd {
+			margin: 0;
+			font-size: var(--step-0);
+			line-height: var(--leading-snug);
+		}
+	}
+
+	&__row {
+		display: grid;
+		gap: var(--space-2);
+		padding-block: var(--space-4);
+		border-top: 1px solid var(--line);
+
+		&:first-child {
+			border-top-color: var(--line-strong);
+		}
+	}
+
+	&__email {
+		font-family: var(--font-display);
+		font-size: var(--step-1);
+		font-weight: 500;
+		letter-spacing: -0.01em;
+	}
+
+	&__link {
+		display: inline-block;
+		padding-block: var(--space-1);
+		color: var(--fg);
+		background-image: linear-gradient(currentColor, currentColor);
+		background-repeat: no-repeat;
+		background-position: 100% 100%;
+		background-size: 0% 1px;
+		transition: background-size var(--dur-1) var(--ease);
+
+		&:hover,
+		&:focus-visible {
+			background-position: 0% 100%;
+			background-size: 100% 1px;
+		}
 	}
 
 	&__socials {
 		display: flex;
-		flex-direction: column;
-		gap: rem(10);
-		padding-top: rem(24);
-		border-top: rem(1) solid $color-grey-light;
+		flex-wrap: wrap;
+		gap: 0 var(--space-5);
+		margin: 0;
+		padding: 0;
+		list-style: none;
 	}
 
-	&__socialsLabel {
-		color: $color-secondary;
-		text-transform: uppercase;
-		font-weight: 600;
-		font-size: rem(11);
-		letter-spacing: rem(1.5);
-		opacity: 0.5;
-		margin-bottom: rem(4);
-	}
+	&__dot {
+		display: inline-block;
+		width: rem(8);
+		height: rem(8);
+		margin-right: rem(8);
+		border-radius: var(--radius-pill);
+		background-color: var(--muted);
+		vertical-align: middle;
 
-	&__link {
-		a {
-			color: $color-text;
-			line-height: 130%;
-			font-weight: 400;
-			font-size: rem(16);
-			text-decoration: none;
-			transition: color 0.2s ease;
-
-			&:hover {
-				color: $color-secondary;
-			}
+		&[data-open='true'] {
+			background-color: var(--accent);
 		}
+	}
+
+	&__srOnly {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
 	}
 }
