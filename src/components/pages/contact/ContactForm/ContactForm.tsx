@@ -2,15 +2,16 @@
 
 import { sendForm } from '@emailjs/browser';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { motion } from 'motion/react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import type { FC } from 'react';
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import type { SubmitHandler } from 'react-hook-form';
-import { Controller, useForm } from 'react-hook-form';
-import { toast } from 'sonner';
+import { useForm } from 'react-hook-form';
 
-import { TextArea, TextInput } from 'components/utilities';
+import { duration, ease } from 'components/motion';
+import FormField from 'components/utilities/FormField/FormField';
+import { siteConfig } from 'config/site';
 import { clientEnv } from 'helpers/env';
 import { contactSchema } from 'helpers/validations';
 
@@ -26,205 +27,214 @@ interface ContactFormProps {
 	className?: string;
 }
 
+interface SentMessage {
+	name: string;
+	email: string;
+}
+
+const MESSAGE_MAX = 500;
+const SUBMIT_LABEL = 'Send message';
+
+const firstName = (name: string): string => name.trim().split(/\s+/)[0];
+
 /**
- * ContactForm component for user messages and inquiries.
- * Implements validation, email sending via EmailJS, and animations on submission.
- *
- * @component
- * @param {string} [className] - Additional CSS classes for styling.
- * @returns {JSX.Element} The rendered ContactForm component.
+ * Contact form: validates each field when it loses focus, then live as it is
+ * corrected. Submission is reCAPTCHA v3 → EmailJS; the token travels to
+ * EmailJS as a hidden `g-recaptcha-response` input on the form element.
+ * Fields are never `disabled` while sending: sendForm reads the form's
+ * FormData, which omits disabled controls.
  */
 const ContactForm: FC<ContactFormProps> = ({ className = '' }) => {
-	const [formSent, setFormSent] = useState(false);
-	const [isSubmitting, setIsSubmitting] = useState(false);
-
+	const [sent, setSent] = useState<SentMessage | null>(null);
+	const [submitError, setSubmitError] = useState<string | null>(null);
 	const form = useRef<HTMLFormElement>(null);
+	const reduced = useReducedMotion();
 	const { executeRecaptcha } = useGoogleReCaptcha();
 
 	const {
-		formState: { errors },
-		control,
+		register,
 		handleSubmit,
+		reset,
+		watch,
+		formState: { errors, touchedFields, isSubmitting },
 	} = useForm<ContactFormData>({
 		resolver: yupResolver(contactSchema),
-		defaultValues: {
-			name: '',
-			email: '',
-			message: '',
-		},
+		mode: 'onTouched',
+		defaultValues: { name: '', email: '', message: '' },
 	});
 
-	/**
-	 * Handles form submission, sending data via EmailJS and showing success feedback.
-	 *
-	 * @param {ContactFormData} data - Form data including name, email, and message.
-	 * @param {FormEvent} e - Form submit event.
-	 */
-	const onSubmit: SubmitHandler<ContactFormData> = async (data, e) => {
-		if (e) {
-			e.preventDefault();
-		}
+	const messageLength = watch('message').length;
+
+	// AnimatePresence mounts the success panel only after the form has exited,
+	// so focus is moved when the heading itself mounts.
+	const focusOnMount = useCallback((node: HTMLHeadingElement | null) => {
+		node?.focus();
+	}, []);
+
+	const onSubmit: SubmitHandler<ContactFormData> = async (data) => {
+		setSubmitError(null);
 
 		if (!executeRecaptcha) {
+			setSubmitError(
+				'Spam protection is still loading. Give it a second and try again.'
+			);
 			return;
 		}
 
-		setIsSubmitting(true);
-
 		try {
 			const token = await executeRecaptcha('contact_form');
-
 			if (!token) {
+				setSubmitError('Spam check failed. Please try again.');
 				return;
 			}
 
-			const formElement = form.current;
-			if (formElement) {
-				const recaptchaInput = document.createElement('input');
+			const formElement = form.current!;
+			let recaptchaInput = formElement.querySelector<HTMLInputElement>(
+				'input[name="g-recaptcha-response"]'
+			);
+			if (!recaptchaInput) {
+				recaptchaInput = document.createElement('input');
 				recaptchaInput.type = 'hidden';
 				recaptchaInput.name = 'g-recaptcha-response';
-				recaptchaInput.value = token;
 				formElement.appendChild(recaptchaInput);
 			}
+			recaptchaInput.value = token;
 
 			await sendForm(
 				clientEnv.NEXT_PUBLIC_SERVICE_ID,
 				clientEnv.NEXT_PUBLIC_TEMPLATE_ID,
-				form.current!,
+				formElement,
 				{ publicKey: clientEnv.NEXT_PUBLIC_EMAILJS_ID }
 			);
 
-			setFormSent(true);
-			setTimeout(() => {
-				setFormSent(false);
-			}, 10000);
+			setSent({ name: firstName(data.name), email: data.email });
 		} catch (error) {
 			console.error('Error submitting form:', error);
-			toast.error('Something went wrong. Please try again.');
-			setIsSubmitting(false);
-		} finally {
-			setIsSubmitting(false);
+			setSubmitError(
+				`Your message didn’t go through. Try again, or email me at ${siteConfig.email}.`
+			);
 		}
 	};
 
-	const animate = {
-		visible: { opacity: 1, scale: 1 },
-		hidden: { opacity: 0, scale: 0 },
+	const startOver = (): void => {
+		reset();
+		setSent(null);
 	};
+
+	const fieldState = (name: keyof ContactFormData) => ({
+		error: errors[name]?.message,
+		valid: Boolean(touchedFields[name]) && !errors[name],
+	});
+
+	const transition = { duration: reduced ? 0 : duration.base, ease };
+	const enter = reduced ? { opacity: 0 } : { opacity: 0, y: 24 };
 
 	return (
 		<div className={`${styles.ContactForm} ${className}`}>
-			{formSent ? (
-				<motion.div
-					className={styles.ContactForm__success}
-					aria-hidden={!formSent}
-					variants={animate}
-					initial={formSent ? 'hidden' : 'visible'}
-					animate={'visible'}
-				>
-					<svg
-						width="800px"
-						height="800px"
-						viewBox="0 0 24 24"
-						fill="none"
-						xmlns="http://www.w3.org/2000/svg"
-						aria-hidden="true"
+			<AnimatePresence mode="wait" initial={false}>
+				{sent ? (
+					<motion.div
+						key="sent"
+						className={styles.ContactForm__success}
+						initial={enter}
+						animate={{ opacity: 1, y: 0 }}
+						exit={{ opacity: 0 }}
+						transition={transition}
 					>
-						<path
-							d="M7.29417 12.9577L10.5048 16.1681L17.6729 9"
-							stroke="var(--color-secondary)"
-							strokeWidth="2.5"
-							strokeLinecap="round"
-							strokeLinejoin="round"
-						/>
-						<circle
-							cx="12"
-							cy="12"
-							r="10"
-							stroke="var(--color-secondary)"
-							strokeWidth="2"
-						/>
-					</svg>
-					<p className={styles.contact__text}>
-						Thanks for the ping! Will get back to you soon!
-					</p>
-				</motion.div>
-			) : (
-				<div className={styles.ContactForm__container}>
-					<form
-						className={styles.ContactForm__form}
-						ref={form}
-						onSubmit={handleSubmit(onSubmit)}
-					>
-						<fieldset className={styles['model__form-item']}>
-							<Controller
-								control={control}
-								name="name"
-								render={({ field }) => (
-									<TextInput
-										{...field}
-										type="text"
-										placeholder="Nithin"
-										errors={
-											errors?.name?.message ? [errors?.name?.message] : []
-										}
-										label={'Your Name'}
-									/>
-								)}
-							/>
-						</fieldset>
-						<fieldset className={styles['model__form-item']}>
-							<Controller
-								control={control}
-								name="email"
-								render={({ field }) => (
-									<TextInput
-										{...field}
-										type="text"
-										label={'Your Email'}
-										placeholder="nithinp150@gmail.com"
-										errors={
-											errors?.email?.message ? [errors?.email?.message] : []
-										}
-									/>
-								)}
-							/>
-						</fieldset>
-						<fieldset className={styles['model__form-item']}>
-							<Controller
-								control={control}
-								name="message"
-								render={({ field }) => (
-									<TextArea
-										{...field}
-										placeholder="Hey! Let's connect."
-										label="Message"
-										rows={4}
-										errors={
-											errors?.message?.message ? [errors?.message?.message] : []
-										}
-									/>
-								)}
-							/>
-						</fieldset>
-						<button
-							type="submit"
-							className={styles.ContactForm__button}
-							aria-label="Submit"
-							disabled={isSubmitting}
+						<p className={styles.ContactForm__label}>
+							<span className={styles.ContactForm__tick} aria-hidden="true">
+								✓
+							</span>
+							Message sent
+						</p>
+						<h2
+							ref={focusOnMount}
+							tabIndex={-1}
+							className={styles.ContactForm__thanks}
 						>
-							<motion.div className={styles.ContactForm__slider}>
-								<div className={styles.ContactForm__el}>
-									<div className={styles.ContactForm__PerspectiveText}>
-										<p>{isSubmitting ? 'Sending...' : "Let's Do it"}</p>
-										<p>{isSubmitting ? 'Sending...' : "Let's Do it"}</p>
-									</div>
-								</div>
-							</motion.div>
+							Thanks, <em>{sent.name}</em>.
+						</h2>
+						<p className={styles.ContactForm__note}>
+							It’s in my inbox. I’ll reply to <strong>{sent.email}</strong> as
+							soon as I can.
+						</p>
+						<button
+							type="button"
+							className={styles.ContactForm__again}
+							onClick={startOver}
+						>
+							Send another message
 						</button>
-					</form>
-				</div>
-			)}
+					</motion.div>
+				) : (
+					<motion.form
+						key="form"
+						ref={form}
+						className={styles.ContactForm__form}
+						onSubmit={handleSubmit(onSubmit)}
+						noValidate
+						aria-busy={isSubmitting}
+						initial={enter}
+						animate={{ opacity: 1, y: 0 }}
+						exit={{ opacity: 0 }}
+						transition={transition}
+					>
+						<FormField
+							{...register('name')}
+							{...fieldState('name')}
+							className={styles.ContactForm__half}
+							index="01"
+							label="Your name"
+							placeholder="Jane Doe"
+							autoComplete="name"
+						/>
+						<FormField
+							{...register('email')}
+							{...fieldState('email')}
+							className={styles.ContactForm__half}
+							index="02"
+							label="Your email"
+							type="email"
+							inputMode="email"
+							placeholder="jane@company.com"
+							autoComplete="email"
+						/>
+						<FormField
+							{...register('message')}
+							{...fieldState('message')}
+							index="03"
+							label="Message"
+							multiline
+							rows={5}
+							placeholder="What are you building, and where can I help?"
+							maxLength={MESSAGE_MAX}
+							count={messageLength}
+						/>
+
+						<div className={styles.ContactForm__actions}>
+							<button
+								type="submit"
+								className={styles.ContactForm__submit}
+								disabled={isSubmitting}
+							>
+								<span className={styles.ContactForm__roll}>
+									<span>{isSubmitting ? 'Sending…' : SUBMIT_LABEL}</span>
+									<span aria-hidden="true">
+										{isSubmitting ? 'Sending…' : SUBMIT_LABEL}
+									</span>
+								</span>
+								<span className={styles.ContactForm__arrow} aria-hidden="true">
+									→
+								</span>
+							</button>
+						</div>
+
+						<p className={styles.ContactForm__error} role="alert">
+							{submitError}
+						</p>
+					</motion.form>
+				)}
+			</AnimatePresence>
 		</div>
 	);
 };

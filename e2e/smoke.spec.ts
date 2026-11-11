@@ -47,7 +47,7 @@ test('contact form shows validation errors on empty submit', async ({
 	// which reloads the page and restarts hydration — so wait for idle first
 	await page.goto('/contact', { waitUntil: 'networkidle' });
 
-	await page.getByRole('button', { name: 'Submit' }).click();
+	await page.getByRole('button', { name: 'Send message' }).click();
 
 	await expect(page.getByText('Name is required')).toBeVisible();
 	await expect(page.getByText('Email is required')).toBeVisible();

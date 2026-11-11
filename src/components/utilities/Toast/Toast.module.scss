@@ -1,19 +1,24 @@
-@use 'styles/shared/mixin' as *;
-@use 'styles/shared/variables' as *;
-
-.Toast {
+// Sonner injects attribute selectors at runtime (up to three attributes deep),
+// so these rules carry the matching attributes to win on specificity.
+.Toast[data-sonner-toast][data-styled='true'] {
+	gap: var(--space-3);
 	font-family: var(--font-text);
-	border: 1px solid $color-border;
-	border-radius: rem(8);
+	box-shadow: 0 var(--space-2) var(--space-6) var(--shadow-strong);
+
+	&[data-type='error'] {
+		border-left: 3px solid var(--danger);
+	}
 }
 
-.Toast__title {
-	font-size: rem(14);
-	font-weight: 500;
-	color: $color-text;
+.Toast .Toast__title[data-title] {
+	font-family: var(--font-mono);
+	font-size: var(--step--1);
+	font-weight: 400;
+	letter-spacing: var(--tracking-mono);
+	text-transform: uppercase;
 }
 
-.Toast__description {
-	font-size: rem(13);
-	color: $color-text-secondary;
+.Toast.Toast .Toast__description[data-description] {
+	font-size: var(--step--1);
+	color: var(--inverse-muted);
 }
