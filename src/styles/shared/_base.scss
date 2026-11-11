@@ -28,8 +28,8 @@ body {
 		background-color 0.3s ease,
 		color 0.3s ease;
 	::selection {
-		background: $color-bg-selection;
-		color: $color-white;
+		background: var(--selection-bg);
+		color: var(--selection-fg);
 	}
 	&::before {
 		filter: url(#grainy);
