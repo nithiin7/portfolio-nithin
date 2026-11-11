@@ -13,7 +13,13 @@ import 'styles/tokens.scss';
 import 'styles/theme.scss';
 import 'styles/globals.scss';
 
-import { Footer, Menu } from 'components/layouts';
+import {
+	Footer,
+	Navbar,
+	PageTransition,
+	Preloader,
+	preloaderScript,
+} from 'components/layouts';
 import {
 	CommandPalette,
 	FloatingChat,
@@ -26,7 +32,6 @@ import { loadBlogPosts, loadPortfolioSearchItems } from 'helpers/contentful';
 import { palette } from 'styles/tokens';
 
 import Provider from './provider';
-import Curve from './transition';
 
 export const revalidate = 3600;
 
@@ -140,8 +145,10 @@ export default async function RootLayout({
 			lang="en"
 			className={`${interTight.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable}`}
 			data-theme="dark"
+			suppressHydrationWarning
 		>
 			<head>
+				<script dangerouslySetInnerHTML={{ __html: preloaderScript }} />
 				<link
 					rel="apple-touch-icon"
 					sizes="180x180"
@@ -180,23 +187,22 @@ export default async function RootLayout({
 						__html: JSON.stringify(structuredData),
 					}}
 				/>
+				<Preloader />
 				<SkipLink targetId="main-content" />
 				<Provider>
-					<Curve>
-						<Menu />
-						<main id="main-content" tabIndex={-1}>
-							{children}
-						</main>
-						<Footer />
-						<FloatingChat chatbotUrl="https://nithiin7-portfolio-resume.hf.space" />
-						<CommandPalette
-							resumeUrl="/resume.pdf"
-							blogPosts={blogSearchItems}
-							portfolioItems={portfolioItems}
-						/>
-						<Toast />
-						{process.env.NODE_ENV === 'development' && <GridOverlay />}
-					</Curve>
+					<Navbar />
+					<main id="main-content" tabIndex={-1}>
+						<PageTransition>{children}</PageTransition>
+					</main>
+					<Footer />
+					<FloatingChat chatbotUrl="https://nithiin7-portfolio-resume.hf.space" />
+					<CommandPalette
+						resumeUrl="/resume.pdf"
+						blogPosts={blogSearchItems}
+						portfolioItems={portfolioItems}
+					/>
+					<Toast />
+					{process.env.NODE_ENV === 'development' && <GridOverlay />}
 				</Provider>
 				<svg className="grainy__filter pointer-events-none absolute cursor-none">
 					<filter id="grainy">

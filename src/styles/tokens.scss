@@ -102,10 +102,14 @@ $red-legacy: #9e1f1f;
 	--legacy-warning: #{$red-legacy};
 
 	// Type: next/font exposes --font-inter-tight / --font-instrument-serif / --font-jetbrains-mono
-	--font-display: var(--font-inter-tight, 'Inter Tight'), 'Helvetica Neue', arial, sans-serif;
-	--font-text: var(--font-inter-tight, 'Inter Tight'), 'Helvetica Neue', arial, sans-serif;
-	--font-serif: var(--font-instrument-serif, 'Instrument Serif'), georgia, serif;
-	--font-mono: var(--font-jetbrains-mono, 'JetBrains Mono'), ui-monospace, monospace;
+	--font-display:
+		var(--font-inter-tight, 'Inter Tight'), 'Helvetica Neue', arial, sans-serif;
+	--font-text:
+		var(--font-inter-tight, 'Inter Tight'), 'Helvetica Neue', arial, sans-serif;
+	--font-serif:
+		var(--font-instrument-serif, 'Instrument Serif'), georgia, serif;
+	--font-mono:
+		var(--font-jetbrains-mono, 'JetBrains Mono'), ui-monospace, monospace;
 
 	// Fluid type scale, 360px → 1440px viewport, 16→18px base, ratio 1.2 → 1.4
 	--step--1: clamp(0.8125rem, 0.7917rem + 0.0926vw, 0.875rem);
@@ -142,6 +146,7 @@ $red-legacy: #9e1f1f;
 	--grid-gutter: clamp(0.75rem, 0.5rem + 1.1vw, 1.5rem);
 	--grid-margin: clamp(1rem, 0.6rem + 1.8vw, 2.5rem);
 	--grid-max: 105rem;
+	--nav-height: 4rem;
 
 	// Radii: Swiss is mostly square; pill is for tags/availability only
 	--radius-0: 0;
@@ -151,6 +156,7 @@ $red-legacy: #9e1f1f;
 
 	// Motion
 	--ease: cubic-bezier(0.7, 0, 0.2, 1);
+	--ease-out: cubic-bezier(0.2, 0, 0, 1);
 	--dur-1: 0.4s;
 	--dur-2: 0.8s;
 	--dur-3: 1.2s;

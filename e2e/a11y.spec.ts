@@ -28,10 +28,8 @@ const expectNoViolations = async (page: Page) => {
 	expect(violations, formatViolations(violations)).toEqual([]);
 };
 
-// The Menu only reveals after scrolling past the first viewport and idling
 const openMenu = async (page: Page) => {
-	await page.mouse.wheel(0, 2000);
-	const toggle = page.getByRole('button', { name: 'Toggle navigation menu' });
+	const toggle = page.getByRole('button', { name: 'Menu', exact: true });
 	await expect(toggle).toBeVisible();
 	await toggle.click();
 	await expect(

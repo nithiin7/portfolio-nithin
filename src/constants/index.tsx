@@ -22,13 +22,12 @@ export const links: LinkItem[] = [
 	{ title: 'Certifications', href: '/#certifications' },
 ];
 
-export const headerLinks: LinkItem[] = [
+export const navLinks: LinkItem[] = [
+	{ title: 'Work', href: '/#portfolio' },
 	{ title: 'About', href: '/#about' },
-	{ title: 'Blogs', href: '/blog' },
-	{ title: 'Companies', href: '/#collaborations' },
-	{ title: 'Services', href: '/#services' },
-	{ title: 'Works', href: '/#portfolio' },
+	{ title: 'Blog', href: '/blog' },
 	{ title: 'Stats', href: '/stats' },
+	{ title: 'Contact', href: '/contact' },
 ];
 
 export const socialsMenu: LinkItem[] = [

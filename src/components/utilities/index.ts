@@ -9,6 +9,8 @@ export { default as CommandPalette } from './CommandPalette/CommandPaletteLazy';
 export { default as ColorMaskButton } from './ColorMaskButton/ColorMaskButton';
 export { default as Cursor } from './Cursor/Cursor';
 export { default as GridOverlay } from './GridOverlay/GridOverlay';
+export { default as LocalClock } from './LocalClock/LocalClock';
+export type { LocalClockProps } from './LocalClock/LocalClock';
 export { default as MagneticButton } from './MagneticButton/MagneticButton';
 export { default as MaskText } from './MaskText/MaskText';
 export { default as TextArea } from './TextArea/TextArea';
@@ -23,7 +25,6 @@ export type { TagProps } from './Tag/Tag';
 export { default as TagContainer } from './TagContainer/TagContainer';
 export type { TagContainerProps } from './TagContainer/TagContainer';
 export { default as Toast } from './Toast/Toast';
-export { default as TransitionSVG } from './TransitionSVG/TransitionSVG';
 export {
 	PortfolioAnimations,
 	StaggeredContainer,

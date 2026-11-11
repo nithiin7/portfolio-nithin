@@ -1,0 +1,160 @@
+@use 'styles/shared/mixin' as *;
+
+.Navbar {
+	position: fixed;
+	inset: 0 0 auto;
+	z-index: 1000;
+	height: var(--nav-height);
+	color: var(--fg);
+	background-color: var(--bg);
+	border-bottom: 1px solid var(--line);
+	transition:
+		transform var(--dur-1) var(--ease),
+		border-color var(--dur-1) var(--ease);
+
+	// Solid even at the top: legacy pages paint their own backgrounds, and a
+	// transparent bar would put nav text on an unknown colour.
+	&[data-at-top='true'] {
+		border-bottom-color: transparent;
+	}
+
+	// Keyboard users tabbing into a hidden nav must be able to see it
+	&[data-hidden='true']:not(:focus-within) {
+		transform: translateY(-100%);
+	}
+
+	&__inner {
+		@include grid-12;
+		height: 100%;
+		align-items: center;
+	}
+
+	&__logo {
+		grid-column: 1 / span 3;
+		justify-self: start;
+		display: inline-flex;
+		align-items: baseline;
+		gap: rem(3);
+		font-family: var(--font-display);
+		font-size: var(--step-1);
+		font-weight: 700;
+		letter-spacing: var(--tracking-display);
+		color: inherit;
+
+		&:hover {
+			color: inherit;
+		}
+	}
+
+	&__dot {
+		width: rem(6);
+		height: rem(6);
+		border-radius: var(--radius-pill);
+		background-color: var(--accent);
+	}
+
+	&__nav {
+		display: none;
+
+		@media #{$md} {
+			display: block;
+			grid-column: 4 / span 7;
+			justify-self: center;
+		}
+	}
+
+	&__list {
+		display: flex;
+		gap: clamp(1rem, 2.4vw, 2.25rem);
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	&__link {
+		position: relative;
+		display: inline-block;
+		padding-block: rem(6);
+		font-size: var(--step--1);
+		font-weight: 500;
+		color: inherit;
+
+		// Underline draws in from the left and exits to the right
+		&::after {
+			content: '';
+			position: absolute;
+			left: 0;
+			bottom: 0;
+			width: 100%;
+			height: 1px;
+			background-color: currentColor;
+			transform: scaleX(0);
+			transform-origin: right;
+			transition: transform var(--dur-1) var(--ease);
+		}
+
+		&:hover,
+		&:focus-visible,
+		&[aria-current='page'] {
+			color: inherit;
+
+			&::after {
+				transform: scaleX(1);
+				transform-origin: left;
+			}
+		}
+	}
+
+	&__toggle {
+		grid-column: -4 / -1;
+		justify-self: end;
+		display: inline-flex;
+		align-items: center;
+		gap: rem(10);
+		min-height: rem(44);
+		padding: 0 rem(4);
+		background: none;
+		border: 0;
+		color: inherit;
+		font-family: var(--font-mono);
+		font-size: var(--step--1);
+		letter-spacing: var(--tracking-mono);
+		text-transform: uppercase;
+		cursor: pointer;
+
+		@media #{$md} {
+			grid-column: -3 / -1;
+		}
+	}
+
+	&__toggleIcon {
+		position: relative;
+		width: rem(18);
+		height: rem(8);
+
+		&::before,
+		&::after {
+			content: '';
+			position: absolute;
+			left: 0;
+			width: 100%;
+			height: 1px;
+			background-color: currentColor;
+			transition: transform var(--dur-1) var(--ease);
+		}
+
+		&::before {
+			top: 0;
+		}
+
+		&::after {
+			bottom: 0;
+			transform-origin: right;
+			transform: scaleX(0.6);
+		}
+	}
+
+	&__toggle:hover &__toggleIcon::after {
+		transform: scaleX(1);
+	}
+}
