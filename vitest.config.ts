@@ -8,7 +8,7 @@ export default defineConfig({
 	resolve: {
 		alias: [
 			{
-				find: /^(assets|clients|components|constants|contexts|helpers|hooks|models|queries|services|styles|types)(\/.*)?$/,
+				find: /^(assets|clients|components|config|constants|contexts|helpers|hooks|models|queries|services|styles|types)(\/.*)?$/,
 				replacement: `${src}/$1$2`,
 			},
 		],

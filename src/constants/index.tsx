@@ -3,6 +3,7 @@ import { FiInstagram } from 'react-icons/fi';
 import { IoLogoTwitter } from 'react-icons/io';
 import { SiCredly, SiDevdotto } from 'react-icons/si';
 
+import { siteConfig } from 'config/site';
 import type { Contact } from 'types/contact';
 import type { Social } from 'types/social';
 import type { Song } from 'types/song';
@@ -31,9 +32,9 @@ export const headerLinks: LinkItem[] = [
 ];
 
 export const socialsMenu: LinkItem[] = [
-	{ title: 'Linkedin', href: 'https://www.linkedin.com/in/nithin-p7/' },
-	{ title: 'Instagram', href: 'https://www.instagram.com/__nithiin__/' },
-	{ title: 'Github', href: 'https://github.com/nithiin7' },
+	{ title: 'Linkedin', href: siteConfig.socials.linkedin },
+	{ title: 'Instagram', href: siteConfig.socials.instagram },
+	{ title: 'Github', href: siteConfig.socials.github },
 ];
 
 export const contactOptions: Contact[] = [
@@ -58,17 +59,17 @@ export const footerLinks: FooterLink[] = [
 
 export const socials: Social[] = [
 	{
-		link: 'https://www.instagram.com/__nithiin__/',
+		link: siteConfig.socials.instagram,
 		title: 'Instagram',
 		icon: <FiInstagram />,
 	},
 	{
-		link: 'https://twitter.com/_nithiin7',
+		link: siteConfig.socials.twitter,
 		title: 'Twitter',
 		icon: <IoLogoTwitter />,
 	},
 	{
-		link: 'https://www.linkedin.com/in/nithin-p7/',
+		link: siteConfig.socials.linkedin,
 		title: 'LinkedIn',
 		icon: <FaLinkedinIn />,
 	},
@@ -77,7 +78,7 @@ export const socials: Social[] = [
 		title: 'Bitbucket',
 		icon: <FaBitbucket />,
 	},
-	{ link: 'https://github.com/nithiin7', title: 'Github', icon: <FaGithub /> },
+	{ link: siteConfig.socials.github, title: 'Github', icon: <FaGithub /> },
 	{
 		link: 'https://www.credly.com/users/nithin-pradeep.53925824',
 		title: 'Credly',

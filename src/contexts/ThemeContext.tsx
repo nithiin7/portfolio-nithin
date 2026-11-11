@@ -1,6 +1,8 @@
 'use client';
 import { createContext, useContext, useEffect, useState } from 'react';
 
+import { palette } from 'styles/tokens';
+
 type Theme = 'dark' | 'light';
 
 interface ThemeContextType {
@@ -24,6 +26,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
 	useEffect(() => {
 		document.documentElement.setAttribute('data-theme', theme);
+		document
+			.querySelector('meta[name="theme-color"]')
+			?.setAttribute('content', theme === 'dark' ? palette.ink : palette.paper);
 		if (mounted) {
 			localStorage.setItem('theme', theme);
 		}
