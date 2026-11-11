@@ -43,15 +43,5 @@ export { default as NowActivity } from './stats/NowActivity/NowActivity';
 export { default as Resume } from './resume/Resume/Resume';
 
 // Blog
-export { default as BlogCard } from './blog/BlogCard/BlogCard';
 export { default as BlogDetail } from './blog/BlogDetail/BlogDetail';
 export { default as BlogListing } from './blog/BlogListing/BlogListing';
-export { default as BlogBackground } from './blog/BlogBackground/BlogBackground';
-export { default as BlogSearch } from './blog/BlogSearch/BlogSearch';
-export { default as BlogNoResults } from './blog/BlogNoResults/BlogNoResults';
-export { default as CommentSection } from './blog/CommentSection/CommentSection';
-export { default as CommentCard } from './blog/CommentCard/CommentCard';
-export { default as CommentForm } from './blog/CommentForm/CommentForm';
-export { default as CommentModal } from './blog/CommentModal/CommentModal';
-export { default as CommentBox } from './blog/CommentBox/CommentBox';
-export { default as TableOfContents } from './blog/TableOfContents/TableOfContents';

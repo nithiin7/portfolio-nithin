@@ -1,127 +1,123 @@
 'use client';
-import { motion } from 'motion/react';
-import type { FC } from 'react';
-import { useState, useEffect } from 'react';
+import { useLenis } from 'lenis/react';
+import {
+	useEffect,
+	useState,
+	type FC,
+	type MouseEvent,
+	type ReactElement,
+} from 'react';
+
+import type { TocItem } from 'helpers/richText';
+import { usePrefersReducedMotion } from 'hooks/usePrefersReducedMotion';
 
 import styles from './TableOfContents.module.scss';
 
 interface TableOfContentsProps {
+	items: TocItem[];
+	/** `rail` is the sticky desktop column; `inline` is a disclosure above the article. */
+	variant: 'rail' | 'inline';
 	className?: string;
 }
 
-interface TocItem {
-	id: string;
-	text: string;
-	level: number;
-}
+const pad = (n: number): string => String(n).padStart(2, '0');
 
 /**
- * TableOfContents component for blog articles
- * Automatically generates TOC from article headings (h1 and h2 only)
+ * Article contents built from the rich-text headings on the server, so it is
+ * in the HTML on first paint. A band across the upper viewport decides which
+ * heading is current.
  */
-const TableOfContents: FC<TableOfContentsProps> = ({ className }) => {
-	const [headings, setHeadings] = useState<TocItem[]>([]);
-	const [activeId, setActiveId] = useState<string>('');
+const TableOfContents: FC<TableOfContentsProps> = ({
+	items,
+	variant,
+	className,
+}): ReactElement | null => {
+	const [active, setActive] = useState<string | undefined>(items[0]?.id);
+	const reduced = usePrefersReducedMotion();
+	const lenis = useLenis();
 
 	useEffect(() => {
-		const articleContent = document.querySelector('article');
-		if (!articleContent) return;
-
-		const headingElements = articleContent.querySelectorAll('h1, h2');
-		const tocItems: TocItem[] = [];
-
-		headingElements.forEach((heading) => {
-			const id =
-				heading.id ||
-				heading.textContent?.toLowerCase().replace(/\s+/g, '-') ||
-				'';
-			if (!id) return;
-
-			if (!heading.id) {
-				heading.id = id;
-			}
-
-			tocItems.push({
-				id,
-				text: heading.textContent || '',
-				level: parseInt(heading.tagName.charAt(1)),
-			});
-		});
-
-		setHeadings(tocItems);
+		const targets = items
+			.map(({ id }) => document.getElementById(id))
+			.filter((el): el is HTMLElement => el !== null);
 
 		const observer = new IntersectionObserver(
 			(entries) => {
-				entries.forEach((entry) => {
-					if (entry.isIntersecting) {
-						setActiveId(entry.target.id);
-					}
-				});
+				const hit = entries.find((entry) => entry.isIntersecting);
+				if (hit) setActive(hit.target.id);
 			},
-			{
-				rootMargin: '-10% 0px -60% 0px',
-			}
+			{ rootMargin: '-15% 0px -70% 0px' }
 		);
-
-		headingElements.forEach((heading) => observer.observe(heading));
-
+		targets.forEach((el) => observer.observe(el));
 		return () => observer.disconnect();
-	}, []);
+	}, [items]);
 
-	const scrollToHeading = (id: string) => {
-		const element = document.getElementById(id);
-		if (element) {
-			const headerOffset = 140;
-			const elementPosition = element.getBoundingClientRect().top;
-			const offsetPosition =
-				elementPosition + window.pageYOffset - headerOffset;
-
-			window.scrollTo({
-				top: offsetPosition,
-				behavior: 'smooth',
-			});
-
-			setActiveId(id);
+	const jump = (event: MouseEvent<HTMLAnchorElement>, id: string): void => {
+		const target = document.getElementById(id);
+		if (!target) return;
+		event.preventDefault();
+		const offset = -(parseFloat(getComputedStyle(target).scrollMarginTop) || 0);
+		if (lenis) {
+			lenis.scrollTo(target, { offset, immediate: reduced });
+		} else {
+			target.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' });
 		}
+		target.focus({ preventScroll: true });
+		history.replaceState(null, '', `#${id}`);
+		setActive(id);
 	};
 
-	if (headings.length === 0) {
-		return null;
+	if (items.length === 0) return null;
+
+	let section = 0;
+	const list = (
+		<ol className={styles.TableOfContents__list}>
+			{items.map((item) => {
+				if (item.level === 2) section += 1;
+				return (
+					<li key={item.id} data-level={item.level}>
+						<a
+							href={`#${item.id}`}
+							className={styles.TableOfContents__link}
+							aria-current={item.id === active ? 'location' : undefined}
+							onClick={(event) => jump(event, item.id)}
+						>
+							{item.level === 2 && (
+								<span className={styles.TableOfContents__count}>
+									{pad(section)}
+								</span>
+							)}
+							<span>{item.text}</span>
+						</a>
+					</li>
+				);
+			})}
+		</ol>
+	);
+
+	const classes = [styles.TableOfContents, className].filter(Boolean).join(' ');
+
+	if (variant === 'inline') {
+		return (
+			<details className={classes} data-variant="inline">
+				<summary className={styles.TableOfContents__summary}>
+					Contents{' '}
+					<span className={styles.TableOfContents__total}>
+						({pad(items.length)})
+					</span>
+				</summary>
+				<nav aria-label="Article contents">{list}</nav>
+			</details>
+		);
 	}
 
 	return (
-		<motion.nav
-			className={`${styles.TableOfContents} ${className || ''}`}
-			initial={{ opacity: 0, x: 20 }}
-			animate={{ opacity: 1, x: 0 }}
-			transition={{ duration: 0.6, delay: 0.8 }}
-		>
-			<p className={styles.TableOfContents__title}>In this article</p>
-			<div className={styles.TableOfContents__line} />
-			<ul className={styles.TableOfContents__list}>
-				{headings.map((heading) => (
-					<motion.li
-						key={heading.id}
-						className={`${styles.TableOfContents__item} ${
-							activeId === heading.id ? styles.TableOfContents__item_active : ''
-						}`}
-						whileHover={{ x: 4 }}
-						transition={{ duration: 0.2 }}
-					>
-						<button
-							className={`${styles.TableOfContents__link} ${
-								activeId === heading.id
-									? styles.TableOfContents__link_active
-									: ''
-							}`}
-							onClick={() => scrollToHeading(heading.id)}
-						>
-							{heading.text}
-						</button>
-					</motion.li>
-				))}
-			</ul>
-		</motion.nav>
+		<nav className={classes} data-variant="rail" aria-label="Article contents">
+			<p className={styles.TableOfContents__title} aria-hidden="true">
+				Contents
+			</p>
+			{list}
+		</nav>
 	);
 };
 

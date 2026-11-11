@@ -1,366 +1,232 @@
 'use client';
-import { motion, AnimatePresence } from 'motion/react';
 import Link from 'next/link';
 import { parseAsArrayOf, parseAsString, useQueryState } from 'nuqs';
-import type { FC } from 'react';
-import { useState, useMemo, useEffect, useTransition } from 'react';
+import { useId, useMemo, type FC, type ReactElement } from 'react';
 
-import { fetchFilteredPosts } from 'app/blog/actions';
+import { RevealText } from 'components/motion';
+import BlogFeatured from 'components/pages/blog/BlogFeatured/BlogFeatured';
+import BlogRow from 'components/pages/blog/BlogRow/BlogRow';
+import { Subscribe } from 'components/utilities';
+import { siteConfig } from 'config/site';
 import {
-	BlogBackground,
-	BlogCard,
-	BlogNoResults,
-	BlogSearch,
-} from 'components/pages';
-import { MaskText, Subscribe, ColorMaskButton } from 'components/utilities';
+	filterPosts,
+	isFiltering,
+	type CategoryCount,
+} from 'helpers/blogPosts';
 import type { BlogPost } from 'types/blog';
 
 import styles from './BlogListing.module.scss';
 
 interface BlogListingProps {
 	posts: BlogPost[];
-	total: number;
-	allCategories: string[];
-	allTags: string[];
+	categories: CategoryCount[];
 }
 
+const ELSEWHERE = [
+	{ label: 'Medium', href: 'https://medium.com/@nithiin7' },
+	{ label: 'DEV', href: 'https://dev.to/nithiin7' },
+] as const;
+
+const pad = (n: number): string => String(n).padStart(2, '0');
+
+/**
+ * Article index. All posts arrive from the server (the archive is small), so
+ * category, tag and search filtering run locally and only sync to the URL.
+ * The featured slot shows only while unfiltered, and that post is left out of
+ * the list so its `blog-image-{slug}` view-transition name stays unique.
+ */
 const BlogListing: FC<BlogListingProps> = ({
 	posts,
-	total,
-	allCategories,
-	allTags,
-}) => {
-	const [activeCategory, setActiveCategory] = useQueryState(
-		'category',
-		parseAsString.withDefault('All')
-	);
-	const [activeTags, setActiveTags] = useQueryState(
+	categories,
+}): ReactElement => {
+	const searchId = useId();
+	const [category, setCategory] = useQueryState('category', parseAsString);
+	const [tags, setTags] = useQueryState(
 		'tag',
 		parseAsArrayOf(parseAsString).withDefault([])
 	);
-	const [searchTerm, setSearchTerm] = useQueryState(
+	const [query, setQuery] = useQueryState(
 		'q',
-		parseAsString.withDefault('')
+		parseAsString.withDefault('').withOptions({ throttleMs: 300 })
 	);
-	const [allPosts, setAllPosts] = useState<BlogPost[]>(posts);
-	const [displayTotal, setDisplayTotal] = useState(total);
-	const [searchPool, setSearchPool] = useState<BlogPost[] | null>(null);
-	const [loadMoreHovered, setLoadMoreHovered] = useState(false);
-	const [filterError, setFilterError] = useState(false);
-	const [isFiltering, startFilterTransition] = useTransition();
-	const [isLoadingMore, startLoadMoreTransition] = useTransition();
-	const [isSearchLoading, startSearchTransition] = useTransition();
 
-	const trimmedSearchTerm = searchTerm.trim();
-	const hasMore = !trimmedSearchTerm && allPosts.length < displayTotal;
-	const isFilterPending = isFiltering || isSearchLoading;
+	const filter = { category, tags, query };
+	const filtering = isFiltering(filter);
+	const matches = useMemo(
+		() => filterPosts(posts, { category, tags, query }),
+		[posts, category, tags, query]
+	);
+	const featured = filtering ? undefined : posts[0];
+	const list = featured ? matches.slice(1) : matches;
 
-	const filteredPosts = useMemo(() => {
-		if (!trimmedSearchTerm) return allPosts;
-		const pool = searchPool ?? allPosts;
-		const lower = trimmedSearchTerm.toLowerCase();
-		return pool.filter(
-			(post) =>
-				post.title.toLowerCase().includes(lower) ||
-				post.excerpt.toLowerCase().includes(lower) ||
-				post.category.toLowerCase().includes(lower)
-		);
-	}, [allPosts, searchPool, trimmedSearchTerm]);
-
-	useEffect(() => {
-		if (!trimmedSearchTerm || searchPool !== null) return;
-		startSearchTransition(async () => {
-			try {
-				const result = await fetchFilteredPosts(
-					0,
-					activeCategory !== 'All' ? activeCategory : undefined,
-					activeTags,
-					displayTotal
-				);
-				setSearchPool(result.posts);
-			} catch {
-				setFilterError(true);
-			}
-		});
-	}, [trimmedSearchTerm, searchPool, activeCategory, activeTags, displayTotal]);
-
-	const handleCategoryChange = (category: string) => {
-		const previousCategory = activeCategory;
-		setActiveCategory(category);
-		setSearchPool(null);
-		setFilterError(false);
-		startFilterTransition(async () => {
-			try {
-				const result = await fetchFilteredPosts(
-					0,
-					category !== 'All' ? category : undefined,
-					activeTags
-				);
-				setAllPosts(result.posts);
-				setDisplayTotal(result.total);
-			} catch {
-				setFilterError(true);
-				setActiveCategory(previousCategory);
-			}
-		});
+	const clearAll = (): void => {
+		void setCategory(null);
+		void setTags(null);
+		void setQuery(null);
 	};
 
-	const handleTagToggle = (tag: string) => {
-		const previousTags = activeTags;
-		const next = activeTags.includes(tag)
-			? activeTags.filter((t) => t !== tag)
-			: [...activeTags, tag];
-		setActiveTags(next);
-		setSearchPool(null);
-		setFilterError(false);
-		startFilterTransition(async () => {
-			try {
-				const result = await fetchFilteredPosts(
-					0,
-					activeCategory !== 'All' ? activeCategory : undefined,
-					next
-				);
-				setAllPosts(result.posts);
-				setDisplayTotal(result.total);
-			} catch {
-				setFilterError(true);
-				setActiveTags(previousTags);
-			}
-		});
-	};
-
-	const handleClearAll = () => {
-		setActiveCategory('All');
-		setActiveTags([]);
-		setSearchTerm('');
-		setSearchPool(null);
-		setFilterError(false);
-		startFilterTransition(async () => {
-			try {
-				const result = await fetchFilteredPosts(0);
-				setAllPosts(result.posts);
-				setDisplayTotal(result.total);
-			} catch {
-				setFilterError(true);
-			}
-		});
-	};
-
-	const handleLoadMore = () => {
-		startLoadMoreTransition(async () => {
-			try {
-				const result = await fetchFilteredPosts(
-					allPosts.length,
-					activeCategory !== 'All' ? activeCategory : undefined,
-					activeTags
-				);
-				setAllPosts((prev) => [...prev, ...result.posts]);
-			} catch {
-				setFilterError(true);
-			}
-		});
-	};
-
-	const hasActiveFilter =
-		activeCategory !== 'All' ||
-		activeTags.length > 0 ||
-		Boolean(trimmedSearchTerm);
-
-	if (posts.length === 0 && !hasActiveFilter) {
-		return (
-			<div className={styles.blog}>
-				<BlogBackground />
-				<motion.div
-					className={styles.blog__container}
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
-				>
-					<section className={styles.blog__header}>
-						<motion.div
-							className={styles.blog__header_content}
-							initial={{ opacity: 0, y: 30 }}
-							animate={{ opacity: 1, y: 0 }}
-							transition={{
-								duration: 0.8,
-								delay: 0.2,
-								ease: [0.33, 1, 0.68, 1],
-							}}
-						>
-							<h1 className={styles.blog__title}>
-								<MaskText phrases={['Thoughts & Insights']} />
-							</h1>
-							<p className={styles.blog__subtitle}>
-								Exploring design, development, and the intersection of
-								creativity and technology
-							</p>
-						</motion.div>
-					</section>
-					<div className={styles.blog__error}>
-						<p>Error loading articles. Please try again later.</p>
-					</div>
-				</motion.div>
-			</div>
-		);
-	}
+	const status = filtering
+		? `${matches.length} of ${posts.length} articles`
+		: `${posts.length} articles`;
 
 	return (
-		<div className={styles.blog}>
-			<BlogBackground />
-			<motion.div
-				className={styles.blog__container}
-				initial={{ opacity: 0, y: 20 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
-			>
-				<motion.nav
-					className={styles.blog__breadcrumb}
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.6, delay: 0.2 }}
+		<div className={styles.Blog}>
+			<header className={styles.Blog__hero}>
+				<div className={styles.Blog__topline}>
+					<p className={styles.Blog__kicker}>
+						Journal{' '}
+						<span className={styles.Blog__tabular}>({pad(posts.length)})</span>
+					</p>
+					<ul className={styles.Blog__elsewhere} aria-label="Elsewhere">
+						{ELSEWHERE.map((item) => (
+							<li key={item.href}>
+								<a
+									href={item.href}
+									target="_blank"
+									rel="noopener noreferrer"
+									className={styles.Blog__mono}
+								>
+									{item.label}
+									<span aria-hidden="true"> ↗</span>
+									<span className={styles.Blog__sr}> (opens in a new tab)</span>
+								</a>
+							</li>
+						))}
+						<li>
+							<a href={siteConfig.rssUrl} className={styles.Blog__mono}>
+								RSS
+							</a>
+						</li>
+					</ul>
+				</div>
+
+				<RevealText as="h1" trigger="mount" className={styles.Blog__title}>
+					Writing
+				</RevealText>
+				<RevealText
+					as="p"
+					trigger="mount"
+					delay={0.2}
+					className={styles.Blog__lede}
 				>
-					<Link href="/" className={styles.blog__breadcrumb_link}>
-						← &nbsp;Back to Home
-					</Link>
-				</motion.nav>
-				<section className={styles.blog__header}>
-					<motion.div
-						className={styles.blog__header_content}
-						initial={{ opacity: 0, y: 30 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.8, delay: 0.2, ease: [0.33, 1, 0.68, 1] }}
-					>
-						<h1 className={styles.blog__title}>
-							<MaskText phrases={['Thoughts & Insights']} />
-						</h1>
-						<p className={styles.blog__subtitle}>
-							Exploring design, development, and the intersection of creativity
-							and technology
+					Field notes on AI agents, MCP and the web platform — what I learned
+					shipping them, written for whoever builds next.
+				</RevealText>
+			</header>
+
+			<div className={styles.Blog__inner}>
+				{featured && <BlogFeatured post={featured} />}
+
+				<section className={styles.Blog__index} aria-labelledby="index-title">
+					<div className={styles.Blog__indexHead}>
+						<h2 id="index-title" className={styles.Blog__indexTitle}>
+							{featured ? 'Earlier' : 'Index'}
+						</h2>
+						<p className={styles.Blog__count} role="status" aria-live="polite">
+							{status}
 						</p>
-						<div className={styles.blog__cta}>
-							<ColorMaskButton
-								text="Read on Medium"
-								href="https://medium.com/@nithiin7"
-								variant="default"
-								target="_blank"
-								rel="noopener noreferrer"
-							/>
-							<ColorMaskButton
-								text="Read more on DEV.to"
-								href="https://dev.to/nithiin7"
-								variant="default"
-								target="_blank"
-								rel="noopener noreferrer"
+					</div>
+
+					<div className={styles.Blog__filters}>
+						<div
+							className={styles.Blog__categories}
+							role="group"
+							aria-label="Filter by category"
+						>
+							<button
+								type="button"
+								className={styles.Blog__chip}
+								aria-pressed={!category}
+								onClick={() => void setCategory(null)}
+							>
+								All{' '}
+								<span className={styles.Blog__chipCount}>{posts.length}</span>
+							</button>
+							{categories.map((item) => (
+								<button
+									key={item.name}
+									type="button"
+									className={styles.Blog__chip}
+									aria-pressed={category === item.name}
+									onClick={() =>
+										void setCategory(category === item.name ? null : item.name)
+									}
+								>
+									{item.name}{' '}
+									<span className={styles.Blog__chipCount}>{item.count}</span>
+								</button>
+							))}
+						</div>
+
+						<div className={styles.Blog__search}>
+							<label htmlFor={searchId} className={styles.Blog__sr}>
+								Search articles
+							</label>
+							<input
+								id={searchId}
+								type="search"
+								className={styles.Blog__searchInput}
+								placeholder="Search articles"
+								value={query}
+								onChange={(event) => void setQuery(event.target.value || null)}
+								autoComplete="off"
+								spellCheck={false}
 							/>
 						</div>
-					</motion.div>
-				</section>
-				{filterError && (
-					<motion.p
-						className={styles.blog__filter_error}
-						initial={{ opacity: 0, y: -8 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.3 }}
-					>
-						Failed to load filtered results. Please try again.
-					</motion.p>
-				)}
-				<section className={styles.blog__search}>
-					<BlogSearch
-						allCategories={allCategories}
-						allTags={allTags}
-						activeCategory={activeCategory}
-						activeTags={activeTags}
-						searchTerm={searchTerm}
-						filteredCount={filteredPosts.length}
-						isFiltering={isFilterPending}
-						onCategoryChange={handleCategoryChange}
-						onTagToggle={handleTagToggle}
-						onSearchChange={setSearchTerm}
-						onClearAll={handleClearAll}
-					/>
-				</section>
-				<section className={styles.blog__content}>
-					<AnimatePresence mode="wait">
-						{filteredPosts.length > 0 ? (
-							<motion.div
-								className={styles.blog__grid}
-								animate={{ opacity: isFilterPending ? 0.4 : 1 }}
-								initial={{ opacity: 0 }}
-								transition={{ duration: 0.3 }}
-							>
-								{filteredPosts.map((post, index) => (
-									<motion.div
-										key={post.id}
-										initial={{ opacity: 0, y: 30 }}
-										animate={{ opacity: 1, y: 0 }}
-										transition={{
-											duration: 0.6,
-											delay: 0.4 + index * 0.08,
-											ease: [0.33, 1, 0.68, 1],
+					</div>
+
+					{tags.length > 0 && (
+						<ul className={styles.Blog__active} aria-label="Active tag filters">
+							{tags.map((tag) => (
+								<li key={tag}>
+									<button
+										type="button"
+										className={styles.Blog__chip}
+										aria-pressed
+										aria-label={`Remove tag filter ${tag}`}
+										onClick={() => {
+											const next = tags.filter((t) => t !== tag);
+											void setTags(next.length ? next : null);
 										}}
 									>
-										<BlogCard post={post} />
-									</motion.div>
-								))}
-							</motion.div>
-						) : (
-							<BlogNoResults />
-						)}
-					</AnimatePresence>
-					{hasMore && (
-						<motion.div
-							className={styles.blog__load_more}
-							initial={{ opacity: 0 }}
-							animate={{ opacity: 1 }}
-							transition={{ duration: 0.4 }}
-						>
-							<motion.button
-								className={styles.blog__load_more_btn}
-								onClick={handleLoadMore}
-								disabled={isLoadingMore || isFilterPending}
-								onMouseEnter={() => setLoadMoreHovered(true)}
-								onMouseLeave={() => setLoadMoreHovered(false)}
-								whileHover={{ scale: isLoadingMore ? 1 : 1.02 }}
-								whileTap={{ scale: isLoadingMore ? 1 : 0.98 }}
-								transition={{ duration: 0.2, ease: [0.76, 0, 0.24, 1] }}
-							>
-								<div className={styles.blog__load_more_content}>
-									<motion.span
-										className={styles.blog__load_more_text}
-										animate={{
-											y: loadMoreHovered ? -30 : 0,
-											opacity: loadMoreHovered ? 0 : 1,
-										}}
-										transition={{ duration: 0.4, ease: [0.76, 0, 0.24, 1] }}
-									>
-										{isLoadingMore ? 'Loading...' : 'Load more'}
-									</motion.span>
-									<motion.span
-										className={`${styles.blog__load_more_text} ${styles.blog__load_more_text_dup}`}
-										animate={{
-											y: loadMoreHovered ? 0 : 30,
-											opacity: loadMoreHovered ? 1 : 0,
-										}}
-										transition={{ duration: 0.4, ease: [0.76, 0, 0.24, 1] }}
-									>
-										{isLoadingMore ? 'Loading...' : 'Load more'}
-									</motion.span>
-								</div>
-								<motion.div
-									className={styles.blog__load_more_bg}
-									animate={{
-										scale: loadMoreHovered ? 1 : 0,
-										opacity: loadMoreHovered ? 1 : 0,
-									}}
-									transition={{ duration: 0.4, ease: [0.76, 0, 0.24, 1] }}
-								/>
-							</motion.button>
-						</motion.div>
+										#{tag} <span aria-hidden="true">×</span>
+									</button>
+								</li>
+							))}
+						</ul>
 					)}
+
+					{list.length > 0 ? (
+						<ol className={styles.Blog__list}>
+							{list.map((post) => (
+								<li key={post.id}>
+									<BlogRow post={post} />
+								</li>
+							))}
+						</ol>
+					) : filtering ? (
+						<div className={styles.Blog__empty}>
+							<p className={styles.Blog__emptyTitle}>
+								Nothing matches that filter.
+							</p>
+							<button
+								type="button"
+								className={styles.Blog__reset}
+								onClick={clearAll}
+							>
+								Clear filters
+							</button>
+						</div>
+					) : !featured ? (
+						<p className={styles.Blog__emptyTitle}>
+							No articles yet. Check back soon, or{' '}
+							<Link href="/contact">say hello</Link>.
+						</p>
+					) : null}
 				</section>
-				<Subscribe delay={1.2} />
-			</motion.div>
+
+				<Subscribe />
+			</div>
 		</div>
 	);
 };

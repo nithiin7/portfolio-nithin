@@ -7,14 +7,7 @@ import type { Document } from '@contentful/rich-text-types';
 import type { DocumentNode } from 'graphql';
 
 import { HOME_SECTIONS } from 'helpers/sections';
-import {
-	GET_PAGE,
-	GET_ALL_BLOG_POSTS,
-	GET_BLOG_POST_BY_SLUG,
-	GET_FILTERED_BLOG_POSTS,
-	GET_BLOG_CATEGORIES,
-	GET_BLOG_TAGS,
-} from 'queries';
+import { GET_PAGE, GET_ALL_BLOG_POSTS, GET_BLOG_POST_BY_SLUG } from 'queries';
 import {
 	GET_PORTFOLIO,
 	GET_ALL_PORTFOLIO_IDS,
@@ -22,19 +15,15 @@ import {
 	GET_PORTFOLIO_SUMMARIES,
 	GET_WORKS_ORDER,
 } from 'queries/portfolio';
-import type { BlogPost, BlogCategory, BlogTag } from 'types/blog';
+import type { BlogPost } from 'types/blog';
 import type {
 	PageData,
 	PortfolioData,
 	PortfolioSearchItem,
 	PortfolioSearchResponse,
 	BlogPostItem,
-	BlogCategoryItem,
-	BlogTagItem,
 	BlogPostsResponse,
 	BlogPostBySlugResponse,
-	BlogCategoriesResponse,
-	BlogTagsResponse,
 	WorksOrderResponse,
 } from 'types/contentful';
 import type { PortfolioItem } from 'types/portfolio';
@@ -93,49 +82,6 @@ export const convertContentfulBlogPost = (
 		seoDescription: contentfulPost.seoDescription || '',
 	};
 };
-
-export const convertContentfulCategory = (
-	contentfulCategory: BlogCategoryItem
-): BlogCategory => {
-	return {
-		id: contentfulCategory.sys.id,
-		name: contentfulCategory.name,
-		slug: contentfulCategory.slug,
-		description: contentfulCategory.description,
-		postCount: 0,
-	};
-};
-
-export const convertContentfulTag = (contentfulTag: BlogTagItem): BlogTag => {
-	return {
-		id: contentfulTag.sys.id,
-		name: contentfulTag.name,
-		slug: contentfulTag.slug,
-		postCount: 0,
-	};
-};
-
-/**
- * Fetches blog posts from Contentful filtered by category and/or tags (AND combined).
- */
-const loadFilteredBlogPosts = (
-	category?: string,
-	tags: string[] = [],
-	limit = 10,
-	skip = 0
-): Promise<QueryResult<BlogPostsResponse>> =>
-	runQuery(GET_FILTERED_BLOG_POSTS, {
-		limit,
-		skip,
-		...(category && { category }),
-		...(tags.length > 0 && { tags }),
-	});
-
-const loadBlogCategories = (): Promise<QueryResult<BlogCategoriesResponse>> =>
-	runQuery(GET_BLOG_CATEGORIES);
-
-const loadBlogTags = (): Promise<QueryResult<BlogTagsResponse>> =>
-	runQuery(GET_BLOG_TAGS);
 
 const loadBlogPosts = (
 	limit = 10,
@@ -205,9 +151,6 @@ export {
 	loadData,
 	loadPortfolioData,
 	loadBlogPosts,
-	loadFilteredBlogPosts,
-	loadBlogCategories,
-	loadBlogTags,
 	loadBlogPostBySlug,
 	loadAllPortfolioIds,
 	loadPortfolioSearchItems,

@@ -190,33 +190,6 @@ export interface BlogPostItem {
 	seoDescription?: string;
 }
 
-export interface BlogCategoryCollection {
-	__typename: string;
-	items: BlogCategoryItem[];
-}
-
-export interface BlogCategoryItem {
-	sys: {
-		id: string;
-	};
-	name: string;
-	slug: string;
-	description?: string;
-}
-
-export interface BlogTagCollection {
-	__typename: string;
-	items: BlogTagItem[];
-}
-
-export interface BlogTagItem {
-	sys: {
-		id: string;
-	};
-	name: string;
-	slug: string;
-}
-
 export interface BlogPostsResponse {
 	blogPostCollection: BlogPostCollection;
 }
@@ -225,12 +198,4 @@ export interface BlogPostBySlugResponse {
 	blogPostCollection: {
 		items: BlogPostItem[];
 	};
-}
-
-export interface BlogCategoriesResponse {
-	blogCategoryCollection: BlogCategoryCollection;
-}
-
-export interface BlogTagsResponse {
-	blogTagCollection: BlogTagCollection;
 }

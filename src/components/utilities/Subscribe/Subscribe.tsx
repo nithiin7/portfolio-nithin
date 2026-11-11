@@ -1,13 +1,16 @@
 'use client';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { motion } from 'motion/react';
-import type { FC } from 'react';
-import { useState } from 'react';
-import type { SubmitHandler } from 'react-hook-form';
-import { useForm } from 'react-hook-form';
+import {
+	useCallback,
+	useId,
+	useState,
+	type FC,
+	type ReactElement,
+} from 'react';
+import { useForm, type SubmitHandler } from 'react-hook-form';
 
 import { subscribeToNewsletter } from 'app/actions';
-import { ArrowRightIcon } from 'assets/icons';
+import FormField from 'components/utilities/FormField/FormField';
 import { emailSchema } from 'helpers/validations';
 
 import styles from './Subscribe.module.scss';
@@ -18,121 +21,101 @@ interface SubscribeFormData {
 
 interface SubscribeProps {
 	className?: string;
-	delay?: number;
 }
 
 /**
- * Reusable Subscribe component for newsletter signup
+ * Newsletter sign-up. Swaps to a confirmation in place on success and moves
+ * focus to it, so screen-reader users hear the result.
  */
-const Subscribe: FC<SubscribeProps> = ({ className = '', delay = 0 }) => {
-	const [isSubmitting, setIsSubmitting] = useState(false);
-	const [isSuccess, setIsSuccess] = useState(false);
-	const [isError, setIsError] = useState(false);
+const Subscribe: FC<SubscribeProps> = ({ className }): ReactElement => {
+	const uid = useId();
+	const [done, setDone] = useState(false);
+	const [submitError, setSubmitError] = useState<string | null>(null);
 
 	const {
-		formState: { errors },
 		register,
 		handleSubmit,
-		reset,
+		formState: { errors, isSubmitting },
 	} = useForm<SubscribeFormData>({
 		resolver: yupResolver(emailSchema),
-		defaultValues: {
-			email: '',
-		},
+		defaultValues: { email: '' },
 	});
 
-	const onSubmit: SubmitHandler<SubscribeFormData> = async (data) => {
-		setIsSubmitting(true);
+	const focusOnMount = useCallback((node: HTMLParagraphElement | null) => {
+		node?.focus();
+	}, []);
 
-		const result = await subscribeToNewsletter(data.email);
-
-		if (result.success) {
-			setIsSuccess(true);
-			reset();
-
-			setTimeout(() => {
-				setIsSuccess(false);
-			}, 5000);
-		} else {
-			setIsError(true);
-			setTimeout(() => setIsError(false), 5000);
-		}
-
-		setIsSubmitting(false);
+	const onSubmit: SubmitHandler<SubscribeFormData> = async ({ email }) => {
+		setSubmitError(null);
+		const result = await subscribeToNewsletter(email);
+		if (result.success) setDone(true);
+		else setSubmitError('That didn’t work. Please try again in a moment.');
 	};
 
+	const label = isSubmitting ? 'Subscribing…' : 'Subscribe';
+
 	return (
-		<motion.section
-			className={`${styles.Subscribe} ${className}`}
-			initial={{ opacity: 0, y: 30 }}
-			animate={{ opacity: 1, y: 0 }}
-			transition={{ duration: 0.8, delay, ease: [0.33, 1, 0.68, 1] }}
+		<section
+			className={[styles.Subscribe, className].filter(Boolean).join(' ')}
+			aria-labelledby={`${uid}-title`}
 		>
-			<div className={styles.Subscribe__content}>
-				<span className={styles.Subscribe__label}>Newsletter</span>
-				<h2 className={styles.Subscribe__title}>Stay Updated</h2>
+			<div className={styles.Subscribe__intro}>
+				<p className={styles.Subscribe__kicker}>Newsletter</p>
+				<h2 id={`${uid}-title`} className={styles.Subscribe__title}>
+					New posts, <em>straight to your inbox.</em>
+				</h2>
 				<p className={styles.Subscribe__text}>
-					Get notified when I publish new articles about design, development,
-					and creative insights.
+					A short note when something new is published. No spam, unsubscribe any
+					time.
 				</p>
-				{isSuccess ? (
-					<motion.div
-						className={styles.Subscribe__success}
-						initial={{ opacity: 0, scale: 0.9 }}
-						animate={{ opacity: 1, scale: 1 }}
-						transition={{ duration: 0.5, ease: [0.33, 1, 0.68, 1] }}
+			</div>
+
+			<div className={styles.Subscribe__action}>
+				{done ? (
+					<p
+						ref={focusOnMount}
+						tabIndex={-1}
+						className={styles.Subscribe__done}
+						role="status"
 					>
-						<div className={styles.Subscribe__successIcon}>✓</div>
-						<h3 className={styles.Subscribe__successTitle}>
-							Successfully Subscribed!
-						</h3>
-						<p className={styles.Subscribe__successText}>
-							Thank you for subscribing. You'll now receive updates about
-							design, development, and creative insights.
-						</p>
-					</motion.div>
+						<span aria-hidden="true">✓</span> You’re subscribed. Thanks for
+						reading.
+					</p>
 				) : (
 					<form
-						onSubmit={handleSubmit(onSubmit)}
 						className={styles.Subscribe__form}
+						onSubmit={handleSubmit(onSubmit)}
+						noValidate
+						aria-busy={isSubmitting}
 					>
-						<div className={styles.Subscribe__inputWrapper}>
-							<input
-								type="email"
-								placeholder="Enter your email"
-								className={`${styles.Subscribe__input} ${errors?.email ? styles.Subscribe__inputError : ''}`}
-								disabled={isSubmitting}
-								{...register('email')}
-							/>
-							{errors?.email && (
-								<span className={styles.Subscribe__error}>
-									{errors.email.message}
-								</span>
-							)}
-						</div>
+						<FormField
+							{...register('email')}
+							id={`${uid}-email`}
+							className={styles.Subscribe__field}
+							label="Email"
+							type="email"
+							inputMode="email"
+							autoComplete="email"
+							placeholder="you@company.com"
+							error={errors.email?.message}
+						/>
 						<button
 							type="submit"
-							className={styles.Subscribe__button}
+							className={styles.Subscribe__submit}
 							disabled={isSubmitting}
 						>
-							{isSubmitting ? 'Subscribing...' : 'Subscribe'}
-							{!isSubmitting && <ArrowRightIcon />}
+							<span className={styles.Subscribe__roll}>
+								<span>{label}</span>
+								<span aria-hidden="true">{label}</span>
+							</span>
 						</button>
+						<p className={styles.Subscribe__error} role="alert">
+							{submitError}
+						</p>
 					</form>
 				)}
-				{isError && (
-					<motion.p
-						className={styles.Subscribe__submitError}
-						initial={{ opacity: 0, y: -8 }}
-						animate={{ opacity: 1, y: 0 }}
-						exit={{ opacity: 0, y: -8 }}
-						transition={{ duration: 0.3 }}
-					>
-						Something went wrong. Please try again.
-					</motion.p>
-				)}
 			</div>
-		</motion.section>
+		</section>
 	);
 };
 
