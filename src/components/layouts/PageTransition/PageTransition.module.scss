@@ -1,0 +1,7 @@
+// Opaque so the view-transition snapshot hides the ink panel behind it.
+// `clip` (not hidden) contains stray horizontal overflow without creating a
+// scroll container, so sticky/pinned sections keep working.
+.PageTransition {
+	background-color: var(--bg);
+	overflow-x: clip;
+}

@@ -12,6 +12,10 @@ export const siteConfig = {
 		country: 'IN',
 		timeZone: 'Asia/Kolkata',
 	},
+	availability: {
+		open: true,
+		label: 'Available for new projects',
+	},
 	url,
 	title: 'Nithin Pradeep — Senior Technical Consultant @ EY',
 	titleTemplate: '%s | Nithin Pradeep',

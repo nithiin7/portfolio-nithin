@@ -45,7 +45,6 @@ export default async function Home() {
 
 	const sections = path.sectionCollection?.items || [];
 
-	const header = getSection(sections, 'header');
 	const services = getSection(sections, 'services');
 	const about = getSection(sections, 'about');
 	const portfolio = getSection(sections, 'portfolio');
@@ -54,7 +53,6 @@ export default async function Home() {
 	const testimonials = getSection(sections, 'testimonials');
 	const certifications = getSection(sections, 'certifications');
 
-	const headerData = header.contentsCollection;
 	const servicesData = {
 		data: services.contentsCollection.items[0] || {},
 		services: services.contentsCollection.items,
@@ -92,7 +90,7 @@ export default async function Home() {
 					__html: JSON.stringify(homeStructuredData),
 				}}
 			/>
-			<HomeHeader data={headerData} />
+			<HomeHeader />
 			<HomeServices {...servicesData} />
 			<HomePortfolio {...portfolioData} />
 			<HomeAbout data={aboutData} />

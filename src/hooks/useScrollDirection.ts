@@ -1,64 +1,60 @@
 import { useEffect, useState } from 'react';
 
+interface UseScrollDirectionOptions {
+	/** Scroll distance from the top within which the target always stays visible. */
+	revealZone?: number;
+	/** Minimum scroll delta (px) before the direction is considered changed. */
+	tolerance?: number;
+}
+
 interface UseScrollDirectionReturn {
 	isVisible: boolean;
-	scrollDirection: 'up' | 'down' | null;
-	scrollY: number;
+	isAtTop: boolean;
 }
 
 /**
- * Custom hook to track scroll direction and visibility
- * @returns The scroll direction, scroll position, and visibility
+ * Hide-on-scroll-down / show-on-scroll-up. State only changes when the
+ * visibility actually flips, so consumers do not re-render every frame.
  */
-export const useScrollDirection = (): UseScrollDirectionReturn => {
-	const [scrollY, setScrollY] = useState(0);
-	const [scrollDirection, setScrollDirection] = useState<'up' | 'down' | null>(
-		null
-	);
+export const useScrollDirection = ({
+	revealZone = 80,
+	tolerance = 6,
+}: UseScrollDirectionOptions = {}): UseScrollDirectionReturn => {
 	const [isVisible, setIsVisible] = useState(true);
+	const [isAtTop, setIsAtTop] = useState(true);
 
 	useEffect(() => {
-		let lastScrollY = window.scrollY;
-		let ticking = false;
+		let lastY = window.scrollY;
+		let frame = 0;
 
-		const updateScrollDirection = () => {
-			const currentScrollY = window.scrollY;
-			const direction =
-				currentScrollY > lastScrollY
-					? 'down'
-					: currentScrollY < lastScrollY
-						? 'up'
-						: null;
+		const update = () => {
+			frame = 0;
+			const y = window.scrollY;
+			const delta = y - lastY;
 
-			if (direction) {
-				setScrollDirection(direction);
-			}
+			setIsAtTop(y <= revealZone);
 
-			setScrollY(currentScrollY);
-
-			if (currentScrollY <= 0) {
+			if (y <= revealZone) {
 				setIsVisible(true);
-			} else if (direction === 'up') {
-				setIsVisible(true);
-			} else if (direction === 'down') {
-				setIsVisible(false);
+			} else if (Math.abs(delta) >= tolerance) {
+				setIsVisible(delta < 0);
+			} else {
+				return;
 			}
-
-			lastScrollY = currentScrollY;
-			ticking = false;
+			lastY = y;
 		};
 
 		const onScroll = () => {
-			if (!ticking) {
-				requestAnimationFrame(updateScrollDirection);
-				ticking = true;
-			}
+			if (!frame) frame = requestAnimationFrame(update);
 		};
 
-		window.addEventListener('scroll', onScroll);
+		update();
+		window.addEventListener('scroll', onScroll, { passive: true });
+		return () => {
+			window.removeEventListener('scroll', onScroll);
+			if (frame) cancelAnimationFrame(frame);
+		};
+	}, [revealZone, tolerance]);
 
-		return () => window.removeEventListener('scroll', onScroll);
-	}, []);
-
-	return { isVisible, scrollDirection, scrollY };
+	return { isVisible, isAtTop };
 };

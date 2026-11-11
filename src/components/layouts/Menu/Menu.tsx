@@ -1,277 +1,172 @@
 'use client';
 import { useLenis } from 'lenis/react';
-import { AnimatePresence, motion } from 'motion/react';
-import { usePathname } from 'next/navigation';
-import type { ReactElement, MouseEvent } from 'react';
-import { useEffect, useRef, useState } from 'react';
+import type { Transition } from 'motion/react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import Link from 'next/link';
+import type { MouseEvent, ReactElement } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
-import MenuBackground from 'assets/images/menu-bg.svg';
-import { ThemeToggle } from 'components/utilities';
-import { links, socialsMenu } from 'constants/index';
-import { handleScroll as scrollToSection } from 'helpers';
+import { LocalClock, ThemeToggle } from 'components/utilities';
+import { siteConfig } from 'config/site';
+import { navLinks, socialsMenu } from 'constants/index';
 import {
-	animate,
-	backdropVariants,
-	backgroundVariants,
-	menu,
-	variants,
-} from 'helpers/animations';
-import {
-	useKeyboardNavigation,
 	useFocusTrap,
+	useKeyboardNavigation,
 } from 'hooks/useKeyboardNavigation';
+import { duration, ease } from 'styles/tokens';
 
 import styles from './Menu.module.scss';
 
-const SCROLL_IDLE_DELAY = 150;
-
 export interface MenuProps {
-	className?: string;
-	variant?: 'default' | 'alternative';
+	open: boolean;
+	/** `restoreFocus` is true when closed via Escape or the close button. */
+	onClose: (restoreFocus: boolean) => void;
+	onLinkClick: (href: string, e: MouseEvent<HTMLAnchorElement>) => void;
 }
 
+const panelTransition: Transition = { duration: duration.base, ease };
+
 /**
- * Menu component with animated navigation links, social icons, and scroll detection.
- * Includes a toggle button to activate/deactivate the menu and dynamically shows or hides based on scroll.
- *
- * @component
- * @param {string} [className] - Additional CSS classes for styling.
- * @param {'default' | 'alternative'} [variant='default'] - Visual variant of the menu.
- * @returns {JSX.Element} The rendered Menu component.
+ * Full-screen menu overlay. Controlled by Navbar; traps focus, closes on
+ * Escape, and pauses Lenis while open.
  */
-const Menu = ({
-	className = '',
-	variant = 'default',
-}: MenuProps): ReactElement => {
-	const pathname = usePathname();
+const Menu = ({ open, onClose, onLinkClick }: MenuProps): ReactElement => {
+	const lenis = useLenis();
+	const reduceMotion = useReducedMotion();
+	const closeRef = useRef<HTMLButtonElement>(null);
 
-	const [isMenuActive, setIsMenuActive] = useState<boolean>(false);
-	const [showMenu, setShowMenu] = useState<boolean>(false);
+	const handleEscape = useCallback(() => onClose(true), [onClose]);
+	const keyboardRef = useKeyboardNavigation({
+		onEscape: handleEscape,
+		enabled: open,
+	});
+	const trapRef = useFocusTrap(open);
 
-	const scrollIdleTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
-		null
+	const setPanelRef = useCallback(
+		(node: HTMLDivElement | null) => {
+			keyboardRef.current = node;
+			trapRef.current = node;
+		},
+		[keyboardRef, trapRef]
 	);
 
 	useEffect(() => {
-		setShowMenu(false);
-		setIsMenuActive(false);
-	}, [pathname]);
+		if (!open) return;
+		lenis?.stop();
+		closeRef.current?.focus();
+		return () => lenis?.start();
+	}, [open, lenis]);
 
-	const menuRef = useKeyboardNavigation({
-		onEscape: () => setIsMenuActive(false),
-		enabled: isMenuActive,
-	});
-
-	const menuContainerRef = useFocusTrap(isMenuActive);
-	const lenis = useLenis();
-
-	/**
-	 * Handles smooth scrolling to sections when navigation links are clicked.
-	 * @param {string} href - The href attribute of the clicked link
-	 * @param {MouseEvent<HTMLAnchorElement>} e - The click event
-	 */
-	const handleNavClick = (href: string, e: MouseEvent<HTMLAnchorElement>) => {
-		if (href.startsWith('/#')) {
-			e.preventDefault();
-			const targetId = href.replace('/#', '');
-			scrollToSection(targetId, lenis);
-			setIsMenuActive(false);
-		}
-	};
-
-	/**
-	 * Handle backdrop click to close menu.
-	 */
-	const handleBackdropClick = () => {
-		setIsMenuActive(false);
-	};
-
-	useEffect(() => {
-		const handleScroll = () => {
-			if (scrollIdleTimeoutRef.current) {
-				clearTimeout(scrollIdleTimeoutRef.current);
+	const panelMotion = reduceMotion
+		? {
+				initial: { opacity: 0 },
+				animate: { opacity: 1 },
+				exit: { opacity: 0 },
 			}
+		: {
+				initial: { clipPath: 'inset(0 0 100% 0)' },
+				animate: { clipPath: 'inset(0 0 0% 0)' },
+				exit: { clipPath: 'inset(0 0 100% 0)' },
+			};
 
-			setShowMenu(false);
-			if (isMenuActive) setIsMenuActive(false);
-
-			// Never reveal within the first viewport height of scroll.
-			if (window.scrollY < window.innerHeight) return;
-
-			scrollIdleTimeoutRef.current = setTimeout(() => {
-				setShowMenu(true);
-			}, SCROLL_IDLE_DELAY);
-		};
-
-		window.addEventListener('scroll', handleScroll);
-
-		return () => {
-			window.removeEventListener('scroll', handleScroll);
-			if (scrollIdleTimeoutRef.current) {
-				clearTimeout(scrollIdleTimeoutRef.current);
-			}
-		};
-	}, [isMenuActive]);
+	const itemMotion = (i: number) =>
+		reduceMotion
+			? {}
+			: {
+					initial: { y: '110%' },
+					animate: {
+						y: '0%',
+						transition: {
+							duration: duration.base,
+							ease,
+							delay: 0.2 + i * 0.06,
+						},
+					},
+				};
 
 	return (
-		<>
-			<AnimatePresence>
-				{isMenuActive && (
-					<motion.div
-						className={styles.menu__backdrop}
-						variants={backdropVariants}
-						initial="closed"
-						animate="open"
-						exit="closed"
-						onClick={handleBackdropClick}
-						role="presentation"
-						aria-hidden="true"
-					/>
-				)}
-			</AnimatePresence>
-			<nav
-				ref={menuRef}
-				className={[styles.menu, styles[`menu__${variant}`], className].join(
-					' '
-				)}
-				role="navigation"
-				aria-label="Main navigation"
-			>
+		<AnimatePresence>
+			{open && (
 				<motion.div
-					aria-hidden={!showMenu}
-					variants={menu}
-					initial={'hidden'}
-					animate={showMenu ? 'visible' : 'hidden'}
-					transition={{ ease: [0.1, 0.25, 0.3, 1], duration: 0.6 }}
+					ref={setPanelRef}
+					id="menu-panel"
+					role="dialog"
+					aria-modal="true"
+					aria-label="Navigation menu"
+					className={styles.Menu}
+					transition={panelTransition}
+					{...panelMotion}
 				>
-					<div className={styles.menu__controls}>
-						<motion.button
-							aria-label="Toggle navigation menu"
-							aria-expanded={isMenuActive}
-							aria-controls={isMenuActive ? 'menu-panel' : undefined}
-							aria-hidden={!showMenu}
-							tabIndex={showMenu ? 0 : -1}
-							whileHover={{ scale: 0.95 }}
-							className={styles.menu__button}
-							onClick={() => setIsMenuActive(!isMenuActive)}
-							transition={{ ease: [0.1, 0.25, 0.3, 1], duration: 0.3 }}
+					<div className={styles.Menu__bar}>
+						<span className={styles.Menu__logo} aria-hidden="true">
+							NP
+							<span className={styles.Menu__dot} />
+						</span>
+						<button
+							ref={closeRef}
+							type="button"
+							className={styles.Menu__close}
+							onClick={() => onClose(true)}
 						>
-							<motion.span
-								animate={
-									isMenuActive ? { rotate: 45, y: 4 } : { rotate: 0, y: 0 }
-								}
-								transition={{ duration: 0.3 }}
-							/>
-							<motion.span
-								animate={
-									isMenuActive ? { rotate: -45, y: -4 } : { rotate: 0, y: 0 }
-								}
-								transition={{ duration: 0.3 }}
-							/>
-						</motion.button>
+							Close
+						</button>
 					</div>
-					<motion.div className={styles.menu__container}>
-						<AnimatePresence>
-							{isMenuActive && (
-								<motion.div
-									ref={menuContainerRef}
-									id="menu-panel"
-									role="dialog"
-									aria-modal="true"
-									aria-label="Navigation menu"
-									className={styles['menu__sub-container']}
-									variants={variants}
-									animate={isMenuActive ? 'open' : 'closed'}
-									initial={'closed'}
-									exit={'closed'}
-								>
-									<div className={styles.menu__controls}>
-										<ThemeToggle className={styles['menu__toggle-inmenu']} />
-									</div>
-									<motion.div
-										className={styles.menu__background}
-										variants={backgroundVariants}
-										initial="initial"
-										animate="enter"
-										exit="exit"
+
+					<nav className={styles.Menu__nav} aria-label="Menu">
+						<ol className={styles.Menu__list}>
+							{navLinks.map((link, i) => (
+								<li key={link.href} className={styles.Menu__item}>
+									<motion.span
+										className={styles.Menu__itemInner}
+										{...itemMotion(i)}
 									>
-										<MenuBackground />
-									</motion.div>
-									<nav
-										className={styles.menu__nav}
-										role="navigation"
-										aria-label="Main menu"
+										<span className={styles.Menu__index} aria-hidden="true">
+											{String(i + 1).padStart(2, '0')}
+										</span>
+										<Link
+											href={link.href}
+											className={styles.Menu__link}
+											onClick={(e) => onLinkClick(link.href, e)}
+										>
+											{link.title}
+										</Link>
+									</motion.span>
+								</li>
+							))}
+						</ol>
+					</nav>
+
+					<div className={styles.Menu__footer}>
+						<ul className={styles.Menu__socials} aria-label="Social links">
+							{socialsMenu.map((social) => (
+								<li key={social.href}>
+									<a
+										href={social.href}
+										target="_blank"
+										rel="noopener noreferrer"
 									>
-										<ul role="list">
-											{links.map((link, i) => {
-												return (
-													<motion.li key={`${link.title}-${i}`} role="listitem">
-														<motion.div
-															custom={i}
-															variants={animate}
-															initial={'initial'}
-															exit={'exit'}
-															animate={'enter'}
-														>
-															<motion.a
-																whileHover={{ left: '15px' }}
-																href={link.href}
-																onClick={(e) => handleNavClick(link.href, e)}
-															>
-																{link.title}
-															</motion.a>
-														</motion.div>
-													</motion.li>
-												);
-											})}
-										</ul>
-									</nav>
-									<nav
-										className={styles.menu__socials}
-										role="navigation"
-										aria-label="Social media links"
-									>
-										<ul role="list">
-											{socialsMenu.map((social, i) => {
-												return (
-													<li
-														key={`${social.title}-${i}`}
-														style={{ overflow: 'hidden' }}
-														role="listitem"
-													>
-														<motion.div
-															custom={i}
-															variants={animate}
-															initial={'initial'}
-															exit={'exit'}
-															animate={'enter'}
-														>
-															<motion.a
-																whileHover={{ left: '15px' }}
-																href={social.href}
-																transition={{
-																	ease: [0.1, 0.25, 0.3, 1],
-																	duration: 0.3,
-																}}
-																target="_blank"
-																rel="noopener noreferrer"
-																aria-label={`Visit ${social.title} on social media`}
-															>
-																{social.title}
-															</motion.a>
-														</motion.div>
-													</li>
-												);
-											})}
-										</ul>
-									</nav>
-								</motion.div>
-							)}
-						</AnimatePresence>
-					</motion.div>
+										{social.title}
+										<span className={styles.Menu__srOnly}>
+											{' '}
+											(opens in a new tab)
+										</span>
+									</a>
+								</li>
+							))}
+						</ul>
+						<p className={styles.Menu__meta}>
+							{siteConfig.location.city}{' '}
+							<LocalClock
+								timeZone={siteConfig.location.timeZone}
+								zoneLabel="IST"
+								showSeconds={false}
+							/>
+						</p>
+						<ThemeToggle className={styles.Menu__theme} />
+					</div>
 				</motion.div>
-			</nav>
-		</>
+			)}
+		</AnimatePresence>
 	);
 };
 
