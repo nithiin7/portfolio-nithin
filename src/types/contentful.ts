@@ -24,6 +24,7 @@ export interface SectionCollection {
 
 export interface SectionItem {
 	__typename: string;
+	name: string;
 	contentsCollection: ContentsCollection;
 }
 
