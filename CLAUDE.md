@@ -1,3 +1,12 @@
+## Active work: v5 redesign
+
+- Plan & audit: docs/redesign/REDESIGN_PLAN.md — read before any change.
+- Chosen direction: A — Editorial Swiss (see sections 4 and 4c of the plan).
+- Work only on `redesign` or `redesign/phase-*` branches. Never touch `main`.
+- New design tokens live in src/styles/tokens.scss; do not add new colors elsewhere.
+- Every section must: honour prefers-reduced-motion, work at 360px width, keep Lighthouse a11y = 100.
+- After each phase: run `pnpm lint && pnpm test && pnpm build`, then summarise changes.
+
 # CLAUDE.md — Portfolio Nithin
 
 Living reference for Claude sessions working in this repo. Read this before making any changes.
