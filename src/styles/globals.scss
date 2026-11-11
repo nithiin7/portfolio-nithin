@@ -1,5 +1,31 @@
 @use './shared' as *;
 
+.grid-12 {
+	@include grid-12;
+}
+
+@each $prefix, $query in ('': null, 'md-': $md, 'lg-': $lg) {
+	@for $i from 1 through 12 {
+		@if $query {
+			@media #{$query} {
+				.#{$prefix}span-#{$i} {
+					grid-column-end: span #{$i};
+				}
+				.#{$prefix}start-#{$i} {
+					grid-column-start: #{$i};
+				}
+			}
+		} @else {
+			.span-#{$i} {
+				grid-column-end: span #{$i};
+			}
+			.start-#{$i} {
+				grid-column-start: #{$i};
+			}
+		}
+	}
+}
+
 .grainy__filter {
 	pointer-events: none;
 	position: absolute;
@@ -53,7 +79,7 @@ html.lenis {
 		z-index: 2001;
 		transform: translateX(-50%);
 		text-align: center;
-		font-family: 'Host Grotesk', sans-serif;
+		font-family: var(--font-display);
 		line-height: 92.5%;
 		font-weight: 700;
 	}

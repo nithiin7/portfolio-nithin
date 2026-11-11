@@ -27,3 +27,17 @@ $section-top-clearance-min: rem(120);
 		max(#{$section-spacing-x-min}, #{$section-spacing-x});
 	padding-top: max(#{$section-top-clearance-min}, #{$section-spacing-y});
 }
+
+@mixin grid-12 {
+	display: grid;
+	grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+	column-gap: var(--grid-gutter);
+	width: 100%;
+	max-width: var(--grid-max);
+	margin-inline: auto;
+	padding-inline: var(--grid-margin);
+}
+
+@mixin col($span, $start: auto) {
+	grid-column: #{$start} / span #{$span};
+}
