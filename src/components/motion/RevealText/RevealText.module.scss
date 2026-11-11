@@ -1,0 +1,43 @@
+.RevealText {
+	&__sr {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
+	}
+
+	// Extra block padding keeps descenders and italic overhang outside the clip
+	&__mask {
+		display: inline-block;
+		overflow: clip;
+		vertical-align: top;
+		padding-block: 0.08em 0.12em;
+		margin-block: -0.08em -0.12em;
+		padding-inline-end: 0.04em;
+		margin-inline-end: -0.04em;
+	}
+
+	&__word {
+		display: inline-block;
+		transform: translate3d(0, 115%, 0);
+		transition: transform var(--dur-2) var(--ease);
+		transition-delay: calc(
+			var(--reveal-delay) + var(--line) * var(--reveal-stagger)
+		);
+	}
+
+	&[data-revealed='true'] &__word {
+		transform: none;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		&__word {
+			transform: none;
+			transition: none;
+		}
+	}
+}
