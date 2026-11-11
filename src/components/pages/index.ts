@@ -7,7 +7,6 @@ export { default as HomeCollaborations } from './homepage/HomeCollaborations/Hom
 export { default as HomeHeader } from './homepage/HomeHeader/HomeHeader';
 export { default as HomePortfolio } from './homepage/HomePortfolio/HomePortfolio';
 export { default as HomeTestimonial } from './homepage/HomeTestimonial/HomeTestimonial';
-export { default as TestimonialCard } from './homepage/TestimonialCard/TestimonialCard';
 export { default as WorksFeatured } from './homepage/WorksFeatured/WorksFeatured';
 export { default as WorksIndex } from './homepage/WorksIndex/WorksIndex';
 export { default as WorksMedia } from './homepage/WorksMedia/WorksMedia';

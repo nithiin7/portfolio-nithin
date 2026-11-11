@@ -5,6 +5,18 @@ import { defineConfig } from 'vitest/config';
 const src = fileURLToPath(new URL('./src', import.meta.url));
 
 export default defineConfig({
+	plugins: [
+		{
+			// next.config turns *.svg into React components via SVGR; mirror that
+			// with a bare <svg> so components importing logos can render in jsdom.
+			name: 'svg-component-stub',
+			enforce: 'pre',
+			load(id) {
+				if (!id.endsWith('.svg')) return null;
+				return "import { createElement } from 'react'; export default (props) => createElement('svg', props);";
+			},
+		},
+	],
 	resolve: {
 		alias: [
 			{
