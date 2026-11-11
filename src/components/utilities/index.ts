@@ -8,6 +8,7 @@ export { default as ClickSpark } from './ClickSpark/ClickSpark';
 export { default as CommandPalette } from './CommandPalette/CommandPaletteLazy';
 export { default as ColorMaskButton } from './ColorMaskButton/ColorMaskButton';
 export { default as Cursor } from './Cursor/Cursor';
+export { default as GridOverlay } from './GridOverlay/GridOverlay';
 export { default as MagneticButton } from './MagneticButton/MagneticButton';
 export { default as MaskText } from './MaskText/MaskText';
 export { default as TextArea } from './TextArea/TextArea';

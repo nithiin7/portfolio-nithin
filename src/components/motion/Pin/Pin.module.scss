@@ -1,0 +1,21 @@
+.Pin {
+	position: relative;
+	height: calc(100svh * (1 + var(--pin-distance)));
+
+	&__sticky {
+		position: sticky;
+		top: 0;
+		height: 100svh;
+		overflow: hidden;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		height: auto;
+
+		&__sticky {
+			position: static;
+			height: auto;
+			min-height: 100svh;
+		}
+	}
+}

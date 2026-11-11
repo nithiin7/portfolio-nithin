@@ -1,59 +1,73 @@
 import { GoogleTagManager } from '@next/third-parties/google';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import type { Metadata } from 'next';
-import { Roboto, Familjen_Grotesk } from 'next/font/google';
+import type { Metadata, Viewport } from 'next';
+import {
+	Instrument_Serif,
+	Inter_Tight,
+	JetBrains_Mono,
+} from 'next/font/google';
 import Script from 'next/script';
 
+import 'styles/tokens.scss';
 import 'styles/theme.scss';
 import 'styles/globals.scss';
 
 import { Footer, Menu } from 'components/layouts';
 import {
-	ClickSpark,
 	CommandPalette,
 	FloatingChat,
+	GridOverlay,
 	SkipLink,
 	Toast,
 } from 'components/utilities';
+import { absoluteUrl, personJsonLd, siteConfig } from 'config/site';
 import { loadBlogPosts, loadPortfolioSearchItems } from 'helpers/contentful';
+import { palette } from 'styles/tokens';
 
 import Provider from './provider';
 import Curve from './transition';
 
 export const revalidate = 3600;
 
-const roboto = Roboto({
+const interTight = Inter_Tight({
 	subsets: ['latin'],
-	weight: ['300', '400', '500', '700'],
-	style: ['normal', 'italic'],
-	variable: '--font-roboto',
+	variable: '--font-inter-tight',
 	display: 'swap',
 });
 
-const familjenGrotesk = Familjen_Grotesk({
+const instrumentSerif = Instrument_Serif({
 	subsets: ['latin'],
-	weight: ['400', '500', '600', '700'],
+	weight: '400',
 	style: ['normal', 'italic'],
-	variable: '--font-familjen-grotesk',
+	variable: '--font-instrument-serif',
 	display: 'swap',
+	preload: false,
 });
 
-const title =
-	'Nithin Pradeep - AI Innovator & Software Engineer | Building Intelligent Digital Experiences';
-const description =
-	'AI innovator, full-stack developer, and automation engineer. Engineer of intelligent solutions using Next.js, Node.js, Docker, n8n, and AI/ML platforms.';
+const jetbrainsMono = JetBrains_Mono({
+	subsets: ['latin'],
+	variable: '--font-jetbrains-mono',
+	display: 'swap',
+	preload: false,
+});
+
+export const viewport: Viewport = {
+	width: 'device-width',
+	initialScale: 1,
+	themeColor: palette.ink,
+};
 
 export const metadata: Metadata = {
-	metadataBase: new URL('https://portfolio-nithin.vercel.app/'),
+	metadataBase: new URL(siteConfig.url),
 	title: {
-		default: title,
-		template: '%s | Nithin Pradeep - Full Stack Developer',
+		default: siteConfig.title,
+		template: siteConfig.titleTemplate,
 	},
-	description,
-	authors: [{ name: 'Nithin Pradeep', url: 'https://github.com/nithiin7' }],
-	creator: 'Nithin Pradeep',
-	publisher: 'Nithin Pradeep',
+	description: siteConfig.description,
+	authors: [{ name: siteConfig.name, url: siteConfig.socials.github }],
+	creator: siteConfig.name,
+	publisher: siteConfig.name,
 	formatDetection: {
 		email: false,
 		address: false,
@@ -62,25 +76,18 @@ export const metadata: Metadata = {
 	openGraph: {
 		type: 'website',
 		locale: 'en_US',
-		url: 'https://portfolio-nithin.vercel.app/',
-		title,
-		description,
-		siteName: 'Nithin Pradeep - Portfolio',
-		images: [
-			{
-				url: '/opengraph-image.jpeg',
-				width: 1200,
-				height: 630,
-				alt: 'Nithin Pradeep - Full Stack Developer Portfolio',
-			},
-		],
+		url: absoluteUrl(),
+		title: siteConfig.title,
+		description: siteConfig.description,
+		siteName: siteConfig.siteName,
+		images: [siteConfig.ogImage],
 	},
 	twitter: {
 		card: 'summary_large_image',
-		title,
-		description,
-		creator: '@nithiin7',
-		images: ['/opengraph-image.jpeg'],
+		title: siteConfig.title,
+		description: siteConfig.description,
+		creator: siteConfig.twitterHandle,
+		images: [siteConfig.ogImage.url],
 	},
 	robots: {
 		index: true,
@@ -94,50 +101,22 @@ export const metadata: Metadata = {
 		},
 	},
 	verification: {
-		google: 'google6eac2553ee959d3e',
+		google: siteConfig.googleSiteVerification,
 	},
 	alternates: {
-		canonical: 'https://portfolio-nithin.vercel.app/',
+		canonical: absoluteUrl(),
 		types: {
-			'application/rss+xml': 'https://portfolio-nithin.vercel.app/feed.xml',
+			'application/rss+xml': siteConfig.rssUrl,
 		},
+	},
+	other: {
+		'msapplication-TileColor': palette.ink,
 	},
 };
 
 const structuredData = {
 	'@context': 'https://schema.org',
-	'@type': 'Person',
-	name: 'Nithin Pradeep',
-	url: 'https://portfolio-nithin.vercel.app/',
-	image: 'https://portfolio-nithin.vercel.app/opengraph-image.jpeg',
-	jobTitle: 'Full Stack Developer',
-	description:
-		'Experienced Full Stack Developer specializing in modern web technologies',
-	sameAs: [
-		'https://github.com/nithiin7',
-		'https://www.linkedin.com/in/nithinpradeep/',
-		'https://www.instagram.com/__nithiin__/',
-		'https://www.twitter.com/_nithiin7/',
-		'https://www.linkedin.com/in/nithin-p7/',
-	],
-	knowsAbout: [
-		'React',
-		'Next.js',
-		'TypeScript',
-		'Node.js',
-		'Full Stack Development',
-		'Web Development',
-		'Frontend Development',
-		'Backend Development',
-	],
-	worksFor: {
-		'@type': 'Organization',
-		name: 'Paytm Payments Bank',
-	},
-	address: {
-		'@type': 'PostalAddress',
-		addressCountry: 'IN',
-	},
+	...personJsonLd,
 };
 
 interface RootLayoutProps {
@@ -159,7 +138,7 @@ export default async function RootLayout({
 	return (
 		<html
 			lang="en"
-			className={`${roboto.variable} ${familjenGrotesk.variable}`}
+			className={`${interTight.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable}`}
 			data-theme="dark"
 		>
 			<head>
@@ -180,10 +159,11 @@ export default async function RootLayout({
 					sizes="16x16"
 					href="/favicon-16x16.png"
 				/>
-				<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
-				<meta name="msapplication-TileColor" content="#da532c" />
-				<meta name="theme-color" content="#ffffff" />
-				<meta name="viewport" content="width=device-width, initial-scale=1" />
+				<link
+					rel="mask-icon"
+					href="/safari-pinned-tab.svg"
+					color={palette.ink}
+				/>
 				<link
 					rel="preconnect"
 					href="https://images.ctfassets.net"
@@ -203,26 +183,19 @@ export default async function RootLayout({
 				<SkipLink targetId="main-content" />
 				<Provider>
 					<Curve>
-						<ClickSpark
-							sparkColor="#6b645c"
-							sparkSize={10}
-							sparkRadius={15}
-							sparkCount={8}
-							duration={400}
-						>
-							<Menu />
-							<main id="main-content" tabIndex={-1}>
-								{children}
-							</main>
-							<Footer />
-							<FloatingChat chatbotUrl="https://nithiin7-portfolio-resume.hf.space" />
-							<CommandPalette
-								resumeUrl="/resume.pdf"
-								blogPosts={blogSearchItems}
-								portfolioItems={portfolioItems}
-							/>
-							<Toast />
-						</ClickSpark>
+						<Menu />
+						<main id="main-content" tabIndex={-1}>
+							{children}
+						</main>
+						<Footer />
+						<FloatingChat chatbotUrl="https://nithiin7-portfolio-resume.hf.space" />
+						<CommandPalette
+							resumeUrl="/resume.pdf"
+							blogPosts={blogSearchItems}
+							portfolioItems={portfolioItems}
+						/>
+						<Toast />
+						{process.env.NODE_ENV === 'development' && <GridOverlay />}
 					</Curve>
 				</Provider>
 				<svg className="grainy__filter pointer-events-none absolute cursor-none">

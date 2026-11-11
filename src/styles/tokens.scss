@@ -1,0 +1,165 @@
+// Design tokens: direction A (Editorial Swiss).
+// The only place raw colour values may live. Everything else references the
+// semantic custom properties below. tokens.ts mirrors the few values JS needs
+// (meta theme-color, motion easing) and tokens.test.ts keeps the two in sync.
+
+// Primitives (not emitted)
+$ink: #0b0b0b;
+$ink-900: #141413;
+$ink-850: #1c1c1a;
+$ink-800: #262523;
+$grey-600: #5e5c57;
+$grey-500: #8c8a84;
+$paper-300: #d6d5cd;
+$paper-200: #e1e0d9;
+$paper-100: #e9e8e2;
+$paper: #f2f1ec;
+$orange: #ff4d00;
+$orange-hover: #e64500;
+$orange-deep: #b83800;
+$red: #e5484d;
+$red-deep: #b42318;
+$red-legacy: #9e1f1f;
+
+@mixin theme-dark {
+	color-scheme: dark;
+
+	--bg: #{$ink};
+	--fg: #{$paper};
+	--fg-subtle: color-mix(in srgb, var(--fg) 80%, var(--bg));
+	--muted: #{$grey-500};
+	--line: rgb(242 241 236 / 14%);
+	--line-strong: rgb(242 241 236 / 28%);
+
+	--surface-1: #{$ink-900};
+	--surface-2: #{$ink-850};
+	--surface-3: #{$ink-800};
+
+	--inverse-bg: #{$paper};
+	--inverse-fg: #{$ink};
+	--inverse-muted: #{$grey-600};
+
+	--accent: #{$orange};
+	--accent-hover: #{$orange-hover};
+	--accent-fg: #{$ink};
+	--accent-text: #{$orange};
+
+	--focus: var(--accent-text);
+	--selection-bg: var(--accent);
+	--selection-fg: var(--accent-fg);
+	--danger: #{$red};
+
+	--shadow: rgb(0 0 0 / 10%);
+	--shadow-strong: rgb(0 0 0 / 15%);
+}
+
+@mixin theme-light {
+	color-scheme: light;
+
+	--bg: #{$paper};
+	--fg: #{$ink};
+	--fg-subtle: color-mix(in srgb, var(--fg) 80%, var(--bg));
+	--muted: #{$grey-600};
+	--line: rgb(11 11 11 / 12%);
+	--line-strong: rgb(11 11 11 / 24%);
+
+	--surface-1: #{$paper-100};
+	--surface-2: #{$paper-200};
+	--surface-3: #{$paper-300};
+
+	--inverse-bg: #{$ink};
+	--inverse-fg: #{$paper};
+	--inverse-muted: #{$grey-500};
+
+	--accent: #{$orange};
+	--accent-hover: #{$orange-hover};
+	--accent-fg: #{$ink};
+	// #ff4d00 on paper is 2.94:1, below AA for text and focus rings
+	--accent-text: #{$orange-deep};
+
+	--focus: var(--accent-text);
+	--selection-bg: var(--accent);
+	--selection-fg: var(--accent-fg);
+	--danger: #{$red-deep};
+
+	--shadow: rgb(0 0 0 / 5%);
+	--shadow-strong: rgb(0 0 0 / 10%);
+}
+
+:root,
+[data-theme='dark'] {
+	@include theme-dark;
+}
+
+[data-theme='light'] {
+	@include theme-light;
+}
+
+:root {
+	// Theme-independent ink/paper for blocks that never flip (transition panel).
+	--ink: #{$ink};
+	--paper: #{$paper};
+	--legacy-warning: #{$red-legacy};
+
+	// Type: next/font exposes --font-inter-tight / --font-instrument-serif / --font-jetbrains-mono
+	--font-display: var(--font-inter-tight, 'Inter Tight'), 'Helvetica Neue', arial, sans-serif;
+	--font-text: var(--font-inter-tight, 'Inter Tight'), 'Helvetica Neue', arial, sans-serif;
+	--font-serif: var(--font-instrument-serif, 'Instrument Serif'), georgia, serif;
+	--font-mono: var(--font-jetbrains-mono, 'JetBrains Mono'), ui-monospace, monospace;
+
+	// Fluid type scale, 360px → 1440px viewport, 16→18px base, ratio 1.2 → 1.4
+	--step--1: clamp(0.8125rem, 0.7917rem + 0.0926vw, 0.875rem);
+	--step-0: clamp(1rem, 0.9583rem + 0.1852vw, 1.125rem);
+	--step-1: clamp(1.2rem, 1.075rem + 0.5556vw, 1.575rem);
+	--step-2: clamp(1.44rem, 1.185rem + 1.1333vw, 2.205rem);
+	--step-3: clamp(1.728rem, 1.275rem + 2.0133vw, 3.087rem);
+	--step-4: clamp(2.0736rem, 1.3242rem + 3.3307vw, 4.3218rem);
+	--step-5: clamp(2.4883rem, 1.3009rem + 5.2773vw, 6.0505rem);
+	--step-6: clamp(2.986rem, 1.1577rem + 8.1255vw, 8.4707rem);
+	--step-7: clamp(3.5832rem, 0.8246rem + 12.2605vw, 11.859rem);
+
+	--leading-tight: 0.95;
+	--leading-snug: 1.15;
+	--leading-body: 1.55;
+	--tracking-display: -0.035em;
+	--tracking-mono: 0.02em;
+
+	// Spacing (4px base)
+	--space-1: 0.25rem;
+	--space-2: 0.5rem;
+	--space-3: 0.75rem;
+	--space-4: 1rem;
+	--space-5: 1.5rem;
+	--space-6: 2rem;
+	--space-7: 3rem;
+	--space-8: 4rem;
+	--space-9: 6rem;
+	--space-10: 8rem;
+	--section-pad: clamp(6rem, 14vw, 12.5rem);
+
+	// Grid
+	--grid-columns: 12;
+	--grid-gutter: clamp(0.75rem, 0.5rem + 1.1vw, 1.5rem);
+	--grid-margin: clamp(1rem, 0.6rem + 1.8vw, 2.5rem);
+	--grid-max: 105rem;
+
+	// Radii: Swiss is mostly square; pill is for tags/availability only
+	--radius-0: 0;
+	--radius-1: 0.125rem;
+	--radius-2: 0.375rem;
+	--radius-pill: 999px;
+
+	// Motion
+	--ease: cubic-bezier(0.7, 0, 0.2, 1);
+	--dur-1: 0.4s;
+	--dur-2: 0.8s;
+	--dur-3: 1.2s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:root {
+		--dur-1: 0s;
+		--dur-2: 0s;
+		--dur-3: 0s;
+	}
+}

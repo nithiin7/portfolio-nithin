@@ -1,0 +1,29 @@
+@use 'styles/shared/mixin' as *;
+
+.GridOverlay {
+	position: fixed;
+	inset: 0;
+	z-index: 2147483000;
+	pointer-events: none;
+
+	&__grid {
+		@include grid-12;
+		height: 100%;
+	}
+
+	&__col {
+		position: relative;
+		height: 100%;
+		background: color-mix(in srgb, var(--accent) 10%, transparent);
+		border-inline: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+	}
+
+	&__index {
+		position: absolute;
+		top: var(--space-2);
+		left: var(--space-1);
+		font-family: var(--font-mono);
+		font-size: var(--step--1);
+		color: var(--accent-text);
+	}
+}

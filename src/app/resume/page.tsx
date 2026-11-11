@@ -4,6 +4,7 @@ import Script from 'next/script';
 import { Resume } from 'components/pages';
 import { transformCareerData } from 'helpers/career';
 import { loadData } from 'helpers/contentful';
+import { getSection } from 'helpers/sections';
 import type { Certification } from 'types/certification';
 
 export const revalidate = 3600;
@@ -82,21 +83,25 @@ export default async function ResumePage() {
 
 	const sections = path.sectionCollection?.items || [];
 
-	const headerData = sections[0]?.contentsCollection || { items: [] };
+	const header = getSection(sections, 'header');
+	const services = getSection(sections, 'services');
+	const about = getSection(sections, 'about');
+	const career = getSection(sections, 'career');
+	const certifications = getSection(sections, 'certifications');
+
+	const headerData = header.contentsCollection;
 	const servicesData = {
-		data: sections[1]?.contentsCollection?.items?.[0] || {},
-		services: sections[1]?.contentsCollection?.items || [],
+		data: services.contentsCollection.items[0] || {},
+		services: services.contentsCollection.items,
 	};
-	const aboutData = sections[2]?.contentsCollection || { items: [] };
+	const aboutData = about.contentsCollection;
 	const careerDataProps = transformCareerData({
-		data: sections[6]?.contentsCollection?.items?.[0] || {},
-		career:
-			sections[6]?.contentsCollection?.items?.[1]?.contentsCollection?.items ||
-			[],
+		data: career.contentsCollection.items[0] || {},
+		career: career.contentsCollection.items[1]?.contentsCollection?.items || [],
 	});
 	const certificationsData = {
-		data: sections[7]?.contentsCollection?.items?.[0] || {},
-		certifications: (sections[7]?.contentsCollection?.items?.[1]
+		data: certifications.contentsCollection.items[0] || {},
+		certifications: (certifications.contentsCollection.items[1]
 			?.contentsCollection?.items || []) as unknown as Certification[],
 	};
 

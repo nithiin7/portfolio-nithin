@@ -2,7 +2,7 @@
 @use 'styles/shared/variables' as *;
 
 .Toast {
-	font-family: var(--font-roboto), sans-serif;
+	font-family: var(--font-text);
 	border: 1px solid $color-border;
 	border-radius: rem(8);
 }

@@ -1,13 +1,16 @@
 import type { MetadataRoute } from 'next';
 
+import { siteConfig } from 'config/site';
+import { palette } from 'styles/tokens';
+
 export default function manifest(): MetadataRoute.Manifest {
 	return {
-		name: 'Nithin Pradeep - Portfolio',
-		short_name: 'Nithin Pradeep',
+		name: siteConfig.siteName,
+		short_name: siteConfig.shortName,
 		start_url: '/',
 		display: 'standalone',
-		background_color: '#393632',
-		theme_color: '#393632',
+		background_color: palette.ink,
+		theme_color: palette.ink,
 		icons: [
 			{
 				src: '/android-chrome-192x192.png',
