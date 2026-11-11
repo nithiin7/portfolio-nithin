@@ -1,60 +1,77 @@
 @use 'styles/shared/mixin' as *;
-@use 'styles/shared/variables' as *;
 
 .HomePortfolio {
 	width: 100%;
-	background-color: $color-black;
-	color: $color-white;
-	min-height: 100vh;
-	@include section-padding;
+	padding-block: var(--section-pad);
+	background-color: var(--bg);
+	color: var(--fg);
 
-	&__header {
-		margin-bottom: 5rem;
+	&__inner {
+		width: 100%;
+		max-width: var(--grid-max);
+		margin-inline: auto;
+		padding-inline: var(--grid-margin);
+	}
+
+	&__head {
+		display: grid;
+		grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+		column-gap: var(--grid-gutter);
+		row-gap: var(--space-4);
+		align-items: end;
+		margin-bottom: var(--space-8);
+		padding-top: var(--space-4);
+		border-top: 1px solid var(--line-strong);
+	}
+
+	&__label,
+	&__count {
+		margin: 0;
+		font-family: var(--font-mono);
+		font-size: var(--step--1);
+		font-weight: 400;
+		letter-spacing: var(--tracking-mono);
+		text-transform: uppercase;
+		color: var(--muted);
+	}
+
+	&__head &__label {
+		grid-column: 1 / -1;
+		align-self: start;
 
 		@media #{$md} {
-			margin-bottom: 3rem;
+			grid-column: span 3;
 		}
 	}
 
 	&__title {
-		font-weight: 700;
-		letter-spacing: -0.02em;
-		line-height: 0.9;
+		grid-column: 1 / -1;
 		margin: 0;
-		color: $color-grey-pale;
-		font-size: $heading-size-section;
-	}
+		font-family: var(--font-display);
+		font-size: var(--step-6);
+		font-weight: 500;
+		line-height: var(--leading-tight);
+		letter-spacing: var(--tracking-display);
 
-	&__container {
-		position: relative;
-		min-height: rem(400);
-		overflow: hidden;
 		@media #{$md} {
-			min-height: rem(600);
+			grid-column: span 7;
 		}
 	}
 
-	&__list {
-		display: flex;
-		flex-direction: column;
-		width: 100%;
-	}
-
-	&__showMore {
-		display: flex;
-		justify-content: center;
-		margin-top: 3rem;
+	&__count {
+		grid-column: 1 / -1;
 
 		@media #{$md} {
-			margin-top: 4rem;
+			grid-column: span 2;
+			text-align: right;
 		}
 	}
 
-	&__button {
-		transition: all 0.3s ease;
+	&__index {
+		margin-top: var(--space-10);
 
-		&:hover {
-			transform: translateY(-2px);
+		> .HomePortfolio__label {
+			margin-bottom: var(--space-5);
 		}
 	}
 }

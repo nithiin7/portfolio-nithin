@@ -155,4 +155,24 @@ test.describe('keyboard behavior', () => {
 		await page.keyboard.press('Escape');
 		await expect(modal).toBeHidden();
 	});
+
+	test('works index: arrow keys move focus and focus opens the preview', async ({
+		page,
+	}) => {
+		await page.goto('/', { waitUntil: 'networkidle' });
+		const rows = page.locator('ul[aria-label^="All projects"] a');
+		const preview = page.locator('[class*="WorksPreview__window"]');
+
+		await rows.first().focus();
+		await page.keyboard.press('ArrowDown');
+		await expect(rows.nth(1)).toBeFocused();
+		await expect(rows.nth(1)).toHaveAttribute('tabindex', '0');
+		await expect(rows.first()).toHaveAttribute('tabindex', '-1');
+		await expect(preview).toHaveAttribute('data-open', 'true');
+
+		await expectNoViolations(page);
+
+		await page.keyboard.press('Shift+Tab');
+		await expect(preview).toHaveAttribute('data-open', 'false');
+	});
 });

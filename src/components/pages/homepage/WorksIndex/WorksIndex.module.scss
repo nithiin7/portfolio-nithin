@@ -1,0 +1,212 @@
+@use 'styles/shared/mixin' as *;
+
+$hover: '(hover: hover) and (pointer: fine)';
+$touch: '(hover: none), (pointer: coarse)';
+
+@mixin columns {
+	display: grid;
+	grid-template-columns: rem(40) minmax(0, 1fr) auto;
+	grid-template-areas:
+		'number title year'
+		'. stack stack'
+		'. type type';
+	column-gap: var(--space-3);
+	align-items: baseline;
+
+	@media #{$md} {
+		grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+		grid-template-areas: none;
+		column-gap: var(--grid-gutter);
+	}
+}
+
+.WorksIndex {
+	position: relative;
+
+	&__head {
+		@include columns;
+		display: none;
+		padding-bottom: var(--space-3);
+		border-bottom: 1px solid var(--line-strong);
+		font-family: var(--font-mono);
+		font-size: var(--step--1);
+		letter-spacing: var(--tracking-mono);
+		text-transform: uppercase;
+		color: var(--muted);
+
+		@media #{$md} {
+			display: grid;
+		}
+	}
+
+	&__list {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	&__item {
+		border-bottom: 1px solid var(--line);
+		transition: opacity var(--dur-1) var(--ease-out);
+
+		@media #{$hover} {
+			.WorksIndex__list[data-active='true'] &:not([data-current='true']) {
+				opacity: 0.4;
+			}
+		}
+	}
+
+	&__row {
+		@include columns;
+		row-gap: var(--space-1);
+		padding-block: var(--space-5);
+		color: inherit;
+		text-decoration: none;
+
+		&:focus-visible {
+			outline: 2px solid var(--focus);
+			outline-offset: -2px;
+		}
+
+		@media #{$touch} {
+			row-gap: var(--space-2);
+
+			@media (max-width: 767.98px) {
+				grid-template-areas:
+					'thumb thumb thumb'
+					'number title year'
+					'. stack stack'
+					'. type type';
+			}
+		}
+	}
+
+	&__thumb {
+		display: none;
+		grid-area: thumb;
+		aspect-ratio: 16 / 10;
+		margin-bottom: var(--space-3);
+
+		@media #{$touch} {
+			display: block;
+		}
+
+		@media #{$md} {
+			@media #{$touch} {
+				grid-area: auto;
+				grid-column: 1 / -1;
+			}
+		}
+	}
+
+	&__colNumber,
+	&__colType,
+	&__colYear,
+	&__colStack {
+		font-family: var(--font-mono);
+		font-size: var(--step--1);
+		letter-spacing: var(--tracking-mono);
+		color: var(--muted);
+	}
+
+	&__colNumber {
+		grid-area: number;
+
+		@media #{$md} {
+			grid-area: auto;
+			grid-column: span 1;
+		}
+	}
+
+	&__colTitle {
+		grid-area: title;
+		min-width: 0;
+
+		@media #{$md} {
+			grid-area: auto;
+			grid-column: span 7;
+
+			[data-has-type='true'] & {
+				grid-column: span 5;
+			}
+		}
+	}
+
+	&__colType {
+		grid-area: type;
+		text-transform: uppercase;
+
+		@media #{$md} {
+			grid-area: auto;
+			grid-column: span 2;
+		}
+	}
+
+	&__colYear {
+		grid-area: year;
+
+		@media #{$md} {
+			grid-area: auto;
+			grid-column: span 1;
+		}
+	}
+
+	&__colStack {
+		grid-area: stack;
+
+		@media #{$md} {
+			grid-area: auto;
+			grid-column: span 3;
+		}
+	}
+
+	&__head &__colNumber,
+	&__head &__colTitle,
+	&__head &__colType,
+	&__head &__colYear,
+	&__head &__colStack {
+		font-size: inherit;
+		color: inherit;
+		text-transform: inherit;
+	}
+
+	&__title {
+		// Block (not inline-block) so the row aligns on the title's first baseline
+		display: block;
+		width: fit-content;
+		font-family: var(--font-display);
+		font-size: var(--step-2);
+		font-weight: 500;
+		line-height: var(--leading-snug);
+		letter-spacing: var(--tracking-display);
+		color: var(--fg);
+		transition: transform var(--dur-2) var(--ease);
+
+		@media #{$hover} {
+			[data-current='true'] & {
+				transform: translateX(var(--space-5));
+			}
+		}
+	}
+
+	&__titleText {
+		background-image: linear-gradient(var(--accent), var(--accent));
+		background-position: 100% 100%;
+		background-repeat: no-repeat;
+		background-size: 0% 2px;
+		transition: background-size var(--dur-2) var(--ease);
+
+		[data-current='true'] & {
+			background-position: 0 100%;
+			background-size: 100% 2px;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		&__item,
+		&__title,
+		&__titleText {
+			transition: none;
+		}
+	}
+}
