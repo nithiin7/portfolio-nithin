@@ -1,99 +1,93 @@
 @use 'styles/shared/mixin' as *;
-@use 'styles/shared/variables' as *;
 
 .CommentSection {
-	margin-top: rem(80);
-	padding-top: rem(48);
-	border-top: 1px solid color-mix(in srgb, var(--color-secondary) 15%, transparent);
+	scroll-margin-top: calc(var(--nav-height) + var(--space-4));
 
-	&__header {
-		text-align: center;
-		margin-bottom: rem(32);
+	&__head {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: var(--space-4);
+		padding-top: var(--space-3);
+		border-top: 1px solid var(--line-strong);
 	}
 
 	&__title {
-		color: $color-secondary;
-		font-size: clamp(2rem, 1.5rem + 2vw, 3rem);
-		font-weight: 700;
-		letter-spacing: -0.025em;
-		margin: 0 0 rem(8);
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: var(--step-3);
+		font-weight: 500;
+		letter-spacing: var(--tracking-display);
 	}
 
 	&__count {
-		color: $color-accent;
-	}
+		@include mono-label;
 
-	&__subtitle {
-		color: $color-text-secondary;
-		font-size: rem(16);
-		line-height: 130%;
 		margin: 0;
+		font-variant-numeric: tabular-nums;
 	}
 
-	&__form {
-		margin-bottom: rem(40);
-	}
+	&__grid {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--space-7) var(--grid-gutter);
+		margin-top: var(--space-6);
 
-	&__list {
-		display: flex;
-		flex-direction: column;
-		gap: rem(16);
-	}
-
-	&__loading {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		gap: rem(16);
-		padding: rem(60) rem(20);
-		color: $color-text-secondary;
-		font-size: rem(15);
-	}
-
-	&__spinner {
-		width: rem(32);
-		height: rem(32);
-		border: rem(2) solid color-mix(in srgb, var(--color-secondary) 20%, transparent);
-		border-top-color: $color-secondary;
-		border-radius: 50%;
-		animation: spin 0.8s linear infinite;
-	}
-
-	@keyframes spin {
-		to {
-			transform: rotate(360deg);
+		@media #{$lg} {
+			grid-template-columns: repeat(12, minmax(0, 1fr));
 		}
 	}
 
-	&__empty {
-		text-align: center;
-		padding: rem(48) rem(24);
-		border: 1px dashed color-mix(in srgb, var(--color-secondary) 30%, transparent);
-		border-radius: rem(24);
-	}
-
-	&__emptyIcon {
+	&__compose {
 		display: flex;
-		justify-content: center;
-		margin-bottom: rem(16);
-		color: $color-secondary;
-		opacity: 0.45;
+		flex-direction: column;
+		gap: var(--space-5);
+
+		@media #{$lg} {
+			grid-column: 1 / span 5;
+		}
 	}
 
-	&__emptyTitle {
-		color: $color-secondary;
-		font-size: rem(20);
-		font-weight: 700;
-		letter-spacing: -0.025em;
-		margin: 0 0 rem(8);
+	&__note {
+		max-width: 44ch;
+		margin: 0;
+		font-family: var(--font-serif);
+		font-size: var(--step-1);
+		font-style: italic;
+		line-height: var(--leading-snug);
+		color: var(--fg-subtle);
 	}
 
-	&__emptyMessage {
-		color: $color-text-secondary;
-		font-size: rem(15);
-		line-height: 150%;
-		max-width: 40ch;
-		margin: 0 auto;
+	&__thread {
+		@media #{$lg} {
+			grid-column: 7 / span 6;
+		}
+	}
+
+	&__list {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+
+		> li + li {
+			border-top: 1px solid var(--line);
+		}
+
+		> li:first-child > article {
+			padding-top: 0;
+		}
+	}
+
+	&__status,
+	&__empty {
+		@include mono-label;
+
+		margin: 0;
+	}
+
+	&__empty {
+		padding-block: var(--space-6);
+		border-block: 1px dashed var(--line-strong);
+		text-align: center;
 	}
 }

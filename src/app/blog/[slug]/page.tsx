@@ -9,6 +9,7 @@ import {
 	convertContentfulBlogPost,
 	loadBlogPosts,
 } from 'helpers/contentful';
+import { plainText } from 'helpers/richText';
 
 export const revalidate = 3600;
 
@@ -140,9 +141,9 @@ export default async function BlogDetails({
 			'@type': 'WebPage',
 			'@id': `https://portfolio-nithin.vercel.app/blog/${slug}`,
 		},
-		wordCount: convertedPost.content
-			? JSON.stringify(convertedPost.content).length
-			: 0,
+		wordCount: plainText(convertedPost.content.json)
+			.split(/\s+/)
+			.filter(Boolean).length,
 		timeRequired: `PT${convertedPost.readTime}M`,
 		articleSection: convertedPost.category,
 		url: `https://portfolio-nithin.vercel.app/blog/${slug}`,

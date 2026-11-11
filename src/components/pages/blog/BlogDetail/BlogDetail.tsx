@@ -1,26 +1,41 @@
-'use client';
-import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
-import { useLenis } from 'lenis/react';
-import { motion, useMotionValue } from 'motion/react';
+import {
+	documentToReactComponents,
+	type Options,
+} from '@contentful/rich-text-react-renderer';
+import {
+	BLOCKS,
+	INLINES,
+	MARKS,
+	type Block,
+	type Inline,
+} from '@contentful/rich-text-types';
 import Image from 'next/image';
 import Link from 'next/link';
-import type { FC } from 'react';
-import { useState, useEffect, useRef, ViewTransition } from 'react';
-import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
-import { toast } from 'sonner';
-
-import { WhatsAppIcon } from 'assets/icons';
-import { BlogCard, CommentSection, TableOfContents } from 'components/pages';
-import { MaskText, Subscribe, Tag, TagContainer } from 'components/utilities';
 import {
-	formatDate,
-	shareOnFacebook,
-	shareOnTwitter,
-	shareOnLinkedIn,
-	shareOnWhatsApp,
-} from 'helpers';
-import { clientEnv } from 'helpers/env';
-import type { BlogPost } from 'types/blog';
+	ViewTransition,
+	type FC,
+	type ReactElement,
+	type ReactNode,
+} from 'react';
+
+import { RevealText } from 'components/motion';
+import BlogRow from 'components/pages/blog/BlogRow/BlogRow';
+import CodeBlock from 'components/pages/blog/CodeBlock/CodeBlock';
+import CommentSection from 'components/pages/blog/CommentSection/CommentSection';
+import PostProgress from 'components/pages/blog/PostProgress/PostProgress';
+import PostShare from 'components/pages/blog/PostShare/PostShare';
+import TableOfContents from 'components/pages/blog/TableOfContents/TableOfContents';
+import { Subscribe } from 'components/utilities';
+import { absoluteUrl, siteConfig } from 'config/site';
+import { formatPostDate } from 'helpers/blogPosts';
+import {
+	codeBlockSource,
+	createSlugger,
+	extractHeadings,
+	plainText,
+} from 'helpers/richText';
+import { shareLinks } from 'helpers/social';
+import type { BlogAsset, BlogPost } from 'types/blog';
 
 import styles from './BlogDetail.module.scss';
 
@@ -29,498 +44,264 @@ interface BlogDetailProps {
 	relatedPosts: BlogPost[];
 }
 
-const BlogDetail: FC<BlogDetailProps> = ({ post, relatedPosts }) => {
-	const readProgress = useMotionValue(0);
-	const [showShareRail, setShowShareRail] = useState(false);
-	const [showBackToTop, setShowBackToTop] = useState(false);
-	const [linkCopied, setLinkCopied] = useState(false);
-	const articleRef = useRef<HTMLElement>(null);
-	const metricsRef = useRef({ articleTop: 0, trackLength: 1 });
-	const viewTracked = useRef(false);
+const isInternal = (uri: string): boolean =>
+	uri.startsWith('/') || uri.startsWith('#') || uri.startsWith(siteConfig.url);
 
-	useEffect(() => {
-		// Ref guard prevents double-counting from StrictMode's dev double-invoke
-		if (viewTracked.current) return;
-		viewTracked.current = true;
-
-		fetch('/api/views', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ slug: post.slug }),
-		}).catch(() => {});
-	}, [post.slug]);
-
-	useEffect(() => {
-		const article = articleRef.current;
-		if (!article) return;
-
-		const measure = () => {
-			metricsRef.current = {
-				articleTop: article.offsetTop,
-				trackLength: Math.max(article.scrollHeight - window.innerHeight, 1),
-			};
+const richTextOptions = (assets: Map<string, BlogAsset>): Options => {
+	// Must walk headings in the same order as extractHeadings so ids match the TOC
+	const slug = createSlugger();
+	const heading =
+		(Tag: 'h2' | 'h3' | 'h4') =>
+		(node: Block | Inline, children: ReactNode) => {
+			const text = plainText(node).trim();
+			if (!text) return null;
+			if (Tag === 'h4') return <h4>{children}</h4>;
+			return (
+				<Tag id={slug(text)} tabIndex={-1}>
+					{children}
+				</Tag>
+			);
 		};
 
-		measure();
-		window.addEventListener('load', measure);
-		window.addEventListener('resize', measure);
-		return () => {
-			window.removeEventListener('load', measure);
-			window.removeEventListener('resize', measure);
-		};
-	}, []);
-
-	useLenis(({ scroll }) => {
-		const { articleTop, trackLength } = metricsRef.current;
-		const scrolled = scroll - articleTop;
-		readProgress.set(Math.min(1, Math.max(0, scrolled / trackLength)));
-		setShowShareRail(scroll > articleTop - 120);
-		setShowBackToTop(scroll > 400);
-	});
-
-	const handleShareOnFacebook = () => {
-		if (!post) return;
-		shareOnFacebook({
-			url: window.location.href,
-			title: post.title,
-			description: post.excerpt,
-		});
+	return {
+		renderMark: {
+			[MARKS.CODE]: (text) => <code>{text}</code>,
+		},
+		renderNode: {
+			[BLOCKS.HEADING_1]: heading('h2'),
+			[BLOCKS.HEADING_2]: heading('h2'),
+			[BLOCKS.HEADING_3]: heading('h3'),
+			[BLOCKS.HEADING_4]: heading('h4'),
+			[BLOCKS.HEADING_5]: heading('h4'),
+			[BLOCKS.HEADING_6]: heading('h4'),
+			[BLOCKS.PARAGRAPH]: (node, children) => {
+				const code = codeBlockSource(node as Block);
+				if (code) return <CodeBlock code={code} />;
+				const empty = (node as Block).content.every(
+					(child) => child.nodeType === 'text' && !child.value.trim()
+				);
+				return empty ? null : <p>{children}</p>;
+			},
+			[BLOCKS.HR]: () => <hr />,
+			[INLINES.HYPERLINK]: (node, children) => {
+				const uri: string = node.data.uri;
+				return isInternal(uri) ? (
+					<a href={uri}>{children}</a>
+				) : (
+					<a href={uri} target="_blank" rel="noopener noreferrer">
+						{children}
+						<span className={styles.Post__sr}> (opens in a new tab)</span>
+					</a>
+				);
+			},
+			[BLOCKS.EMBEDDED_ASSET]: (node) => {
+				const asset = assets.get(node.data?.target?.sys?.id);
+				if (!asset?.url) return null;
+				return (
+					<figure className={styles.Post__figure}>
+						<Image
+							src={asset.url}
+							alt={asset.description || asset.title || ''}
+							width={1600}
+							height={1000}
+							sizes="(min-width: 1024px) 46rem, 100vw"
+						/>
+						{asset.title && <figcaption>{asset.title}</figcaption>}
+					</figure>
+				);
+			},
+		},
 	};
+};
 
-	const handleShareOnTwitter = () => {
-		if (!post) return;
-		shareOnTwitter({
-			url: window.location.href,
-			title: post.title,
-			description: post.excerpt,
-		});
-	};
-
-	const handleShareOnLinkedIn = () => {
-		if (!post) return;
-		shareOnLinkedIn({
-			url: window.location.href,
-			title: post.title,
-			description: post.excerpt,
-		});
-	};
-
-	const handleShareOnWhatsApp = () => {
-		if (!post) return;
-		shareOnWhatsApp({
-			url: window.location.href,
-			title: post.title,
-			description: post.excerpt,
-		});
-	};
-
-	const handleCopyLink = () => {
-		navigator.clipboard.writeText(window.location.href);
-		toast.success('Link copied to clipboard');
-		setLinkCopied(true);
-		setTimeout(() => setLinkCopied(false), 2000);
-	};
-
-	if (!post) {
-		return (
-			<div className={styles.BlogDetail}>
-				<motion.div
-					className={styles.BlogDetail__container}
-					initial={{ opacity: 0 }}
-					animate={{ opacity: 1 }}
-					transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
-				>
-					<motion.nav
-						className={styles.BlogDetail__breadcrumb}
-						initial={{ opacity: 0, y: 20 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.6, delay: 0.2 }}
-					>
-						<Link href="/blog" className={styles.BlogDetail__breadcrumb_link}>
-							← &nbsp;Back to Blog
-						</Link>
-					</motion.nav>
-					<div className={styles.BlogDetail__error}>
-						<h1>Article Not Found</h1>
-						<p>
-							The article you're looking for doesn't exist or has been removed.
-						</p>
-						<Link href="/blog" className={styles.BlogDetail__error_link}>
-							Back to Blog
-						</Link>
-					</div>
-				</motion.div>
-			</div>
-		);
-	}
+const BlogDetail: FC<BlogDetailProps> = ({
+	post,
+	relatedPosts,
+}): ReactElement => {
+	const doc = post.content?.json;
+	const hasBody = Boolean(doc?.content?.length);
+	const toc = extractHeadings(doc);
+	const assets = new Map(
+		(post.content?.links?.assets?.block ?? []).map((asset) => [
+			asset.sys.id,
+			asset,
+		])
+	);
+	const url = absoluteUrl(`/blog/${post.slug}`);
+	const updated =
+		post.updatedAt &&
+		post.updatedAt.slice(0, 10) !== post.publishedAt.slice(0, 10)
+			? post.updatedAt
+			: null;
 
 	return (
-		<div className={styles.BlogDetail}>
-			<motion.div
-				className={styles.BlogDetail__progress}
-				style={{ scaleX: readProgress }}
-			/>
-			<motion.div
-				className={styles.BlogDetail__share_rail}
-				initial={{ opacity: 0, x: -16 }}
-				animate={{ opacity: showShareRail ? 1 : 0, x: showShareRail ? 0 : -16 }}
-				transition={{ duration: 0.4, ease: [0.33, 1, 0.68, 1] }}
-				style={{ pointerEvents: showShareRail ? 'auto' : 'none' }}
-				aria-hidden={!showShareRail}
-			>
-				<button
-					onClick={handleShareOnFacebook}
-					className={`${styles.BlogDetail__rail_button} ${styles.BlogDetail__rail_button_facebook}`}
-					aria-label="Share on Facebook"
-				>
-					f
-				</button>
-				<button
-					onClick={handleShareOnTwitter}
-					className={`${styles.BlogDetail__rail_button} ${styles.BlogDetail__rail_button_twitter}`}
-					aria-label="Share on Twitter"
-				>
-					𝕏
-				</button>
-				<button
-					onClick={handleShareOnLinkedIn}
-					className={`${styles.BlogDetail__rail_button} ${styles.BlogDetail__rail_button_linkedin}`}
-					aria-label="Share on LinkedIn"
-				>
-					in
-				</button>
-				<button
-					onClick={handleShareOnWhatsApp}
-					className={`${styles.BlogDetail__rail_button} ${styles.BlogDetail__rail_button_whatsapp}`}
-					aria-label="Share on WhatsApp"
-				>
-					<WhatsAppIcon />
-				</button>
-				<button
-					onClick={handleCopyLink}
-					className={`${styles.BlogDetail__rail_button} ${styles.BlogDetail__rail_button_copy}`}
-					aria-label="Copy link"
-				>
-					{linkCopied ? (
-						<svg
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							strokeWidth="2.5"
-							strokeLinecap="round"
-							strokeLinejoin="round"
-						>
-							<polyline points="20 6 9 17 4 12" />
-						</svg>
-					) : (
-						<svg
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							strokeWidth="2"
-							strokeLinecap="round"
-							strokeLinejoin="round"
-						>
-							<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-							<path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-						</svg>
-					)}
-				</button>
-			</motion.div>
-			<motion.button
-				className={styles.BlogDetail__back_to_top}
-				initial={{ opacity: 0, y: 16 }}
-				animate={{ opacity: showBackToTop ? 1 : 0, y: showBackToTop ? 0 : 16 }}
-				transition={{ duration: 0.3, ease: [0.33, 1, 0.68, 1] }}
-				style={{ pointerEvents: showBackToTop ? 'auto' : 'none' }}
-				onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-				aria-label="Back to top"
-			>
-				↑
-			</motion.button>
-			<div className={styles.BlogDetail__container}>
-				<motion.nav
-					className={styles.BlogDetail__breadcrumb}
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.6, delay: 0.2 }}
-				>
-					<Link href="/blog" className={styles.BlogDetail__breadcrumb_link}>
-						← &nbsp;Back to Blog
+		<article className={styles.Post}>
+			<header className={styles.Post__hero}>
+				<div className={styles.Post__topline}>
+					<Link href="/blog" className={styles.Post__back}>
+						<span aria-hidden="true">←</span> All writing
 					</Link>
-				</motion.nav>
-				<section className={styles.BlogDetail__hero}>
-					{post.featuredImage && (
-						<ViewTransition
-							name={`blog-image-${post.slug}`}
-							share="blog-image-morph"
-							enter="none"
-							exit="none"
-							update="none"
-						>
-							<div className={styles.BlogDetail__hero_background}>
-								<Image
-									src={post.featuredImage.url}
-									alt={post.featuredImage.title || post.title}
-									fill
-									className={styles.BlogDetail__hero_bg_image}
-									priority
-									sizes="100vw"
-								/>
-								<div className={styles.BlogDetail__hero_overlay} />
-							</div>
-						</ViewTransition>
+					{post.category && (
+						<p className={styles.Post__kicker}>{post.category}</p>
 					)}
-					<div className={styles.BlogDetail__hero_content}>
-						<motion.div
-							className={styles.BlogDetail__category}
-							initial={{ opacity: 0, scale: 0.8 }}
-							animate={{ opacity: 1, scale: 1 }}
-							transition={{ duration: 0.6, delay: 0.4 }}
-						>
-							{post.category}
-						</motion.div>
-						<motion.h1
-							className={styles.BlogDetail__title}
-							initial={{ opacity: 0, y: 30 }}
-							animate={{ opacity: 1, y: 0 }}
-							transition={{ duration: 0.8, delay: 0.5 }}
-						>
-							<MaskText phrases={[post.title]} />
-						</motion.h1>
-						<motion.p
-							className={styles.BlogDetail__excerpt}
-							initial={{ opacity: 0, y: 20 }}
-							animate={{ opacity: 1, y: 0 }}
-							transition={{ duration: 0.6, delay: 0.6 }}
-						>
-							{post.excerpt}
-						</motion.p>
+				</div>
+
+				<RevealText as="h1" trigger="mount" className={styles.Post__title}>
+					{post.title}
+				</RevealText>
+
+				{post.excerpt && (
+					<RevealText
+						as="p"
+						trigger="mount"
+						delay={0.2}
+						className={styles.Post__lede}
+					>
+						{post.excerpt}
+					</RevealText>
+				)}
+
+				<dl className={styles.Post__meta}>
+					<div>
+						<dt>Written by</dt>
+						<dd>{post.authorName || siteConfig.name}</dd>
 					</div>
-				</section>
-				<motion.div
-					className={styles.BlogDetail__byline}
-					initial={{ opacity: 0, y: 16 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.6, delay: 0.7 }}
+					<div>
+						<dt>Published</dt>
+						<dd>
+							<time dateTime={post.publishedAt}>
+								{formatPostDate(post.publishedAt, 'long')}
+							</time>
+						</dd>
+					</div>
+					{updated && (
+						<div>
+							<dt>Updated</dt>
+							<dd>
+								<time dateTime={updated}>
+									{formatPostDate(updated, 'long')}
+								</time>
+							</dd>
+						</div>
+					)}
+					{post.readTime > 0 && (
+						<div>
+							<dt>Reading time</dt>
+							<dd>{post.readTime} min</dd>
+						</div>
+					)}
+				</dl>
+			</header>
+
+			{post.featuredImage?.url && (
+				// Not clip-revealed: a clipped cover at capture would blank the morph from the index
+				<ViewTransition
+					name={`blog-image-${post.slug}`}
+					share="blog-image-morph"
+					enter="none"
+					exit="none"
+					update="none"
 				>
-					<div className={styles.BlogDetail__byline_author}>
-						{post.authorAvatar && (
-							<Image
-								src={post.authorAvatar.url}
-								alt={post.authorAvatar.title || post.authorName}
-								width={36}
-								height={36}
-								className={styles.BlogDetail__byline_avatar}
+					<div className={styles.Post__cover}>
+						<Image
+							src={post.featuredImage.url}
+							alt={post.featuredImage.description || ''}
+							fill
+							priority
+							sizes="100vw"
+						/>
+					</div>
+				</ViewTransition>
+			)}
+
+			<PostProgress slug={post.slug}>
+				<div className={styles.Post__layout}>
+					{toc.length > 1 && (
+						<aside className={styles.Post__rail}>
+							<TableOfContents items={toc} variant="rail" />
+						</aside>
+					)}
+
+					<div className={styles.Post__main}>
+						{toc.length > 1 && (
+							<TableOfContents
+								items={toc}
+								variant="inline"
+								className={styles.Post__tocInline}
 							/>
 						)}
-						<span className={styles.BlogDetail__byline_name}>
-							{post.authorName}
-						</span>
-					</div>
-					<span className={styles.BlogDetail__byline_divider} />
-					<span className={styles.BlogDetail__byline_readtime}>
-						{post.readTime} min read
-					</span>
-					<span className={styles.BlogDetail__byline_divider} />
-					<span className={styles.BlogDetail__byline_date}>
-						{formatDate(post.publishedAt, 'long')}
-					</span>
-				</motion.div>
-				{post.tags.length > 0 && (
-					<TagContainer delay={0.9}>
-						{post.tags.map((tag, index) => (
-							<Tag
-								key={tag}
-								variant="secondary"
-								size="medium"
-								delay={1.0 + index * 0.1}
-							>
-								{tag}
-							</Tag>
-						))}
-					</TagContainer>
-				)}
-				<div className={styles.BlogDetail__content_wrapper}>
-					<motion.article
-						ref={articleRef}
-						className={styles.BlogDetail__content}
-						initial={{ opacity: 0, y: 30 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.8, delay: 1.1 }}
-					>
-						{post.content?.json ? (
-							<>
-								{(() => {
-									let isFirstParagraph = true;
-									return documentToReactComponents(post.content.json, {
-										renderNode: {
-											'heading-1': (_node, children) => (
-												<h1 className={styles.BlogDetail__content_h1}>
-													{children}
-												</h1>
-											),
-											'heading-2': (_node, children) => (
-												<h2 className={styles.BlogDetail__content_h2}>
-													{children}
-												</h2>
-											),
-											'heading-3': (_node, children) => (
-												<h3 className={styles.BlogDetail__content_h3}>
-													{children}
-												</h3>
-											),
-											'heading-4': (_node, children) => (
-												<h4 className={styles.BlogDetail__content_h4}>
-													{children}
-												</h4>
-											),
-											'heading-5': (_node, children) => (
-												<h5 className={styles.BlogDetail__content_h5}>
-													{children}
-												</h5>
-											),
-											'heading-6': (_node, children) => (
-												<h6 className={styles.BlogDetail__content_h6}>
-													{children}
-												</h6>
-											),
-											paragraph: (_node, children) => {
-												if (isFirstParagraph) {
-													isFirstParagraph = false;
-													return (
-														<p
-															className={`${styles.BlogDetail__content_p} ${styles.BlogDetail__content_p_lede}`}
-														>
-															{children}
-														</p>
-													);
-												}
-												return (
-													<p className={styles.BlogDetail__content_p}>
-														{children}
-													</p>
-												);
-											},
-											'list-item': (_node, children) => (
-												<li className={styles.BlogDetail__content_li}>
-													{children}
-												</li>
-											),
-											'ordered-list': (_node, children) => (
-												<ol className={styles.BlogDetail__content_ol}>
-													{children}
-												</ol>
-											),
-											'unordered-list': (_node, children) => (
-												<ul className={styles.BlogDetail__content_ul}>
-													{children}
-												</ul>
-											),
-											blockquote: (_node, children) => (
-												<blockquote
-													className={styles.BlogDetail__content_blockquote}
-												>
-													{children}
-												</blockquote>
-											),
-											hyperlink: (_node, children) => (
-												<a
-													href={_node.data.uri}
-													className={styles.BlogDetail__content_link}
-													target="_blank"
-													rel="noopener noreferrer"
-												>
-													{children}
-												</a>
-											),
-											'embedded-asset-block': (node) => {
-												const asset = post.content?.links?.assets?.block?.find(
-													(asset: { sys: { id: string } }) =>
-														asset.sys.id === node.data.target.sys.id
-												);
-												if (asset) {
-													return (
-														<figure
-															className={styles.BlogDetail__content_image}
-														>
-															<Image
-																src={asset.url}
-																alt={asset.title || 'Blog image'}
-																width={800}
-																height={600}
-																className={styles.BlogDetail__content_img}
-																sizes="(min-width: 760px) 760px, 100vw"
-															/>
-															{asset.description && (
-																<figcaption
-																	className={styles.BlogDetail__content_caption}
-																>
-																	{asset.description}
-																</figcaption>
-															)}
-														</figure>
-													);
-												}
-												return null;
-											},
-										},
-									});
-								})()}
-								<div className={styles.BlogDetail__end_marker}>
-									<span className={styles.BlogDetail__end_dot} />
-									<span className={styles.BlogDetail__end_dot} />
-									<span className={styles.BlogDetail__end_dot} />
-								</div>
-							</>
-						) : (
-							<div className={styles.BlogDetail__content_empty}>
-								<p>No content available for this article.</p>
+
+						{hasBody ? (
+							<div className={styles.Post__prose}>
+								{documentToReactComponents(doc, richTextOptions(assets))}
 							</div>
+						) : (
+							<p className={styles.Post__empty}>
+								This article has no content yet.
+							</p>
 						)}
-					</motion.article>
-					<div className={styles.BlogDetail__toc_wrapper}>
-						<TableOfContents className={styles.BlogDetail__toc} />
+
+						<span className={styles.Post__end} aria-hidden="true" />
+
+						<footer className={styles.Post__footer}>
+							{post.tags.length > 0 && (
+								<div className={styles.Post__footerRow}>
+									<p className={styles.Post__footerLabel}>Filed under</p>
+									<ul className={styles.Post__tags}>
+										{post.tags.map((tag) => (
+											<li key={tag}>
+												<Link
+													href={`/blog?tag=${encodeURIComponent(tag)}`}
+													className={styles.Post__tag}
+												>
+													#{tag}
+												</Link>
+											</li>
+										))}
+									</ul>
+								</div>
+							)}
+							<div className={styles.Post__footerRow}>
+								<p className={styles.Post__footerLabel}>Share</p>
+								<PostShare
+									url={url}
+									links={shareLinks({ url, title: post.title })}
+								/>
+							</div>
+						</footer>
 					</div>
 				</div>
+			</PostProgress>
+
+			<div className={styles.Post__after}>
 				{relatedPosts.length > 0 && (
-					<motion.section
-						className={styles.BlogDetail__related}
-						initial={{ opacity: 0, y: 30 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.8, delay: 1.3 }}
+					<section
+						className={styles.Post__related}
+						aria-labelledby="related-title"
 					>
-						<h2 className={styles.BlogDetail__related_title}>
-							Related Articles
-						</h2>
-						<div className={styles.BlogDetail__related_grid}>
-							{relatedPosts.map((relatedPost, index) => (
-								<motion.div
-									key={relatedPost.id}
-									initial={{ opacity: 0, y: 20 }}
-									animate={{ opacity: 1, y: 0 }}
-									transition={{ duration: 0.6, delay: 1.4 + index * 0.1 }}
-								>
-									<BlogCard post={relatedPost} />
-								</motion.div>
-							))}
+						<div className={styles.Post__relatedHead}>
+							<h2 id="related-title" className={styles.Post__relatedTitle}>
+								Keep reading
+							</h2>
+							<Link href="/blog" className={styles.Post__back}>
+								All writing <span aria-hidden="true">→</span>
+							</Link>
 						</div>
-					</motion.section>
+						<ol className={styles.Post__relatedList}>
+							{relatedPosts.map((related) => (
+								<li key={related.id}>
+									<BlogRow post={related} />
+								</li>
+							))}
+						</ol>
+					</section>
 				)}
-				<Subscribe delay={1.6} />
-				<GoogleReCaptchaProvider
-					reCaptchaKey={clientEnv.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-					scriptProps={{
-						async: true,
-						defer: true,
-						appendTo: 'body',
-						nonce: undefined,
-					}}
-				>
-					<CommentSection postId={post.id} postSlug={post.slug} />
-				</GoogleReCaptchaProvider>
+
+				<CommentSection postId={post.id} />
+
+				<Subscribe />
 			</div>
-		</div>
+		</article>
 	);
 };
 

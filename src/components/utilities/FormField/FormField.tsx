@@ -11,6 +11,8 @@ type FieldElement = HTMLInputElement | HTMLTextAreaElement;
 
 export interface FormFieldProps {
 	name: string;
+	/** Defaults to `field-{name}`; pass one when the same form renders twice. */
+	id?: string;
 	label: string;
 	/** Mono prefix before the label, e.g. "01". */
 	index?: string;
@@ -39,6 +41,7 @@ export interface FormFieldProps {
  */
 const FormField = ({
 	name,
+	id: idProp,
 	label,
 	index,
 	type = 'text',
@@ -57,7 +60,7 @@ const FormField = ({
 	onBlur,
 	ref,
 }: FormFieldProps): ReactElement => {
-	const id = `field-${name}`;
+	const id = idProp ?? `field-${name}`;
 	const errorId = `${id}-error`;
 	const counterId = `${id}-count`;
 	const showCounter = maxLength !== undefined && count !== undefined;

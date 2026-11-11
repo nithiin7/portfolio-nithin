@@ -1,6 +1,7 @@
+import { siteConfig } from 'config/site';
 import { convertContentfulBlogPost, loadBlogPosts } from 'helpers/contentful';
 
-const baseUrl = 'https://portfolio-nithin.vercel.app';
+const baseUrl = siteConfig.url;
 
 const escapeXml = (str: string): string =>
 	str
@@ -30,9 +31,9 @@ export async function GET(): Promise<Response> {
 	const feed = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
-		<title>Nithin Pradeep — Blog</title>
+		<title>${siteConfig.name} — Writing</title>
 		<link>${baseUrl}/blog</link>
-		<description>Articles by Nithin Pradeep, Full Stack Developer</description>
+		<description>Articles by ${siteConfig.name}, ${siteConfig.role} at ${siteConfig.company}</description>
 		<language>en</language>
 		<atom:link href="${baseUrl}/feed.xml" rel="self" type="application/rss+xml" />${items}
 	</channel>

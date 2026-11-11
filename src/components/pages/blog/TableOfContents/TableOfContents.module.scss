@@ -1,124 +1,124 @@
 @use 'styles/shared/mixin' as *;
-@use 'styles/shared/variables' as *;
 
 .TableOfContents {
-	position: sticky;
-	top: rem(120);
-	border-radius: rem(12);
-	padding: rem(24) rem(16);
-	max-height: calc(100vh - rem(160));
-	overflow-y: auto;
-	width: 100%;
-	background: rgba($color-surface, 0.8);
-	backdrop-filter: blur(10px);
+	&__title,
+	&__summary {
+		@include mono-label;
 
-	&__title {
-		font-size: rem(11);
-		font-weight: 600;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-		color: $color-text-secondary;
-		margin: 0 0 rem(16) rem(16);
-		opacity: 0.7;
+		margin: 0 0 var(--space-4);
+		color: var(--fg);
 	}
 
-	&__line {
-		position: absolute;
-		left: rem(8);
-		top: rem(56);
-		bottom: rem(24);
-		width: 2px;
-		background: linear-gradient(
-			to bottom,
-			$color-accent 0%,
-			rgba($color-accent, 0.3) 100%
-		);
-		border-radius: 1px;
+	&[data-variant='inline'] {
+		border-block: 1px solid var(--line);
+
+		&[open] {
+			padding-bottom: var(--space-4);
+		}
+	}
+
+	&__summary {
+		display: flex;
+		align-items: center;
+		gap: var(--space-2);
+		min-height: rem(48);
+		margin: 0;
+		cursor: pointer;
+		list-style: none;
+
+		&::-webkit-details-marker {
+			display: none;
+		}
+
+		&::after {
+			content: '+';
+			margin-left: auto;
+			font-size: var(--step-1);
+			line-height: 1;
+		}
+
+		details[open] > &::after {
+			content: '−';
+		}
+
+		&:focus-visible {
+			@include focus-ring(2px);
+		}
+	}
+
+	&__total {
+		color: var(--muted);
+		font-variant-numeric: tabular-nums;
 	}
 
 	&__list {
-		list-style: none;
-		padding: 0;
 		margin: 0;
-		position: relative;
-		z-index: 2;
-	}
+		padding: 0;
+		list-style: none;
 
-	&__item {
-		transition: $transition;
-		position: relative;
-
-		&:last-child {
-			margin-bottom: 0;
-		}
-
-		&::before {
-			content: '';
-			position: absolute;
-			left: rem(-3);
-			top: 50%;
-			transform: translateY(-50%);
-			width: rem(8);
-			height: rem(8);
-			background: $color-accent;
-			border-radius: 50%;
-			opacity: 0;
-			transition: $transition;
-		}
-
-		&_active {
-			&::before {
-				opacity: 1;
-				box-shadow: 0 0 0 rem(4) rgba($color-accent, 0.2);
-			}
+		li[data-level='3'] {
+			padding-left: calc(rem(28) + var(--space-3));
 		}
 	}
 
 	&__link {
-		background: none;
-		border: none;
-		color: $color-text-secondary;
-		font-size: rem(13);
-		line-height: 140%;
-		text-align: left;
-		padding: rem(8) rem(0);
-		border-radius: rem(6);
-		cursor: pointer;
-		transition: all 0.3s ease;
-		width: 100%;
-		font-family: inherit;
 		position: relative;
-		left: rem(16);
+		display: flex;
+		gap: var(--space-3);
+		padding-block: var(--space-2);
+		font-size: var(--step--1);
+		line-height: var(--leading-snug);
+		color: var(--muted);
+		text-decoration: none;
+		transition: color var(--dur-1) var(--ease);
+
+		[data-variant='rail'] & {
+			padding-left: var(--space-4);
+			border-left: 1px solid var(--line);
+		}
+
+		[data-variant='rail'] &::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: -1px;
+			width: 2px;
+			background: var(--accent);
+			transform: scaleY(0);
+			transform-origin: top;
+			transition: transform var(--dur-1) var(--ease);
+		}
 
 		&:hover {
-			color: $color-accent;
+			color: var(--fg);
 		}
 
-		&:focus {
-			outline: none;
-			box-shadow: 0 0 0 2px rgba($color-accent, 0.3);
+		&[aria-current='location'] {
+			color: var(--fg);
+
+			&::before {
+				transform: scaleY(1);
+			}
 		}
 
-		&_active {
-			color: $color-accent;
-			font-weight: 600;
+		&:focus-visible {
+			@include focus-ring(2px);
 		}
 	}
 
-	&::-webkit-scrollbar {
-		width: rem(4);
+	&__count {
+		flex: none;
+		width: rem(28);
+		font-family: var(--font-mono);
+		font-variant-numeric: tabular-nums;
+		letter-spacing: var(--tracking-mono);
 	}
 
-	&::-webkit-scrollbar-track {
-		background: transparent;
-	}
-
-	&::-webkit-scrollbar-thumb {
-		background: $color-border;
-		border-radius: rem(2);
-
-		&:hover {
-			background: $color-accent;
+	@media (prefers-reduced-motion: reduce) {
+		&__link,
+		&__link::before {
+			transition: none;
 		}
 	}
 }

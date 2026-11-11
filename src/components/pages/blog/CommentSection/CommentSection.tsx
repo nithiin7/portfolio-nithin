@@ -1,211 +1,141 @@
 'use client';
-import { motion } from 'motion/react';
-import type { FC } from 'react';
-import { useState, useEffect } from 'react';
+import { useEffect, useState, type FC, type ReactElement } from 'react';
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import { toast } from 'sonner';
 
-import { ChatIcon } from 'assets/icons';
-import { CommentBox, CommentCard } from 'components/pages';
+import CommentCard from 'components/pages/blog/CommentCard/CommentCard';
+import CommentForm from 'components/pages/blog/CommentForm/CommentForm';
+import { clientEnv } from 'helpers/env';
 import type { Comment, CommentFormData } from 'types/comment';
 
 import styles from './CommentSection.module.scss';
 
 interface CommentSectionProps {
 	postId: string;
-	postSlug: string;
 	className?: string;
 }
 
-/**
- * CommentSection component for managing and displaying blog post comments
- */
+type LoadState = 'loading' | 'ready' | 'error';
+
+const countAll = (comments: Comment[]): number =>
+	comments.reduce((sum, c) => sum + 1 + countAll(c.replies ?? []), 0);
+
 const CommentSection: FC<CommentSectionProps> = ({
 	postId,
-	postSlug: _postSlug,
-	className = '',
-}) => {
+	className,
+}): ReactElement => {
 	const [comments, setComments] = useState<Comment[]>([]);
-	const [isLoading, setIsLoading] = useState(true);
-	const [fetchError, setFetchError] = useState(false);
+	const [state, setState] = useState<LoadState>('loading');
 
 	useEffect(() => {
-		const loadComments = async () => {
-			try {
-				const response = await fetch(`/api/comments?postId=${postId}`);
-				if (response.ok) {
-					const data = await response.json();
-					setComments(data.comments || []);
-				} else {
-					setFetchError(true);
-				}
-			} catch {
-				setFetchError(true);
-			} finally {
-				setIsLoading(false);
-			}
+		let cancelled = false;
+		fetch(`/api/comments?postId=${encodeURIComponent(postId)}`)
+			.then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
+			.then((data: { comments?: Comment[] }) => {
+				if (cancelled) return;
+				setComments(data.comments ?? []);
+				setState('ready');
+			})
+			.catch(() => !cancelled && setState('error'));
+		return () => {
+			cancelled = true;
 		};
-
-		loadComments();
 	}, [postId]);
 
-	const handleSubmitComment = async (data: CommentFormData) => {
+	const submit = async (data: CommentFormData): Promise<boolean> => {
 		try {
 			const response = await fetch('/api/comments', {
 				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
-					postId,
-					authorName: data.authorName,
-					authorEmail: data.authorEmail,
-					content: data.content,
-					parentId: data.parentId,
-					recaptchaToken: data.recaptchaToken,
-				}),
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ postId, ...data }),
 			});
+			if (!response.ok) return false;
 
-			if (response.ok) {
-				const result = await response.json();
-				const newComment = result.comment;
+			const result: { comment: Comment; pending?: boolean } =
+				await response.json();
 
-				if (result.pending) {
-					toast.info('Comment submitted', {
-						description:
-							'Your comment is pending review and will appear once approved.',
-					});
-				} else if (data.parentId) {
-					const updatedComments = comments.map((comment) => {
-						if (comment.id === data.parentId) {
-							return {
-								...comment,
-								replies: [...(comment.replies || []), newComment],
-							};
-						}
-						return comment;
-					});
-					setComments(updatedComments);
-				} else {
-					setComments((prev) => [...prev, newComment]);
-				}
-			} else {
-				toast.error('Failed to submit comment', {
-					description: 'Please try again later.',
+			if (result.pending) {
+				toast('Thanks — your comment is awaiting review', {
+					description: 'It will appear here once approved.',
 				});
+				return true;
 			}
+
+			setComments((prev) =>
+				data.parentId
+					? prev.map((c) =>
+							c.id === data.parentId
+								? { ...c, replies: [...(c.replies ?? []), result.comment] }
+								: c
+						)
+					: [...prev, result.comment]
+			);
+			toast('Comment posted');
+			return true;
 		} catch {
-			toast.error('Failed to submit comment', {
-				description: 'Please try again later.',
-			});
+			return false;
 		}
 	};
 
-	const topLevelComments = comments.filter((comment) => !comment.parentId);
-
-	if (isLoading) {
-		return (
-			<motion.div
-				className={`${styles.CommentSection} ${className}`}
-				initial={{ opacity: 0 }}
-				animate={{ opacity: 1 }}
-				transition={{ duration: 0.6 }}
-			>
-				<div className={styles.CommentSection__loading}>
-					<div className={styles.CommentSection__spinner} />
-					<p>Loading comments...</p>
-				</div>
-			</motion.div>
-		);
-	}
-
-	if (fetchError) {
-		return (
-			<motion.div
-				className={`${styles.CommentSection} ${className}`}
-				initial={{ opacity: 0 }}
-				animate={{ opacity: 1 }}
-				transition={{ duration: 0.6 }}
-			>
-				<div className={styles.CommentSection__loading}>
-					<p>Comments are currently unavailable. Please try again later.</p>
-				</div>
-			</motion.div>
-		);
-	}
+	const topLevel = comments.filter((c) => !c.parentId);
+	const total = countAll(topLevel);
 
 	return (
-		<motion.section
-			className={`${styles.CommentSection} ${className}`}
-			initial={{ opacity: 0, y: 30 }}
-			animate={{ opacity: 1, y: 0 }}
-			transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
+		<section
+			id="comments"
+			className={[styles.CommentSection, className].filter(Boolean).join(' ')}
+			aria-labelledby="comments-title"
 		>
-			<motion.div
-				className={styles.CommentSection__header}
-				initial={{ opacity: 0, y: 20 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ duration: 0.6, delay: 0.2 }}
-			>
-				<h2 className={styles.CommentSection__title}>
-					Comments{' '}
-					<span className={styles.CommentSection__count}>
-						({topLevelComments.length})
-					</span>
+			<header className={styles.CommentSection__head}>
+				<h2 id="comments-title" className={styles.CommentSection__title}>
+					Comments
 				</h2>
-				<p className={styles.CommentSection__subtitle}>
-					Share your thoughts and join the conversation
+				<p className={styles.CommentSection__count} aria-live="polite">
+					{state === 'ready' &&
+						`${String(total).padStart(2, '0')} ${total === 1 ? 'comment' : 'comments'}`}
 				</p>
-			</motion.div>
-			<CommentBox
-				onSubmit={handleSubmitComment}
-				placeholder="Share your thoughts on this article..."
-				className={styles.CommentSection__form}
-			/>
-			<motion.div
-				className={styles.CommentSection__list}
-				initial={{ opacity: 0 }}
-				animate={{ opacity: 1 }}
-				transition={{ duration: 0.6, delay: 0.4 }}
-			>
-				{topLevelComments.length === 0 ? (
-					<motion.div
-						className={styles.CommentSection__empty}
-						initial={{ opacity: 0, scale: 0.9 }}
-						animate={{ opacity: 1, scale: 1 }}
-						transition={{ duration: 0.5, delay: 0.6 }}
-					>
-						<div className={styles.CommentSection__emptyIcon}>
-							<ChatIcon />
-						</div>
-						<h3 className={styles.CommentSection__emptyTitle}>
-							No comments yet
-						</h3>
-						<p className={styles.CommentSection__emptyMessage}>
-							Be the first to share your thoughts on this article!
+			</header>
+
+			<div className={styles.CommentSection__grid}>
+				<GoogleReCaptchaProvider
+					reCaptchaKey={clientEnv.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+					scriptProps={{ async: true, defer: true, appendTo: 'body' }}
+				>
+					<div className={styles.CommentSection__compose}>
+						<p className={styles.CommentSection__note}>
+							Questions, corrections, war stories — all welcome. Some comments
+							are held for review; your email is never published.
 						</p>
-					</motion.div>
-				) : (
-					topLevelComments.map((comment, index) => (
-						<motion.div
-							key={comment.id}
-							initial={{ opacity: 0, y: 20 }}
-							animate={{ opacity: 1, y: 0 }}
-							transition={{
-								duration: 0.6,
-								delay: 0.6 + index * 0.1,
-								ease: [0.33, 1, 0.68, 1],
-							}}
-						>
-							<CommentCard
-								comment={comment}
-								onSubmit={handleSubmitComment}
-								className={styles.CommentSection__comment}
-							/>
-						</motion.div>
-					))
-				)}
-			</motion.div>
-		</motion.section>
+						<CommentForm onSubmit={submit} />
+					</div>
+
+					<div className={styles.CommentSection__thread}>
+						{state === 'loading' && (
+							<p className={styles.CommentSection__status}>Loading comments…</p>
+						)}
+						{state === 'error' && (
+							<p className={styles.CommentSection__status}>
+								Comments are unavailable right now. Please try again later.
+							</p>
+						)}
+						{state === 'ready' && topLevel.length === 0 && (
+							<p className={styles.CommentSection__empty}>
+								No comments yet. Start the conversation.
+							</p>
+						)}
+						{state === 'ready' && topLevel.length > 0 && (
+							<ol className={styles.CommentSection__list}>
+								{topLevel.map((comment) => (
+									<li key={comment.id}>
+										<CommentCard comment={comment} onSubmit={submit} />
+									</li>
+								))}
+							</ol>
+						)}
+					</div>
+				</GoogleReCaptchaProvider>
+			</div>
+		</section>
 	);
 };
 
