@@ -1,128 +1,97 @@
-'use client';
-import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
-import type { Document } from '@contentful/rich-text-types';
-import { motion, useScroll, useTransform } from 'motion/react';
 import Image from 'next/image';
-import type { FC } from 'react';
-import { useRef } from 'react';
+import type { FC, ReactElement } from 'react';
 
-import { BackgroundShapes, MaskText } from 'components/utilities';
-import type { BackgroundShapeProps } from 'components/utilities';
+import { RevealImage, RevealText } from 'components/motion';
+import CountUp from 'components/pages/stats/CountUp/CountUp';
+import { aboutContent } from 'config/about';
 
 import styles from './HomeAbout.module.scss';
 
-interface HomeAboutProps {
-	className?: string;
-	data?: {
-		items: {
-			title: string;
-			image: {
-				url: string;
-			};
-			descriptionLong?: {
-				json: Document;
-			};
-		}[];
-	};
-	backgroundShapes?: {
-		left?: Partial<BackgroundShapeProps>;
-		right?: Partial<BackgroundShapeProps>;
-	};
+export interface AboutStat {
+	value: number;
+	label: string;
+	suffix?: string;
+	compact?: boolean;
 }
 
-/**
- * HomeAbout component displaying an introductory section about the user,
- * including a masked title, rich text description, and an image with configurable background shapes.
- *
- * @component
- * @param {string} [className] - Additional CSS classes for styling.
- * @param {Object} [data] - Data for the component, including items with title, image, and rich text description.
- * @param {Object[]} [data.items] - Array containing content items.
- * @param {string} [data.items[].title] - Title for the mask text.
- * @param {string} [data.items[].image.url] - URL of the image.
- * @param {Object} [data.items[].descriptionLong] - Rich text content from Contentful.
- * @param {any} [data.items[].descriptionLong.json] - JSON structure of the rich text content.
- * @param {Object} [backgroundShapes] - Configuration for background decorative shapes.
- * @param {Object} [backgroundShapes.left] - Left background shape configuration.
- * @param {Object} [backgroundShapes.right] - Right background shape configuration.
- * @returns {JSX.Element} The rendered HomeAbout component.
- */
+interface HomeAboutProps {
+	className?: string;
+	title?: string;
+	portraitUrl?: string;
+	stats?: AboutStat[];
+}
+
 const HomeAbout: FC<HomeAboutProps> = ({
 	className = '',
-	data = {
-		items: [
-			{
-				title: '',
-				image: {
-					url: '',
-				},
-			},
-		],
-	},
-	backgroundShapes = {
-		left: {
-			className: styles['HomeAbout__image-left'],
-			viewBox: '0 0 709 300',
-			fill: '#AFAF9D',
-		},
-		right: {
-			className: styles['HomeAbout__image-right'],
-			viewBox: '0 0 594 209',
-			fill: '#E8E8E3',
-			transform: 'rotate(-180 594 209)',
-		},
-	},
-}) => {
-	const containerRef = useRef<HTMLDivElement>(null);
-
-	const { scrollYProgress } = useScroll({
-		target: containerRef,
-		offset: ['start end', 'end start'],
-	});
-
-	const imageY = useTransform(scrollYProgress, [0, 1], [0, -100]);
-
-	const richTextContent = data.items?.[2]?.descriptionLong?.json;
+	title,
+	portraitUrl,
+	stats = [],
+}): ReactElement => {
+	const [lede, ...rest] = aboutContent.bio;
 
 	return (
-		<div ref={containerRef} className={`${styles.HomeAbout} ${className}`}>
-			<section id="about">
-				<div className={styles.HomeAbout__container}>
-					<div className={styles.HomeAbout__content}>
-						<h2>
-							<MaskText phrases={[data.items?.[0]?.title || '']} />
-						</h2>
-						<BackgroundShapes
-							left={backgroundShapes.left}
-							right={backgroundShapes.right}
-						/>
-						<motion.div
-							className={styles.HomeAbout__image}
-							style={{ y: imageY }}
-						>
-							{data.items?.[1]?.image.url && (
-								<Image
-									src={data.items[1].image.url}
-									alt="about-me"
-									height={1000}
-									width={1000}
-									sizes="(min-width: 768px) 32rem, 100vw"
-								/>
-							)}
-							<div
-								className={styles.HomeAbout__gradient}
-								aria-hidden="true"
-							></div>
-						</motion.div>
-					</div>
-					<div className={styles.HomeAbout__description}>
-						<span>
-							{richTextContent && documentToReactComponents(richTextContent)}
-						</span>
+		<section id="about" className={`${styles.HomeAbout} ${className}`}>
+			<div className={styles.HomeAbout__inner}>
+				<header className={styles.HomeAbout__head}>
+					<p className={styles.HomeAbout__label}>About</p>
+					<RevealText as="h2" className={styles.HomeAbout__title}>
+						{title || 'A little bit about me.'}
+					</RevealText>
+				</header>
+
+				<div className={styles.HomeAbout__body}>
+					{portraitUrl && (
+						<RevealImage className={styles.HomeAbout__portrait}>
+							<Image
+								src={portraitUrl}
+								alt="Portrait of Nithin Pradeep"
+								fill
+								sizes="(min-width: 1024px) 34vw, (min-width: 768px) 45vw, 100vw"
+							/>
+						</RevealImage>
+					)}
+
+					<div className={styles.HomeAbout__copy}>
+						<p className={styles.HomeAbout__lede}>{lede}</p>
+						{rest.map((paragraph) => (
+							<p key={paragraph} className={styles.HomeAbout__para}>
+								{paragraph}
+							</p>
+						))}
+
+						<h3 className={styles.HomeAbout__label}>How I work</h3>
+						<ol className={styles.HomeAbout__principles}>
+							{aboutContent.howIWork.map(({ title: heading, body }, i) => (
+								<li key={heading} className={styles.HomeAbout__principle}>
+									<span className={styles.HomeAbout__index} aria-hidden="true">
+										{String(i + 1).padStart(2, '0')}
+									</span>
+									<span className={styles.HomeAbout__principleTitle}>
+										{heading}
+									</span>
+									<span className={styles.HomeAbout__principleBody}>
+										{body}
+									</span>
+								</li>
+							))}
+						</ol>
 					</div>
 				</div>
-			</section>
-		</div>
+
+				{stats.length > 0 && (
+					<dl className={styles.HomeAbout__stats}>
+						{stats.map(({ value, label, suffix, compact }) => (
+							<div key={label} className={styles.HomeAbout__stat}>
+								<dt className={styles.HomeAbout__statLabel}>{label}</dt>
+								<dd className={styles.HomeAbout__statValue}>
+									<CountUp value={value} suffix={suffix} compact={compact} />
+								</dd>
+							</div>
+						))}
+					</dl>
+				)}
+			</div>
+		</section>
 	);
 };
 

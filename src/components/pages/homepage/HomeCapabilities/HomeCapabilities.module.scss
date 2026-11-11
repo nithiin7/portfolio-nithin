@@ -1,0 +1,187 @@
+@use 'styles/shared/mixin' as *;
+
+.HomeCapabilities {
+	width: 100%;
+	padding-block: var(--section-pad);
+	background-color: var(--bg);
+	color: var(--fg);
+
+	&__inner {
+		width: 100%;
+		max-width: var(--grid-max);
+		margin-inline: auto;
+		padding-inline: var(--grid-margin);
+	}
+
+	&__head {
+		display: grid;
+		grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+		column-gap: var(--grid-gutter);
+		row-gap: var(--space-4);
+		align-items: end;
+		margin-bottom: var(--space-8);
+		padding-top: var(--space-4);
+		border-top: 1px solid var(--line-strong);
+	}
+
+	&__label,
+	&__index {
+		margin: 0;
+		font-family: var(--font-mono);
+		font-size: var(--step--1);
+		font-weight: 400;
+		letter-spacing: var(--tracking-mono);
+		text-transform: uppercase;
+		color: var(--muted);
+	}
+
+	&__label {
+		grid-column: 1 / -1;
+		align-self: start;
+
+		@media #{$md} {
+			grid-column: span 3;
+		}
+	}
+
+	&__title {
+		grid-column: 1 / -1;
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: var(--step-5);
+		font-weight: 500;
+		line-height: var(--leading-tight);
+		letter-spacing: var(--tracking-display);
+
+		@media #{$md} {
+			grid-column: span 9;
+		}
+
+		@media #{$lg} {
+			grid-column: span 5;
+		}
+	}
+
+	&__lede {
+		grid-column: 1 / -1;
+		margin: 0;
+		max-width: 46ch;
+		font-size: var(--step-0);
+		line-height: var(--leading-body);
+		color: var(--fg-subtle);
+
+		@media #{$md} {
+			grid-column: 4 / -1;
+		}
+
+		@media #{$lg} {
+			grid-column: span 4;
+		}
+	}
+
+	&__grid {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		column-gap: var(--grid-gutter);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+
+		@media #{$md} {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+	}
+
+	&__col {
+		position: relative;
+		display: grid;
+		grid-template-columns: rem(40) minmax(0, 1fr);
+		grid-template-rows: auto auto 1fr;
+		column-gap: var(--grid-gutter);
+		row-gap: var(--space-3);
+		padding-block: var(--space-5) var(--space-6);
+
+		&::before {
+			content: '';
+			position: absolute;
+			inset: 0 0 auto;
+			height: 1px;
+			background-color: var(--line-strong);
+			transform-origin: left center;
+		}
+
+		@media #{$md} {
+			grid-template-columns: minmax(0, 1fr);
+			grid-template-rows: auto auto 1fr auto;
+			padding-block-end: 0;
+		}
+	}
+
+	&__index {
+		grid-row: span 3;
+
+		@media #{$md} {
+			grid-row: auto;
+		}
+	}
+
+	&__name {
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: var(--step-2);
+		font-weight: 500;
+		line-height: var(--leading-snug);
+		letter-spacing: -0.015em;
+	}
+
+	&__desc {
+		margin: 0;
+		font-size: var(--step-0);
+		line-height: var(--leading-body);
+		color: var(--fg-subtle);
+	}
+
+	&__list {
+		grid-column: 2;
+		align-self: end;
+		margin: var(--space-3) 0 0;
+		padding: 0;
+		list-style: none;
+		border-top: 1px solid var(--line);
+
+		@media #{$md} {
+			grid-column: auto;
+			margin-top: var(--space-5);
+		}
+
+		li {
+			padding-block: var(--space-2);
+			font-family: var(--font-mono);
+			font-size: var(--step--1);
+			letter-spacing: var(--tracking-mono);
+			text-transform: uppercase;
+			border-bottom: 1px solid var(--line);
+		}
+	}
+
+	// Hairlines draw in as each column scrolls in; unsupported browsers just show the line.
+	@supports (animation-timeline: view()) {
+		@media (prefers-reduced-motion: no-preference) {
+			&__col::before {
+				animation: capabilities-hairline linear both;
+				animation-timeline: view();
+				animation-range: entry 10% cover 30%;
+			}
+		}
+	}
+}
+
+@keyframes capabilities-hairline {
+	from {
+		transform: scaleX(0);
+	}
+
+	to {
+		transform: scaleX(1);
+	}
+}

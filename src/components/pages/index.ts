@@ -1,13 +1,12 @@
 // Homepage
 export { default as HomeAbout } from './homepage/HomeAbout/HomeAbout';
+export { default as HomeCapabilities } from './homepage/HomeCapabilities/HomeCapabilities';
 export { default as HomeCareer } from './homepage/HomeCareer/HomeCareer';
 export { default as HomeCertifications } from './homepage/HomeCertifications/HomeCertifications';
 export { default as HomeCollaborations } from './homepage/HomeCollaborations/HomeCollaborations';
 export { default as HomeHeader } from './homepage/HomeHeader/HomeHeader';
 export { default as HomePortfolio } from './homepage/HomePortfolio/HomePortfolio';
-export { default as HomeServices } from './homepage/HomeServices/HomeServices';
 export { default as HomeTestimonial } from './homepage/HomeTestimonial/HomeTestimonial';
-export { default as ServiceCard } from './homepage/ServiceCard/ServiceCard';
 export { default as TestimonialCard } from './homepage/TestimonialCard/TestimonialCard';
 export { default as WorksFeatured } from './homepage/WorksFeatured/WorksFeatured';
 export { default as WorksIndex } from './homepage/WorksIndex/WorksIndex';

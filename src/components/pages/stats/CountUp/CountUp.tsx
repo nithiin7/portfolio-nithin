@@ -1,10 +1,11 @@
 'use client';
 
-import { animate, useInView } from 'motion/react';
+import { animate, useInView, useReducedMotion } from 'motion/react';
 import type { FC, ReactElement } from 'react';
 import { useEffect, useRef, useState } from 'react';
 
 import { formatCompactNumber } from 'helpers';
+import { duration, ease } from 'styles/tokens';
 
 interface CountUpProps {
 	value: number;
@@ -23,20 +24,21 @@ const CountUp: FC<CountUpProps> = ({
 }): ReactElement => {
 	const ref = useRef<HTMLSpanElement>(null);
 	const isInView = useInView(ref, { once: true, margin: '-40px' });
+	const reduceMotion = useReducedMotion();
 
 	const [current, setCurrent] = useState(value);
 
 	useEffect(() => {
-		if (!isInView) return undefined;
+		if (!isInView || reduceMotion) return undefined;
 
 		const controls = animate(0, value, {
-			duration: 1.4,
-			ease: [0.16, 1, 0.3, 1],
+			duration: duration.slow,
+			ease: [...ease],
 			onUpdate: setCurrent,
 		});
 
 		return () => controls.stop();
-	}, [isInView, value]);
+	}, [isInView, reduceMotion, value]);
 
 	const formatted = compact
 		? formatCompactNumber(current)

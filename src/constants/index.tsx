@@ -47,9 +47,9 @@ export const contactOptions: Contact[] = [
 
 export const footerLinks: FooterLink[] = [
 	{ key: 'home', href: 'home' },
-	{ key: 'services', href: 'services' },
 	{ key: 'portfolio', href: 'portfolio' },
 	{ key: 'about', href: 'about' },
+	{ key: 'services', href: 'services' },
 	{ key: 'career', href: 'career' },
 	{ key: 'certifications', href: 'certifications' },
 	{ key: 'collaborations', href: 'collaborations' },

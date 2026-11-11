@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { transformCareerData } from 'helpers/career';
+import { transformCareerData, yearsOfExperience } from 'helpers/career';
 
 describe('transformCareerData', () => {
 	it('maps raw Contentful fields to the HomeCareer shape', () => {
@@ -60,5 +60,22 @@ describe('transformCareerData', () => {
 		expect(transformCareerData({ data: {}, career: [] }).experiences).toEqual(
 			[]
 		);
+	});
+});
+
+describe('yearsOfExperience', () => {
+	const durations = [
+		'Aug 2026 - Present ',
+		'July 2025 - Aug 2026',
+		'July 2022 - October 2023 (1 year 4 months)',
+	];
+
+	it('counts whole years from the earliest start date', () => {
+		expect(yearsOfExperience(durations, new Date(2026, 10, 11))).toBe(4);
+		expect(yearsOfExperience(durations, new Date(2026, 5, 30))).toBe(3);
+	});
+
+	it('returns null when nothing parses', () => {
+		expect(yearsOfExperience(['', 'Present', '2 yrs'])).toBeNull();
 	});
 });
