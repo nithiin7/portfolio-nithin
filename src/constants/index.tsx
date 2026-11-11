@@ -79,7 +79,7 @@ export const socials: Social[] = [
 	},
 	{ link: siteConfig.socials.github, title: 'Github', icon: <FaGithub /> },
 	{
-		link: 'https://www.credly.com/users/nithin-pradeep.53925824',
+		link: siteConfig.socials.credly,
 		title: 'Credly',
 		icon: <SiCredly />,
 	},

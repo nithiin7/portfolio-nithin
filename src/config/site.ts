@@ -33,6 +33,7 @@ export const siteConfig = {
 		linkedin: 'https://www.linkedin.com/in/nithin-p7/',
 		instagram: 'https://www.instagram.com/__nithiin__/',
 		twitter: 'https://twitter.com/_nithiin7',
+		credly: 'https://www.credly.com/users/nithin-pradeep.53925824',
 	},
 	knowsAbout: [
 		'AI Agents',
