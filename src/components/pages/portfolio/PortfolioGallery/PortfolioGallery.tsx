@@ -1,159 +1,168 @@
 'use client';
+import { useLenis } from 'lenis/react';
 import Image from 'next/image';
-import { useState } from 'react';
-import { FiX, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import {
+	useEffect,
+	useRef,
+	useState,
+	type FC,
+	type KeyboardEvent,
+	type ReactElement,
+} from 'react';
+
+import { RevealImage } from 'components/motion';
 
 import styles from './PortfolioGallery.module.scss';
 
-interface GalleryImage {
+export interface GalleryImage {
 	id: string;
 	url: string;
 	alt: string;
-	caption?: string;
 }
 
 interface PortfolioGalleryProps {
 	images: GalleryImage[];
-	title?: string;
+	/** Used to describe images that have no Contentful description. */
+	projectTitle: string;
 }
 
+const pad = (n: number): string => String(n).padStart(2, '0');
+
 /**
- * `PortfolioGallery` component displays a grid of project images with lightbox functionality.
- *
- * @param {PortfolioGalleryProps} props - Component properties.
- * @param {GalleryImage[]} props.images - Array of gallery images.
- * @param {string} props.title - Optional gallery title.
- * @returns {JSX.Element} - Rendered PortfolioGallery component.
+ * Two-up editorial grid (every third image spans the full width) with a
+ * native <dialog> lightbox: focus trapping, Escape and the inert backdrop
+ * come from the platform.
  */
-const PortfolioGallery: React.FC<PortfolioGalleryProps> = ({
+const PortfolioGallery: FC<PortfolioGalleryProps> = ({
 	images,
-	title,
-}) => {
-	const [lightboxOpen, setLightboxOpen] = useState(false);
-	const [currentImageIndex, setCurrentImageIndex] = useState(0);
+	projectTitle,
+}): ReactElement | null => {
+	const dialogRef = useRef<HTMLDialogElement>(null);
+	const [index, setIndex] = useState<number | null>(null);
+	const lenis = useLenis();
 
-	const openLightbox = (index: number) => {
-		setCurrentImageIndex(index);
-		setLightboxOpen(true);
-	};
+	const altFor = (i: number): string =>
+		images[i].alt || `${projectTitle}, screenshot ${i + 1} of ${images.length}`;
 
-	const closeLightbox = () => {
-		setLightboxOpen(false);
-	};
-
-	const goToPrevious = () => {
-		setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-	};
-
-	const goToNext = () => {
-		setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-	};
-
-	const handleKeyDown = (e: React.KeyboardEvent) => {
-		if (e.key === 'Escape') {
-			closeLightbox();
-		} else if (e.key === 'ArrowLeft') {
-			goToPrevious();
-		} else if (e.key === 'ArrowRight') {
-			goToNext();
+	useEffect(() => {
+		const dialog = dialogRef.current;
+		if (!dialog) return;
+		if (index !== null && !dialog.open) {
+			dialog.showModal();
+			lenis?.stop();
 		}
+	}, [index, lenis]);
+
+	if (images.length === 0) return null;
+
+	const close = (): void => {
+		dialogRef.current?.close();
 	};
 
-	if (!images || images.length === 0) {
-		return null;
-	}
+	const step = (delta: number): void =>
+		setIndex((i) =>
+			i === null ? i : (i + delta + images.length) % images.length
+		);
+
+	const onKeyDown = (event: KeyboardEvent<HTMLDialogElement>): void => {
+		if (event.key === 'ArrowLeft') step(-1);
+		if (event.key === 'ArrowRight') step(1);
+	};
 
 	return (
 		<>
-			<div className={styles.PortfolioGallery}>
-				{title && <h3 className={styles.PortfolioGallery__title}>{title}</h3>}
-				<div className={styles.PortfolioGallery__gallery}>
-					{images.map((image, index) => (
-						<div
-							key={image.id}
-							className={styles.PortfolioGallery__galleryItem}
+			<ul className={styles.PortfolioGallery}>
+				{images.map((image, i) => (
+					<li key={image.id} className={styles.PortfolioGallery__item}>
+						<button
+							type="button"
+							className={styles.PortfolioGallery__open}
+							onClick={() => setIndex(i)}
+							aria-label={`Enlarge image ${i + 1} of ${images.length}: ${altFor(i)}`}
 						>
-							<button
-								className={styles.PortfolioGallery__galleryImageContainer}
-								onClick={() => openLightbox(index)}
-							>
+							<RevealImage className={styles.PortfolioGallery__frame}>
 								<Image
 									src={image.url}
-									alt={image.alt ?? 'Project image'}
-									className={styles.PortfolioGallery__galleryImage}
-									width={1000}
-									height={1000}
-									sizes="(min-width: 1200px) 25vw, (min-width: 768px) 33vw, 100vw"
+									alt=""
+									fill
+									sizes="(min-width: 1024px) 40vw, 100vw"
 								/>
-								<div className={styles.PortfolioGallery__galleryOverlay}>
-									<span className={styles.PortfolioGallery__galleryOverlayText}>
-										Click to view
-									</span>
-								</div>
-							</button>
-							{image.caption && (
-								<p className={styles.PortfolioGallery__galleryCaption}>
-									{image.caption}
-								</p>
-							)}
-						</div>
-					))}
-				</div>
-			</div>
-			{lightboxOpen && (
-				<div
-					className={styles.PortfolioGallery__lightbox}
-					role="presentation"
-					onClick={closeLightbox}
-					onKeyDown={handleKeyDown}
-					tabIndex={0}
-				>
-					<button
-						className={styles.PortfolioGallery__lightboxClose}
-						onClick={closeLightbox}
-					>
-						<FiX size={24} />
-					</button>
-					<div
-						className={styles.PortfolioGallery__lightboxContent}
-						role="presentation"
-						onClick={(e) => e.stopPropagation()}
-					>
-						<div className={styles.PortfolioGallery__lightboxMain}>
-							<button
-								className={styles.PortfolioGallery__lightboxNav}
-								onClick={goToPrevious}
+							</RevealImage>
+						</button>
+						{image.alt && (
+							<p className={styles.PortfolioGallery__caption}>
+								<span aria-hidden="true">{pad(i + 1)}</span> {image.alt}
+							</p>
+						)}
+					</li>
+				))}
+			</ul>
+
+			{/* Arrow keys page the lightbox; Escape is native to <dialog> */}
+			{/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
+			<dialog
+				ref={dialogRef}
+				className={styles.PortfolioGallery__dialog}
+				aria-label={`${projectTitle} gallery`}
+				onKeyDown={onKeyDown}
+				onClose={() => {
+					setIndex(null);
+					lenis?.start();
+				}}
+			>
+				{index !== null && (
+					<>
+						<div className={styles.PortfolioGallery__dialogBar}>
+							<span
+								className={styles.PortfolioGallery__counter}
+								aria-live="polite"
 							>
-								<FiChevronLeft size={24} />
+								{pad(index + 1)}/{pad(images.length)}
+							</span>
+							<button
+								type="button"
+								className={styles.PortfolioGallery__control}
+								onClick={close}
+							>
+								Close
 							</button>
-							<div className={styles.PortfolioGallery__lightboxImageContainer}>
+						</div>
+						<figure className={styles.PortfolioGallery__figure}>
+							<div className={styles.PortfolioGallery__stage}>
 								<Image
-									src={images[currentImageIndex].url}
-									alt={images[currentImageIndex].alt ?? 'Project image'}
-									className={styles.PortfolioGallery__lightboxImage}
-									width={1000}
-									height={1000}
+									src={images[index].url}
+									alt={altFor(index)}
+									fill
 									sizes="100vw"
 								/>
-								{images[currentImageIndex].caption && (
-									<p className={styles.PortfolioGallery__lightboxCaption}>
-										{images[currentImageIndex].caption}
-									</p>
-								)}
 							</div>
-							<button
-								className={styles.PortfolioGallery__lightboxNav}
-								onClick={goToNext}
-							>
-								<FiChevronRight size={24} />
-							</button>
-						</div>
-						<div className={styles.PortfolioGallery__lightboxCounter}>
-							{currentImageIndex + 1} / {images.length}
-						</div>
-					</div>
-				</div>
-			)}
+							{images[index].alt && (
+								<figcaption className={styles.PortfolioGallery__caption}>
+									{images[index].alt}
+								</figcaption>
+							)}
+						</figure>
+						{images.length > 1 && (
+							<div className={styles.PortfolioGallery__dialogBar}>
+								<button
+									type="button"
+									className={styles.PortfolioGallery__control}
+									onClick={() => step(-1)}
+								>
+									← Previous
+								</button>
+								<button
+									type="button"
+									className={styles.PortfolioGallery__control}
+									onClick={() => step(1)}
+								>
+									Next →
+								</button>
+							</div>
+						)}
+					</>
+				)}
+			</dialog>
 		</>
 	);
 };

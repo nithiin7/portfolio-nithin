@@ -1,198 +1,154 @@
 @use 'styles/shared/mixin' as *;
-@use 'styles/shared/variables' as *;
 
 .PortfolioGallery {
-	margin: 1rem 0;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--space-7) var(--grid-gutter);
+	margin: 0;
+	padding: 0;
+	list-style: none;
 
-	&__title {
-		font-size: 1.5rem;
-		font-weight: 600;
-		margin: 0 0 1.5rem 0;
-		color: $color-text-dark;
+	@media #{$md} {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 
-	&__gallery {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-		gap: 1.5rem;
-		margin-bottom: 2rem;
-	}
-
-	&__galleryItem {
-		background-color: $color-hover-bg;
-		border-radius: 1rem;
-		overflow: hidden;
-		box-shadow: 0 4px 20px $color-shadow;
-		transition: all 0.3s ease;
-
-		&:hover {
-			transform: translateY(-5px);
-			box-shadow: 0 8px 30px $color-shadow-hover;
+	&__item {
+		@media #{$md} {
+			&:nth-child(3n + 1) {
+				grid-column: 1 / -1;
+			}
 		}
 	}
 
-	&__galleryImageContainer {
-		position: relative;
-		cursor: pointer;
-		overflow: hidden;
-		width: 100%;
+	&__open {
 		display: block;
-	}
-
-	&__galleryImage {
 		width: 100%;
-		height: 250px;
-		object-fit: cover;
-		display: block;
-		transition: transform 0.3s ease;
-	}
-
-	&__galleryOverlay {
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		background: rgba(0, 0, 0, 0.7);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		opacity: 0;
-		transition: opacity 0.3s ease;
-		height: 100%;
-	}
-
-	&__galleryOverlayText {
-		color: white;
-		font-size: 0.875rem;
-		font-weight: 500;
-		text-transform: uppercase;
-		letter-spacing: 0.5px;
-	}
-
-	&__galleryCaption {
-		padding: 1rem;
-		margin: 0;
-		font-size: 0.875rem;
-		color: $color-text;
-		line-height: 1.4;
-		text-align: center;
-		background-color: rgba(0, 0, 0, 0.02);
-	}
-
-	&__lightbox {
-		position: fixed;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		background: rgba(0, 0, 0, 0.9);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		z-index: 1000;
-		backdrop-filter: blur(10px);
-	}
-
-	&__lightboxContent {
-		position: relative;
-		max-width: 90vw;
-		max-height: 90vh;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-
-	&__lightboxClose {
-		position: fixed;
-		top: 1.5rem;
-		right: 1.5rem;
+		padding: 0;
+		border: 0;
 		background: none;
-		border: none;
-		color: white;
-		cursor: pointer;
-		padding: 0.5rem;
-		border-radius: 50%;
-		transition: all 0.3s ease;
-		z-index: 1001;
+		cursor: zoom-in;
 
-		&:hover {
-			background: rgba(255, 255, 255, 0.1);
-			transform: scale(1.1);
+		&:focus-visible {
+			outline: 2px solid var(--focus);
+			outline-offset: 4px;
 		}
 	}
 
-	&__lightboxNav {
-		position: absolute;
-		top: 50%;
-		transform: translateY(-50%);
-		background: rgba(255, 255, 255, 0.1);
-		border: none;
-		color: white;
-		cursor: pointer;
-		padding: 1rem;
-		border-radius: 50%;
-		transition: all 0.3s ease;
-		z-index: 1001;
+	&__frame {
+		aspect-ratio: 4 / 3;
+		background: var(--surface-1);
 
-		&:hover {
-			background: rgba(255, 255, 255, 0.2);
-			transform: translateY(-50%) scale(1.1);
+		img {
+			transition: transform var(--dur-2) var(--ease-out);
 		}
 
-		&:first-of-type {
-			left: -70px;
+		.PortfolioGallery__open:hover & img,
+		.PortfolioGallery__open:focus-visible & img {
+			transform: scale(1.03);
 		}
 
-		&:last-of-type {
-			right: -70px;
+		.PortfolioGallery__item:nth-child(3n + 1) & {
+			@media #{$md} {
+				aspect-ratio: 16 / 9;
+			}
 		}
 	}
 
-	&__lightboxImageContainer {
-		position: relative;
-		max-width: 100%;
-		max-height: 100%;
+	&__caption {
+		display: flex;
+		gap: var(--space-3);
+		margin: var(--space-3) 0 0;
+		font-family: var(--font-mono);
+		font-size: var(--step--1);
+		letter-spacing: var(--tracking-mono);
+		color: var(--muted);
 	}
 
-	&__lightboxImage {
-		max-width: 100%;
-		max-height: 80vh;
-		object-fit: contain;
-		border-radius: 0.5rem;
-		box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-	}
-
-	&__lightboxCaption {
-		position: absolute;
-		bottom: -60px;
-		left: 50%;
-		transform: translateX(-50%);
-		color: white;
-		font-size: 1rem;
-		text-align: center;
-		max-width: 80%;
+	&__dialog {
+		width: 100vw;
+		max-width: none;
+		height: 100dvh;
+		max-height: none;
 		margin: 0;
-		line-height: 1.4;
+		padding: var(--space-4) var(--grid-margin);
+		border: 0;
+		background: var(--ink);
+		color: var(--paper);
+
+		&[open] {
+			display: flex;
+			flex-direction: column;
+			gap: var(--space-4);
+		}
+
+		&::backdrop {
+			background: var(--ink);
+		}
+
+		.PortfolioGallery__caption {
+			justify-content: center;
+			color: var(--paper);
+		}
 	}
 
-	&__lightboxCounter {
-		position: absolute;
-		bottom: -80px;
-		left: 50%;
-		transform: translateX(-50%);
-		color: rgba(255, 255, 255, 0.7);
-		font-size: 0.875rem;
-		font-weight: 500;
-	}
-}
-
-.PortfolioGallery__galleryImageContainer:hover {
-	.PortfolioGallery__galleryImage {
-		transform: scale(1.05);
+	&__dialogBar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--space-4);
 	}
 
-	.PortfolioGallery__galleryOverlay {
-		opacity: 1;
+	&__counter,
+	&__control {
+		font-family: var(--font-mono);
+		font-size: var(--step--1);
+		letter-spacing: var(--tracking-mono);
+		text-transform: uppercase;
+	}
+
+	&__control {
+		min-height: rem(44);
+		padding: 0 var(--space-4);
+		border: 1px solid color-mix(in srgb, var(--paper) 30%, transparent);
+		background: none;
+		color: var(--paper);
+		cursor: pointer;
+		transition:
+			background-color var(--dur-1) var(--ease-out),
+			color var(--dur-1) var(--ease-out);
+
+		&:hover {
+			background: var(--paper);
+			color: var(--ink);
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--accent);
+			outline-offset: 2px;
+		}
+	}
+
+	&__figure {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+		min-height: 0;
+		margin: 0;
+	}
+
+	&__stage {
+		position: relative;
+		flex: 1;
+		min-height: 0;
+
+		img {
+			object-fit: contain;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		&__frame img {
+			transition: none;
+		}
 	}
 }

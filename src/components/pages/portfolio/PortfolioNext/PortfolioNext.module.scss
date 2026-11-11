@@ -1,0 +1,182 @@
+@use 'styles/shared/mixin' as *;
+
+.PortfolioNext {
+	margin-top: var(--section-pad);
+	border-top: 1px solid var(--line);
+
+	&__link {
+		position: relative;
+		isolation: isolate;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-6);
+		min-height: 60svh;
+		padding: var(--space-6) var(--grid-margin) var(--space-9);
+		overflow: hidden;
+		color: var(--fg);
+		text-decoration: none;
+
+		&:focus-visible {
+			outline: 2px solid var(--focus);
+			outline-offset: -4px;
+		}
+	}
+
+	&__top {
+		display: flex;
+		justify-content: space-between;
+		gap: var(--space-4);
+	}
+
+	&__label,
+	&__count {
+		margin: 0;
+		font-family: var(--font-mono);
+		font-size: var(--step--1);
+		font-weight: 400;
+		letter-spacing: var(--tracking-mono);
+		text-transform: uppercase;
+		color: var(--muted);
+		transition: color var(--dur-1) var(--ease-out);
+	}
+
+	&__titleRow {
+		display: flex;
+		align-items: flex-end;
+		justify-content: space-between;
+		gap: var(--space-5);
+		margin-top: auto;
+	}
+
+	&__title {
+		display: block;
+		max-width: 14ch;
+		font-family: var(--font-display);
+		font-size: var(--step-6);
+		font-weight: 500;
+		line-height: var(--leading-tight);
+		letter-spacing: var(--tracking-display);
+		transition:
+			transform var(--dur-2) var(--ease),
+			color var(--dur-1) var(--ease-out);
+	}
+
+	&__arrow {
+		flex: none;
+		font-family: var(--font-display);
+		font-size: var(--step-5);
+		line-height: 1;
+		transition:
+			transform var(--dur-2) var(--ease),
+			color var(--dur-1) var(--ease-out);
+	}
+
+	&__media {
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		clip-path: inset(100% 0 0 0);
+		transition: clip-path var(--dur-2) var(--ease);
+
+		&::after {
+			content: '';
+			position: absolute;
+			inset: 0;
+			background: color-mix(in srgb, var(--ink) 58%, transparent);
+		}
+	}
+
+	&__image {
+		position: absolute;
+		inset: 0;
+		transform: scale(1.15);
+		transition: transform var(--dur-3) var(--ease);
+
+		img {
+			object-fit: cover;
+		}
+	}
+
+	&__link[data-active='true'] {
+		color: var(--paper);
+
+		.PortfolioNext__media {
+			clip-path: inset(0);
+		}
+
+		.PortfolioNext__image {
+			transform: none;
+		}
+
+		.PortfolioNext__label,
+		.PortfolioNext__count {
+			color: var(--paper);
+		}
+
+		.PortfolioNext__title {
+			transform: translateX(var(--space-5));
+		}
+
+		.PortfolioNext__arrow {
+			color: var(--accent);
+			transform: translateX(calc(var(--space-3) * -1));
+		}
+	}
+
+	// Touch: no hover to reveal on, so the cover sits under the title
+	@media (hover: none), (pointer: coarse) {
+		&__link {
+			min-height: 0;
+			padding-bottom: var(--space-8);
+		}
+
+		&__titleRow {
+			margin-top: 0;
+		}
+
+		&__media {
+			position: relative;
+			order: 3;
+			z-index: auto;
+			aspect-ratio: 16 / 9;
+			clip-path: none;
+
+			&::after {
+				content: none;
+			}
+		}
+
+		&__image {
+			transform: none;
+		}
+
+		&__link[data-active='true'] {
+			color: var(--fg);
+
+			.PortfolioNext__label,
+			.PortfolioNext__count {
+				color: var(--muted);
+			}
+
+			.PortfolioNext__title,
+			.PortfolioNext__arrow {
+				transform: none;
+			}
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		&__media,
+		&__image,
+		&__title,
+		&__arrow {
+			transition: none;
+		}
+
+		&__image,
+		&__link[data-active='true'] .PortfolioNext__title,
+		&__link[data-active='true'] .PortfolioNext__arrow {
+			transform: none;
+		}
+	}
+}

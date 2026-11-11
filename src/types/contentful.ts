@@ -1,5 +1,7 @@
 import type { Document } from '@contentful/rich-text-types';
 
+import type { CaseStudyAsset } from 'types/caseStudy';
+
 export interface PageData {
 	pageCollection: PageCollection;
 }
@@ -98,6 +100,11 @@ export interface PortfolioDetails {
 	shortDescription: string;
 	description: {
 		json: Document;
+		links?: {
+			assets?: {
+				block?: ({ sys: { id: string } } & CaseStudyAsset)[];
+			};
+		};
 	};
 	features: string[];
 	spotlightImage: {
@@ -110,9 +117,29 @@ export interface PortfolioDetails {
 		}[];
 	};
 	year: string;
+	/** Not in the Contentful model yet; rendered once a `role` field is added and queried. */
+	role?: string;
 	demo: string;
 	github: string;
 	tech: string[];
+}
+
+export interface WorksOrderResponse {
+	sectionCollection?: {
+		items?: {
+			contentsCollection?: {
+				items?: ({
+					contentsCollection?: {
+						items?: ({
+							id?: number;
+							title?: string;
+							image?: { url: string };
+						} | null)[];
+					};
+				} | null)[];
+			};
+		}[];
+	};
 }
 
 export interface BlogPostCollection {
