@@ -1,9 +1,8 @@
-'use client';
-import type { FC } from 'react';
-import { useState } from 'react';
+import type { FC, ReactElement } from 'react';
 
-import { PortfolioCard, PortfolioModal } from 'components/pages';
-import { Button, MaskText } from 'components/utilities';
+import { RevealText } from 'components/motion';
+import { WorksFeatured, WorksIndex } from 'components/pages';
+import { splitFeatured } from 'helpers/portfolio';
 import type { PortfolioItem } from 'types/portfolio';
 
 import styles from './HomePortfolio.module.scss';
@@ -16,65 +15,46 @@ interface HomePortfolioProps {
 	portfolio?: PortfolioItem[];
 }
 
-/**
- * `HomePortfolio` component displays a section with a title and a list of portfolio items.
- * Each portfolio item is rendered using the `PortfolioCard` component.
- *
- * @param {HomePortfolioProps} props - Component properties.
- * @param {string} [props.className] - Additional class names for styling.
- * @param {object} [props.data] - Data containing the title for the section.
- * @param {PortfolioItem[]} [props.portfolio] - List of portfolio items to display.
- * @returns {JSX.Element} - Rendered HomePortfolio component.
- */
+const yearRange = (projects: PortfolioItem[]): string | null => {
+	const years = projects
+		.map((project) => Number.parseInt(project.year ?? '', 10))
+		.filter(Number.isFinite);
+	if (years.length === 0) return null;
+	const min = Math.min(...years);
+	const max = Math.max(...years);
+	return min === max ? `${min}` : `${min}–${max}`;
+};
+
 const HomePortfolio: FC<HomePortfolioProps> = ({
 	className = '',
-	data = { title: 'Featured Work' },
+	data,
 	portfolio = [],
-}) => {
-	const [modal, setModal] = useState({ active: false, index: 0 });
-	const [visibleCount, setVisibleCount] = useState(5);
+}): ReactElement | null => {
+	if (portfolio.length === 0) return null;
 
-	const ITEMS_PER_PAGE = 5;
-	const hasMoreItems = visibleCount < portfolio.length;
-	const visiblePortfolio = portfolio.slice(0, visibleCount);
-
-	const handleShowMore = () => {
-		setVisibleCount((prev) =>
-			Math.min(prev + ITEMS_PER_PAGE, portfolio.length)
-		);
-	};
-
-	if (!portfolio || portfolio.length === 0) {
-		return null;
-	}
+	const { featured, rest } = splitFeatured(portfolio);
+	const range = yearRange(portfolio);
 
 	return (
 		<section id="portfolio" className={`${styles.HomePortfolio} ${className}`}>
-			<div className={styles.HomePortfolio__header}>
-				<h2 className={styles.HomePortfolio__title}>
-					<MaskText phrases={[data.title ?? 'Featured Work']} />
-				</h2>
-			</div>
-			<div className={styles.HomePortfolio__container}>
-				<PortfolioModal modal={modal} projects={portfolio} />
-				<div className={styles.HomePortfolio__list}>
-					{visiblePortfolio.map((project, index) => (
-						<PortfolioCard
-							key={`${project.title}-${index}`}
-							project={project}
-							index={index}
-							title={project.title}
-							setModal={setModal}
-						/>
-					))}
-				</div>
-				{hasMoreItems && (
-					<div className={styles.HomePortfolio__showMore}>
-						<Button
-							text="Show More"
-							className={styles.HomePortfolio__button}
-							onClick={handleShowMore}
-						/>
+			<div className={styles.HomePortfolio__inner}>
+				<header className={styles.HomePortfolio__head}>
+					<p className={styles.HomePortfolio__label}>Selected Works</p>
+					<RevealText as="h2" className={styles.HomePortfolio__title}>
+						{data?.title || 'Selected Works'}
+					</RevealText>
+					<p className={styles.HomePortfolio__count}>
+						{String(portfolio.length).padStart(2, '0')} projects
+						{range && ` · ${range}`}
+					</p>
+				</header>
+
+				<WorksFeatured projects={featured} />
+
+				{rest.length > 0 && (
+					<div className={styles.HomePortfolio__index}>
+						<h3 className={styles.HomePortfolio__label}>Index</h3>
+						<WorksIndex projects={rest} offset={featured.length} />
 					</div>
 				)}
 			</div>

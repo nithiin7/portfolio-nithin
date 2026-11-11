@@ -9,14 +9,16 @@ export { default as HomeServices } from './homepage/HomeServices/HomeServices';
 export { default as HomeTestimonial } from './homepage/HomeTestimonial/HomeTestimonial';
 export { default as ServiceCard } from './homepage/ServiceCard/ServiceCard';
 export { default as TestimonialCard } from './homepage/TestimonialCard/TestimonialCard';
+export { default as WorksFeatured } from './homepage/WorksFeatured/WorksFeatured';
+export { default as WorksIndex } from './homepage/WorksIndex/WorksIndex';
+export { default as WorksMedia } from './homepage/WorksMedia/WorksMedia';
+export { default as WorksPreview } from './homepage/WorksPreview/WorksPreview';
 
 // Contact
 export { default as Contact } from './contact/Contact/Contact';
 export { default as ContactForm } from './contact/ContactForm/ContactForm';
 
 // Portfolio
-export { default as PortfolioCard } from './portfolio/PortfolioCard/PortfolioCard';
-export { default as PortfolioModal } from './portfolio/PortfolioModal/PortfolioModal';
 export { default as PortfolioDetails } from './portfolio/PortfolioDetails/PortfolioDetails';
 export { default as PortfolioGallery } from './portfolio/PortfolioGallery/PortfolioGallery';
 export { default as CareerCard } from './homepage/CareerCard/CareerCard';

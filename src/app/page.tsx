@@ -9,7 +9,8 @@ import {
 } from 'components/pages';
 import { absoluteUrl, personJsonLd, siteConfig } from 'config/site';
 import { transformCareerData } from 'helpers/career';
-import { loadData } from 'helpers/contentful';
+import { loadData, loadPortfolioSummaries } from 'helpers/contentful';
+import { enrichPortfolio } from 'helpers/portfolio';
 import { getSection } from 'helpers/sections';
 import type { Certification } from 'types/certification';
 
@@ -40,7 +41,10 @@ const homeStructuredData = {
 };
 
 export default async function Home() {
-	const props = await loadData('home');
+	const [props, portfolioSummaries] = await Promise.all([
+		loadData('home'),
+		loadPortfolioSummaries(),
+	]);
 	const path = props?.data?.pageCollection?.items?.[0];
 
 	const sections = path.sectionCollection?.items || [];
@@ -60,8 +64,10 @@ export default async function Home() {
 	const aboutData = about.contentsCollection;
 	const portfolioData = {
 		data: portfolio.contentsCollection.items[0] || {},
-		portfolio:
+		portfolio: await enrichPortfolio(
 			portfolio.contentsCollection.items[1]?.contentsCollection?.items || [],
+			portfolioSummaries
+		),
 	};
 	const careerDataProps = transformCareerData({
 		data: career.contentsCollection.items[0] || {},

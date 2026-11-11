@@ -59,3 +59,14 @@ export const GET_PORTFOLIO = gql`
 		}
 	}
 `;
+
+export const GET_PORTFOLIO_SUMMARIES = gql`
+	query GetPortfolioSummaries {
+		portfolioDetailsCollection(limit: 100) {
+			items {
+				id
+				shortDescription
+			}
+		}
+	}
+`;

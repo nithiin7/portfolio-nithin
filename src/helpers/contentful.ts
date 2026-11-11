@@ -18,6 +18,7 @@ import {
 	GET_PORTFOLIO,
 	GET_ALL_PORTFOLIO_IDS,
 	GET_ALL_PORTFOLIO_TITLES,
+	GET_PORTFOLIO_SUMMARIES,
 } from 'queries/portfolio';
 import type { BlogPost, BlogCategory, BlogTag } from 'types/blog';
 import type {
@@ -163,6 +164,20 @@ const loadPortfolioSearchItems = async (): Promise<PortfolioSearchItem[]> => {
 	return data?.portfolioDetailsCollection?.items ?? [];
 };
 
+const loadPortfolioSummaries = async (): Promise<Map<number, string>> => {
+	const { data } = await runQuery<{
+		portfolioDetailsCollection?: {
+			items?: { id: number; shortDescription?: string | null }[];
+		};
+	}>(GET_PORTFOLIO_SUMMARIES);
+
+	const entries = (data?.portfolioDetailsCollection?.items ?? []).flatMap(
+		({ id, shortDescription }) =>
+			shortDescription ? [[id, shortDescription] as const] : []
+	);
+	return new Map(entries);
+};
+
 export {
 	loadData,
 	loadPortfolioData,
@@ -173,4 +188,5 @@ export {
 	loadBlogPostBySlug,
 	loadAllPortfolioIds,
 	loadPortfolioSearchItems,
+	loadPortfolioSummaries,
 };
