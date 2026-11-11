@@ -1,7 +1,11 @@
 'use client';
-import { motion, useScroll, useTransform } from 'motion/react';
-import Link from 'next/link';
-import { useRef, type FC } from 'react';
+import {
+	useMotionValueEvent,
+	useReducedMotion,
+	useScroll,
+	useVelocity,
+} from 'motion/react';
+import { useRef, useState, type FC, type ReactElement } from 'react';
 
 import EYLogo from 'assets/logos/ey.svg';
 import GameAwardsLogo from 'assets/logos/game-awards.svg';
@@ -11,7 +15,7 @@ import PaytmLogo from 'assets/logos/paytm-payments-bank.svg';
 import SpotifyCodesLogo from 'assets/logos/spotify-codes.svg';
 import SpotifyLogo from 'assets/logos/spotify.svg';
 import WhiteRabbitLogo from 'assets/logos/white-rabbit.svg';
-import MaskText from 'components/utilities/MaskText/MaskText';
+import { RevealText } from 'components/motion';
 
 import styles from './HomeCollaborations.module.scss';
 
@@ -22,110 +26,127 @@ interface HomeCollaborationsProps {
 	};
 }
 
-const logoComponents = [
+const collaborators = [
+	{ Logo: EYLogo, name: 'EY', url: 'https://www.ey.com/', tall: true },
+	{ Logo: HSBCLogo, name: 'HSBC', url: 'https://www.hsbc.com/' },
 	{
-		Component: WhiteRabbitLogo,
-		name: 'WhiteRabbitLogo',
-		url: 'https://whiterabbit.group/',
+		Logo: MorganStanleyLogo,
+		name: 'Morgan Stanley',
+		url: 'https://www.morganstanley.com/',
 	},
 	{
-		Component: SpotifyLogo,
-		name: 'SpotifyLogo',
-		url: 'https://connect.spotify.com/',
-	},
-	{
-		Component: GameAwardsLogo,
-		name: 'GameAwardsLogo',
-		url: 'https://thegameawards.com/',
-	},
-	{
-		Component: PaytmLogo,
-		name: 'PaytmLogo',
+		Logo: PaytmLogo,
+		name: 'Paytm Payments Bank',
 		url: 'https://www.paytmbank.com/',
 	},
+	{ Logo: SpotifyLogo, name: 'Spotify', url: 'https://connect.spotify.com/' },
 	{
-		Component: SpotifyCodesLogo,
-		name: 'SpotifyCodesLogo',
+		Logo: SpotifyCodesLogo,
+		name: 'Spotify Codes',
 		url: 'https://www.spotifycodes.com/',
 	},
 	{
-		Component: HSBCLogo,
-		name: 'HSBCLogo',
-		url: 'https://www.hsbc.com/',
+		Logo: GameAwardsLogo,
+		name: 'The Game Awards',
+		url: 'https://thegameawards.com/',
 	},
 	{
-		Component: EYLogo,
-		name: 'EYLogo',
-		url: 'https://www.ey.com/',
-	},
-	{
-		Component: MorganStanleyLogo,
-		name: 'Morgan Stanley',
-		className: styles['HomeCollaborations__companies--morgan-stanley'],
-		url: 'https://www.morganstanley.com/',
+		Logo: WhiteRabbitLogo,
+		name: 'White Rabbit',
+		url: 'https://whiterabbit.group/',
 	},
 ];
 
-/**
- * HomeCollaborations component displays a list of company logos with an animated title.
- *
- * @component
- * @param {string} [className] - Additional CSS classes for styling.
- * @param {Object} [data] - Data for the component.
- * @param {string} [data.title] - Title text for the collaboration section, displayed with mask effect.
- * @returns {JSX.Element} The rendered HomeCollaborations component.
- */
+const MAX_BOOST = 3;
+
 const HomeCollaborations: FC<HomeCollaborationsProps> = ({
 	className = '',
-	data = {},
-}) => {
-	const ref = useRef(null);
+	data,
+}): ReactElement => {
+	const trackRef = useRef<HTMLDivElement>(null);
+	const [paused, setPaused] = useState(false);
+	const reduced = useReducedMotion();
 
-	const { scrollYProgress } = useScroll({
-		target: ref,
-		offset: ['start end', 'end start'],
+	const { scrollY } = useScroll();
+	const velocity = useVelocity(scrollY);
+
+	useMotionValueEvent(velocity, 'change', (v) => {
+		if (reduced || paused) return;
+		const rate = 1 + Math.min(Math.abs(v) / 1500, MAX_BOOST);
+		trackRef.current?.getAnimations().forEach((animation) => {
+			animation.playbackRate = rate;
+		});
 	});
 
-	const scale = useTransform(scrollYProgress, [0.7, 1], [1, 0.9]);
-	const y = useTransform(scrollYProgress, [0.6, 1], [0, -100]);
+	const renderLogos = (copy: boolean) =>
+		collaborators.map(({ Logo, name, url, tall }) => (
+			<li key={name} className={styles.HomeCollaborations__item}>
+				<a
+					href={url}
+					target="_blank"
+					rel="noopener noreferrer"
+					className={`${styles.HomeCollaborations__logo} ${
+						tall ? styles['HomeCollaborations__logo--tall'] : ''
+					}`}
+					tabIndex={copy ? -1 : undefined}
+				>
+					<Logo aria-hidden="true" focusable="false" />
+					<span className={styles.HomeCollaborations__srOnly}>
+						{name} (opens in a new tab)
+					</span>
+				</a>
+			</li>
+		));
 
 	return (
-		<motion.div
-			ref={ref}
+		<section
+			id="collaborations"
 			className={`${styles.HomeCollaborations} ${className}`}
-			style={{
-				y,
-				scale,
-				transformStyle: 'preserve-3d',
-			}}
 		>
-			<section id="collaborations">
-				<h2>
-					<MaskText
-						className={styles.HomeCollaborations__titleFull}
-						phrases={[data.title ?? '']}
-					/>
-					<MaskText
-						className={styles.HomeCollaborations__titleShort}
-						phrases={['Collabs.']}
-					/>
-				</h2>
-				<div className={styles.HomeCollaborations__collaborations}>
-					{logoComponents.map(({ Component, name, className, url }) => (
-						<Link
-							href={url}
-							target="_blank"
-							rel="noopener noreferrer"
-							className={`${styles.HomeCollaborations__companies} ${className ?? ''}`}
-							key={name}
-							aria-label={name}
-						>
-							<Component aria-hidden="true" />
-						</Link>
-					))}
+			<div className={styles.HomeCollaborations__inner}>
+				<header className={styles.HomeCollaborations__head}>
+					<p className={styles.HomeCollaborations__label}>Collaborations</p>
+					<h2 className={styles.HomeCollaborations__title}>
+						<span className={styles.HomeCollaborations__number}>
+							{String(collaborators.length).padStart(2, '0')}
+						</span>{' '}
+						<RevealText as="span">
+							{data?.title || 'Brands I’ve built for.'}
+						</RevealText>
+					</h2>
+					<button
+						type="button"
+						className={styles.HomeCollaborations__toggle}
+						aria-pressed={paused}
+						onClick={() => setPaused((p) => !p)}
+					>
+						{paused ? 'Play' : 'Pause'}
+						<span className={styles.HomeCollaborations__srOnly}>
+							{' '}
+							logo marquee
+						</span>
+					</button>
+				</header>
+			</div>
+
+			<div
+				className={`${styles.HomeCollaborations__marquee} ${
+					paused ? styles['HomeCollaborations__marquee--paused'] : ''
+				}`}
+			>
+				<div ref={trackRef} className={styles.HomeCollaborations__track}>
+					<ul className={styles.HomeCollaborations__list}>
+						{renderLogos(false)}
+					</ul>
+					<ul
+						className={`${styles.HomeCollaborations__list} ${styles['HomeCollaborations__list--copy']}`}
+						aria-hidden="true"
+					>
+						{renderLogos(true)}
+					</ul>
 				</div>
-			</section>
-		</motion.div>
+			</div>
+		</section>
 	);
 };
 

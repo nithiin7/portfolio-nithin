@@ -467,7 +467,8 @@ const CommandPalette = ({
 						animate={{ opacity: 1, y: 0, x: '-50%' }}
 						exit={{ opacity: 0, y: 20, x: '-50%' }}
 						transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
-						aria-label="Open command palette"
+						aria-label={`Navigate & ask AI ${modKey} K`}
+						aria-keyshortcuts="Meta+K Control+K"
 					>
 						<FiSearch aria-hidden="true" />
 						<AnimatePresence initial={false}>
