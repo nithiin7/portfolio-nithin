@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest';
 
-import { transformCareerData, yearsOfExperience } from 'helpers/career';
+import {
+	careerPeriod,
+	transformCareerData,
+	yearsOfExperience,
+} from 'helpers/career';
 
 describe('transformCareerData', () => {
 	it('maps raw Contentful fields to the HomeCareer shape', () => {
@@ -77,5 +81,39 @@ describe('yearsOfExperience', () => {
 
 	it('returns null when nothing parses', () => {
 		expect(yearsOfExperience(['', 'Present', '2 yrs'])).toBeNull();
+	});
+});
+
+describe('careerPeriod', () => {
+	it('marks ongoing roles as current', () => {
+		expect(careerPeriod('Aug 2026 - Present ')).toEqual({
+			start: '2026',
+			end: null,
+			current: true,
+		});
+	});
+
+	it('reads start and end years from a closed range', () => {
+		expect(careerPeriod('July 2022 - October 2023 (1 year 4 months)')).toEqual({
+			start: '2022',
+			end: '2023',
+			current: false,
+		});
+	});
+
+	it('collapses a same-year range to a single year', () => {
+		expect(careerPeriod('Jan 2021 - Jun 2021')).toEqual({
+			start: '2021',
+			end: null,
+			current: false,
+		});
+	});
+
+	it('falls back to the Contentful year when nothing parses', () => {
+		expect(careerPeriod('2 yrs', '2019')).toEqual({
+			start: '2019',
+			end: null,
+			current: false,
+		});
 	});
 });

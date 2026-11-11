@@ -112,3 +112,24 @@ export const yearsOfExperience = (
 		(now.getMonth() - first.getMonth());
 	return Math.floor(months / 12);
 };
+
+export interface CareerPeriod {
+	start: string;
+	end: string | null;
+	current: boolean;
+}
+
+/**
+ * Start/end years for a role, read from the free-text duration and falling
+ * back to the Contentful `year` field when no dates parse.
+ */
+export const careerPeriod = (
+	duration: string,
+	fallbackYear = ''
+): CareerPeriod => {
+	const years = [...duration.matchAll(/\b(19|20)\d{2}\b/g)].map((m) => m[0]);
+	const current = /\b(present|current|now)\b/i.test(duration);
+	const start = years[0] ?? fallbackYear;
+	const end = current ? null : (years[1] ?? null);
+	return { start, end: end === start ? null : end, current };
+};
