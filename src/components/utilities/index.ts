@@ -1,8 +1,3 @@
-export { default as BackgroundShapes } from './BackgroundShapes/BackgroundShapes';
-export type {
-	BackgroundShapeProps,
-	BackgroundShapesProps,
-} from './BackgroundShapes/BackgroundShapes';
 export { default as Button } from './Button/Button';
 export { default as ClickSpark } from './ClickSpark/ClickSpark';
 export { default as CommandPalette } from './CommandPalette/CommandPaletteLazy';

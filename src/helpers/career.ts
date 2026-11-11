@@ -68,3 +68,47 @@ export const transformCareerData = (
 		})),
 	};
 };
+
+const MONTHS = [
+	'jan',
+	'feb',
+	'mar',
+	'apr',
+	'may',
+	'jun',
+	'jul',
+	'aug',
+	'sep',
+	'oct',
+	'nov',
+	'dec',
+];
+
+// Contentful durations are free text like "July 2022 - October 2023 (1 year 4 months)"
+const parseStart = (duration: string): Date | null => {
+	const match = duration.match(/([a-z]+)\s+(\d{4})/i);
+	if (!match) return null;
+	const month = MONTHS.indexOf(match[1].slice(0, 3).toLowerCase());
+	if (month === -1) return null;
+	return new Date(Number(match[2]), month, 1);
+};
+
+/**
+ * Whole years since the earliest role started, or null when no duration
+ * can be parsed.
+ */
+export const yearsOfExperience = (
+	durations: readonly string[],
+	now: Date = new Date()
+): number | null => {
+	const starts = durations
+		.map(parseStart)
+		.filter((date): date is Date => date !== null);
+	if (starts.length === 0) return null;
+
+	const first = new Date(Math.min(...starts.map((date) => date.getTime())));
+	const months =
+		(now.getFullYear() - first.getFullYear()) * 12 +
+		(now.getMonth() - first.getMonth());
+	return Math.floor(months / 12);
+};

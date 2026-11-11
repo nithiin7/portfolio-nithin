@@ -3,12 +3,14 @@ import Script from 'next/script';
 
 import {
 	HomeAbout,
+	HomeCapabilities,
 	HomeHeader,
 	HomePortfolio,
-	HomeServices,
 } from 'components/pages';
+import type { AboutStat } from 'components/pages/homepage/HomeAbout/HomeAbout';
+import { aboutContent } from 'config/about';
 import { absoluteUrl, personJsonLd, siteConfig } from 'config/site';
-import { transformCareerData } from 'helpers/career';
+import { transformCareerData, yearsOfExperience } from 'helpers/career';
 import { loadData, loadPortfolioSummaries } from 'helpers/contentful';
 import { enrichPortfolio } from 'helpers/portfolio';
 import { getSection } from 'helpers/sections';
@@ -61,7 +63,6 @@ export default async function Home() {
 		data: services.contentsCollection.items[0] || {},
 		services: services.contentsCollection.items,
 	};
-	const aboutData = about.contentsCollection;
 	const portfolioData = {
 		data: portfolio.contentsCollection.items[0] || {},
 		portfolio: await enrichPortfolio(
@@ -76,15 +77,37 @@ export default async function Home() {
 	const collaborationsData = {
 		data: collaborations.contentsCollection.items[0] || {},
 	};
-	const testimonialData = {
-		data: testimonials.contentsCollection.items[0] || {},
-		testimonial:
-			testimonials.contentsCollection.items[1]?.contentsCollection?.items || [],
-	};
 	const certificationsData = {
 		data: certifications.contentsCollection.items[0] || {},
 		certifications: (certifications.contentsCollection.items[1]
 			?.contentsCollection?.items || []) as unknown as Certification[],
+	};
+	const years = yearsOfExperience(
+		careerDataProps.experiences.map((experience) => experience.duration)
+	);
+	const aboutStats: AboutStat[] = [
+		...(years ? [{ value: years, suffix: '+', label: 'Years shipping' }] : []),
+		{ value: portfolioData.portfolio.length, label: 'Projects shipped' },
+		{
+			value: certificationsData.certifications.length,
+			label: 'Certifications',
+		},
+		{
+			value: aboutContent.peakConcurrentUsers,
+			compact: true,
+			suffix: '+',
+			label: 'Concurrent users served',
+		},
+	];
+	const [aboutTitle, aboutPortrait] = about.contentsCollection.items as {
+		title?: string;
+		image?: { url?: string };
+	}[];
+
+	const testimonialData = {
+		data: testimonials.contentsCollection.items[0] || {},
+		testimonial:
+			testimonials.contentsCollection.items[1]?.contentsCollection?.items || [],
 	};
 
 	return (
@@ -97,9 +120,13 @@ export default async function Home() {
 				}}
 			/>
 			<HomeHeader />
-			<HomeServices {...servicesData} />
 			<HomePortfolio {...portfolioData} />
-			<HomeAbout data={aboutData} />
+			<HomeAbout
+				title={aboutTitle?.title}
+				portraitUrl={aboutPortrait?.image?.url}
+				stats={aboutStats}
+			/>
+			<HomeCapabilities {...servicesData} />
 			<HomeCareer {...careerDataProps} />
 			<HomeCertifications {...certificationsData} />
 			<HomeCollaborations {...collaborationsData} />
