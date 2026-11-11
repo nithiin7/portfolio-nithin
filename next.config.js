@@ -22,14 +22,6 @@ const nextConfig = {
 				protocol: 'https',
 				hostname: 'images.ctfassets.net',
 			},
-			{
-				protocol: 'https',
-				hostname: 'picsum.photos',
-			},
-			{
-				protocol: 'https',
-				hostname: 'images.unsplash.com',
-			},
 		],
 	},
 	webpack(config, { isServer }) {
