@@ -6,6 +6,7 @@ import type {
 import type { Document } from '@contentful/rich-text-types';
 import type { DocumentNode } from 'graphql';
 
+import { HOME_SECTIONS } from 'helpers/sections';
 import {
 	GET_PAGE,
 	GET_ALL_BLOG_POSTS,
@@ -19,6 +20,7 @@ import {
 	GET_ALL_PORTFOLIO_IDS,
 	GET_ALL_PORTFOLIO_TITLES,
 	GET_PORTFOLIO_SUMMARIES,
+	GET_WORKS_ORDER,
 } from 'queries/portfolio';
 import type { BlogPost, BlogCategory, BlogTag } from 'types/blog';
 import type {
@@ -33,7 +35,9 @@ import type {
 	BlogPostBySlugResponse,
 	BlogCategoriesResponse,
 	BlogTagsResponse,
+	WorksOrderResponse,
 } from 'types/contentful';
+import type { PortfolioItem } from 'types/portfolio';
 
 import { getApolloClient } from '../../lib/apolloClient';
 
@@ -164,6 +168,25 @@ const loadPortfolioSearchItems = async (): Promise<PortfolioSearchItem[]> => {
 	return data?.portfolioDetailsCollection?.items ?? [];
 };
 
+const loadWorksOrder = async (): Promise<PortfolioItem[]> => {
+	// An unpublished card is an UNRESOLVABLE_LINK error with that item nulled;
+	// keep the rest of the order rather than failing the case study page
+	const { data } = await getApolloClient().query({
+		query: GET_WORKS_ORDER as TypedDocumentNode<WorksOrderResponse>,
+		variables: { name: HOME_SECTIONS.portfolio },
+		errorPolicy: 'all',
+	});
+	const lists =
+		data?.sectionCollection?.items?.[0]?.contentsCollection?.items ?? [];
+	return lists
+		.flatMap((list) => list?.contentsCollection?.items ?? [])
+		.flatMap((card) =>
+			card?.id !== undefined && card.title
+				? [{ id: card.id, title: card.title, image: card.image ?? { url: '' } }]
+				: []
+		);
+};
+
 const loadPortfolioSummaries = async (): Promise<Map<number, string>> => {
 	const { data } = await runQuery<{
 		portfolioDetailsCollection?: {
@@ -189,4 +212,5 @@ export {
 	loadAllPortfolioIds,
 	loadPortfolioSearchItems,
 	loadPortfolioSummaries,
+	loadWorksOrder,
 };

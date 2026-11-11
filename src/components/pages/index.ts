@@ -21,6 +21,8 @@ export { default as ContactForm } from './contact/ContactForm/ContactForm';
 // Portfolio
 export { default as PortfolioDetails } from './portfolio/PortfolioDetails/PortfolioDetails';
 export { default as PortfolioGallery } from './portfolio/PortfolioGallery/PortfolioGallery';
+export { default as PortfolioNext } from './portfolio/PortfolioNext/PortfolioNext';
+export { default as CaseStudyProgress } from './portfolio/CaseStudyProgress/CaseStudyProgress';
 export { default as CareerCard } from './homepage/CareerCard/CareerCard';
 
 // Stats

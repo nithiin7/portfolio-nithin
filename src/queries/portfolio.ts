@@ -38,8 +38,24 @@ export const GET_PORTFOLIO = gql`
 				slug
 				id
 				title
+				year
 				description {
 					json
+					links {
+						assets {
+							block {
+								sys {
+									id
+								}
+								url
+								title
+								description
+								width
+								height
+								contentType
+							}
+						}
+					}
 				}
 				shortDescription
 				demo
@@ -66,6 +82,33 @@ export const GET_PORTFOLIO_SUMMARIES = gql`
 			items {
 				id
 				shortDescription
+			}
+		}
+	}
+`;
+
+/** Card order of the homepage works section, which "Next project" follows. */
+export const GET_WORKS_ORDER = gql`
+	query GetWorksOrder($name: String!) {
+		sectionCollection(where: { name: $name }, limit: 1) {
+			items {
+				contentsCollection(limit: 5) {
+					items {
+						... on Section {
+							contentsCollection(limit: 100) {
+								items {
+									... on PortfolioCard {
+										id
+										title
+										image {
+											url
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 	}

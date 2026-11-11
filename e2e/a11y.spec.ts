@@ -75,6 +75,11 @@ test.describe('axe scans', () => {
 		await expectNoViolations(page);
 	});
 
+	test('case study page', async ({ page }) => {
+		await page.goto('/portfolio/2', { waitUntil: 'networkidle' });
+		await expectNoViolations(page);
+	});
+
 	test('contact page', async ({ page }) => {
 		await page.goto('/contact', { waitUntil: 'networkidle' });
 		await expectNoViolations(page);
@@ -174,5 +179,25 @@ test.describe('keyboard behavior', () => {
 
 		await page.keyboard.press('Shift+Tab');
 		await expect(preview).toHaveAttribute('data-open', 'false');
+	});
+
+	test('case study gallery: lightbox pages with arrows, Escape restores focus', async ({
+		page,
+	}) => {
+		await page.goto('/portfolio/2', { waitUntil: 'networkidle' });
+		const opener = page.getByRole('button', { name: /^Enlarge image 1 of / });
+		await opener.focus();
+		await page.keyboard.press('Enter');
+
+		const dialog = page.getByRole('dialog', { name: /gallery$/ });
+		await expect(dialog).toBeVisible();
+		await expect(dialog.getByText(/^01\//)).toBeVisible();
+		await page.keyboard.press('ArrowRight');
+		await expect(dialog.getByText(/^02\//)).toBeVisible();
+		await expectNoViolations(page);
+
+		await page.keyboard.press('Escape');
+		await expect(dialog).toBeHidden();
+		await expect(opener).toBeFocused();
 	});
 });

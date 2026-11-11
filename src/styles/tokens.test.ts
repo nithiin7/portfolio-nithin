@@ -14,6 +14,8 @@ describe('tokens.ts mirrors tokens.scss', () => {
 	it('palette', () => {
 		expect(scss).toContain(`$ink: ${palette.ink};`);
 		expect(scss).toContain(`$paper: ${palette.paper};`);
+		expect(scss).toContain(`$grey-500: ${palette.grey500};`);
+		expect(scss).toContain(`$orange: ${palette.orange};`);
 	});
 
 	it('easing', () => {
