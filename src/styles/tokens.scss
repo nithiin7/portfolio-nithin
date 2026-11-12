@@ -145,6 +145,8 @@ $red-deep: #b42318;
 	--grid-margin: clamp(1rem, 0.6rem + 1.8vw, 2.5rem);
 	--grid-max: 105rem;
 	--nav-height: 4rem;
+	// Floating triggers (search tab, chat launcher) share one square size
+	--chrome-size: clamp(3rem, 2.85rem + 0.55vw, 3.5rem);
 
 	// Radii: Swiss is mostly square; pill is for tags/availability only
 	--radius-0: 0;

@@ -34,7 +34,7 @@ describe('Modal', () => {
 			</Modal>
 		);
 
-		fireEvent.click(screen.getByRole('button', { name: /close modal/i }));
+		fireEvent.click(screen.getByRole('button', { name: /close dialog/i }));
 
 		expect(onClose).toHaveBeenCalledTimes(1);
 	});

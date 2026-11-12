@@ -16,6 +16,8 @@ import type { Certification } from 'types/certification';
 
 import styles from './HomeCertifications.module.scss';
 
+const pad = (n: number) => String(n).padStart(2, '0');
+
 const CertificationModal = dynamic(
 	() =>
 		import('components/pages/homepage/CertificationModal/CertificationModal')
@@ -153,7 +155,12 @@ const HomeCertifications: FC<HomeCertificationsProps> = ({
 			<Modal
 				isOpen={!!selected}
 				onClose={() => setSelected(null)}
-				title="Certification Details"
+				title="Certification"
+				eyebrow={
+					selected
+						? `${pad(certifications.indexOf(selected) + 1)} / ${pad(certifications.length)}`
+						: undefined
+				}
 			>
 				{selected && <CertificationModal certification={selected} />}
 			</Modal>
