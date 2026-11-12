@@ -23,6 +23,9 @@ const size = (max, min) => ({ size: { ...(min ? { min } : {}), max } });
 const regexp = (pattern, message) => ({ regexp: { pattern }, ...(message ? { message } : {}) });
 
 /** Apply a builtin editor control with help text. */
+const dateOnly = (type, id, helpText) =>
+	type.changeFieldControl(id, 'builtin', 'datePicker', { helpText, format: 'dateonly' });
+
 const control = (type, id, widgetId, helpText, settings = {}) =>
 	type.changeFieldControl(id, 'builtin', widgetId, { helpText, ...settings });
 
@@ -54,12 +57,15 @@ const entryLinks = (field, types, max) =>
 const symbols = (field, max, itemMax) =>
 	field.type('Array').items({ type: 'Symbol', validations: [size(itemMax)] }).validations([size(max)]);
 
-/** Rename a field for display, disable it in the editor, keep the data. */
+/**
+ * Rename a field for display, disable it in the editor and make it optional
+ * (a required disabled field would block publishing), keeping the data.
+ */
 const deprecateField = (type, id, label) => {
-	type.editField(id).name(`[Deprecated] ${label}`).disabled(true);
+	type.editField(id).name(`[Deprecated] ${label}`).disabled(true).required(false);
 };
 
 module.exports = {
-	SLUG, HTTPS, URL_OR_PATH, RICH_TEXT, size, regexp, control, internalName, slug,
+	SLUG, HTTPS, URL_OR_PATH, RICH_TEXT, size, regexp, control, dateOnly, internalName, slug,
 	imageLink, entryLink, entryLinks, symbols, deprecateField,
 };
