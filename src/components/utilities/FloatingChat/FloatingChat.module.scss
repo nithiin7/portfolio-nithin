@@ -1,193 +1,338 @@
 @use 'styles/shared/mixin' as *;
 
-.container {
+@mixin mono-label {
+	font-family: var(--font-mono);
+	font-size: rem(11);
+	font-weight: 400;
+	letter-spacing: var(--tracking-mono);
+	text-transform: uppercase;
+}
+
+.FloatingChat {
 	position: fixed;
-	bottom: max(rem(16), env(safe-area-inset-bottom));
-	right: rem(16);
+	right: var(--grid-margin);
+	bottom: max(var(--space-4), env(safe-area-inset-bottom));
 	z-index: 1000;
 
 	@media #{$md} {
-		bottom: rem(40);
-		right: rem(40);
-	}
-}
-
-.FloatingButton {
-	position: relative;
-	width: rem(46);
-	height: rem(46);
-	border-radius: 50%;
-	background: var(--surface-3);
-	border: none;
-	cursor: pointer;
-	box-shadow: 0 rem(8) rem(32) rgba(0, 0, 0, 0.15);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-	will-change: transform, box-shadow;
-	transform: translateZ(0);
-	backface-visibility: hidden;
-	perspective: 1000px;
-
-	&:hover {
-		box-shadow: 0 rem(12) rem(40) rgba(0, 0, 0, 0.25);
-		transform: translateY(-2px) translateZ(0);
+		bottom: var(--space-7);
 	}
 
-	.icon {
-		color: var(--fg);
+	// Square inverse tile. The label is clipped to zero width and wipes open
+	// to the left on hover/focus.
+	&__launcher {
+		position: relative;
 		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 100%;
-		height: 100%;
-		will-change: transform;
-		transform: translateZ(0);
-	}
-
-	@media #{$md} {
-		width: rem(70);
-		height: rem(70);
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		transition: none;
-
-		&:hover {
-			transform: none;
-		}
-	}
-}
-
-.tooltip {
-	position: absolute;
-	bottom: calc(100% + rem(12));
-	right: 0;
-	padding: rem(6) rem(10);
-	background: rgba(0, 0, 0, 0.9);
-	color: var(--fg);
-	font-size: rem(11);
-	font-weight: 500;
-	border-radius: rem(4);
-	white-space: nowrap;
-	box-shadow: 0 rem(2) rem(8) rgba(0, 0, 0, 0.2);
-	z-index: 1001;
-	pointer-events: none;
-	backdrop-filter: blur(4px);
-
-	&::after {
-		content: '';
-		position: absolute;
-		top: 100%;
-		right: rem(27);
-		border: rem(3) solid transparent;
-		border-top-color: rgba(0, 0, 0, 0.9);
-	}
-}
-
-.ChatWindow {
-	position: fixed;
-	bottom: rem(74);
-	right: rem(16);
-	left: rem(16);
-	width: auto;
-	height: min(rem(500), 65vh);
-	background: white;
-	border-radius: rem(16);
-	box-shadow: 0 rem(20) rem(60) rgba(0, 0, 0, 0.15);
-	z-index: 999;
-	overflow: hidden;
-	display: flex;
-	flex-direction: column;
-	will-change: transform, opacity;
-	transform: translateZ(0);
-	backface-visibility: hidden;
-	perspective: 1000px;
-
-	@media #{$md} {
-		width: rem(400);
-		height: rem(550);
-		bottom: rem(120);
-		right: rem(40);
-		left: auto;
-	}
-
-	@media #{$lg} {
-		width: rem(450);
-		height: rem(600);
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		will-change: auto;
-	}
-}
-
-.ChatHeader {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: rem(16) rem(20);
-	background: var(--surface-3);
-	color: white;
-	border-radius: rem(16) rem(16) 0 0;
-	will-change: transform, opacity;
-	transform: translateZ(0);
-
-	h3 {
-		margin: 0;
-		font-size: rem(16);
-		font-weight: 600;
-	}
-
-	.CloseButton {
-		background: none;
-		border: none;
-		color: white;
+		align-items: stretch;
+		height: var(--chrome-size);
+		padding: 0;
+		background-color: var(--inverse-bg);
+		color: var(--inverse-fg);
+		border: 1px solid var(--inverse-bg);
+		border-radius: var(--radius-1);
+		box-shadow: 0 rem(12) rem(32) rem(-12) var(--shadow-strong);
 		cursor: pointer;
-		padding: rem(4);
-		border-radius: 50%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-		will-change: transform, background-color;
-		transform: translateZ(0);
 
-		&:hover {
-			background: rgba(255, 255, 255, 0.1);
-			transform: scale(1.1) translateZ(0);
+		&:focus-visible {
+			outline: 2px solid var(--focus);
+			outline-offset: 3px;
 		}
 
-		@media (prefers-reduced-motion: reduce) {
-			transition: none;
+		@media (hover: hover) {
+			&:hover .FloatingChat__label {
+				max-width: rem(160);
+				padding-inline: var(--space-4) var(--space-1);
+				opacity: 1;
+			}
+		}
 
-			&:hover {
-				transform: none;
+		&:focus-visible .FloatingChat__label {
+			max-width: rem(160);
+			padding-inline: var(--space-4) var(--space-1);
+			opacity: 1;
+		}
+
+		&--open {
+			background-color: var(--surface-1);
+			color: var(--fg);
+			border-color: var(--line-strong);
+
+			.FloatingChat__icon-chat {
+				transform: translateY(-100%);
+			}
+
+			.FloatingChat__icon-close {
+				transform: translateY(0);
+			}
+
+			.FloatingChat__dot {
+				opacity: 0;
+			}
+
+			.FloatingChat__label {
+				display: none;
 			}
 		}
 	}
 
-	@media (prefers-reduced-motion: reduce) {
-		will-change: auto;
+	&__label {
+		display: flex;
+		align-items: center;
+		max-width: 0;
+		overflow: hidden;
+		opacity: 0;
+		white-space: nowrap;
+		@include mono-label;
+		transition:
+			max-width var(--dur-1) var(--ease),
+			padding var(--dur-1) var(--ease),
+			opacity var(--dur-1) var(--ease);
+	}
+
+	&__icon {
+		position: relative;
+		display: block;
+		width: var(--chrome-size);
+		overflow: hidden;
+
+		> span {
+			position: absolute;
+			inset: 0;
+			display: grid;
+			place-items: center;
+			transition: transform var(--dur-1) var(--ease);
+		}
+
+		svg {
+			width: rem(20);
+			height: rem(20);
+		}
+
+		&-close {
+			transform: translateY(100%);
+		}
+	}
+
+	&__dot {
+		position: absolute;
+		top: rem(-3);
+		right: rem(-3);
+		width: rem(9);
+		height: rem(9);
+		border-radius: var(--radius-pill);
+		background-color: var(--accent);
+		box-shadow: 0 0 0 2px var(--bg);
+		transition: opacity var(--dur-1) var(--ease);
+
+		&::after {
+			content: '';
+			position: absolute;
+			inset: 0;
+			border-radius: inherit;
+			background-color: var(--accent);
+			animation: chat-ping 2.4s var(--ease-out) infinite;
+		}
+	}
+
+	&__window {
+		position: fixed;
+		right: var(--grid-margin);
+		left: var(--grid-margin);
+		bottom: calc(
+			max(var(--space-4), env(safe-area-inset-bottom)) + var(--chrome-size) +
+				var(--space-3)
+		);
+		z-index: 999;
+		display: flex;
+		flex-direction: column;
+		height: min(rem(560), 70dvh);
+		background-color: var(--surface-1);
+		color: var(--fg);
+		border: 1px solid var(--line-strong);
+		border-radius: var(--radius-1);
+		box-shadow: 0 rem(40) rem(80) rem(-30) var(--shadow-strong);
+		overflow: hidden;
+
+		@media #{$md} {
+			left: auto;
+			width: rem(420);
+			height: min(rem(620), 74vh);
+			bottom: calc(var(--space-7) + var(--chrome-size) + var(--space-3));
+		}
+	}
+
+	&__header {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: var(--space-4);
+		padding: var(--space-4) var(--space-4) var(--space-4) var(--space-5);
+		border-bottom: 1px solid var(--line);
+		flex-shrink: 0;
+	}
+
+	&__heading {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+	}
+
+	&__eyebrow {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-2);
+		margin: 0;
+		@include mono-label;
+		color: var(--muted);
+	}
+
+	&__status {
+		width: rem(6);
+		height: rem(6);
+		border-radius: var(--radius-pill);
+		background-color: var(--accent);
+	}
+
+	&__title {
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: var(--step-2);
+		font-weight: 500;
+		line-height: var(--leading-tight);
+		letter-spacing: var(--tracking-display);
+
+		em {
+			font-family: var(--font-serif);
+			font-style: italic;
+			font-weight: 400;
+			letter-spacing: 0;
+		}
+	}
+
+	&__close {
+		display: grid;
+		place-items: center;
+		width: rem(36);
+		height: rem(36);
+		flex-shrink: 0;
+		padding: 0;
+		background: transparent;
+		border: 1px solid var(--line-strong);
+		border-radius: var(--radius-1);
+		color: var(--fg);
+		cursor: pointer;
+		transition:
+			background-color var(--dur-1) var(--ease),
+			color var(--dur-1) var(--ease),
+			border-color var(--dur-1) var(--ease);
+
+		svg {
+			width: rem(14);
+			height: rem(14);
+			transition: transform var(--dur-1) var(--ease);
+		}
+
+		@media (hover: hover) {
+			&:hover {
+				background-color: var(--fg);
+				border-color: var(--fg);
+				color: var(--bg);
+
+				svg {
+					transform: rotate(90deg);
+				}
+			}
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--focus);
+			outline-offset: 2px;
+		}
+	}
+
+	&__body {
+		position: relative;
+		flex: 1;
+		min-height: 0;
+		background-color: var(--surface-1);
+
+		iframe {
+			display: block;
+			width: 100%;
+			height: 100%;
+			border: 0;
+			opacity: 0;
+			transition: opacity var(--dur-2) var(--ease);
+		}
+	}
+
+	&__frame--ready {
+		opacity: 1 !important;
+	}
+
+	&__loading {
+		position: absolute;
+		inset: 0;
+		display: grid;
+		place-items: center;
+		margin: 0;
+		@include mono-label;
+		color: var(--muted);
+
+		span {
+			animation: chat-caret 1s steps(1) infinite;
+		}
+	}
+
+	&__footer {
+		display: flex;
+		justify-content: space-between;
+		gap: var(--space-4);
+		padding: var(--space-3) var(--space-5);
+		border-top: 1px solid var(--line);
+		@include mono-label;
+		color: var(--muted);
+
+		kbd {
+			margin-right: var(--space-1);
+			padding: 0 var(--space-1);
+			border: 1px solid var(--line-strong);
+			font-family: inherit;
+			color: var(--fg);
+		}
+
+		> span:last-child {
+			display: none;
+
+			@media (hover: hover) and (pointer: fine) {
+				display: inline;
+			}
+		}
 	}
 }
 
-.ChatContent {
-	flex: 1;
-	overflow: hidden;
-	border-radius: 0 0 rem(16) rem(16);
-	will-change: opacity;
-	transform: translateZ(0);
-
-	iframe {
-		width: 100%;
-		height: 100%;
-		border: none;
-		border-radius: 0 0 rem(16) rem(16);
+@keyframes chat-ping {
+	0% {
+		transform: scale(1);
+		opacity: 0.7;
 	}
 
-	@media (prefers-reduced-motion: reduce) {
-		will-change: auto;
+	70%,
+	100% {
+		transform: scale(2.6);
+		opacity: 0;
+	}
+}
+
+@keyframes chat-caret {
+	50% {
+		opacity: 0;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.FloatingChat__dot::after,
+	.FloatingChat__loading span {
+		animation: none;
 	}
 }

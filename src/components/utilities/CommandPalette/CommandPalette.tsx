@@ -1,5 +1,6 @@
 'use client';
-import { AnimatePresence, motion } from 'motion/react';
+import type { Variants } from 'motion/react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { usePathname, useRouter } from 'next/navigation';
 import type { KeyboardEvent as ReactKeyboardEvent, ReactElement } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -7,29 +8,12 @@ import {
 	GoogleReCaptchaProvider,
 	useGoogleReCaptcha,
 } from 'react-google-recaptcha-v3';
-import { BsStars } from 'react-icons/bs';
-import {
-	FiActivity,
-	FiAward,
-	FiBookOpen,
-	FiBriefcase,
-	FiCode,
-	FiDownload,
-	FiFileText,
-	FiFolder,
-	FiHome,
-	FiLayers,
-	FiMail,
-	FiMoon,
-	FiSearch,
-	FiSun,
-	FiUser,
-} from 'react-icons/fi';
 
 import { links } from 'constants/index';
 import { useTheme } from 'contexts/ThemeContext';
 import { clientEnv } from 'helpers/env';
 import { useFocusTrap } from 'hooks/useKeyboardNavigation';
+import { duration, ease } from 'styles/tokens';
 import type { SearchIndex } from 'types/search';
 
 import styles from './CommandPalette.module.scss';
@@ -41,7 +25,7 @@ interface Command {
 	type: CommandType;
 	title: string;
 	section: string;
-	icon: ReactElement;
+	kind: string;
 	keywords?: string;
 	href?: string;
 }
@@ -81,19 +65,53 @@ const RecaptchaBridge = ({
 	return null;
 };
 
-const navIcons: Record<string, ReactElement> = {
-	About: <FiUser />,
-	Blogs: <FiBookOpen />,
-	Companies: <FiBriefcase />,
-	Services: <FiLayers />,
-	Works: <FiFolder />,
-	Certifications: <FiAward />,
+const overlayVariants: Variants = {
+	hidden: { opacity: 0 },
+	visible: { opacity: 1, transition: { duration: duration.fast, ease } },
+	exit: { opacity: 0, transition: { duration: duration.fast, ease } },
 };
+
+// Drops in from the top edge like a sheet of paper being pulled down.
+const panelVariants: Variants = {
+	hidden: { clipPath: 'inset(0% 0% 100% 0%)', y: -16 },
+	visible: {
+		clipPath: 'inset(0% 0% 0% 0%)',
+		y: 0,
+		transition: { duration: duration.base, ease },
+	},
+	exit: {
+		clipPath: 'inset(0% 0% 100% 0%)',
+		y: -8,
+		transition: { duration: duration.fast, ease },
+	},
+};
+
+const fadeVariants: Variants = {
+	hidden: { opacity: 0 },
+	visible: { opacity: 1 },
+	exit: { opacity: 0 },
+};
+
+const SearchIcon = (): ReactElement => (
+	<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+		<circle
+			cx="10.5"
+			cy="10.5"
+			r="6.5"
+			stroke="currentColor"
+			strokeWidth="1.5"
+		/>
+		<path d="m15.5 15.5 5 5" stroke="currentColor" strokeWidth="1.5" />
+	</svg>
+);
+
+const pad = (n: number) => String(n).padStart(2, '0');
 
 const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 	const router = useRouter();
 	const pathname = usePathname();
 	const { theme, toggleTheme } = useTheme();
+	const prefersReducedMotion = useReducedMotion();
 
 	const [isOpen, setIsOpen] = useState(false);
 	const [query, setQuery] = useState('');
@@ -194,7 +212,7 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 				type: 'navigate',
 				title: 'Home',
 				section: 'Navigate',
-				icon: <FiHome />,
+				kind: 'Page',
 				href: '/',
 			},
 			...links.map<Command>((link) => ({
@@ -202,7 +220,7 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 				type: 'navigate',
 				title: link.title,
 				section: 'Navigate',
-				icon: navIcons[link.title] ?? <FiFolder />,
+				kind: 'Page',
 				href: link.href,
 			})),
 			{
@@ -210,7 +228,7 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 				type: 'navigate',
 				title: 'Live Stats',
 				section: 'Navigate',
-				icon: <FiActivity />,
+				kind: 'Page',
 				keywords: 'stats dashboard live github wakatime coding activity',
 				href: '/stats',
 			},
@@ -219,7 +237,7 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 				type: 'navigate',
 				title: 'Contact',
 				section: 'Navigate',
-				icon: <FiMail />,
+				kind: 'Page',
 				keywords: 'email hire book call',
 				href: '/contact',
 			},
@@ -228,7 +246,7 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 				type: 'navigate',
 				title: 'Resume',
 				section: 'Navigate',
-				icon: <FiFileText />,
+				kind: 'Page',
 				keywords: 'resume cv experience skills',
 				href: '/resume',
 			},
@@ -237,7 +255,7 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 				type: 'action',
 				title: `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`,
 				section: 'Actions',
-				icon: theme === 'dark' ? <FiSun /> : <FiMoon />,
+				kind: 'Action',
 				keywords: 'theme dark light mode toggle appearance',
 			},
 			{
@@ -245,7 +263,7 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 				type: 'action',
 				title: 'Download resume (PDF)',
 				section: 'Actions',
-				icon: <FiDownload />,
+				kind: 'PDF',
 				keywords: 'resume cv download pdf',
 			},
 		],
@@ -259,7 +277,7 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 				type: 'navigate',
 				title: post.title,
 				section: 'Blog Posts',
-				icon: <FiFileText />,
+				kind: 'Post',
 				href: `/blog/${post.slug}`,
 			})),
 		[blogPosts]
@@ -272,7 +290,7 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 				type: 'navigate',
 				title: item.title,
 				section: 'Portfolio',
-				icon: <FiCode />,
+				kind: 'Work',
 				href: `/portfolio/${item.id}`,
 			})),
 		[portfolioItems]
@@ -300,9 +318,9 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 			{
 				id: 'ask-ai',
 				type: 'ask',
-				title: `Ask AI: “${query.trim()}”`,
+				title: `Ask: “${query.trim()}”`,
 				section: 'Ask AI',
-				icon: <BsStars />,
+				kind: 'AI',
 			},
 		];
 	}, [commands, blogCommands, portfolioCommands, query]);
@@ -429,7 +447,12 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 		activeItem?.scrollIntoView({ block: 'nearest' });
 	}, [selectedIndex, items.length]);
 
+	const sectionCounts = items.reduce<Record<string, number>>((acc, command) => {
+		acc[command.section] = (acc[command.section] ?? 0) + 1;
+		return acc;
+	}, {});
 	let lastSection = '';
+	let indexInSection = 0;
 	const isHintExpanded = isAtTop || isHintHovered;
 
 	return (
@@ -452,14 +475,15 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 				</GoogleReCaptchaProvider>
 			)}
 			<AnimatePresence>
-				{/* The home hero's name runs to the fold, so the pill waits for the first scroll there */}
+				{/* The home hero's name runs to the fold, so the hint waits for the first scroll there */}
 				{!isOpen &&
 					!pathname?.startsWith('/blog/') &&
 					!(pathname === '/' && isAtTop) && (
 						<motion.button
+							type="button"
 							className={[
 								styles.CommandPalette__hint,
-								isHintExpanded ? '' : styles['CommandPalette__hint--collapsed'],
+								isHintExpanded ? styles['CommandPalette__hint--expanded'] : '',
 							].join(' ')}
 							onClick={() => {
 								setIsHintHovered(false);
@@ -467,33 +491,32 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 							}}
 							onMouseEnter={() => setIsHintHovered(true)}
 							onMouseLeave={() => setIsHintHovered(false)}
-							initial={{ opacity: 0, y: 20, x: '-50%' }}
-							animate={{ opacity: 1, y: 0, x: '-50%' }}
-							exit={{ opacity: 0, y: 20, x: '-50%' }}
-							transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
-							aria-label={`Navigate & ask AI ${modKey} K`}
+							initial={{ opacity: 0, y: 16, x: '-50%' }}
+							animate={{
+								opacity: 1,
+								y: 0,
+								x: '-50%',
+								transition: { duration: duration.fast, ease },
+							}}
+							exit={{
+								opacity: 0,
+								y: 16,
+								x: '-50%',
+								transition: { duration: duration.fast, ease },
+							}}
+							aria-label={`Search and ask AI, ${modKey} K`}
 							aria-keyshortcuts="Meta+K Control+K"
 						>
-							<FiSearch aria-hidden="true" />
-							<AnimatePresence initial={false}>
-								{isHintExpanded && (
-									<motion.span
-										className={styles['CommandPalette__hint-content']}
-										initial={{ width: 0, opacity: 0, marginLeft: 0 }}
-										animate={{ width: 'auto', opacity: 1, marginLeft: 8 }}
-										exit={{ width: 0, opacity: 0, marginLeft: 0 }}
-										transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-									>
-										<span className={styles['CommandPalette__hint-label']}>
-											Navigate & ask AI
-										</span>
-										<span className={styles['CommandPalette__hint-keys']}>
-											<kbd>{modKey}</kbd>
-											<kbd>K</kbd>
-										</span>
-									</motion.span>
-								)}
-							</AnimatePresence>
+							<span className={styles['CommandPalette__hint-icon']}>
+								<SearchIcon />
+							</span>
+							<span className={styles['CommandPalette__hint-content']}>
+								<span>Search &amp; ask AI</span>
+								<span className={styles['CommandPalette__hint-keys']}>
+									<kbd>{modKey}</kbd>
+									<kbd>K</kbd>
+								</span>
+							</span>
 						</motion.button>
 					)}
 			</AnimatePresence>
@@ -501,10 +524,10 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 				{isOpen && (
 					<motion.div
 						className={styles.CommandPalette}
-						initial={{ opacity: 0 }}
-						animate={{ opacity: 1 }}
-						exit={{ opacity: 0 }}
-						transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
+						variants={overlayVariants}
+						initial="hidden"
+						animate="visible"
+						exit="exit"
 						onClick={close}
 						data-lenis-prevent
 					>
@@ -514,20 +537,25 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 							role="dialog"
 							aria-modal="true"
 							aria-label="Command palette"
-							initial={{ opacity: 0, scale: 0.96, y: -12 }}
-							animate={{ opacity: 1, scale: 1, y: 0 }}
-							exit={{ opacity: 0, scale: 0.96, y: -12 }}
-							transition={{
-								duration: 0.2,
-								ease: [0.4, 0, 0.2, 1],
-								type: 'spring',
-								stiffness: 300,
-								damping: 25,
-							}}
+							variants={prefersReducedMotion ? fadeVariants : panelVariants}
 							onClick={(event) => event.stopPropagation()}
 						>
+							<div className={styles.CommandPalette__bar}>
+								<span>Index</span>
+								<span>
+									{modKey} K <span aria-hidden="true">/</span>{' '}
+									<button
+										type="button"
+										className={styles.CommandPalette__esc}
+										onClick={close}
+										aria-label="Close command palette"
+									>
+										Esc
+									</button>
+								</span>
+							</div>
 							<div className={styles.CommandPalette__search}>
-								<FiSearch aria-hidden="true" />
+								<SearchIcon />
 								<input
 									ref={inputRef}
 									autoFocus
@@ -535,7 +563,7 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 									value={query}
 									onChange={(event) => setQuery(event.target.value)}
 									onKeyDown={handleInputKeyDown}
-									placeholder="Search, or ask “What's his experience with React?”"
+									placeholder="Search or ask anything…"
 									aria-label="Search commands or ask a question"
 									role="combobox"
 									aria-expanded="true"
@@ -544,7 +572,6 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 									spellCheck={false}
 									autoComplete="off"
 								/>
-								<kbd className={styles.CommandPalette__kbd}>esc</kbd>
 							</div>
 							<ul
 								id="command-palette-list"
@@ -554,7 +581,10 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 							>
 								{items.map((command, index) => {
 									const showSection = command.section !== lastSection;
+									if (showSection) indexInSection = 0;
+									indexInSection += 1;
 									lastSection = command.section;
+									const isActive = index === selectedIndex;
 
 									return (
 										<li key={command.id} role="presentation">
@@ -563,35 +593,48 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 													className={styles.CommandPalette__section}
 													aria-hidden="true"
 												>
-													{command.section}
+													<span>{command.section}</span>
+													<span>({pad(sectionCounts[command.section])})</span>
 												</div>
 											)}
 											<button
+												type="button"
 												id={command.id}
 												role="option"
-												aria-selected={index === selectedIndex}
+												aria-selected={isActive}
 												className={[
 													styles.CommandPalette__item,
-													index === selectedIndex
+													isActive
 														? styles['CommandPalette__item--active']
+														: '',
+													command.type === 'ask'
+														? styles['CommandPalette__item--ask']
 														: '',
 												].join(' ')}
 												onClick={() => runCommand(command)}
 												onMouseEnter={() => setSelectedIndex(index)}
 											>
-												<span className={styles['CommandPalette__item-icon']}>
-													{command.icon}
+												<span
+													className={styles['CommandPalette__item-index']}
+													aria-hidden="true"
+												>
+													{pad(indexInSection)}
 												</span>
 												<span className={styles['CommandPalette__item-title']}>
 													{command.title}
 												</span>
-												{command.type === 'ask' && (
-													<span
-														className={styles['CommandPalette__item-badge']}
-													>
-														AI
-													</span>
-												)}
+												<span
+													className={styles['CommandPalette__item-kind']}
+													aria-hidden="true"
+												>
+													{command.kind}
+												</span>
+												<span
+													className={styles['CommandPalette__item-arrow']}
+													aria-hidden="true"
+												>
+													→
+												</span>
 											</button>
 										</li>
 									);
@@ -602,24 +645,34 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 									<motion.div
 										className={styles.CommandPalette__answer}
 										initial={{ opacity: 0, height: 0 }}
-										animate={{ opacity: 1, height: 'auto' }}
-										exit={{ opacity: 0, height: 0 }}
-										transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+										animate={{
+											opacity: 1,
+											height: 'auto',
+											transition: { duration: duration.fast, ease },
+										}}
+										exit={{
+											opacity: 0,
+											height: 0,
+											transition: { duration: duration.fast, ease },
+										}}
 										aria-live="polite"
 									>
-										<div className={styles['CommandPalette__answer-question']}>
-											<BsStars aria-hidden="true" />
+										<p className={styles['CommandPalette__answer-label']}>
+											<span>Answer</span>
+											<span>
+												{pad(askCount)} / {pad(MAX_ASK_QUESTIONS_PER_SESSION)}
+											</span>
+										</p>
+										<p className={styles['CommandPalette__answer-question']}>
 											{ask.question}
-										</div>
+										</p>
 										{ask.status === 'loading' && (
-											<div
+											<p
 												className={styles['CommandPalette__answer-loading']}
-												aria-label="Thinking"
+												role="status"
 											>
-												<span />
-												<span />
-												<span />
-											</div>
+												Thinking<span aria-hidden="true">_</span>
+											</p>
 										)}
 										{ask.status === 'done' && (
 											<p className={styles['CommandPalette__answer-text']}>
@@ -636,14 +689,14 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 							</AnimatePresence>
 							<div className={styles.CommandPalette__footer}>
 								<span>
-									<kbd className={styles.CommandPalette__kbd}>↑</kbd>
-									<kbd className={styles.CommandPalette__kbd}>↓</kbd> navigate
+									<kbd>↑</kbd>
+									<kbd>↓</kbd> Move
 								</span>
 								<span>
-									<kbd className={styles.CommandPalette__kbd}>↵</kbd> select
+									<kbd>↵</kbd> Open
 								</span>
 								<span className={styles['CommandPalette__footer-ai']}>
-									<BsStars aria-hidden="true" /> type a question to ask AI
+									Type a question to ask AI
 								</span>
 							</div>
 						</motion.div>
