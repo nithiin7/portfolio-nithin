@@ -62,3 +62,4 @@ tsconfig.tsbuildinfo
 
 # Contentful exports (phase 14)
 backups/
+errors-*.log

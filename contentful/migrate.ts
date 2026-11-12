@@ -4,6 +4,9 @@
  *   pnpm cms:migrate --env <id>                 # list applied / pending
  *   pnpm cms:migrate --env <id> --apply         # run every pending migration
  *   pnpm cms:migrate --env <id> --apply 004     # run one (must be pending)
+ *   pnpm cms:migrate --env <id> --apply 002 --data-only
+ *       # recovery: the schema half already ran but stopped part-way
+ *       # (e.g. a plan limit); run only the data half and record it
  *
  * Each migration is `migrations/NNN_name.cjs` (schema, contentful-migration)
  * plus an optional `migrations/NNN_name.data.ts` (entries/assets, saved as
@@ -26,8 +29,14 @@ const flag = (name: string): string | undefined => {
 	return index === -1 ? undefined : args[index + 1];
 };
 const environment = flag('--env');
-const apply = args.includes('--apply');
 const only = args.filter((arg) => /^\d{3}$/.test(arg));
+const apply = args.includes('--apply');
+const dataOnly = args.includes('--data-only');
+
+if (dataOnly && only.length !== 1) {
+	console.error('--data-only needs exactly one migration number.');
+	process.exit(1);
+}
 
 if (!environment) {
 	console.error('Pass --env <environment id>. There is no default.');
@@ -89,13 +98,15 @@ const main = async (): Promise<void> => {
 
 	for (const migration of pending) {
 		console.log(`\n→ ${migration.name} on ${environment}`);
-		await runMigration({
-			filePath: migration.schema,
-			spaceId: process.env.CONTENTFUL_SPACE_ID,
-			environmentId: environment,
-			accessToken: process.env.CONTENTFUL_MANAGEMENT_TOKEN,
-			yes: true,
-		});
+		if (!dataOnly) {
+			await runMigration({
+				filePath: migration.schema,
+				spaceId: process.env.CONTENTFUL_SPACE_ID,
+				environmentId: environment,
+				accessToken: process.env.CONTENTFUL_MANAGEMENT_TOKEN,
+				yes: true,
+			});
+		}
 		if (migration.data) {
 			const { default: run } = (await import(migration.data)) as {
 				default: (client: Client) => Promise<void>;
