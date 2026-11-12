@@ -1,31 +1,5 @@
 @use './shared' as *;
 
-.grid-12 {
-	@include grid-12;
-}
-
-@each $prefix, $query in ('': null, 'md-': $md, 'lg-': $lg) {
-	@for $i from 1 through 12 {
-		@if $query {
-			@media #{$query} {
-				.#{$prefix}span-#{$i} {
-					grid-column-end: span #{$i};
-				}
-				.#{$prefix}start-#{$i} {
-					grid-column-start: #{$i};
-				}
-			}
-		} @else {
-			.span-#{$i} {
-				grid-column-end: span #{$i};
-			}
-			.start-#{$i} {
-				grid-column-start: #{$i};
-			}
-		}
-	}
-}
-
 .grainy__filter {
 	pointer-events: none;
 	position: absolute;
@@ -53,31 +27,6 @@ html.lenis {
 
 .lenis.lenis-scrolling iframe {
 	pointer-events: none;
-}
-
-.not-found {
-	color: $color-text;
-	height: calc(100vh - 439px);
-	display: flex;
-	align-items: center;
-	flex-direction: column;
-	justify-content: center;
-	padding: 10px;
-	text-align: center;
-	h1 {
-		font-weight: 700;
-		font-size: 24px;
-		@media #{$md} {
-			font-size: 40px;
-		}
-	}
-	h3 {
-		margin-bottom: 25px;
-		font-size: 12px;
-		@media #{$md} {
-			font-size: 20px;
-		}
-	}
 }
 
 ::view-transition-group(.blog-image-morph),

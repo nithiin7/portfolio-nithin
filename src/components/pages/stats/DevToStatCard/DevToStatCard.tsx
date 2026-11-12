@@ -1,5 +1,4 @@
 import type { FC, ReactElement } from 'react';
-import { SiDevdotto } from 'react-icons/si';
 
 import {
 	CountUp,
@@ -25,11 +24,10 @@ const DevToStatCard: FC<DevToStatCardProps> = ({
 
 	return (
 		<StatCard
-			icon={<SiDevdotto />}
 			title="Dev.to"
 			subtitle={`@${DEVTO_USERNAME}`}
 			href={`https://dev.to/${DEVTO_USERNAME}`}
-			linkLabel="Open Dev.to profile"
+			linkLabel="Profile"
 		>
 			<div className={styles.DevToStatCard__metrics}>
 				<StatMetric

@@ -1,5 +1,4 @@
 @use 'styles/shared/mixin' as *;
-@use 'styles/shared/variables' as *;
 
 .CertificationModal {
 	display: flex;
@@ -25,10 +24,10 @@
 		width: 88px;
 		height: 88px;
 		padding: 12px;
-		background: $color-surface;
-		border: 1px solid $color-border;
+		background: var(--surface-3);
+		border: 1px solid var(--line-strong);
 		border-radius: 50%;
-		box-shadow: 0 0 0 4px rgba($color-accent, 0.08);
+		box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 8%, transparent);
 
 		img {
 			width: 100%;
@@ -60,7 +59,7 @@
 	&__provider {
 		font-size: 0.75rem;
 		font-weight: 600;
-		color: $color-accent;
+		color: var(--accent);
 		text-transform: uppercase;
 		letter-spacing: 0.08em;
 	}
@@ -68,8 +67,8 @@
 	&__name {
 		font-size: 1.5rem;
 		font-weight: 600;
-		color: $color-text-primary;
-		font-family: $font-secondary;
+		color: var(--ink);
+		font-family: var(--font-display);
 		line-height: 1.25;
 
 		@media #{$sm} {
@@ -86,9 +85,9 @@
 		grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
 		gap: 1.25rem 1.5rem;
 		padding: 1.25rem 1.5rem;
-		background: $color-surface;
+		background: var(--surface-3);
 		border-radius: 14px;
-		border: 1px solid $color-border;
+		border: 1px solid var(--line-strong);
 	}
 
 	&__detailItem {
@@ -101,14 +100,14 @@
 	&__label {
 		font-size: 0.6875rem;
 		font-weight: 600;
-		color: $color-grey-medium;
+		color: var(--muted);
 		text-transform: uppercase;
 		letter-spacing: 0.06em;
 	}
 
 	&__value {
 		font-size: 0.9375rem;
-		color: $color-grey-pale;
+		color: var(--muted);
 		font-weight: 500;
 		word-break: break-word;
 
@@ -117,10 +116,10 @@
 			width: fit-content;
 			font-family: 'Monaco', 'Courier New', monospace;
 			font-size: 0.8125rem;
-			background: $color-tech-bg;
+			background: var(--surface-2);
 			padding: 0.25rem 0.5rem;
 			border-radius: 4px;
-			color: $color-tech-text;
+			color: var(--fg-subtle);
 		}
 	}
 
@@ -128,7 +127,7 @@
 		display: block;
 		font-size: 0.6875rem;
 		font-weight: 600;
-		color: $color-text-secondary;
+		color: var(--inverse-muted);
 		text-transform: uppercase;
 		letter-spacing: 0.06em;
 		margin-bottom: 0.625rem;
@@ -138,7 +137,7 @@
 		p {
 			font-size: 0.9375rem;
 			line-height: 1.7;
-			color: $color-text;
+			color: var(--inverse-muted);
 			margin: 0;
 		}
 	}
@@ -154,4 +153,3 @@
 		padding-top: 0.5rem;
 	}
 }
-

@@ -1,5 +1,4 @@
 import type { FC, ReactElement } from 'react';
-import { SiHuggingface } from 'react-icons/si';
 
 import {
 	CountUp,
@@ -24,11 +23,10 @@ const HuggingFaceStatCard: FC<HuggingFaceStatCardProps> = ({
 
 	return (
 		<StatCard
-			icon={<SiHuggingface />}
 			title="Hugging Face"
 			subtitle="AI resume chatbot"
 			href={stats.url}
-			linkLabel="Open Hugging Face Space"
+			linkLabel="Space"
 			live={isRunning}
 		>
 			<StatMetric value={<CountUp value={stats.likes} />} label="Space likes" />

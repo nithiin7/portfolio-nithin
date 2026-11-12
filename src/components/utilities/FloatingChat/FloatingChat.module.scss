@@ -1,5 +1,4 @@
 @use 'styles/shared/mixin' as *;
-@use 'styles/shared/variables' as *;
 
 .container {
 	position: fixed;
@@ -18,7 +17,7 @@
 	width: rem(46);
 	height: rem(46);
 	border-radius: 50%;
-	background: $color-secondary;
+	background: var(--surface-3);
 	border: none;
 	cursor: pointer;
 	box-shadow: 0 rem(8) rem(32) rgba(0, 0, 0, 0.15);
@@ -37,7 +36,7 @@
 	}
 
 	.icon {
-		color: $color-white;
+		color: var(--fg);
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -67,7 +66,7 @@
 	right: 0;
 	padding: rem(6) rem(10);
 	background: rgba(0, 0, 0, 0.9);
-	color: $color-white;
+	color: var(--fg);
 	font-size: rem(11);
 	font-weight: 500;
 	border-radius: rem(4);
@@ -129,7 +128,7 @@
 	align-items: center;
 	justify-content: space-between;
 	padding: rem(16) rem(20);
-	background: $color-secondary;
+	background: var(--surface-3);
 	color: white;
 	border-radius: rem(16) rem(16) 0 0;
 	will-change: transform, opacity;

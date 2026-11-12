@@ -21,7 +21,6 @@ export { default as PortfolioDetails } from './portfolio/PortfolioDetails/Portfo
 export { default as PortfolioGallery } from './portfolio/PortfolioGallery/PortfolioGallery';
 export { default as PortfolioNext } from './portfolio/PortfolioNext/PortfolioNext';
 export { default as CaseStudyProgress } from './portfolio/CaseStudyProgress/CaseStudyProgress';
-export { default as CareerCard } from './homepage/CareerCard/CareerCard';
 
 // Stats
 export { default as Stats } from './stats/Stats/Stats';
@@ -38,6 +37,9 @@ export { default as DevToStatCard } from './stats/DevToStatCard/DevToStatCard';
 export { default as HuggingFaceStatCard } from './stats/HuggingFaceStatCard/HuggingFaceStatCard';
 export { default as BlogStatCard } from './stats/BlogStatCard/BlogStatCard';
 export { default as NowActivity } from './stats/NowActivity/NowActivity';
+
+// Not found
+export { default as NotFound } from './notFound/NotFound/NotFound';
 
 // Resume
 export { default as Resume } from './resume/Resume/Resume';

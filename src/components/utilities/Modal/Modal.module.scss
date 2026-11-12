@@ -1,5 +1,4 @@
 @use 'styles/shared/mixin' as *;
-@use 'styles/shared/variables' as *;
 
 .Modal {
 	position: fixed;
@@ -9,7 +8,7 @@
 	bottom: 0;
 	width: 100%;
 	height: 100%;
-	background-color: color-mix(in srgb, var(--color-black) 55%, transparent);
+	background-color: color-mix(in srgb, var(--bg) 55%, transparent);
 	backdrop-filter: blur(8px);
 	z-index: 1000;
 	display: flex;
@@ -18,15 +17,13 @@
 	padding: rem(16);
 
 	&__content {
-		background-color: color-mix(in srgb, var(--color-primary) 82%, transparent);
+		background-color: color-mix(in srgb, var(--inverse-bg) 82%, transparent);
 		backdrop-filter: blur(24px) saturate(160%);
-		border: rem(1) solid
-			color-mix(in srgb, var(--color-secondary) 15%, transparent);
+		border: rem(1) solid color-mix(in srgb, var(--surface-3) 15%, transparent);
 		border-radius: rem(24);
 		box-shadow:
-			inset 0 1px 0 color-mix(in srgb, var(--color-white) 10%, transparent),
-			0 rem(30) rem(60) rem(-20)
-				color-mix(in srgb, var(--color-black) 35%, transparent);
+			inset 0 1px 0 color-mix(in srgb, var(--fg) 10%, transparent),
+			0 rem(30) rem(60) rem(-20) color-mix(in srgb, var(--bg) 35%, transparent);
 		max-width: rem(600);
 		width: 100%;
 		max-height: 88vh;
@@ -43,14 +40,14 @@
 		gap: rem(16);
 		padding: rem(20) rem(24);
 		border-bottom: rem(1) solid
-			color-mix(in srgb, var(--color-secondary) 12%, transparent);
+			color-mix(in srgb, var(--surface-3) 12%, transparent);
 		flex-shrink: 0;
 	}
 
 	&__title {
 		font-size: rem(18);
 		font-weight: 700;
-		color: $color-secondary;
+		color: var(--surface-3);
 		text-transform: uppercase;
 		letter-spacing: -0.01em;
 		margin: 0;
@@ -61,20 +58,19 @@
 		height: rem(36);
 		flex-shrink: 0;
 		background: transparent;
-		border: rem(1) solid
-			color-mix(in srgb, var(--color-secondary) 20%, transparent);
-		color: $color-secondary;
+		border: rem(1) solid color-mix(in srgb, var(--surface-3) 20%, transparent);
+		color: var(--surface-3);
 		cursor: pointer;
 		border-radius: 50%;
-		transition: $transition;
+		transition: all var(--dur-1) ease;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 
 		&:hover {
-			background-color: $color-secondary;
-			border-color: $color-secondary;
-			color: $color-primary;
+			background-color: var(--surface-3);
+			border-color: var(--surface-3);
+			color: var(--inverse-bg);
 		}
 
 		svg {

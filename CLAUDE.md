@@ -50,7 +50,6 @@ portfolio-nithin/
 │   │   ├── layout.tsx          # Root layout — fonts, providers, persistent UI
 │   │   ├── page.tsx            # Homepage (Server Component)
 │   │   ├── provider.tsx        # Client providers (Theme, Lenis, analytics)
-│   │   └── transition.tsx      # Page transition curve (AnimatePresence)
 │   ├── assets/
 │   │   ├── icons/              # SVG icon components
 │   │   └── logos/              # Brand logo components and SVG files
@@ -83,8 +82,8 @@ portfolio-nithin/
 │   │   └── subscriptions/
 │   ├── styles/
 │   │   ├── globals.scss        # Global resets and base styles
-│   │   ├── theme.scss          # CSS custom properties for dark/light themes
-│   │   └── shared/             # _variables.scss, _mixin.scss, _fonts.scss, _base.scss
+│   │   ├── tokens.scss         # Design tokens (dark/light), mirrored in tokens.ts
+│   │   └── shared/             # _mixin.scss, _fonts.scss, _base.scss
 │   └── types/                  # TypeScript interfaces/types per domain
 ├── templates/                  # Plop Handlebars templates (component, page)
 ├── next.config.js              # SVGR, Sentry, image domains, env vars
@@ -114,17 +113,17 @@ All page content lives in Contentful. `loadData('home')` fetches the full page t
 
 ### Theme System
 
-CSS custom properties on `:root` (dark, default) and `[data-theme='light']` in `theme.scss`. `ThemeContext` toggles `data-theme` on `<html>`. SCSS uses `$color-*` variables from `_variables.scss`, which are aliases to the CSS vars — never hardcode hex values.
+Semantic CSS custom properties (`--bg`, `--fg`, `--muted`, `--line`, `--accent`, `--surface-*`, …) on `:root` (dark, default) and `[data-theme='light']` in `src/styles/tokens.scss`. `ThemeContext` toggles `data-theme` on `<html>`. SCSS uses `var(--token)` directly — never hardcode hex values. `src/styles/tokens.ts` mirrors the few values JS needs (OG images, manifest, icons).
 
 ### Animation Strategy
 
 - **Motion/React**: Declarative component animations (page transitions, scroll reveals, stagger children). Reusable variants live in `helpers/animations.ts`.
-- **GSAP**: Imperative mouse/scroll effects (MagneticButton hover tracking, HomeCertifications auto-scroll). Use GSAP only when Motion can't do it cleanly.
+- **GSAP**: Imperative mouse/scroll effects (`useMagneticHover` on the hero and footer CTAs). Use GSAP only when Motion can't do it cleanly.
 - **Lenis**: Smooth scroll provider wrapping the whole app via `ReactLenis` in `provider.tsx`.
 
 ### Page Transitions
 
-`transition.tsx` (the `Curve` component) wraps all page content in `AnimatePresence`. It renders an SVG curve overlay and a welcome text phrase per route.
+`components/layouts/PageTransition` wraps page content in a React `<ViewTransition>` keyed by pathname (old page fades, ink panel wipes, new page reveals), plus named shared-element morphs for blog and portfolio images.
 
 ---
 
@@ -182,24 +181,22 @@ Default to **no comments**. Only comment when the _why_ is non-obvious (hidden c
 
 ## 6. Key Files
 
-| File                                                                    | Purpose                                                                                       |
-| ----------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| [src/app/layout.tsx](src/app/layout.tsx)                                | Root layout — fonts, Sentry, global providers, persistent UI elements                         |
-| [src/app/page.tsx](src/app/page.tsx)                                    | Homepage — fetches Contentful data and distributes to section components                      |
-| [src/app/provider.tsx](src/app/provider.tsx)                            | Client providers: ThemeProvider, ReactLenis, GTM init                                         |
-| [src/app/transition.tsx](src/app/transition.tsx)                        | SVG curve page transition (AnimatePresence wrapper)                                           |
-| [src/helpers/contentful.ts](src/helpers/contentful.ts)                  | All Contentful data fetching (`loadData`, `loadBlogPosts`, `loadBlogPostBySlug`) + converters |
-| [src/helpers/animations.ts](src/helpers/animations.ts)                  | Shared Motion/React animation variant definitions                                             |
-| [src/constants/index.tsx](src/constants/index.tsx)                      | Nav links, social links, footer links, contact options, song list                             |
-| [src/styles/theme.scss](src/styles/theme.scss)                          | CSS custom properties for dark + light themes                                                 |
-| [src/styles/shared/\_variables.scss](src/styles/shared/_variables.scss) | SCSS `$color-*` variables (aliases to CSS vars)                                               |
-| [src/styles/shared/\_mixin.scss](src/styles/shared/_mixin.scss)         | `rem()` function + responsive breakpoints                                                     |
-| [lib/apolloClient.ts](lib/apolloClient.ts)                              | Apollo Client singleton (SSR-aware, Contentful GraphQL endpoint)                              |
-| [src/services/index.ts](src/services/index.ts)                          | BaseService — generic Supabase CRUD operations                                                |
-| [src/queries/index.ts](src/queries/index.ts)                            | All Contentful GraphQL queries (`GET_PAGE`, blog queries)                                     |
-| [next.config.js](next.config.js)                                        | SVGR config, Sentry wrapper, allowed image hostnames, env vars                                |
-| [plopfile.ts](plopfile.ts)                                              | Plop generators for component and page scaffolding                                            |
-| [src/clients/supabase.ts](src/clients/supabase.ts)                      | Supabase client singleton                                                                     |
+| File                                                            | Purpose                                                                                       |
+| --------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| [src/app/layout.tsx](src/app/layout.tsx)                        | Root layout — fonts, Sentry, global providers, persistent UI elements                         |
+| [src/app/page.tsx](src/app/page.tsx)                            | Homepage — fetches Contentful data and distributes to section components                      |
+| [src/app/provider.tsx](src/app/provider.tsx)                    | Client providers: ThemeProvider, ReactLenis, GTM init                                         |
+| [src/helpers/contentful.ts](src/helpers/contentful.ts)          | All Contentful data fetching (`loadData`, `loadBlogPosts`, `loadBlogPostBySlug`) + converters |
+| [src/helpers/animations.ts](src/helpers/animations.ts)          | Shared Motion/React animation variant definitions                                             |
+| [src/constants/index.tsx](src/constants/index.tsx)              | Nav links, social links, footer links, contact options, song list                             |
+| [src/styles/tokens.scss](src/styles/tokens.scss)                | Design tokens: colour, type scale, spacing, grid, motion (dark + light)                       |
+| [src/styles/shared/\_mixin.scss](src/styles/shared/_mixin.scss) | `rem()` function + responsive breakpoints                                                     |
+| [lib/apolloClient.ts](lib/apolloClient.ts)                      | Apollo Client singleton (SSR-aware, Contentful GraphQL endpoint)                              |
+| [src/services/index.ts](src/services/index.ts)                  | BaseService — generic Supabase CRUD operations                                                |
+| [src/queries/index.ts](src/queries/index.ts)                    | All Contentful GraphQL queries (`GET_PAGE`, blog queries)                                     |
+| [next.config.js](next.config.js)                                | SVGR config, Sentry wrapper, allowed image hostnames, env vars                                |
+| [plopfile.ts](plopfile.ts)                                      | Plop generators for component and page scaffolding                                            |
+| [src/clients/supabase.ts](src/clients/supabase.ts)              | Supabase client singleton                                                                     |
 
 ---
 
@@ -255,7 +252,7 @@ Pre-commit hook runs `prettier:fix` + `eslint:fix` on staged files via lint-stag
 
 - Use `pnpm generate` (Plop) when creating new components — it scaffolds all required files.
 - Import from barrel `index.ts` files: `import { Button } from 'components/utilities'`.
-- Use `$color-*` SCSS variables for all colors — never hardcode hex values.
+- Use semantic `var(--token)` colours from `tokens.scss` — never hardcode hex values.
 - Keep reusable animation variants in `helpers/animations.ts`.
 - Write Server Components for pages that fetch data; pass data down as props to Client Components.
 - Add `'use client'` only when the component uses browser APIs, hooks, or event handlers.
@@ -286,7 +283,7 @@ Pre-commit hook runs `prettier:fix` + `eslint:fix` on staged files via lint-stag
 **Preferred solutions:**
 
 - Animation: Use Motion/React unless mouse-tracking or GSAP-specific easing is needed.
-- Styling: SCSS Modules with `$color-*` vars. No inline styles except for Motion `style` props.
+- Styling: SCSS Modules with `var(--token)` colours. No inline styles except for Motion `style` props.
 - Data fetching: Server Components with Apollo for Contentful. Service classes for Supabase.
 - Forms: React Hook Form + Yup — don't invent alternatives.
 - Code generation: Always suggest `pnpm generate` for new components; follow the Plop template structure.
@@ -300,4 +297,4 @@ Pre-commit hook runs `prettier:fix` + `eslint:fix` on staged files via lint-stag
 
 **Commit messages:** Conventional Commits format required. Husky will reject non-conforming commits.
 
-**When in doubt about a component pattern**, look at `HomeHeader` or `MagneticButton` as reference implementations for complex client components with GSAP/Motion.
+**When in doubt about a component pattern**, look at `HomeHeader` or `WorksIndex` as reference implementations for complex client components with GSAP/Motion.

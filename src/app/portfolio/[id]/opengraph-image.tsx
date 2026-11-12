@@ -3,44 +3,22 @@ import { ImageResponse } from 'next/og';
 import { siteConfig } from 'config/site';
 import { positionOf } from 'helpers/caseStudy';
 import { loadPortfolioData, loadWorksOrder } from 'helpers/contentful';
+import {
+	OG_PAD as PAD,
+	OgDot,
+	loadGoogleFont,
+	ogContentType,
+	ogHairline as hairline,
+	ogHost as host,
+	ogSize,
+} from 'helpers/og';
 import { palette } from 'styles/tokens';
 
 export const alt = `Case study — ${siteConfig.name}`;
-export const size = { width: 1200, height: 630 };
-export const contentType = 'image/png';
+export const size = ogSize;
+export const contentType = ogContentType;
 
-const PAD = 64;
 const COVER_WIDTH = 400;
-const hairline = `${palette.paper}24`;
-
-/** `axis` is the Google Fonts css2 axis spec, e.g. `wght@500` or `ital@1`. */
-async function loadGoogleFont(
-	family: string,
-	axis: string,
-	text: string
-): Promise<ArrayBuffer> {
-	const css = await (
-		await fetch(
-			`https://fonts.googleapis.com/css2?family=${family}:${axis}&text=${encodeURIComponent(text)}`,
-			{
-				headers: {
-					// An old UA makes Google serve TTF, which Satori can read (it can't read WOFF2)
-					'User-Agent':
-						'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8) AppleWebKit/533.21.1 (KHTML, like Gecko) Version/5.0.5 Safari/533.21.1',
-				},
-			}
-		)
-	).text();
-	const resource = css.match(
-		/src: url\((.+?)\) format\('(?:opentype|truetype)'\)/
-	);
-
-	if (!resource) {
-		throw new Error(`Failed to resolve font: ${family} ${axis}`);
-	}
-
-	return (await fetch(resource[1])).arrayBuffer();
-}
 
 const pad = (n: number): string => String(n).padStart(2, '0');
 
@@ -72,7 +50,6 @@ export default async function Image({
 	const kicker = position
 		? `${pad(position.position)}/${pad(position.total)}`
 		: '';
-	const host = new URL(siteConfig.url).host;
 	const titleSize = title.length > 40 ? 64 : title.length > 24 ? 80 : 96;
 	const monoText = `${siteConfig.name.toUpperCase()}${kicker}${year}${tech.join(' · ')}${host}—`;
 
@@ -168,14 +145,7 @@ export default async function Image({
 							whiteSpace: 'nowrap',
 						}}
 					>
-						<div
-							style={{
-								width: 10,
-								height: 10,
-								borderRadius: 999,
-								backgroundColor: palette.orange,
-							}}
-						/>
+						<OgDot />
 						{host}
 					</div>
 				</div>

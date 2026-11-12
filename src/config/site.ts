@@ -23,7 +23,7 @@ export const siteConfig = {
 	description:
 		'Senior Technical Consultant at EY in Bangalore, building AI agents, guardrails and MCP infrastructure for enterprise, plus full-stack products with Next.js, Node.js and Python.',
 	ogImage: {
-		url: '/opengraph-image.jpeg',
+		url: '/opengraph-image',
 		width: 1200,
 		height: 630,
 		alt: 'Nithin Pradeep — Senior Technical Consultant @ EY',

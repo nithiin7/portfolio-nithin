@@ -1,5 +1,4 @@
 @use 'styles/shared/mixin' as *;
-@use 'styles/shared/variables' as *;
 
 .CommandPalette {
 	position: fixed;
@@ -17,13 +16,13 @@
 		max-height: 70vh;
 		display: flex;
 		flex-direction: column;
-		background: color-mix(in srgb, var(--color-secondary) 78%, transparent);
+		background: color-mix(in srgb, var(--surface-3) 78%, transparent);
 		backdrop-filter: blur(24px) saturate(160%);
-		color: $color-white;
-		border: 1px solid color-mix(in srgb, var(--color-white) 12%, transparent);
+		color: var(--fg);
+		border: 1px solid color-mix(in srgb, var(--fg) 12%, transparent);
 		border-radius: rem(16);
 		box-shadow:
-			inset 0 1px 0 color-mix(in srgb, var(--color-white) 8%, transparent),
+			inset 0 1px 0 color-mix(in srgb, var(--fg) 8%, transparent),
 			0 rem(20) rem(60) rgba(0, 0, 0, 0.35);
 		overflow: hidden;
 	}
@@ -33,11 +32,11 @@
 		align-items: center;
 		gap: rem(12);
 		padding: rem(16) rem(20);
-		border-bottom: 1px solid var(--color-toggle-border);
+		border-bottom: 1px solid var(--line);
 
 		svg {
 			flex-shrink: 0;
-			color: $color-light;
+			color: color-mix(in srgb, var(--fg) 60%, transparent);
 			font-size: rem(18);
 		}
 
@@ -47,12 +46,12 @@
 			background: transparent;
 			border: none;
 			outline: none;
-			color: $color-white;
-			font-family: $font-primary;
+			color: var(--fg);
+			font-family: var(--font-text);
 			font-size: rem(16);
 
 			&::placeholder {
-				color: $color-light;
+				color: color-mix(in srgb, var(--fg) 60%, transparent);
 			}
 		}
 	}
@@ -71,7 +70,7 @@
 		font-weight: 500;
 		text-transform: uppercase;
 		letter-spacing: 0.08em;
-		color: $color-light;
+		color: color-mix(in srgb, var(--fg) 60%, transparent);
 	}
 
 	&__item {
@@ -83,14 +82,14 @@
 		background: transparent;
 		border: none;
 		border-radius: rem(8);
-		color: $color-white;
-		font-family: $font-primary;
+		color: var(--fg);
+		font-family: var(--font-text);
 		font-size: rem(14);
 		text-align: left;
 		cursor: pointer;
 
 		&--active {
-			background: color-mix(in srgb, var(--color-accent) 20%, transparent);
+			background: color-mix(in srgb, var(--accent) 20%, transparent);
 		}
 
 		&-icon {
@@ -111,7 +110,7 @@
 		&-badge {
 			padding: rem(2) rem(8);
 			border-radius: rem(20);
-			background: $color-accent;
+			background: var(--accent);
 			color: #fff;
 			font-size: rem(10);
 			font-weight: 700;
@@ -120,7 +119,7 @@
 	}
 
 	&__answer {
-		border-top: 1px solid var(--color-toggle-border);
+		border-top: 1px solid var(--line);
 		overflow: hidden;
 		flex-shrink: 0;
 
@@ -131,11 +130,11 @@
 			padding: rem(14) rem(20) 0;
 			font-size: rem(13);
 			font-weight: 600;
-			color: $color-light;
+			color: color-mix(in srgb, var(--fg) 60%, transparent);
 
 			svg {
 				flex-shrink: 0;
-				color: $color-accent;
+				color: var(--accent);
 			}
 		}
 
@@ -145,13 +144,13 @@
 			padding: rem(10) rem(20) rem(16);
 			font-size: rem(14);
 			line-height: 1.6;
-			color: $color-white;
+			color: var(--fg);
 			max-height: rem(200);
 			overflow-y: auto;
 		}
 
 		&-error {
-			color: $color-error;
+			color: var(--danger);
 		}
 
 		&-loading {
@@ -163,7 +162,7 @@
 				width: rem(6);
 				height: rem(6);
 				border-radius: 50%;
-				background: $color-light;
+				background: color-mix(in srgb, var(--fg) 60%, transparent);
 				animation: pulse 1s ease-in-out infinite;
 
 				&:nth-child(2) {
@@ -182,9 +181,9 @@
 		align-items: center;
 		gap: rem(16);
 		padding: rem(10) rem(20);
-		border-top: 1px solid var(--color-toggle-border);
+		border-top: 1px solid var(--line);
 		font-size: rem(11);
-		color: $color-light;
+		color: color-mix(in srgb, var(--fg) 60%, transparent);
 
 		span {
 			display: flex;
@@ -196,7 +195,7 @@
 			margin-left: auto;
 
 			svg {
-				color: $color-accent;
+				color: var(--accent);
 			}
 		}
 	}
@@ -207,11 +206,11 @@
 		justify-content: center;
 		min-width: rem(20);
 		padding: rem(2) rem(5);
-		border: 1px solid var(--color-toggle-border);
+		border: 1px solid var(--line);
 		border-radius: rem(4);
 		background: rgba(0, 0, 0, 0.15);
-		color: $color-light;
-		font-family: $font-primary;
+		color: color-mix(in srgb, var(--fg) 60%, transparent);
+		font-family: var(--font-text);
 		font-size: rem(11);
 		line-height: 1.4;
 	}
@@ -224,15 +223,15 @@
 		display: flex;
 		align-items: center;
 		padding: rem(10);
-		background: color-mix(in srgb, var(--color-secondary) 78%, transparent);
+		background: color-mix(in srgb, var(--surface-3) 78%, transparent);
 		backdrop-filter: blur(16px) saturate(160%);
-		color: $color-white;
-		border: 1px solid color-mix(in srgb, var(--color-white) 12%, transparent);
+		color: var(--fg);
+		border: 1px solid color-mix(in srgb, var(--fg) 12%, transparent);
 		border-radius: rem(30);
 		box-shadow:
-			inset 0 1px 0 color-mix(in srgb, var(--color-white) 8%, transparent),
+			inset 0 1px 0 color-mix(in srgb, var(--fg) 8%, transparent),
 			0 rem(8) rem(32) rgba(0, 0, 0, 0.15);
-		font-family: $font-primary;
+		font-family: var(--font-text);
 		font-size: rem(12);
 		cursor: pointer;
 		transition: padding 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -243,7 +242,7 @@
 
 		&:hover {
 			box-shadow:
-				inset 0 1px 0 color-mix(in srgb, var(--color-white) 8%, transparent),
+				inset 0 1px 0 color-mix(in srgb, var(--fg) 8%, transparent),
 				0 rem(12) rem(40) rgba(0, 0, 0, 0.25);
 		}
 
@@ -278,10 +277,10 @@
 				justify-content: center;
 				min-width: rem(20);
 				padding: rem(2) rem(5);
-				border: 1px solid var(--color-toggle-border);
+				border: 1px solid var(--line);
 				border-radius: rem(4);
 				background: rgba(0, 0, 0, 0.15);
-				font-family: $font-primary;
+				font-family: var(--font-text);
 				font-size: rem(11);
 			}
 		}

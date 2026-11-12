@@ -23,6 +23,7 @@
 		"generate": "plop",
 		"embed": "node --env-file-if-exists=.env scripts/embed.ts",
 		"embed:check": "node scripts/embed.ts --check",
+		"icons": "node scripts/icons.ts",
 		"test": "vitest run",
 		"test:watch": "vitest",
 		"test:e2e": "playwright test",

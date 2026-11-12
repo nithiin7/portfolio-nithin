@@ -19,7 +19,6 @@ $orange-hover: #e64500;
 $orange-deep: #b83800;
 $red: #e5484d;
 $red-deep: #b42318;
-$red-legacy: #9e1f1f;
 
 @mixin theme-dark {
 	color-scheme: dark;
@@ -99,7 +98,6 @@ $red-legacy: #9e1f1f;
 	// Theme-independent ink/paper for blocks that never flip (transition panel).
 	--ink: #{$ink};
 	--paper: #{$paper};
-	--legacy-warning: #{$red-legacy};
 
 	// Type: next/font exposes --font-inter-tight / --font-instrument-serif / --font-jetbrains-mono
 	--font-display:

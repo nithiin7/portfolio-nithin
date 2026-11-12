@@ -1,5 +1,4 @@
 import type { FC, ReactElement } from 'react';
-import { SiWakatime } from 'react-icons/si';
 
 import {
 	ActivityChart,
@@ -24,12 +23,7 @@ const WakaTimeStatCard: FC<WakaTimeStatCardProps> = ({
 	if (!stats) return null;
 
 	return (
-		<StatCard
-			icon={<SiWakatime />}
-			title="Coding activity"
-			subtitle="WakaTime · last 7 days"
-			live
-		>
+		<StatCard title="Coding activity" subtitle="WakaTime · last 7 days" live>
 			<div className={styles.WakaTimeStatCard__metrics}>
 				<StatMetric value={stats.humanReadableTotal} label="This week" />
 				<StatMetric

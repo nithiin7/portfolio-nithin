@@ -20,21 +20,12 @@ export async function generateMetadata(): Promise<Metadata> {
 			title: path.title,
 			description: path.description,
 			siteName: 'Nithin Pradeep - Portfolio',
-			images: [
-				{
-					url: '/opengraph-image.jpeg',
-					width: 1200,
-					height: 630,
-					alt: 'Contact Nithin Pradeep - Full Stack Developer',
-				},
-			],
 		},
 		twitter: {
 			card: 'summary_large_image',
 			title: path.title,
 			description: path.description,
 			creator: '@nithiin7',
-			images: ['/opengraph-image.jpeg'],
 		},
 		robots: {
 			index: true,
