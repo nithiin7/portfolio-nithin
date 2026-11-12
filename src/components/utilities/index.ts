@@ -15,6 +15,8 @@ export { default as RouteError } from './RouteError/RouteError';
 export type { RouteErrorProps } from './RouteError/RouteError';
 export { default as SkipLink } from './SkipLink/SkipLink';
 export { default as Tag } from './Tag/Tag';
+export { default as ThemedImage } from './ThemedImage/ThemedImage';
+export type { ThemedImageProps } from './ThemedImage/ThemedImage';
 export type { TagProps } from './Tag/Tag';
 export { default as TagContainer } from './TagContainer/TagContainer';
 export type { TagContainerProps } from './TagContainer/TagContainer';

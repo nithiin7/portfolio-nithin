@@ -128,7 +128,14 @@ const loadWorksOrder = async (): Promise<PortfolioItem[]> => {
 		.flatMap((list) => list?.contentsCollection?.items ?? [])
 		.flatMap((card) =>
 			card?.id !== undefined && card.title
-				? [{ id: card.id, title: card.title, image: card.image ?? { url: '' } }]
+				? [
+						{
+							id: card.id,
+							title: card.title,
+							image: card.image ?? { url: '' },
+							imageDark: card.imageDark,
+						},
+					]
 				: []
 		);
 };

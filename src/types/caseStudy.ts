@@ -36,7 +36,9 @@ export interface CaseStudyNext {
 	id: number;
 	title: string;
 	image?: string;
+	imageDark?: string;
 	blurDataURL?: string;
+	blurDataURLDark?: string;
 	position: number;
 	total: number;
 }

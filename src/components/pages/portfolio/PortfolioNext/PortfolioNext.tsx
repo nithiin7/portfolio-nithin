@@ -1,9 +1,9 @@
 'use client';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useState, ViewTransition, type FC, type ReactElement } from 'react';
 
 import RevealText from 'components/motion/RevealText/RevealText';
+import ThemedImage from 'components/utilities/ThemedImage/ThemedImage';
 import { useMediaQuery } from 'hooks/useMediaQuery';
 import type { CaseStudyNext } from 'types/caseStudy';
 
@@ -48,13 +48,14 @@ const PortfolioNext: FC<PortfolioNextProps> = ({ next }): ReactElement => {
 							update="none"
 						>
 							<div className={styles.PortfolioNext__image}>
-								<Image
+								<ThemedImage
 									src={next.image}
+									srcDark={next.imageDark}
 									alt=""
 									fill
 									sizes="100vw"
-									placeholder={next.blurDataURL ? 'blur' : 'empty'}
 									blurDataURL={next.blurDataURL}
+									blurDataURLDark={next.blurDataURLDark}
 								/>
 							</div>
 						</ViewTransition>

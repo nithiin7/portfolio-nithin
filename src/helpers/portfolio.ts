@@ -38,6 +38,9 @@ export const enrichPortfolio = async (
 				item.summary ??
 				(item.id !== undefined ? summaries.get(item.id) : undefined),
 			blurDataURL: item.image?.url ? await getBlur(item.image.url) : undefined,
+			blurDataURLDark: item.imageDark?.url
+				? await getBlur(item.imageDark.url)
+				: undefined,
 		}))
 	);
 

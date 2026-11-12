@@ -1,0 +1,23 @@
+[
+	{
+		"file": "remote-file-server-mcp--type-plate.png",
+		"debug": "remote-file-server-mcp--type-plate.debug.png",
+		"template": "type-plate",
+		"alt": "Statement: read-only access to SMB file shares for any MCP client, signed, audited and traversal-proof.",
+		"use": [
+			"card",
+			"spotlight"
+		],
+		"surface": "ink"
+	},
+	{
+		"file": "remote-file-server-mcp--type-capabilities.png",
+		"debug": "remote-file-server-mcp--type-capabilities.debug.png",
+		"template": "type-plate",
+		"alt": "Code excerpt listing the server’s tools (list, read, glob search, metadata) and security settings: SMB signing enforced, path traversal blocked, sensitive files denied, JSON audit log.",
+		"use": [
+			"gallery"
+		],
+		"surface": "paper"
+	}
+]

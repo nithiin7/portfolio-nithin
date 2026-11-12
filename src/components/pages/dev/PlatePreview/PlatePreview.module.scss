@@ -1,0 +1,106 @@
+@use 'styles/shared/mixin' as *;
+
+.PlatePreview {
+	min-height: 100svh;
+	padding: calc(var(--nav-height) + var(--space-6)) var(--grid-margin)
+		var(--space-10);
+	background: var(--bg);
+	color: var(--fg);
+
+	&__head {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: var(--space-3) var(--space-5);
+		padding-bottom: var(--space-5);
+		border-bottom: 1px solid var(--line);
+	}
+
+	&__title {
+		font-size: var(--step-3);
+		font-weight: 500;
+		line-height: var(--leading-tight);
+	}
+
+	&__meta {
+		@include mono-label;
+	}
+
+	&__toggle {
+		@include mono-label;
+		@include tap-target;
+
+		margin-left: auto;
+		color: var(--fg);
+	}
+
+	&__empty {
+		padding-block: var(--space-6);
+	}
+
+	&__plate {
+		display: grid;
+		gap: var(--space-5);
+		padding-block: var(--space-7);
+		border-bottom: 1px solid var(--line);
+	}
+
+	&__plateHead {
+		display: grid;
+		gap: var(--space-2);
+	}
+
+	&__file {
+		font-family: var(--font-mono);
+		font-size: var(--step-0);
+		font-weight: 400;
+		overflow-wrap: anywhere;
+	}
+
+	&__alt {
+		max-width: 70ch;
+		color: var(--fg-subtle);
+	}
+
+	&__viewports {
+		display: grid;
+		gap: var(--space-6);
+
+		@media #{$lg} {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: var(--grid-gutter);
+		}
+	}
+
+	&__viewport {
+		display: grid;
+		align-content: start;
+		gap: var(--space-3);
+	}
+
+	&__crops {
+		display: grid;
+		gap: var(--space-4);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	&__crop {
+		display: grid;
+		gap: var(--space-2);
+	}
+
+	&__frame {
+		position: relative;
+		aspect-ratio: var(--ratio);
+		overflow: hidden;
+		background: var(--surface-1);
+		outline: 1px solid var(--line);
+
+		img {
+			object-fit: cover;
+			transform: scale(var(--zoom));
+		}
+	}
+}
