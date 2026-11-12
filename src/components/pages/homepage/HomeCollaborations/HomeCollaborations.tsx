@@ -1,10 +1,5 @@
 'use client';
-import {
-	useMotionValueEvent,
-	useReducedMotion,
-	useScroll,
-	useVelocity,
-} from 'motion/react';
+import { useMotionValueEvent, useScroll, useVelocity } from 'motion/react';
 import {
 	useRef,
 	useState,
@@ -14,6 +9,7 @@ import {
 } from 'react';
 
 import RevealText from 'components/motion/RevealText/RevealText';
+import { useLiteMotion } from 'hooks/useLiteMotion';
 
 import styles from './HomeCollaborations.module.scss';
 
@@ -94,14 +90,16 @@ const HomeCollaborations: FC<HomeCollaborationsProps> = ({
 }): ReactElement => {
 	const trackRef = useRef<HTMLDivElement>(null);
 	const [paused, setPaused] = useState(false);
-	const reduced = useReducedMotion();
+	const lite = useLiteMotion();
 
 	const { scrollY } = useScroll();
 	const velocity = useVelocity(scrollY);
 
 	useMotionValueEvent(velocity, 'change', (v) => {
-		if (reduced || paused) return;
-		const rate = 1 + Math.min(Math.abs(v) / 1500, MAX_BOOST);
+		if (lite || paused) return;
+		// Viewports per second, so the same flick feels the same at 1080p and 4K
+		const rate =
+			1 + Math.min(Math.abs(v) / (window.innerHeight * 1.6), MAX_BOOST);
 		trackRef.current?.getAnimations().forEach((animation) => {
 			animation.playbackRate = rate;
 		});

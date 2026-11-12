@@ -129,11 +129,18 @@
 			transparent
 		);
 
-		&:hover,
 		&:focus-within,
 		&--paused {
 			.HomeCollaborations__track {
 				animation-play-state: paused;
+			}
+		}
+
+		@media #{$can-hover} {
+			&:hover {
+				.HomeCollaborations__track {
+					animation-play-state: paused;
+				}
 			}
 		}
 

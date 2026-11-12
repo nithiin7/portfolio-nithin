@@ -20,8 +20,8 @@ interface FeaturedCardProps {
 	index: number;
 }
 
-const LEAD_SIZES = '(min-width: 1680px) 1600px, 100vw';
-const CARD_SIZES = '(min-width: 1680px) 800px, (min-width: 768px) 50vw, 100vw';
+const LEAD_SIZES = '100vw';
+const CARD_SIZES = '(min-width: 768px) 50vw, 100vw';
 
 const FeaturedCard: FC<FeaturedCardProps> = ({
 	project,

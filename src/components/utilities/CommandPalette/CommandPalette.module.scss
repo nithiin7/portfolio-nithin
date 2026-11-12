@@ -31,7 +31,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: flex-start;
-	padding: max(var(--space-4), 12vh) var(--grid-margin) var(--space-4);
+	padding: max(var(--space-4), 12dvh) var(--grid-margin) var(--space-4);
 	background-color: color-mix(in srgb, var(--bg) 72%, transparent);
 	backdrop-filter: blur(8px);
 
@@ -39,7 +39,7 @@
 		display: flex;
 		flex-direction: column;
 		width: min(rem(680), 100%);
-		max-height: min(76vh, rem(720));
+		max-height: min(76dvh, rem(720));
 		background-color: var(--surface-1);
 		color: var(--fg);
 		border: 1px solid var(--line-strong);

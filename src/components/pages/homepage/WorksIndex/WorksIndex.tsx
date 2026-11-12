@@ -148,10 +148,7 @@ const WorksIndex: FC<WorksIndexProps> = ({
 								}}
 							>
 								<span className={styles.WorksIndex__thumb}>
-									<WorksMedia
-										project={project}
-										sizes="(min-width: 768px) 50vw, 100vw"
-									/>
+									<WorksMedia project={project} sizes="100vw" />
 								</span>
 								<span
 									className={styles.WorksIndex__colNumber}

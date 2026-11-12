@@ -30,7 +30,7 @@ const TagContainer: FC<TagContainerProps> = ({
 			<motion.div
 				className={combinedClass}
 				style={containerStyle}
-				initial={{ opacity: 0, y: 20 }}
+				initial={{ opacity: 0, y: '1.25rem' }}
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ duration: 0.6, delay }}
 			>

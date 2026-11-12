@@ -25,13 +25,17 @@
 		gap: var(--space-3);
 		min-width: 0;
 
-		&:hover .ActivityChart__tooltip {
-			opacity: 1;
-			translate: -50% 0;
+		@media #{$can-hover} {
+			&:hover .ActivityChart__tooltip {
+				opacity: 1;
+				translate: -50% 0;
+			}
 		}
 
-		&:hover .ActivityChart__bar {
-			background-color: var(--accent);
+		@media #{$can-hover} {
+			&:hover .ActivityChart__bar {
+				background-color: var(--accent);
+			}
 		}
 	}
 

@@ -30,8 +30,10 @@
 		color: var(--fg);
 		cursor: pointer;
 
-		&:hover {
-			color: var(--accent-text);
+		@media #{$can-hover} {
+			&:hover {
+				color: var(--accent-text);
+			}
 		}
 
 		&[data-copied='true'] {

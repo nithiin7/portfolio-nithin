@@ -211,10 +211,16 @@
 		font-size: var(--step-0);
 		transition: background-color var(--dur-1) var(--ease);
 
-		&:hover,
 		&:focus-visible {
 			background-color: var(--accent);
 			color: var(--accent-fg);
+		}
+
+		@media #{$can-hover} {
+			&:hover {
+				background-color: var(--accent);
+				color: var(--accent-fg);
+			}
 		}
 	}
 
@@ -235,17 +241,24 @@
 		}
 	}
 
-	&__cta:hover &__roll span,
 	&__cta:focus-visible &__roll span {
 		transform: translateY(-100%);
+	}
+
+	@media #{$can-hover} {
+		&__cta:hover &__roll span {
+			transform: translateY(-100%);
+		}
 	}
 
 	&__arrow {
 		transition: transform var(--dur-1) var(--ease);
 	}
 
-	&__cta:hover &__arrow {
-		transform: translateX(rem(4));
+	@media #{$can-hover} {
+		&__cta:hover &__arrow {
+			transform: translateX(rem(4));
+		}
 	}
 
 	&__secondary {
@@ -268,13 +281,23 @@
 			transition: transform var(--dur-1) var(--ease);
 		}
 
-		&:hover,
 		&:focus-visible {
 			color: var(--fg);
 
 			&::after {
 				transform: scaleX(1);
 				transform-origin: left;
+			}
+		}
+
+		@media #{$can-hover} {
+			&:hover {
+				color: var(--fg);
+
+				&::after {
+					transform: scaleX(1);
+					transform-origin: left;
+				}
 			}
 		}
 	}

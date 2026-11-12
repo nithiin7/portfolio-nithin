@@ -50,9 +50,14 @@
 	&__media {
 		transition: transform var(--dur-2) var(--ease-out);
 
-		.WorksFeatured__card:hover &,
 		.WorksFeatured__card:focus-visible & {
 			transform: scale(1.03);
+		}
+
+		@media #{$can-hover} {
+			.WorksFeatured__card:hover & {
+				transform: scale(1.03);
+			}
 		}
 	}
 
@@ -105,9 +110,14 @@
 		background-size: 0% 2px;
 		transition: background-size var(--dur-2) var(--ease);
 
-		.WorksFeatured__card:hover &,
 		.WorksFeatured__card:focus-visible & {
 			background-size: 100% 2px;
+		}
+
+		@media #{$can-hover} {
+			.WorksFeatured__card:hover & {
+				background-size: 100% 2px;
+			}
 		}
 	}
 

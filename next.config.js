@@ -20,6 +20,9 @@ const nextConfig = {
 	},
 	images: {
 		qualities: [75],
+		// Default list plus 2560 so 1440p and 4K get a close match instead of
+		// jumping straight to 3840; mobile picks are unchanged.
+		deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 2560, 3840],
 		remotePatterns: [
 			{
 				protocol: 'https',

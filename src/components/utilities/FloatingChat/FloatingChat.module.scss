@@ -156,7 +156,7 @@
 		@media #{$md} {
 			left: auto;
 			width: rem(420);
-			height: min(rem(620), 74vh);
+			height: min(rem(620), 74dvh);
 			bottom: calc(var(--space-7) + var(--chrome-size) + var(--space-3));
 		}
 	}
@@ -304,7 +304,7 @@
 		> span:last-child {
 			display: none;
 
-			@media (hover: hover) and (pointer: fine) {
+			@media #{$can-hover} {
 				display: inline;
 			}
 		}

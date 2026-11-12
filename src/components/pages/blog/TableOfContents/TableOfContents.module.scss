@@ -90,8 +90,10 @@
 			transition: transform var(--dur-1) var(--ease);
 		}
 
-		&:hover {
-			color: var(--fg);
+		@media #{$can-hover} {
+			&:hover {
+				color: var(--fg);
+			}
 		}
 
 		&[aria-current='location'] {

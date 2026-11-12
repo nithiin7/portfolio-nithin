@@ -133,7 +133,7 @@ const WorksPreview: FC<WorksPreviewProps> = ({
 							<div className={styles.WorksPreview__layer} data-state={layer}>
 								<WorksMedia
 									project={project}
-									sizes="(min-width: 1440px) 420px, 30vw"
+									sizes="(min-width: 1920px) 22vw, (min-width: 1616px) 420px, (min-width: 1000px) 26vw, 260px"
 									playing={open && layer === 'active'}
 								/>
 							</div>

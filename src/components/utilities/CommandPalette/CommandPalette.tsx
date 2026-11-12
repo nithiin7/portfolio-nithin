@@ -73,7 +73,7 @@ const overlayVariants: Variants = {
 
 // Drops in from the top edge like a sheet of paper being pulled down.
 const panelVariants: Variants = {
-	hidden: { clipPath: 'inset(0% 0% 100% 0%)', y: -16 },
+	hidden: { clipPath: 'inset(0% 0% 100% 0%)', y: '-1rem' },
 	visible: {
 		clipPath: 'inset(0% 0% 0% 0%)',
 		y: 0,
@@ -81,7 +81,7 @@ const panelVariants: Variants = {
 	},
 	exit: {
 		clipPath: 'inset(0% 0% 100% 0%)',
-		y: -8,
+		y: '-0.5rem',
 		transition: { duration: duration.fast, ease },
 	},
 };
@@ -491,7 +491,7 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 							}}
 							onMouseEnter={() => setIsHintHovered(true)}
 							onMouseLeave={() => setIsHintHovered(false)}
-							initial={{ opacity: 0, y: 16, x: '-50%' }}
+							initial={{ opacity: 0, y: '1rem', x: '-50%' }}
 							animate={{
 								opacity: 1,
 								y: 0,
@@ -500,7 +500,7 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 							}}
 							exit={{
 								opacity: 0,
-								y: 16,
+								y: '1rem',
 								x: '-50%',
 								transition: { duration: duration.fast, ease },
 							}}

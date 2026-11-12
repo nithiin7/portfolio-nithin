@@ -91,9 +91,14 @@
 			color var(--dur-1) var(--ease-out),
 			transform var(--dur-1) var(--ease-out);
 
-		&:hover,
 		&[aria-current] {
 			color: var(--fg);
+		}
+
+		@media #{$can-hover} {
+			&:hover {
+				color: var(--fg);
+			}
 		}
 
 		&[aria-current] {

@@ -104,7 +104,7 @@ const richTextOptions = (assets: Map<string, BlogAsset>): Options => {
 							alt={asset.description || asset.title || ''}
 							width={1600}
 							height={1000}
-							sizes="(min-width: 1024px) 46rem, 100vw"
+							sizes="(min-width: 1920px) 39vw, (min-width: 1024px) 46rem, 100vw"
 						/>
 						{asset.title && <figcaption>{asset.title}</figcaption>}
 					</figure>

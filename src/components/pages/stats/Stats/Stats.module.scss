@@ -1,7 +1,7 @@
 @use 'styles/shared/mixin' as *;
 
 .Stats {
-	min-height: 100vh;
+	min-height: 100svh;
 	padding-top: calc(var(--nav-height) + var(--space-6));
 	padding-bottom: var(--space-10);
 	background: var(--bg);

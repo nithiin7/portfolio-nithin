@@ -1,7 +1,7 @@
 @use 'styles/shared/mixin' as *;
 
 .Blog {
-	min-height: 100vh;
+	min-height: 100svh;
 	padding-top: calc(var(--nav-height) + var(--space-6));
 	padding-bottom: var(--space-9);
 	background: var(--bg);
@@ -171,8 +171,10 @@
 			border-color var(--dur-1) var(--ease),
 			color var(--dur-1) var(--ease);
 
-		&:hover {
-			border-color: var(--fg);
+		@media #{$can-hover} {
+			&:hover {
+				border-color: var(--fg);
+			}
 		}
 
 		&[aria-pressed='true'] {

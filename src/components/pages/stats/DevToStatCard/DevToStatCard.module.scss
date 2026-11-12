@@ -27,8 +27,10 @@
 			-webkit-box-orient: vertical;
 			transition: color var(--dur-1) var(--ease-out);
 
-			&:hover {
-				color: var(--accent-text);
+			@media #{$can-hover} {
+				&:hover {
+					color: var(--accent-text);
+				}
 			}
 
 			&:focus-visible {

@@ -42,9 +42,14 @@
 			transition: transform var(--dur-2) var(--ease-out);
 		}
 
-		.PortfolioGallery__open:hover & img,
 		.PortfolioGallery__open:focus-visible & img {
 			transform: scale(1.03);
+		}
+
+		@media #{$can-hover} {
+			.PortfolioGallery__open:hover & img {
+				transform: scale(1.03);
+			}
 		}
 
 		.PortfolioGallery__item:nth-child(3n + 1) & {
@@ -117,9 +122,11 @@
 			background-color var(--dur-1) var(--ease-out),
 			color var(--dur-1) var(--ease-out);
 
-		&:hover {
-			background: var(--paper);
-			color: var(--ink);
+		@media #{$can-hover} {
+			&:hover {
+				background: var(--paper);
+				color: var(--ink);
+			}
 		}
 
 		&:focus-visible {

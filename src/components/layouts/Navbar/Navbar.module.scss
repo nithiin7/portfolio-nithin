@@ -41,8 +41,10 @@
 		letter-spacing: var(--tracking-display);
 		color: inherit;
 
-		&:hover {
-			color: inherit;
+		@media #{$can-hover} {
+			&:hover {
+				color: inherit;
+			}
 		}
 	}
 
@@ -93,7 +95,6 @@
 			transition: transform var(--dur-1) var(--ease);
 		}
 
-		&:hover,
 		&:focus-visible,
 		&[aria-current='page'] {
 			color: inherit;
@@ -101,6 +102,17 @@
 			&::after {
 				transform: scaleX(1);
 				transform-origin: left;
+			}
+		}
+
+		@media #{$can-hover} {
+			&:hover {
+				color: inherit;
+
+				&::after {
+					transform: scaleX(1);
+					transform-origin: left;
+				}
 			}
 		}
 	}
@@ -154,7 +166,9 @@
 		}
 	}
 
-	&__toggle:hover &__toggleIcon::after {
-		transform: scaleX(1);
+	@media #{$can-hover} {
+		&__toggle:hover &__toggleIcon::after {
+			transform: scaleX(1);
+		}
 	}
 }

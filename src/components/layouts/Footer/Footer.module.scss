@@ -166,9 +166,11 @@
 			color var(--dur-1) var(--ease);
 
 		// Filling with the ink colour completes the word on hover
-		&:hover {
-			background-color: var(--fg);
-			color: var(--bg);
+		@media #{$can-hover} {
+			&:hover {
+				background-color: var(--fg);
+				color: var(--bg);
+			}
 		}
 
 		&:focus-visible {
@@ -278,12 +280,18 @@
 		transition: background-size var(--dur-1) var(--ease);
 	}
 
-	&__link:hover,
 	&__link:focus-visible,
-	&__top:hover &__underline,
 	&__top:focus-visible &__underline {
 		background-position: 0% 100%;
 		background-size: 100% 1px;
+	}
+
+	@media #{$can-hover} {
+		&__link:hover,
+		&__top:hover &__underline {
+			background-position: 0% 100%;
+			background-size: 100% 1px;
+		}
 	}
 
 	&__link {
@@ -303,7 +311,8 @@
 		width: 100%;
 		max-width: var(--grid-max);
 		margin-inline: auto;
-		padding: var(--space-5) var(--grid-margin) var(--space-6);
+		padding: var(--space-5) var(--grid-margin)
+			max(var(--space-6), env(safe-area-inset-bottom));
 		color: var(--muted);
 
 		small {

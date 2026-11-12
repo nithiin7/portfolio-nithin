@@ -31,7 +31,7 @@
 
 		@media #{$md} {
 			max-width: rem(640);
-			max-height: 84vh;
+			max-height: 84dvh;
 			border: 1px solid var(--line-strong);
 			border-radius: var(--radius-1);
 		}
@@ -91,7 +91,7 @@
 			text-transform: uppercase;
 			transition: border-color var(--dur-1) var(--ease);
 
-			@media (hover: hover) and (pointer: fine) {
+			@media #{$can-hover} {
 				display: inline-flex;
 			}
 		}

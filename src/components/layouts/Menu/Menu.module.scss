@@ -11,9 +11,14 @@
 	color: var(--paper);
 	overflow-y: auto;
 
-	a,
-	a:hover {
+	a {
 		color: inherit;
+	}
+
+	@media #{$can-hover} {
+		a:hover {
+			color: inherit;
+		}
 	}
 
 	&__bar {
@@ -102,9 +107,14 @@
 		letter-spacing: var(--tracking-display);
 		transition: transform var(--dur-1) var(--ease);
 
-		&:hover,
 		&:focus-visible {
 			transform: translateX(rem(12));
+		}
+
+		@media #{$can-hover} {
+			&:hover {
+				transform: translateX(rem(12));
+			}
 		}
 	}
 
