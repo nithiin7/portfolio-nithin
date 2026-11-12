@@ -1,6 +1,7 @@
 import bundleAnalyzer from '@next/bundle-analyzer';
 import { withSentryConfig } from '@sentry/nextjs';
 import { withSerwist } from '@serwist/turbopack';
+import { PHASE_DEVELOPMENT_SERVER } from 'next/constants.js';
 
 const withBundleAnalyzer = bundleAnalyzer({
 	enabled: process.env.ANALYZE === 'true',
@@ -93,7 +94,9 @@ const nextConfig = {
 	},
 };
 
-export default withSentryConfig(withBundleAnalyzer(withSerwist(nextConfig)), {
+const DEFAULT_PAGE_EXTENSIONS = ['tsx', 'ts', 'jsx', 'js'];
+
+const SENTRY_OPTIONS = {
 	org: 'personal-tn1',
 	project: 'javascript-nextjs',
 	silent: true,
@@ -102,4 +105,23 @@ export default withSentryConfig(withBundleAnalyzer(withSerwist(nextConfig)), {
 		treeshake: { removeDebugLogging: true },
 		automaticVercelMonitors: true,
 	},
-});
+};
+
+// `page.dev.tsx` / `route.dev.ts` (e.g. /dev/plates) only exist under `next dev`,
+// so production builds never compile, route or sitemap them.
+export default (phase) =>
+	withSentryConfig(
+		withBundleAnalyzer(
+			withSerwist({
+				...nextConfig,
+				pageExtensions:
+					phase === PHASE_DEVELOPMENT_SERVER
+						? [
+								...DEFAULT_PAGE_EXTENSIONS.map((ext) => `dev.${ext}`),
+								...DEFAULT_PAGE_EXTENSIONS,
+							]
+						: DEFAULT_PAGE_EXTENSIONS,
+			})
+		),
+		SENTRY_OPTIONS
+	);
