@@ -4,7 +4,7 @@ import type { FC, ReactElement } from 'react';
 import RevealImage from 'components/motion/RevealImage/RevealImage';
 import RevealText from 'components/motion/RevealText/RevealText';
 import CountUp from 'components/pages/stats/CountUp/CountUp';
-import { aboutContent } from 'config/about';
+import type { Principle } from 'types/home';
 
 import styles from './HomeAbout.module.scss';
 
@@ -18,17 +18,21 @@ export interface AboutStat {
 interface HomeAboutProps {
 	className?: string;
 	title?: string;
-	portraitUrl?: string;
+	bio: string[];
+	portrait?: { url: string; alt: string };
+	principles: Principle[];
 	stats?: AboutStat[];
 }
 
 const HomeAbout: FC<HomeAboutProps> = ({
 	className = '',
 	title,
-	portraitUrl,
+	bio,
+	portrait,
+	principles,
 	stats = [],
 }): ReactElement => {
-	const [lede, ...rest] = aboutContent.bio;
+	const [lede, ...rest] = bio;
 
 	return (
 		<section id="about" className={`${styles.HomeAbout} ${className}`}>
@@ -41,11 +45,11 @@ const HomeAbout: FC<HomeAboutProps> = ({
 				</header>
 
 				<div className={styles.HomeAbout__body}>
-					{portraitUrl && (
+					{portrait && (
 						<RevealImage className={styles.HomeAbout__portrait}>
 							<Image
-								src={portraitUrl}
-								alt="Portrait of Nithin Pradeep"
+								src={portrait.url}
+								alt={portrait.alt}
 								fill
 								sizes="(min-width: 1024px) 34vw, (min-width: 768px) 45vw, 100vw"
 							/>
@@ -60,22 +64,29 @@ const HomeAbout: FC<HomeAboutProps> = ({
 							</p>
 						))}
 
-						<h3 className={styles.HomeAbout__label}>How I work</h3>
-						<ol className={styles.HomeAbout__principles}>
-							{aboutContent.howIWork.map(({ title: heading, body }, i) => (
-								<li key={heading} className={styles.HomeAbout__principle}>
-									<span className={styles.HomeAbout__index} aria-hidden="true">
-										{String(i + 1).padStart(2, '0')}
-									</span>
-									<span className={styles.HomeAbout__principleTitle}>
-										{heading}
-									</span>
-									<span className={styles.HomeAbout__principleBody}>
-										{body}
-									</span>
-								</li>
-							))}
-						</ol>
+						{principles.length > 0 && (
+							<>
+								<h3 className={styles.HomeAbout__label}>How I work</h3>
+								<ol className={styles.HomeAbout__principles}>
+									{principles.map(({ title: heading, body }, i) => (
+										<li key={heading} className={styles.HomeAbout__principle}>
+											<span
+												className={styles.HomeAbout__index}
+												aria-hidden="true"
+											>
+												{String(i + 1).padStart(2, '0')}
+											</span>
+											<span className={styles.HomeAbout__principleTitle}>
+												{heading}
+											</span>
+											<span className={styles.HomeAbout__principleBody}>
+												{body}
+											</span>
+										</li>
+									))}
+								</ol>
+							</>
+						)}
 					</div>
 				</div>
 

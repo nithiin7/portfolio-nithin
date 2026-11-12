@@ -67,4 +67,14 @@ export const serverEnv = {
 			process.env.CONTENTFUL_ACCESS_TOKEN
 		);
 	},
+	/** `true` reads drafts through the Preview API (CMS checks, previews). */
+	get CONTENTFUL_PREVIEW(): boolean {
+		return process.env.CONTENTFUL_PREVIEW === 'true';
+	},
+	get CONTENTFUL_PREVIEW_ACCESS_TOKEN(): string {
+		return required(
+			'CONTENTFUL_PREVIEW_ACCESS_TOKEN',
+			process.env.CONTENTFUL_PREVIEW_ACCESS_TOKEN
+		);
+	},
 };

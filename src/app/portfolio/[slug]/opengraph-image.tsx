@@ -1,8 +1,7 @@
 import { ImageResponse } from 'next/og';
 
-import { siteConfig } from 'config/site';
 import { positionOf } from 'helpers/caseStudy';
-import { loadPortfolioData, loadWorksOrder } from 'helpers/contentful';
+import { loadProject, loadSiteSettings, loadWork } from 'helpers/contentful';
 import {
 	OG_PAD as PAD,
 	OgDot,
@@ -14,7 +13,7 @@ import {
 } from 'helpers/og';
 import { palette } from 'styles/tokens';
 
-export const alt = `Case study — ${siteConfig.name}`;
+export const alt = 'Case study cover';
 export const size = ogSize;
 export const contentType = ogContentType;
 
@@ -25,14 +24,14 @@ const pad = (n: number): string => String(n).padStart(2, '0');
 export default async function Image({
 	params,
 }: {
-	params: Promise<{ id: string }>;
+	params: Promise<{ slug: string }>;
 }): Promise<ImageResponse> {
-	const { id } = await params;
-	const [{ data }, order] = await Promise.all([
-		loadPortfolioData(id),
-		loadWorksOrder(),
+	const { slug } = await params;
+	const [project, order, site] = await Promise.all([
+		loadProject(slug),
+		loadWork(),
+		loadSiteSettings(),
 	]);
-	const project = data?.portfolioDetailsCollection?.items?.[0];
 
 	const title = project?.title ?? 'Selected works';
 	const year = project?.year ?? '';
@@ -47,13 +46,13 @@ export default async function Image({
 	// The OG card is ink, so it takes the dark plate when there is one
 	const cover =
 		project?.spotlightImageDark?.url ?? project?.spotlightImage?.url;
-	const position = project ? positionOf(order, project.id) : null;
+	const position = project?.id != null ? positionOf(order, project.id) : null;
 
 	const kicker = position
 		? `${pad(position.position)}/${pad(position.total)}`
 		: '';
 	const titleSize = title.length > 40 ? 64 : title.length > 24 ? 80 : 96;
-	const monoText = `${siteConfig.name.toUpperCase()}${kicker}${year}${tech.join(' · ')}${host}—`;
+	const monoText = `${site.name.toUpperCase()}${kicker}${year}${tech.join(' · ')}${host}—`;
 
 	const [display, mono, serif] = await Promise.all([
 		loadGoogleFont('Inter+Tight', 'wght@500', title),
@@ -91,7 +90,7 @@ export default async function Image({
 						color: palette.grey500,
 					}}
 				>
-					<div style={{ display: 'flex' }}>{siteConfig.name.toUpperCase()}</div>
+					<div style={{ display: 'flex' }}>{site.name.toUpperCase()}</div>
 					<div style={{ display: 'flex', color: palette.paper }}>{kicker}</div>
 				</div>
 

@@ -1,7 +1,8 @@
-import type { CSSProperties, ReactElement } from 'react';
+import { BLOCKS, MARKS, type Document } from '@contentful/rich-text-types';
+import type { CSSProperties, ReactElement, ReactNode } from 'react';
 
 import LocalClock from 'components/utilities/LocalClock/LocalClock';
-import { siteConfig } from 'config/site';
+import type { SiteLink, SiteSettings } from 'types/site';
 
 import styles from './HomeHeader.module.scss';
 import HomeHeaderActions from './HomeHeaderActions';
@@ -9,9 +10,26 @@ import HomeHeaderCompress from './HomeHeaderCompress';
 
 interface HomeHeaderProps {
 	className?: string;
+	site: SiteSettings;
+	/** Home Section "hero" body: one paragraph; italic renders as the accent. */
+	pitch?: Document;
+	ctas: SiteLink[];
 }
 
-const NAME_LINES = ['Nithin', 'Pradeep.'];
+/** The pitch's first paragraph, keeping italic (the serif accent). */
+const renderPitch = (pitch: Document | undefined): ReactNode[] => {
+	const paragraph = pitch?.content.find(
+		(node) => node.nodeType === BLOCKS.PARAGRAPH
+	);
+	return (paragraph?.content ?? []).map((node, i) => {
+		if (node.nodeType !== 'text') return null;
+		return node.marks.some((mark) => mark.type === MARKS.ITALIC) ? (
+			<em key={i}>{node.value}</em>
+		) : (
+			node.value
+		);
+	});
+};
 
 const stagger = (i: number): CSSProperties => ({ '--i': i }) as CSSProperties;
 
@@ -20,8 +38,18 @@ const stagger = (i: number): CSSProperties => ({ '--i': i }) as CSSProperties;
  * the <h1> (the LCP element) never waits on hydration. Client islands: the
  * live clock, the scroll compress on the name, and the CTA row.
  */
-const HomeHeader = ({ className = '' }: HomeHeaderProps): ReactElement => {
-	const { role, company, location, availability } = siteConfig;
+const HomeHeader = ({
+	className = '',
+	site,
+	pitch,
+	ctas,
+}: HomeHeaderProps): ReactElement => {
+	const { role, company, location, availability } = site;
+	const words = site.name.split(' ');
+	const nameLines = words.map((word, i) =>
+		i === words.length - 1 ? `${word}.` : word
+	);
+	const [primary, secondary] = ctas;
 
 	return (
 		<header
@@ -64,16 +92,19 @@ const HomeHeader = ({ className = '' }: HomeHeaderProps): ReactElement => {
 			</dl>
 
 			<div className={styles.HomeHeader__pitch}>
-				<p className={styles.HomeHeader__lede}>
-					I build AI agents, <em>guardrails</em> &amp; MCP infrastructure — and
-					the full-stack products around them.
-				</p>
-				<HomeHeaderActions className={styles.HomeHeader__actions} />
+				<p className={styles.HomeHeader__lede}>{renderPitch(pitch)}</p>
+				{primary && (
+					<HomeHeaderActions
+						className={styles.HomeHeader__actions}
+						primary={primary}
+						secondary={secondary}
+					/>
+				)}
 			</div>
 
 			<HomeHeaderCompress className={styles.HomeHeader__nameWrap}>
 				<h1 id="home-title" className={styles.HomeHeader__name}>
-					{NAME_LINES.map((line, i) => (
+					{nameLines.map((line, i) => (
 						<span key={line} className={styles.HomeHeader__line}>
 							<span style={stagger(i)}>{line}</span>
 						</span>

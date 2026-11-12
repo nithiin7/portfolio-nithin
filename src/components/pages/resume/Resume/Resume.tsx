@@ -1,17 +1,17 @@
 import type { FC, ReactElement } from 'react';
 
 import RevealText from 'components/motion/RevealText/RevealText';
-import { aboutContent } from 'config/about';
-import { siteConfig } from 'config/site';
-import { contactOptions, socials } from 'constants/index';
 import type { Experience } from 'types/career';
 import type { Certification } from 'types/certification';
-import type { ServiceItem } from 'types/service';
+import type { Capability } from 'types/home';
+import type { SiteSettings } from 'types/site';
 
 import styles from './Resume.module.scss';
 
 interface ResumeProps {
-	services?: ServiceItem[];
+	site: SiteSettings;
+	bio: string[];
+	capabilities?: Capability[];
 	experiences: Experience[];
 	certifications?: Certification[];
 	resumeUrl: string;
@@ -24,21 +24,19 @@ const pad = (n: number): string => String(n).padStart(2, '0');
  * a download rather than the only way to read it.
  */
 const Resume: FC<ResumeProps> = ({
-	services = [],
+	site,
+	bio,
+	capabilities = [],
 	experiences,
 	certifications = [],
 	resumeUrl,
 }): ReactElement => {
-	const sortedExperiences = [...experiences].sort(
-		(a, b) => parseInt(b.year, 10) - parseInt(a.year, 10)
+	const sortedExperiences = [...experiences].sort((a, b) =>
+		b.startDate.localeCompare(a.startDate)
 	);
 
-	const skillGroups = services
-		.filter((item) => item.__typename === 'Section')
-		.map((item) => ({
-			heading: item.contentsCollection.items[0]?.title,
-			skills: item.contentsCollection.items[1]?.list ?? [],
-		}))
+	const skillGroups = capabilities
+		.map((item) => ({ heading: item.title, skills: item.items }))
 		.filter((group) => group.skills.length > 0);
 
 	return (
@@ -56,34 +54,34 @@ const Resume: FC<ResumeProps> = ({
 					</a>
 				</div>
 				<RevealText as="h1" trigger="mount" className={styles.Resume__name}>
-					{siteConfig.name}
+					{site.name}
 				</RevealText>
 				<p className={styles.Resume__role}>
-					{siteConfig.role}, {siteConfig.company} — {siteConfig.location.city}
+					{site.role}, {site.company} — {site.location.city}
 				</p>
 				<ul className={styles.Resume__contacts} aria-label="Contact">
-					{contactOptions.map((option) => (
-						<li key={option.link}>
+					{site.contactChannels.map((option) => (
+						<li key={option.url}>
 							<a
 								className={styles.Resume__link}
-								href={option.link}
-								{...(option.link.startsWith('mailto:')
+								href={option.url}
+								{...(option.url.startsWith('mailto:')
 									? {}
 									: { target: '_blank', rel: 'noopener noreferrer' })}
 							>
-								{option.label}: {option.subtitle}
+								{option.label}: {option.detail ?? option.url}
 							</a>
 						</li>
 					))}
-					{socials.map((social) => (
-						<li key={social.title}>
+					{site.socials.map((social) => (
+						<li key={social.url}>
 							<a
 								className={styles.Resume__link}
-								href={social.link}
+								href={social.url}
 								target="_blank"
 								rel="noopener noreferrer"
 							>
-								{social.title}
+								{social.label}
 								<span aria-hidden="true"> ↗</span>
 							</a>
 						</li>
@@ -100,7 +98,7 @@ const Resume: FC<ResumeProps> = ({
 						Summary
 					</h2>
 					<div className={styles.Resume__body}>
-						{aboutContent.bio.map((paragraph) => (
+						{bio.map((paragraph) => (
 							<p key={paragraph} className={styles.Resume__summary}>
 								{paragraph}
 							</p>

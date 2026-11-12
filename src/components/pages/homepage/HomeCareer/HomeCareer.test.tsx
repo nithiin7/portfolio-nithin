@@ -8,29 +8,26 @@ import HomeCareer from './HomeCareer';
 const experience = (
 	id: string,
 	company: string,
-	duration: string,
+	[startDate, endDate]: [string, string?],
 	technologies: string[] = []
 ): Experience => ({
 	id,
 	company,
-	year: '',
+	year: startDate.slice(0, 4),
+	startDate,
+	endDate,
 	position: `${company} engineer`,
 	description: `<p>${company} description</p>`,
 	technologies,
-	duration,
+	duration: `${startDate} – ${endDate ?? 'Present'}`,
 	location: 'Bangalore',
 	type: 'full-time',
 });
 
 const experiences = [
-	experience('wr', 'White Rabbit', 'July 2022 - October 2023'),
-	experience('ey', 'EY', 'Aug 2026 - Present', [
-		'React',
-		'Python',
-		'MCP',
-		'Azure',
-	]),
-	experience('ppb', 'Paytm', 'Nov 2023 - Jul 2025'),
+	experience('wr', 'White Rabbit', ['2022-07-01', '2023-10-01']),
+	experience('ey', 'EY', ['2026-08-01'], ['React', 'Python', 'MCP', 'Azure']),
+	experience('ppb', 'Paytm', ['2023-11-01', '2025-07-01']),
 ];
 
 describe('HomeCareer', () => {

@@ -1,160 +1,178 @@
+/**
+ * Raw Contentful GraphQL response shapes (src/queries). Converters in
+ * helpers/contentful.ts turn these into the app types components use.
+ */
 import type { Document } from '@contentful/rich-text-types';
 
 import type { CaseStudyAsset } from 'types/caseStudy';
+import type { HomeSectionKey } from 'types/home';
+import type { LinkIcon } from 'types/site';
 
-export interface PageData {
-	pageCollection: PageCollection;
-}
+type Maybe<T> = T | null | undefined;
 
-export interface PageCollection {
-	__typename: string;
-	items: ContentItem[];
-}
-
-export interface ContentItem {
-	__typename: string;
-	title: string;
-	description: string;
-	ogtitle: string;
-	sectionCollection: SectionCollection;
-}
-
-export interface SectionCollection {
-	__typename: string;
-	items: SectionItem[];
-}
-
-export interface SectionItem {
-	__typename: string;
-	name: string;
-	contentsCollection: ContentsCollection;
-}
-
-export interface ContentsCollection {
-	__typename: string;
-	items: Content[];
-}
-
-export interface Content {
-	__typename: string;
-	title: string;
-	subTitle: string;
-	contentsCollection: ContentsCollection;
-	list: string[];
-	image: { url: string };
-	imageDark?: { url: string } | null;
-	id: number;
-	review: string;
-	avatar: {
-		url: string;
-	};
-	reviewer: string;
-	institution: string;
-	descriptionLong?: {
-		json: Document;
-	};
-	name?: string;
-	provider?: string;
-	logo?: string;
-	issuedDate?: string;
-	expiryDate?: string;
-	credentialId?: string;
-	description?: string;
-	skills?: string[];
-	certificateUrl?: string;
-	highlight?: boolean;
-}
-
-export interface ImageData {
-	__typename: string;
+export interface RawAsset {
 	url: string;
-	title?: string;
-	description?: string;
+	title?: Maybe<string>;
+	description?: Maybe<string>;
+	width?: Maybe<number>;
+	height?: Maybe<number>;
+	contentType?: Maybe<string>;
 }
 
-export interface PortfolioData {
-	portfolioDetailsCollection: PortfolioDetailsCollection;
+export interface RawSeo {
+	title?: Maybe<string>;
+	description?: Maybe<string>;
+	noIndex?: Maybe<boolean>;
+	ogImage?: Maybe<{ url: string }>;
 }
 
-export interface PortfolioDetailsCollection {
-	__typename: string;
-	items: PortfolioDetails[];
+export interface RawLink {
+	label: string;
+	url: string;
+	icon?: Maybe<LinkIcon>;
+	detail?: Maybe<string>;
+	openInNewTab?: Maybe<boolean>;
+	logo?: Maybe<{ url: string; width?: Maybe<number>; height?: Maybe<number> }>;
 }
 
-export interface PortfolioSearchItem {
-	id: number;
-	title: string;
-}
-
-export interface PortfolioSearchResponse {
-	portfolioDetailsCollection: {
-		items: PortfolioSearchItem[];
-	};
-}
-
-export interface PortfolioDetails {
-	__typename: string;
-	id: number;
+export interface RawSiteSettings {
 	name: string;
+	role: string;
+	company: string;
+	city: string;
+	region?: Maybe<string>;
+	countryCode: string;
+	timeZone: string;
+	isAvailable?: Maybe<boolean>;
+	availabilityLabel: string;
+	email: string;
+	knowsAbout?: Maybe<string[]>;
+	twitterHandle?: Maybe<string>;
+	socialsCollection?: Maybe<{ items: Maybe<RawLink>[] }>;
+	contactChannelsCollection?: Maybe<{ items: Maybe<RawLink>[] }>;
+	seo?: Maybe<RawSeo>;
+}
+
+export interface RawProjectCard {
+	sys: { id: string };
+	id?: Maybe<number>;
 	slug: string;
 	title: string;
-	shortDescription: string;
-	description: {
+	shortDescription?: Maybe<string>;
+	year?: Maybe<string>;
+	role?: Maybe<string>;
+	tech?: Maybe<string[]>;
+	techHighlights?: Maybe<string[]>;
+	demo?: Maybe<string>;
+	github?: Maybe<string>;
+	spotlightImage?: Maybe<RawAsset>;
+	spotlightImageDark?: Maybe<RawAsset>;
+}
+
+export interface RawProject extends RawProjectCard {
+	description?: Maybe<{
 		json: Document;
 		links?: {
 			assets?: {
 				block?: ({ sys: { id: string } } & CaseStudyAsset)[];
 			};
 		};
-	};
-	features: string[];
-	spotlightImage: {
-		url: string;
-	};
-	spotlightImageDark?: { url: string } | null;
-	galleryCollection: {
-		items: {
-			description: string;
-			url: string;
-		}[];
-	};
-	year: string;
-	/** Not in the Contentful model yet; rendered once a `role` field is added and queried. */
-	role?: string;
-	demo: string;
-	github: string;
-	tech: string[];
+	}>;
+	galleryCollection?: Maybe<{ items: Maybe<RawAsset>[] }>;
+	features?: Maybe<string[]>;
+	seo?: Maybe<RawSeo>;
 }
 
-export interface WorksOrderResponse {
-	sectionCollection?: {
-		items?: {
-			contentsCollection?: {
-				items?: ({
-					contentsCollection?: {
-						items?: ({
-							id?: number;
-							title?: string;
-							image?: { url: string };
-							imageDark?: { url: string } | null;
-						} | null)[];
-					};
-				} | null)[];
-			};
-		}[];
+/** A Home Section item; `__typename` says which fields are present. */
+export type RawSectionItem =
+	| ({ __typename: 'PortfolioDetails' } & RawProjectCard)
+	| {
+			__typename: 'Capability';
+			title: string;
+			summary?: Maybe<string>;
+			items?: Maybe<string[]>;
+	  }
+	| {
+			__typename: 'CareerExperience';
+			sys: { id: string };
+			title: string;
+			company: string;
+			location?: Maybe<string>;
+			type?: Maybe<string>;
+			startDate: string;
+			endDate?: Maybe<string>;
+			description?: Maybe<string>;
+			techStack?: Maybe<string[]>;
+	  }
+	| {
+			__typename: 'Certification';
+			sys: { id: string };
+			name: string;
+			slug?: Maybe<string>;
+			provider: string;
+			providerLogo?: Maybe<{ url: string }>;
+			certificateUrl?: Maybe<string>;
+			credentialId?: Maybe<string>;
+			issuedOn: string;
+			expiresOn?: Maybe<string>;
+			highlight?: Maybe<boolean>;
+	  }
+	| {
+			__typename: 'TestimonialCard';
+			sys: { id: string };
+			review: string;
+			reviewer: string;
+			authorRole?: Maybe<string>;
+			organisation?: Maybe<string>;
+			avatar?: Maybe<{ url: string }>;
+	  }
+	| { __typename: 'Principle'; title: string; body: string }
+	| ({ __typename: 'Link' } & RawLink);
+
+export interface RawHomeSection {
+	key?: Maybe<HomeSectionKey>;
+	heading?: Maybe<string>;
+	lede?: Maybe<string>;
+	body?: Maybe<{ json: Document }>;
+	image?: Maybe<RawAsset>;
+	itemsCollection?: Maybe<{ items: Maybe<RawSectionItem>[] }>;
+	statsCollection?: Maybe<{
+		items: Maybe<{
+			value: number;
+			suffix?: Maybe<string>;
+			label: string;
+			isCompact?: Maybe<boolean>;
+		}>[];
+	}>;
+	ctasCollection?: Maybe<{ items: Maybe<RawLink>[] }>;
+}
+
+export interface HomeResponse {
+	pageCollection: {
+		items: { sectionCollection?: Maybe<{ items: Maybe<RawHomeSection>[] }> }[];
 	};
 }
 
-export interface BlogPostCollection {
-	__typename: string;
-	total: number;
-	items: BlogPostItem[];
+export interface SiteSettingsResponse {
+	siteSettingsCollection: { items: RawSiteSettings[] };
+}
+
+export interface PageSeoResponse {
+	pageCollection: { items: { seo?: Maybe<RawSeo> }[] };
+}
+
+export interface ProjectResponse {
+	portfolioDetailsCollection: { items: RawProject[] };
+}
+
+export interface WorkResponse {
+	sectionCollection: {
+		items: { itemsCollection?: Maybe<{ items: Maybe<RawProjectCard>[] }> }[];
+	};
 }
 
 export interface BlogPostItem {
-	sys: {
-		id: string;
-	};
+	sys: { id: string };
 	title: string;
 	slug: string;
 	excerpt: string;
@@ -163,9 +181,7 @@ export interface BlogPostItem {
 		links?: {
 			assets?: {
 				block?: {
-					sys: {
-						id: string;
-					};
+					sys: { id: string };
 					url: string;
 					title: string;
 					description?: string;
@@ -173,32 +189,23 @@ export interface BlogPostItem {
 			};
 		};
 	};
-	featuredImage?: {
-		url: string;
-		title?: string;
-		description?: string;
-	};
-	category: string;
-	tags: string[];
-	authorName: string;
-	authorAvatar?: {
-		url: string;
-		title?: string;
-		description?: string;
-	};
+	featuredImage?: Maybe<{ url: string; title?: string; description?: string }>;
+	blogCategory?: Maybe<{ name: string }>;
+	tags?: Maybe<string[]>;
+	author?: Maybe<{
+		name: string;
+		avatar?: Maybe<{ url: string; title?: string; description?: string }>;
+	}>;
 	publishedDate: string;
-	updatedDate?: string;
+	updatedDate?: Maybe<string>;
 	readTime: number;
-	seoTitle?: string;
-	seoDescription?: string;
+	seo?: Maybe<RawSeo>;
 }
 
 export interface BlogPostsResponse {
-	blogPostCollection: BlogPostCollection;
+	blogPostCollection: { total: number; items: BlogPostItem[] };
 }
 
 export interface BlogPostBySlugResponse {
-	blogPostCollection: {
-		items: BlogPostItem[];
-	};
+	blogPostCollection: { items: BlogPostItem[] };
 }

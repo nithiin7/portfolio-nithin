@@ -162,10 +162,12 @@ const BlogDetail: FC<BlogDetailProps> = ({
 				)}
 
 				<dl className={styles.Post__meta}>
-					<div>
-						<dt>Written by</dt>
-						<dd>{post.authorName || siteConfig.name}</dd>
-					</div>
+					{post.authorName && (
+						<div>
+							<dt>Written by</dt>
+							<dd>{post.authorName}</dd>
+						</div>
+					)}
 					<div>
 						<dt>Published</dt>
 						<dd>

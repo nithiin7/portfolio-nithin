@@ -178,6 +178,8 @@ export default [
 			'postcss.config.js',
 			'tailwind.config.js',
 			'tailwind.config.ts',
+			// contentful-migration DSL files (CommonJS, outside the TS project)
+			'contentful/**/*.cjs',
 		],
 	},
 	{

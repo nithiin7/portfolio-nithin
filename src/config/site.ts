@@ -1,73 +1,46 @@
+import type { SiteSettings } from 'types/site';
+
 const url = 'https://portfolio-nithin.vercel.app';
 
+/**
+ * Technical config only. Everything a visitor reads (name, role, socials,
+ * copy) comes from Contentful Site Settings via loadSiteSettings().
+ */
 export const siteConfig = {
-	name: 'Nithin Pradeep',
-	shortName: 'Nithin Pradeep',
-	siteName: 'Nithin Pradeep — Portfolio',
-	role: 'Senior Technical Consultant',
-	company: 'EY',
-	location: {
-		city: 'Bangalore',
-		region: 'Karnataka',
-		country: 'IN',
-		timeZone: 'Asia/Kolkata',
-	},
-	availability: {
-		open: true,
-		label: 'Available for new projects',
-	},
-	email: 'nithinp150@gmail.com',
 	url,
-	title: 'Nithin Pradeep — Senior Technical Consultant @ EY',
-	titleTemplate: '%s | Nithin Pradeep',
-	description:
-		'Senior Technical Consultant at EY in Bangalore, building AI agents, guardrails and MCP infrastructure for enterprise, plus full-stack products with Next.js, Node.js and Python.',
-	ogImage: {
-		url: '/opengraph-image',
-		width: 1200,
-		height: 630,
-		alt: 'Nithin Pradeep — Senior Technical Consultant @ EY',
-	},
-	twitterHandle: '@_nithiin7',
-	socials: {
-		github: 'https://github.com/nithiin7',
-		linkedin: 'https://www.linkedin.com/in/nithin-p7/',
-		instagram: 'https://www.instagram.com/__nithiin__/',
-		twitter: 'https://twitter.com/_nithiin7',
-		credly: 'https://www.credly.com/users/nithin-pradeep.53925824',
-	},
-	knowsAbout: [
-		'AI Agents',
-		'Model Context Protocol (MCP)',
-		'Retrieval-Augmented Generation (RAG)',
-		'LLM Guardrails',
-		'React',
-		'Next.js',
-		'TypeScript',
-		'Node.js',
-		'Python',
-		'Full Stack Development',
-	],
 	rssUrl: `${url}/feed.xml`,
 	googleSiteVerification: 'google6eac2553ee959d3e',
+	ogImage: { url: '/opengraph-image', width: 1200, height: 630 },
 } as const;
 
 export const absoluteUrl = (path = '/'): string =>
 	new URL(path, siteConfig.url).toString();
 
-export const personJsonLd = {
-	'@type': 'Person',
-	name: siteConfig.name,
-	url: absoluteUrl(),
-	image: absoluteUrl(siteConfig.ogImage.url),
-	jobTitle: siteConfig.role,
-	worksFor: { '@type': 'Organization', name: siteConfig.company },
-	address: {
-		'@type': 'PostalAddress',
-		addressLocality: siteConfig.location.city,
-		addressRegion: siteConfig.location.region,
-		addressCountry: siteConfig.location.country,
-	},
-	sameAs: Object.values(siteConfig.socials),
-	knowsAbout: [...siteConfig.knowsAbout],
-} as const;
+export const siteName = (site: Pick<SiteSettings, 'name'>): string =>
+	`${site.name} — Portfolio`;
+
+export const titleTemplate = (site: Pick<SiteSettings, 'name'>): string =>
+	`%s | ${site.name}`;
+
+export const socialUrl = (
+	site: Pick<SiteSettings, 'socials'>,
+	icon: NonNullable<SiteSettings['socials'][number]['icon']>
+): string | undefined => site.socials.find((link) => link.icon === icon)?.url;
+
+export const personJsonLd = (site: SiteSettings) =>
+	({
+		'@type': 'Person',
+		name: site.name,
+		url: absoluteUrl(),
+		image: absoluteUrl(siteConfig.ogImage.url),
+		jobTitle: site.role,
+		worksFor: { '@type': 'Organization', name: site.company },
+		address: {
+			'@type': 'PostalAddress',
+			addressLocality: site.location.city,
+			addressRegion: site.location.region,
+			addressCountry: site.location.country,
+		},
+		sameAs: site.socials.map((link) => link.url),
+		knowsAbout: site.knowsAbout,
+	}) as const;

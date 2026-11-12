@@ -1,6 +1,8 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { siteFixture } from 'test/fixtures';
+
 import Footer from './Footer';
 
 const { pathname, lenis } = vi.hoisted(() => ({
@@ -18,7 +20,7 @@ describe('Footer', () => {
 	});
 
 	it('opens with the GET IN TOUCH CTA whose O links to /contact', () => {
-		render(<Footer />);
+		render(<Footer site={siteFixture} />);
 
 		expect(
 			screen.getByRole('heading', { level: 2, name: 'Get in touch' })
@@ -37,7 +39,7 @@ describe('Footer', () => {
 
 	it('drops the CTA and details on /contact, which already shows them', () => {
 		pathname.current = '/contact';
-		render(<Footer />);
+		render(<Footer site={siteFixture} />);
 
 		expect(
 			screen.queryByRole('heading', { name: 'Get in touch' })
@@ -55,7 +57,7 @@ describe('Footer', () => {
 		main.id = 'main-content';
 		main.tabIndex = -1;
 		document.body.appendChild(main);
-		render(<Footer />);
+		render(<Footer site={siteFixture} />);
 
 		fireEvent.click(screen.getByRole('button', { name: /back to top/i }));
 

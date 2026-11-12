@@ -30,7 +30,7 @@ const PortfolioNext: FC<PortfolioNextProps> = ({ next }): ReactElement => {
 	return (
 		<section className={styles.PortfolioNext} aria-labelledby="next-project">
 			<Link
-				href={`/portfolio/${next.id}`}
+				href={`/portfolio/${next.slug}`}
 				className={styles.PortfolioNext__link}
 				data-active={active}
 				onPointerEnter={() => setActive(true)}

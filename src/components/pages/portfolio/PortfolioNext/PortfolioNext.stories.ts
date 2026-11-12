@@ -23,6 +23,7 @@ export const Primary: Story = {
 	args: {
 		next: {
 			id: 3,
+			slug: 'remote-file-server-mcp',
 			title: 'Remote File Server MCP',
 			image: cover,
 			position: 3,
@@ -33,6 +34,12 @@ export const Primary: Story = {
 
 export const WithoutCover: Story = {
 	args: {
-		next: { id: 3, title: 'Remote File Server MCP', position: 3, total: 13 },
+		next: {
+			id: 3,
+			slug: 'remote-file-server-mcp',
+			title: 'Remote File Server MCP',
+			position: 3,
+			total: 13,
+		},
 	},
 };

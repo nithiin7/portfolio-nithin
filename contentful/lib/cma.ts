@@ -187,7 +187,7 @@ export const createClient = (environment: string) => {
 			{
 				method: 'POST',
 				headers: { 'Content-Type': 'application/octet-stream' },
-				body: bytes,
+				body: new Uint8Array(bytes),
 			}
 		);
 		const created = await request<Asset>(`/assets/${id}`, {

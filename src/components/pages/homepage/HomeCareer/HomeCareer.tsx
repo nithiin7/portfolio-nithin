@@ -28,6 +28,7 @@ const TYPE_LABEL: Record<Experience['type'], string> = {
 	'full-time': 'Full-time',
 	contract: 'Contract',
 	freelance: 'Freelance',
+	internship: 'Internship',
 };
 
 const formatPeriod = ({ start, end, current }: CareerPeriod): string => {
@@ -48,7 +49,7 @@ const HomeCareer: FC<HomeCareerProps> = ({
 			experiences
 				.map((experience) => ({
 					...experience,
-					period: careerPeriod(experience.duration, experience.year),
+					period: careerPeriod(experience),
 				}))
 				.sort(
 					(a, b) =>

@@ -2,6 +2,8 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { withSite } from 'test/fixtures';
+
 import ContactForm from './ContactForm';
 
 const { sendForm, executeRecaptcha } = vi.hoisted(() => ({
@@ -44,7 +46,7 @@ describe('ContactForm', () => {
 
 	it('validates a field inline once it loses focus', async () => {
 		const user = userEvent.setup();
-		render(<ContactForm />);
+		render(withSite(<ContactForm />));
 		const email = screen.getByLabelText(/your email/i);
 
 		await user.type(email, 'not-an-email');
@@ -64,7 +66,7 @@ describe('ContactForm', () => {
 	});
 
 	it('shows every error on an empty submit without sending', async () => {
-		render(<ContactForm />);
+		render(withSite(<ContactForm />));
 
 		fireEvent.click(screen.getByRole('button', { name: 'Send message' }));
 
@@ -76,7 +78,7 @@ describe('ContactForm', () => {
 
 	it('counts message characters against the limit', async () => {
 		const user = userEvent.setup();
-		render(<ContactForm />);
+		render(withSite(<ContactForm />));
 
 		await user.type(screen.getByLabelText(/message/i), 'Hello');
 
@@ -84,7 +86,7 @@ describe('ContactForm', () => {
 	});
 
 	it('sends with the reCAPTCHA token and swaps to a success state', async () => {
-		render(<ContactForm />);
+		render(withSite(<ContactForm />));
 		const user = await fill('Jane Doe', 'jane@example.com', 'Let us build.');
 
 		await user.click(screen.getByRole('button', { name: 'Send message' }));
@@ -110,7 +112,7 @@ describe('ContactForm', () => {
 	it('keeps the form and explains when sending fails', async () => {
 		vi.spyOn(console, 'error').mockImplementation(() => {});
 		sendForm.mockRejectedValue(new Error('network'));
-		render(<ContactForm />);
+		render(withSite(<ContactForm />));
 		const user = await fill('Jane', 'jane@example.com', 'Hello there');
 
 		await user.click(screen.getByRole('button', { name: 'Send message' }));

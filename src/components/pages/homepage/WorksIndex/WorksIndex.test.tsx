@@ -14,6 +14,7 @@ vi.mock('react', async (importOriginal) => ({
 
 const projects: PortfolioItem[] = [4, 5, 6].map((id) => ({
 	id,
+	slug: `project-${id}`,
 	title: `Project ${id}`,
 	year: '2025',
 	tech: ['Next.js'],
@@ -26,9 +27,9 @@ describe('WorksIndex', () => {
 	it('links rows by Contentful id and continues numbering after the featured cards', () => {
 		render(<WorksIndex projects={projects} offset={3} />);
 		expect(rows().map((a) => a.getAttribute('href'))).toEqual([
-			'/portfolio/4',
-			'/portfolio/5',
-			'/portfolio/6',
+			'/portfolio/project-4',
+			'/portfolio/project-5',
+			'/portfolio/project-6',
 		]);
 		expect(rows()[0].textContent).toContain('04');
 	});

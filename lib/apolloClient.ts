@@ -27,7 +27,11 @@ const errorLink = new ErrorLink(({ error, operation }) => {
 const httpLink = new HttpLink({
 	uri: `https://graphql.contentful.com/content/${serverEnv.CONTENTFUL_VERSION}/spaces/${serverEnv.CONTENTFUL_SPACE_ID}/environments/${serverEnv.CONTENTFUL_ENVIRONMENT}`,
 	headers: {
-		Authorization: `Bearer ${serverEnv.CONTENTFUL_ACCESS_TOKEN}`,
+		Authorization: `Bearer ${
+			serverEnv.CONTENTFUL_PREVIEW
+				? serverEnv.CONTENTFUL_PREVIEW_ACCESS_TOKEN
+				: serverEnv.CONTENTFUL_ACCESS_TOKEN
+		}`,
 	},
 });
 

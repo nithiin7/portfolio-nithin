@@ -1,44 +1,20 @@
 import { gql } from '@apollo/client';
 
-/**
- * Query to get a portfolio by id
- * @param id - The id of the portfolio to get
- * @returns The portfolio data
- */
-export const GET_ALL_PORTFOLIO_IDS = gql`
-	query GetAllPortfolioIds {
-		portfolioDetailsCollection(limit: 100) {
-			items {
-				id
-			}
-		}
-	}
-`;
+import { ASSET_FIELDS, PROJECT_CARD_FIELDS, SEO_FIELDS } from './fragments';
 
-/**
- * Query to get id + title for every portfolio item, for search/command palette use
- * @returns The portfolio search items data
- */
-export const GET_ALL_PORTFOLIO_TITLES = gql`
-	query GetAllPortfolioTitles {
-		portfolioDetailsCollection(limit: 100) {
+/** Case study by slug. */
+export const GET_PROJECT = gql`
+	${ASSET_FIELDS}
+	${PROJECT_CARD_FIELDS}
+	${SEO_FIELDS}
+	query Project($slug: String!, $preview: Boolean = false) {
+		portfolioDetailsCollection(
+			where: { slug: $slug }
+			limit: 1
+			preview: $preview
+		) {
 			items {
-				id
-				title
-			}
-		}
-	}
-`;
-
-export const GET_PORTFOLIO = gql`
-	query Portfolio($id: Int!) {
-		portfolioDetailsCollection(where: { id: $id }, limit: 1) {
-			items {
-				name
-				slug
-				id
-				title
-				year
+				...ProjectCardFields
 				description {
 					json
 					links {
@@ -57,61 +33,49 @@ export const GET_PORTFOLIO = gql`
 						}
 					}
 				}
-				shortDescription
-				demo
-				github
-				spotlightImage {
-					url
-				}
-				spotlightImageDark {
-					url
-				}
-				galleryCollection {
+				galleryCollection(limit: 12) {
 					items {
-						description
-						url
+						...AssetFields
 					}
 				}
 				features
-				tech
+				seo {
+					...SeoFields
+				}
 			}
 		}
 	}
 `;
 
-export const GET_PORTFOLIO_SUMMARIES = gql`
-	query GetPortfolioSummaries {
-		portfolioDetailsCollection(limit: 100) {
+/** Old numeric URL (/portfolio/<id>) → slug, for the permanent redirect. */
+export const GET_PROJECT_SLUG_BY_LEGACY_ID = gql`
+	query ProjectSlugByLegacyId($id: Int!, $preview: Boolean = false) {
+		portfolioDetailsCollection(
+			where: { id: $id }
+			limit: 1
+			preview: $preview
+		) {
 			items {
-				id
-				shortDescription
+				slug
 			}
 		}
 	}
 `;
 
-/** Card order of the homepage works section, which "Next project" follows. */
-export const GET_WORKS_ORDER = gql`
-	query GetWorksOrder($name: String!) {
-		sectionCollection(where: { name: $name }, limit: 1) {
+/**
+ * The homepage Work list: the curated set and order of live projects. Routes,
+ * the sitemap, search and "Next project" all follow it, so a retired project
+ * drops out everywhere by being removed from this list.
+ */
+export const GET_WORK = gql`
+	${PROJECT_CARD_FIELDS}
+	query Work($preview: Boolean = false) {
+		sectionCollection(where: { key: "work" }, limit: 1, preview: $preview) {
 			items {
-				contentsCollection(limit: 5) {
+				itemsCollection(limit: 30) {
 					items {
-						... on Section {
-							contentsCollection(limit: 100) {
-								items {
-									... on PortfolioCard {
-										id
-										title
-										image {
-											url
-										}
-										imageDark {
-											url
-										}
-									}
-								}
-							}
+						... on PortfolioDetails {
+							...ProjectCardFields
 						}
 					}
 				}

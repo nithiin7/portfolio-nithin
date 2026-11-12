@@ -1,115 +1,64 @@
-import { parseCommaSeparatedString } from 'helpers/string';
+import type { EmploymentType, Experience } from 'types/career';
 
-/**
- * Interface for raw career data from Contentful
- */
-interface RawCareerData {
-	data: {
-		title?: string;
-		subTitle?: string;
-	};
-	career: {
-		sys?: { id: string };
-		title?: string;
-		company?: string;
-		year?: string;
-		duration?: string;
-		location?: string;
-		type?: 'full-time' | 'contract' | 'freelance';
-		description?: string;
-		technologies?: string;
-	}[];
+export interface RawCareerRole {
+	sys: { id: string };
+	title: string;
+	company: string;
+	location?: string | null;
+	type?: string | null;
+	startDate: string;
+	endDate?: string | null;
+	description?: string | null;
+	techStack?: string[] | null;
 }
 
-/**
- * Interface for transformed career data for HomeCareer component
- */
-interface TransformedCareerData {
-	data: {
-		title?: string;
-		subtitle?: string;
-	};
-	experiences: {
-		id: string;
-		year: string;
-		company: string;
-		position: string;
-		description: string;
-		technologies: string[];
-		duration: string;
-		location?: string;
-		type: 'full-time' | 'contract' | 'freelance';
-	}[];
-}
-
-/**
- * Transform raw career data from Contentful to match HomeCareer component expectations
- * @param rawData - Raw career data from Contentful
- * @returns Transformed career data
- */
-export const transformCareerData = (
-	rawData: RawCareerData
-): TransformedCareerData => {
-	return {
-		data: {
-			title: rawData.data.title,
-			subtitle: rawData.data.subTitle,
-		},
-		experiences: rawData.career.map((exp) => ({
-			id: exp.sys?.id || exp.title || '',
-			year: exp.year || '',
-			company: exp.company || '',
-			position: exp.title || '',
-			description: exp.description || '',
-			technologies: parseCommaSeparatedString(exp.technologies || ''),
-			duration: exp.duration || '',
-			location: exp.location,
-			type: exp.type || 'full-time',
-		})),
-	};
-};
-
-const MONTHS = [
-	'jan',
-	'feb',
-	'mar',
-	'apr',
-	'may',
-	'jun',
-	'jul',
-	'aug',
-	'sep',
-	'oct',
-	'nov',
-	'dec',
+const EMPLOYMENT_TYPES: readonly EmploymentType[] = [
+	'full-time',
+	'contract',
+	'freelance',
+	'internship',
 ];
 
-// Contentful durations are free text like "July 2022 - October 2023 (1 year 4 months)"
-const parseStart = (duration: string): Date | null => {
-	const match = duration.match(/([a-z]+)\s+(\d{4})/i);
-	if (!match) return null;
-	const month = MONTHS.indexOf(match[1].slice(0, 3).toLowerCase());
-	if (month === -1) return null;
-	return new Date(Number(match[2]), month, 1);
-};
+const MONTH = new Intl.DateTimeFormat('en-GB', {
+	month: 'short',
+	year: 'numeric',
+	timeZone: 'UTC',
+});
 
-/**
- * Whole years since the earliest role started, or null when no duration
- * can be parsed.
- */
+/** "2026-08-01" → "Aug 2026". Contentful Date fields are UTC. */
+export const formatMonthYear = (iso: string): string =>
+	MONTH.format(new Date(iso));
+
+export const toExperience = (role: RawCareerRole): Experience => ({
+	id: role.sys.id,
+	year: role.startDate.slice(0, 4),
+	company: role.company,
+	position: role.title,
+	description: role.description ?? '',
+	technologies: role.techStack ?? [],
+	duration: `${formatMonthYear(role.startDate)} – ${
+		role.endDate ? formatMonthYear(role.endDate) : 'Present'
+	}`,
+	startDate: role.startDate,
+	endDate: role.endDate ?? undefined,
+	location: role.location ?? undefined,
+	type: EMPLOYMENT_TYPES.find((type) => type === role.type) ?? 'full-time',
+});
+
+/** Newest role first. */
+export const sortByStart = (experiences: Experience[]): Experience[] =>
+	[...experiences].sort((a, b) => b.startDate.localeCompare(a.startDate));
+
+/** Whole years since the earliest start date, or null with no roles. */
 export const yearsOfExperience = (
-	durations: readonly string[],
+	startDates: readonly string[],
 	now: Date = new Date()
 ): number | null => {
-	const starts = durations
-		.map(parseStart)
-		.filter((date): date is Date => date !== null);
-	if (starts.length === 0) return null;
-
-	const first = new Date(Math.min(...starts.map((date) => date.getTime())));
+	if (startDates.length === 0) return null;
+	const first = new Date([...startDates].sort()[0]);
 	const months =
-		(now.getFullYear() - first.getFullYear()) * 12 +
-		(now.getMonth() - first.getMonth());
+		(now.getUTCFullYear() - first.getUTCFullYear()) * 12 +
+		(now.getUTCMonth() - first.getUTCMonth());
 	return Math.floor(months / 12);
 };
 
@@ -119,17 +68,15 @@ export interface CareerPeriod {
 	current: boolean;
 }
 
-/**
- * Start/end years for a role, read from the free-text duration and falling
- * back to the Contentful `year` field when no dates parse.
- */
+/** Start/end years for a role, e.g. 2025 → 2026, or 2026 → current. */
 export const careerPeriod = (
-	duration: string,
-	fallbackYear = ''
+	experience: Pick<Experience, 'startDate' | 'endDate'>
 ): CareerPeriod => {
-	const years = [...duration.matchAll(/\b(19|20)\d{2}\b/g)].map((m) => m[0]);
-	const current = /\b(present|current|now)\b/i.test(duration);
-	const start = years[0] ?? fallbackYear;
-	const end = current ? null : (years[1] ?? null);
-	return { start, end: end === start ? null : end, current };
+	const start = experience.startDate.slice(0, 4);
+	const end = experience.endDate?.slice(0, 4) ?? null;
+	return {
+		start,
+		end: end === start ? null : end,
+		current: !experience.endDate,
+	};
 };

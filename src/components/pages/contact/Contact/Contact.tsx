@@ -4,18 +4,21 @@ import RevealText from 'components/motion/RevealText/RevealText';
 import ContactForm from 'components/pages/contact/ContactForm/ContactForm';
 import CopyEmail from 'components/utilities/CopyEmail/CopyEmail';
 import LocalClock from 'components/utilities/LocalClock/LocalClock';
-import { siteConfig } from 'config/site';
-import { contactOptions, socials } from 'constants/index';
+import type { SiteSettings } from 'types/site';
 
 import styles from './Contact.module.scss';
 import ContactRecaptcha from './ContactRecaptcha';
 
 const TITLE = 'Say no more. Let’s bring your project to life.';
 
-const Contact: FC = () => {
-	const { email, location, availability } = siteConfig;
-	const directLines = contactOptions.filter(
-		(option) => !option.link.startsWith('mailto:')
+interface ContactProps {
+	site: SiteSettings;
+}
+
+const Contact: FC<ContactProps> = ({ site }) => {
+	const { email, location, availability, socials } = site;
+	const directLines = site.contactChannels.filter(
+		(option) => !option.url.startsWith('mailto:')
 	);
 
 	return (
@@ -47,16 +50,16 @@ const Contact: FC = () => {
 						</div>
 
 						{directLines.map((option) => (
-							<div key={option.link} className={styles.Contact__row}>
+							<div key={option.url} className={styles.Contact__row}>
 								<dt className={styles.Contact__label}>{option.label}</dt>
 								<dd>
 									<a
-										href={option.link}
+										href={option.url}
 										className={styles.Contact__link}
 										target="_blank"
 										rel="noopener noreferrer"
 									>
-										{option.subtitle}
+										{option.detail ?? option.label}
 										<span className={styles.Contact__srOnly}>
 											{' '}
 											(opens in a new tab)
@@ -95,14 +98,14 @@ const Contact: FC = () => {
 							<dd>
 								<ul className={styles.Contact__socials}>
 									{socials.map((social) => (
-										<li key={social.title}>
+										<li key={social.url}>
 											<a
-												href={social.link}
+												href={social.url}
 												className={styles.Contact__link}
 												target="_blank"
 												rel="noopener noreferrer"
 											>
-												{social.title}
+												{social.label}
 												<span className={styles.Contact__srOnly}>
 													{' '}
 													(opens in a new tab)

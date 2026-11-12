@@ -22,7 +22,16 @@ import FloatingChat from 'components/utilities/FloatingChat/FloatingChatLazy';
 import GridOverlay from 'components/utilities/GridOverlay/GridOverlay';
 import SkipLink from 'components/utilities/SkipLink/SkipLink';
 import Toast from 'components/utilities/Toast/ToastLazy';
-import { absoluteUrl, personJsonLd, siteConfig } from 'config/site';
+import {
+	absoluteUrl,
+	personJsonLd,
+	siteConfig,
+	siteName,
+	socialUrl,
+	titleTemplate,
+} from 'config/site';
+import { SiteSettingsProvider } from 'contexts/SiteSettingsContext';
+import { loadSiteSettings } from 'helpers/contentful';
 import { palette } from 'styles/tokens';
 
 import Provider from './provider';
@@ -58,75 +67,80 @@ export const viewport: Viewport = {
 	themeColor: palette.ink,
 };
 
-export const metadata: Metadata = {
-	metadataBase: new URL(siteConfig.url),
-	title: {
-		default: siteConfig.title,
-		template: siteConfig.titleTemplate,
-	},
-	description: siteConfig.description,
-	authors: [{ name: siteConfig.name, url: siteConfig.socials.github }],
-	creator: siteConfig.name,
-	publisher: siteConfig.name,
-	formatDetection: {
-		email: false,
-		address: false,
-		telephone: false,
-	},
-	openGraph: {
-		type: 'website',
-		locale: 'en_US',
-		url: absoluteUrl(),
-		title: siteConfig.title,
-		description: siteConfig.description,
-		siteName: siteConfig.siteName,
-	},
-	twitter: {
-		card: 'summary_large_image',
-		title: siteConfig.title,
-		description: siteConfig.description,
-		creator: siteConfig.twitterHandle,
-	},
-	robots: {
-		index: true,
-		follow: true,
-		googleBot: {
+export async function generateMetadata(): Promise<Metadata> {
+	const site = await loadSiteSettings();
+	const { title, description } = site.seo;
+	return {
+		metadataBase: new URL(siteConfig.url),
+		title: {
+			default: title,
+			template: titleTemplate(site),
+		},
+		description,
+		authors: [{ name: site.name, url: socialUrl(site, 'github') }],
+		creator: site.name,
+		publisher: site.name,
+		formatDetection: {
+			email: false,
+			address: false,
+			telephone: false,
+		},
+		openGraph: {
+			type: 'website',
+			locale: 'en_US',
+			url: absoluteUrl(),
+			title: title,
+			description,
+			siteName: siteName(site),
+		},
+		twitter: {
+			card: 'summary_large_image',
+			title: title,
+			description,
+			creator: site.twitterHandle,
+		},
+		robots: {
 			index: true,
 			follow: true,
-			'max-video-preview': -1,
-			'max-image-preview': 'large',
-			'max-snippet': -1,
+			googleBot: {
+				index: true,
+				follow: true,
+				'max-video-preview': -1,
+				'max-image-preview': 'large',
+				'max-snippet': -1,
+			},
 		},
-	},
-	verification: {
-		google: siteConfig.googleSiteVerification,
-	},
-	alternates: {
-		canonical: absoluteUrl(),
-		types: {
-			'application/rss+xml': siteConfig.rssUrl,
+		verification: {
+			google: siteConfig.googleSiteVerification,
 		},
-	},
-	other: {
-		'msapplication-TileColor': palette.ink,
-	},
-};
+		alternates: {
+			canonical: absoluteUrl(),
+			types: {
+				'application/rss+xml': siteConfig.rssUrl,
+			},
+		},
+		other: {
+			'msapplication-TileColor': palette.ink,
+		},
+	};
+}
 
 const gtmSnippet = (id: string): string =>
 	`(function(w,d,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':Date.now(),event:'gtm.js'});var j=d.createElement('script');j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i;d.head.appendChild(j);})(window,document,'dataLayer','${id}');`;
-
-const structuredData = {
-	'@context': 'https://schema.org',
-	...personJsonLd,
-};
 
 interface RootLayoutProps {
 	children: React.ReactNode;
 }
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
-}: Readonly<RootLayoutProps>): React.ReactElement {
+}: Readonly<RootLayoutProps>): Promise<React.ReactElement> {
+	const site = await loadSiteSettings();
+	const structuredData = {
+		'@context': 'https://schema.org',
+		...personJsonLd(site),
+	};
+
 	return (
 		<html
 			lang="en"
@@ -152,19 +166,21 @@ export default function RootLayout({
 						__html: JSON.stringify(structuredData),
 					}}
 				/>
-				<Preloader />
+				<Preloader site={site} />
 				<SkipLink targetId="main-content" />
-				<Provider>
-					<Navbar />
-					<main id="main-content" tabIndex={-1}>
-						<PageTransition>{children}</PageTransition>
-					</main>
-					<Footer />
-					<FloatingChat chatbotUrl="https://nithiin7-portfolio-resume.hf.space" />
-					<CommandPalette resumeUrl="/resume.pdf" />
-					<Toast />
-					{process.env.NODE_ENV === 'development' && <GridOverlay />}
-				</Provider>
+				<SiteSettingsProvider value={site}>
+					<Provider>
+						<Navbar />
+						<main id="main-content" tabIndex={-1}>
+							<PageTransition>{children}</PageTransition>
+						</main>
+						<Footer site={site} />
+						<FloatingChat chatbotUrl="https://nithiin7-portfolio-resume.hf.space" />
+						<CommandPalette resumeUrl="/resume.pdf" />
+						<Toast />
+						{process.env.NODE_ENV === 'development' && <GridOverlay />}
+					</Provider>
+				</SiteSettingsProvider>
 				<svg className="grainy__filter pointer-events-none absolute cursor-none">
 					<filter id="grainy">
 						<feTurbulence type="turbulence" baseFrequency="0.5" />

@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-import { siteConfig } from 'config/site';
+import { siteFixture, withSite } from 'test/fixtures';
 import type { Certification } from 'types/certification';
 
 import HomeCertifications from './HomeCertifications';
@@ -18,9 +18,14 @@ const cert = (name: string, highlight = false): Certification => ({
 describe('HomeCertifications', () => {
 	it('shows the count, a badge per certification and the Credly link', () => {
 		render(
-			<HomeCertifications
-				certifications={[cert('Solutions Architect', true), cert('Developer')]}
-			/>
+			withSite(
+				<HomeCertifications
+					certifications={[
+						cert('Solutions Architect', true),
+						cert('Developer'),
+					]}
+				/>
+			)
 		);
 
 		expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent(
@@ -34,12 +39,14 @@ describe('HomeCertifications', () => {
 		]);
 		expect(screen.getByRole('link', { name: /Credly/ })).toHaveAttribute(
 			'href',
-			siteConfig.socials.credly
+			siteFixture.socials.find((link) => link.icon === 'credly')?.url
 		);
 	});
 
 	it('renders nothing without certifications', () => {
-		const { container } = render(<HomeCertifications certifications={[]} />);
+		const { container } = render(
+			withSite(<HomeCertifications certifications={[]} />)
+		);
 		expect(container).toBeEmptyDOMElement();
 	});
 });

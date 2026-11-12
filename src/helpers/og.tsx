@@ -3,6 +3,7 @@ import { ImageResponse } from 'next/og';
 import type { ReactElement } from 'react';
 
 import { siteConfig } from 'config/site';
+import { loadSiteSettings } from 'helpers/contentful';
 import { palette } from 'styles/tokens';
 
 export const ogSize = { width: 1200, height: 630 };
@@ -113,6 +114,8 @@ export const OgDot = (): ReactElement => (
 );
 
 export interface OgCardProps {
+	/** Top-left mono label (the site owner's name). */
+	author: string;
 	/** Top-right mono label, e.g. a section number or `/blog`. */
 	kicker: string;
 	/** Serif italic line above the title. */
@@ -124,6 +127,7 @@ export interface OgCardProps {
 
 /** The text-only editorial card shared by every route's opengraph-image. */
 export const OgCard = ({
+	author,
 	kicker,
 	eyebrow,
 	title,
@@ -144,7 +148,7 @@ export const OgCard = ({
 			}}
 		>
 			<Rule position="top">
-				<div style={{ display: 'flex' }}>{siteConfig.name.toUpperCase()}</div>
+				<div style={{ display: 'flex' }}>{author.toUpperCase()}</div>
 				<div style={{ display: 'flex', color: palette.paper }}>{kicker}</div>
 			</Rule>
 
@@ -197,12 +201,16 @@ export const OgCard = ({
 
 /** Renders an OgCard with exactly the glyphs it needs subset from Google Fonts. */
 export const renderOgCard = async (
-	props: OgCardProps
+	props: Omit<OgCardProps, 'author'>
 ): Promise<ImageResponse> => {
+	const { name: author } = await loadSiteSettings();
 	const fonts = await loadOgFonts({
 		display: props.title,
-		mono: `${siteConfig.name.toUpperCase()}${props.kicker}${props.meta ?? ''}${ogHost}`,
+		mono: `${author.toUpperCase()}${props.kicker}${props.meta ?? ''}${ogHost}`,
 		serif: props.eyebrow,
 	});
-	return new ImageResponse(<OgCard {...props} />, { ...ogSize, fonts });
+	return new ImageResponse(<OgCard {...props} author={author} />, {
+		...ogSize,
+		fonts,
+	});
 };

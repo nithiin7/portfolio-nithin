@@ -1,9 +1,10 @@
 export interface Testimonial {
-	id: number;
+	id: string;
 	review: string;
 	avatar: {
 		url: string;
 	};
 	reviewer: string;
-	institution: string;
+	role: string;
+	organisation: string;
 }

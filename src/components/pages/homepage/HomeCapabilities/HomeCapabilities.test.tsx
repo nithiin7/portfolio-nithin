@@ -1,28 +1,22 @@
 import { render, screen, within } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-import type { ServiceItem } from 'types/service';
+import type { Capability } from 'types/home';
 
 import HomeCapabilities from './HomeCapabilities';
 
-const capability = (title: string, list: string[]): ServiceItem => ({
-	__typename: 'Section',
-	contentsCollection: {
-		items: [
-			{ title, subTitle: `${title} description`, list: [] },
-			{ title: '', subTitle: '', list },
-		],
-	},
+const capability = (title: string, items: string[]): Capability => ({
+	title,
+	summary: `${title} description`,
+	items,
 });
 
 describe('HomeCapabilities', () => {
-	it('renders one column per Contentful sub-section and skips the header entry', () => {
-		const header = { __typename: 'Title' } as unknown as ServiceItem;
+	it('renders one column per Contentful capability, in order', () => {
 		render(
 			<HomeCapabilities
 				data={{ title: 'What I do.', subTitle: 'Lede' }}
-				services={[
-					header,
+				capabilities={[
 					capability('Fullstack', ['Web', 'APIs']),
 					capability('AI Systems', ['Agents']),
 				]}
@@ -43,7 +37,7 @@ describe('HomeCapabilities', () => {
 	});
 
 	it('renders nothing without capabilities', () => {
-		const { container } = render(<HomeCapabilities services={[]} />);
+		const { container } = render(<HomeCapabilities capabilities={[]} />);
 		expect(container).toBeEmptyDOMElement();
 	});
 });

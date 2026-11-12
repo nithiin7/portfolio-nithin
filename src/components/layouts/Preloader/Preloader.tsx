@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react';
 
-import { siteConfig } from 'config/site';
+import type { SiteSettings } from 'types/site';
 
 import styles from './Preloader.module.scss';
 
@@ -16,8 +16,12 @@ const PRELOAD_ATTR_TTL = 2500;
  */
 export const preloaderScript = `(function(){try{var d=document.documentElement,s=sessionStorage;if(s.getItem('${STORAGE_KEY}'))return;s.setItem('${STORAGE_KEY}','1');if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;d.setAttribute('data-preload','true');setTimeout(function(){d.removeAttribute('data-preload')},${PRELOAD_ATTR_TTL})}catch(e){}})();`;
 
-const Preloader = (): ReactElement => {
-	const [first, ...rest] = siteConfig.name.split(' ');
+interface PreloaderProps {
+	site: Pick<SiteSettings, 'name' | 'location'>;
+}
+
+const Preloader = ({ site }: PreloaderProps): ReactElement => {
+	const [first, ...rest] = site.name.split(' ');
 
 	return (
 		<div className={styles.Preloader} aria-hidden="true">
@@ -36,7 +40,7 @@ const Preloader = (): ReactElement => {
 				</span>
 			</p>
 			<p className={styles.Preloader__meta}>
-				{siteConfig.location.city} — Portfolio ©{new Date().getFullYear()}
+				{site.location.city} — Portfolio ©{new Date().getFullYear()}
 			</p>
 			<p className={styles.Preloader__count} />
 		</div>

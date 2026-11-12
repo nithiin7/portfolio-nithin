@@ -5,19 +5,23 @@ import type { ReactElement } from 'react';
 
 import { handleScroll } from 'helpers/scroll';
 import { useMagneticHover } from 'hooks/useMagneticHover';
+import type { SiteLink } from 'types/site';
 
 import styles from './HomeHeader.module.scss';
 
 interface HomeHeaderActionsProps {
 	className?: string;
+	primary: SiteLink;
+	secondary?: SiteLink;
 }
-
-const CTA_LABEL = 'Start a project';
 
 /** Primary CTA (magnetic, rolling label) + Lenis-driven link to Works. */
 const HomeHeaderActions = ({
 	className,
+	primary,
+	secondary,
 }: HomeHeaderActionsProps): ReactElement => {
+	const sectionId = secondary?.url.split('#')[1];
 	const lenis = useLenis();
 	const { boundsRef, magneticRef } = useMagneticHover<
 		HTMLDivElement,
@@ -29,29 +33,31 @@ const HomeHeaderActions = ({
 			<div ref={boundsRef} className={styles.HomeHeader__ctaBounds}>
 				<Link
 					ref={magneticRef}
-					href="/contact"
+					href={primary.url}
 					className={styles.HomeHeader__cta}
 				>
 					<span className={styles.HomeHeader__roll}>
-						<span>{CTA_LABEL}</span>
-						<span aria-hidden="true">{CTA_LABEL}</span>
+						<span>{primary.label}</span>
+						<span aria-hidden="true">{primary.label}</span>
 					</span>
 					<span className={styles.HomeHeader__arrow} aria-hidden="true">
 						→
 					</span>
 				</Link>
 			</div>
-			<a
-				href="#portfolio"
-				className={styles.HomeHeader__secondary}
-				onClick={(e) => {
-					if (!lenis) return;
-					e.preventDefault();
-					handleScroll('portfolio', lenis);
-				}}
-			>
-				See selected work <span aria-hidden="true">↓</span>
-			</a>
+			{secondary && (
+				<a
+					href={sectionId ? `#${sectionId}` : secondary.url}
+					className={styles.HomeHeader__secondary}
+					onClick={(e) => {
+						if (!lenis || !sectionId) return;
+						e.preventDefault();
+						handleScroll(sectionId, lenis);
+					}}
+				>
+					{secondary.label} <span aria-hidden="true">↓</span>
+				</a>
+			)}
 		</div>
 	);
 };

@@ -28,15 +28,11 @@ export const fetchBlurDataURL = async (
 
 export const enrichPortfolio = async (
 	items: PortfolioItem[],
-	summaries: Map<number, string>,
 	getBlur: (url: string) => Promise<string | undefined> = fetchBlurDataURL
 ): Promise<PortfolioItem[]> =>
 	Promise.all(
 		items.map(async (item) => ({
 			...item,
-			summary:
-				item.summary ??
-				(item.id !== undefined ? summaries.get(item.id) : undefined),
 			blurDataURL: item.image?.url ? await getBlur(item.image.url) : undefined,
 			blurDataURLDark: item.imageDark?.url
 				? await getBlur(item.imageDark.url)
@@ -52,6 +48,5 @@ export const splitFeatured = (
 	rest: items.slice(count),
 });
 
-/** Detail pages are keyed by the Contentful `id` field, not list position. */
-export const portfolioHref = (item: PortfolioItem, index: number): string =>
-	`/portfolio/${item.id ?? index + 1}`;
+export const portfolioHref = (item: Pick<PortfolioItem, 'slug'>): string =>
+	`/portfolio/${item.slug}`;

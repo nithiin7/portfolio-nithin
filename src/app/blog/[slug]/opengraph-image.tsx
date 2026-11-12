@@ -1,13 +1,13 @@
 import type { ImageResponse } from 'next/og';
 
-import { siteConfig } from 'config/site';
 import {
 	convertContentfulBlogPost,
 	loadBlogPostBySlug,
+	loadSiteSettings,
 } from 'helpers/contentful';
 import { ogContentType, ogSize, renderOgCard } from 'helpers/og';
 
-export const alt = `Article — ${siteConfig.name}`;
+export const alt = 'Article social card';
 export const size = ogSize;
 export const contentType = ogContentType;
 
@@ -17,7 +17,10 @@ export default async function Image({
 	params: Promise<{ slug: string }>;
 }): Promise<ImageResponse> {
 	const { slug } = await params;
-	const { data } = await loadBlogPostBySlug(slug);
+	const [{ data }, site] = await Promise.all([
+		loadBlogPostBySlug(slug),
+		loadSiteSettings(),
+	]);
 	const item = data?.blogPostCollection?.items?.[0];
 	const post = item ? convertContentfulBlogPost(item) : null;
 
@@ -27,7 +30,7 @@ export default async function Image({
 		title: post?.title ?? 'Writing',
 		meta: [
 			post?.readTime ? `${post.readTime} MIN READ` : '',
-			siteConfig.name.toUpperCase(),
+			site.name.toUpperCase(),
 		]
 			.filter(Boolean)
 			.join(' — '),

@@ -286,12 +286,12 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 	const portfolioCommands = useMemo<Command[]>(
 		() =>
 			portfolioItems.map((item) => ({
-				id: `portfolio-${item.id}`,
+				id: `portfolio-${item.slug}`,
 				type: 'navigate',
 				title: item.title,
 				section: 'Portfolio',
 				kind: 'Work',
-				href: `/portfolio/${item.id}`,
+				href: `/portfolio/${item.slug}`,
 			})),
 		[portfolioItems]
 	);
