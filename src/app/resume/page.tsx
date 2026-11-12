@@ -25,21 +25,12 @@ export async function generateMetadata(): Promise<Metadata> {
 			title: ogTitle,
 			description,
 			siteName: 'Nithin Pradeep - Portfolio',
-			images: [
-				{
-					url: '/opengraph-image.jpeg',
-					width: 1200,
-					height: 630,
-					alt: 'Nithin Pradeep - Full Stack Developer Resume',
-				},
-			],
 		},
 		twitter: {
 			card: 'summary_large_image',
 			title: ogTitle,
 			description,
 			creator: '@nithiin7',
-			images: ['/opengraph-image.jpeg'],
 		},
 		robots: {
 			index: true,
@@ -83,27 +74,16 @@ export default async function ResumePage() {
 
 	const sections = path.sectionCollection?.items || [];
 
-	const header = getSection(sections, 'header');
 	const services = getSection(sections, 'services');
-	const about = getSection(sections, 'about');
 	const career = getSection(sections, 'career');
 	const certifications = getSection(sections, 'certifications');
 
-	const headerData = header.contentsCollection;
-	const servicesData = {
-		data: services.contentsCollection.items[0] || {},
-		services: services.contentsCollection.items,
-	};
-	const aboutData = about.contentsCollection;
-	const careerDataProps = transformCareerData({
+	const careerData = transformCareerData({
 		data: career.contentsCollection.items[0] || {},
 		career: career.contentsCollection.items[1]?.contentsCollection?.items || [],
 	});
-	const certificationsData = {
-		data: certifications.contentsCollection.items[0] || {},
-		certifications: (certifications.contentsCollection.items[1]
-			?.contentsCollection?.items || []) as unknown as Certification[],
-	};
+	const certificationItems = (certifications.contentsCollection.items[1]
+		?.contentsCollection?.items || []) as unknown as Certification[];
 
 	return (
 		<>
@@ -115,11 +95,9 @@ export default async function ResumePage() {
 				}}
 			/>
 			<Resume
-				header={headerData}
-				about={aboutData}
-				services={servicesData}
-				career={careerDataProps}
-				certifications={certificationsData}
+				services={services.contentsCollection.items}
+				experiences={careerData.experiences}
+				certifications={certificationItems}
 				resumeUrl="/resume.pdf"
 			/>
 		</>

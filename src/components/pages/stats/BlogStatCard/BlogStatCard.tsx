@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import type { FC, ReactElement } from 'react';
-import { FaChartBar } from 'react-icons/fa';
 
 import {
 	CountUp,
@@ -24,7 +23,7 @@ const BlogStatCard: FC<BlogStatCardProps> = ({
 	if (!stats) return null;
 
 	return (
-		<StatCard icon={<FaChartBar />} title="Blog" subtitle="On this site" live>
+		<StatCard title="Blog" subtitle="On this site" live>
 			<div className={styles.BlogStatCard__metrics}>
 				<StatMetric
 					value={<CountUp value={stats.totalViews} compact />}

@@ -1,24 +1,23 @@
 @use 'styles/shared/mixin' as *;
-@use 'styles/shared/variables' as *;
 
 .ThemeToggle {
 	position: relative;
 	width: rem(48);
 	height: rem(48);
 	border-radius: 50%;
-	border: 2px solid var(--color-toggle-border);
-	background: var(--color-toggle-bg);
-	color: var(--color-toggle-fill);
+	border: 2px solid var(--line);
+	background: var(--muted);
+	color: var(--bg);
 	cursor: pointer;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	transition: all 0.3s ease;
 	overflow: hidden;
-	box-shadow: 0 rem(4) rem(12) var(--color-shadow);
+	box-shadow: 0 rem(4) rem(12) var(--shadow);
 
 	&:hover {
-		box-shadow: 0 rem(6) rem(16) var(--color-shadow-hover);
+		box-shadow: 0 rem(6) rem(16) var(--shadow-strong);
 		transform: translateY(-2px);
 	}
 
@@ -42,7 +41,7 @@
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
-		color: var(--color-toggle-fill);
+		color: var(--bg);
 		transition: all 0.3s ease;
 	}
 
@@ -54,7 +53,7 @@
 		width: rem(20);
 		height: rem(20);
 		border-radius: 50%;
-		background: var(--color-accent);
+		background: var(--accent);
 		z-index: 1;
 	}
 

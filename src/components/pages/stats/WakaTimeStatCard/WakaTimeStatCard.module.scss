@@ -4,16 +4,16 @@
 	&__metrics {
 		display: flex;
 		flex-wrap: wrap;
-		gap: rem(16) rem(40);
+		gap: var(--space-4) var(--space-7);
 	}
 
 	&__languages {
 		display: grid;
-		grid-template-columns: 1fr;
-		gap: rem(14) rem(32);
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--space-4) var(--space-7);
 
 		@media #{$lm} {
-			grid-template-columns: repeat(2, 1fr);
+			grid-template-columns: repeat(2, minmax(0, 1fr));
 		}
 	}
 }

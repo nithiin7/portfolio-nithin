@@ -47,14 +47,12 @@ export async function generateMetadata({
 			title,
 			description,
 			siteName: siteConfig.siteName,
-			images: [{ ...siteConfig.ogImage }],
 		},
 		twitter: {
 			card: 'summary_large_image',
 			title,
 			description,
 			creator: siteConfig.twitterHandle,
-			images: [siteConfig.ogImage.url],
 		},
 		alternates: {
 			canonical: url,

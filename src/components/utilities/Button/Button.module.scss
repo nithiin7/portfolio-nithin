@@ -1,17 +1,16 @@
 @use 'styles/shared/mixin' as *;
-@use 'styles/shared/variables' as *;
 
 .Button {
 	width: max-content;
 	display: inline-block;
-	background: $color-secondary;
-	color: $color-primary;
+	background: var(--surface-3);
+	color: var(--inverse-bg);
 	padding-top: 1.25rem;
 	padding-bottom: 1.25rem;
 	padding-left: 2.5rem;
 	padding-right: 2.5rem;
 	cursor: pointer;
-	border: rem(1) solid $color-secondary;
+	border: rem(1) solid var(--surface-3);
 	border-radius: rem(9999);
 	letter-spacing: 0;
 	line-height: 130%;

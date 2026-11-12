@@ -1,5 +1,4 @@
 @use 'styles/shared/mixin' as *;
-@use 'styles/shared/variables' as *;
 
 .Tag {
 	display: inline-block;
@@ -29,26 +28,26 @@
 	}
 
 	&__default {
-		background: $color-surface;
-		color: $color-text-primary;
-		border-color: $color-border;
+		background: var(--surface-3);
+		color: var(--ink);
+		border-color: var(--line-strong);
 	}
 
 	&__primary {
-		background: $color-primary;
-		color: $color-white;
-		border-color: $color-primary;
+		background: var(--inverse-bg);
+		color: var(--fg);
+		border-color: var(--inverse-bg);
 	}
 
 	&__secondary {
-		background: $color-secondary;
-		color: $color-white;
-		border-color: $color-secondary;
+		background: var(--surface-3);
+		color: var(--fg);
+		border-color: var(--surface-3);
 	}
 
 	&__accent {
-		background: $color-accent;
-		color: $color-white;
-		border-color: $color-accent;
+		background: var(--accent);
+		color: var(--fg);
+		border-color: var(--accent);
 	}
 }

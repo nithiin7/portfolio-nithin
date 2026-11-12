@@ -1,5 +1,4 @@
 import type { FC, ReactElement } from 'react';
-import { FaGithub } from 'react-icons/fa';
 
 import {
 	CountUp,
@@ -28,11 +27,10 @@ const GithubStatCard: FC<GithubStatCardProps> = ({
 
 	return (
 		<StatCard
-			icon={<FaGithub />}
 			title="GitHub"
 			subtitle={`@${GITHUB_USERNAME}`}
 			href={`https://github.com/${GITHUB_USERNAME}`}
-			linkLabel="Open GitHub profile"
+			linkLabel="Profile"
 			live
 		>
 			<div className={styles.GithubStatCard__metrics}>
