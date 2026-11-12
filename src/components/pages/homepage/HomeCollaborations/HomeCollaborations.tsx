@@ -52,7 +52,7 @@ const collaborators = [
 	},
 	{
 		file: 'spotify',
-		ratio: '725.9551 / 251.2245',
+		ratio: '558.427 / 167.483',
 		name: 'Spotify',
 		url: 'https://connect.spotify.com/',
 	},

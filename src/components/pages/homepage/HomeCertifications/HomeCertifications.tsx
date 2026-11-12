@@ -97,6 +97,7 @@ const HomeCertifications: FC<HomeCertificationsProps> = ({
 
 					<motion.ul
 						className={styles.HomeCertifications__strip}
+						style={{ '--count': certifications.length } as CSSProperties}
 						variants={strip}
 						initial="hidden"
 						whileInView="visible"
