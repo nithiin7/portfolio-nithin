@@ -23,22 +23,26 @@
 		flex-shrink: 0;
 		width: 88px;
 		height: 88px;
-		padding: 12px;
-		background: var(--surface-3);
+		padding: 18px;
+		color: var(--fg);
+		background: var(--surface-2);
 		border: 1px solid var(--line-strong);
 		border-radius: 50%;
 		box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 8%, transparent);
-
-		img {
-			width: 100%;
-			height: 100%;
-			object-fit: contain;
-		}
 
 		@media #{$sm} {
 			width: 72px;
 			height: 72px;
 		}
+	}
+
+	// Vendor logos mix black and white artwork; a mask tints them all in theme colour
+	&__mark {
+		display: block;
+		width: 100%;
+		height: 100%;
+		background-color: currentColor;
+		mask: var(--logo) center / contain no-repeat;
 	}
 
 	&__content {
@@ -59,7 +63,7 @@
 	&__provider {
 		font-size: 0.75rem;
 		font-weight: 600;
-		color: var(--accent);
+		color: var(--accent-text);
 		text-transform: uppercase;
 		letter-spacing: 0.08em;
 	}
@@ -67,7 +71,7 @@
 	&__name {
 		font-size: 1.5rem;
 		font-weight: 600;
-		color: var(--ink);
+		color: var(--fg);
 		font-family: var(--font-display);
 		line-height: 1.25;
 
@@ -85,7 +89,7 @@
 		grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
 		gap: 1.25rem 1.5rem;
 		padding: 1.25rem 1.5rem;
-		background: var(--surface-3);
+		background: var(--surface-2);
 		border-radius: 14px;
 		border: 1px solid var(--line-strong);
 	}
@@ -107,7 +111,7 @@
 
 	&__value {
 		font-size: 0.9375rem;
-		color: var(--muted);
+		color: var(--fg);
 		font-weight: 500;
 		word-break: break-word;
 
@@ -116,10 +120,10 @@
 			width: fit-content;
 			font-family: 'Monaco', 'Courier New', monospace;
 			font-size: 0.8125rem;
-			background: var(--surface-2);
+			background: var(--surface-3);
 			padding: 0.25rem 0.5rem;
-			border-radius: 4px;
-			color: var(--fg-subtle);
+			border-radius: var(--radius-1);
+			color: var(--fg);
 		}
 	}
 
@@ -127,7 +131,7 @@
 		display: block;
 		font-size: 0.6875rem;
 		font-weight: 600;
-		color: var(--inverse-muted);
+		color: var(--muted);
 		text-transform: uppercase;
 		letter-spacing: 0.06em;
 		margin-bottom: 0.625rem;
@@ -137,7 +141,7 @@
 		p {
 			font-size: 0.9375rem;
 			line-height: 1.7;
-			color: var(--inverse-muted);
+			color: var(--fg-subtle);
 			margin: 0;
 		}
 	}

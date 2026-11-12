@@ -30,6 +30,7 @@ import { links } from 'constants/index';
 import { useTheme } from 'contexts/ThemeContext';
 import { clientEnv } from 'helpers/env';
 import { useFocusTrap } from 'hooks/useKeyboardNavigation';
+import type { SearchIndex } from 'types/search';
 
 import styles from './CommandPalette.module.scss';
 
@@ -56,21 +57,11 @@ interface AskState {
 	answer: string;
 }
 
-interface BlogSearchItem {
-	title: string;
-	slug: string;
-}
-
-interface PortfolioSearchItem {
-	id: number;
-	title: string;
-}
-
 interface CommandPaletteProps {
 	resumeUrl: string;
-	blogPosts?: BlogSearchItem[];
-	portfolioItems?: PortfolioSearchItem[];
 }
+
+const EMPTY_INDEX: SearchIndex = { blogPosts: [], portfolioItems: [] };
 
 const MAX_CONTENT_RESULTS = 5;
 
@@ -99,11 +90,7 @@ const navIcons: Record<string, ReactElement> = {
 	Certifications: <FiAward />,
 };
 
-const CommandPalette = ({
-	resumeUrl,
-	blogPosts = [],
-	portfolioItems = [],
-}: CommandPaletteProps): ReactElement => {
+const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 	const router = useRouter();
 	const pathname = usePathname();
 	const { theme, toggleTheme } = useTheme();
@@ -120,6 +107,9 @@ const CommandPalette = ({
 		answer: '',
 	});
 	const [askCount, setAskCount] = useState(0);
+	const [searchIndex, setSearchIndex] = useState<SearchIndex>(EMPTY_INDEX);
+	const hasRequestedIndex = useRef(false);
+	const { blogPosts, portfolioItems } = searchIndex;
 
 	const inputRef = useRef<HTMLInputElement>(null);
 	const listRef = useRef<HTMLUListElement>(null);
@@ -178,6 +168,17 @@ const CommandPalette = ({
 	useEffect(() => {
 		close();
 	}, [pathname, close]);
+
+	useEffect(() => {
+		if (!isOpen || hasRequestedIndex.current) return;
+		hasRequestedIndex.current = true;
+		fetch('/api/search')
+			.then((response) => (response.ok ? response.json() : EMPTY_INDEX))
+			.then((index: SearchIndex) => setSearchIndex(index))
+			.catch(() => {
+				hasRequestedIndex.current = false;
+			});
+	}, [isOpen]);
 
 	useEffect(() => {
 		document.body.style.overflow = isOpen ? 'hidden' : '';
@@ -451,47 +452,50 @@ const CommandPalette = ({
 				</GoogleReCaptchaProvider>
 			)}
 			<AnimatePresence>
-				{!isOpen && !pathname?.startsWith('/blog/') && (
-					<motion.button
-						className={[
-							styles.CommandPalette__hint,
-							isHintExpanded ? '' : styles['CommandPalette__hint--collapsed'],
-						].join(' ')}
-						onClick={() => {
-							setIsHintHovered(false);
-							setIsOpen(true);
-						}}
-						onMouseEnter={() => setIsHintHovered(true)}
-						onMouseLeave={() => setIsHintHovered(false)}
-						initial={{ opacity: 0, y: 20, x: '-50%' }}
-						animate={{ opacity: 1, y: 0, x: '-50%' }}
-						exit={{ opacity: 0, y: 20, x: '-50%' }}
-						transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
-						aria-label={`Navigate & ask AI ${modKey} K`}
-						aria-keyshortcuts="Meta+K Control+K"
-					>
-						<FiSearch aria-hidden="true" />
-						<AnimatePresence initial={false}>
-							{isHintExpanded && (
-								<motion.span
-									className={styles['CommandPalette__hint-content']}
-									initial={{ width: 0, opacity: 0, marginLeft: 0 }}
-									animate={{ width: 'auto', opacity: 1, marginLeft: 8 }}
-									exit={{ width: 0, opacity: 0, marginLeft: 0 }}
-									transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-								>
-									<span className={styles['CommandPalette__hint-label']}>
-										Navigate & ask AI
-									</span>
-									<span className={styles['CommandPalette__hint-keys']}>
-										<kbd>{modKey}</kbd>
-										<kbd>K</kbd>
-									</span>
-								</motion.span>
-							)}
-						</AnimatePresence>
-					</motion.button>
-				)}
+				{/* The home hero's name runs to the fold, so the pill waits for the first scroll there */}
+				{!isOpen &&
+					!pathname?.startsWith('/blog/') &&
+					!(pathname === '/' && isAtTop) && (
+						<motion.button
+							className={[
+								styles.CommandPalette__hint,
+								isHintExpanded ? '' : styles['CommandPalette__hint--collapsed'],
+							].join(' ')}
+							onClick={() => {
+								setIsHintHovered(false);
+								setIsOpen(true);
+							}}
+							onMouseEnter={() => setIsHintHovered(true)}
+							onMouseLeave={() => setIsHintHovered(false)}
+							initial={{ opacity: 0, y: 20, x: '-50%' }}
+							animate={{ opacity: 1, y: 0, x: '-50%' }}
+							exit={{ opacity: 0, y: 20, x: '-50%' }}
+							transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+							aria-label={`Navigate & ask AI ${modKey} K`}
+							aria-keyshortcuts="Meta+K Control+K"
+						>
+							<FiSearch aria-hidden="true" />
+							<AnimatePresence initial={false}>
+								{isHintExpanded && (
+									<motion.span
+										className={styles['CommandPalette__hint-content']}
+										initial={{ width: 0, opacity: 0, marginLeft: 0 }}
+										animate={{ width: 'auto', opacity: 1, marginLeft: 8 }}
+										exit={{ width: 0, opacity: 0, marginLeft: 0 }}
+										transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+									>
+										<span className={styles['CommandPalette__hint-label']}>
+											Navigate & ask AI
+										</span>
+										<span className={styles['CommandPalette__hint-keys']}>
+											<kbd>{modKey}</kbd>
+											<kbd>K</kbd>
+										</span>
+									</motion.span>
+								)}
+							</AnimatePresence>
+						</motion.button>
+					)}
 			</AnimatePresence>
 			<AnimatePresence>
 				{isOpen && (

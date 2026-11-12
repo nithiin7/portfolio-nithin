@@ -1,6 +1,6 @@
 import type { FC, ReactElement } from 'react';
 
-import { formatDate } from 'helpers';
+import { formatDate } from 'helpers/format';
 import type { NowActivityItem } from 'types/activity';
 
 import styles from './NowActivity.module.scss';

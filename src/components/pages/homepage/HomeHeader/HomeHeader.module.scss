@@ -152,6 +152,12 @@
 		animation: hero-fade-up var(--dur-2) var(--ease-out) both;
 		animation-delay: calc(var(--intro-delay) + 0.45s);
 
+		// On phones the lede outsizes a name line and becomes the LCP element;
+		// like the name, it is already in place when the preloader wipes away.
+		:global(html[data-preload='true']) & {
+			animation-delay: -10s;
+		}
+
 		@media #{$md} {
 			grid-column: 1 / span 8;
 			max-width: 30ch;

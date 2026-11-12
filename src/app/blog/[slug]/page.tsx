@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
 
-import { BlogDetail } from 'components/pages';
+import BlogDetail from 'components/pages/blog/BlogDetail/BlogDetail';
 import { getRelatedPosts } from 'helpers/blog';
 import {
 	loadBlogPostBySlug,

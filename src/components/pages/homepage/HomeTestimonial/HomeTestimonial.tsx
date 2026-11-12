@@ -18,7 +18,8 @@ import {
 	type ReactElement,
 } from 'react';
 
-import { RevealText, duration, ease } from 'components/motion';
+import RevealText from 'components/motion/RevealText/RevealText';
+import { duration, ease } from 'styles/tokens';
 import type { Testimonial } from 'types/testimony';
 
 import styles from './HomeTestimonial.module.scss';

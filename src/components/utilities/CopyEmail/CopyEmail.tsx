@@ -1,6 +1,5 @@
 'use client';
 import { useEffect, useState, type ReactElement } from 'react';
-import { toast } from 'sonner';
 
 import styles from './CopyEmail.module.scss';
 
@@ -26,6 +25,8 @@ const CopyEmail = ({ email, className }: CopyEmailProps): ReactElement => {
 	}, [copied]);
 
 	const copy = async (): Promise<void> => {
+		// sonner is only needed once someone copies; keep it out of every page's bundle
+		const { toast } = await import('sonner');
 		try {
 			await navigator.clipboard.writeText(email);
 			setCopied(true);

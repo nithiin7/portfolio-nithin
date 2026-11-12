@@ -1,7 +1,8 @@
 import Image from 'next/image';
 import type { FC, ReactElement } from 'react';
 
-import { RevealImage, RevealText } from 'components/motion';
+import RevealImage from 'components/motion/RevealImage/RevealImage';
+import RevealText from 'components/motion/RevealText/RevealText';
 import CountUp from 'components/pages/stats/CountUp/CountUp';
 import { aboutContent } from 'config/about';
 

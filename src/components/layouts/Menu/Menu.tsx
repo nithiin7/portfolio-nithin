@@ -6,7 +6,8 @@ import Link from 'next/link';
 import type { MouseEvent, ReactElement } from 'react';
 import { useCallback, useEffect, useRef } from 'react';
 
-import { LocalClock, ThemeToggle } from 'components/utilities';
+import LocalClock from 'components/utilities/LocalClock/LocalClock';
+import ThemeToggle from 'components/utilities/ThemeToggle/ThemeToggle';
 import { siteConfig } from 'config/site';
 import { navLinks, socialsMenu } from 'constants/index';
 import {

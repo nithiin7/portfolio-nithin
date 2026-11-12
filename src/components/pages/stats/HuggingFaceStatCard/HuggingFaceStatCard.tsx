@@ -1,11 +1,10 @@
 import type { FC, ReactElement } from 'react';
 
-import {
-	CountUp,
-	StatCard,
+import CountUp from 'components/pages/stats/CountUp/CountUp';
+import StatCard, {
 	StatCardDivider,
-	StatMetric,
-} from 'components/pages';
+} from 'components/pages/stats/StatCard/StatCard';
+import StatMetric from 'components/pages/stats/StatMetric/StatMetric';
 import type { HuggingFaceStats } from 'types/huggingface';
 
 import styles from './HuggingFaceStatCard.module.scss';

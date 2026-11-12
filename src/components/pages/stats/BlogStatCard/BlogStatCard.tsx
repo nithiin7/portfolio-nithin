@@ -1,14 +1,13 @@
 import Link from 'next/link';
 import type { FC, ReactElement } from 'react';
 
-import {
-	CountUp,
-	StatCard,
+import CountUp from 'components/pages/stats/CountUp/CountUp';
+import StatCard, {
 	StatCardDivider,
 	StatCardSection,
-	StatMetric,
-} from 'components/pages';
-import { formatCompactNumber } from 'helpers';
+} from 'components/pages/stats/StatCard/StatCard';
+import StatMetric from 'components/pages/stats/StatMetric/StatMetric';
+import { formatCompactNumber } from 'helpers/format';
 import type { BlogStats } from 'types/blog';
 
 import styles from './BlogStatCard.module.scss';

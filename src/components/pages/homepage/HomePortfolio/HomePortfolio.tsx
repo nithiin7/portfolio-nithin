@@ -1,7 +1,8 @@
 import type { FC, ReactElement } from 'react';
 
-import { RevealText } from 'components/motion';
-import { WorksFeatured, WorksIndex } from 'components/pages';
+import RevealText from 'components/motion/RevealText/RevealText';
+import WorksFeatured from 'components/pages/homepage/WorksFeatured/WorksFeatured';
+import WorksIndex from 'components/pages/homepage/WorksIndex/WorksIndex';
 import { splitFeatured } from 'helpers/portfolio';
 import type { PortfolioItem } from 'types/portfolio';
 

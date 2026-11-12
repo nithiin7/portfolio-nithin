@@ -10,7 +10,7 @@ import {
 	type ReactElement,
 } from 'react';
 
-import { RevealText } from 'components/motion';
+import RevealText from 'components/motion/RevealText/RevealText';
 import { navLinks } from 'constants/index';
 import { usePrefersReducedMotion } from 'hooks/usePrefersReducedMotion';
 import type { LinkItem } from 'types/utils';

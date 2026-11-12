@@ -116,6 +116,9 @@
 	&__marquee {
 		--marquee-gap: clamp(2.5rem, 1.5rem + 4vw, 6rem);
 
+		// Skips rendering (and the logo-mask fetches) until the marquee nears the viewport
+		content-visibility: auto;
+		contain-intrinsic-block-size: auto rem(160);
 		overflow: hidden;
 		border-block: 1px solid var(--line);
 		mask-image: linear-gradient(
@@ -189,13 +192,6 @@
 			height: rem(44);
 		}
 
-		svg {
-			display: block;
-			width: auto;
-			height: 100%;
-			max-width: rem(160);
-		}
-
 		@media (hover: hover) {
 			&:hover {
 				color: var(--fg);
@@ -217,6 +213,15 @@
 				height: rem(68);
 			}
 		}
+	}
+
+	&__mark {
+		display: block;
+		height: 100%;
+		max-width: rem(160);
+		aspect-ratio: var(--ratio);
+		background-color: currentColor;
+		mask: var(--logo) center / contain no-repeat;
 	}
 }
 

@@ -1,7 +1,7 @@
 'use client';
 import type { ReactElement } from 'react';
 
-import { RouteError } from 'components/utilities';
+import RouteError from 'components/utilities/RouteError/RouteError';
 
 interface ErrorProps {
 	error: Error & { digest?: string };

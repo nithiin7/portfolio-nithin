@@ -3,14 +3,40 @@ import { expect, test, type Page } from '@playwright/test';
 
 const AXE_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'];
 
-const scan = (page: Page) =>
-	new AxeBuilder({ page })
-		.withTags(AXE_TAGS)
-		// Third-party embeds we don't control
-		.exclude('iframe')
-		// Known design debt, audited separately in the color-contrast test below
-		.disableRules(['color-contrast'])
-		.analyze();
+// Mid-fade text blends with the background and trips color-contrast, so let
+// every finite animation (intros, reveals, dialog entrances) finish first.
+// Infinite ones (marquee, status pulse) never settle and are skipped.
+const SETTLE_TIMEOUT = 4000;
+
+const settle = (page: Page) =>
+	page.evaluate(
+		(timeout) =>
+			Promise.race([
+				Promise.all(
+					document
+						.getAnimations()
+						.filter(
+							(animation) =>
+								animation.playState === 'running' &&
+								animation.effect?.getComputedTiming().endTime !== Infinity
+						)
+						.map((animation) => animation.finished.catch(() => undefined))
+				),
+				new Promise((resolve) => setTimeout(resolve, timeout)),
+			]),
+		SETTLE_TIMEOUT
+	);
+
+const scan = async (page: Page) => {
+	await settle(page);
+	return (
+		new AxeBuilder({ page })
+			.withTags(AXE_TAGS)
+			// Third-party embeds we don't control
+			.exclude('iframe')
+			.analyze()
+	);
+};
 
 const formatViolations = (
 	violations: Awaited<ReturnType<AxeBuilder['analyze']>>['violations']
@@ -38,14 +64,10 @@ const openMenu = async (page: Page) => {
 };
 
 const openCertificationModal = async (page: Page) => {
-	const badge = page
-		.getByRole('button', { name: /^View details for / })
-		.first();
-	// The marquee keeps badges moving, so mouse actions never see a stable
-	// bounding box. Keyboard activation skips stability checks entirely.
+	const badge = page.getByRole('button', { name: /\. View details$/ }).first();
 	await badge.focus();
 	await page.keyboard.press('Enter');
-	await expect(page.getByText('Certification Details')).toBeVisible();
+	await expect(page.getByRole('dialog')).toBeVisible();
 };
 
 test.describe('axe scans', () => {
@@ -85,20 +107,36 @@ test.describe('axe scans', () => {
 		await expectNoViolations(page);
 	});
 
-	// Muted theme colors (--color-number/--color-year and friends) sit below
-	// WCAG AA 4.5:1. Documented design debt: remove this annotation once the
-	// palette is adjusted, and drop the disableRules exclusion above.
-	test('color contrast audit', async ({ page }) => {
-		test.fail();
-		await page.goto('/', { waitUntil: 'networkidle' });
-		const { violations } = await new AxeBuilder({ page })
-			.withTags(AXE_TAGS)
-			.exclude('iframe')
-			.include('body')
-			.withRules(['color-contrast'])
-			.analyze();
-		expect(violations, formatViolations(violations)).toEqual([]);
+	for (const path of [
+		'/blog',
+		'/stats',
+		'/resume',
+		'/this-page-does-not-exist',
+	]) {
+		test(`page ${path}`, async ({ page }) => {
+			await page.goto(path, { waitUntil: 'networkidle' });
+			await expectNoViolations(page);
+		});
+	}
+
+	test('blog post page', async ({ page }) => {
+		await page.goto('/blog', { waitUntil: 'networkidle' });
+		const href = await page
+			.locator('a[href^="/blog/"]')
+			.first()
+			.getAttribute('href');
+		await page.goto(href!, { waitUntil: 'networkidle' });
+		await expectNoViolations(page);
 	});
+
+	for (const path of ['/', '/portfolio/2', '/blog', '/contact']) {
+		test(`light theme ${path}`, async ({ page }) => {
+			await page.addInitScript(() => localStorage.setItem('theme', 'light'));
+			await page.goto(path, { waitUntil: 'networkidle' });
+			await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+			await expectNoViolations(page);
+		});
+	}
 });
 
 test.describe('keyboard behavior', () => {

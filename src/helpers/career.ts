@@ -1,4 +1,4 @@
-import { parseCommaSeparatedString } from '.';
+import { parseCommaSeparatedString } from 'helpers/string';
 
 /**
  * Interface for raw career data from Contentful

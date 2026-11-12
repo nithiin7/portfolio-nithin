@@ -1,13 +1,11 @@
 import dynamic from 'next/dynamic';
 import Script from 'next/script';
 
-import {
-	HomeAbout,
-	HomeCapabilities,
-	HomeHeader,
-	HomePortfolio,
-} from 'components/pages';
+import HomeAbout from 'components/pages/homepage/HomeAbout/HomeAbout';
 import type { AboutStat } from 'components/pages/homepage/HomeAbout/HomeAbout';
+import HomeCapabilities from 'components/pages/homepage/HomeCapabilities/HomeCapabilities';
+import HomeHeader from 'components/pages/homepage/HomeHeader/HomeHeader';
+import HomePortfolio from 'components/pages/homepage/HomePortfolio/HomePortfolio';
 import { aboutContent } from 'config/about';
 import { absoluteUrl, personJsonLd, siteConfig } from 'config/site';
 import { transformCareerData, yearsOfExperience } from 'helpers/career';

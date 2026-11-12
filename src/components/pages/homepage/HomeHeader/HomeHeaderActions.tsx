@@ -3,7 +3,7 @@ import { useLenis } from 'lenis/react';
 import Link from 'next/link';
 import type { ReactElement } from 'react';
 
-import { handleScroll } from 'helpers';
+import { handleScroll } from 'helpers/scroll';
 import { useMagneticHover } from 'hooks/useMagneticHover';
 
 import styles from './HomeHeader.module.scss';

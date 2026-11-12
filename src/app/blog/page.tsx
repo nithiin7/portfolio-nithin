@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
-import { BlogListing } from 'components/pages';
+import BlogListing from 'components/pages/blog/BlogListing/BlogListing';
 import { absoluteUrl, personJsonLd, siteConfig } from 'config/site';
 import { categoriesFromPosts } from 'helpers/blogPosts';
 import {
@@ -106,7 +107,10 @@ export default async function BlogPage({
 				type="application/ld+json"
 				dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
 			/>
-			<BlogListing posts={posts} categories={categoriesFromPosts(posts)} />
+			{/* Scoped here: /blog is the only route with URL-state filters */}
+			<NuqsAdapter>
+				<BlogListing posts={posts} categories={categoriesFromPosts(posts)} />
+			</NuqsAdapter>
 		</>
 	);
 }

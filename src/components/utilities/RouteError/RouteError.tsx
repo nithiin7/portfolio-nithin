@@ -1,7 +1,8 @@
 'use client';
-import * as Sentry from '@sentry/nextjs';
 import Link from 'next/link';
 import { useEffect, type FC, type ReactElement } from 'react';
+
+import { captureException } from 'helpers/monitoring';
 
 import styles from './RouteError.module.scss';
 
@@ -21,7 +22,7 @@ const RouteError: FC<RouteErrorProps> = ({
 	back,
 }): ReactElement => {
 	useEffect(() => {
-		Sentry.captureException(error);
+		captureException(error);
 	}, [error]);
 
 	return (

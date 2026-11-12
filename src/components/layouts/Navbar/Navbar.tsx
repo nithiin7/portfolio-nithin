@@ -8,7 +8,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Menu from 'components/layouts/Menu/Menu';
 import { siteConfig } from 'config/site';
 import { navLinks } from 'constants/index';
-import { handleScroll } from 'helpers';
+import { handleScroll } from 'helpers/scroll';
 import { useScrollDirection } from 'hooks/useScrollDirection';
 
 import styles from './Navbar.module.scss';

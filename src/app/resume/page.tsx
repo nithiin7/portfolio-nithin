@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
 
-import { Resume } from 'components/pages';
+import Resume from 'components/pages/resume/Resume/Resume';
 import { transformCareerData } from 'helpers/career';
 import { loadData } from 'helpers/contentful';
 import { getSection } from 'helpers/sections';

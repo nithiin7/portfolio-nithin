@@ -33,6 +33,7 @@ const BlogFeatured: FC<BlogFeaturedProps> = ({ post }): ReactElement => (
 							alt=""
 							fill
 							priority
+							fetchPriority="high"
 							sizes="(min-width: 1024px) 58vw, 100vw"
 						/>
 					</div>

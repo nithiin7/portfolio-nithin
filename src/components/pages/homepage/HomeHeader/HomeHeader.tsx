@@ -1,6 +1,6 @@
 import type { CSSProperties, ReactElement } from 'react';
 
-import { LocalClock } from 'components/utilities';
+import LocalClock from 'components/utilities/LocalClock/LocalClock';
 import { siteConfig } from 'config/site';
 
 import styles from './HomeHeader.module.scss';

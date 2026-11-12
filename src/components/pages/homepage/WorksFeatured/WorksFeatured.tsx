@@ -4,7 +4,7 @@ import type { FC, ReactElement } from 'react';
 import { ViewTransition } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-import { RevealImage } from 'components/motion';
+import RevealImage from 'components/motion/RevealImage/RevealImage';
 import WorksMedia from 'components/pages/homepage/WorksMedia/WorksMedia';
 import { portfolioHref } from 'helpers/portfolio';
 import type { PortfolioItem } from 'types/portfolio';
@@ -58,7 +58,6 @@ const FeaturedCard: FC<FeaturedCardProps> = ({
 							<WorksMedia
 								project={project}
 								sizes={index === 0 ? LEAD_SIZES : CARD_SIZES}
-								priority={index === 0}
 								playing={playing}
 								className={styles.WorksFeatured__media}
 							/>

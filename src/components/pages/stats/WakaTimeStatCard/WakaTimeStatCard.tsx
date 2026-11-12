@@ -1,14 +1,13 @@
 import type { FC, ReactElement } from 'react';
 
-import {
-	ActivityChart,
-	MeterBar,
-	StatCard,
+import ActivityChart from 'components/pages/stats/ActivityChart/ActivityChart';
+import MeterBar from 'components/pages/stats/MeterBar/MeterBar';
+import StatCard, {
 	StatCardDivider,
 	StatCardSection,
-	StatMetric,
-} from 'components/pages';
-import { formatDate } from 'helpers';
+} from 'components/pages/stats/StatCard/StatCard';
+import StatMetric from 'components/pages/stats/StatMetric/StatMetric';
+import { formatDate } from 'helpers/format';
 import type { WakaTimeStats } from 'types/wakatime';
 
 import styles from './WakaTimeStatCard.module.scss';

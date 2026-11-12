@@ -7,7 +7,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ViewTransition, type FC, type ReactElement } from 'react';
 
-import { RevealImage, RevealText } from 'components/motion';
+import RevealImage from 'components/motion/RevealImage/RevealImage';
+import RevealText from 'components/motion/RevealText/RevealText';
 import CaseStudyProgress from 'components/pages/portfolio/CaseStudyProgress/CaseStudyProgress';
 import PortfolioGallery from 'components/pages/portfolio/PortfolioGallery/PortfolioGallery';
 import PortfolioNext from 'components/pages/portfolio/PortfolioNext/PortfolioNext';
@@ -274,6 +275,7 @@ const PortfolioDetails: FC<PortfolioDetailsProps> = ({
 							alt=""
 							fill
 							priority
+							fetchPriority="high"
 							sizes="100vw"
 						/>
 					</div>

@@ -12,7 +12,6 @@ interface WorksMediaProps {
 	project: PortfolioItem;
 	sizes: string;
 	/** Preloads the image; reserve for the single above-the-fold candidate. */
-	priority?: boolean;
 	/** Plays the cover video when one exists. */
 	playing?: boolean;
 	className?: string;
@@ -21,7 +20,6 @@ interface WorksMediaProps {
 const WorksMedia: FC<WorksMediaProps> = ({
 	project,
 	sizes,
-	priority = false,
 	playing = false,
 	className,
 }): ReactElement => {
@@ -49,7 +47,6 @@ const WorksMedia: FC<WorksMediaProps> = ({
 					alt=""
 					fill
 					sizes={sizes}
-					priority={priority}
 					placeholder={project.blurDataURL ? 'blur' : 'empty'}
 					blurDataURL={project.blurDataURL}
 					className={styles.WorksMedia__image}

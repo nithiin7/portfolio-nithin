@@ -9,11 +9,11 @@ import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
-import { duration, ease } from 'components/motion';
 import FormField from 'components/utilities/FormField/FormField';
 import { siteConfig } from 'config/site';
 import { clientEnv } from 'helpers/env';
 import { contactSchema } from 'helpers/validations';
+import { duration, ease } from 'styles/tokens';
 
 import styles from './ContactForm.module.scss';
 
