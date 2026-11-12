@@ -46,6 +46,8 @@ $prose-measure: 70ch;
 		min-height: rem(24);
 		color: var(--fg);
 
+		@include tap-pad;
+
 		&:focus-visible {
 			@include focus-ring(4px);
 		}
@@ -444,6 +446,8 @@ $prose-measure: 70ch;
 		border-radius: var(--radius-pill);
 		color: var(--fg);
 		text-decoration: none;
+
+		@include tap-target;
 		transition:
 			background-color var(--dur-1) var(--ease),
 			color var(--dur-1) var(--ease);

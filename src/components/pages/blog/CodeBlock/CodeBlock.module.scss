@@ -30,6 +30,8 @@
 		color: var(--fg);
 		cursor: pointer;
 
+		@include tap-target;
+
 		@media #{$can-hover} {
 			&:hover {
 				color: var(--accent-text);

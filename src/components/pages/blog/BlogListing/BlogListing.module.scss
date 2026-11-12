@@ -54,6 +54,8 @@
 		min-height: rem(24);
 		color: var(--fg);
 
+		@include tap-pad;
+
 		&:focus-visible {
 			@include focus-ring(4px);
 		}
@@ -164,6 +166,8 @@
 		border: 1px solid var(--line-strong);
 		border-radius: var(--radius-pill);
 		background: transparent;
+
+		@include tap-target;
 		color: var(--fg);
 		cursor: pointer;
 		transition:
@@ -219,7 +223,7 @@
 
 	&__searchInput {
 		width: 100%;
-		min-height: rem(40);
+		min-height: var(--tap-min);
 		padding: 0;
 		border: 0;
 		border-bottom: 1px solid var(--line-strong);

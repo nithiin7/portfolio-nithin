@@ -21,6 +21,8 @@
 		color: var(--fg);
 		cursor: pointer;
 
+		@include tap-pad;
+
 		&[data-copied='true'] {
 			color: var(--accent-text);
 		}

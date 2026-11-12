@@ -74,6 +74,18 @@ $section-top-clearance-min: rem(120);
 	}
 }
 
+// 44px hit area for text links that draw their underline as a background:
+// padding grows the box, content-box keeps the underline under the text.
+@mixin tap-pad {
+	@media #{$coarse} {
+		min-block-size: 0;
+		min-inline-size: var(--tap-min);
+		padding-block: max(0px, calc((var(--tap-min) - 1lh) / 2));
+		background-origin: content-box;
+		background-clip: content-box;
+	}
+}
+
 // Content-driven sizing for components that sit in different column widths.
 @mixin container($name: null) {
 	container-type: inline-size;
