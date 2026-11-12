@@ -114,7 +114,8 @@ const main = async (): Promise<void> => {
 				version: entry.sys.version,
 			});
 		} catch (error) {
-			const details = String(error).match(/"details":\s*(\{.*\})/s)?.[1] ?? '';
+			const details =
+				String(error).match(/"details":\s*(\{[\s\S]*\})/)?.[1] ?? '';
 			failures.push(
 				`${entry.sys.contentType.sys.id} ${label(entry)}: ${details.slice(0, 400) || String(error).slice(0, 300)}`
 			);

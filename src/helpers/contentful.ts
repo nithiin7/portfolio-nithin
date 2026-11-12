@@ -57,16 +57,31 @@ import { getApolloClient } from '../../lib/apolloClient';
 
 type QueryResult<TData> = ApolloClient.QueryResult<TData, 'none'>;
 
+const isUnresolvableLink = (error: { extensions?: unknown }): boolean =>
+	(error.extensions as { contentful?: { code?: string } } | undefined)
+		?.contentful?.code === 'UNRESOLVABLE_LINK';
+
 const runQuery = async <TData>(
 	query: DocumentNode,
 	variables: OperationVariables = {}
 ): Promise<QueryResult<TData>> => {
-	const { data } = await getApolloClient().query({
+	// A link to an unpublished entry (e.g. one still failing validation) comes
+	// back as an UNRESOLVABLE_LINK error with that field nulled. Render without
+	// it; any other GraphQL error still fails the request.
+	const { data, error } = await getApolloClient().query({
 		query: query as TypedDocumentNode<TData, OperationVariables>,
 		variables: { ...variables, preview: serverEnv.CONTENTFUL_PREVIEW },
+		errorPolicy: 'all',
 	});
-
-	// errorPolicy defaults to 'none', so a resolved query always has data
+	const errors =
+		error && 'errors' in error
+			? (error.errors as readonly { extensions?: unknown }[])
+			: error
+				? [error as { extensions?: unknown }]
+				: [];
+	if (!data || errors.some((item) => !isUnresolvableLink(item))) {
+		throw error ?? new Error('Contentful returned no data');
+	}
 	return { data: data as TData };
 };
 

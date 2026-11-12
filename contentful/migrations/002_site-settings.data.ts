@@ -97,7 +97,7 @@ export default async function run(client: Client): Promise<void> {
 
 	for (const social of socials) {
 		await client.upsertEntry(`link-${social.id}`, 'link', {
-			internalName: `Link — ${social.label}`,
+			internalName: `Link — ${social.id === 'x' ? 'X (Twitter)' : social.label}`,
 			label: social.label,
 			url: social.url,
 			icon: social.id,
