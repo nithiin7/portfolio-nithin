@@ -72,6 +72,11 @@
 		text-decoration: none;
 		transition: color var(--dur-1) var(--ease);
 
+		@media #{$coarse} {
+			align-items: center;
+			min-block-size: var(--tap-min);
+		}
+
 		[data-variant='rail'] & {
 			padding-left: var(--space-4);
 			border-left: 1px solid var(--line);
@@ -90,8 +95,10 @@
 			transition: transform var(--dur-1) var(--ease);
 		}
 
-		&:hover {
-			color: var(--fg);
+		@media #{$can-hover} {
+			&:hover {
+				color: var(--fg);
+			}
 		}
 
 		&[aria-current='location'] {

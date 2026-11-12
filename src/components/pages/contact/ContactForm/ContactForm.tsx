@@ -127,7 +127,7 @@ const ContactForm: FC<ContactFormProps> = ({ className = '' }) => {
 	});
 
 	const transition = { duration: reduced ? 0 : duration.base, ease };
-	const enter = reduced ? { opacity: 0 } : { opacity: 0, y: 24 };
+	const enter = reduced ? { opacity: 0 } : { opacity: 0, y: '1.5rem' };
 
 	return (
 		<div className={`${styles.ContactForm} ${className}`}>

@@ -36,6 +36,8 @@
 				text-overflow: ellipsis;
 				white-space: nowrap;
 
+				@include tap-pad;
+
 				&:focus-visible {
 					@include focus-ring;
 				}

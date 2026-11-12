@@ -50,3 +50,6 @@ tsconfig.tsbuildinfo
 # Playwright
 /test-results/
 /playwright-report/
+
+# Responsive audit screenshots (scripts/responsive-audit.ts)
+/.responsive-audit/

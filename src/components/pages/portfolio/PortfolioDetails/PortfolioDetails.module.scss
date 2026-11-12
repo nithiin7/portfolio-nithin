@@ -10,7 +10,7 @@
 }
 
 .CaseStudy {
-	min-height: 100vh;
+	min-height: 100svh;
 	padding-top: calc(var(--nav-height) + var(--space-6));
 	background: var(--bg);
 	color: var(--fg);
@@ -41,15 +41,23 @@
 		color: var(--fg);
 		text-decoration: none;
 		background-image: linear-gradient(currentcolor, currentcolor);
+
+		@include tap-target;
 		background-position: 100% 100%;
 		background-repeat: no-repeat;
 		background-size: 0% 1px;
 		transition: background-size var(--dur-1) var(--ease);
 
-		&:hover,
 		&:focus-visible {
 			background-position: 0 100%;
 			background-size: 100% 1px;
+		}
+
+		@media #{$can-hover} {
+			&:hover {
+				background-position: 0 100%;
+				background-size: 100% 1px;
+			}
 		}
 
 		&:focus-visible {
@@ -147,14 +155,18 @@
 		color: var(--fg);
 		text-decoration: none;
 		background-image: linear-gradient(var(--accent), var(--accent));
+
+		@include tap-target;
 		background-position: 0 100%;
 		background-repeat: no-repeat;
 		background-size: 100% 1px;
 		transition: background-size var(--dur-1) var(--ease);
 
-		&:hover {
-			background-size: 100% 2px;
-			color: var(--accent-text);
+		@media #{$can-hover} {
+			&:hover {
+				background-size: 100% 2px;
+				color: var(--accent-text);
+			}
 		}
 
 		&:focus-visible {
@@ -269,8 +281,10 @@
 			text-decoration-color: var(--accent);
 			text-underline-offset: 0.2em;
 
-			&:hover {
-				color: var(--accent-text);
+			@media #{$can-hover} {
+				&:hover {
+					color: var(--accent-text);
+				}
 			}
 		}
 

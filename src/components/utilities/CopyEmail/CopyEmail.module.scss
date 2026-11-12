@@ -34,10 +34,16 @@
 		}
 	}
 
-	&:hover &__address::after,
 	&:focus-visible &__address::after {
 		transform: scaleX(1);
 		transform-origin: left;
+	}
+
+	@media #{$can-hover} {
+		&:hover &__address::after {
+			transform: scaleX(1);
+			transform-origin: left;
+		}
 	}
 
 	&__hint {

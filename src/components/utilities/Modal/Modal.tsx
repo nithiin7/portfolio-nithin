@@ -28,7 +28,7 @@ const backdrop: Variants = {
 
 // The panel wipes open from its bottom edge, matching RevealImage.
 const panel: Variants = {
-	hidden: { clipPath: 'inset(100% 0% 0% 0%)', y: 24 },
+	hidden: { clipPath: 'inset(100% 0% 0% 0%)', y: '1.5rem' },
 	visible: {
 		clipPath: 'inset(0% 0% 0% 0%)',
 		y: 0,
@@ -36,7 +36,7 @@ const panel: Variants = {
 	},
 	exit: {
 		clipPath: 'inset(0% 0% 100% 0%)',
-		y: -12,
+		y: '-0.75rem',
 		transition: { duration: duration.fast, ease },
 	},
 };

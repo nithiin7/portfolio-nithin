@@ -1,12 +1,9 @@
 'use client';
-import {
-	motion,
-	useReducedMotion,
-	useScroll,
-	useTransform,
-} from 'motion/react';
+import { motion, useScroll, useTransform } from 'motion/react';
 import type { ReactElement, ReactNode } from 'react';
 import { useRef } from 'react';
+
+import { useLiteMotion } from 'hooks/useLiteMotion';
 
 interface HomeHeaderCompressProps {
 	children: ReactNode;
@@ -19,7 +16,7 @@ const HomeHeaderCompress = ({
 	className,
 }: HomeHeaderCompressProps): ReactElement => {
 	const ref = useRef<HTMLDivElement>(null);
-	const reduceMotion = useReducedMotion();
+	const lite = useLiteMotion();
 	const { scrollYProgress } = useScroll({
 		target: ref,
 		offset: ['end end', 'end start'],
@@ -30,9 +27,7 @@ const HomeHeaderCompress = ({
 		<motion.div
 			ref={ref}
 			className={className}
-			style={
-				reduceMotion ? undefined : { scale, transformOrigin: 'left bottom' }
-			}
+			style={lite ? undefined : { scale, transformOrigin: 'left bottom' }}
 		>
 			{children}
 		</motion.div>

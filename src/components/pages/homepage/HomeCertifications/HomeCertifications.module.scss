@@ -100,6 +100,8 @@
 		color: var(--fg);
 		text-decoration: none;
 
+		@include tap-target;
+
 		&::after {
 			content: '';
 			position: absolute;
@@ -147,8 +149,13 @@
 		border-top: 1px solid var(--line);
 		border-left: 1px solid var(--line);
 
+		@media #{$md} {
+			grid-template-columns: repeat(auto-fill, minmax(rem(72), 1fr));
+		}
+
+		// One full-width row: empty auto-fill tracks left a blank strip at the end
 		@media #{$lg} {
-			grid-template-columns: repeat(auto-fill, minmax(rem(88), 1fr));
+			grid-template-columns: repeat(var(--count), minmax(0, 1fr));
 		}
 	}
 

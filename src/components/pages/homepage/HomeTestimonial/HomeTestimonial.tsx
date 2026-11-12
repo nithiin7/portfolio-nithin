@@ -74,8 +74,9 @@ const Quote: FC<{ item: Testimonial }> = ({ item }) => (
 					className={styles.HomeTestimonial__avatar}
 					src={item.avatar.url}
 					alt=""
-					width={56}
-					height={56}
+					width={96}
+					height={96}
+					sizes="(min-width: 1920px) 3vw, (min-width: 768px) 56px, 48px"
 				/>
 			)}
 			<span className={styles.HomeTestimonial__meta}>

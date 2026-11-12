@@ -16,9 +16,11 @@
 	overflow: hidden;
 	box-shadow: 0 rem(4) rem(12) var(--shadow);
 
-	&:hover {
-		box-shadow: 0 rem(6) rem(16) var(--shadow-strong);
-		transform: translateY(-2px);
+	@media #{$can-hover} {
+		&:hover {
+			box-shadow: 0 rem(6) rem(16) var(--shadow-strong);
+			transform: translateY(-2px);
+		}
 	}
 
 	svg {

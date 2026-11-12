@@ -237,7 +237,7 @@ const PortfolioDetails: FC<PortfolioDetailsProps> = ({
 							<dd>
 								<ul className={styles.CaseStudy__links}>
 									{links.map((link) => (
-										<li key={link.href}>
+										<li key={link.label}>
 											<a
 												href={link.href}
 												target="_blank"

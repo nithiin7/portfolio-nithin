@@ -7,7 +7,7 @@ $prose-size: calc(var(--step-0) * 1.0625);
 $prose-measure: 70ch;
 
 .Post {
-	min-height: 100vh;
+	min-height: 100svh;
 	padding-top: calc(var(--nav-height) + var(--space-6));
 	padding-bottom: var(--space-9);
 	background: var(--bg);
@@ -45,6 +45,8 @@ $prose-measure: 70ch;
 		gap: var(--space-2);
 		min-height: rem(24);
 		color: var(--fg);
+
+		@include tap-pad;
 
 		&:focus-visible {
 			@include focus-ring(4px);
@@ -154,7 +156,7 @@ $prose-measure: 70ch;
 		> nav {
 			position: sticky;
 			top: calc(var(--nav-height) + var(--space-6));
-			max-height: calc(100vh - var(--nav-height) - var(--space-8));
+			max-height: calc(100dvh - var(--nav-height) - var(--space-8));
 			overflow-y: auto;
 			overscroll-behavior: contain;
 		}
@@ -279,9 +281,11 @@ $prose-measure: 70ch;
 				color var(--dur-1) var(--ease),
 				text-decoration-thickness var(--dur-1) var(--ease);
 
-			&:hover {
-				color: var(--accent-text);
-				text-decoration-thickness: 2px;
+			@media #{$can-hover} {
+				&:hover {
+					color: var(--accent-text);
+					text-decoration-thickness: 2px;
+				}
 			}
 
 			&:focus-visible {
@@ -442,13 +446,17 @@ $prose-measure: 70ch;
 		border-radius: var(--radius-pill);
 		color: var(--fg);
 		text-decoration: none;
+
+		@include tap-target;
 		transition:
 			background-color var(--dur-1) var(--ease),
 			color var(--dur-1) var(--ease);
 
-		&:hover {
-			background: var(--fg);
-			color: var(--bg);
+		@media #{$can-hover} {
+			&:hover {
+				background: var(--fg);
+				color: var(--bg);
+			}
 		}
 
 		&:focus-visible {

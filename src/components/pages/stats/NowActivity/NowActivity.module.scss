@@ -50,11 +50,14 @@
 
 		a {
 			@include draw-underline;
+			@include tap-pad;
 
 			color: inherit;
 
-			&:hover {
-				color: var(--accent-text);
+			@media #{$can-hover} {
+				&:hover {
+					color: var(--accent-text);
+				}
 			}
 
 			&:focus-visible {

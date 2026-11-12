@@ -139,12 +139,21 @@ $red-deep: #b42318;
 	--space-10: 8rem;
 	--section-pad: clamp(6rem, 14vw, 12.5rem);
 
-	// Grid
+	// Grid. Above 1920px the root font-size tracks the viewport (see _base.scss),
+	// so every rem cap here grows with it and 3840 renders as a 2x 1920 layout.
 	--grid-columns: 12;
 	--grid-gutter: clamp(0.75rem, 0.5rem + 1.1vw, 1.5rem);
-	--grid-margin: clamp(1rem, 0.6rem + 1.8vw, 2.5rem);
-	--grid-max: 105rem;
+	--grid-margin: max(
+		clamp(1rem, 0.6rem + 1.8vw, 2.5rem),
+		env(safe-area-inset-left, 0px),
+		env(safe-area-inset-right, 0px)
+	);
+	--grid-max: 120rem;
+	// Reading measure for prose, and the column width for forms/dialogs
+	--measure: 68ch;
+	--container-form: 40rem;
 	--nav-height: 4rem;
+	--tap-min: 2.75rem;
 	// Floating triggers (search tab, chat launcher) share one square size
 	--chrome-size: clamp(3rem, 2.85rem + 0.55vw, 3.5rem);
 

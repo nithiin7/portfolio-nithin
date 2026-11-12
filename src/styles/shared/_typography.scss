@@ -9,7 +9,9 @@ h5 {
 a {
 	transition: all var(--dur-1) ease;
 
-	&:hover {
-		color: var(--fg);
+	@media (hover: hover) and (pointer: fine) {
+		&:hover {
+			color: var(--fg);
+		}
 	}
 }

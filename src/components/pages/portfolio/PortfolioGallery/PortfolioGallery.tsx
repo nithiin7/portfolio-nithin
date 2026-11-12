@@ -20,6 +20,11 @@ export interface GalleryImage {
 	alt: string;
 }
 
+// Body column is 9/12 of the grid from lg, 8/12 from xl; every third image spans it
+const WIDE_SIZES = '(min-width: 1280px) 66vw, (min-width: 1024px) 75vw, 100vw';
+const HALF_SIZES =
+	'(min-width: 1280px) 33vw, (min-width: 1024px) 37vw, (min-width: 768px) 50vw, 100vw';
+
 interface PortfolioGalleryProps {
 	images: GalleryImage[];
 	/** Used to describe images that have no Contentful description. */
@@ -85,7 +90,7 @@ const PortfolioGallery: FC<PortfolioGalleryProps> = ({
 									src={image.url}
 									alt=""
 									fill
-									sizes="(min-width: 1024px) 40vw, 100vw"
+									sizes={i % 3 === 0 ? WIDE_SIZES : HALF_SIZES}
 								/>
 							</RevealImage>
 						</button>

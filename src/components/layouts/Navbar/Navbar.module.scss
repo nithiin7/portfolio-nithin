@@ -41,8 +41,16 @@
 		letter-spacing: var(--tracking-display);
 		color: inherit;
 
-		&:hover {
-			color: inherit;
+		@media #{$coarse} {
+			align-items: center;
+			min-block-size: var(--tap-min);
+			min-inline-size: var(--tap-min);
+		}
+
+		@media #{$can-hover} {
+			&:hover {
+				color: inherit;
+			}
 		}
 	}
 
@@ -79,6 +87,15 @@
 		font-weight: 500;
 		color: inherit;
 
+		// Tablets show the inline nav to touch too
+		@media #{$coarse} {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			min-block-size: var(--tap-min);
+			min-inline-size: var(--tap-min);
+		}
+
 		// Underline draws in from the left and exits to the right
 		&::after {
 			content: '';
@@ -91,9 +108,12 @@
 			transform: scaleX(0);
 			transform-origin: right;
 			transition: transform var(--dur-1) var(--ease);
+
+			@media #{$coarse} {
+				bottom: rem(8);
+			}
 		}
 
-		&:hover,
 		&:focus-visible,
 		&[aria-current='page'] {
 			color: inherit;
@@ -101,6 +121,17 @@
 			&::after {
 				transform: scaleX(1);
 				transform-origin: left;
+			}
+		}
+
+		@media #{$can-hover} {
+			&:hover {
+				color: inherit;
+
+				&::after {
+					transform: scaleX(1);
+					transform-origin: left;
+				}
 			}
 		}
 	}
@@ -154,7 +185,9 @@
 		}
 	}
 
-	&__toggle:hover &__toggleIcon::after {
-		transform: scaleX(1);
+	@media #{$can-hover} {
+		&__toggle:hover &__toggleIcon::after {
+			transform: scaleX(1);
+		}
 	}
 }

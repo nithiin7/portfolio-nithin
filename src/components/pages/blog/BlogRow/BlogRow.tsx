@@ -62,7 +62,7 @@ const BlogRow: FC<BlogRowProps> = ({
 								src={post.featuredImage.url}
 								alt=""
 								fill
-								sizes="(min-width: 768px) 12rem, 6rem"
+								sizes="(min-width: 1920px) 10vw, (min-width: 768px) 12rem, 6rem"
 							/>
 						</div>
 					</ViewTransition>

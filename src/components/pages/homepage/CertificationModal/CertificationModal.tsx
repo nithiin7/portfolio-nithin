@@ -21,7 +21,7 @@ const stagger: Variants = {
 };
 
 const rise: Variants = {
-	hidden: { opacity: 0, y: 16 },
+	hidden: { opacity: 0, y: '1rem' },
 	visible: { opacity: 1, y: 0, transition: { duration: duration.base, ease } },
 };
 

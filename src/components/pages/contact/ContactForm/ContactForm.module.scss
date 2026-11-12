@@ -41,10 +41,16 @@
 		cursor: pointer;
 		transition: background-color var(--dur-1) var(--ease);
 
-		&:hover:not(:disabled),
 		&:focus-visible {
 			background-color: var(--accent);
 			color: var(--accent-fg);
+		}
+
+		@media #{$can-hover} {
+			&:hover:not(:disabled) {
+				background-color: var(--accent);
+				color: var(--accent-fg);
+			}
 		}
 
 		&:focus-visible {
@@ -75,17 +81,24 @@
 		}
 	}
 
-	&__submit:hover:not(:disabled) &__roll span,
 	&__submit:focus-visible &__roll span {
 		transform: translateY(-100%);
+	}
+
+	@media #{$can-hover} {
+		&__submit:hover:not(:disabled) &__roll span {
+			transform: translateY(-100%);
+		}
 	}
 
 	&__arrow {
 		transition: transform var(--dur-1) var(--ease);
 	}
 
-	&__submit:hover:not(:disabled) &__arrow {
-		transform: translateX(var(--space-1));
+	@media #{$can-hover} {
+		&__submit:hover:not(:disabled) &__arrow {
+			transform: translateX(var(--space-1));
+		}
 	}
 
 	&__error {
@@ -176,8 +189,10 @@
 		text-underline-offset: 0.3em;
 		cursor: pointer;
 
-		&:hover {
-			color: var(--accent-text);
+		@media #{$can-hover} {
+			&:hover {
+				color: var(--accent-text);
+			}
 		}
 	}
 }

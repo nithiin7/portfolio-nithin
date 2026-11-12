@@ -80,6 +80,8 @@
 			background-color var(--dur-1) var(--ease),
 			color var(--dur-1) var(--ease);
 
+		@include tap-target;
+
 		@media #{$md} {
 			grid-column: span 2 / -1;
 			justify-self: end;
@@ -129,11 +131,18 @@
 			transparent
 		);
 
-		&:hover,
 		&:focus-within,
 		&--paused {
 			.HomeCollaborations__track {
 				animation-play-state: paused;
+			}
+		}
+
+		@media #{$can-hover} {
+			&:hover {
+				.HomeCollaborations__track {
+					animation-play-state: paused;
+				}
 			}
 		}
 
@@ -192,6 +201,17 @@
 			height: rem(44);
 		}
 
+		// Same 32px mark, padded out to a 44px hit area on phones (md+ is already 44)
+		@media #{$coarse} {
+			justify-content: center;
+			min-inline-size: var(--tap-min);
+		}
+
+		@media #{$coarse} and (max-width: 767.98px) {
+			height: var(--tap-min);
+			padding-block: rem(6);
+		}
+
 		@media (hover: hover) {
 			&:hover {
 				color: var(--fg);
@@ -211,6 +231,11 @@
 
 			@media #{$md} {
 				height: rem(68);
+			}
+
+			@media #{$coarse} and (max-width: 767.98px) {
+				height: rem(52);
+				padding-block: 0;
 			}
 		}
 	}

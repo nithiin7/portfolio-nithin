@@ -15,6 +15,9 @@ $xl: 'screen and (min-width:' + (1280px) + ')';
 $xxl: 'screen and (min-width:' + (1440px) + ')';
 $xxxl: 'screen and (min-width:' + (1920px) + ')';
 $xxxxl: 'screen and (min-width:' + (2560px) + ')';
+$can-hover: '(hover: hover) and (pointer: fine)';
+$coarse: '(pointer: coarse)';
+$landscape-phone: 'screen and (orientation: landscape) and (max-height: 500px)';
 
 $section-spacing-y: 5%;
 $section-spacing-x: 4%;
@@ -51,9 +54,70 @@ $section-top-clearance-min: rem(120);
 	color: var(--muted);
 }
 
+// Hover styles only for devices that really hover; touch gets the resting state
+// (or an inline equivalent) instead of a sticky hover after tap.
+@mixin hover {
+	@media #{$can-hover} {
+		&:hover {
+			@content;
+		}
+	}
+}
+
+// 44px minimum hit area on touch without changing the desktop rhythm.
+@mixin tap-target($display: inline-flex) {
+	@media #{$coarse} {
+		display: $display;
+		align-items: center;
+		min-block-size: var(--tap-min);
+		min-inline-size: var(--tap-min);
+	}
+}
+
+// 44px hit area for text links that draw their underline as a background:
+// padding grows the box, content-box keeps the underline under the text.
+@mixin tap-pad {
+	@media #{$coarse} {
+		min-block-size: 0;
+		min-inline-size: var(--tap-min);
+		padding-block: max(0px, calc((var(--tap-min) - 1lh) / 2));
+		background-origin: content-box;
+		background-clip: content-box;
+	}
+}
+
+// Content-driven sizing for components that sit in different column widths.
+@mixin container($name: null) {
+	container-type: inline-size;
+	@if $name {
+		container-name: $name;
+	}
+}
+
+@mixin container-up($width, $name: null) {
+	@if $name {
+		@container #{$name} (min-width: #{$width}) {
+			@content;
+		}
+	} @else {
+		@container (min-width: #{$width}) {
+			@content;
+		}
+	}
+}
+
 @mixin focus-ring($offset: 3px) {
 	outline: 2px solid var(--focus);
 	outline-offset: $offset;
+}
+
+@mixin pill-button-active($roll-selector) {
+	background-color: var(--accent);
+	color: var(--accent-fg);
+
+	#{$roll-selector} span {
+		transform: translateY(-100%);
+	}
 }
 
 // Solid pill with a vertical text roll; expects
@@ -90,14 +154,14 @@ $section-top-clearance-min: rem(120);
 		}
 	}
 
-	&:hover:not(:disabled),
-	&:focus-visible {
-		background-color: var(--accent);
-		color: var(--accent-fg);
-
-		#{$roll-selector} span {
-			transform: translateY(-100%);
+	@include hover {
+		&:not(:disabled) {
+			@include pill-button-active($roll-selector);
 		}
+	}
+
+	&:focus-visible {
+		@include pill-button-active($roll-selector);
 	}
 
 	&:focus-visible {
@@ -119,7 +183,11 @@ $section-top-clearance-min: rem(120);
 	background-size: 0% $thickness;
 	transition: background-size var(--dur-1) var(--ease);
 
-	&:hover,
+	@include hover {
+		background-position: 0 100%;
+		background-size: 100% $thickness;
+	}
+
 	&:focus-visible {
 		background-position: 0 100%;
 		background-size: 100% $thickness;

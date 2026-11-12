@@ -11,9 +11,14 @@
 	color: var(--paper);
 	overflow-y: auto;
 
-	a,
-	a:hover {
+	a {
 		color: inherit;
+	}
+
+	@media #{$can-hover} {
+		a:hover {
+			color: inherit;
+		}
 	}
 
 	&__bar {
@@ -59,6 +64,10 @@
 		@include grid-12;
 		align-content: center;
 		padding-block: var(--space-7);
+
+		@media #{$landscape-phone} {
+			padding-block: var(--space-4);
+		}
 	}
 
 	&__list {
@@ -102,9 +111,21 @@
 		letter-spacing: var(--tracking-display);
 		transition: transform var(--dur-1) var(--ease);
 
-		&:hover,
+		@include tap-target;
+
+		// Five display-size links don't fit a 390px-tall landscape phone
+		@media #{$landscape-phone} {
+			font-size: var(--step-3);
+		}
+
 		&:focus-visible {
 			transform: translateX(rem(12));
+		}
+
+		@media #{$can-hover} {
+			&:hover {
+				transform: translateX(rem(12));
+			}
 		}
 	}
 
@@ -136,6 +157,8 @@
 		a {
 			display: inline-block;
 			padding-block: rem(10);
+
+			@include tap-target;
 		}
 	}
 

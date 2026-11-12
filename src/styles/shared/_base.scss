@@ -9,6 +9,8 @@
 }
 
 html {
+	-webkit-text-size-adjust: 100%;
+	text-size-adjust: 100%;
 	scroll-behavior: smooth;
 	transition:
 		background-color 0.3s ease,
@@ -50,4 +52,13 @@ body {
 
 ::-webkit-scrollbar {
 	display: none;
+}
+
+// Past 1920px the whole composition scales with the viewport instead of
+// stretching: 1rem = 16px at 1920, 32px at 3840. The 100% floor keeps the
+// user's default font-size preference.
+@media screen and (min-width: 1920px) {
+	html {
+		font-size: clamp(100%, 100vw / 120, 200%);
+	}
 }

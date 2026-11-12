@@ -14,7 +14,7 @@ interface FloatingChatProps {
 
 // Wipes up from the launcher's edge, same language as Modal and RevealImage.
 const windowVariants: Variants = {
-	hidden: { clipPath: 'inset(100% 0% 0% 0%)', y: 16 },
+	hidden: { clipPath: 'inset(100% 0% 0% 0%)', y: '1rem' },
 	visible: {
 		clipPath: 'inset(0% 0% 0% 0%)',
 		y: 0,
@@ -22,7 +22,7 @@ const windowVariants: Variants = {
 	},
 	exit: {
 		clipPath: 'inset(100% 0% 0% 0%)',
-		y: 16,
+		y: '1rem',
 		transition: { duration: duration.fast, ease },
 	},
 };
