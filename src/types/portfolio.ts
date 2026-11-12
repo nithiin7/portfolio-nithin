@@ -5,9 +5,11 @@ export interface PortfolioMedia {
 
 export interface PortfolioItem {
 	id?: number;
+	/** Light-theme cover; also the fallback when there is no dark one. */
 	image: {
 		url: string;
 	};
+	imageDark?: { url: string } | null;
 	title: string;
 	demo?: string;
 	tech?: string[];
@@ -22,4 +24,5 @@ export interface PortfolioItem {
 	coverVideo?: PortfolioMedia | null;
 	/** Tiny base64 JPEG built server-side from the Contentful Images API. */
 	blurDataURL?: string;
+	blurDataURLDark?: string;
 }

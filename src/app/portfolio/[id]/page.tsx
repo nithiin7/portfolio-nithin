@@ -112,12 +112,17 @@ export default async function PortfolioDetailsPage({
 
 	const following = nextInOrder(order, project.id);
 	const nextImage = following?.item.image?.url || undefined;
+	const nextImageDark = following?.item.imageDark?.url || undefined;
 	const next: CaseStudyNext | undefined = following
 		? {
 				id: following.item.id as number,
 				title: following.item.title,
 				image: nextImage,
+				imageDark: nextImageDark,
 				blurDataURL: nextImage ? await fetchBlurDataURL(nextImage) : undefined,
+				blurDataURLDark: nextImageDark
+					? await fetchBlurDataURL(nextImageDark)
+					: undefined,
 				position: following.position,
 				total: following.total,
 			}

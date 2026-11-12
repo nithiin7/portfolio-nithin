@@ -1,8 +1,8 @@
 'use client';
-import Image from 'next/image';
 import type { FC, ReactElement } from 'react';
 import { useEffect, useRef } from 'react';
 
+import ThemedImage from 'components/utilities/ThemedImage/ThemedImage';
 import { usePrefersReducedMotion } from 'hooks/usePrefersReducedMotion';
 import type { PortfolioItem } from 'types/portfolio';
 
@@ -42,13 +42,14 @@ const WorksMedia: FC<WorksMediaProps> = ({
 	return (
 		<div className={[styles.WorksMedia, className].filter(Boolean).join(' ')}>
 			{project.image?.url && (
-				<Image
+				<ThemedImage
 					src={project.image.url}
+					srcDark={project.imageDark?.url}
 					alt=""
 					fill
 					sizes={sizes}
-					placeholder={project.blurDataURL ? 'blur' : 'empty'}
 					blurDataURL={project.blurDataURL}
+					blurDataURLDark={project.blurDataURLDark}
 					className={styles.WorksMedia__image}
 				/>
 			)}

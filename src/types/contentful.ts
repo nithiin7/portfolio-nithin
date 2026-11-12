@@ -42,6 +42,7 @@ export interface Content {
 	contentsCollection: ContentsCollection;
 	list: string[];
 	image: { url: string };
+	imageDark?: { url: string } | null;
 	id: number;
 	review: string;
 	avatar: {
@@ -110,6 +111,7 @@ export interface PortfolioDetails {
 	spotlightImage: {
 		url: string;
 	};
+	spotlightImageDark?: { url: string } | null;
 	galleryCollection: {
 		items: {
 			description: string;
@@ -134,6 +136,7 @@ export interface WorksOrderResponse {
 							id?: number;
 							title?: string;
 							image?: { url: string };
+							imageDark?: { url: string } | null;
 						} | null)[];
 					};
 				} | null)[];

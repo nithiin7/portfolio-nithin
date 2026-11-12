@@ -44,7 +44,9 @@ export default async function Image({
 				[...kept, item].join(' · ').length <= 22 ? [...kept, item] : kept,
 			[]
 		);
-	const cover = project?.spotlightImage?.url;
+	// The OG card is ink, so it takes the dark plate when there is one
+	const cover =
+		project?.spotlightImageDark?.url ?? project?.spotlightImage?.url;
 	const position = project ? positionOf(order, project.id) : null;
 
 	const kicker = position

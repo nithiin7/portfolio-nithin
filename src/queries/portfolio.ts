@@ -63,6 +63,9 @@ export const GET_PORTFOLIO = gql`
 				spotlightImage {
 					url
 				}
+				spotlightImageDark {
+					url
+				}
 				galleryCollection {
 					items {
 						description
@@ -101,6 +104,9 @@ export const GET_WORKS_ORDER = gql`
 										id
 										title
 										image {
+											url
+										}
+										imageDark {
 											url
 										}
 									}

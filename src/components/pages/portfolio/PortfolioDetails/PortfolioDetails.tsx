@@ -12,6 +12,7 @@ import RevealText from 'components/motion/RevealText/RevealText';
 import CaseStudyProgress from 'components/pages/portfolio/CaseStudyProgress/CaseStudyProgress';
 import PortfolioGallery from 'components/pages/portfolio/PortfolioGallery/PortfolioGallery';
 import PortfolioNext from 'components/pages/portfolio/PortfolioNext/PortfolioNext';
+import ThemedImage from 'components/utilities/ThemedImage/ThemedImage';
 import { buildCaseStudy } from 'helpers/caseStudy';
 import type {
 	CaseStudyAsset,
@@ -270,8 +271,9 @@ const PortfolioDetails: FC<PortfolioDetailsProps> = ({
 					update="none"
 				>
 					<div className={styles.CaseStudy__cover}>
-						<Image
+						<ThemedImage
 							src={project.spotlightImage.url}
+							srcDark={project.spotlightImageDark?.url}
 							alt=""
 							fill
 							priority

@@ -46,7 +46,10 @@ export const GET_PAGE = gql`
 									}
 									... on Section {
 										name
-										contentsCollection(limit: 50) {
+										# Contentful caps query cost at 11000 and bills each asset link
+										# here per possible item (10 × 10 × limit); 30 keeps the page at
+										# ~10.1k with room for twice today's longest list (13 certs)
+										contentsCollection(limit: 30) {
 											items {
 												... on Title {
 													name
@@ -73,6 +76,9 @@ export const GET_PAGE = gql`
 													name
 													id
 													image {
+														url
+													}
+													imageDark {
 														url
 													}
 													title
