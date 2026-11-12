@@ -137,6 +137,12 @@
 			align-items: end;
 			padding-block: var(--space-6);
 		}
+
+		@media #{$landscape-phone} {
+			align-items: end;
+			row-gap: var(--space-4);
+			padding-block: var(--space-5);
+		}
 	}
 
 	&__lede {
@@ -167,6 +173,11 @@
 			grid-column: 1 / span 7;
 		}
 
+		@media #{$landscape-phone} {
+			grid-column: 1 / span 7;
+			font-size: var(--step-1);
+		}
+
 		em {
 			font-family: var(--font-serif);
 			font-style: italic;
@@ -189,6 +200,11 @@
 
 		@media #{$lg} {
 			grid-column: 9 / -1;
+			justify-content: flex-end;
+		}
+
+		@media #{$landscape-phone} {
+			grid-column: 8 / -1;
 			justify-content: flex-end;
 		}
 	}
@@ -309,6 +325,12 @@
 		margin-inline: auto;
 		padding-inline: var(--grid-margin);
 		padding-bottom: var(--space-4);
+
+		// Where the name runs edge to edge (portrait phones/tablets), lift it
+		// clear of the fixed chat launcher
+		@media (max-width: 1023.98px) and (orientation: portrait) {
+			padding-bottom: calc(var(--chrome-size) + var(--space-6));
+		}
 
 		&::before {
 			@include rule(x);

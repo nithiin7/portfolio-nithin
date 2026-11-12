@@ -41,6 +41,12 @@
 		letter-spacing: var(--tracking-display);
 		color: inherit;
 
+		@media #{$coarse} {
+			align-items: center;
+			min-block-size: var(--tap-min);
+			min-inline-size: var(--tap-min);
+		}
+
 		@media #{$can-hover} {
 			&:hover {
 				color: inherit;
@@ -81,6 +87,15 @@
 		font-weight: 500;
 		color: inherit;
 
+		// Tablets show the inline nav to touch too
+		@media #{$coarse} {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			min-block-size: var(--tap-min);
+			min-inline-size: var(--tap-min);
+		}
+
 		// Underline draws in from the left and exits to the right
 		&::after {
 			content: '';
@@ -93,6 +108,10 @@
 			transform: scaleX(0);
 			transform-origin: right;
 			transition: transform var(--dur-1) var(--ease);
+
+			@media #{$coarse} {
+				bottom: rem(8);
+			}
 		}
 
 		&:focus-visible,

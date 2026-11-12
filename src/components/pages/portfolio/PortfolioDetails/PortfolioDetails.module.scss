@@ -41,6 +41,8 @@
 		color: var(--fg);
 		text-decoration: none;
 		background-image: linear-gradient(currentcolor, currentcolor);
+
+		@include tap-target;
 		background-position: 100% 100%;
 		background-repeat: no-repeat;
 		background-size: 0% 1px;
@@ -153,6 +155,8 @@
 		color: var(--fg);
 		text-decoration: none;
 		background-image: linear-gradient(var(--accent), var(--accent));
+
+		@include tap-target;
 		background-position: 0 100%;
 		background-repeat: no-repeat;
 		background-size: 100% 1px;
