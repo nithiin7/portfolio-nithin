@@ -2,7 +2,7 @@
 
 @mixin mono-label {
 	font-family: var(--font-mono);
-	font-size: rem(11);
+	font-size: var(--step--1);
 	font-weight: 400;
 	letter-spacing: var(--tracking-mono);
 	text-transform: uppercase;
@@ -16,6 +16,10 @@
 
 	@media #{$md} {
 		bottom: var(--space-7);
+	}
+
+	@media #{$landscape-phone} {
+		bottom: max(var(--space-4), env(safe-area-inset-bottom));
 	}
 
 	// Square inverse tile. The label is clipped to zero width and wipes open
@@ -134,18 +138,24 @@
 		}
 	}
 
+	// Sits above the launcher and never under the nav, whatever the height
 	&__window {
-		position: fixed;
-		right: var(--grid-margin);
-		left: var(--grid-margin);
-		bottom: calc(
+		--chat-bottom: calc(
 			max(var(--space-4), env(safe-area-inset-bottom)) + var(--chrome-size) +
 				var(--space-3)
 		);
+		--chat-room: calc(
+			100dvh - var(--chat-bottom) - var(--nav-height) - var(--space-3)
+		);
+
+		position: fixed;
+		right: var(--grid-margin);
+		left: var(--grid-margin);
+		bottom: var(--chat-bottom);
 		z-index: 999;
 		display: flex;
 		flex-direction: column;
-		height: min(rem(560), 70dvh);
+		height: min(rem(560), 70dvh, var(--chat-room));
 		background-color: var(--surface-1);
 		color: var(--fg);
 		border: 1px solid var(--line-strong);
@@ -154,10 +164,18 @@
 		overflow: hidden;
 
 		@media #{$md} {
+			--chat-bottom: calc(var(--space-7) + var(--chrome-size) + var(--space-3));
+
 			left: auto;
 			width: rem(420);
-			height: min(rem(620), 74dvh);
-			bottom: calc(var(--space-7) + var(--chrome-size) + var(--space-3));
+			height: min(rem(620), 74dvh, var(--chat-room));
+		}
+
+		@media #{$landscape-phone} {
+			--chat-bottom: calc(
+				max(var(--space-4), env(safe-area-inset-bottom)) + var(--chrome-size) +
+					var(--space-3)
+			);
 		}
 	}
 
@@ -215,6 +233,12 @@
 		width: rem(36);
 		height: rem(36);
 		flex-shrink: 0;
+
+		@media #{$coarse} {
+			width: var(--tap-min);
+			height: var(--tap-min);
+		}
+
 		padding: 0;
 		background: transparent;
 		border: 1px solid var(--line-strong);

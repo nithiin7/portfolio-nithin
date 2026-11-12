@@ -491,17 +491,15 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 							}}
 							onMouseEnter={() => setIsHintHovered(true)}
 							onMouseLeave={() => setIsHintHovered(false)}
-							initial={{ opacity: 0, y: '1rem', x: '-50%' }}
+							initial={{ opacity: 0, y: '1rem' }}
 							animate={{
 								opacity: 1,
 								y: 0,
-								x: '-50%',
 								transition: { duration: duration.fast, ease },
 							}}
 							exit={{
 								opacity: 0,
 								y: '1rem',
-								x: '-50%',
 								transition: { duration: duration.fast, ease },
 							}}
 							aria-label={`Search and ask AI, ${modKey} K`}

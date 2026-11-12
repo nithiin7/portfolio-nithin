@@ -69,6 +69,12 @@
 		display: inline-flex;
 		align-items: stretch;
 		height: rem(36);
+
+		@media #{$coarse} {
+			height: var(--tap-min);
+			min-width: var(--tap-min);
+		}
+
 		padding: 0;
 		background: transparent;
 		border: 1px solid var(--line-strong);
@@ -86,7 +92,7 @@
 			padding-inline: var(--space-3);
 			border-right: 1px solid var(--line-strong);
 			font-family: var(--font-mono);
-			font-size: rem(11);
+			font-size: var(--step--1);
 			letter-spacing: var(--tracking-mono);
 			text-transform: uppercase;
 			transition: border-color var(--dur-1) var(--ease);

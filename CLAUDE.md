@@ -1,6 +1,6 @@
 ## Active work: v5 redesign
 
-- Plan & audit: docs/redesign/REDESIGN_PLAN.md — read before any change.
+- Plan & audit: `docs/redesign/Redesign plan.md` — read before any change.
 - Chosen direction: A — Editorial Swiss (see sections 4 and 4c of the plan).
 - Work only on `redesign` or `redesign/phase-*` branches. Never touch `main`.
 - New design tokens live in src/styles/tokens.scss; do not add new colors elsewhere.

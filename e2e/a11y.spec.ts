@@ -183,7 +183,7 @@ test.describe('keyboard behavior', () => {
 		await page.goto('/', { waitUntil: 'networkidle' });
 		await openCertificationModal(page);
 
-		const modal = page.getByRole('button', { name: 'Close modal' });
+		const modal = page.getByRole('button', { name: 'Close dialog' });
 		await expect(modal).toBeVisible();
 
 		// Focus must land inside the modal, not stay on the page behind it
