@@ -156,6 +156,20 @@ export const createClient = (environment: string) => {
 		});
 	};
 
+	/** Unpublish (if needed) and permanently delete an entry. */
+	const deleteEntry = async (id: string): Promise<void> => {
+		const entry = await getEntry(id);
+		if (!entry) return;
+		if (entry.sys.publishedVersion) {
+			await request(`/entries/${id}/published`, { method: 'DELETE' });
+		}
+		const current = await getEntry(id);
+		await request(`/entries/${id}`, {
+			method: 'DELETE',
+			version: current?.sys.version,
+		});
+	};
+
 	const getAssets = async (): Promise<Asset[]> => {
 		const items: Asset[] = [];
 		for (let skip = 0; ; skip += 100) {
@@ -224,6 +238,7 @@ export const createClient = (environment: string) => {
 		getEntry,
 		upsertEntry,
 		tagEntry,
+		deleteEntry,
 		getAssets,
 		ensureAsset,
 	};
