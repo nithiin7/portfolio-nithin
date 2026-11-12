@@ -193,6 +193,13 @@ const run = async (selected: PlateProject[]): Promise<void> => {
 			changes.set(entry, { ...changes.get(entry), [field]: value });
 
 		for (const plate of manifest.filter((p) => p.use.length)) {
+			// The models have one image per slot, so only the default (ink) variant is linked
+			if (plate.variant && plate.surface !== 'ink') {
+				console.log(
+					`  skip    ${plate.file} (${plate.surface} variant: add it by hand)`
+				);
+				continue;
+			}
 			const assetTitle = plate.file.replace(/\.png$/, '');
 			const existing = await findAsset(assetTitle, locale);
 			console.log(

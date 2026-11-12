@@ -11,4 +11,6 @@ export interface PlateManifestEntry {
 	alt: string;
 	use: ImageField[];
 	surface: PlateSurface;
+	/** Set when the same recipe was rendered on both surfaces. */
+	variant?: boolean;
 }

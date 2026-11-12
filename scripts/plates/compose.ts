@@ -27,6 +27,7 @@ import {
 	type PlateProject,
 	type PlateSpec,
 	type Screen,
+	type ScreenRef,
 	type Surface,
 } from './shared.ts';
 import { visibleBox } from '../../src/config/imageCrops.ts';
@@ -109,34 +110,46 @@ const findScreen = (project: PlateProject, name: string): Screen => {
 	return screen;
 };
 
+const resolveScreen = (ref: ScreenRef, surface: Surface): string =>
+	typeof ref === 'string' ? ref : ref[surface];
+
+/** Raw screen with its `trim` applied, as a PNG buffer. */
 const loadScreen = async (project: PlateProject, name: string) => {
 	const screen = findScreen(project, name);
 	const path = rawPath(project.slug, name);
 	const meta = await sharp(path).metadata();
 	if (!meta.width || !meta.height) throw new Error(`Unreadable ${path}`);
-	return {
-		path,
-		width: meta.width,
-		height: meta.height,
-		dpr: screen.dpr ?? DEVICES[screen.device].dpr,
+	const dpr = screen.dpr ?? DEVICES[screen.device].dpr;
+	const { top = 0, right = 0, bottom = 0, left = 0 } = screen.trim ?? {};
+	const box = {
+		left: Math.round(left * dpr),
+		top: Math.round(top * dpr),
+		width: meta.width - Math.round((left + right) * dpr),
+		height: meta.height - Math.round((top + bottom) * dpr),
 	};
+	const input = await sharp(path).extract(box).png().toBuffer();
+	return { name, input, width: box.width, height: box.height, dpr };
 };
 
-const resized = (path: string, width: number, height: number) =>
-	sharp(path)
+const resized = (input: Buffer, width: number, height: number) =>
+	sharp(input)
 		.resize(width, height, { fit: 'fill', kernel: 'lanczos3' })
 		.png()
 		.toBuffer();
 
-const cover = async (project: PlateProject, spec: Spec<'cover'>) => {
-	const screen = await loadScreen(project, spec.screen);
+const cover = async (
+	project: PlateProject,
+	spec: Spec<'cover'>,
+	surface: Surface
+) => {
+	const screen = await loadScreen(project, resolveScreen(spec.screen, surface));
 	const box = centred(
 		fit(screen, SAFE.width * COVER_WIDTH, SAFE.height * MAX_HEIGHT)
 	);
 	return {
 		layers: [
 			{
-				input: await resized(screen.path, box.width, box.height),
+				input: await resized(screen.input, box.width, box.height),
 				left: box.left,
 				top: box.top,
 			},
@@ -145,8 +158,12 @@ const cover = async (project: PlateProject, spec: Spec<'cover'>) => {
 	};
 };
 
-const detail = async (project: PlateProject, spec: Spec<'detail'>) => {
-	const screen = await loadScreen(project, spec.screen);
+const detail = async (
+	project: PlateProject,
+	spec: Spec<'detail'>,
+	surface: Surface
+) => {
+	const screen = await loadScreen(project, resolveScreen(spec.screen, surface));
 	const { region, zoom = screen.dpr } = spec;
 	const crop = {
 		left: Math.round(region.x * screen.dpr),
@@ -159,7 +176,7 @@ const detail = async (project: PlateProject, spec: Spec<'detail'>) => {
 		crop.top + crop.height > screen.height
 	) {
 		throw new Error(
-			`${project.slug}/${spec.screen}: region outside the screen`
+			`${project.slug}/${screen.name}: region outside the (trimmed) screen`
 		);
 	}
 	const wanted = { width: region.width * zoom, height: region.height * zoom };
@@ -172,11 +189,11 @@ const detail = async (project: PlateProject, spec: Spec<'detail'>) => {
 	// Up to ~1.3× stays crisp at every rendered size; past that text visibly softens
 	if (upscale > 1.3) {
 		console.warn(
-			`  ! ${plateName(project.slug, spec)} upscales source ×${upscale.toFixed(2)}; capture at a higher DPR or lower the zoom`
+			`  ! ${project.slug}/${screen.name} detail upscales source ×${upscale.toFixed(2)}; capture at a higher DPR or lower the zoom`
 		);
 	}
 	const box = centred(size);
-	const input = await sharp(screen.path)
+	const input = await sharp(screen.input)
 		.extract(crop)
 		.resize(box.width, box.height, { fit: 'fill', kernel: 'lanczos3' })
 		.png()
@@ -206,7 +223,7 @@ const mobileTrio = async (project: PlateProject, spec: Spec<'mobile-trio'>) => {
 	});
 	const layers = await Promise.all(
 		boxes.map(async (box, i) => ({
-			input: await resized(screens[i].path, box.width, box.height),
+			input: await resized(screens[i].input, box.width, box.height),
 			left: box.left,
 			top: box.top,
 		}))
@@ -451,9 +468,9 @@ const debugOverlay = (): string => {
 const render = (project: PlateProject, spec: PlateSpec, surface: Surface) => {
 	switch (spec.template) {
 		case 'cover':
-			return cover(project, spec);
+			return cover(project, spec, surface);
 		case 'detail':
-			return detail(project, spec);
+			return detail(project, spec, surface);
 		case 'mobile-trio':
 			return mobileTrio(project, spec);
 		case 'type-plate':
@@ -467,10 +484,18 @@ export const compose = async (selected: PlateProject[]): Promise<void> => {
 		await mkdir(dir, { recursive: true });
 		const manifest: PlateManifestEntry[] = [];
 
-		for (const spec of project.plates) {
-			const surface = spec.surface ?? project.surface ?? 'ink';
+		const renders = project.plates.flatMap((spec) => {
+			const surfaces = [spec.surface ?? project.surface ?? 'ink'].flat();
+			return surfaces.map((surface) => ({
+				spec,
+				surface,
+				variant: surfaces.length > 1,
+			}));
+		});
+
+		for (const { spec, surface, variant } of renders) {
 			const grid = spec.grid ?? project.grid ?? false;
-			const name = plateName(project.slug, spec);
+			const name = plateName(project.slug, spec, variant ? surface : undefined);
 			const { layers, frames } = await render(project, spec, surface);
 			const below = grid ? [svg(gridLines(surface))] : [];
 			const above = frames.length
@@ -502,6 +527,7 @@ export const compose = async (selected: PlateProject[]): Promise<void> => {
 				alt: spec.alt,
 				use: spec.use ?? [],
 				surface,
+				...(variant && { variant }),
 			});
 			console.log(`  composed ${project.slug}/${name}.png`);
 		}

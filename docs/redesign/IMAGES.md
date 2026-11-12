@@ -74,9 +74,14 @@ The master is 3840 wide because `sizes="100vw"` slots pick the 3840 rendition at
 | mobile  | 430×932   | 3   | 1290×2796 |
 
 - **Capture:** set `source` to an `https://` URL or a local `.html` path. Capture runs Chromium with `prefers-reduced-motion: reduce` and light colour scheme (`colorScheme: 'dark'` overrides that), waits for fonts, and applies `waitFor`, `scrollTo`, `hide` and `delay`. Results are cached in `raw/<slug>/<name>.png`; pass `--force` to re-shoot. Capture against a production build (`pnpm build && pnpm start`), not `next dev`.
+- **Trim:** `trim: { bottom: 64 }` cuts CSS px off the edges before composing, for example the `next dev` badge in old screenshots.
 - **Import:** leave out `source` and put the PNG at `scripts/plates/raw/<slug>/<name>.png`. Set `dpr` if it wasn't taken at the device default (macOS screenshots are 2).
 
 `raw/` and `out/` are gitignored. Reviewed samples are copied into `docs/redesign/plates/`.
+
+### Both themes
+
+Set `surface: ['ink', 'paper']` on a project or a plate to render it twice, as `<name>-ink.png` and `<name>-paper.png`. A cover or detail can take a different screen per surface, `screen: { ink: 'dashboard-dark', paper: 'dashboard-light' }`, when the app has its own dark mode. The site's image fields hold one image each, so `plates:upload` only links the ink variant. Add the paper one by hand until the light-theme fields exist.
 
 ### Templates
 

@@ -39,7 +39,12 @@ export interface Screen {
 	colorScheme?: 'light' | 'dark';
 	/** Extra wait in ms after load and scroll, for entrance animations. */
 	delay?: number;
+	/** CSS px cut from each edge before composing (dev badges, browser chrome…). */
+	trim?: Partial<Record<'top' | 'right' | 'bottom' | 'left', number>>;
 }
+
+/** One screen, or a different screen per surface (e.g. the app's dark mode on ink). */
+export type ScreenRef = string | Record<Surface, string>;
 
 /** CSS px of the screen (source px ÷ dpr). */
 export interface Region {
@@ -56,16 +61,17 @@ interface PlateBase {
 	alt: string;
 	/** Contentful slots this plate is uploaded to. */
 	use?: ImageField[];
-	surface?: Surface;
+	/** Several surfaces emit one plate each, suffixed -ink / -paper. */
+	surface?: Surface | Surface[];
 	grid?: boolean;
 }
 
 export type PlateSpec = PlateBase &
 	(
-		| { template: 'cover'; screen: string }
+		| { template: 'cover'; screen: ScreenRef }
 		| {
 				template: 'detail';
-				screen: string;
+				screen: ScreenRef;
 				region: Region;
 				/**
 				 * Plate px per CSS px (2–3). Defaults to the screen's DPR, which places
@@ -86,7 +92,7 @@ export type PlateSpec = PlateBase &
 export interface PlateProject {
 	/** PortfolioDetails.slug in Contentful. */
 	slug: string;
-	surface?: Surface;
+	surface?: Surface | Surface[];
 	grid?: boolean;
 	screens?: Screen[];
 	plates: PlateSpec[];
@@ -102,8 +108,12 @@ export const OUT_DIR = resolve(PLATES_DIR, 'out');
 export const rawPath = (slug: string, screen: string): string =>
 	resolve(RAW_DIR, slug, `${screen}.png`);
 
-export const plateName = (slug: string, plate: PlateSpec): string =>
-	`${slug}--${plate.name ?? plate.template}`;
+export const plateName = (
+	slug: string,
+	plate: PlateSpec,
+	variant?: Surface
+): string =>
+	`${slug}--${plate.name ?? plate.template}${variant ? `-${variant}` : ''}`;
 
 export { MASTER };
 export const SAFE = safeZone();
