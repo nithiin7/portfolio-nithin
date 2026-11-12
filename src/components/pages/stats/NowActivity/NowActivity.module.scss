@@ -50,6 +50,7 @@
 
 		a {
 			@include draw-underline;
+			@include tap-pad;
 
 			color: inherit;
 

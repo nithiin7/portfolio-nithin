@@ -119,6 +119,8 @@
 		background-size: 0% 1px;
 		transition: background-size var(--dur-1) var(--ease);
 
+		@include tap-pad;
+
 		&:focus-visible {
 			background-position: 0% 100%;
 			background-size: 100% 1px;
