@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
 
-import { Contact } from 'components/pages';
+import Contact from 'components/pages/contact/Contact/Contact';
 import { loadData } from 'helpers/contentful';
 
 export const revalidate = 3600;

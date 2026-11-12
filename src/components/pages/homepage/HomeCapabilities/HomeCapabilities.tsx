@@ -1,6 +1,6 @@
 import type { FC, ReactElement } from 'react';
 
-import { RevealText } from 'components/motion';
+import RevealText from 'components/motion/RevealText/RevealText';
 import type { ServiceHeader, ServiceItem } from 'types/service';
 
 import styles from './HomeCapabilities.module.scss';

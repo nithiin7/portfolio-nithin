@@ -4,7 +4,7 @@ import { animate, useInView, useReducedMotion } from 'motion/react';
 import type { FC, ReactElement } from 'react';
 import { useEffect, useRef, useState } from 'react';
 
-import { formatCompactNumber } from 'helpers';
+import { formatCompactNumber } from 'helpers/format';
 import { duration, ease } from 'styles/tokens';
 
 interface CountUpProps {
@@ -40,9 +40,12 @@ const CountUp: FC<CountUpProps> = ({
 		return () => controls.stop();
 	}, [isInView, reduceMotion, value]);
 
+	// Round first so integer counts never flash a decimal ("164.9") mid-count
+	const factor = 10 ** decimals;
+	const shown = Math.round(current * factor) / factor;
 	const formatted = compact
-		? formatCompactNumber(current)
-		: current.toLocaleString('en-US', {
+		? formatCompactNumber(shown)
+		: shown.toLocaleString('en-US', {
 				minimumFractionDigits: decimals,
 				maximumFractionDigits: decimals,
 			});

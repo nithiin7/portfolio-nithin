@@ -8,9 +8,10 @@ import {
 	type ReactElement,
 } from 'react';
 
-import { RevealText, duration, ease } from 'components/motion';
+import RevealText from 'components/motion/RevealText/RevealText';
 import Modal from 'components/utilities/Modal/Modal';
 import { siteConfig } from 'config/site';
+import { duration, ease } from 'styles/tokens';
 import type { Certification } from 'types/certification';
 
 import styles from './HomeCertifications.module.scss';

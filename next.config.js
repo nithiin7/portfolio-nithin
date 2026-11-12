@@ -11,6 +11,9 @@ const withBundleAnalyzer = bundleAnalyzer({
  */
 const nextConfig = {
 	reactStrictMode: true,
+	// Dynamic routes (/blog) otherwise stream <meta> into <body> for any UA not
+	// on Next's bot list, which SEO crawlers and Lighthouse then miss
+	htmlLimitedBots: /.*/,
 	experimental: {
 		viewTransition: true,
 		optimizePackageImports: ['react-icons'],
@@ -52,20 +55,6 @@ const nextConfig = {
 		if (!isServer && config.optimization?.splitChunks) {
 			config.optimization.splitChunks.cacheGroups = {
 				...config.optimization.splitChunks.cacheGroups,
-				gsapCore: {
-					test: /[\\/]node_modules[\\/]gsap[\\/](?!(ScrollTrigger|Observer))/,
-					name: 'gsap-core',
-					chunks: 'all',
-					priority: 40,
-					enforce: true,
-				},
-				gsapScroll: {
-					test: /[\\/]node_modules[\\/]gsap[\\/](ScrollTrigger|Observer)/,
-					name: 'gsap-scroll',
-					chunks: 'async',
-					priority: 41,
-					enforce: true,
-				},
 				contentfulRichText: {
 					test: /[\\/]node_modules[\\/]@contentful[\\/]rich-text-react-renderer[\\/]/,
 					name: 'contentful-rich-text',

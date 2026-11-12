@@ -3,10 +3,10 @@ import Link from 'next/link';
 import { parseAsArrayOf, parseAsString, useQueryState } from 'nuqs';
 import { useId, useMemo, type FC, type ReactElement } from 'react';
 
-import { RevealText } from 'components/motion';
+import RevealText from 'components/motion/RevealText/RevealText';
 import BlogFeatured from 'components/pages/blog/BlogFeatured/BlogFeatured';
 import BlogRow from 'components/pages/blog/BlogRow/BlogRow';
-import { Subscribe } from 'components/utilities';
+import Subscribe from 'components/utilities/Subscribe/Subscribe';
 import { siteConfig } from 'config/site';
 import {
 	filterPosts,

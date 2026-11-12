@@ -5,17 +5,15 @@ import {
 	useScroll,
 	useVelocity,
 } from 'motion/react';
-import { useRef, useState, type FC, type ReactElement } from 'react';
+import {
+	useRef,
+	useState,
+	type CSSProperties,
+	type FC,
+	type ReactElement,
+} from 'react';
 
-import EYLogo from 'assets/logos/ey.svg';
-import GameAwardsLogo from 'assets/logos/game-awards.svg';
-import HSBCLogo from 'assets/logos/hsbc.svg';
-import MorganStanleyLogo from 'assets/logos/morgan-stanley.svg';
-import PaytmLogo from 'assets/logos/paytm-payments-bank.svg';
-import SpotifyCodesLogo from 'assets/logos/spotify-codes.svg';
-import SpotifyLogo from 'assets/logos/spotify.svg';
-import WhiteRabbitLogo from 'assets/logos/white-rabbit.svg';
-import { RevealText } from 'components/motion';
+import RevealText from 'components/motion/RevealText/RevealText';
 
 import styles from './HomeCollaborations.module.scss';
 
@@ -26,36 +24,67 @@ interface HomeCollaborationsProps {
 	};
 }
 
+// Logos are CSS masks over static files in public/logos (tinted by
+// currentColor), not inline SVG: the marquee renders every mark twice, which
+// put ~80 KB of path data into the HTML, the RSC payload and the JS bundle.
+// `ratio` is each file's viewBox width / height.
 const collaborators = [
-	{ Logo: EYLogo, name: 'EY', url: 'https://www.ey.com/', tall: true },
-	{ Logo: HSBCLogo, name: 'HSBC', url: 'https://www.hsbc.com/' },
 	{
-		Logo: MorganStanleyLogo,
+		file: 'ey',
+		ratio: '68.67 / 104.22',
+		name: 'EY',
+		url: 'https://www.ey.com/',
+		tall: true,
+	},
+	{
+		file: 'hsbc',
+		ratio: '315.9 / 85',
+		name: 'HSBC',
+		url: 'https://www.hsbc.com/',
+	},
+	{
+		file: 'morgan-stanley',
+		ratio: '360 / 90',
 		name: 'Morgan Stanley',
 		url: 'https://www.morganstanley.com/',
 	},
 	{
-		Logo: PaytmLogo,
+		file: 'paytm-payments-bank',
+		ratio: '197.319 / 33.75',
 		name: 'Paytm Payments Bank',
 		url: 'https://www.paytmbank.com/',
 	},
-	{ Logo: SpotifyLogo, name: 'Spotify', url: 'https://connect.spotify.com/' },
 	{
-		Logo: SpotifyCodesLogo,
+		file: 'spotify',
+		ratio: '725.9551 / 251.2245',
+		name: 'Spotify',
+		url: 'https://connect.spotify.com/',
+	},
+	{
+		file: 'spotify-codes',
+		ratio: '134 / 43',
 		name: 'Spotify Codes',
 		url: 'https://www.spotifycodes.com/',
 	},
 	{
-		Logo: GameAwardsLogo,
+		file: 'game-awards',
+		ratio: '474 / 162',
 		name: 'The Game Awards',
 		url: 'https://thegameawards.com/',
 	},
 	{
-		Logo: WhiteRabbitLogo,
+		file: 'white-rabbit',
+		ratio: '41 / 45',
 		name: 'White Rabbit',
 		url: 'https://whiterabbit.group/',
 	},
 ];
+
+const markStyle = (file: string, ratio: string): CSSProperties =>
+	({
+		'--logo': `url(/logos/${file}.svg)`,
+		'--ratio': ratio,
+	}) as CSSProperties;
 
 const MAX_BOOST = 3;
 
@@ -79,7 +108,7 @@ const HomeCollaborations: FC<HomeCollaborationsProps> = ({
 	});
 
 	const renderLogos = (copy: boolean) =>
-		collaborators.map(({ Logo, name, url, tall }) => (
+		collaborators.map(({ file, ratio, name, url, tall }) => (
 			<li key={name} className={styles.HomeCollaborations__item}>
 				<a
 					href={url}
@@ -90,7 +119,11 @@ const HomeCollaborations: FC<HomeCollaborationsProps> = ({
 					}`}
 					tabIndex={copy ? -1 : undefined}
 				>
-					<Logo aria-hidden="true" focusable="false" />
+					<span
+						className={styles.HomeCollaborations__mark}
+						style={markStyle(file, ratio)}
+						aria-hidden="true"
+					/>
 					<span className={styles.HomeCollaborations__srOnly}>
 						{name} (opens in a new tab)
 					</span>

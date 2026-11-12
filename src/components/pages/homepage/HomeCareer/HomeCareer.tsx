@@ -2,8 +2,9 @@
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { useId, useMemo, useState, type FC, type ReactElement } from 'react';
 
-import { RevealText, duration, ease } from 'components/motion';
+import RevealText from 'components/motion/RevealText/RevealText';
 import { careerPeriod, type CareerPeriod } from 'helpers/career';
+import { duration, ease } from 'styles/tokens';
 import type { Experience } from 'types/career';
 
 import styles from './HomeCareer.module.scss';

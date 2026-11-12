@@ -1,15 +1,14 @@
 import type { FC, ReactElement } from 'react';
 
-import {
-	CountUp,
-	MeterBar,
-	StatCard,
+import CountUp from 'components/pages/stats/CountUp/CountUp';
+import MeterBar from 'components/pages/stats/MeterBar/MeterBar';
+import StatCard, {
 	StatCardDivider,
 	StatCardSection,
-	StatMetric,
-} from 'components/pages';
+} from 'components/pages/stats/StatCard/StatCard';
+import StatMetric from 'components/pages/stats/StatMetric/StatMetric';
 import { GITHUB_USERNAME } from 'constants/index';
-import { formatDate } from 'helpers';
+import { formatDate } from 'helpers/format';
 import type { GithubStats } from 'types/github';
 
 import styles from './GithubStatCard.module.scss';

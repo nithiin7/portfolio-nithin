@@ -1,10 +1,11 @@
 'use client';
 import type { Variants } from 'motion/react';
 import { motion } from 'motion/react';
-import Image from 'next/image';
-import type { FC } from 'react';
+import type { CSSProperties, FC } from 'react';
 
-import { Button, Tag, TagContainer } from 'components/utilities';
+import Button from 'components/utilities/Button/Button';
+import Tag from 'components/utilities/Tag/Tag';
+import TagContainer from 'components/utilities/TagContainer/TagContainer';
 import type { Certification } from 'types/certification';
 
 import styles from './CertificationModal.module.scss';
@@ -60,12 +61,12 @@ const CertificationModal: FC<CertificationModalProps> = ({ certification }) => {
 				custom={0}
 			>
 				<div className={styles.CertificationModal__logo}>
-					<Image
-						src={certification.logo}
-						alt={certification.name}
-						width={72}
-						height={72}
-						unoptimized
+					<span
+						className={styles.CertificationModal__mark}
+						style={
+							{ '--logo': `url("${certification.logo}")` } as CSSProperties
+						}
+						aria-hidden="true"
 					/>
 				</div>
 				<div className={styles.CertificationModal__content}>

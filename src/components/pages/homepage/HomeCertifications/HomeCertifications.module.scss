@@ -136,6 +136,9 @@
 	}
 
 	&__strip {
+		// Skips rendering (and the logo-mask fetches) until the strip nears the viewport
+		content-visibility: auto;
+		contain-intrinsic-block-size: auto rem(240);
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(rem(60), 1fr));
 		margin: 0;

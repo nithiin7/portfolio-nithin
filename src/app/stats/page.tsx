@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
 
-import { Stats } from 'components/pages';
+import Stats from 'components/pages/stats/Stats/Stats';
 import { loadBlogStats } from 'helpers/blogStats';
 import { loadDevToStats } from 'helpers/devto';
 import { loadGithubStats } from 'helpers/github';

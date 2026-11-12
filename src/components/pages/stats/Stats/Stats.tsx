@@ -1,16 +1,14 @@
 import type { FC, ReactElement, ReactNode } from 'react';
 
-import { RevealText } from 'components/motion';
-import {
-	BlogStatCard,
-	CountUp,
-	DevToStatCard,
-	GithubStatCard,
-	HuggingFaceStatCard,
-	NowActivity,
-	StatTile,
-	WakaTimeStatCard,
-} from 'components/pages';
+import RevealText from 'components/motion/RevealText/RevealText';
+import BlogStatCard from 'components/pages/stats/BlogStatCard/BlogStatCard';
+import CountUp from 'components/pages/stats/CountUp/CountUp';
+import DevToStatCard from 'components/pages/stats/DevToStatCard/DevToStatCard';
+import GithubStatCard from 'components/pages/stats/GithubStatCard/GithubStatCard';
+import HuggingFaceStatCard from 'components/pages/stats/HuggingFaceStatCard/HuggingFaceStatCard';
+import NowActivity from 'components/pages/stats/NowActivity/NowActivity';
+import StatTile from 'components/pages/stats/StatTile/StatTile';
+import WakaTimeStatCard from 'components/pages/stats/WakaTimeStatCard/WakaTimeStatCard';
 import { packSpans } from 'helpers/grid';
 import { buildNowActivity } from 'helpers/nowActivity';
 import type { BlogStats } from 'types/blog';

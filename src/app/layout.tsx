@@ -1,4 +1,3 @@
-import { GoogleTagManager } from '@next/third-parties/google';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata, Viewport } from 'next';
@@ -12,22 +11,18 @@ import Script from 'next/script';
 import 'styles/tokens.scss';
 import 'styles/globals.scss';
 
-import {
-	Footer,
-	Navbar,
-	PageTransition,
-	Preloader,
+import Footer from 'components/layouts/Footer/Footer';
+import Navbar from 'components/layouts/Navbar/Navbar';
+import PageTransition from 'components/layouts/PageTransition/PageTransition';
+import Preloader, {
 	preloaderScript,
-} from 'components/layouts';
-import {
-	CommandPalette,
-	FloatingChat,
-	GridOverlay,
-	SkipLink,
-	Toast,
-} from 'components/utilities';
+} from 'components/layouts/Preloader/Preloader';
+import CommandPalette from 'components/utilities/CommandPalette/CommandPaletteLazy';
+import FloatingChat from 'components/utilities/FloatingChat/FloatingChatLazy';
+import GridOverlay from 'components/utilities/GridOverlay/GridOverlay';
+import SkipLink from 'components/utilities/SkipLink/SkipLink';
+import Toast from 'components/utilities/Toast/ToastLazy';
 import { absoluteUrl, personJsonLd, siteConfig } from 'config/site';
-import { loadBlogPosts, loadPortfolioSearchItems } from 'helpers/contentful';
 import { palette } from 'styles/tokens';
 
 import Provider from './provider';
@@ -46,11 +41,11 @@ const instrumentSerif = Instrument_Serif({
 	style: ['normal', 'italic'],
 	variable: '--font-instrument-serif',
 	display: 'swap',
-	preload: false,
 });
 
 const jetbrainsMono = JetBrains_Mono({
 	subsets: ['latin'],
+	weight: '400',
 	variable: '--font-jetbrains-mono',
 	display: 'swap',
 	preload: false,
@@ -116,6 +111,9 @@ export const metadata: Metadata = {
 	},
 };
 
+const gtmSnippet = (id: string): string =>
+	`(function(w,d,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':Date.now(),event:'gtm.js'});var j=d.createElement('script');j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i;d.head.appendChild(j);})(window,document,'dataLayer','${id}');`;
+
 const structuredData = {
 	'@context': 'https://schema.org',
 	...personJsonLd,
@@ -125,18 +123,9 @@ interface RootLayoutProps {
 	children: React.ReactNode;
 }
 
-export default async function RootLayout({
+export default function RootLayout({
 	children,
-}: Readonly<RootLayoutProps>): Promise<React.ReactElement> {
-	const [blogData, portfolioItems] = await Promise.all([
-		loadBlogPosts(100, 0),
-		loadPortfolioSearchItems(),
-	]);
-
-	const blogSearchItems = (blogData.data?.blogPostCollection?.items ?? []).map(
-		(post) => ({ title: post.title, slug: post.slug })
-	);
-
+}: Readonly<RootLayoutProps>): React.ReactElement {
 	return (
 		<html
 			lang="en"
@@ -171,11 +160,7 @@ export default async function RootLayout({
 					</main>
 					<Footer />
 					<FloatingChat chatbotUrl="https://nithiin7-portfolio-resume.hf.space" />
-					<CommandPalette
-						resumeUrl="/resume.pdf"
-						blogPosts={blogSearchItems}
-						portfolioItems={portfolioItems}
-					/>
+					<CommandPalette resumeUrl="/resume.pdf" />
 					<Toast />
 					{process.env.NODE_ENV === 'development' && <GridOverlay />}
 				</Provider>
@@ -185,10 +170,18 @@ export default async function RootLayout({
 						<feColorMatrix type="saturate" values="0" />
 					</filter>
 				</svg>
-				<Analytics />
-				<SpeedInsights />
+				{/* The /_vercel/* endpoints only exist on Vercel; elsewhere they 404 */}
+				{process.env.VERCEL && (
+					<>
+						<Analytics />
+						<SpeedInsights />
+					</>
+				)}
 				{process.env.NEXT_PUBLIC_GOOGLE_GTM_ID && (
-					<GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GOOGLE_GTM_ID} />
+					// lazyOnload keeps the 120 KB container off the critical path
+					<Script id="gtm" strategy="lazyOnload">
+						{gtmSnippet(process.env.NEXT_PUBLIC_GOOGLE_GTM_ID)}
+					</Script>
 				)}
 			</body>
 		</html>

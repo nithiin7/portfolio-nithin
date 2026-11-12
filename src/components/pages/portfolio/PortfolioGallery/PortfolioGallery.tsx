@@ -10,7 +10,7 @@ import {
 	type ReactElement,
 } from 'react';
 
-import { RevealImage } from 'components/motion';
+import RevealImage from 'components/motion/RevealImage/RevealImage';
 
 import styles from './PortfolioGallery.module.scss';
 

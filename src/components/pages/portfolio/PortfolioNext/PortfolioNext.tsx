@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState, ViewTransition, type FC, type ReactElement } from 'react';
 
-import { RevealText } from 'components/motion';
+import RevealText from 'components/motion/RevealText/RevealText';
 import { useMediaQuery } from 'hooks/useMediaQuery';
 import type { CaseStudyNext } from 'types/caseStudy';
 

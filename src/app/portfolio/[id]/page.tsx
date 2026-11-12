@@ -1,7 +1,8 @@
+import { BLOCKS } from '@contentful/rich-text-types';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { PortfolioDetails } from 'components/pages';
+import PortfolioDetails from 'components/pages/portfolio/PortfolioDetails/PortfolioDetails';
 import { absoluteUrl, siteConfig } from 'config/site';
 import { nextInOrder, positionOf } from 'helpers/caseStudy';
 import {
@@ -10,7 +11,9 @@ import {
 	loadWorksOrder,
 } from 'helpers/contentful';
 import { fetchBlurDataURL } from 'helpers/portfolio';
+import { plainText } from 'helpers/richText';
 import type { CaseStudyNext } from 'types/caseStudy';
+import type { PortfolioDetails as Project } from 'types/contentful';
 
 export const revalidate = 3600;
 
@@ -24,6 +27,23 @@ interface PortfolioDetailsPageProps {
 		id: string;
 	}>;
 }
+
+const DESCRIPTION_MAX = 155;
+
+// shortDescription is often empty in Contentful; fall back to the case study's first paragraph
+const projectDescription = (project: Project): string => {
+	const firstParagraph = project.description?.json?.content.find(
+		(node) => node.nodeType === BLOCKS.PARAGRAPH
+	);
+	const source =
+		project.shortDescription?.trim() ||
+		(firstParagraph ? plainText(firstParagraph) : '');
+	const text = source.replace(/\s+/g, ' ').trim();
+	if (!text) return `${project.title} — a case study by ${siteConfig.name}.`;
+	return text.length > DESCRIPTION_MAX
+		? `${text.slice(0, DESCRIPTION_MAX - 1).trimEnd()}…`
+		: text;
+};
 
 export async function generateMetadata({
 	params,
@@ -40,22 +60,23 @@ export async function generateMetadata({
 	}
 
 	const url = absoluteUrl(`/portfolio/${id}`);
+	const description = projectDescription(project);
 
 	return {
 		title: project.title,
-		description: project.shortDescription,
+		description,
 		openGraph: {
 			type: 'article',
 			locale: 'en_US',
 			url,
 			title: project.title,
-			description: project.shortDescription,
+			description,
 			siteName: siteConfig.siteName,
 		},
 		twitter: {
 			card: 'summary_large_image',
 			title: project.title,
-			description: project.shortDescription,
+			description,
 			creator: siteConfig.twitterHandle,
 		},
 		robots: {

@@ -18,14 +18,14 @@ import {
 	type ReactNode,
 } from 'react';
 
-import { RevealText } from 'components/motion';
+import RevealText from 'components/motion/RevealText/RevealText';
 import BlogRow from 'components/pages/blog/BlogRow/BlogRow';
 import CodeBlock from 'components/pages/blog/CodeBlock/CodeBlock';
 import CommentSection from 'components/pages/blog/CommentSection/CommentSection';
 import PostProgress from 'components/pages/blog/PostProgress/PostProgress';
 import PostShare from 'components/pages/blog/PostShare/PostShare';
 import TableOfContents from 'components/pages/blog/TableOfContents/TableOfContents';
-import { Subscribe } from 'components/utilities';
+import Subscribe from 'components/utilities/Subscribe/Subscribe';
 import { absoluteUrl, siteConfig } from 'config/site';
 import { formatPostDate } from 'helpers/blogPosts';
 import {

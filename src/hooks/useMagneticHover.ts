@@ -1,5 +1,5 @@
 'use client';
-import { gsap } from 'gsap';
+import { animate } from 'motion/react';
 import { useEffect, useRef } from 'react';
 import type { RefObject } from 'react';
 
@@ -17,9 +17,10 @@ interface UseMagneticHoverResult<
 }
 
 /**
- * Tracks the pointer within `boundsRef` and nudges `magneticRef` toward it via GSAP,
+ * Tracks the pointer within `boundsRef` and nudges `magneticRef` toward it,
  * snapping back on leave. Two refs so the hit area (bounds) can be larger than the
- * element that actually visually moves (magnetic).
+ * element that actually visually moves (magnetic). Pointer-only: skipped under
+ * reduced motion and on touch, where there is no hover to follow.
  */
 export const useMagneticHover = <
 	Bounds extends HTMLElement = HTMLElement,
@@ -36,23 +37,19 @@ export const useMagneticHover = <
 		const magnetic = magneticRef.current;
 		if (!bounds || !magnetic) return;
 
-		const prefersReducedMotion = window.matchMedia(
-			'(prefers-reduced-motion: reduce)'
+		const skip = window.matchMedia(
+			'(prefers-reduced-motion: reduce), (hover: none)'
 		).matches;
-		if (prefersReducedMotion) return;
+		if (skip) return;
+
+		const transition = { duration: 0.3, ease: 'easeOut' } as const;
 
 		const handleMouseEnter = () => {
-			gsap.to(magnetic, { duration: 0.3, scale, ease: 'power2.out' });
+			animate(magnetic, { scale }, transition);
 		};
 
 		const handleMouseLeave = () => {
-			gsap.to(magnetic, {
-				duration: 0.3,
-				scale: 1,
-				x: 0,
-				y: 0,
-				ease: 'power2.out',
-			});
+			animate(magnetic, { scale: 1, x: 0, y: 0 }, transition);
 		};
 
 		const handleMouseMove = (e: MouseEvent) => {
@@ -60,12 +57,7 @@ export const useMagneticHover = <
 			const x = e.clientX - rect.left - rect.width / 2;
 			const y = e.clientY - rect.top - rect.height / 2;
 
-			gsap.to(magnetic, {
-				duration: 0.3,
-				x: x * strength,
-				y: y * strength,
-				ease: 'power2.out',
-			});
+			animate(magnetic, { x: x * strength, y: y * strength }, transition);
 		};
 
 		bounds.addEventListener('mouseenter', handleMouseEnter);

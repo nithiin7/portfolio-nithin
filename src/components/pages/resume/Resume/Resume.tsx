@@ -1,6 +1,6 @@
 import type { FC, ReactElement } from 'react';
 
-import { RevealText } from 'components/motion';
+import RevealText from 'components/motion/RevealText/RevealText';
 import { aboutContent } from 'config/about';
 import { siteConfig } from 'config/site';
 import { contactOptions, socials } from 'constants/index';

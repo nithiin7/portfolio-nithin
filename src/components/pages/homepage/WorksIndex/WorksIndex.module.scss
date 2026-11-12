@@ -47,13 +47,8 @@ $touch: '(hover: none), (pointer: coarse)';
 
 	&__item {
 		border-bottom: 1px solid var(--line);
-		transition: opacity var(--dur-1) var(--ease-out);
-
-		@media #{$hover} {
-			.WorksIndex__list[data-active='true'] &:not([data-current='true']) {
-				opacity: 0.4;
-			}
-		}
+		// Inactive rows dim by colour (see __title), not opacity: 40% opacity
+		// dropped the already-muted meta columns below WCAG AA
 	}
 
 	&__row {
@@ -180,7 +175,17 @@ $touch: '(hover: none), (pointer: coarse)';
 		line-height: var(--leading-snug);
 		letter-spacing: var(--tracking-display);
 		color: var(--fg);
-		transition: transform var(--dur-2) var(--ease);
+		transition:
+			color var(--dur-1) var(--ease-out),
+			transform var(--dur-2) var(--ease);
+
+		@media #{$hover} {
+			.WorksIndex__list[data-active='true']
+				.WorksIndex__item:not([data-current='true'])
+				& {
+				color: var(--muted);
+			}
+		}
 
 		@media #{$hover} {
 			[data-current='true'] & {

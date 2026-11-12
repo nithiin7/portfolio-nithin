@@ -24,7 +24,7 @@ Personal portfolio website for **Nithin Pradeep** (Full Stack Developer). A cont
 - SCSS Modules for styling
 - Contentful CMS → Apollo Client (GraphQL) for all page/blog/portfolio content
 - Supabase for comments and newsletter subscriptions
-- Motion/React (Framer Motion v12) + GSAP for animations
+- Motion/React (Framer Motion v12) for animations
 - Lenis for smooth scrolling
 - React Hook Form + Yup for form validation
 - EmailJS for contact form emails
@@ -118,7 +118,7 @@ Semantic CSS custom properties (`--bg`, `--fg`, `--muted`, `--line`, `--accent`,
 ### Animation Strategy
 
 - **Motion/React**: Declarative component animations (page transitions, scroll reveals, stagger children). Reusable variants live in `helpers/animations.ts`.
-- **GSAP**: Imperative mouse/scroll effects (`useMagneticHover` on the hero and footer CTAs). Use GSAP only when Motion can't do it cleanly.
+- **Imperative effects**: Motion's `animate()` on refs (e.g. `useMagneticHover` on the hero and footer CTAs). GSAP was removed in Phase 10 — don't re-add it.
 - **Lenis**: Smooth scroll provider wrapping the whole app via `ReactLenis` in `provider.tsx`.
 
 ### Page Transitions
@@ -172,7 +172,7 @@ Default to **no comments**. Only comment when the _why_ is non-obvious (hidden c
 
 - **Animation variants**: If a Motion variant is used in more than one component, move it to `helpers/animations.ts` and import it.
 - **Constants**: All nav links, social links, and contact options live in `constants/index.tsx`. Never inline them in components.
-- **Barrel exports**: Every component folder group has an `index.ts`. Add new exports there; import from the barrel, not the file directly.
+- **Barrel exports**: Every component folder group has an `index.ts` (kept for Storybook/tests). App code imports the component file directly (`import Button from 'components/utilities/Button/Button'`): importing a barrel from a server component ships every `'use client'` module in it to that page (Phase 10 cut ~100 KB gz this way). Same for `helpers` — import `helpers/format`, `helpers/scroll`, etc., never the `helpers` index (it pulls in `yup`).
 - **Service layer**: Never call `supabase.from(...)` directly in components or API routes — go through `commentsService` / `subscriptionsService` / `baseService`.
 - **Content converters**: Use `convertContentfulBlogPost`, `convertContentfulCategory`, etc. from `helpers/contentful.ts` when mapping API responses to app types.
 - **Plop generators**: Use `pnpm generate` to scaffold new components or pages — it creates the `.tsx`, `.module.scss`, `index.ts`, and `.stories.ts` files from templates.
@@ -238,7 +238,6 @@ Pre-commit hook runs `prettier:fix` + `eslint:fix` on staged files via lint-stag
 | **Google reCAPTCHA v3**   | Spam protection on forms                                                      |
 | **Sentry**                | Error tracking (server + edge + client configs)                               |
 | **Motion/React**          | Declarative animations (page transitions, scroll reveals)                     |
-| **GSAP**                  | Imperative animations (magnetic hover, scroll-driven effects)                 |
 | **Lenis**                 | Smooth scroll (`@studio-freight/react-lenis`)                                 |
 | **React Hook Form + Yup** | Form state management + schema validation                                     |
 | **Storybook**             | Component development and documentation                                       |
@@ -251,7 +250,7 @@ Pre-commit hook runs `prettier:fix` + `eslint:fix` on staged files via lint-stag
 **Do:**
 
 - Use `pnpm generate` (Plop) when creating new components — it scaffolds all required files.
-- Import from barrel `index.ts` files: `import { Button } from 'components/utilities'`.
+- Import component files directly, not via barrels: `import Button from 'components/utilities/Button/Button'`.
 - Use semantic `var(--token)` colours from `tokens.scss` — never hardcode hex values.
 - Keep reusable animation variants in `helpers/animations.ts`.
 - Write Server Components for pages that fetch data; pass data down as props to Client Components.
@@ -265,7 +264,6 @@ Pre-commit hook runs `prettier:fix` + `eslint:fix` on staged files via lint-stag
 - Don't use relative imports for anything reachable via a path alias.
 - Don't hardcode colors — everything must go through CSS custom properties.
 - Don't call Supabase directly from components or API routes — use the service layer.
-- Don't mix Motion and GSAP on the same element. Use Motion for declarative; GSAP for imperative mouse/scroll effects.
 - Don't add error handling for impossible scenarios or add fallbacks that mask real bugs.
 - Don't create helper files or abstractions speculatively — only when duplication actually exists.
 - Don't commit secrets. The `.env` file holds real credentials; `.env.example` is the safe template.
@@ -282,7 +280,7 @@ Pre-commit hook runs `prettier:fix` + `eslint:fix` on staged files via lint-stag
 
 **Preferred solutions:**
 
-- Animation: Use Motion/React unless mouse-tracking or GSAP-specific easing is needed.
+- Animation: Motion/React only (declarative components; `animate()` for imperative pointer effects).
 - Styling: SCSS Modules with `var(--token)` colours. No inline styles except for Motion `style` props.
 - Data fetching: Server Components with Apollo for Contentful. Service classes for Supabase.
 - Forms: React Hook Form + Yup — don't invent alternatives.
@@ -297,4 +295,4 @@ Pre-commit hook runs `prettier:fix` + `eslint:fix` on staged files via lint-stag
 
 **Commit messages:** Conventional Commits format required. Husky will reject non-conforming commits.
 
-**When in doubt about a component pattern**, look at `HomeHeader` or `WorksIndex` as reference implementations for complex client components with GSAP/Motion.
+**When in doubt about a component pattern**, look at `HomeHeader` or `WorksIndex` as reference implementations for complex client components with Motion.
