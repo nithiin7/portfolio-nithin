@@ -28,7 +28,10 @@ import {
 	type PlateSpec,
 	type Screen,
 	type ScreenRef,
+	type SceneLine,
 	type Surface,
+	type Tone,
+	type Illustration,
 } from './shared.ts';
 import { visibleBox } from '../../src/config/imageCrops.ts';
 import { lineAlpha, palette } from '../../src/styles/tokens.ts';
@@ -445,6 +448,438 @@ const typePlate = async (spec: Spec<'type-plate'>, surface: Surface) => {
 	return { layers: [{ input, left: SAFE_LEFT, top: SAFE_TOP }], frames: [] };
 };
 
+// Horizontal inset inside the safe zone: the 4:3 crop shows exactly the safe
+// width, so without it a phone renders the scene edge to edge.
+const SCENE_INSET_X = Math.round(SAFE.width * 0.09);
+const SCENE_INSET_Y = 72;
+const SCENE_MONO = 52;
+const CHECK = '✓';
+
+// Google's JetBrains Mono subset has no ✓, so the check is drawn
+const checkMark = (size: number, key?: number): ReactElement =>
+	h(
+		'svg',
+		{
+			key,
+			width: size * 0.6,
+			height: size,
+			viewBox: '0 0 12 20',
+			style: { display: 'flex', flexShrink: 0 },
+		},
+		h('path', {
+			d: 'M1.5 10.5 L5 14 L11 6',
+			fill: 'none',
+			stroke: palette.orange,
+			strokeWidth: 1.8,
+		})
+	);
+
+const sceneText = (spec: Spec<'scene'>): string => {
+	const { illustration: art } = spec;
+	const runs = (lines: SceneLine[]) =>
+		lines.map((l) => (typeof l === 'string' ? l : l.map(([t]) => t).join('')));
+	const parts =
+		art.kind === 'terminal'
+			? [art.title, ...runs(art.lines)]
+			: [
+					art.question,
+					art.outputLabel,
+					...art.steps,
+					...runs(art.output),
+					'0123456789→·',
+				];
+	return [spec.label, spec.tag ?? '', ...parts]
+		.join('')
+		.toUpperCase()
+		.concat(parts.join(''));
+};
+
+const sceneLine = (
+	line: SceneLine,
+	colors: ReturnType<typeof surfaceColors>,
+	key: number
+): ReactElement => {
+	const tones: Record<Tone, string> = {
+		fg: colors.fg,
+		muted: colors.muted,
+		accent: palette.orange,
+	};
+	const runs = typeof line === 'string' ? [[line, 'fg'] as const] : line;
+	return h(
+		'div',
+		{
+			key,
+			style: { display: 'flex', whiteSpace: 'pre', minHeight: '1.7em' },
+		},
+		...runs.map(([text, tone], i) =>
+			text.trim() === CHECK
+				? h(
+						'div',
+						{
+							key: i,
+							style: {
+								display: 'flex',
+								alignItems: 'center',
+								width: `${text.length * MONO_ADVANCE}em`,
+							},
+						},
+						checkMark(SCENE_MONO)
+					)
+				: h('span', { key: i, style: { color: tones[tone] } }, text)
+		)
+	);
+};
+
+const windowBar = (title: string, surface: Surface): ReactElement => {
+	const colors = surfaceColors(surface);
+	const square = {
+		width: 22,
+		height: 22,
+		border: `2px solid ${hairline(surface, 3)}`,
+	};
+	return h(
+		'div',
+		{
+			style: {
+				display: 'flex',
+				alignItems: 'center',
+				gap: 40,
+				padding: '30px 44px',
+				borderBottom: `1px solid ${hairline(surface, 2)}`,
+				fontSize: 34,
+				letterSpacing: 2,
+				textTransform: 'uppercase',
+				color: colors.muted,
+			},
+		},
+		h(
+			'div',
+			{ style: { display: 'flex', gap: 14 } },
+			h('div', { style: square }),
+			h('div', { style: square }),
+			h('div', {
+				style: {
+					...square,
+					backgroundColor: palette.orange,
+					borderColor: palette.orange,
+				},
+			})
+		),
+		title
+	);
+};
+
+const panel = (surface: Surface) => ({
+	display: 'flex',
+	flexDirection: 'column' as const,
+	border: `1px solid ${hairline(surface, 2.5)}`,
+	backgroundColor: rgba(surfaceColors(surface).fg, 0.035),
+	boxShadow: `0 48px 96px -48px ${rgba(palette.ink, surface === 'ink' ? 0.9 : 0.35)}`,
+});
+
+const terminalArt = (
+	art: Extract<Illustration, { kind: 'terminal' }>,
+	surface: Surface
+): ReactElement => {
+	const colors = surfaceColors(surface);
+	return h(
+		'div',
+		{ style: { ...panel(surface), width: '100%' } },
+		windowBar(art.title, surface),
+		h(
+			'div',
+			{
+				style: {
+					display: 'flex',
+					flexDirection: 'column',
+					padding: '52px 64px 44px',
+					fontSize: SCENE_MONO,
+					lineHeight: 1.7,
+					color: colors.fg,
+				},
+			},
+			...art.lines.map((line, i) => sceneLine(line, colors, i))
+		)
+	);
+};
+
+const pipelineArt = (
+	art: Extract<Illustration, { kind: 'pipeline' }>,
+	surface: Surface
+): ReactElement => {
+	const colors = surfaceColors(surface);
+	const rule = hairline(surface, 2.5);
+	const chip = (text: string, accent = false) =>
+		h(
+			'div',
+			{
+				style: {
+					display: 'flex',
+					padding: '8px 18px',
+					fontSize: 30,
+					letterSpacing: 2,
+					textTransform: 'uppercase',
+					color: accent ? palette.orange : colors.muted,
+					border: `1px solid ${accent ? palette.orange : rule}`,
+				},
+			},
+			text
+		);
+	const drop = h('div', {
+		style: {
+			display: 'flex',
+			alignSelf: 'center',
+			width: 2,
+			height: 64,
+			backgroundColor: rule,
+		},
+	});
+	const last = art.steps.length - 1;
+	const nodes = art.steps.flatMap((step, i) => {
+		const done = i === last;
+		const node = h(
+			'div',
+			{
+				key: `n${i}`,
+				style: {
+					display: 'flex',
+					flexDirection: 'column',
+					gap: 14,
+					padding: '26px 30px',
+					minWidth: 300,
+					border: `${done ? 3 : 1}px solid ${done ? palette.orange : rule}`,
+					backgroundColor: done
+						? rgba(palette.orange, 0.08)
+						: rgba(colors.fg, 0.035),
+				},
+			},
+			h(
+				'div',
+				{
+					style: {
+						display: 'flex',
+						justifyContent: 'space-between',
+						fontSize: 30,
+						color: done ? palette.orange : colors.muted,
+					},
+				},
+				h('span', {}, String(i + 1).padStart(2, '0')),
+				done ? checkMark(30) : h('span', {}, '→')
+			),
+			h(
+				'div',
+				{ style: { display: 'flex', fontSize: 40, color: colors.fg } },
+				step
+			)
+		);
+		const link = h('div', {
+			key: `l${i}`,
+			style: { display: 'flex', flexGrow: 1, height: 2, backgroundColor: rule },
+		});
+		return i < last ? [node, link] : [node];
+	});
+
+	return h(
+		'div',
+		{
+			style: {
+				display: 'flex',
+				flexDirection: 'column',
+				width: '100%',
+				fontFamily: 'JetBrains Mono',
+			},
+		},
+		h(
+			'div',
+			{
+				style: {
+					...panel(surface),
+					flexDirection: 'row',
+					alignItems: 'center',
+					alignSelf: 'flex-start',
+					gap: 36,
+					padding: '30px 44px',
+				},
+			},
+			chip('Ask'),
+			h(
+				'div',
+				{
+					style: {
+						display: 'flex',
+						fontFamily: 'Inter Tight',
+						fontSize: 52,
+						letterSpacing: -1,
+						color: colors.fg,
+					},
+				},
+				art.question
+			)
+		),
+		h('div', { style: { display: 'flex', paddingLeft: 120 } }, drop),
+		h(
+			'div',
+			{ style: { display: 'flex', alignItems: 'center', width: '100%' } },
+			...nodes
+		),
+		h(
+			'div',
+			{
+				style: {
+					display: 'flex',
+					justifyContent: 'flex-end',
+					paddingRight: 150,
+				},
+			},
+			drop
+		),
+		h(
+			'div',
+			{ style: { ...panel(surface), alignSelf: 'flex-end', width: '78%' } },
+			h(
+				'div',
+				{
+					style: {
+						display: 'flex',
+						justifyContent: 'space-between',
+						alignItems: 'center',
+						padding: '22px 40px',
+						borderBottom: `1px solid ${hairline(surface, 2)}`,
+					},
+				},
+				chip(art.outputLabel),
+				chip('Validated', true)
+			),
+			h(
+				'div',
+				{
+					style: {
+						display: 'flex',
+						flexDirection: 'column',
+						padding: '32px 44px 24px',
+						fontSize: 40,
+						lineHeight: 1.7,
+						color: colors.fg,
+					},
+				},
+				...art.output.map((line, i) => sceneLine(line, colors, i))
+			)
+		)
+	);
+};
+
+const scene = async (spec: Spec<'scene'>, surface: Surface) => {
+	const colors = surfaceColors(surface);
+	const words = spec.text.split(' ');
+	const tail = words.pop() ?? '';
+	const statementSize = 104;
+	const fonts = [
+		{
+			name: 'Inter Tight',
+			data: await loadGoogleFont(
+				'Inter+Tight',
+				'wght@500',
+				`${spec.text}${spec.illustration.kind === 'pipeline' ? spec.illustration.question : ''}`
+			),
+		},
+		{
+			name: 'Instrument Serif',
+			style: 'italic' as const,
+			data: await loadGoogleFont('Instrument+Serif', 'ital@1', tail),
+		},
+		{
+			name: 'JetBrains Mono',
+			data: await loadGoogleFont('JetBrains+Mono', 'wght@400', sceneText(spec)),
+		},
+	];
+	const labelStyle = {
+		display: 'flex',
+		fontFamily: 'JetBrains Mono',
+		fontSize: 40,
+		letterSpacing: 2,
+		textTransform: 'uppercase' as const,
+		color: colors.muted,
+	};
+
+	const art =
+		spec.illustration.kind === 'terminal'
+			? terminalArt(spec.illustration, surface)
+			: pipelineArt(spec.illustration, surface);
+
+	const image = new ImageResponse(
+		h(
+			'div',
+			{
+				style: {
+					display: 'flex',
+					flexDirection: 'column',
+					width: '100%',
+					height: '100%',
+					padding: `${SCENE_INSET_Y}px ${SCENE_INSET_X}px`,
+					fontFamily: 'JetBrains Mono',
+				},
+			},
+			h(
+				'div',
+				{
+					style: {
+						display: 'flex',
+						justifyContent: 'space-between',
+						paddingBottom: 28,
+						borderBottom: `1px solid ${hairline(surface, 2)}`,
+					},
+				},
+				h('div', { style: labelStyle }, spec.label),
+				h('div', { style: labelStyle }, spec.tag ?? '')
+			),
+			h(
+				'div',
+				{
+					style: {
+						display: 'flex',
+						flexGrow: 1,
+						alignItems: 'center',
+						padding: '56px 0',
+					},
+				},
+				art
+			),
+			h(
+				'div',
+				{
+					style: {
+						display: 'flex',
+						flexWrap: 'wrap',
+						fontFamily: 'Inter Tight',
+						fontSize: statementSize,
+						lineHeight: 1.04,
+						letterSpacing: -statementSize * 0.03,
+						color: colors.fg,
+						maxWidth: '88%',
+					},
+				},
+				...words.map((word, i) =>
+					h('span', { key: i, style: { marginRight: '0.24em' } }, word)
+				),
+				h(
+					'span',
+					{
+						style: {
+							fontFamily: 'Instrument Serif',
+							fontStyle: 'italic',
+							color: palette.orange,
+						},
+					},
+					tail
+				)
+			)
+		),
+		{ width: SAFE.width, height: SAFE.height, fonts }
+	);
+	const input = Buffer.from(await image.arrayBuffer());
+	return { layers: [{ input, left: SAFE_LEFT, top: SAFE_TOP }], frames: [] };
+};
+
 const GUIDES = [
 	{ label: '21:9', ratio: 21 / 9 },
 	{ label: '16:10', ratio: 16 / 10 },
@@ -475,6 +910,8 @@ const render = (project: PlateProject, spec: PlateSpec, surface: Surface) => {
 			return mobileTrio(project, spec);
 		case 'type-plate':
 			return typePlate(spec, surface);
+		case 'scene':
+			return scene(spec, surface);
 	}
 };
 

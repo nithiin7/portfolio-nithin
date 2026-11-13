@@ -62,6 +62,7 @@ The master is 3840 wide because `sizes="100vw"` slots pick the 3840 rendition at
 		{ template: 'detail', screen: 'desktop-2', region: { x: 46, y: 150, width: 552, height: 270 }, zoom: 2.5, use: ['gallery'], alt: '…' },
 		{ template: 'mobile-trio', screens: ['m-1', 'm-2', 'm-3'], use: ['gallery'], alt: '…' },
 		{ template: 'type-plate', variant: 'statement' | 'code' | 'terminal', label: '…', text: '…', alt: '…' },
+		{ template: 'scene', label: '…', tag: '…', text: '…', illustration: { kind: 'terminal' | 'pipeline', … }, alt: '…' },
 	],
 }
 ```
@@ -85,12 +86,13 @@ Set `surface: ['ink', 'paper']` on a project or a plate to render it twice, as `
 
 ### Templates
 
-| Template      | Layout                                                                                                                                                                                                                                          |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `cover`       | One screen, centred, 80% of the safe-zone width (2304 px; 90% of its height is the cap), 1px hairline frame, square corners.                                                                                                                    |
-| `detail`      | `region` in **CSS px** of the screen, drawn at `zoom` plate px per CSS px (default = the screen's DPR, i.e. 1:1 source pixels). Shrinks to fit the safe zone. Warns past ×1.3 upscaling.                                                        |
-| `mobile-trio` | Three phone screens at 88% of the safe-zone height, 5% gaps, each framed.                                                                                                                                                                       |
-| `type-plate`  | For projects without UI. `statement`: Inter Tight with the last word in Instrument Serif italic, accent colour. `code` / `terminal`: JetBrains Mono panel with a label bar; `#`/`//` comments are muted and `$ ` prompts use the accent colour. |
+| Template      | Layout                                                                                                                                                                                                                                                                                                                                           |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `cover`       | One screen, centred, 80% of the safe-zone width (2304 px; 90% of its height is the cap), 1px hairline frame, square corners.                                                                                                                                                                                                                     |
+| `detail`      | `region` in **CSS px** of the screen, drawn at `zoom` plate px per CSS px (default = the screen's DPR, i.e. 1:1 source pixels). Shrinks to fit the safe zone. Warns past ×1.3 upscaling.                                                                                                                                                         |
+| `mobile-trio` | Three phone screens at 88% of the safe-zone height, 5% gaps, each framed.                                                                                                                                                                                                                                                                        |
+| `type-plate`  | For projects without UI. `statement`: Inter Tight with the last word in Instrument Serif italic, accent colour. `code` / `terminal`: JetBrains Mono panel with a label bar; `#`/`//` comments are muted and `$ ` prompts use the accent colour.                                                                                                  |
+| `scene`       | Cover for projects without UI. Label row, a terminal or agent-pipeline illustration in the centre, and the statement below, all inset 9% inside the safe zone so the 4:3 phone crop keeps a margin. Lines are runs of `[text, 'fg' \| 'muted' \| 'accent']`; a lone `✓` run is drawn as a check, since the mono font subset has no glyph for it. |
 
 Colours come only from `src/styles/tokens.ts` (`palette`, `lineAlpha`). The frame uses the `--line-strong` alpha and the grid uses half the `--line` alpha. Fonts are fetched from Google Fonts with a text subset when a type plate is rendered, which needs network access.
 

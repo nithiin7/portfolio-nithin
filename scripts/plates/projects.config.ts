@@ -61,12 +61,52 @@ export default defineProjects([
 		grid: true,
 		plates: [
 			{
-				template: 'type-plate',
-				variant: 'statement',
+				// The session is illustrative: the tools, the traversal denial and the
+				// audit fields are the server's documented behaviour.
+				template: 'scene',
+				name: 'scene',
 				label: 'Remote File Server MCP',
-				text: 'Read-only access to SMB file shares for any MCP client — signed, audited, and traversal-proof.',
+				tag: 'MCP · SMB/CIFS',
+				text: 'Read-only file shares for any MCP client — signed, audited, traversal-proof.',
+				illustration: {
+					kind: 'terminal',
+					title: 'mcp · remote-file-server',
+					lines: [
+						[
+							['$ ', 'accent'],
+							['ask ', 'fg'],
+							['"Summarise the Q3 report on the share"', 'muted'],
+						],
+						[
+							['→ ', 'muted'],
+							['list_files   ', 'fg'],
+							['/reports/2026          ', 'muted'],
+							['12 files', 'fg'],
+						],
+						[
+							['→ ', 'muted'],
+							['read_file    ', 'fg'],
+							['/reports/2026/q3.pdf   ', 'muted'],
+							['ok · 184 KB', 'fg'],
+						],
+						[
+							['→ ', 'muted'],
+							['read_file    ', 'fg'],
+							['../../config/.env      ', 'muted'],
+							['denied · traversal', 'accent'],
+						],
+						[
+							['✓ ', 'accent'],
+							['audit        ', 'fg'],
+							[
+								'{ signed: true, tool: "read_file", ok: 1, denied: 1 }',
+								'muted',
+							],
+						],
+					],
+				},
 				use: ['card', 'spotlight'],
-				alt: 'Statement: read-only access to SMB file shares for any MCP client, signed, audited and traversal-proof.',
+				alt: 'Terminal session with the MCP file server: an assistant lists and reads a report from an SMB share, a path-traversal read of a .env file is denied, and the signed call is written to the audit log.',
 			},
 			{
 				// Summarises data/knowledge/project-remote-file-server-mcp.md; swap in
@@ -133,12 +173,43 @@ export default defineProjects([
 		grid: true,
 		plates: [
 			{
-				template: 'type-plate',
-				variant: 'statement',
+				// Generic question and schema: the real databases are a client's.
+				template: 'scene',
+				name: 'scene',
 				label: 'Lang2Query',
-				text: 'Plain-English questions in, validated SQL out — five agents in one LangGraph pipeline.',
+				tag: 'LangGraph · 5 agents',
+				text: 'Plain-English questions in, validated SQL out — five agents, one pipeline.',
+				illustration: {
+					kind: 'pipeline',
+					question: 'Which five cities added the most users last month?',
+					steps: ['Database', 'Tables', 'Columns', 'Generate', 'Validate'],
+					outputLabel: 'query.sql',
+					output: [
+						[
+							['SELECT ', 'muted'],
+							['city, COUNT(*) AS new_users ', 'fg'],
+							['FROM ', 'muted'],
+							['users', 'fg'],
+						],
+						[
+							['WHERE ', 'muted'],
+							[
+								"created_at >= date_trunc('month', now()) - interval '1 month'",
+								'fg',
+							],
+						],
+						[
+							['GROUP BY ', 'muted'],
+							['city ', 'fg'],
+							['ORDER BY ', 'muted'],
+							['new_users ', 'fg'],
+							['DESC LIMIT ', 'muted'],
+							['5;', 'fg'],
+						],
+					],
+				},
 				use: ['card', 'spotlight'],
-				alt: 'Statement: plain-English questions in, validated SQL out, from five agents in one LangGraph pipeline.',
+				alt: 'A plain-English question flows through five agents (database, tables, columns, generate, validate) and comes out as a validated SQL query.',
 			},
 		],
 	},
