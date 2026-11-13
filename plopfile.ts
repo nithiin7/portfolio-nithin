@@ -31,11 +31,6 @@ module.exports = (plop: NodePlopAPI) => {
 				path: 'src/components/{{moduleName}}/{{pascalCase name}}/index.ts',
 				templateFile: 'templates/component/page.ts.hbs',
 			},
-			{
-				type: 'add',
-				path: 'src/components/{{moduleName}}/{{pascalCase name}}/{{pascalCase name}}.stories.ts',
-				templateFile: 'templates/component/component.stories.ts.hbs',
-			},
 		],
 	});
 	plop.setGenerator('page', {

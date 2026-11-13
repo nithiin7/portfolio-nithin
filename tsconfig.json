@@ -35,7 +35,6 @@
 		".next/types/**/*.ts",
 		"**/*.ts",
 		"**/*.tsx",
-		".storybook/**/*",
 		"**/*.js",
 		"**/*.jsx",
 		"**/*.json",

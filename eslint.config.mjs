@@ -5,7 +5,6 @@ import a11yPlugin from 'eslint-plugin-jsx-a11y';
 import prettierPlugin from 'eslint-plugin-prettier';
 import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
-import storybook from 'eslint-plugin-storybook';
 import tseslint from 'typescript-eslint';
 
 export default [
@@ -16,7 +15,7 @@ export default [
 		languageOptions: {
 			parser: tseslint.parser,
 			parserOptions: {
-				project: ['./tsconfig.json', './.storybook/tsconfig.json'],
+				project: ['./tsconfig.json'],
 				ecmaVersion: 'latest',
 				sourceType: 'module',
 				ecmaFeatures: {
@@ -182,11 +181,4 @@ export default [
 			'contentful/**/*.cjs',
 		],
 	},
-	{
-		files: ['.storybook/**/*.ts', '.storybook/**/*.tsx'],
-		rules: {
-			'import/no-default-export': 'off',
-		},
-	},
-	...storybook.configs['flat/recommended'],
 ];
