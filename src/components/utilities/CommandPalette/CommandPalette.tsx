@@ -120,6 +120,11 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 
 	const inputRef = useRef<HTMLInputElement>(null);
 	const listRef = useRef<HTMLUListElement>(null);
+	const hintRef = useRef<HTMLButtonElement>(null);
+	const isOpenRef = useRef(false);
+	const opener = useRef<{ element: HTMLElement; pathname: string } | null>(
+		null
+	);
 	const panelRef = useFocusTrap(isOpen);
 	const executeRecaptchaRef = useRef<ExecuteRecaptcha | null>(null);
 	const recaptchaSiteKey = clientEnv.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
@@ -142,6 +147,19 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 		return () => window.removeEventListener('scroll', handleScroll);
 	}, []);
 
+	// Recorded before opening: the search field's autoFocus moves focus first.
+	const rememberOpener = useCallback(
+		(fallback?: HTMLElement | null) => {
+			const active = document.activeElement;
+			const element =
+				active instanceof HTMLElement && active !== document.body
+					? active
+					: fallback;
+			opener.current = element ? { element, pathname } : null;
+		},
+		[pathname]
+	);
+
 	const close = useCallback(() => {
 		setIsOpen(false);
 		setQuery('');
@@ -154,6 +172,7 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 		const handleKeyDown = (event: KeyboardEvent) => {
 			if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
 				event.preventDefault();
+				if (!isOpenRef.current) rememberOpener();
 				setIsOpen((prev) => {
 					if (prev) {
 						setQuery('');
@@ -170,7 +189,7 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 
 		window.addEventListener('keydown', handleKeyDown);
 		return () => window.removeEventListener('keydown', handleKeyDown);
-	}, [close]);
+	}, [close, rememberOpener]);
 
 	useEffect(() => {
 		close();
@@ -185,6 +204,22 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 			.catch(() => {
 				hasRequestedIndex.current = false;
 			});
+	}, [isOpen]);
+
+	// Return focus to whatever opened the palette. The hint button unmounts while
+	// the palette is open, so its fresh replacement takes focus instead; after a
+	// route change focus is left to the new page.
+	useEffect(() => {
+		isOpenRef.current = isOpen;
+		if (isOpen) return;
+		const previous = opener.current;
+		opener.current = null;
+		if (!previous || previous.pathname !== pathname) return;
+		const target = previous.element.isConnected
+			? previous.element
+			: hintRef.current;
+		target?.focus({ preventScroll: true });
+		// eslint-disable-next-line react-hooks/exhaustive-deps -- pathname is read at open/close time only
 	}, [isOpen]);
 
 	useEffect(() => {
@@ -469,6 +504,7 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 					!pathname?.startsWith('/blog/') &&
 					!(pathname === '/' && isAtTop) && (
 						<motion.button
+							ref={hintRef}
 							type="button"
 							className={[
 								styles.CommandPalette__hint,
@@ -476,6 +512,7 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 							].join(' ')}
 							onClick={() => {
 								setIsHintHovered(false);
+								rememberOpener(hintRef.current);
 								setIsOpen(true);
 							}}
 							onMouseEnter={() => setIsHintHovered(true)}
