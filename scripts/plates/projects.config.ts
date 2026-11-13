@@ -92,7 +92,7 @@ export default defineProjects([
 					'  credentials:     env only    # never in tool calls',
 				].join('\n'),
 				use: ['gallery'],
-				alt: 'Code excerpt listing the server’s tools (list, read, glob search, metadata) and security settings: SMB signing enforced, path traversal blocked, sensitive files denied, JSON audit log.',
+				alt: 'Code listing the server’s tools (list, read, search, metadata) and its safeguards: SMB signing, traversal blocking, denied files, audit log.',
 			},
 		],
 	},
