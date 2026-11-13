@@ -10,10 +10,19 @@ export default defineConfig({
 	forbidOnly: !!process.env.CI,
 	retries: process.env.CI ? 2 : 0,
 	workers: process.env.CI ? 1 : undefined,
-	reporter: process.env.CI ? 'github' : 'list',
+	reporter: process.env.CI ? [['github'], ['html', { open: 'never' }]] : 'list',
 	use: {
 		baseURL: externalBaseURL ?? 'http://localhost:3000',
-		trace: 'on-first-retry',
+		trace: 'retain-on-failure',
+		screenshot: 'only-on-failure',
+		// Vercel Deployment Protection: lets CI reach protected previews
+		extraHTTPHeaders: process.env.VERCEL_AUTOMATION_BYPASS_SECRET
+			? {
+					'x-vercel-protection-bypass':
+						process.env.VERCEL_AUTOMATION_BYPASS_SECRET,
+					'x-vercel-set-bypass-cookie': 'true',
+				}
+			: undefined,
 	},
 	projects: [
 		{

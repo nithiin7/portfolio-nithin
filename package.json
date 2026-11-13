@@ -34,11 +34,7 @@
 		"test": "vitest run",
 		"test:coverage": "vitest run --coverage",
 		"test:watch": "vitest",
-		"test:e2e": "playwright test",
-		"release": "standard-version",
-		"release:minor": "standard-version --release-as minor",
-		"release:patch": "standard-version --release-as patch",
-		"release:major": "standard-version --release-as major"
+		"test:e2e": "playwright test"
 	},
 	"dependencies": {
 		"@apollo/client": "^4.2.7",
@@ -101,7 +97,6 @@
 		"plop": "^3.1.2",
 		"prettier": "^3.9.5",
 		"serwist": "^9.5.12",
-		"standard-version": "^9.5.0",
 		"typescript": "^5.9.3",
 		"typescript-eslint": "^8.64.0",
 		"vitest": "^4.1.10"

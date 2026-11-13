@@ -1,0 +1,11 @@
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Public client identifiers: the Supabase anon key (role: anon) briefly hard-coded in next.config.js in July 2026, and the Sentry DSN public key used in the CSP report-uri"
+commits = [
+	"bb8c997926551af1d08f0c003fb0f5a85eb7b5da",
+	"5b81ef3ca175d5adbf831947a11d57e6d5d769e7",
+]
+regexTarget = "match"
+regexes = ['''sentry_key=[0-9a-f]{32}''']
