@@ -35,6 +35,14 @@ export interface RawLink {
 	logo?: Maybe<{ url: string; width?: Maybe<number>; height?: Maybe<number> }>;
 }
 
+export interface RawCompany {
+	name: string;
+	slug: string;
+	websiteUrl?: Maybe<string>;
+	showLogo?: Maybe<boolean>;
+	logo?: Maybe<{ url: string; width?: Maybe<number>; height?: Maybe<number> }>;
+}
+
 export interface RawSiteSettings {
 	name: string;
 	role: string;
@@ -96,7 +104,9 @@ export type RawSectionItem =
 			__typename: 'CareerExperience';
 			sys: { id: string };
 			title: string;
-			company: string;
+			/** Deprecated text field, aliased: `company` is a link on Testimonial. */
+			companyName?: Maybe<string>;
+			employer?: Maybe<RawCompany>;
 			location?: Maybe<string>;
 			type?: Maybe<string>;
 			startDate: string;
@@ -124,8 +134,10 @@ export type RawSectionItem =
 			reviewer: string;
 			authorRole?: Maybe<string>;
 			organisation?: Maybe<string>;
+			company?: Maybe<RawCompany>;
 			avatar?: Maybe<{ url: string }>;
 	  }
+	| ({ __typename: 'Company' } & RawCompany)
 	| { __typename: 'Principle'; title: string; body: string }
 	| ({ __typename: 'Link' } & RawLink);
 

@@ -24,7 +24,7 @@ The homepage is built from **Home Section** entries, found by their `key`. **Pag
 | A job                    | Career Role        | **Home — Career** · items                                      |
 | A certification          | Certification      | **Home — Certifications** · items (order = display order)      |
 | A testimonial            | Testimonial        | **Home — Testimonials** · items                                |
-| A collaborator logo      | Link (with `logo`) | **Home — Collaborations** · items                              |
+| A collaborator logo      | Company            | **Home — Collaborations** · items                              |
 | A "What I do" column     | Capability         | **Home — Capabilities** · items                                |
 | A "How I work" principle | Principle          | **Home — About** · items                                       |
 | A hand-entered number    | Stat               | **Home — About** · stats (max 4)                               |
@@ -78,7 +78,7 @@ A new category needs a **Blog Category** entry (`Category — <name>`, name up t
 ### A job (Career Role)
 
 - `internalName`: `Role — <company>, <title>`.
-- `title`, `company`, `location` ("Bangalore, India").
+- `title`, `employer` (the **Company** entry; its name and logo show on the row), `location` ("Bangalore, India").
 - `startDate`; leave `endDate` empty for the current role, which shows "Present".
 - `type`: full-time, contract, freelance or internship.
 - `description`: up to 320 characters. Start with a verb, describe the domain rather than the client, and don't name confidential clients or projects.
@@ -101,6 +101,7 @@ Roles sort themselves newest first. When you start a new job, set the `endDate` 
 - `name`: `Testimonial — <author>`.
 - `review`: up to 400 characters, quoted as given. Fix only typos.
 - `reviewer`, `authorRole`, `organisation`.
+- `company` (optional): the **Company** entry. Its logo appears beside the quote. Cards without one keep the plain layout.
 - `avatar`: square, at least 400×400, JPEG or WebP under 200 KB. Its alt text is just the person's name.
 
 ### A link: social, contact channel, call to action or collaborator
@@ -110,7 +111,27 @@ Roles sort themselves newest first. When you start a new job, set the `endDate` 
 - `url`: https, `mailto:` or a site path.
 - `icon`: one of github, linkedin, instagram, x, bitbucket, credly, devto, email, whatsapp, messenger. Required for socials and contact channels.
 - `detail`: optional secondary text, such as the handle.
-- `logo`: SVG, for collaborators.
+- `logo` is deprecated. Collaborators are Company entries now.
+
+### A company / logo
+
+One **Company** entry per organisation. Career roles, testimonials and Home — Collaborations all link the same entry, so a logo is fixed once.
+
+1. **Prepare the SVG.**
+   - Single colour (any colour: the site paints it with the theme colour through a CSS mask, so only the shape counts). Transparent background, no white boxes behind the mark.
+   - Trimmed to the mark: the `viewBox` hugs the artwork with no padding. The site sizes logos by their aspect ratio, so padding makes a logo look small.
+   - Has a `viewBox`, under 20 KB. Run it through SVGO and remove embedded bitmaps, fonts and `<text>` (outline the text).
+   - File name `company-<slug>--logo.svg`, for example `company-paytm-payments-bank--logo.svg`.
+2. **Upload it** (Media → Add asset). Title "<Name> — logo". Description (alt text): "<Name> logo".
+3. **Content → Add entry → Company.**
+   - `internalName`: `Company — <name>`.
+   - `name`: the official name. Screen readers hear it, and it's printed in mono type when there is no logo.
+   - `slug`: kebab-case, matches the file name.
+   - `logo`: the asset from step 2.
+   - `websiteUrl` (optional): https. Collaborations link to it.
+   - `showLogo`: **No** prints the name in mono type instead of the logo, for marks that don't read at small sizes.
+4. Link it from a Career Role (`employer`), a Testimonial (`company`) or **Home — Collaborations** · items.
+5. Check, preview, publish (the asset and the Company entry go out with the entries that link them).
 
 The menu shows only the LinkedIn, Instagram and GitHub socials (`MENU_SOCIALS` in `src/constants`). The footer and contact page show all of them.
 
@@ -148,7 +169,7 @@ Schema changes are never made by hand.
 Things to keep in mind:
 
 - **Expand, then contract.** Add the new field and deprecate the old one, which stays disabled and optional. Delete it in a later migration once nothing reads it.
-- **The plan allows 25 content types.** 17 are in use.
+- **The plan allows 25 content types.** 18 are in use.
 - **Rehearse risky changes in a cloned environment first.** Clone `master` in Settings → Environments, run the migration there with `--env <clone>`, and build against it with `CONTENTFUL_ENVIRONMENT=<clone>`.
 
 ## Don't

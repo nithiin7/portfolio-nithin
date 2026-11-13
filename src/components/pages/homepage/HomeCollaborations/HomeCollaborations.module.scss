@@ -189,27 +189,12 @@
 		flex-shrink: 0;
 	}
 
+	// CompanyLogo sizes the mark; this keeps every item a 44px+ hit area and
+	// the tallest mark's height so the row doesn't jump between logos.
 	&__logo {
-		display: flex;
-		align-items: center;
-		height: rem(32);
+		min-block-size: max(var(--tap-min), calc(var(--logo-lg-height) * 1.25));
+		min-inline-size: var(--tap-min);
 		color: var(--muted);
-		transition: color var(--dur-1) var(--ease);
-
-		@media #{$md} {
-			height: rem(44);
-		}
-
-		// Same 32px mark, padded out to a 44px hit area on phones (md+ is already 44)
-		@media #{$coarse} {
-			justify-content: center;
-			min-inline-size: var(--tap-min);
-		}
-
-		@media #{$coarse} and (max-width: 767.98px) {
-			height: var(--tap-min);
-			padding-block: rem(6);
-		}
 
 		@media (hover: hover) {
 			&:hover {
@@ -219,32 +204,7 @@
 
 		&:focus-visible {
 			color: var(--fg);
-			@include focus-ring(6px);
 		}
-
-		// Portrait marks (EY's beam sits above the letters) need extra height
-		// to match the optical size of the wordmarks.
-		&--tall {
-			height: rem(52);
-
-			@media #{$md} {
-				height: rem(68);
-			}
-
-			@media #{$coarse} and (max-width: 767.98px) {
-				height: rem(52);
-				padding-block: 0;
-			}
-		}
-	}
-
-	&__mark {
-		display: block;
-		height: 100%;
-		max-width: rem(160);
-		aspect-ratio: var(--ratio);
-		background-color: currentColor;
-		mask: var(--logo) center / contain no-repeat;
 	}
 }
 

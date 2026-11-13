@@ -46,3 +46,17 @@ export const PROJECT_CARD_FIELDS = gql`
 		}
 	}
 `;
+
+export const COMPANY_FIELDS = gql`
+	fragment CompanyFields on Company {
+		name
+		slug
+		websiteUrl
+		showLogo
+		logo {
+			url
+			width
+			height
+		}
+	}
+`;

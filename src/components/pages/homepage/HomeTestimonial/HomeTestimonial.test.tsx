@@ -36,6 +36,31 @@ describe('HomeTestimonial', () => {
 		expect(screen.getAllByRole('group')).toHaveLength(1);
 	});
 
+	it('adds the company logo as decoration only where a company is set', () => {
+		const withCompany: Testimonial = {
+			...testimonial(1, 'Ada'),
+			company: {
+				name: 'Ada Institute',
+				slug: 'ada-institute',
+				logoUrl: 'https://images.ctfassets.net/s/ada.svg',
+				ratio: 2,
+				showLogo: true,
+			},
+		};
+		const { container, rerender } = render(
+			<HomeTestimonial testimonial={[withCompany]} />
+		);
+
+		const slide = screen.getByRole('group', { name: '1 of 1' });
+		const mark = slide.querySelector('[style*="ada.svg"]');
+		expect(mark).toBeInTheDocument();
+		expect(mark?.closest('[aria-hidden="true"]')).not.toBeNull();
+		expect(within(slide).queryByRole('img')).not.toBeInTheDocument();
+
+		rerender(<HomeTestimonial testimonial={[testimonial(1, 'Ada')]} />);
+		expect(container.querySelector('[style*="--logo"]')).toBeNull();
+	});
+
 	it('wraps around with the arrow buttons and keys', () => {
 		render(<HomeTestimonial testimonial={items} />);
 

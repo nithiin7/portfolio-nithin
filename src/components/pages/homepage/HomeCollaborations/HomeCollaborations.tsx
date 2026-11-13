@@ -1,16 +1,11 @@
 'use client';
 import { useMotionValueEvent, useScroll, useVelocity } from 'motion/react';
-import {
-	useRef,
-	useState,
-	type CSSProperties,
-	type FC,
-	type ReactElement,
-} from 'react';
+import { useRef, useState, type FC, type ReactElement } from 'react';
 
 import ScrambleText from 'components/motion/ScrambleText/ScrambleText';
+import CompanyLogo from 'components/utilities/CompanyLogo/CompanyLogo';
 import { useLiteMotion } from 'hooks/useLiteMotion';
-import type { Collaborator } from 'types/home';
+import type { Company } from 'types/company';
 
 import styles from './HomeCollaborations.module.scss';
 
@@ -19,17 +14,8 @@ interface HomeCollaborationsProps {
 	data?: {
 		title?: string;
 	};
-	collaborators?: Collaborator[];
+	collaborators?: Company[];
 }
-
-// Logos are CSS masks over the Contentful SVG (tinted by currentColor), not
-// inline SVG: the marquee renders every mark twice, which put ~80 KB of path
-// data into the HTML, the RSC payload and the JS bundle.
-const markStyle = (logoUrl: string, ratio: string): CSSProperties =>
-	({
-		'--logo': `url("${logoUrl}")`,
-		'--ratio': ratio,
-	}) as CSSProperties;
 
 const MAX_BOOST = 3;
 
@@ -56,26 +42,15 @@ const HomeCollaborations: FC<HomeCollaborationsProps> = ({
 	});
 
 	const renderLogos = (copy: boolean) =>
-		collaborators.map(({ logoUrl, ratio, name, url, tall }) => (
-			<li key={name} className={styles.HomeCollaborations__item}>
-				<a
-					href={url}
-					target="_blank"
-					rel="noopener noreferrer"
-					className={`${styles.HomeCollaborations__logo} ${
-						tall ? styles['HomeCollaborations__logo--tall'] : ''
-					}`}
+		collaborators.map((company) => (
+			<li key={company.slug} className={styles.HomeCollaborations__item}>
+				<CompanyLogo
+					company={company}
+					size="lg"
+					linked
+					className={styles.HomeCollaborations__logo}
 					tabIndex={copy ? -1 : undefined}
-				>
-					<span
-						className={styles.HomeCollaborations__mark}
-						style={markStyle(logoUrl, ratio)}
-						aria-hidden="true"
-					/>
-					<span className={styles.HomeCollaborations__srOnly}>
-						{name} (opens in a new tab)
-					</span>
-				</a>
+				/>
 			</li>
 		));
 

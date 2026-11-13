@@ -57,7 +57,7 @@ templates/    Plop templates
 - **Type**: `--font-display` (Inter Tight), `--font-text`, `--font-serif` (Instrument Serif, italic accents), `--font-mono` (JetBrains Mono, labels). The fluid scale runs `--step--1` … `--step-7`. Set copy in sentence case; the design applies uppercase itself.
 - **Grid**: 12 columns (`grid-12`, `col()` mixins, `--grid-gutter`, `--grid-margin`, `--grid-max: 120rem`). Above 1920px the root font size scales (`_base.scss`), so rem-capped values follow and 3840 renders as a 2× 1920 layout. Give wide `next/image` `sizes` a `vw` term from 1920.
 - **Responsive**: use the breakpoint variables in `_mixin.scss` (`$xs` … `$xxxxl`, `$lm`). Gate hover with `@include hover` / `$can-hover`. Touch sizing uses `tap-target` / `tap-pad` and `--tap-min`. Everything must work from 320px to 3840px with no horizontal scroll.
-- **Shared mixins** (`@use 'styles/shared/mixin' as *;`, never `styles/shared`): `mono-type`, `mono-label`, `focus-ring($offset)`, `pill-button`, `outline-button`, `draw-underline`, `sr-only`, `tap-target`, `tap-pad`, `container*`, `section-padding`. Use them instead of repeating their declarations.
+- **Shared mixins** (`@use 'styles/shared/mixin' as *;`, never `styles/shared`): `mono-type`, `mono-label`, `focus-ring($offset)`, `pill-button`, `outline-button`, `draw-underline`, `logo-mask($color)`, `sr-only`, `tap-target`, `tap-pad`, `container*`, `section-padding`. Use them instead of repeating their declarations.
 - **z-index order** (low → high): section-local layers 1–20 · chat window 999 · navbar, chat launcher, palette hint 1000 · Modal 1050 · Menu, CommandPalette 1100 · Preloader 3000 · grain overlay (`_base.scss`) · dev GridOverlay. Fit new layers into this order. Don't invent new top values.
 - **Motion**: Motion/React only (GSAP was removed; don't re-add it). Shared variants are in `helpers/animations.ts`. Primitives:
   - `RevealText` and `RevealImage`: line mask and clip-path reveals.
@@ -67,13 +67,14 @@ templates/    Plop templates
   - Lenis smooth scroll in `app/provider.tsx`.
 - **Reduced motion is mandatory**: CSS durations collapse to 0 via the tokens; components use `useReducedMotion`/`usePrefersReducedMotion` and swap to `fadeVariants`. Every new effect needs a reduced-motion path.
 - **View-transition invariants**: no `loading.tsx` files, no `opacity: 0` ancestors around morph targets, the scroll reset stays in `useLayoutEffect`, and the transition wrapper stays opaque.
+- **Logos**: every company logo (career, testimonials, collaborations) renders through `components/utilities/CompanyLogo` from a Contentful Company entry: a CSS mask in the current text colour, sized by the `--logo-*` tokens with optical scaling by aspect ratio, falling back to the name in mono. Pass `decorative` when the name is printed beside it.
 - **Accessibility**: Lighthouse a11y stays at 100 and axe passes on every route in both themes (e2e enforces it). Focus is always visible (`focus-ring`). Overlays trap focus and return it to their opener. Test dark and light for every visual change.
 
 ## 5. CMS rules
 
 Read [docs/cms/CONVENTIONS.md](docs/cms/CONVENTIONS.md) (rules) and [docs/cms/HOW_TO_ADD.md](docs/cms/HOW_TO_ADD.md) (recipes) before touching Contentful or its queries.
 
-- **Schema changes are migrations in code**: `contentful/migrations/NNN_*.cjs` (+ optional `.data.ts`), run with `pnpm cms:migrate --env <id> [--apply]`. Never edit content types by hand, through the web app or through MCP. Expand first, contract later. The space caps at 25 content types (17 used).
+- **Schema changes are migrations in code**: `contentful/migrations/NNN_*.cjs` (+ optional `.data.ts`), run with `pnpm cms:migrate --env <id> [--apply]`. Never edit content types by hand, through the web app or through MCP. Expand first, contract later. The space caps at 25 content types (18 used).
 - **Never run migrations or content writes against `master` directly** without the user's OK. Try them on a cloned environment first.
 - Query, raw type and converter changes ship in the same PR as the migration that needs them. Contentful GraphQL rejects queries for fields that don't exist yet.
 - **Content writes are drafts.** Publish only with the user's explicit OK: `pnpm cms:check --env <id>` (must exit 0), then `pnpm cms:publish --env <id> --apply`.

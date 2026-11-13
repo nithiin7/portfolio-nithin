@@ -2,6 +2,7 @@ import type { Document } from '@contentful/rich-text-types';
 
 import type { Experience } from 'types/career';
 import type { Certification } from 'types/certification';
+import type { Company } from 'types/company';
 import type { PortfolioItem } from 'types/portfolio';
 import type { SiteLink } from 'types/site';
 import type { Testimonial } from 'types/testimony';
@@ -41,16 +42,6 @@ export interface ManualStat {
 	compact?: boolean;
 }
 
-export interface Collaborator {
-	name: string;
-	url: string;
-	logoUrl: string;
-	/** CSS aspect-ratio from the logo's intrinsic size, e.g. "558 / 167". */
-	ratio: string;
-	/** Near-square marks get extra height to read at the same weight. */
-	tall: boolean;
-}
-
 /** "I build {word} that…" split around the token the words cycle through. */
 export interface Manifesto {
 	before: string;
@@ -74,6 +65,6 @@ export interface HomeContent {
 	capabilities: SectionHeading & { items: Capability[] };
 	career: SectionHeading & { experiences: Experience[] };
 	certifications: SectionHeading & { items: Certification[] };
-	collaborations: SectionHeading & { items: Collaborator[] };
+	collaborations: SectionHeading & { items: Company[] };
 	testimonials: SectionHeading & { items: Testimonial[] };
 }

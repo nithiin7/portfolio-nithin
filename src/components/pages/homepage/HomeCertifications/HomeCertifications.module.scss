@@ -202,13 +202,10 @@
 		}
 	}
 
-	// Vendor logos mix black and white artwork; masking renders them all as
-	// one-colour silhouettes that read in both themes.
 	&__logo {
 		width: 100%;
 		height: 100%;
-		background-color: var(--muted);
-		mask: var(--logo) center / contain no-repeat;
+		@include logo-mask(var(--muted));
 		transition: background-color var(--dur-1) var(--ease);
 	}
 

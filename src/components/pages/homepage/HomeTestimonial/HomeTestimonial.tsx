@@ -19,6 +19,7 @@ import {
 } from 'react';
 
 import ScrambleText from 'components/motion/ScrambleText/ScrambleText';
+import CompanyLogo from 'components/utilities/CompanyLogo/CompanyLogo';
 import { duration, ease } from 'styles/tokens';
 import type { Testimonial } from 'types/testimony';
 
@@ -86,6 +87,15 @@ const Quote: FC<{ item: Testimonial }> = ({ item }) => (
 				</span>
 			</span>
 		</figcaption>
+		{item.company && (
+			<CompanyLogo
+				company={item.company}
+				size="md"
+				framed
+				decorative
+				className={styles.HomeTestimonial__logo}
+			/>
+		)}
 	</>
 );
 

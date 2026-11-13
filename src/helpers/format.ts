@@ -48,3 +48,7 @@ export const formatCompactNumber = (value: number): string =>
 		notation: 'compact',
 		maximumFractionDigits: 1,
 	}).format(value);
+
+/** Contentful asset URLs are protocol-relative ("//images.ctfassets.net/…"). */
+export const httpsUrl = (url: string): string =>
+	url.startsWith('//') ? `https:${url}` : url;

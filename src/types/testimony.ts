@@ -1,3 +1,5 @@
+import type { Company } from 'types/company';
+
 export interface Testimonial {
 	id: string;
 	review: string;
@@ -7,4 +9,5 @@ export interface Testimonial {
 	reviewer: string;
 	role: string;
 	organisation: string;
+	company?: Company;
 }

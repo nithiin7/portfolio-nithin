@@ -1,9 +1,13 @@
+import { toCompany } from 'helpers/company';
 import type { EmploymentType, Experience } from 'types/career';
+import type { RawCompany } from 'types/contentful';
 
 export interface RawCareerRole {
 	sys: { id: string };
 	title: string;
-	company: string;
+	/** Deprecated text name, read only when the role has no employer. */
+	companyName?: string | null;
+	employer?: RawCompany | null;
 	location?: string | null;
 	type?: string | null;
 	startDate: string;
@@ -33,7 +37,8 @@ export const formatMonthYear = (iso: string): string =>
 export const toExperience = (role: RawCareerRole): Experience => ({
 	id: role.sys.id,
 	year: role.startDate.slice(0, 4),
-	company: role.company,
+	company: role.employer?.name ?? role.companyName ?? '',
+	employer: role.employer ? toCompany(role.employer) : undefined,
 	position: role.title,
 	description: role.description ?? '',
 	technologies: role.techStack ?? [],

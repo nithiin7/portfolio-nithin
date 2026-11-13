@@ -94,11 +94,33 @@
 		grid-area: 1 / 1;
 	}
 
+	// The logo sits at the end of the author row on phones and in the empty
+	// right-hand column beside the quote from md up. Without one, the auto
+	// column collapses and the card is unchanged.
 	&__figure {
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-6);
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		grid-template-areas:
+			'quote quote'
+			'author logo';
+		gap: var(--space-6) var(--grid-gutter);
+		align-items: center;
 		margin: 0;
+
+		@media #{$md} {
+			grid-template-areas:
+				'quote logo'
+				'author .';
+		}
+	}
+
+	&__logo {
+		grid-area: logo;
+		color: var(--fg-subtle);
+
+		@media #{$md} {
+			align-self: start;
+		}
 	}
 
 	&__sizer {
@@ -127,6 +149,7 @@
 	}
 
 	&__quote {
+		grid-area: quote;
 		margin: 0;
 
 		p {
@@ -147,6 +170,7 @@
 	}
 
 	&__author {
+		grid-area: author;
 		display: flex;
 		align-items: center;
 		gap: var(--space-4);
