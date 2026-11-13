@@ -8,7 +8,7 @@ import {
 	type ReactElement,
 } from 'react';
 
-import RevealText from 'components/motion/RevealText/RevealText';
+import ScrambleText from 'components/motion/ScrambleText/ScrambleText';
 import Modal from 'components/utilities/Modal/Modal';
 import { socialUrl } from 'config/site';
 import { useSiteSettings } from 'contexts/SiteSettingsContext';
@@ -69,12 +69,11 @@ const HomeCertifications: FC<HomeCertificationsProps> = ({
 							<span className={styles.HomeCertifications__number}>
 								{String(certifications.length).padStart(2, '0')}
 							</span>{' '}
-							<RevealText
+							<ScrambleText
 								as="span"
 								className={styles.HomeCertifications__title}
-							>
-								{data?.title || 'Certifications.'}
-							</RevealText>
+								text={data?.title || 'Certifications.'}
+							/>
 						</h2>
 						<div className={styles.HomeCertifications__aside}>
 							{data?.subtitle && (

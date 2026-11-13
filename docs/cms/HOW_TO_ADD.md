@@ -122,6 +122,7 @@ Pages `home`, `blog`, `contact` and `resume` each link an SEO entry (`SEO — Pa
 
 - **Section order:** drag the sections in **Page — home · section**. The hero always stays first.
 - **Heading and intro:** edit `heading` (up to 60 characters, sentence case, ends with a period: "Selected works.") and `lede` (up to 240) on the Home Section.
+- **Manifesto:** `heading` is the pinned statement, with `{word}` where the rotating word goes ("I build {word} that people actually trust."). `words` lists them in order; the last one is what stays. Screen readers hear the sentence once with every word listed.
 - **Hero:** the pitch is the hero's `body`. Italic text renders in the serif face. The buttons are its `ctas` (up to 2 Links).
 - **About:** the bio is About · `body` and the portrait is About · `image` (3:4, JPEG or WebP under 500 KB).
 

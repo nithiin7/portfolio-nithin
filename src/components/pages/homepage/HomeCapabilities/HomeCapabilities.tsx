@@ -1,6 +1,6 @@
 import type { FC, ReactElement } from 'react';
 
-import RevealText from 'components/motion/RevealText/RevealText';
+import ScrambleText from 'components/motion/ScrambleText/ScrambleText';
 import type { Capability } from 'types/home';
 
 import styles from './HomeCapabilities.module.scss';
@@ -26,9 +26,11 @@ const HomeCapabilities: FC<HomeCapabilitiesProps> = ({
 			<div className={styles.HomeCapabilities__inner}>
 				<header className={styles.HomeCapabilities__head}>
 					<p className={styles.HomeCapabilities__label}>Capabilities</p>
-					<RevealText as="h2" className={styles.HomeCapabilities__title}>
-						{data?.title || 'What I do.'}
-					</RevealText>
+					<ScrambleText
+						as="h2"
+						className={styles.HomeCapabilities__title}
+						text={data?.title || 'What I do.'}
+					/>
 					{data?.subTitle && (
 						<p className={styles.HomeCapabilities__lede}>{data.subTitle}</p>
 					)}

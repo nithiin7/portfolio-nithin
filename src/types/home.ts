@@ -8,6 +8,7 @@ import type { Testimonial } from 'types/testimony';
 
 export type HomeSectionKey =
 	| 'hero'
+	| 'manifesto'
 	| 'work'
 	| 'about'
 	| 'capabilities'
@@ -50,10 +51,19 @@ export interface Collaborator {
 	tall: boolean;
 }
 
+/** "I build {word} that…" split around the token the words cycle through. */
+export interface Manifesto {
+	before: string;
+	after: string;
+	words: string[];
+}
+
 export interface HomeContent {
 	/** Section keys in the order Page "home" lists them. */
 	order: HomeSectionKey[];
 	hero: { pitch?: Document; ctas: SiteLink[] };
+	/** Absent until the statement has a {word} token and at least two words. */
+	manifesto?: Manifesto;
 	work: SectionHeading & { projects: PortfolioItem[] };
 	about: SectionHeading & {
 		bio: string[];

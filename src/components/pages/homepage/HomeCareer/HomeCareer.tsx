@@ -2,7 +2,7 @@
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { useId, useMemo, useState, type FC, type ReactElement } from 'react';
 
-import RevealText from 'components/motion/RevealText/RevealText';
+import ScrambleText from 'components/motion/ScrambleText/ScrambleText';
 import { careerPeriod, type CareerPeriod } from 'helpers/career';
 import { duration, ease } from 'styles/tokens';
 import type { Experience } from 'types/career';
@@ -71,9 +71,11 @@ const HomeCareer: FC<HomeCareerProps> = ({
 			<div className={styles.HomeCareer__inner}>
 				<header className={styles.HomeCareer__head}>
 					<p className={styles.HomeCareer__label}>Career</p>
-					<RevealText as="h2" className={styles.HomeCareer__title}>
-						{data?.title || 'Career journey.'}
-					</RevealText>
+					<ScrambleText
+						as="h2"
+						className={styles.HomeCareer__title}
+						text={data?.title || 'Career journey.'}
+					/>
 					<div className={styles.HomeCareer__aside}>
 						{data?.subtitle && (
 							<p className={styles.HomeCareer__lede}>{data.subtitle}</p>

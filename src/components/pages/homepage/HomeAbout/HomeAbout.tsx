@@ -2,7 +2,7 @@ import Image from 'next/image';
 import type { FC, ReactElement } from 'react';
 
 import RevealImage from 'components/motion/RevealImage/RevealImage';
-import RevealText from 'components/motion/RevealText/RevealText';
+import ScrambleText from 'components/motion/ScrambleText/ScrambleText';
 import CountUp from 'components/pages/stats/CountUp/CountUp';
 import type { Principle } from 'types/home';
 
@@ -39,9 +39,11 @@ const HomeAbout: FC<HomeAboutProps> = ({
 			<div className={styles.HomeAbout__inner}>
 				<header className={styles.HomeAbout__head}>
 					<p className={styles.HomeAbout__label}>About</p>
-					<RevealText as="h2" className={styles.HomeAbout__title}>
-						{title || 'A little bit about me.'}
-					</RevealText>
+					<ScrambleText
+						as="h2"
+						className={styles.HomeAbout__title}
+						text={title || 'A little bit about me.'}
+					/>
 				</header>
 
 				<div className={styles.HomeAbout__body}>

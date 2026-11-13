@@ -133,6 +133,7 @@ export interface RawHomeSection {
 	key?: Maybe<HomeSectionKey>;
 	heading?: Maybe<string>;
 	lede?: Maybe<string>;
+	words?: Maybe<string[]>;
 	body?: Maybe<{ json: Document }>;
 	image?: Maybe<RawAsset>;
 	itemsCollection?: Maybe<{ items: Maybe<RawSectionItem>[] }>;
