@@ -47,7 +47,10 @@ describe('HomeCareer', () => {
 
 	it('opens the latest role by default and toggles one row at a time', () => {
 		render(<HomeCareer experiences={experiences} />);
-		const [ey, paytm] = screen.getAllByRole('button');
+		const [ey, paytm] = screen.getAllByRole('button') as [
+			HTMLElement,
+			HTMLElement,
+		];
 
 		expect(ey).toHaveAttribute('aria-expanded', 'true');
 		const region = screen.getByRole('region', { name: 'EY engineer at EY' });

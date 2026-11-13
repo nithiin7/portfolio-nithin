@@ -360,7 +360,8 @@ export const loadHome = cache(async (): Promise<HomeContent> => {
 
 // ── Blog ───────────────────────────────────────────────────────────────────
 
-export const convertContentfulBlogPost = (post: BlogPostItem): BlogPost => ({
+/** Contentful blog post → app BlogPost (empty strings for missing optional media). */
+export const toBlogPost = (post: BlogPostItem): BlogPost => ({
 	id: post.sys.id,
 	title: post.title,
 	slug: post.slug,
@@ -387,27 +388,23 @@ export const convertContentfulBlogPost = (post: BlogPostItem): BlogPost => ({
 /** Drafts read in preview mode can be half-written; skip undated ones. */
 const isDated = (post: BlogPostItem): boolean => Boolean(post.publishedDate);
 
-export const loadBlogPosts = async (
-	limit = 10,
-	skip = 0
-): Promise<QueryResult<BlogPostsResponse>> => {
+/** Published (dated) posts, newest first, converted. */
+export const loadBlogPosts = async (limit = 100): Promise<BlogPost[]> => {
 	const { data } = await runQuery<BlogPostsResponse>(GET_ALL_BLOG_POSTS, {
 		limit,
-		skip,
+		skip: 0,
 	});
-	const items = data.blogPostCollection.items.filter(isDated);
-	return {
-		data: { blogPostCollection: { ...data.blogPostCollection, items } },
-	};
+	return data.blogPostCollection.items.filter(isDated).map(toBlogPost);
 };
 
-export const loadBlogPostBySlug = async (
+/** One post by slug, or undefined when it doesn't exist or is undated. */
+export const loadBlogPost = async (
 	slug: string
-): Promise<QueryResult<BlogPostBySlugResponse>> => {
+): Promise<BlogPost | undefined> => {
 	const { data } = await runQuery<BlogPostBySlugResponse>(
 		GET_BLOG_POST_BY_SLUG,
 		{ slug }
 	);
-	const items = data.blogPostCollection.items.filter(isDated);
-	return { data: { blogPostCollection: { items } } };
+	const item = data.blogPostCollection.items.find(isDated);
+	return item ? toBlogPost(item) : undefined;
 };

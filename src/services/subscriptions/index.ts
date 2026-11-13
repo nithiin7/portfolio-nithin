@@ -56,8 +56,8 @@ export class NewsletterSubscriptionsService {
 				return { data: null, error: checkError };
 			}
 
-			if (existingSubscription && existingSubscription.length > 0) {
-				const existing = existingSubscription[0];
+			const existing = existingSubscription?.[0];
+			if (existing) {
 				if (existing.is_active) {
 					return { data: this.transformSubscription(existing), error: null };
 				}

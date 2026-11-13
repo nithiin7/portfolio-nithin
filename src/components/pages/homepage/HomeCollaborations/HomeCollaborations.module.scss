@@ -95,8 +95,7 @@
 		}
 
 		&:focus-visible {
-			outline: 2px solid var(--focus);
-			outline-offset: 3px;
+			@include focus-ring(3px);
 		}
 
 		@media (prefers-reduced-motion: reduce) {
@@ -220,8 +219,7 @@
 
 		&:focus-visible {
 			color: var(--fg);
-			outline: 2px solid var(--focus);
-			outline-offset: 6px;
+			@include focus-ring(6px);
 		}
 
 		// Portrait marks (EY's beam sits above the letters) need extra height

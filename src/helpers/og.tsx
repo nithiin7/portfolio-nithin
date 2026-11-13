@@ -35,11 +35,12 @@ export async function loadGoogleFont(
 		/src: url\((.+?)\) format\('(?:opentype|truetype)'\)/
 	);
 
-	if (!resource) {
+	const url = resource?.[1];
+	if (!url) {
 		throw new Error(`Failed to resolve font: ${family} ${axis}`);
 	}
 
-	return (await fetch(resource[1])).arrayBuffer();
+	return (await fetch(url)).arrayBuffer();
 }
 
 export interface OgFonts {

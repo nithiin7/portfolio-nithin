@@ -71,6 +71,7 @@ const buildSystemPrompt = async (
 	if (embeddings.chunks.length === 0) return SYSTEM_PROMPT;
 
 	const [queryVector] = await createEmbeddings([question], apiKey);
+	if (!queryVector) return SYSTEM_PROMPT;
 	const relevant = findRelevantChunks(queryVector, embeddings.chunks);
 
 	if (relevant.length === 0) return SYSTEM_PROMPT;

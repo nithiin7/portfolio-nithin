@@ -45,12 +45,17 @@ $section-top-clearance-min: rem(120);
 	grid-column: #{$start} / span #{$span};
 }
 
-@mixin mono-label {
+// The mono caps used for labels, dates and indices; colour and weight are the caller's.
+@mixin mono-type {
 	font-family: var(--font-mono);
 	font-size: var(--step--1);
-	font-weight: 400;
 	letter-spacing: var(--tracking-mono);
 	text-transform: uppercase;
+}
+
+@mixin mono-label {
+	@include mono-type;
+	font-weight: 400;
 	color: var(--muted);
 }
 
@@ -162,15 +167,43 @@ $section-top-clearance-min: rem(120);
 
 	&:focus-visible {
 		@include pill-button-active($roll-selector);
-	}
-
-	&:focus-visible {
 		@include focus-ring;
 	}
 
 	&:disabled {
 		cursor: progress;
 		opacity: 0.6;
+	}
+}
+
+// Hairline-outlined square control (overlay close buttons). Inverts on hover
+// and turns its icon; the caller sets size and layout.
+@mixin outline-button {
+	padding: 0;
+	background: transparent;
+	border: 1px solid var(--line-strong);
+	border-radius: var(--radius-1);
+	color: var(--fg);
+	cursor: pointer;
+	transition:
+		background-color var(--dur-1) var(--ease),
+		color var(--dur-1) var(--ease),
+		border-color var(--dur-1) var(--ease);
+
+	@media (hover: hover) {
+		&:hover {
+			background-color: var(--fg);
+			border-color: var(--fg);
+			color: var(--bg);
+
+			svg {
+				transform: rotate(90deg);
+			}
+		}
+	}
+
+	&:focus-visible {
+		@include focus-ring(2px);
 	}
 }
 

@@ -4,6 +4,7 @@ import ActivityChart from 'components/pages/stats/ActivityChart/ActivityChart';
 import MeterBar from 'components/pages/stats/MeterBar/MeterBar';
 import StatCard, {
 	StatCardDivider,
+	StatCardMetrics,
 	StatCardSection,
 } from 'components/pages/stats/StatCard/StatCard';
 import StatMetric from 'components/pages/stats/StatMetric/StatMetric';
@@ -23,7 +24,7 @@ const WakaTimeStatCard: FC<WakaTimeStatCardProps> = ({
 
 	return (
 		<StatCard title="Coding activity" subtitle="WakaTime · last 7 days" live>
-			<div className={styles.WakaTimeStatCard__metrics}>
+			<StatCardMetrics>
 				<StatMetric value={stats.humanReadableTotal} label="This week" />
 				<StatMetric
 					value={stats.humanReadableDailyAverage}
@@ -35,7 +36,7 @@ const WakaTimeStatCard: FC<WakaTimeStatCardProps> = ({
 						label={`Best day · ${formatDate(stats.bestDay.date, 'short')}`}
 					/>
 				)}
-			</div>
+			</StatCardMetrics>
 			{stats.days.length > 0 && <ActivityChart days={stats.days} />}
 			{stats.languages.length > 0 && (
 				<>

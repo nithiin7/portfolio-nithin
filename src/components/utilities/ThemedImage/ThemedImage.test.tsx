@@ -20,7 +20,7 @@ describe('ThemedImage', () => {
 		);
 		const imgs = sources(container);
 		expect(imgs).toHaveLength(1);
-		expect(imgs[0].src).toContain('light.png');
+		expect(imgs[0]!.src).toContain('light.png');
 	});
 
 	it('renders both variants and only prioritises the dark one', () => {
@@ -35,7 +35,10 @@ describe('ThemedImage', () => {
 				fetchPriority="high"
 			/>
 		);
-		const [dark, light] = sources(container);
+		const [dark, light] = sources(container) as [
+			HTMLImageElement,
+			HTMLImageElement,
+		];
 		expect(dark.src).toContain('dark.png');
 		expect(dark.fetchPriority).toBe('high');
 		expect(light.src).toContain('light.png');

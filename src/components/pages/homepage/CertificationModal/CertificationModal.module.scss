@@ -173,8 +173,7 @@
 		}
 
 		&:focus-visible {
-			outline: 2px solid var(--focus);
-			outline-offset: 4px;
+			@include focus-ring(4px);
 		}
 	}
 
@@ -277,8 +276,7 @@
 		}
 
 		&:focus-visible {
-			outline: 2px solid var(--focus);
-			outline-offset: 4px;
+			@include focus-ring(4px);
 		}
 	}
 }

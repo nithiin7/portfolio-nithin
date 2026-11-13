@@ -80,8 +80,9 @@ export const splitByHeadings = (
 /** "Paywall-free by design: Every feature unlocked…" → title + body. */
 export const splitHighlight = (feature: string): CaseStudyHighlight => {
 	const match = feature.match(/^([^:]{2,60}):\s+([\s\S]+)$/);
-	return match
-		? { title: match[1].trim(), body: match[2].trim() }
+	const [, title, body] = match ?? [];
+	return title && body
+		? { title: title.trim(), body: body.trim() }
 		: { body: feature.trim() };
 };
 
@@ -137,8 +138,9 @@ const findDiagram = (
 		const asset = assets.get(node.data?.target?.sys?.id);
 		return Boolean(asset?.contentType?.startsWith('image/'));
 	});
-	if (index === -1) return { rest: content };
-	const diagram = assets.get(content[index].data.target.sys.id);
+	const node = content[index];
+	if (!node) return { rest: content };
+	const diagram = assets.get(node.data.target.sys.id);
 	return { diagram, rest: content.filter((_, i) => i !== index) };
 };
 
@@ -224,9 +226,9 @@ export const nextInOrder = <T extends { id?: number }>(
 	const ids = order.filter((item) => item.id !== undefined);
 	if (ids.length < 2) return null;
 	const index = ids.findIndex((item) => item.id === id);
-	if (index === -1) return { item: ids[0], position: 1, total: ids.length };
-	const nextIndex = (index + 1) % ids.length;
-	return { item: ids[nextIndex], position: nextIndex + 1, total: ids.length };
+	const nextIndex = index === -1 ? 0 : (index + 1) % ids.length;
+	const item = ids[nextIndex];
+	return item ? { item, position: nextIndex + 1, total: ids.length } : null;
 };
 
 export const positionOf = (

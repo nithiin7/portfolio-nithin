@@ -35,7 +35,7 @@ interface SentMessage {
 const MESSAGE_MAX = 500;
 const SUBMIT_LABEL = 'Send message';
 
-const firstName = (name: string): string => name.trim().split(/\s+/)[0];
+const firstName = (name: string): string => name.trim().split(/\s+/)[0] ?? '';
 
 /**
  * Contact form: validates each field when it loses focus, then live as it is

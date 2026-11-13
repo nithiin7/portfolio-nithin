@@ -1,9 +1,5 @@
 import { siteConfig } from 'config/site';
-import {
-	convertContentfulBlogPost,
-	loadBlogPosts,
-	loadSiteSettings,
-} from 'helpers/contentful';
+import { loadBlogPosts, loadSiteSettings } from 'helpers/contentful';
 
 const baseUrl = siteConfig.url;
 
@@ -15,12 +11,10 @@ const escapeXml = (str: string): string =>
 		.replace(/"/g, '&quot;');
 
 export async function GET(): Promise<Response> {
-	const [{ data }, site] = await Promise.all([
-		loadBlogPosts(100, 0),
+	const [posts, site] = await Promise.all([
+		loadBlogPosts(),
 		loadSiteSettings(),
 	]);
-	const posts =
-		data?.blogPostCollection?.items?.map(convertContentfulBlogPost) ?? [];
 
 	const items = posts
 		.map(

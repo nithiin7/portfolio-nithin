@@ -4,22 +4,14 @@ import { notFound } from 'next/navigation';
 import BlogDetail from 'components/pages/blog/BlogDetail/BlogDetail';
 import JsonLd from 'components/utilities/JsonLd/JsonLd';
 import { getRelatedPosts } from 'helpers/blog';
-import {
-	loadBlogPostBySlug,
-	convertContentfulBlogPost,
-	loadBlogPosts,
-} from 'helpers/contentful';
+import { loadBlogPost, loadBlogPosts } from 'helpers/contentful';
 import { plainText } from 'helpers/richText';
 
 export const revalidate = 3600;
 
 export async function generateStaticParams() {
-	const { data } = await loadBlogPosts(100, 0);
-	return (
-		data?.blogPostCollection?.items?.map((item: { slug: string }) => ({
-			slug: item.slug,
-		})) ?? []
-	);
+	const posts = await loadBlogPosts();
+	return posts.map(({ slug }) => ({ slug }));
 }
 
 interface BlogDetailLayoutProps {
@@ -34,17 +26,13 @@ export async function generateMetadata({
 	params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
 	const { slug } = await params;
-	const { data } = await loadBlogPostBySlug(slug);
-
-	const post = data?.blogPostCollection?.items?.[0];
-	if (!post) {
+	const convertedPost = await loadBlogPost(slug);
+	if (!convertedPost) {
 		return {
 			title: 'Blog Post Not Found - Nithin Pradeep',
 			description: 'The requested blog post could not be found.',
 		};
 	}
-
-	const convertedPost = convertContentfulBlogPost(post);
 
 	return {
 		title: convertedPost.seoTitle || convertedPost.title,
@@ -97,19 +85,13 @@ export default async function BlogDetails({
 }: Readonly<BlogDetailLayoutProps>): Promise<React.ReactElement> {
 	const { slug } = await params;
 
-	const { data: postData } = await loadBlogPostBySlug(slug);
-	const postItem = postData?.blogPostCollection?.items?.[0];
+	const convertedPost = await loadBlogPost(slug);
 
-	if (!postItem) {
+	if (!convertedPost) {
 		return notFound();
 	}
 
-	const convertedPost = convertContentfulBlogPost(postItem);
-
-	const { data: allPostsData } = await loadBlogPosts(100, 0);
-	const allPosts = allPostsData.blogPostCollection.items.map(
-		convertContentfulBlogPost
-	);
+	const allPosts = await loadBlogPosts();
 	const related = getRelatedPosts(convertedPost, allPosts, 3);
 
 	const blogPostStructuredData = {

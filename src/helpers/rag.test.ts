@@ -22,11 +22,11 @@ describe('chunkMarkdown', () => {
 		const chunks = chunkMarkdown(markdown, 'projects.md');
 
 		expect(chunks).toHaveLength(2);
-		expect(chunks[0].text).toBe(
+		expect(chunks[0]!.text).toBe(
 			'Projects — Spotify Migration\n\nMigrated the site to Next.js.'
 		);
-		expect(chunks[1].text).toContain('Projects — Game Awards');
-		expect(chunks[0].source).toBe('projects.md');
+		expect(chunks[1]!.text).toContain('Projects — Game Awards');
+		expect(chunks[0]!.source).toBe('projects.md');
 	});
 
 	it('captures intro text before the first section heading', () => {

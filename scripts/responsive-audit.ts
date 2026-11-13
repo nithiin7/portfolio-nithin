@@ -73,7 +73,7 @@ const measure = (touch: boolean) => {
 		const section = el.closest(
 			'section, header, footer, nav, aside, [role=dialog]'
 		);
-		return section ? label(section).split('__')[0] : 'page';
+		return section ? label(section).split('__')[0]! : 'page';
 	};
 
 	const visible = (el: Element): boolean => {
@@ -336,7 +336,7 @@ const newPage = async (
 const discoverRoutes = async (
 	browser: Browser
 ): Promise<Record<string, string>> => {
-	const page = await newPage(browser, VIEWPORTS[6], 'dark');
+	const page = await newPage(browser, VIEWPORTS[6]!, 'dark');
 	await page.goto(`${BASE_URL}/`, {
 		waitUntil: 'networkidle',
 		timeout: 120_000,

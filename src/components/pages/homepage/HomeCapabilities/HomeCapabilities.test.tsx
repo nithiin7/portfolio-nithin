@@ -28,7 +28,7 @@ describe('HomeCapabilities', () => {
 			'Fullstack',
 			'AI Systems',
 		]);
-		const firstColumn = headings[0].closest('li') as HTMLElement;
+		const firstColumn = headings[0]!.closest('li') as HTMLElement;
 		expect(
 			within(firstColumn)
 				.getAllByRole('listitem')

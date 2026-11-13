@@ -168,6 +168,10 @@ export default [
 		],
 	},
 	{
+		files: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
+		rules: { '@typescript-eslint/no-non-null-assertion': 'off' },
+	},
+	{
 		files: ['scripts/**/*.ts', 'contentful/**/*.ts', 'e2e/**/*.ts'],
 		rules: {
 			'no-console': 'off',

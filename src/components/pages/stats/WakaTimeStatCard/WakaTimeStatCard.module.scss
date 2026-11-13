@@ -1,12 +1,6 @@
 @use 'styles/shared/mixin' as *;
 
 .WakaTimeStatCard {
-	&__metrics {
-		display: flex;
-		flex-wrap: wrap;
-		gap: var(--space-4) var(--space-7);
-	}
-
 	&__languages {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr);

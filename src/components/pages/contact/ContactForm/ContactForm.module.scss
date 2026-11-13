@@ -54,8 +54,7 @@
 		}
 
 		&:focus-visible {
-			outline: 2px solid var(--focus);
-			outline-offset: 3px;
+			@include focus-ring(3px);
 		}
 
 		&:disabled {
@@ -122,10 +121,7 @@
 		align-items: center;
 		gap: var(--space-3);
 		margin: 0;
-		font-family: var(--font-mono);
-		font-size: var(--step--1);
-		letter-spacing: var(--tracking-mono);
-		text-transform: uppercase;
+		@include mono-type;
 		color: var(--muted);
 	}
 
@@ -181,10 +177,7 @@
 		border: 0;
 		background: none;
 		color: var(--fg);
-		font-family: var(--font-mono);
-		font-size: var(--step--1);
-		letter-spacing: var(--tracking-mono);
-		text-transform: uppercase;
+		@include mono-type;
 		text-decoration: underline;
 		text-underline-offset: 0.3em;
 		cursor: pointer;

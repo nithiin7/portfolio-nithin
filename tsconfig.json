@@ -37,7 +37,8 @@
 			"data/*": ["./data/*"]
 		},
 		"noImplicitOverride": true,
-		"noFallthroughCasesInSwitch": true
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedIndexedAccess": true
 	},
 	"include": [
 		"next-env.d.ts",

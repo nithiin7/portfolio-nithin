@@ -46,8 +46,11 @@ const PortfolioGallery: FC<PortfolioGalleryProps> = ({
 	const [index, setIndex] = useState<number | null>(null);
 	const lenis = useLenis();
 
+	const active = index !== null ? images[index] : undefined;
+
 	const altFor = (i: number): string =>
-		images[i].alt || `${projectTitle}, screenshot ${i + 1} of ${images.length}`;
+		images[i]?.alt ||
+		`${projectTitle}, screenshot ${i + 1} of ${images.length}`;
 
 	useEffect(() => {
 		const dialog = dialogRef.current;
@@ -114,7 +117,7 @@ const PortfolioGallery: FC<PortfolioGalleryProps> = ({
 					lenis?.start();
 				}}
 			>
-				{index !== null && (
+				{index !== null && active && (
 					<>
 						<div className={styles.PortfolioGallery__dialogBar}>
 							<span
@@ -134,15 +137,15 @@ const PortfolioGallery: FC<PortfolioGalleryProps> = ({
 						<figure className={styles.PortfolioGallery__figure}>
 							<div className={styles.PortfolioGallery__stage}>
 								<Image
-									src={images[index].url}
+									src={active.url}
 									alt={altFor(index)}
 									fill
 									sizes="100vw"
 								/>
 							</div>
-							{images[index].alt && (
+							{active.alt && (
 								<figcaption className={styles.PortfolioGallery__caption}>
-									{images[index].alt}
+									{active.alt}
 								</figcaption>
 							)}
 						</figure>

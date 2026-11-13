@@ -63,7 +63,7 @@ const main = async (): Promise<void> => {
 	const upToDate =
 		existing.model === EMBEDDING_MODEL &&
 		existing.chunks.length === hashed.length &&
-		existing.chunks.every((chunk, index) => chunk.hash === hashed[index].hash);
+		existing.chunks.every((chunk, index) => chunk.hash === hashed[index]!.hash);
 
 	if (checkOnly) {
 		if (!upToDate) {
@@ -97,7 +97,7 @@ const main = async (): Promise<void> => {
 				batch.map((chunk) => chunk.text),
 				apiKey
 			);
-			batch.forEach((chunk, index) => cache.set(chunk.hash, vectors[index]));
+			batch.forEach((chunk, index) => cache.set(chunk.hash, vectors[index]!));
 		}
 	}
 

@@ -30,7 +30,7 @@ export const closestRoute = (pathname: string, routes: LinkItem[]): number => {
 	const segment = pathname.split('/')[1]?.toLowerCase() ?? '';
 	if (!segment) return -1;
 	return routes.findIndex((route) => {
-		const target = route.href.replace(/^\/#?/, '').split('/')[0];
+		const target = route.href.replace(/^\/#?/, '').split('/')[0] ?? '';
 		return (
 			target !== '' &&
 			(segment.startsWith(target) || target.startsWith(segment))

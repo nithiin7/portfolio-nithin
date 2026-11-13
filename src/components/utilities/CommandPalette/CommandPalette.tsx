@@ -11,6 +11,7 @@ import {
 
 import { links } from 'constants/index';
 import { useTheme } from 'contexts/ThemeContext';
+import { fadeVariants, overlayVariants } from 'helpers/animations';
 import { clientEnv } from 'helpers/env';
 import { useFocusTrap } from 'hooks/useKeyboardNavigation';
 import { duration, ease } from 'styles/tokens';
@@ -65,12 +66,6 @@ const RecaptchaBridge = ({
 	return null;
 };
 
-const overlayVariants: Variants = {
-	hidden: { opacity: 0 },
-	visible: { opacity: 1, transition: { duration: duration.fast, ease } },
-	exit: { opacity: 0, transition: { duration: duration.fast, ease } },
-};
-
 // Drops in from the top edge like a sheet of paper being pulled down.
 const panelVariants: Variants = {
 	hidden: { clipPath: 'inset(0% 0% 100% 0%)', y: '-1rem' },
@@ -84,12 +79,6 @@ const panelVariants: Variants = {
 		y: '-0.5rem',
 		transition: { duration: duration.fast, ease },
 	},
-};
-
-const fadeVariants: Variants = {
-	hidden: { opacity: 0 },
-	visible: { opacity: 1 },
-	exit: { opacity: 0 },
 };
 
 const SearchIcon = (): ReactElement => (
@@ -594,7 +583,9 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 													aria-hidden="true"
 												>
 													<span>{command.section}</span>
-													<span>({pad(sectionCounts[command.section])})</span>
+													<span>
+														({pad(sectionCounts[command.section] ?? 0)})
+													</span>
 												</div>
 											)}
 											<button

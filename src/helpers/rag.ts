@@ -51,6 +51,7 @@ export const chunkMarkdown = (
 
 	for (const line of markdown.split('\n')) {
 		const match = /^(#{1,3})\s+(.*)/.exec(line);
+		const [, hashes, text = ''] = match ?? [];
 
 		if (!match) {
 			currentSection.body.push(line);
@@ -59,11 +60,11 @@ export const chunkMarkdown = (
 
 		sections.push(currentSection);
 
-		if (match[1] === '#' && !title) {
-			title = match[2].trim();
+		if (hashes === '#' && !title) {
+			title = text.trim();
 			currentSection = { heading: '', body: [] };
 		} else {
-			currentSection = { heading: match[2].trim(), body: [] };
+			currentSection = { heading: text.trim(), body: [] };
 		}
 	}
 	sections.push(currentSection);
@@ -92,11 +93,12 @@ export const cosineSimilarity = (a: number[], b: number[]): number => {
 	let normA = 0;
 	let normB = 0;
 
-	for (let i = 0; i < a.length; i++) {
-		dot += a[i] * b[i];
-		normA += a[i] * a[i];
-		normB += b[i] * b[i];
-	}
+	a.forEach((x, i) => {
+		const y = b[i] ?? 0;
+		dot += x * y;
+		normA += x * x;
+		normB += y * y;
+	});
 
 	const denominator = Math.sqrt(normA) * Math.sqrt(normB);
 

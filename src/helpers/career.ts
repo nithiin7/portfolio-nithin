@@ -55,7 +55,9 @@ export const yearsOfExperience = (
 	now: Date = new Date()
 ): number | null => {
 	if (startDates.length === 0) return null;
-	const first = new Date([...startDates].sort()[0]);
+	const earliest = [...startDates].sort()[0];
+	if (earliest === undefined) return null;
+	const first = new Date(earliest);
 	const months =
 		(now.getUTCFullYear() - first.getUTCFullYear()) * 12 +
 		(now.getUTCMonth() - first.getUTCMonth());
