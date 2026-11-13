@@ -167,7 +167,10 @@ const Menu = ({ open, onClose, onLinkClick }: MenuProps): ReactElement => {
 								showSeconds={false}
 							/>
 						</p>
-						<ThemeToggle className={styles.Menu__theme} />
+						<ThemeToggle
+							className={styles.Menu__theme}
+							onToggle={() => onClose(true)}
+						/>
 					</div>
 				</motion.div>
 			)}
