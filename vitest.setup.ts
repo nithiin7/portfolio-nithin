@@ -54,3 +54,25 @@ if (typeof window !== 'undefined') {
 		configurable: true,
 	});
 }
+
+if (typeof window !== 'undefined' && !window.ResizeObserver) {
+	window.ResizeObserver = class {
+		observe(): void {}
+		unobserve(): void {}
+		disconnect(): void {}
+	};
+}
+
+if (typeof window !== 'undefined' && !window.IntersectionObserver) {
+	window.IntersectionObserver = class {
+		readonly root = null;
+		readonly rootMargin = '';
+		readonly thresholds = [];
+		observe(): void {}
+		unobserve(): void {}
+		disconnect(): void {}
+		takeRecords(): IntersectionObserverEntry[] {
+			return [];
+		}
+	};
+}

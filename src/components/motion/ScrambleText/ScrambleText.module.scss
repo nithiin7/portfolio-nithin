@@ -1,0 +1,54 @@
+@use 'styles/shared/mixin' as *;
+
+.ScrambleText {
+	&__sr {
+		@include sr-only;
+	}
+
+	&__char {
+		position: relative;
+	}
+
+	// The real glyph keeps its box (width, kerning, line breaks); the mono
+	// stand-in is drawn over it, out of flow.
+	&__char[data-glyph] {
+		color: transparent;
+
+		&::before {
+			content: attr(data-glyph);
+			position: absolute;
+			inset-block: 0;
+			left: 50%;
+			display: flex;
+			align-items: center;
+			// --fit is set per cell from JS (ScrambleText.tsx GLYPH_SIZE_EM)
+			transform: translateX(-50%) scaleX(var(--fit, 1));
+			font-family: var(--font-mono);
+			font-size: 0.82em;
+			font-style: normal;
+			font-weight: 400;
+			letter-spacing: 0;
+			color: var(--accent-text);
+			pointer-events: none;
+		}
+	}
+
+	// Enter mode waits off-screen with the text hidden (space kept) so it
+	// never flashes resolved first. Without JS or with reduced motion the
+	// text simply shows.
+	@media (prefers-reduced-motion: no-preference) and (scripting: enabled) {
+		&[data-mode='enter']:not([data-state]) &__char {
+			color: transparent;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		&__char[data-glyph] {
+			color: inherit;
+
+			&::before {
+				content: none;
+			}
+		}
+	}
+}

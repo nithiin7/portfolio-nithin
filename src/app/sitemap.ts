@@ -1,40 +1,29 @@
 import type { MetadataRoute } from 'next';
 
-import { loadAllPortfolioIds, loadBlogPosts } from 'helpers/contentful';
-import { convertContentfulBlogPost } from 'helpers/contentful';
+import { siteConfig } from 'config/site';
+import { loadBlogPosts, loadWork } from 'helpers/contentful';
 
 export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-	const baseUrl = 'https://portfolio-nithin.vercel.app';
+	const baseUrl = siteConfig.url;
 	const currentDate = new Date().toISOString();
 
-	const [blogData, portfolioIds] = await Promise.all([
-		loadBlogPosts(100, 0),
-		loadAllPortfolioIds(),
-	]);
+	const [posts, work] = await Promise.all([loadBlogPosts(), loadWork()]);
 
-	const blogUrls: MetadataRoute.Sitemap =
-		blogData.data?.blogPostCollection?.items?.map(
-			(item: Parameters<typeof convertContentfulBlogPost>[0]) => {
-				const post = convertContentfulBlogPost(item);
-				return {
-					url: `${baseUrl}/blog/${post.slug}`,
-					lastModified: post.updatedDate || post.publishedDate,
-					changeFrequency: 'monthly' as const,
-					priority: 0.7,
-				};
-			}
-		) ?? [];
+	const blogUrls: MetadataRoute.Sitemap = posts.map((post) => ({
+		url: `${baseUrl}/blog/${post.slug}`,
+		lastModified: post.updatedDate || post.publishedDate,
+		changeFrequency: 'monthly' as const,
+		priority: 0.7,
+	}));
 
-	const portfolioUrls: MetadataRoute.Sitemap = portfolioIds.map(
-		(id: number) => ({
-			url: `${baseUrl}/portfolio/${id}`,
-			lastModified: currentDate,
-			changeFrequency: 'monthly' as const,
-			priority: 0.6,
-		})
-	);
+	const portfolioUrls: MetadataRoute.Sitemap = work.map(({ slug }) => ({
+		url: `${baseUrl}/portfolio/${slug}`,
+		lastModified: currentDate,
+		changeFrequency: 'monthly' as const,
+		priority: 0.6,
+	}));
 
 	return [
 		{

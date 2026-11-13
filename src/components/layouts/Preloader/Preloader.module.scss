@@ -1,0 +1,138 @@
+@use 'styles/shared/mixin' as *;
+
+// Timeline (1.2s): hairlines + counter 0→0.8s, name rises 0.2→0.7s,
+// overlay wipes up 0.8→1.2s. Only rendered when html[data-preload].
+.Preloader {
+	display: none;
+	position: fixed;
+	inset: 0;
+	z-index: 3000;
+	pointer-events: none;
+	background-color: var(--ink);
+	color: var(--paper);
+	padding: var(--grid-margin);
+
+	:global(html[data-preload='true']) & {
+		display: block;
+		animation: preloader-wipe var(--dur-1) var(--ease) var(--dur-2) forwards;
+	}
+
+	&__grid {
+		position: absolute;
+		inset: 0;
+
+		span {
+			position: absolute;
+			background-color: color-mix(in srgb, var(--paper) 18%, transparent);
+		}
+	}
+
+	&__h {
+		top: 50%;
+		left: 0;
+		width: 100%;
+		height: 1px;
+		transform-origin: left;
+		animation: preloader-draw-x var(--dur-2) var(--ease) both;
+	}
+
+	&__v {
+		top: 0;
+		width: 1px;
+		height: 100%;
+		transform-origin: top;
+		animation: preloader-draw-y var(--dur-2) var(--ease) both;
+
+		&:nth-child(2) {
+			left: 25%;
+		}
+		&:nth-child(3) {
+			left: 50%;
+			animation-delay: 0.08s;
+		}
+		&:nth-child(4) {
+			left: 75%;
+			animation-delay: 0.16s;
+		}
+	}
+
+	&__name {
+		position: absolute;
+		left: var(--grid-margin);
+		bottom: var(--grid-margin);
+		font-family: var(--font-display);
+		font-size: var(--step-5);
+		font-weight: 600;
+		line-height: var(--leading-tight);
+		letter-spacing: var(--tracking-display);
+	}
+
+	&__mask {
+		display: block;
+		overflow: clip;
+		padding-bottom: 0.08em;
+
+		span {
+			display: block;
+			animation: preloader-rise var(--dur-1) var(--ease-out) 0.2s both;
+		}
+
+		& + & span {
+			animation-delay: 0.3s;
+		}
+	}
+
+	&__meta {
+		position: absolute;
+		top: var(--grid-margin);
+		left: var(--grid-margin);
+		@include mono-type;
+	}
+
+	&__count {
+		position: absolute;
+		right: var(--grid-margin);
+		bottom: var(--grid-margin);
+		font-family: var(--font-mono);
+		font-size: var(--step-3);
+		font-variant-numeric: tabular-nums;
+		line-height: 1;
+
+		&::after {
+			counter-reset: preloader var(--preloader-count);
+			content: counter(preloader, preloader-pad);
+			animation: preloader-count var(--dur-2) var(--ease) forwards;
+		}
+	}
+}
+
+@keyframes preloader-draw-x {
+	from {
+		transform: scaleX(0);
+	}
+}
+
+@keyframes preloader-draw-y {
+	from {
+		transform: scaleY(0);
+	}
+}
+
+@keyframes preloader-rise {
+	from {
+		transform: translateY(110%);
+	}
+}
+
+@keyframes preloader-count {
+	to {
+		--preloader-count: 100;
+	}
+}
+
+@keyframes preloader-wipe {
+	to {
+		clip-path: inset(0 0 100% 0);
+		visibility: hidden;
+	}
+}

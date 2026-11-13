@@ -1,5 +1,14 @@
 import type { Document } from '@contentful/rich-text-types';
 
+export interface BlogAsset {
+	sys: {
+		id: string;
+	};
+	url: string;
+	title: string;
+	description?: string;
+}
+
 export interface BlogPost {
 	id: string;
 	title: string;
@@ -9,14 +18,7 @@ export interface BlogPost {
 		json: Document;
 		links?: {
 			assets?: {
-				block?: {
-					sys: {
-						id: string;
-					};
-					url: string;
-					title: string;
-					description?: string;
-				}[];
+				block?: BlogAsset[];
 			};
 		};
 	};
@@ -42,21 +44,6 @@ export interface BlogPost {
 	seoDescription: string;
 	viewCount?: number;
 	commentCount?: number;
-}
-
-export interface BlogCategory {
-	id: string;
-	name: string;
-	slug: string;
-	description?: string;
-	postCount: number;
-}
-
-export interface BlogTag {
-	id: string;
-	name: string;
-	slug: string;
-	postCount: number;
 }
 
 export interface BlogTopPost {

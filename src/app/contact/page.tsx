@@ -1,40 +1,37 @@
 import type { Metadata } from 'next';
-import Script from 'next/script';
 
-import { Contact } from 'components/pages';
-import { loadData } from 'helpers/contentful';
+import Contact from 'components/pages/contact/Contact/Contact';
+import JsonLd from 'components/utilities/JsonLd/JsonLd';
+import { absoluteUrl, personJsonLd, siteName } from 'config/site';
+import { loadPageSeo, loadSiteSettings } from 'helpers/contentful';
 
 export const revalidate = 3600;
 
+const url = absoluteUrl('/contact');
+
 export async function generateMetadata(): Promise<Metadata> {
-	const props = await loadData('contact');
-	const path = props?.data.pageCollection.items[0];
+	const [seo, site] = await Promise.all([
+		loadPageSeo('contact'),
+		loadSiteSettings(),
+	]);
+	const { title, description } = seo ?? site.seo;
 
 	return {
-		title: path.title,
-		description: path.description,
+		title,
+		description,
 		openGraph: {
 			type: 'website',
 			locale: 'en_US',
-			url: 'https://portfolio-nithin.vercel.app/contact',
-			title: path.title,
-			description: path.description,
-			siteName: 'Nithin Pradeep - Portfolio',
-			images: [
-				{
-					url: '/opengraph-image.jpeg',
-					width: 1200,
-					height: 630,
-					alt: 'Contact Nithin Pradeep - Full Stack Developer',
-				},
-			],
+			url,
+			title,
+			description,
+			siteName: siteName(site),
 		},
 		twitter: {
 			card: 'summary_large_image',
-			title: path.title,
-			description: path.description,
-			creator: '@nithiin7',
-			images: ['/opengraph-image.jpeg'],
+			title,
+			description,
+			creator: site.twitterHandle,
 		},
 		robots: {
 			index: true,
@@ -47,61 +44,36 @@ export async function generateMetadata(): Promise<Metadata> {
 				'max-snippet': -1,
 			},
 		},
-		alternates: {
-			canonical: 'https://portfolio-nithin.vercel.app/contact',
-		},
+		alternates: { canonical: url },
 	};
 }
 
-const contactStructuredData = {
-	'@context': 'https://schema.org',
-	'@type': 'ContactPage',
-	name: 'Contact Nithin Pradeep',
-	description:
-		'Get in touch with Nithin Pradeep for web development projects and collaborations',
-	url: 'https://portfolio-nithin.vercel.app/contact',
-	mainEntity: {
-		'@type': 'Person',
-		name: 'Nithin Pradeep',
-		jobTitle: 'Full Stack Developer',
-		url: 'https://portfolio-nithin.vercel.app/',
-		sameAs: [
-			'https://github.com/nithiin7',
-			'https://www.linkedin.com/in/nithin-p7/',
-			'https://www.instagram.com/__nithiin__/',
-			'https://www.twitter.com/_nithiin7/',
-		],
-	},
-	breadcrumb: {
-		'@type': 'BreadcrumbList',
-		itemListElement: [
-			{
-				'@type': 'ListItem',
-				position: 1,
-				name: 'Home',
-				item: 'https://portfolio-nithin.vercel.app/',
-			},
-			{
-				'@type': 'ListItem',
-				position: 2,
-				name: 'Contact',
-				item: 'https://portfolio-nithin.vercel.app/contact',
-			},
-		],
-	},
-};
+export default async function ContactPage(): Promise<React.ReactElement> {
+	const [seo, site] = await Promise.all([
+		loadPageSeo('contact'),
+		loadSiteSettings(),
+	]);
 
-export default function ContactPage(): React.ReactElement {
+	const structuredData = {
+		'@context': 'https://schema.org',
+		'@type': 'ContactPage',
+		name: `Contact ${site.name}`,
+		description: (seo ?? site.seo).description,
+		url,
+		mainEntity: personJsonLd(site),
+		breadcrumb: {
+			'@type': 'BreadcrumbList',
+			itemListElement: [
+				{ '@type': 'ListItem', position: 1, name: 'Home', item: absoluteUrl() },
+				{ '@type': 'ListItem', position: 2, name: 'Contact', item: url },
+			],
+		},
+	};
+
 	return (
 		<>
-			<Script
-				id="contact-structured-data"
-				type="application/ld+json"
-				dangerouslySetInnerHTML={{
-					__html: JSON.stringify(contactStructuredData),
-				}}
-			/>
-			<Contact />
+			<JsonLd id="contact-structured-data" data={structuredData} />
+			<Contact site={site} />
 		</>
 	);
 }

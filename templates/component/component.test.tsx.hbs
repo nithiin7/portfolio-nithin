@@ -1,0 +1,12 @@
+import { render } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+
+import {{pascalCase name}} from './{{pascalCase name}}';
+
+describe('{{pascalCase name}}', () => {
+	it('renders', () => {
+		const { container } = render(<{{pascalCase name}} />);
+
+		expect(container.firstChild).toBeInTheDocument();
+	});
+});

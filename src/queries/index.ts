@@ -1,130 +1,151 @@
 import { gql } from '@apollo/client';
 
-/**
- * Query to get a page by slug
- * @param page - The slug of the page to get
- * @returns The page data
- */
-export const GET_PAGE = gql`
-	query Home($page: String!) {
-		pageCollection(where: { slug: $page }, limit: 1) {
+import { ASSET_FIELDS, PROJECT_CARD_FIELDS, SEO_FIELDS } from './fragments';
+
+export const GET_SITE_SETTINGS = gql`
+	${SEO_FIELDS}
+	query SiteSettings($preview: Boolean = false) {
+		siteSettingsCollection(limit: 1, preview: $preview) {
 			items {
 				name
-				title
-				slug
-				ogtitle
-				ogurl
-				description
-				sectionCollection(limit: 10) {
+				role
+				company
+				city
+				region
+				countryCode
+				timeZone
+				isAvailable
+				availabilityLabel
+				email
+				knowsAbout
+				twitterHandle
+				socialsCollection(limit: 10) {
 					items {
-						... on Section {
-							name
-							contentsCollection(limit: 10) {
-								items {
-									... on Title {
-										title
-										subTitle
+						label
+						url
+						icon
+					}
+				}
+				contactChannelsCollection(limit: 6) {
+					items {
+						label
+						url
+						detail
+						icon
+						openInNewTab
+					}
+				}
+				seo {
+					...SeoFields
+				}
+			}
+		}
+	}
+`;
+
+/**
+ * Every homepage section, typed by `key`. Keep the item limits tight: the
+ * query sits under Contentful's 11 000 complexity cap only because each
+ * collection is bounded (check with header X-Contentful-Graphql-Query-Cost).
+ */
+export const GET_HOME = gql`
+	${ASSET_FIELDS}
+	${PROJECT_CARD_FIELDS}
+	query Home($preview: Boolean = false) {
+		pageCollection(where: { slug: "home" }, limit: 1, preview: $preview) {
+			items {
+				sectionCollection(limit: 9) {
+					items {
+						key
+						heading
+						lede
+						words
+						body {
+							json
+						}
+						image {
+							...AssetFields
+						}
+						itemsCollection(limit: 20) {
+							items {
+								__typename
+								... on PortfolioDetails {
+									...ProjectCardFields
+								}
+								... on Capability {
+									title
+									summary
+									items
+								}
+								... on CareerExperience {
+									sys {
+										id
 									}
-									... on ImageCard {
-										image {
-											title
-											url
-										}
+									title
+									company
+									location
+									type
+									startDate
+									endDate
+									description
+									techStack
+								}
+								... on Certification {
+									sys {
+										id
 									}
-									... on ExperienceCard {
-										name
-										title
-										contentsCollection {
-											items {
-												... on ImageCard {
-													name
-													title
-													description
-												}
-											}
-										}
+									name
+									slug: id
+									provider
+									providerLogo {
+										url
 									}
-									... on Section {
-										name
-										contentsCollection(limit: 50) {
-											items {
-												... on Title {
-													name
-													title
-													subTitle
-												}
-												... on List {
-													name
-													list
-												}
-												... on Url {
-													name
-													url
-													title
-												}
-												... on ImageCard {
-													name
-													image {
-														title
-														url
-													}
-												}
-												... on PortfolioCard {
-													name
-													id
-													image {
-														url
-													}
-													title
-													gitHub
-													demo
-													tech
-													year
-												}
-												... on TestimonialCard {
-													name
-													avatar {
-														url
-													}
-													reviewer
-													institution
-													review
-												}
-												... on CareerExperience {
-													sys {
-														id
-													}
-													title
-													company
-													year
-													duration
-													location
-													type
-													description
-													technologies
-													order
-												}
-												... on Certification {
-													name
-													provider
-													logo
-													certificateUrl
-													issuedDate
-													expiryDate
-													credentialId
-													highlight
-												}
-											}
-										}
+									certificateUrl
+									credentialId
+									issuedOn
+									expiresOn
+									highlight
+								}
+								... on TestimonialCard {
+									sys {
+										id
 									}
-									... on Description {
-										name
-										descriptionShort
-										descriptionLong {
-											json
-										}
+									review
+									reviewer
+									authorRole
+									organisation
+									avatar {
+										url
 									}
 								}
+								... on Principle {
+									title
+									body
+								}
+								... on Link {
+									label
+									url
+									logo {
+										url
+										width
+										height
+									}
+								}
+							}
+						}
+						statsCollection(limit: 4) {
+							items {
+								value
+								suffix
+								label
+								isCompact
+							}
+						}
+						ctasCollection(limit: 2) {
+							items {
+								label
+								url
+								openInNewTab
 							}
 						}
 					}
@@ -134,64 +155,81 @@ export const GET_PAGE = gql`
 	}
 `;
 
-/**
- * Query to get all blog posts
- * @param limit - The limit of the blog posts to get
- * @param skip - The skip of the blog posts to get
- * @returns The blog posts data
- */
-export const GET_ALL_BLOG_POSTS = gql`
-	query GetAllBlogPosts($limit: Int = 10, $skip: Int = 0) {
-		blogPostCollection(
-			limit: $limit
-			skip: $skip
-			order: [publishedDate_DESC]
-		) {
-			total
+export const GET_PAGE_SEO = gql`
+	${SEO_FIELDS}
+	query PageSeo($slug: String!, $preview: Boolean = false) {
+		pageCollection(where: { slug: $slug }, limit: 1, preview: $preview) {
 			items {
-				sys {
-					id
+				seo {
+					...SeoFields
 				}
-				title
-				slug
-				excerpt
-				featuredImage {
-					url
-					title
-					description
-				}
-				category
-				tags
-				authorName
-				authorAvatar {
-					url
-					title
-				}
-				publishedDate
-				updatedDate
-				readTime
-				seoTitle
-				seoDescription
 			}
 		}
 	}
 `;
 
-/**
- * Query to get a blog post by slug
- * @param slug - The slug of the blog post to get
- * @returns The blog post data
- */
-export const GET_BLOG_POST_BY_SLUG = gql`
-	query GetBlogPostBySlug($slug: String!) {
-		blogPostCollection(where: { slug: $slug }, limit: 1) {
-			items {
-				sys {
-					id
-				}
+const BLOG_POST_SUMMARY = gql`
+	${SEO_FIELDS}
+	fragment BlogPostSummary on BlogPost {
+		sys {
+			id
+		}
+		title
+		slug
+		excerpt
+		featuredImage {
+			url
+			title
+			description
+		}
+		blogCategory {
+			name
+		}
+		tags
+		author {
+			name
+			avatar {
+				url
 				title
-				slug
-				excerpt
+				description
+			}
+		}
+		publishedDate
+		updatedDate
+		readTime
+		seo {
+			...SeoFields
+		}
+	}
+`;
+
+export const GET_ALL_BLOG_POSTS = gql`
+	${BLOG_POST_SUMMARY}
+	query GetAllBlogPosts(
+		$limit: Int = 10
+		$skip: Int = 0
+		$preview: Boolean = false
+	) {
+		blogPostCollection(
+			limit: $limit
+			skip: $skip
+			order: [publishedDate_DESC]
+			preview: $preview
+		) {
+			total
+			items {
+				...BlogPostSummary
+			}
+		}
+	}
+`;
+
+export const GET_BLOG_POST_BY_SLUG = gql`
+	${BLOG_POST_SUMMARY}
+	query GetBlogPostBySlug($slug: String!, $preview: Boolean = false) {
+		blogPostCollection(where: { slug: $slug }, limit: 1, preview: $preview) {
+			items {
+				...BlogPostSummary
 				content {
 					json
 					links {
@@ -207,110 +245,6 @@ export const GET_BLOG_POST_BY_SLUG = gql`
 						}
 					}
 				}
-				featuredImage {
-					url
-					title
-					description
-				}
-				category
-				tags
-				authorName
-				authorAvatar {
-					url
-					title
-				}
-				publishedDate
-				updatedDate
-				readTime
-				seoTitle
-				seoDescription
-			}
-		}
-	}
-`;
-
-/**
- * Query to get all blog categories
- * @returns The blog categories data
- */
-export const GET_BLOG_CATEGORIES = gql`
-	query GetBlogCategories {
-		blogCategoryCollection(order: [name_ASC]) {
-			items {
-				sys {
-					id
-				}
-				name
-				slug
-				description
-			}
-		}
-	}
-`;
-
-/**
- * Query to get all blog tags
- * @returns The blog tags data
- */
-export const GET_BLOG_TAGS = gql`
-	query GetBlogTags {
-		blogTagCollection(order: [name_ASC]) {
-			items {
-				sys {
-					id
-				}
-				name
-				slug
-			}
-		}
-	}
-`;
-
-/**
- * Query to get blog posts filtered by category and/or tags (combined as AND).
- * Omit a variable entirely (rather than passing null) to skip that filter.
- * @param category - The category to filter by
- * @param tags - The tags a post must contain all of
- * @param limit - The limit of the blog posts to get
- * @param skip - The skip of the blog posts to get
- * @returns The blog posts data
- */
-export const GET_FILTERED_BLOG_POSTS = gql`
-	query GetFilteredBlogPosts(
-		$category: String
-		$tags: [String!]
-		$limit: Int = 10
-		$skip: Int = 0
-	) {
-		blogPostCollection(
-			where: { category: $category, tags_contains_all: $tags }
-			limit: $limit
-			skip: $skip
-			order: [publishedDate_DESC]
-		) {
-			total
-			items {
-				sys {
-					id
-				}
-				title
-				slug
-				excerpt
-				featuredImage {
-					url
-					title
-					description
-				}
-				category
-				tags
-				authorName
-				authorAvatar {
-					url
-					title
-				}
-				publishedDate
-				updatedDate
-				readTime
 			}
 		}
 	}

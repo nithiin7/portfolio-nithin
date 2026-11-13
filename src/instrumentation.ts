@@ -2,6 +2,8 @@ import * as Sentry from '@sentry/nextjs';
 
 export async function register() {
 	if (process.env.NEXT_RUNTIME === 'nodejs') {
+		const { assertEnv } = await import('helpers/env');
+		assertEnv();
 		await import('../sentry.server.config');
 	}
 

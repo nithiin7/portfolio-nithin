@@ -1,10 +1,8 @@
 import type { FC, ReactElement, ReactNode } from 'react';
-import { FiArrowUpRight } from 'react-icons/fi';
 
 import styles from './StatCard.module.scss';
 
 export interface StatCardProps {
-	icon: ReactNode;
 	title: string;
 	subtitle?: string;
 	href?: string;
@@ -14,8 +12,8 @@ export interface StatCardProps {
 	className?: string;
 }
 
+/** Numbered by a CSS counter on the Stats grid, so cards stay index-free. */
 const StatCard: FC<StatCardProps> = ({
-	icon,
 	title,
 	subtitle,
 	href,
@@ -26,32 +24,39 @@ const StatCard: FC<StatCardProps> = ({
 }): ReactElement => (
 	<article className={`${styles.StatCard} ${className}`}>
 		<header className={styles.StatCard__header}>
-			<span className={styles.StatCard__icon}>{icon}</span>
 			<div className={styles.StatCard__heading}>
 				<h2>{title}</h2>
-				{subtitle && <span>{subtitle}</span>}
+				{subtitle && <p>{subtitle}</p>}
 			</div>
-			{live && (
-				<span className={styles.StatCard__live}>
-					<span className={styles.StatCard__pulse} aria-hidden="true" />
-					Live
-				</span>
-			)}
-			{href && (
-				<a
-					href={href}
-					target="_blank"
-					rel="noopener noreferrer"
-					aria-label={linkLabel ?? `Open ${title}`}
-					className={styles.StatCard__link}
-				>
-					<FiArrowUpRight />
-				</a>
-			)}
+			<div className={styles.StatCard__meta}>
+				{live && (
+					<span className={styles.StatCard__live}>
+						<span className={styles.StatCard__pulse} aria-hidden="true" />
+						Live
+					</span>
+				)}
+				{href && (
+					<a
+						href={href}
+						target="_blank"
+						rel="noopener noreferrer"
+						className={styles.StatCard__link}
+					>
+						{linkLabel ?? `Open ${title}`}
+						<span aria-hidden="true"> ↗</span>
+						<span className={styles.StatCard__sr}> (opens in a new tab)</span>
+					</a>
+				)}
+			</div>
 		</header>
 		<div className={styles.StatCard__body}>{children}</div>
 	</article>
 );
+
+/** Row of headline StatMetrics at the top of a card. */
+export const StatCardMetrics: FC<{ children: ReactNode }> = ({
+	children,
+}): ReactElement => <div className={styles.StatCard__metrics}>{children}</div>;
 
 export const StatCardDivider: FC = (): ReactElement => (
 	<hr className={styles.StatCard__divider} />
@@ -59,8 +64,6 @@ export const StatCardDivider: FC = (): ReactElement => (
 
 export const StatCardSection: FC<{ children: ReactNode }> = ({
 	children,
-}): ReactElement => (
-	<span className={styles.StatCard__section}>{children}</span>
-);
+}): ReactElement => <h3 className={styles.StatCard__section}>{children}</h3>;
 
 export default StatCard;

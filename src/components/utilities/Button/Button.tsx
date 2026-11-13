@@ -11,11 +11,7 @@ interface ButtonProps {
 	onClick?: () => void;
 }
 
-/**
- * A button component that supports animations and different styles.
- * @param {ButtonProps} props - The props for the component.
- * @returns {JSX.Element} The rendered button component.
- */
+/** Text button with the shared roll-on-hover style. */
 const Button: FC<ButtonProps> = ({
 	text = '',
 	className = '',

@@ -1,188 +1,229 @@
 @use 'styles/shared/mixin' as *;
-@use 'styles/shared/variables' as *;
 
 .HomeCertifications {
-	background-color: $color-black;
-	padding: max(#{$section-spacing-y-min}, #{$section-spacing-y}) 0;
-	padding-top: max(#{$section-top-clearance-min}, #{$section-spacing-y});
-	overflow: hidden;
-	position: relative;
+	width: 100%;
+	padding-block: 0 var(--section-pad);
+	background-color: var(--bg);
+	color: var(--fg);
 
-	&__container {
+	&__inner {
 		width: 100%;
+		max-width: var(--grid-max);
+		margin-inline: auto;
+		padding-inline: var(--grid-margin);
 	}
 
-	&__header {
-		text-align: left;
-		margin-bottom: 3rem;
-		padding: 0 4%;
-
-		@media #{$sm} {
-			padding: 0 2rem;
-		}
-
-		h2 {
-			color: $color-grey-pale;
-			font-size: $heading-size-section;
-			font-weight: 700;
-			text-transform: uppercase;
-			line-height: 92.5%;
-			letter-spacing: -0.025em;
-			text-wrap: balance;
-			overflow-wrap: break-word;
-			word-break: break-word;
-			margin-bottom: 1rem;
-		}
-
-		p {
-			font-weight: 500;
-			text-wrap: balance;
-			max-width: 45ch;
-			font-size: 1.25rem;
-			line-height: 130%;
-			color: $color-grey-medium;
-
-			@media #{$md} {
-				font-size: 1.5rem;
-			}
-		}
-
-		&Link {
-			display: inline-block;
-			color: $color-accent;
-			text-decoration: none;
-			border-bottom: 1px solid rgba($color-accent, 0.5);
-			transition: opacity 200ms ease, border-color 200ms ease;
-
-			&:hover {
-				opacity: 0.85;
-				border-color: $color-accent;
-			}
-		}
+	&__head {
+		display: grid;
+		grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+		column-gap: var(--grid-gutter);
+		row-gap: var(--space-4);
+		align-items: end;
+		margin-bottom: var(--space-6);
+		padding-top: var(--space-4);
+		border-top: 1px solid var(--line-strong);
 	}
 
-	&__titleFull {
-		display: none;
+	&__label,
+	&__link,
+	&__provider {
+		font-family: var(--font-mono);
+		font-size: var(--step--1);
+		font-weight: 400;
+		letter-spacing: var(--tracking-mono);
+		text-transform: uppercase;
+	}
+
+	&__label {
+		grid-column: 1 / -1;
+		align-self: start;
+		margin: 0;
+		color: var(--muted);
 
 		@media #{$md} {
-			display: block;
+			grid-column: span 3;
 		}
 	}
 
-	&__titleShort {
-		display: block;
+	&__count {
+		grid-column: 1 / -1;
+		display: flex;
+		align-items: baseline;
+		flex-wrap: wrap;
+		gap: 0 var(--space-3);
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: var(--step-4);
+		font-weight: 500;
+		line-height: var(--leading-tight);
+		letter-spacing: var(--tracking-display);
 
 		@media #{$md} {
-			display: none;
+			grid-column: span 9;
+		}
+
+		@media #{$lg} {
+			grid-column: span 5;
 		}
 	}
 
-	&__trackWrapper {
+	&__number {
+		color: var(--accent-text);
+		font-variant-numeric: tabular-nums;
+	}
+
+	&__aside {
+		grid-column: 1 / -1;
+		display: grid;
+		justify-items: start;
+		gap: var(--space-3);
+
+		@media #{$md} {
+			grid-column: 4 / -1;
+		}
+
+		@media #{$lg} {
+			grid-column: span 4;
+		}
+	}
+
+	&__lede {
+		margin: 0;
+		max-width: 46ch;
+		font-size: var(--step-0);
+		line-height: var(--leading-body);
+		color: var(--fg-subtle);
+	}
+
+	&__link {
 		position: relative;
-		width: 100%;
+		color: var(--fg);
+		text-decoration: none;
 
-		&::before,
+		@include tap-target;
+
 		&::after {
 			content: '';
 			position: absolute;
-			top: 0;
-			width: 100px;
-			height: 100%;
-			z-index: 2;
-			pointer-events: none;
+			inset: auto 0 -2px;
+			height: 1px;
+			background-color: currentcolor;
+			transform: scaleX(0);
+			transform-origin: right center;
+			transition: transform var(--dur-1) var(--ease);
+		}
 
-			@media #{$md} {
-				width: 150px;
+		@media (hover: hover) {
+			&:hover::after {
+				transform: scaleX(1);
+				transform-origin: left center;
 			}
 		}
 
-		&::before {
-			left: 0;
-			background: linear-gradient(
-				to right,
-				$color-black 0%,
-				rgba($color-black, 0) 100%
-			);
-		}
-
-		&::after {
-			right: 0;
-			background: linear-gradient(
-				to left,
-				$color-black 0%,
-				rgba($color-black, 0) 100%
-			);
+		&:focus-visible {
+			@include focus-ring(4px);
 		}
 	}
 
-	&__track {
-		width: 100%;
-		overflow-x: auto;
-		overflow-y: hidden;
-		padding: 2rem 0;
-		margin: 0;
-		-webkit-overflow-scrolling: touch;
-		scroll-snap-type: x proximity;
-		scrollbar-width: none;
+	&__srOnly {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
+	}
 
-		&::-webkit-scrollbar {
-			display: none;
-		}
+	&__strip {
+		// Skips rendering (and the logo-mask fetches) until the strip nears the viewport
+		content-visibility: auto;
+		contain-intrinsic-block-size: auto rem(240);
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(rem(60), 1fr));
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		border-top: 1px solid var(--line);
+		border-left: 1px solid var(--line);
 
 		@media #{$md} {
-			overflow: hidden;
-			scroll-snap-type: none;
+			grid-template-columns: repeat(auto-fill, minmax(rem(72), 1fr));
+		}
+
+		// One full-width row: empty auto-fill tracks left a blank strip at the end
+		@media #{$lg} {
+			grid-template-columns: repeat(var(--count), minmax(0, 1fr));
 		}
 	}
 
-	&__arrow {
-		position: absolute;
-		top: 50%;
-		left: rem(8);
-		transform: translateY(-50%);
-		z-index: 3;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: rem(36);
-		height: rem(36);
-		border-radius: 50%;
-		background: color-mix(in srgb, $color-grey-pale 14%, transparent);
-		border: 1px solid color-mix(in srgb, $color-grey-pale 25%, transparent);
-		backdrop-filter: blur(6px);
-		color: $color-grey-pale;
+	&__badge {
+		position: relative;
+		display: grid;
+		place-items: center;
+		width: 100%;
+		aspect-ratio: 1;
+		padding: 22%;
+		border: 0;
+		border-right: 1px solid var(--line);
+		border-bottom: 1px solid var(--line);
+		background: none;
 		cursor: pointer;
-		transition:
-			opacity 0.2s ease,
-			transform 0.2s ease,
-			background 0.2s ease;
+		transition: background-color var(--dur-1) var(--ease);
 
-		&:hover:not(:disabled) {
-			background: color-mix(in srgb, $color-grey-pale 22%, transparent);
-			transform: translateY(-50%) scale(1.05);
+		&:focus-visible {
+			@include focus-ring(-2px);
 		}
 
-		&:disabled {
-			opacity: 0.3;
-			cursor: default;
+		&:focus-visible .HomeCertifications__logo {
+			background-color: var(--fg);
 		}
 
-		&--next {
-			left: auto;
-			right: rem(8);
+		@media (hover: hover) {
+			&:hover {
+				background-color: var(--surface-1);
+			}
+
+			&:hover .HomeCertifications__logo {
+				background-color: var(--fg);
+			}
+		}
+
+		&--highlight::after {
+			content: '';
+			position: absolute;
+			top: var(--space-2);
+			right: var(--space-2);
+			width: rem(6);
+			height: rem(6);
+			border-radius: var(--radius-pill);
+			background-color: var(--accent);
 		}
 	}
 
-	&__carousel {
-		display: flex;
-		gap: 0.75rem;
-		will-change: transform;
-		padding: 0 4%;
+	// Vendor logos mix black and white artwork; masking renders them all as
+	// one-colour silhouettes that read in both themes.
+	&__logo {
+		width: 100%;
+		height: 100%;
+		background-color: var(--muted);
+		mask: var(--logo) center / contain no-repeat;
+		transition: background-color var(--dur-1) var(--ease);
+	}
 
-		@media #{$sm} {
-			gap: 1rem;
-			padding: 0 2rem;
-		}
+	&__caption {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: var(--space-1) var(--space-3);
+		min-height: 3em;
+		margin: var(--space-4) 0 0;
+		font-size: var(--step-0);
+		line-height: var(--leading-snug);
+	}
+
+	&__provider {
+		color: var(--muted);
 	}
 }
-

@@ -1,16 +1,18 @@
-import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
-import Script from 'next/script';
+import type { ReactElement } from 'react';
 
-import {
-	HomeAbout,
-	HomeHeader,
-	HomePortfolio,
-	HomeServices,
-} from 'components/pages';
-import { transformCareerData } from 'helpers/career';
-import { loadData } from 'helpers/contentful';
-import type { Certification } from 'types/certification';
+import HomeAbout from 'components/pages/homepage/HomeAbout/HomeAbout';
+import type { AboutStat } from 'components/pages/homepage/HomeAbout/HomeAbout';
+import HomeCapabilities from 'components/pages/homepage/HomeCapabilities/HomeCapabilities';
+import HomeHeader from 'components/pages/homepage/HomeHeader/HomeHeader';
+import HomeManifesto from 'components/pages/homepage/HomeManifesto/HomeManifesto';
+import HomePortfolio from 'components/pages/homepage/HomePortfolio/HomePortfolio';
+import JsonLd from 'components/utilities/JsonLd/JsonLd';
+import { absoluteUrl, personJsonLd, siteName } from 'config/site';
+import { yearsOfExperience } from 'helpers/career';
+import { loadHome, loadSiteSettings } from 'helpers/contentful';
+import { enrichPortfolio } from 'helpers/portfolio';
+import type { HomeSectionKey } from 'types/home';
 
 export const revalidate = 3600;
 
@@ -29,138 +31,109 @@ const HomeTestimonial = dynamic(
 	() => import('components/pages/homepage/HomeTestimonial/HomeTestimonial')
 );
 
-const defaultTitle =
-	'Nithin Pradeep - AI Innovator & Software Engineer | Building Intelligent Digital Experiences';
-const defaultDescription =
-	'AI innovator, full-stack developer, and automation engineer. Engineer of intelligent solutions using Next.js, Node.js, Docker, n8n, and AI/ML platforms.';
-
-export async function generateMetadata(): Promise<Metadata> {
-	const props = await loadData('home');
-	const path = props?.data?.pageCollection?.items?.[0];
-
-	const title = path?.title || defaultTitle;
-	const description = path?.description || defaultDescription;
-
-	return {
-		title,
-		description,
-		openGraph: {
-			type: 'website',
-			locale: 'en_US',
-			url: 'https://portfolio-nithin.vercel.app/',
-			title,
-			description,
-			siteName: 'Nithin Pradeep - Portfolio',
-			images: [
-				{
-					url: '/opengraph-image.jpeg',
-					width: 1200,
-					height: 630,
-					alt: 'Nithin Pradeep - Full Stack Developer Portfolio',
-				},
-			],
-		},
-		twitter: {
-			card: 'summary_large_image',
-			title,
-			description,
-			creator: '@nithiin7',
-			images: ['/opengraph-image.jpeg'],
-		},
-		robots: {
-			index: true,
-			follow: true,
-			googleBot: {
-				index: true,
-				follow: true,
-				'max-video-preview': -1,
-				'max-image-preview': 'large',
-				'max-snippet': -1,
-			},
-		},
-		alternates: {
-			canonical: 'https://portfolio-nithin.vercel.app/',
-		},
-	};
-}
-
-const homeStructuredData = {
-	'@context': 'https://schema.org',
-	'@type': 'WebSite',
-	name: 'Nithin Pradeep - Portfolio',
-	url: 'https://portfolio-nithin.vercel.app/',
-	description: defaultDescription,
-	author: {
-		'@type': 'Person',
-		name: 'Nithin Pradeep',
-		jobTitle: 'Full Stack Developer',
-		url: 'https://portfolio-nithin.vercel.app/',
-		sameAs: [
-			'https://github.com/nithiin7',
-			'https://www.linkedin.com/in/nithinpradeep/',
-			'https://www.instagram.com/__nithiin__/',
-			'https://www.twitter.com/_nithiin7/',
-			'https://www.linkedin.com/in/nithin-p7/',
-		],
-	},
-};
-
 export default async function Home() {
-	const props = await loadData('home');
-	const path = props?.data?.pageCollection?.items?.[0];
+	const [home, site] = await Promise.all([loadHome(), loadSiteSettings()]);
+	const projects = await enrichPortfolio(home.work.projects);
+	const { career, certifications } = home;
 
-	const sections = path.sectionCollection?.items || [];
+	const years = yearsOfExperience(
+		career.experiences.map((experience) => experience.startDate)
+	);
+	const aboutStats: AboutStat[] = [
+		...(years ? [{ value: years, suffix: '+', label: 'Years shipping' }] : []),
+		{ value: projects.length, label: 'Projects shipped' },
+		{ value: certifications.items.length, label: 'Certifications' },
+		...home.about.stats,
+	];
 
-	const headerData = sections[0]?.contentsCollection || { items: [] };
-	const servicesData = {
-		data: sections[1]?.contentsCollection?.items?.[0] || {},
-		services: sections[1]?.contentsCollection?.items || [],
+	const sections: Record<HomeSectionKey, ReactElement | null> = {
+		hero: (
+			<HomeHeader
+				key="hero"
+				site={site}
+				pitch={home.hero.pitch}
+				ctas={home.hero.ctas}
+			/>
+		),
+		manifesto: home.manifesto ? (
+			<HomeManifesto key="manifesto" manifesto={home.manifesto} />
+		) : null,
+		work: (
+			<HomePortfolio
+				key="work"
+				data={{ title: home.work.heading }}
+				portfolio={projects}
+			/>
+		),
+		about: (
+			<HomeAbout
+				key="about"
+				title={home.about.heading}
+				bio={home.about.bio}
+				portrait={home.about.portrait}
+				principles={home.about.principles}
+				stats={aboutStats}
+			/>
+		),
+		capabilities: (
+			<HomeCapabilities
+				key="capabilities"
+				data={{
+					title: home.capabilities.heading,
+					subTitle: home.capabilities.lede,
+				}}
+				capabilities={home.capabilities.items}
+			/>
+		),
+		career: (
+			<HomeCareer
+				key="career"
+				data={{ title: career.heading, subtitle: career.lede }}
+				experiences={career.experiences}
+			/>
+		),
+		certifications: (
+			<HomeCertifications
+				key="certifications"
+				data={{ title: certifications.heading, subtitle: certifications.lede }}
+				certifications={certifications.items}
+			/>
+		),
+		collaborations: (
+			<HomeCollaborations
+				key="collaborations"
+				data={{ title: home.collaborations.heading }}
+				collaborators={home.collaborations.items}
+			/>
+		),
+		testimonials: (
+			<HomeTestimonial
+				key="testimonials"
+				data={{ title: home.testimonials.heading }}
+				testimonial={home.testimonials.items}
+			/>
+		),
 	};
-	const aboutData = sections[2]?.contentsCollection || { items: [] };
-	const portfolioData = {
-		data: sections[3]?.contentsCollection?.items?.[0] || {},
-		portfolio:
-			sections[3]?.contentsCollection?.items?.[1]?.contentsCollection?.items ||
-			[],
-	};
-	const careerDataProps = transformCareerData({
-		data: sections[6]?.contentsCollection?.items?.[0] || {},
-		career:
-			sections[6]?.contentsCollection?.items?.[1]?.contentsCollection?.items ||
-			[],
-	});
-	const collaborationsData = {
-		data: sections[4]?.contentsCollection?.items?.[0] || {},
-	};
-	const testimonialData = {
-		data: sections[5]?.contentsCollection?.items?.[0] || {},
-		testimonial:
-			sections[5]?.contentsCollection?.items?.[1]?.contentsCollection?.items ||
-			[],
-	};
-	const certificationsData = {
-		data: sections[7]?.contentsCollection?.items?.[0] || {},
-		certifications: (sections[7]?.contentsCollection?.items?.[1]
-			?.contentsCollection?.items || []) as unknown as Certification[],
+
+	// The hero always opens the page; the rest follow Page "home" in Contentful
+	const order: HomeSectionKey[] = [
+		'hero',
+		...home.order.filter((key) => key !== 'hero'),
+	];
+
+	const structuredData = {
+		'@context': 'https://schema.org',
+		'@type': 'WebSite',
+		name: siteName(site),
+		url: absoluteUrl(),
+		description: site.seo.description,
+		author: personJsonLd(site),
 	};
 
 	return (
 		<>
-			<Script
-				id="home-structured-data"
-				type="application/ld+json"
-				dangerouslySetInnerHTML={{
-					__html: JSON.stringify(homeStructuredData),
-				}}
-			/>
-			<HomeHeader data={headerData} />
-			<HomeServices {...servicesData} />
-			<HomePortfolio {...portfolioData} />
-			<HomeAbout data={aboutData} />
-			<HomeCareer {...careerDataProps} />
-			<HomeCertifications {...certificationsData} />
-			<HomeCollaborations {...collaborationsData} />
-			<HomeTestimonial {...testimonialData} />
+			<JsonLd id="home-structured-data" data={structuredData} />
+			{order.map((key) => sections[key])}
 		</>
 	);
 }

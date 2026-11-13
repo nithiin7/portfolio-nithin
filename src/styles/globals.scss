@@ -29,61 +29,6 @@ html.lenis {
 	pointer-events: none;
 }
 
-.curve {
-	.motion-svg,
-	.background {
-		position: fixed;
-		height: calc(100vh + 600px);
-		width: 100vw;
-		pointer-events: none;
-		left: 0;
-		top: 0;
-		z-index: 2000;
-	}
-	.background {
-		background-color: black;
-		transition: opacity 0s linear 0.1s;
-	}
-	.welcome {
-		position: absolute;
-		left: 50%;
-		top: 40%;
-		color: white;
-		font-size: 46px;
-		z-index: 2001;
-		transform: translateX(-50%);
-		text-align: center;
-		font-family: 'Host Grotesk', sans-serif;
-		line-height: 92.5%;
-		font-weight: 700;
-	}
-}
-
-.not-found {
-	color: $color-text;
-	height: calc(100vh - 439px);
-	display: flex;
-	align-items: center;
-	flex-direction: column;
-	justify-content: center;
-	padding: 10px;
-	text-align: center;
-	h1 {
-		font-weight: 700;
-		font-size: 24px;
-		@media #{$md} {
-			font-size: 40px;
-		}
-	}
-	h3 {
-		margin-bottom: 25px;
-		font-size: 12px;
-		@media #{$md} {
-			font-size: 20px;
-		}
-	}
-}
-
 ::view-transition-group(.blog-image-morph),
 ::view-transition-group(.portfolio-image-morph),
 ::view-transition-group(.portfolio-title-morph) {
@@ -108,6 +53,50 @@ html.lenis {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
+}
+
+// Route change (PageTransition): old page fades, an ink panel sweeps in,
+// then the new page wipes across it. Shared-element morphs are nested
+// groups, so they paint above the panel.
+::view-transition-old(.page-exit) {
+	animation: page-fade-out var(--dur-1) var(--ease) both;
+}
+
+::view-transition-group(.page-enter) {
+	background-color: var(--ink);
+	animation: page-wipe var(--dur-1) var(--ease) both;
+}
+
+::view-transition-new(.page-enter) {
+	animation: page-wipe var(--dur-2) var(--ease-out) var(--dur-1) both;
+}
+
+@keyframes page-fade-out {
+	to {
+		opacity: 0;
+	}
+}
+
+@keyframes page-wipe {
+	from {
+		clip-path: inset(0 100% 0 0);
+	}
+	to {
+		clip-path: inset(0);
+	}
+}
+
+// Preloader counter: an animatable integer rendered via counter(), padded
+// to three digits (000 → 100). Global because CSS modules would hash them.
+@property --preloader-count {
+	syntax: '<integer>';
+	inherits: false;
+	initial-value: 0;
+}
+
+@counter-style preloader-pad {
+	system: extends decimal;
+	pad: 3 '0';
 }
 
 @media (prefers-reduced-motion: reduce) {

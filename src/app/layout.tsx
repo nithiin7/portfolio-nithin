@@ -1,144 +1,134 @@
-import { GoogleTagManager } from '@next/third-parties/google';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import type { Metadata } from 'next';
-import { Roboto, Familjen_Grotesk } from 'next/font/google';
+import type { Metadata, Viewport } from 'next';
+import {
+	Instrument_Serif,
+	Inter_Tight,
+	JetBrains_Mono,
+} from 'next/font/google';
 import Script from 'next/script';
 
-import 'styles/theme.scss';
+import 'styles/tokens.scss';
 import 'styles/globals.scss';
 
-import { Footer, Menu } from 'components/layouts';
+import Footer from 'components/layouts/Footer/Footer';
+import Navbar from 'components/layouts/Navbar/Navbar';
+import PageTransition from 'components/layouts/PageTransition/PageTransition';
+import Preloader, {
+	preloaderScript,
+} from 'components/layouts/Preloader/Preloader';
+import CommandPalette from 'components/utilities/CommandPalette/CommandPaletteLazy';
+import FloatingChat from 'components/utilities/FloatingChat/FloatingChatLazy';
+import GridOverlay from 'components/utilities/GridOverlay/GridOverlay';
+import JsonLd from 'components/utilities/JsonLd/JsonLd';
+import SkipLink from 'components/utilities/SkipLink/SkipLink';
+import Toast from 'components/utilities/Toast/ToastLazy';
 import {
-	ClickSpark,
-	CommandPalette,
-	FloatingChat,
-	SkipLink,
-	Toast,
-} from 'components/utilities';
-import { loadBlogPosts, loadPortfolioSearchItems } from 'helpers/contentful';
+	absoluteUrl,
+	personJsonLd,
+	siteConfig,
+	siteName,
+	socialUrl,
+	titleTemplate,
+} from 'config/site';
+import { SiteSettingsProvider } from 'contexts/SiteSettingsContext';
+import { loadSiteSettings } from 'helpers/contentful';
+import { clientEnv } from 'helpers/env';
+import { palette } from 'styles/tokens';
 
 import Provider from './provider';
-import Curve from './transition';
 
 export const revalidate = 3600;
 
-const roboto = Roboto({
+const interTight = Inter_Tight({
 	subsets: ['latin'],
-	weight: ['300', '400', '500', '700'],
-	style: ['normal', 'italic'],
-	variable: '--font-roboto',
+	variable: '--font-inter-tight',
 	display: 'swap',
 });
 
-const familjenGrotesk = Familjen_Grotesk({
+const instrumentSerif = Instrument_Serif({
 	subsets: ['latin'],
-	weight: ['400', '500', '600', '700'],
+	weight: '400',
 	style: ['normal', 'italic'],
-	variable: '--font-familjen-grotesk',
+	variable: '--font-instrument-serif',
 	display: 'swap',
 });
 
-const title =
-	'Nithin Pradeep - AI Innovator & Software Engineer | Building Intelligent Digital Experiences';
-const description =
-	'AI innovator, full-stack developer, and automation engineer. Engineer of intelligent solutions using Next.js, Node.js, Docker, n8n, and AI/ML platforms.';
+const jetbrainsMono = JetBrains_Mono({
+	subsets: ['latin'],
+	weight: '400',
+	variable: '--font-jetbrains-mono',
+	display: 'swap',
+	preload: false,
+});
 
-export const metadata: Metadata = {
-	metadataBase: new URL('https://portfolio-nithin.vercel.app/'),
-	title: {
-		default: title,
-		template: '%s | Nithin Pradeep - Full Stack Developer',
-	},
-	description,
-	authors: [{ name: 'Nithin Pradeep', url: 'https://github.com/nithiin7' }],
-	creator: 'Nithin Pradeep',
-	publisher: 'Nithin Pradeep',
-	formatDetection: {
-		email: false,
-		address: false,
-		telephone: false,
-	},
-	openGraph: {
-		type: 'website',
-		locale: 'en_US',
-		url: 'https://portfolio-nithin.vercel.app/',
-		title,
+export const viewport: Viewport = {
+	width: 'device-width',
+	initialScale: 1,
+	viewportFit: 'cover',
+	themeColor: palette.ink,
+};
+
+export async function generateMetadata(): Promise<Metadata> {
+	const site = await loadSiteSettings();
+	const { title, description } = site.seo;
+	return {
+		metadataBase: new URL(siteConfig.url),
+		title: {
+			default: title,
+			template: titleTemplate(site),
+		},
 		description,
-		siteName: 'Nithin Pradeep - Portfolio',
-		images: [
-			{
-				url: '/opengraph-image.jpeg',
-				width: 1200,
-				height: 630,
-				alt: 'Nithin Pradeep - Full Stack Developer Portfolio',
-			},
-		],
-	},
-	twitter: {
-		card: 'summary_large_image',
-		title,
-		description,
-		creator: '@nithiin7',
-		images: ['/opengraph-image.jpeg'],
-	},
-	robots: {
-		index: true,
-		follow: true,
-		googleBot: {
+		authors: [{ name: site.name, url: socialUrl(site, 'github') }],
+		creator: site.name,
+		publisher: site.name,
+		formatDetection: {
+			email: false,
+			address: false,
+			telephone: false,
+		},
+		openGraph: {
+			type: 'website',
+			locale: 'en_US',
+			url: absoluteUrl(),
+			title: title,
+			description,
+			siteName: siteName(site),
+		},
+		twitter: {
+			card: 'summary_large_image',
+			title: title,
+			description,
+			creator: site.twitterHandle,
+		},
+		robots: {
 			index: true,
 			follow: true,
-			'max-video-preview': -1,
-			'max-image-preview': 'large',
-			'max-snippet': -1,
+			googleBot: {
+				index: true,
+				follow: true,
+				'max-video-preview': -1,
+				'max-image-preview': 'large',
+				'max-snippet': -1,
+			},
 		},
-	},
-	verification: {
-		google: 'google6eac2553ee959d3e',
-	},
-	alternates: {
-		canonical: 'https://portfolio-nithin.vercel.app/',
-		types: {
-			'application/rss+xml': 'https://portfolio-nithin.vercel.app/feed.xml',
+		verification: {
+			google: siteConfig.googleSiteVerification,
 		},
-	},
-};
+		alternates: {
+			canonical: absoluteUrl(),
+			types: {
+				'application/rss+xml': siteConfig.rssUrl,
+			},
+		},
+		other: {
+			'msapplication-TileColor': palette.ink,
+		},
+	};
+}
 
-const structuredData = {
-	'@context': 'https://schema.org',
-	'@type': 'Person',
-	name: 'Nithin Pradeep',
-	url: 'https://portfolio-nithin.vercel.app/',
-	image: 'https://portfolio-nithin.vercel.app/opengraph-image.jpeg',
-	jobTitle: 'Full Stack Developer',
-	description:
-		'Experienced Full Stack Developer specializing in modern web technologies',
-	sameAs: [
-		'https://github.com/nithiin7',
-		'https://www.linkedin.com/in/nithinpradeep/',
-		'https://www.instagram.com/__nithiin__/',
-		'https://www.twitter.com/_nithiin7/',
-		'https://www.linkedin.com/in/nithin-p7/',
-	],
-	knowsAbout: [
-		'React',
-		'Next.js',
-		'TypeScript',
-		'Node.js',
-		'Full Stack Development',
-		'Web Development',
-		'Frontend Development',
-		'Backend Development',
-	],
-	worksFor: {
-		'@type': 'Organization',
-		name: 'Paytm Payments Bank',
-	},
-	address: {
-		'@type': 'PostalAddress',
-		addressCountry: 'IN',
-	},
-};
+const gtmSnippet = (id: string): string =>
+	`(function(w,d,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':Date.now(),event:'gtm.js'});var j=d.createElement('script');j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i;d.head.appendChild(j);})(window,document,'dataLayer','${id}');`;
 
 interface RootLayoutProps {
 	children: React.ReactNode;
@@ -147,43 +137,22 @@ interface RootLayoutProps {
 export default async function RootLayout({
 	children,
 }: Readonly<RootLayoutProps>): Promise<React.ReactElement> {
-	const [blogData, portfolioItems] = await Promise.all([
-		loadBlogPosts(100, 0),
-		loadPortfolioSearchItems(),
-	]);
-
-	const blogSearchItems = (blogData.data?.blogPostCollection?.items ?? []).map(
-		(post) => ({ title: post.title, slug: post.slug })
-	);
+	const site = await loadSiteSettings();
+	const gtmId = clientEnv.NEXT_PUBLIC_GOOGLE_GTM_ID;
+	const structuredData = {
+		'@context': 'https://schema.org',
+		...personJsonLd(site),
+	};
 
 	return (
 		<html
 			lang="en"
-			className={`${roboto.variable} ${familjenGrotesk.variable}`}
+			className={`${interTight.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable}`}
 			data-theme="dark"
+			suppressHydrationWarning
 		>
 			<head>
-				<link
-					rel="apple-touch-icon"
-					sizes="180x180"
-					href="/apple-touch-icon.png"
-				/>
-				<link
-					rel="icon"
-					type="image/png"
-					sizes="32x32"
-					href="/favicon-32x32.png"
-				/>
-				<link
-					rel="icon"
-					type="image/png"
-					sizes="16x16"
-					href="/favicon-16x16.png"
-				/>
-				<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
-				<meta name="msapplication-TileColor" content="#da532c" />
-				<meta name="theme-color" content="#ffffff" />
-				<meta name="viewport" content="width=device-width, initial-scale=1" />
+				<script dangerouslySetInnerHTML={{ __html: preloaderScript }} />
 				<link
 					rel="preconnect"
 					href="https://images.ctfassets.net"
@@ -193,48 +162,40 @@ export default async function RootLayout({
 				<link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 			</head>
 			<body>
-				<Script
-					id="structured-data"
-					type="application/ld+json"
-					dangerouslySetInnerHTML={{
-						__html: JSON.stringify(structuredData),
-					}}
-				/>
+				<JsonLd id="structured-data" data={structuredData} />
+				<Preloader site={site} />
 				<SkipLink targetId="main-content" />
-				<Provider>
-					<Curve>
-						<ClickSpark
-							sparkColor="#6b645c"
-							sparkSize={10}
-							sparkRadius={15}
-							sparkCount={8}
-							duration={400}
-						>
-							<Menu />
-							<main id="main-content" tabIndex={-1}>
-								{children}
-							</main>
-							<Footer />
-							<FloatingChat chatbotUrl="https://nithiin7-portfolio-resume.hf.space" />
-							<CommandPalette
-								resumeUrl="/resume.pdf"
-								blogPosts={blogSearchItems}
-								portfolioItems={portfolioItems}
-							/>
-							<Toast />
-						</ClickSpark>
-					</Curve>
-				</Provider>
+				<SiteSettingsProvider value={site}>
+					<Provider>
+						<Navbar />
+						<main id="main-content" tabIndex={-1}>
+							<PageTransition>{children}</PageTransition>
+						</main>
+						<Footer site={site} />
+						<FloatingChat chatbotUrl="https://nithiin7-portfolio-resume.hf.space" />
+						<CommandPalette resumeUrl="/resume.pdf" />
+						<Toast />
+						{process.env.NODE_ENV === 'development' && <GridOverlay />}
+					</Provider>
+				</SiteSettingsProvider>
 				<svg className="grainy__filter pointer-events-none absolute cursor-none">
 					<filter id="grainy">
 						<feTurbulence type="turbulence" baseFrequency="0.5" />
 						<feColorMatrix type="saturate" values="0" />
 					</filter>
 				</svg>
-				<Analytics />
-				<SpeedInsights />
-				{process.env.NEXT_PUBLIC_GOOGLE_GTM_ID && (
-					<GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GOOGLE_GTM_ID} />
+				{/* The /_vercel/* endpoints only exist on Vercel; elsewhere they 404 */}
+				{process.env.VERCEL && (
+					<>
+						<Analytics />
+						<SpeedInsights />
+					</>
+				)}
+				{gtmId && (
+					// lazyOnload keeps the 120 KB container off the critical path
+					<Script id="gtm" strategy="lazyOnload">
+						{gtmSnippet(gtmId)}
+					</Script>
 				)}
 			</body>
 		</html>

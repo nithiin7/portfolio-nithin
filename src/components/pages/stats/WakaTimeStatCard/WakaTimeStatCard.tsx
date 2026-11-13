@@ -1,15 +1,14 @@
 import type { FC, ReactElement } from 'react';
-import { SiWakatime } from 'react-icons/si';
 
-import {
-	ActivityChart,
-	MeterBar,
-	StatCard,
+import ActivityChart from 'components/pages/stats/ActivityChart/ActivityChart';
+import MeterBar from 'components/pages/stats/MeterBar/MeterBar';
+import StatCard, {
 	StatCardDivider,
+	StatCardMetrics,
 	StatCardSection,
-	StatMetric,
-} from 'components/pages';
-import { formatDate } from 'helpers';
+} from 'components/pages/stats/StatCard/StatCard';
+import StatMetric from 'components/pages/stats/StatMetric/StatMetric';
+import { formatDate } from 'helpers/format';
 import type { WakaTimeStats } from 'types/wakatime';
 
 import styles from './WakaTimeStatCard.module.scss';
@@ -24,13 +23,8 @@ const WakaTimeStatCard: FC<WakaTimeStatCardProps> = ({
 	if (!stats) return null;
 
 	return (
-		<StatCard
-			icon={<SiWakatime />}
-			title="Coding activity"
-			subtitle="WakaTime · last 7 days"
-			live
-		>
-			<div className={styles.WakaTimeStatCard__metrics}>
+		<StatCard title="Coding activity" subtitle="WakaTime · last 7 days" live>
+			<StatCardMetrics>
 				<StatMetric value={stats.humanReadableTotal} label="This week" />
 				<StatMetric
 					value={stats.humanReadableDailyAverage}
@@ -42,7 +36,7 @@ const WakaTimeStatCard: FC<WakaTimeStatCardProps> = ({
 						label={`Best day · ${formatDate(stats.bestDay.date, 'short')}`}
 					/>
 				)}
-			</div>
+			</StatCardMetrics>
 			{stats.days.length > 0 && <ActivityChart days={stats.days} />}
 			{stats.languages.length > 0 && (
 				<>

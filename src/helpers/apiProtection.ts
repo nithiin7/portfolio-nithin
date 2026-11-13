@@ -1,20 +1,33 @@
-import type { NextRequest } from 'next/server';
+import { timingSafeEqual } from 'node:crypto';
+
+import { NextResponse } from 'next/server';
+import { ValidationError, type AnyObjectSchema, type InferType } from 'yup';
+
+import { serverEnv } from 'helpers/env';
 
 interface RateLimiterOptions {
 	max: number;
 	windowMs: number;
 }
 
-// In-memory, so limits are per serverless instance — a best-effort layer,
-// not a hard guarantee. reCAPTCHA is the primary abuse check.
-export function createRateLimiter({ max, windowMs }: RateLimiterOptions) {
+type HeaderReader = Pick<Headers, 'get'>;
+
+/** The caller's IP as reported by Vercel's proxy headers. */
+export const clientIp = (headers: HeaderReader): string =>
+	headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+	headers.get('x-real-ip') ||
+	'unknown';
+
+/**
+ * Fixed-window limiter keyed by client IP. In-memory, so limits are per
+ * serverless instance: a best-effort layer, not a hard guarantee. reCAPTCHA is
+ * the primary abuse check.
+ */
+export const createRateLimiter = ({ max, windowMs }: RateLimiterOptions) => {
 	const hits = new Map<string, { count: number; resetAt: number }>();
 
-	return function isRateLimited(request: NextRequest): boolean {
-		const ip =
-			request.headers.get('x-forwarded-for')?.split(',')[0].trim() ||
-			request.headers.get('x-real-ip') ||
-			'unknown';
+	return (headers: HeaderReader): boolean => {
+		const ip = clientIp(headers);
 		const now = Date.now();
 		const record = hits.get(ip);
 
@@ -27,12 +40,13 @@ export function createRateLimiter({ max, windowMs }: RateLimiterOptions) {
 		record.count++;
 		return false;
 	};
-}
+};
 
-export async function verifyRecaptcha(
+/** Verifies a reCAPTCHA v3 token; anything under a 0.5 score is invalid. */
+export const verifyRecaptcha = async (
 	token: string
-): Promise<{ valid: boolean; score: number }> {
-	const secret = process.env.RECAPTCHA_SECRET_KEY;
+): Promise<{ valid: boolean; score: number }> => {
+	const secret = serverEnv.RECAPTCHA_SECRET_KEY;
 	if (!secret) return { valid: false, score: 0 };
 
 	const res = await fetch('https://www.google.com/recaptcha/api/siteverify', {
@@ -41,11 +55,73 @@ export async function verifyRecaptcha(
 		body: `secret=${encodeURIComponent(secret)}&response=${encodeURIComponent(token)}`,
 	});
 
-	const json = (await res.json()) as { success: boolean; score?: number };
-	const score = json.score ?? 0;
-	return { valid: json.success && score >= 0.5, score };
-}
+	const json: unknown = await res.json();
+	const success =
+		typeof json === 'object' && json !== null && 'success' in json
+			? json.success === true
+			: false;
+	const score =
+		typeof json === 'object' &&
+		json !== null &&
+		'score' in json &&
+		typeof json.score === 'number'
+			? json.score
+			: 0;
+	return { valid: success && score >= 0.5, score };
+};
 
-export function isRecaptchaConfigured(): boolean {
-	return Boolean(process.env.RECAPTCHA_SECRET_KEY);
-}
+/** True when a reCAPTCHA secret is set; local dev runs without one. */
+export const isRecaptchaConfigured = (): boolean =>
+	Boolean(serverEnv.RECAPTCHA_SECRET_KEY);
+
+/** Constant-time string comparison for shared secrets. */
+export const secretsMatch = (
+	received: string | null,
+	expected: string | undefined
+): boolean => {
+	if (!received || !expected) return false;
+	const a = Buffer.from(received);
+	const b = Buffer.from(expected);
+	return a.length === b.length && timingSafeEqual(a, b);
+};
+
+/** Every API error is `{ error: string }` with the given status. */
+export const jsonError = (
+	status: number,
+	error: string
+): NextResponse<{ error: string }> => NextResponse.json({ error }, { status });
+
+/** 429 in the shared error shape. */
+export const tooManyRequests = (
+	message = 'Too many requests. Please try again later.'
+): NextResponse<{ error: string }> => jsonError(429, message);
+
+/**
+ * Parses a JSON request body against a yup schema (unknown keys stripped).
+ * Returns the typed value, or a ready 400 response with the first error.
+ */
+export const parseJsonBody = async <S extends AnyObjectSchema>(
+	request: Request,
+	schema: S
+): Promise<
+	| { data: InferType<S>; response?: never }
+	| { data?: never; response: NextResponse<{ error: string }> }
+> => {
+	let body: unknown;
+	try {
+		body = await request.json();
+	} catch {
+		return { response: jsonError(400, 'Invalid JSON body') };
+	}
+
+	try {
+		return {
+			data: await schema.validate(body, { stripUnknown: true }),
+		};
+	} catch (error) {
+		if (error instanceof ValidationError) {
+			return { response: jsonError(400, error.message) };
+		}
+		throw error;
+	}
+};

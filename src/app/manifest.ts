@@ -1,23 +1,27 @@
 import type { MetadataRoute } from 'next';
 
-export default function manifest(): MetadataRoute.Manifest {
+import { siteName } from 'config/site';
+import { loadSiteSettings } from 'helpers/contentful';
+import { palette } from 'styles/tokens';
+
+export default async function manifest(): Promise<MetadataRoute.Manifest> {
+	const site = await loadSiteSettings();
 	return {
-		name: 'Nithin Pradeep - Portfolio',
-		short_name: 'Nithin Pradeep',
+		name: siteName(site),
+		short_name: site.name,
 		start_url: '/',
+		description: site.seo.description,
 		display: 'standalone',
-		background_color: '#393632',
-		theme_color: '#393632',
+		background_color: palette.ink,
+		theme_color: palette.ink,
 		icons: [
+			{ src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
+			{ src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png' },
 			{
-				src: '/android-chrome-192x192.png',
-				sizes: '192x192',
-				type: 'image/png',
-			},
-			{
-				src: '/android-chrome-512x512.png',
+				src: '/icons/icon-maskable-512.png',
 				sizes: '512x512',
 				type: 'image/png',
+				purpose: 'maskable',
 			},
 		],
 	};

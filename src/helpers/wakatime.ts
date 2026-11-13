@@ -1,3 +1,4 @@
+import { serverEnv } from 'helpers/env';
 import { fetchJson } from 'helpers/http';
 import type { WakaTimeStats } from 'types/wakatime';
 
@@ -28,7 +29,7 @@ const humanize = (seconds: number): string => {
  * intermittently reports zeroed aggregates while summaries stays accurate.
  */
 export const loadWakaTimeStats = async (): Promise<WakaTimeStats | null> => {
-	const apiKey = process.env.WAKATIME_API_KEY;
+	const apiKey = serverEnv.WAKATIME_API_KEY;
 	if (!apiKey) return null;
 
 	const summaries = await fetchJson<WakaTimeSummariesResponse>(

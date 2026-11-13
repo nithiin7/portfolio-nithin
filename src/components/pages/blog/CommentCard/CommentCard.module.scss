@@ -1,136 +1,75 @@
 @use 'styles/shared/mixin' as *;
-@use 'styles/shared/variables' as *;
 
 .CommentCard {
-	background: color-mix(in srgb, var(--color-secondary) 6%, transparent);
-	border: rem(1) solid color-mix(in srgb, var(--color-secondary) 12%, transparent);
-	border-radius: rem(20);
-	padding: rem(20);
-
-	@media #{$md} {
-		padding: rem(24);
-	}
-
-	&__header {
-		display: flex;
-		align-items: center;
-		gap: rem(12);
-		margin-bottom: rem(14);
-	}
-
-	&__avatar {
-		width: rem(40);
-		height: rem(40);
-		border-radius: 50%;
-		background: $color-secondary;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		flex-shrink: 0;
-	}
-
-	&__initials {
-		color: $color-primary;
-		font-weight: 600;
-		font-size: rem(13);
-		letter-spacing: 0.05em;
-	}
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-3);
+	padding-block: var(--space-5);
 
 	&__meta {
-		flex: 1;
-		min-width: 0;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: var(--space-1) var(--space-3);
 	}
 
 	&__author {
-		color: $color-secondary;
-		font-size: rem(15);
 		font-weight: 600;
-		line-height: 140%;
-		margin: 0;
+		color: var(--fg);
 	}
 
 	&__date {
-		color: $color-text-secondary;
-		font-size: rem(13);
-	}
+		@include mono-label;
 
-	&__content {
-		margin-bottom: rem(16);
-	}
-
-	&__replyTo {
-		display: inline-flex;
-		align-items: center;
-		gap: rem(4);
-		color: $color-text-secondary;
-		font-size: rem(12);
-		padding: rem(4) rem(12);
-		background: color-mix(in srgb, var(--color-accent) 10%, transparent);
-		border-radius: rem(50);
-		margin-bottom: rem(10);
-
-		strong {
-			color: $color-accent;
-			font-weight: 600;
-		}
+		font-variant-numeric: tabular-nums;
 	}
 
 	&__text {
-		color: $color-text-secondary;
-		font-size: rem(15);
-		line-height: 160%;
+		max-width: 65ch;
 		margin: 0;
-		word-wrap: break-word;
+		font-size: var(--step-0);
+		line-height: var(--leading-body);
+		color: var(--fg-subtle);
+		overflow-wrap: anywhere;
+		white-space: pre-line;
 	}
 
-	&__actions {
-		display: flex;
-		align-items: center;
-		gap: rem(12);
-		flex-wrap: wrap;
-	}
+	&__reply {
+		@include mono-label;
+		@include draw-underline;
 
-	&__toggleReplies {
-		background: none;
-		border: none;
-		color: $color-accent;
-		font-size: rem(13);
-		font-weight: 600;
-		font-family: $font-primary;
+		align-self: flex-start;
+		min-height: rem(24);
+		padding: 0;
+		border: 0;
+		background-color: transparent;
+		color: var(--fg);
 		cursor: pointer;
-		padding: rem(8) rem(14);
-		border-radius: rem(50);
-		transition: background 0.3s ease;
-		white-space: nowrap;
-
-		&:hover {
-			background: color-mix(in srgb, var(--color-accent) 10%, transparent);
-		}
 
 		&:focus-visible {
-			outline: rem(2) solid $color-secondary;
-			outline-offset: rem(2);
+			@include focus-ring(4px);
 		}
 	}
 
-	&__replyBox {
-		flex: 1;
-		min-width: rem(200);
-		max-width: rem(360);
+	&__form {
+		margin-top: var(--space-3);
+		padding: var(--space-5);
+		border: 1px solid var(--line);
+		background: var(--surface-1);
 	}
 
 	&__replies {
-		margin-top: rem(20);
-		padding-left: rem(16);
-		border-left: rem(1) solid
-			color-mix(in srgb, var(--color-secondary) 15%, transparent);
-		overflow: hidden;
-		display: flex;
-		flex-direction: column;
-		gap: rem(12);
+		margin: var(--space-2) 0 0;
+		padding: 0 0 0 var(--space-5);
+		list-style: none;
+		border-left: 1px solid var(--line-strong);
 
 		@media #{$md} {
-			padding-left: rem(24);
+			padding-left: var(--space-6);
+		}
+
+		.CommentCard {
+			padding-block: var(--space-3);
 		}
 	}
 }

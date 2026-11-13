@@ -1,166 +1,56 @@
 @use 'styles/shared/mixin' as *;
-@use 'styles/shared/variables' as *;
 
 .CommentForm {
-	width: 100%;
-
-	&__replyHeader {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: rem(12);
-		margin-bottom: rem(20);
-		padding: rem(10) rem(16);
-		background: color-mix(in srgb, var(--color-accent) 8%, transparent);
-		border-radius: rem(12);
-	}
-
-	&__replyText {
-		color: $color-text-secondary;
-		font-size: rem(14);
-
-		strong {
-			color: $color-accent;
-			font-weight: 600;
-		}
-	}
-
-	&__cancelReply {
-		background: none;
-		border: none;
-		color: $color-text-secondary;
-		font-size: rem(13);
-		font-weight: 600;
-		font-family: $font-primary;
-		cursor: pointer;
-		padding: rem(6) rem(12);
-		border-radius: rem(50);
-		transition:
-			color 0.3s ease,
-			background 0.3s ease;
-		white-space: nowrap;
-
-		&:hover {
-			color: $color-secondary;
-			background: color-mix(in srgb, var(--color-secondary) 8%, transparent);
-		}
-
-		&:focus-visible {
-			outline: rem(2) solid $color-secondary;
-			outline-offset: rem(2);
-		}
-	}
+	container-type: inline-size;
 
 	&__form {
-		display: flex;
-		flex-direction: column;
-		gap: rem(8);
-	}
-
-	&__row {
 		display: grid;
-		grid-template-columns: 1fr;
-		gap: rem(8);
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--space-5) var(--grid-gutter);
 
-		@media #{$md} {
-			grid-template-columns: 1fr 1fr;
-			gap: rem(16);
+		@container (min-width: 40rem) {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+
+			> * {
+				grid-column: 1 / -1;
+			}
+
+			> .CommentForm__half {
+				grid-column: auto;
+			}
 		}
 	}
 
-	&__input,
-	&__textarea {
-		width: 100%;
+	&__actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--space-4) var(--space-5);
 	}
 
 	&__submit {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		gap: rem(10);
-		width: 100%;
-		padding: rem(16) rem(32);
-		background: $color-secondary;
-		border: rem(1) solid $color-secondary;
-		border-radius: rem(50);
-		color: $color-primary;
-		font-size: rem(14);
-		font-weight: 600;
-		font-family: $font-primary;
-		text-transform: uppercase;
-		letter-spacing: rem(0.75);
-		white-space: nowrap;
-		cursor: pointer;
-		transition: all 0.4s cubic-bezier(0.76, 0, 0.24, 1);
-		margin-top: rem(8);
+		@include pill-button('.CommentForm__roll');
+	}
 
-		&:hover:not(:disabled) {
-			background: transparent;
-			color: $color-secondary;
-		}
+	&__cancel {
+		@include mono-label;
+		@include draw-underline;
+
+		min-height: rem(24);
+		padding: 0;
+		border: 0;
+		background-color: transparent;
+		color: var(--fg);
+		cursor: pointer;
 
 		&:focus-visible {
-			outline: rem(2) solid $color-secondary;
-			outline-offset: rem(2);
-		}
-
-		&:disabled {
-			opacity: 0.5;
-			cursor: not-allowed;
+			@include focus-ring(4px);
 		}
 	}
 
-	&__spinner {
-		width: rem(16);
-		height: rem(16);
-		border: rem(2) solid color-mix(in srgb, currentcolor 30%, transparent);
-		border-top-color: currentcolor;
-		border-radius: 50%;
-		animation: spin 0.8s linear infinite;
-	}
-
-	@keyframes spin {
-		to {
-			transform: rotate(360deg);
-		}
-	}
-
-	&__success {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: rem(12);
-		text-align: center;
-		padding: rem(24) 0;
-	}
-
-	&__successIcon {
-		width: rem(56);
-		height: rem(56);
-		background: $color-secondary;
-		color: $color-primary;
-		border-radius: 50%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: rem(22);
-		font-weight: 700;
-	}
-
-	&__successTitle {
-		color: $color-secondary;
-		font-size: rem(18);
-		font-weight: 700;
-		text-transform: uppercase;
-		letter-spacing: -0.025em;
+	&__error {
 		margin: 0;
-	}
-
-	&__successMessage {
-		color: $color-text-secondary;
-		font-size: rem(15);
-		line-height: 150%;
-		margin: 0;
-		max-width: 40ch;
+		font-size: var(--step--1);
+		color: var(--danger);
 	}
 }

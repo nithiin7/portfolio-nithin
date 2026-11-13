@@ -1,44 +1,50 @@
 import type { Metadata } from 'next';
-import Script from 'next/script';
 
-import { Resume } from 'components/pages';
-import { transformCareerData } from 'helpers/career';
-import { loadData } from 'helpers/contentful';
-import type { Certification } from 'types/certification';
+import Resume from 'components/pages/resume/Resume/Resume';
+import JsonLd from 'components/utilities/JsonLd/JsonLd';
+import { absoluteUrl, personJsonLd, siteName } from 'config/site';
+import { loadHome, loadPageSeo, loadSiteSettings } from 'helpers/contentful';
+import type { Seo, SiteSettings } from 'types/site';
 
 export const revalidate = 3600;
 
-const title = 'Resume';
-const ogTitle = 'Resume | Nithin Pradeep - Full Stack Developer';
-const description =
-	'Full Stack Developer resume for Nithin Pradeep — experience, skills, and certifications. View online or download the PDF.';
+const url = absoluteUrl('/resume');
+
+/** Page "resume" SEO from Contentful, or one built from Site Settings. */
+const resumeSeo = async (): Promise<[Seo, SiteSettings]> => {
+	const [seo, site] = await Promise.all([
+		loadPageSeo('resume'),
+		loadSiteSettings(),
+	]);
+	return [
+		seo ?? {
+			title: 'Résumé',
+			description: `${site.role} at ${site.company}: experience, skills and certifications. Read online or download the PDF.`,
+		},
+		site,
+	];
+};
 
 export async function generateMetadata(): Promise<Metadata> {
+	const [{ title, description }, site] = await resumeSeo();
+	const ogTitle = `${title} | ${site.name}`;
+
 	return {
 		title,
 		description,
 		openGraph: {
 			type: 'profile',
 			locale: 'en_US',
-			url: 'https://portfolio-nithin.vercel.app/resume',
+			url,
 			title: ogTitle,
 			description,
-			siteName: 'Nithin Pradeep - Portfolio',
-			images: [
-				{
-					url: '/opengraph-image.jpeg',
-					width: 1200,
-					height: 630,
-					alt: 'Nithin Pradeep - Full Stack Developer Resume',
-				},
-			],
+			siteName: siteName(site),
 		},
 		twitter: {
 			card: 'summary_large_image',
 			title: ogTitle,
 			description,
-			creator: '@nithiin7',
-			images: ['/opengraph-image.jpeg'],
+			creator: site.twitterHandle,
 		},
 		robots: {
 			index: true,
@@ -51,70 +57,29 @@ export async function generateMetadata(): Promise<Metadata> {
 				'max-snippet': -1,
 			},
 		},
-		alternates: {
-			canonical: 'https://portfolio-nithin.vercel.app/resume',
-		},
+		alternates: { canonical: url },
 	};
 }
 
-const resumeStructuredData = {
-	'@context': 'https://schema.org',
-	'@type': 'ProfilePage',
-	dateModified: new Date().toISOString(),
-	mainEntity: {
-		'@type': 'Person',
-		name: 'Nithin Pradeep',
-		jobTitle: 'Full Stack Developer',
-		url: 'https://portfolio-nithin.vercel.app/resume',
-		sameAs: [
-			'https://github.com/nithiin7',
-			'https://www.linkedin.com/in/nithinpradeep/',
-			'https://www.instagram.com/__nithiin__/',
-			'https://www.twitter.com/_nithiin7/',
-			'https://www.linkedin.com/in/nithin-p7/',
-		],
-	},
-};
-
 export default async function ResumePage() {
-	const props = await loadData('home');
-	const path = props?.data?.pageCollection?.items?.[0];
+	const [home, site] = await Promise.all([loadHome(), loadSiteSettings()]);
 
-	const sections = path.sectionCollection?.items || [];
-
-	const headerData = sections[0]?.contentsCollection || { items: [] };
-	const servicesData = {
-		data: sections[1]?.contentsCollection?.items?.[0] || {},
-		services: sections[1]?.contentsCollection?.items || [],
-	};
-	const aboutData = sections[2]?.contentsCollection || { items: [] };
-	const careerDataProps = transformCareerData({
-		data: sections[6]?.contentsCollection?.items?.[0] || {},
-		career:
-			sections[6]?.contentsCollection?.items?.[1]?.contentsCollection?.items ||
-			[],
-	});
-	const certificationsData = {
-		data: sections[7]?.contentsCollection?.items?.[0] || {},
-		certifications: (sections[7]?.contentsCollection?.items?.[1]
-			?.contentsCollection?.items || []) as unknown as Certification[],
+	const structuredData = {
+		'@context': 'https://schema.org',
+		'@type': 'ProfilePage',
+		dateModified: new Date().toISOString(),
+		mainEntity: personJsonLd(site),
 	};
 
 	return (
 		<>
-			<Script
-				id="resume-structured-data"
-				type="application/ld+json"
-				dangerouslySetInnerHTML={{
-					__html: JSON.stringify(resumeStructuredData),
-				}}
-			/>
+			<JsonLd id="resume-structured-data" data={structuredData} />
 			<Resume
-				header={headerData}
-				about={aboutData}
-				services={servicesData}
-				career={careerDataProps}
-				certifications={certificationsData}
+				site={site}
+				bio={home.about.bio}
+				capabilities={home.capabilities.items}
+				experiences={home.career.experiences}
+				certifications={home.certifications.items}
 				resumeUrl="/resume.pdf"
 			/>
 		</>

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
-import Script from 'next/script';
 
-import { Stats } from 'components/pages';
+import Stats from 'components/pages/stats/Stats/Stats';
+import JsonLd from 'components/utilities/JsonLd/JsonLd';
 import { loadBlogStats } from 'helpers/blogStats';
 import { loadDevToStats } from 'helpers/devto';
 import { loadGithubStats } from 'helpers/github';
@@ -25,21 +25,12 @@ export async function generateMetadata(): Promise<Metadata> {
 			title,
 			description,
 			siteName: 'Nithin Pradeep - Portfolio',
-			images: [
-				{
-					url: '/opengraph-image.jpeg',
-					width: 1200,
-					height: 630,
-					alt: 'Live Stats - Nithin Pradeep',
-				},
-			],
 		},
 		twitter: {
 			card: 'summary_large_image',
 			title,
 			description,
 			creator: '@nithiin7',
-			images: ['/opengraph-image.jpeg'],
 		},
 		robots: {
 			index: true,
@@ -83,13 +74,7 @@ export default async function StatsPage(): Promise<React.ReactElement> {
 
 	return (
 		<>
-			<Script
-				id="stats-structured-data"
-				type="application/ld+json"
-				dangerouslySetInnerHTML={{
-					__html: JSON.stringify(statsStructuredData),
-				}}
-			/>
+			<JsonLd id="stats-structured-data" data={statsStructuredData} />
 			<Stats
 				github={github}
 				wakatime={wakatime}
