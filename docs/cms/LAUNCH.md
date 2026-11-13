@@ -1,6 +1,6 @@
 # Launch: the phase 14 content model
 
-How the reshaped Contentful model reaches production, and how to undo it. Read [AUDIT.md](AUDIT.md) for why and [CONVENTIONS.md](CONVENTIONS.md) for the rules.
+How the reshaped Contentful model reaches production, and how to undo it. Read [the phase 14 audit](../archive/cms/AUDIT.md) for why and [CONVENTIONS.md](CONVENTIONS.md) for the rules.
 
 ## Where things stand (2026-11-13)
 

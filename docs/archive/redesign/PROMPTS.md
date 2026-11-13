@@ -23,6 +23,7 @@ Add this block to the top of `CLAUDE.md` (Claude Code reads it every session):
 
 ```md
 ## Active work: v5 redesign
+
 - Plan & audit: docs/redesign/REDESIGN_PLAN.md — read before any change.
 - Chosen direction: A — Editorial Swiss (see sections 4 and 4c of the plan).
 - Work only on `redesign` or `redesign/phase-*` branches. Never touch `main`.

@@ -1,6 +1,29 @@
 {
 	"name": "portfolio-nithin",
 	"version": "4.0.1",
+	"description": "Portfolio of Nithin Pradeep, AI and full-stack engineer: editorial Swiss design, Contentful case studies, a blog, live stats and a RAG assistant. Next.js 16, React 19, TypeScript.",
+	"keywords": [
+		"portfolio",
+		"nextjs",
+		"react",
+		"typescript",
+		"contentful",
+		"supabase",
+		"motion",
+		"scss",
+		"rag",
+		"awwwards"
+	],
+	"homepage": "https://portfolio-nithin.vercel.app",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/nithiin7/portfolio-nithin.git"
+	},
+	"bugs": {
+		"url": "https://github.com/nithiin7/portfolio-nithin/issues"
+	},
+	"author": "Nithin Pradeep (https://portfolio-nithin.vercel.app)",
+	"license": "MIT",
 	"private": true,
 	"type": "module",
 	"packageManager": "pnpm@11.0.5",
