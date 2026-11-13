@@ -27,8 +27,7 @@
 		text-decoration: none;
 
 		&:focus-visible {
-			outline: 2px solid var(--focus);
-			outline-offset: 4px;
+			@include focus-ring(4px);
 		}
 	}
 
@@ -79,10 +78,7 @@
 
 	&__number,
 	&__meta {
-		font-family: var(--font-mono);
-		font-size: var(--step--1);
-		letter-spacing: var(--tracking-mono);
-		text-transform: uppercase;
+		@include mono-type;
 		color: var(--muted);
 	}
 

@@ -13,7 +13,6 @@
 		"allowImportingTsExtensions": true,
 		"isolatedModules": true,
 		"jsx": "react-jsx",
-		"baseUrl": "./src/",
 		"plugins": [
 			{
 				"name": "next"
@@ -21,21 +20,31 @@
 		],
 		"target": "ES2017",
 		"paths": {
-			"assets/*": ["assets/*"],
-			"data/*": ["../data/*"],
-			"components/*": ["components/*"],
-			"helpers/*": ["helpers/*"],
-			"queries/*": ["queries/*"],
-			"styles/*": ["styles/*"],
-			"utils/*": ["utils/*"]
-		}
+			"app/*": ["./src/app/*"],
+			"assets/*": ["./src/assets/*"],
+			"clients/*": ["./src/clients/*"],
+			"components/*": ["./src/components/*"],
+			"config/*": ["./src/config/*"],
+			"constants/*": ["./src/constants/*"],
+			"contexts/*": ["./src/contexts/*"],
+			"helpers/*": ["./src/helpers/*"],
+			"hooks/*": ["./src/hooks/*"],
+			"queries/*": ["./src/queries/*"],
+			"services/*": ["./src/services/*"],
+			"styles/*": ["./src/styles/*"],
+			"test/*": ["./src/test/*"],
+			"types/*": ["./src/types/*"],
+			"data/*": ["./data/*"]
+		},
+		"noImplicitOverride": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedIndexedAccess": true
 	},
 	"include": [
 		"next-env.d.ts",
 		".next/types/**/*.ts",
 		"**/*.ts",
 		"**/*.tsx",
-		".storybook/**/*",
 		"**/*.js",
 		"**/*.jsx",
 		"**/*.json",

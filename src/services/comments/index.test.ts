@@ -7,11 +7,8 @@ import type { DatabaseComment } from 'types/comment';
 vi.mock('services/index', () => ({
 	baseService: {
 		get: vi.fn(),
-		getById: vi.fn(),
 		post: vi.fn(),
 		patch: vi.fn(),
-		delete: vi.fn(),
-		getWhereIn: vi.fn(),
 	},
 }));
 
@@ -73,40 +70,6 @@ describe('getCommentsByPostId', () => {
 	});
 });
 
-describe('getCommentCounts', () => {
-	it('returns a post-id-keyed map counting rows including replies', async () => {
-		vi.mocked(baseService.getWhereIn).mockResolvedValue({
-			data: [
-				{ post_id: 'post-1' },
-				{ post_id: 'post-1' },
-				{ post_id: 'post-2' },
-			],
-			error: null,
-		});
-
-		const result = await commentsService.getCommentCounts(['post-1', 'post-2']);
-
-		expect(baseService.getWhereIn).toHaveBeenCalledWith(
-			'comments',
-			'post_id',
-			['post-1', 'post-2'],
-			{ select: 'post_id' }
-		);
-		expect(result.data).toEqual({ 'post-1': 2, 'post-2': 1 });
-	});
-
-	it('omits posts with no comments', async () => {
-		vi.mocked(baseService.getWhereIn).mockResolvedValue({
-			data: [],
-			error: null,
-		});
-
-		const result = await commentsService.getCommentCounts(['post-1']);
-
-		expect(result.data).toEqual({});
-	});
-});
-
 describe('createComment', () => {
 	const formData = {
 		authorName: 'Nithin',
@@ -151,38 +114,5 @@ describe('createComment', () => {
 		const result = await commentsService.createComment(formData);
 
 		expect(result).toEqual({ data: null, error });
-	});
-});
-
-describe('getCommentsWithReplies', () => {
-	it('nests replies under their parent comments', async () => {
-		vi.mocked(baseService.get).mockResolvedValue({
-			data: [
-				dbComment({ id: 'parent-1' }),
-				dbComment({ id: 'reply-1', parent_id: 'parent-1' }),
-				dbComment({ id: 'parent-2' }),
-			],
-			error: null,
-		});
-
-		const result = await commentsService.getCommentsWithReplies('post-1');
-
-		expect(result.data).toHaveLength(2);
-		expect(result.data?.[0]).toMatchObject({
-			id: 'parent-1',
-			replies: [expect.objectContaining({ id: 'reply-1' })],
-		});
-		expect(result.data?.[1]).toMatchObject({ id: 'parent-2', replies: [] });
-	});
-});
-
-describe('deleteComment', () => {
-	it('delegates to baseService.delete', async () => {
-		vi.mocked(baseService.delete).mockResolvedValue({ error: null });
-
-		const result = await commentsService.deleteComment('c1');
-
-		expect(baseService.delete).toHaveBeenCalledWith('comments', 'c1');
-		expect(result).toEqual({ error: null });
 	});
 });

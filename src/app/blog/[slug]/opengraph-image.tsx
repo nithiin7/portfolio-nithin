@@ -1,10 +1,6 @@
 import type { ImageResponse } from 'next/og';
 
-import {
-	convertContentfulBlogPost,
-	loadBlogPostBySlug,
-	loadSiteSettings,
-} from 'helpers/contentful';
+import { loadBlogPost, loadSiteSettings } from 'helpers/contentful';
 import { ogContentType, ogSize, renderOgCard } from 'helpers/og';
 
 export const alt = 'Article social card';
@@ -17,12 +13,10 @@ export default async function Image({
 	params: Promise<{ slug: string }>;
 }): Promise<ImageResponse> {
 	const { slug } = await params;
-	const [{ data }, site] = await Promise.all([
-		loadBlogPostBySlug(slug),
+	const [post, site] = await Promise.all([
+		loadBlogPost(slug),
 		loadSiteSettings(),
 	]);
-	const item = data?.blogPostCollection?.items?.[0];
-	const post = item ? convertContentfulBlogPost(item) : null;
 
 	return renderOgCard({
 		kicker: '/BLOG',

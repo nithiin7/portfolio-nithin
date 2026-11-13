@@ -4,6 +4,7 @@ import type { FC, ReactElement } from 'react';
 import CountUp from 'components/pages/stats/CountUp/CountUp';
 import StatCard, {
 	StatCardDivider,
+	StatCardMetrics,
 	StatCardSection,
 } from 'components/pages/stats/StatCard/StatCard';
 import StatMetric from 'components/pages/stats/StatMetric/StatMetric';
@@ -23,7 +24,7 @@ const BlogStatCard: FC<BlogStatCardProps> = ({
 
 	return (
 		<StatCard title="Blog" subtitle="On this site" live>
-			<div className={styles.BlogStatCard__metrics}>
+			<StatCardMetrics>
 				<StatMetric
 					value={<CountUp value={stats.totalViews} compact />}
 					label="Total views"
@@ -32,7 +33,7 @@ const BlogStatCard: FC<BlogStatCardProps> = ({
 					value={<CountUp value={stats.totalComments} />}
 					label="Comments"
 				/>
-			</div>
+			</StatCardMetrics>
 			{stats.topPosts.length > 0 && (
 				<>
 					<StatCardDivider />

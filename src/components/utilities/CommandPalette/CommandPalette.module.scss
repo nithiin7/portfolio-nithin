@@ -1,13 +1,5 @@
 @use 'styles/shared/mixin' as *;
 
-@mixin mono-label {
-	font-family: var(--font-mono);
-	font-size: var(--step--1);
-	font-weight: 400;
-	letter-spacing: var(--tracking-mono);
-	text-transform: uppercase;
-}
-
 @mixin kbd {
 	display: inline-flex;
 	align-items: center;
@@ -54,7 +46,8 @@
 		align-items: center;
 		padding: var(--space-3) var(--space-5);
 		border-bottom: 1px solid var(--line);
-		@include mono-label;
+		@include mono-type;
+		font-weight: 400;
 		color: var(--muted);
 	}
 
@@ -78,8 +71,7 @@
 		}
 
 		&:focus-visible {
-			outline: 2px solid var(--focus);
-			outline-offset: 2px;
+			@include focus-ring(2px);
 		}
 	}
 
@@ -139,7 +131,8 @@
 		display: flex;
 		justify-content: space-between;
 		padding: var(--space-5) var(--space-5) var(--space-2);
-		@include mono-label;
+		@include mono-type;
+		font-weight: 400;
 		color: var(--muted);
 	}
 
@@ -190,7 +183,8 @@
 		}
 
 		&-kind {
-			@include mono-label;
+			@include mono-type;
+			font-weight: 400;
 			color: var(--muted);
 		}
 
@@ -251,7 +245,8 @@
 			justify-content: space-between;
 			margin: 0;
 			padding: var(--space-4) var(--space-5) 0;
-			@include mono-label;
+			@include mono-type;
+			font-weight: 400;
 			color: var(--accent-text);
 
 			span:last-child {
@@ -287,7 +282,8 @@
 		&-loading {
 			margin: 0;
 			padding: var(--space-3) var(--space-5) var(--space-5);
-			@include mono-label;
+			@include mono-type;
+			font-weight: 400;
 			color: var(--muted);
 
 			span {
@@ -302,7 +298,8 @@
 		gap: var(--space-5);
 		padding: var(--space-3) var(--space-5);
 		border-top: 1px solid var(--line);
-		@include mono-label;
+		@include mono-type;
+		font-weight: 400;
 		color: var(--muted);
 
 		span {
@@ -360,8 +357,7 @@
 		}
 
 		&:focus-visible {
-			outline: 2px solid var(--focus);
-			outline-offset: 3px;
+			@include focus-ring(3px);
 		}
 
 		&-icon {
@@ -382,7 +378,8 @@
 			max-width: 0;
 			overflow: hidden;
 			white-space: nowrap;
-			@include mono-label;
+			@include mono-type;
+			font-weight: 400;
 			transition:
 				max-width var(--dur-1) var(--ease),
 				padding var(--dur-1) var(--ease);

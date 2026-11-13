@@ -134,11 +134,13 @@ export default async function run(client: Client): Promise<void> {
 				break;
 			case 'work':
 				fields.items = refs(
-					innerItems.map((ref) => CARD_TO_PROJECT[ref.sys.id]).filter(Boolean)
+					innerItems
+						.map((ref) => CARD_TO_PROJECT[ref.sys.id])
+						.filter((id): id is string => Boolean(id))
 				);
 				break;
 			case 'about': {
-				const portrait = await client.getEntry(contents[1].sys.id);
+				const portrait = await client.getEntry(contents[1]!.sys.id);
 				Object.assign(fields, {
 					body: richText(ABOUT_BIO),
 					image: value(portrait, 'image'),

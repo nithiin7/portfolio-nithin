@@ -48,6 +48,6 @@ export const scrambleFrame = (
 	return schedule.map((at) =>
 		progress >= at || set.length === 0
 			? null
-			: set[Math.floor(rng() * set.length) % set.length]
+			: (set[Math.floor(rng() * set.length) % set.length] ?? null)
 	);
 };

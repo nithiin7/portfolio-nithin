@@ -1,5 +1,4 @@
 import dynamic from 'next/dynamic';
-import Script from 'next/script';
 import type { ReactElement } from 'react';
 
 import HomeAbout from 'components/pages/homepage/HomeAbout/HomeAbout';
@@ -8,6 +7,7 @@ import HomeCapabilities from 'components/pages/homepage/HomeCapabilities/HomeCap
 import HomeHeader from 'components/pages/homepage/HomeHeader/HomeHeader';
 import HomeManifesto from 'components/pages/homepage/HomeManifesto/HomeManifesto';
 import HomePortfolio from 'components/pages/homepage/HomePortfolio/HomePortfolio';
+import JsonLd from 'components/utilities/JsonLd/JsonLd';
 import { absoluteUrl, personJsonLd, siteName } from 'config/site';
 import { yearsOfExperience } from 'helpers/career';
 import { loadHome, loadSiteSettings } from 'helpers/contentful';
@@ -132,11 +132,7 @@ export default async function Home() {
 
 	return (
 		<>
-			<Script
-				id="home-structured-data"
-				type="application/ld+json"
-				dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-			/>
+			<JsonLd id="home-structured-data" data={structuredData} />
 			{order.map((key) => sections[key])}
 		</>
 	);

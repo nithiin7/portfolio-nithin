@@ -9,6 +9,7 @@ import { BLOCKS, type Document } from '@contentful/rich-text-types';
 import type { DocumentNode } from 'graphql';
 import { cache } from 'react';
 
+import { getApolloClient } from 'clients/apollo';
 import { sortByStart, toExperience } from 'helpers/career';
 import { serverEnv } from 'helpers/env';
 import { plainText } from 'helpers/richText';
@@ -18,7 +19,7 @@ import {
 	GET_HOME,
 	GET_PAGE_SEO,
 	GET_SITE_SETTINGS,
-} from 'queries';
+} from 'queries/index';
 import {
 	GET_PROJECT,
 	GET_PROJECT_SLUG_BY_LEGACY_ID,
@@ -53,8 +54,6 @@ import type {
 import type { PortfolioItem } from 'types/portfolio';
 import type { Seo, SiteLink, SiteSettings } from 'types/site';
 import type { Testimonial } from 'types/testimony';
-
-import { getApolloClient } from '../../lib/apolloClient';
 
 type QueryResult<TData> = ApolloClient.QueryResult<TData, 'none'>;
 
@@ -146,6 +145,7 @@ export const loadSiteSettings = cache(async (): Promise<SiteSettings> => {
 	return toSiteSettings(raw);
 });
 
+/** SEO fields of the Page with this slug, if it has any. */
 export const loadPageSeo = async (slug: string): Promise<Seo | undefined> => {
 	const { data } = await runQuery<PageSeoResponse>(GET_PAGE_SEO, { slug });
 	return toSeo(data.pageCollection.items[0]?.seo);
@@ -153,6 +153,7 @@ export const loadPageSeo = async (slug: string): Promise<Seo | undefined> => {
 
 // ── Projects ───────────────────────────────────────────────────────────────
 
+/** Contentful project card → PortfolioItem (spotlight images, first four tech tags). */
 export const toPortfolioItem = (raw: RawProjectCard): PortfolioItem => ({
 	id: raw.id ?? undefined,
 	slug: raw.slug,
@@ -176,6 +177,7 @@ export const toPortfolioItem = (raw: RawProjectCard): PortfolioItem => ({
 	demo: raw.demo ?? undefined,
 });
 
+/** Full project for its case study, by slug. */
 export const loadProject = async (
 	slug: string
 ): Promise<RawProject | undefined> => {
@@ -183,6 +185,7 @@ export const loadProject = async (
 	return data.portfolioDetailsCollection.items[0];
 };
 
+/** Current slug for a legacy numeric project id, for the /portfolio/[id] redirect. */
 export const loadProjectSlugByLegacyId = async (
 	id: number
 ): Promise<string | undefined> => {
@@ -285,6 +288,7 @@ const toManifesto = (
 	};
 };
 
+/** Homepage content, with each Home Section found by its `key`. */
 export const loadHome = cache(async (): Promise<HomeContent> => {
 	const { data } = await runQuery<HomeResponse>(GET_HOME);
 	const sections = compact(
@@ -361,7 +365,8 @@ export const loadHome = cache(async (): Promise<HomeContent> => {
 
 // ── Blog ───────────────────────────────────────────────────────────────────
 
-export const convertContentfulBlogPost = (post: BlogPostItem): BlogPost => ({
+/** Contentful blog post → app BlogPost (empty strings for missing optional media). */
+export const toBlogPost = (post: BlogPostItem): BlogPost => ({
 	id: post.sys.id,
 	title: post.title,
 	slug: post.slug,
@@ -388,27 +393,23 @@ export const convertContentfulBlogPost = (post: BlogPostItem): BlogPost => ({
 /** Drafts read in preview mode can be half-written; skip undated ones. */
 const isDated = (post: BlogPostItem): boolean => Boolean(post.publishedDate);
 
-export const loadBlogPosts = async (
-	limit = 10,
-	skip = 0
-): Promise<QueryResult<BlogPostsResponse>> => {
+/** Published (dated) posts, newest first, converted. */
+export const loadBlogPosts = async (limit = 100): Promise<BlogPost[]> => {
 	const { data } = await runQuery<BlogPostsResponse>(GET_ALL_BLOG_POSTS, {
 		limit,
-		skip,
+		skip: 0,
 	});
-	const items = data.blogPostCollection.items.filter(isDated);
-	return {
-		data: { blogPostCollection: { ...data.blogPostCollection, items } },
-	};
+	return data.blogPostCollection.items.filter(isDated).map(toBlogPost);
 };
 
-export const loadBlogPostBySlug = async (
+/** One post by slug, or undefined when it doesn't exist or is undated. */
+export const loadBlogPost = async (
 	slug: string
-): Promise<QueryResult<BlogPostBySlugResponse>> => {
+): Promise<BlogPost | undefined> => {
 	const { data } = await runQuery<BlogPostBySlugResponse>(
 		GET_BLOG_POST_BY_SLUG,
 		{ slug }
 	);
-	const items = data.blogPostCollection.items.filter(isDated);
-	return { data: { blogPostCollection: { items } } };
+	const item = data.blogPostCollection.items.find(isDated);
+	return item ? toBlogPost(item) : undefined;
 };

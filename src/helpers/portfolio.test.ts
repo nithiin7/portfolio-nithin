@@ -42,14 +42,14 @@ describe('enrichPortfolio', () => {
 			getBlur
 		);
 
-		expect(a.blurDataURL).toBe(`blur:${item(1).image.url}`);
-		expect(a.blurDataURLDark).toBe('blur:https://images.ctfassets.net/d.png');
+		expect(a!.blurDataURL).toBe(`blur:${item(1).image.url}`);
+		expect(a!.blurDataURLDark).toBe('blur:https://images.ctfassets.net/d.png');
 		expect(getBlur).toHaveBeenCalledTimes(2);
 	});
 
 	it('leaves blur empty when the fetch fails', async () => {
 		const [a] = await enrichPortfolio([item(1)], async () => undefined);
-		expect(a.blurDataURL).toBeUndefined();
+		expect(a!.blurDataURL).toBeUndefined();
 	});
 });
 

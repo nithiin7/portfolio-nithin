@@ -3,6 +3,7 @@ import type { FC, ReactElement } from 'react';
 import CountUp from 'components/pages/stats/CountUp/CountUp';
 import StatCard, {
 	StatCardDivider,
+	StatCardMetrics,
 	StatCardSection,
 } from 'components/pages/stats/StatCard/StatCard';
 import StatMetric from 'components/pages/stats/StatMetric/StatMetric';
@@ -28,7 +29,7 @@ const DevToStatCard: FC<DevToStatCardProps> = ({
 			href={`https://dev.to/${DEVTO_USERNAME}`}
 			linkLabel="Profile"
 		>
-			<div className={styles.DevToStatCard__metrics}>
+			<StatCardMetrics>
 				<StatMetric
 					value={<CountUp value={stats.totalArticles} />}
 					label="Articles"
@@ -41,7 +42,7 @@ const DevToStatCard: FC<DevToStatCardProps> = ({
 					value={<CountUp value={stats.totalComments} />}
 					label="Comments"
 				/>
-			</div>
+			</StatCardMetrics>
 			<StatCardDivider />
 			<StatCardSection>Latest article</StatCardSection>
 			<div className={styles.DevToStatCard__latest}>

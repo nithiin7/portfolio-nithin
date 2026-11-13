@@ -31,25 +31,25 @@ describe('WorksIndex', () => {
 			'/portfolio/project-5',
 			'/portfolio/project-6',
 		]);
-		expect(rows()[0].textContent).toContain('04');
+		expect(rows()[0]!.textContent).toContain('04');
 	});
 
 	it('exposes a single tab stop and moves it with the arrow keys', () => {
 		render(<WorksIndex projects={projects} />);
 		expect(rows().map((a) => a.tabIndex)).toEqual([0, -1, -1]);
 
-		rows()[0].focus();
-		fireEvent.keyDown(rows()[0], { key: 'ArrowDown' });
+		rows()[0]!.focus();
+		fireEvent.keyDown(rows()[0]!, { key: 'ArrowDown' });
 		expect(document.activeElement).toBe(rows()[1]);
 		expect(rows().map((a) => a.tabIndex)).toEqual([-1, 0, -1]);
 
-		fireEvent.keyDown(rows()[1], { key: 'End' });
+		fireEvent.keyDown(rows()[1]!, { key: 'End' });
 		expect(document.activeElement).toBe(rows()[2]);
 
-		fireEvent.keyDown(rows()[2], { key: 'ArrowDown' });
+		fireEvent.keyDown(rows()[2]!, { key: 'ArrowDown' });
 		expect(document.activeElement).toBe(rows()[0]);
 
-		fireEvent.keyDown(rows()[0], { key: 'ArrowUp' });
+		fireEvent.keyDown(rows()[0]!, { key: 'ArrowUp' });
 		expect(document.activeElement).toBe(rows()[2]);
 	});
 

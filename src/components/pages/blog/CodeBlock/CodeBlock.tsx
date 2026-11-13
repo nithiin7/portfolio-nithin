@@ -35,6 +35,7 @@ const CodeBlock: FC<CodeBlockProps> = ({ code }): ReactElement => {
 				</button>
 			</figcaption>
 			{/* Focusable so keyboard users can scroll long lines horizontally */}
+			{/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
 			<pre className={styles.CodeBlock__pre} tabIndex={0}>
 				<code>{code}</code>
 			</pre>

@@ -4,7 +4,8 @@ import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import type { FC, ReactNode } from 'react';
 import { useEffect, useRef } from 'react';
 
-import { CloseIcon } from 'assets/icons';
+import CloseIcon from 'assets/icons/CloseIcon';
+import { fadeVariants, overlayVariants } from 'helpers/animations';
 import { useFocusTrap } from 'hooks/useKeyboardNavigation';
 import { duration, ease } from 'styles/tokens';
 
@@ -20,12 +21,6 @@ interface ModalProps {
 	className?: string;
 }
 
-const backdrop: Variants = {
-	hidden: { opacity: 0 },
-	visible: { opacity: 1, transition: { duration: duration.fast, ease } },
-	exit: { opacity: 0, transition: { duration: duration.fast, ease } },
-};
-
 // The panel wipes open from its bottom edge, matching RevealImage.
 const panel: Variants = {
 	hidden: { clipPath: 'inset(100% 0% 0% 0%)', y: '1.5rem' },
@@ -39,12 +34,6 @@ const panel: Variants = {
 		y: '-0.75rem',
 		transition: { duration: duration.fast, ease },
 	},
-};
-
-const fadeOnly: Variants = {
-	hidden: { opacity: 0 },
-	visible: { opacity: 1 },
-	exit: { opacity: 0 },
 };
 
 /**
@@ -100,7 +89,7 @@ const Modal: FC<ModalProps> = ({
 			{isOpen && (
 				<motion.div
 					className={`${styles.Modal} ${className ?? ''}`}
-					variants={backdrop}
+					variants={overlayVariants}
 					initial="hidden"
 					animate="visible"
 					exit="exit"
@@ -114,7 +103,7 @@ const Modal: FC<ModalProps> = ({
 						aria-modal="true"
 						aria-label={title || 'Dialog'}
 						tabIndex={-1}
-						variants={prefersReducedMotion ? fadeOnly : panel}
+						variants={prefersReducedMotion ? fadeVariants : panel}
 					>
 						<div className={styles.Modal__header}>
 							<p className={styles.Modal__title}>

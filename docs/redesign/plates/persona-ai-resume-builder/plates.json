@@ -4,10 +4,7 @@
 		"debug": "persona-ai-resume-builder--cover.debug.png",
 		"template": "cover",
 		"alt": "Persona resume editor: section tabs and profile form on the left, live resume preview on the right.",
-		"use": [
-			"card",
-			"spotlight"
-		],
+		"use": ["card", "spotlight"],
 		"surface": "paper"
 	},
 	{
@@ -15,9 +12,7 @@
 		"debug": "persona-ai-resume-builder--detail-suggestions.debug.png",
 		"template": "detail",
 		"alt": "Close-up of an AI suggestion in Persona, with added keywords highlighted in green and Reject / Accept buttons.",
-		"use": [
-			"gallery"
-		],
+		"use": ["gallery"],
 		"surface": "ink"
 	}
 ]

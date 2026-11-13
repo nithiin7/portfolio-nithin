@@ -53,6 +53,11 @@ const StatCard: FC<StatCardProps> = ({
 	</article>
 );
 
+/** Row of headline StatMetrics at the top of a card. */
+export const StatCardMetrics: FC<{ children: ReactNode }> = ({
+	children,
+}): ReactElement => <div className={styles.StatCard__metrics}>{children}</div>;
+
 export const StatCardDivider: FC = (): ReactElement => (
 	<hr className={styles.StatCard__divider} />
 );

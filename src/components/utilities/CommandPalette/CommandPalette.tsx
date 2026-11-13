@@ -11,6 +11,7 @@ import {
 
 import { links } from 'constants/index';
 import { useTheme } from 'contexts/ThemeContext';
+import { fadeVariants, overlayVariants } from 'helpers/animations';
 import { clientEnv } from 'helpers/env';
 import { useFocusTrap } from 'hooks/useKeyboardNavigation';
 import { duration, ease } from 'styles/tokens';
@@ -65,12 +66,6 @@ const RecaptchaBridge = ({
 	return null;
 };
 
-const overlayVariants: Variants = {
-	hidden: { opacity: 0 },
-	visible: { opacity: 1, transition: { duration: duration.fast, ease } },
-	exit: { opacity: 0, transition: { duration: duration.fast, ease } },
-};
-
 // Drops in from the top edge like a sheet of paper being pulled down.
 const panelVariants: Variants = {
 	hidden: { clipPath: 'inset(0% 0% 100% 0%)', y: '-1rem' },
@@ -84,12 +79,6 @@ const panelVariants: Variants = {
 		y: '-0.5rem',
 		transition: { duration: duration.fast, ease },
 	},
-};
-
-const fadeVariants: Variants = {
-	hidden: { opacity: 0 },
-	visible: { opacity: 1 },
-	exit: { opacity: 0 },
 };
 
 const SearchIcon = (): ReactElement => (
@@ -131,6 +120,11 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 
 	const inputRef = useRef<HTMLInputElement>(null);
 	const listRef = useRef<HTMLUListElement>(null);
+	const hintRef = useRef<HTMLButtonElement>(null);
+	const isOpenRef = useRef(false);
+	const opener = useRef<{ element: HTMLElement; pathname: string } | null>(
+		null
+	);
 	const panelRef = useFocusTrap(isOpen);
 	const executeRecaptchaRef = useRef<ExecuteRecaptcha | null>(null);
 	const recaptchaSiteKey = clientEnv.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
@@ -153,6 +147,19 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 		return () => window.removeEventListener('scroll', handleScroll);
 	}, []);
 
+	// Recorded before opening: the search field's autoFocus moves focus first.
+	const rememberOpener = useCallback(
+		(fallback?: HTMLElement | null) => {
+			const active = document.activeElement;
+			const element =
+				active instanceof HTMLElement && active !== document.body
+					? active
+					: fallback;
+			opener.current = element ? { element, pathname } : null;
+		},
+		[pathname]
+	);
+
 	const close = useCallback(() => {
 		setIsOpen(false);
 		setQuery('');
@@ -165,6 +172,7 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 		const handleKeyDown = (event: KeyboardEvent) => {
 			if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
 				event.preventDefault();
+				if (!isOpenRef.current) rememberOpener();
 				setIsOpen((prev) => {
 					if (prev) {
 						setQuery('');
@@ -181,7 +189,7 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 
 		window.addEventListener('keydown', handleKeyDown);
 		return () => window.removeEventListener('keydown', handleKeyDown);
-	}, [close]);
+	}, [close, rememberOpener]);
 
 	useEffect(() => {
 		close();
@@ -196,6 +204,22 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 			.catch(() => {
 				hasRequestedIndex.current = false;
 			});
+	}, [isOpen]);
+
+	// Return focus to whatever opened the palette. The hint button unmounts while
+	// the palette is open, so its fresh replacement takes focus instead; after a
+	// route change focus is left to the new page.
+	useEffect(() => {
+		isOpenRef.current = isOpen;
+		if (isOpen) return;
+		const previous = opener.current;
+		opener.current = null;
+		if (!previous || previous.pathname !== pathname) return;
+		const target = previous.element.isConnected
+			? previous.element
+			: hintRef.current;
+		target?.focus({ preventScroll: true });
+		// eslint-disable-next-line react-hooks/exhaustive-deps -- pathname is read at open/close time only
 	}, [isOpen]);
 
 	useEffect(() => {
@@ -480,6 +504,7 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 					!pathname?.startsWith('/blog/') &&
 					!(pathname === '/' && isAtTop) && (
 						<motion.button
+							ref={hintRef}
 							type="button"
 							className={[
 								styles.CommandPalette__hint,
@@ -487,6 +512,7 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 							].join(' ')}
 							onClick={() => {
 								setIsHintHovered(false);
+								rememberOpener(hintRef.current);
 								setIsOpen(true);
 							}}
 							onMouseEnter={() => setIsHintHovered(true)}
@@ -556,6 +582,8 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 								<SearchIcon />
 								<input
 									ref={inputRef}
+									// The palette exists to be typed into; focus on open is expected
+									// eslint-disable-next-line jsx-a11y/no-autofocus
 									autoFocus
 									type="text"
 									value={query}
@@ -592,7 +620,9 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 													aria-hidden="true"
 												>
 													<span>{command.section}</span>
-													<span>({pad(sectionCounts[command.section])})</span>
+													<span>
+														({pad(sectionCounts[command.section] ?? 0)})
+													</span>
 												</div>
 											)}
 											<button

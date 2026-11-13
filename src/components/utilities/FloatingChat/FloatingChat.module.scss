@@ -38,8 +38,7 @@
 		cursor: pointer;
 
 		&:focus-visible {
-			outline: 2px solid var(--focus);
-			outline-offset: 3px;
+			@include focus-ring(3px);
 		}
 
 		@media (hover: hover) {
@@ -239,38 +238,12 @@
 			height: var(--tap-min);
 		}
 
-		padding: 0;
-		background: transparent;
-		border: 1px solid var(--line-strong);
-		border-radius: var(--radius-1);
-		color: var(--fg);
-		cursor: pointer;
-		transition:
-			background-color var(--dur-1) var(--ease),
-			color var(--dur-1) var(--ease),
-			border-color var(--dur-1) var(--ease);
+		@include outline-button;
 
 		svg {
 			width: rem(14);
 			height: rem(14);
 			transition: transform var(--dur-1) var(--ease);
-		}
-
-		@media (hover: hover) {
-			&:hover {
-				background-color: var(--fg);
-				border-color: var(--fg);
-				color: var(--bg);
-
-				svg {
-					transform: rotate(90deg);
-				}
-			}
-		}
-
-		&:focus-visible {
-			outline: 2px solid var(--focus);
-			outline-offset: 2px;
 		}
 	}
 

@@ -1,5 +1,7 @@
 import AxeBuilder from '@axe-core/playwright';
-import { expect, test, type Page } from '@playwright/test';
+import type { Page } from '@playwright/test';
+
+import { STATIC_ROUTES, expect, test } from './fixtures';
 
 const AXE_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'];
 
@@ -71,11 +73,6 @@ const openCertificationModal = async (page: Page) => {
 };
 
 test.describe('axe scans', () => {
-	test('homepage (default state)', async ({ page }) => {
-		await page.goto('/', { waitUntil: 'networkidle' });
-		await expectNoViolations(page);
-	});
-
 	test('navigation menu open', async ({ page }) => {
 		await page.goto('/', { waitUntil: 'networkidle' });
 		await openMenu(page);
@@ -97,44 +94,44 @@ test.describe('axe scans', () => {
 		await expectNoViolations(page);
 	});
 
-	test('case study page', async ({ page }) => {
-		await page.goto('/portfolio/2', { waitUntil: 'networkidle' });
-		await expectNoViolations(page);
-	});
+	const THEMES = ['dark', 'light'] as const;
 
-	test('contact page', async ({ page }) => {
-		await page.goto('/contact', { waitUntil: 'networkidle' });
-		await expectNoViolations(page);
-	});
+	for (const theme of THEMES) {
+		test.describe(`${theme} theme`, () => {
+			test.beforeEach(async ({ page }) => {
+				await page.addInitScript(
+					(t) => localStorage.setItem('theme', t),
+					theme
+				);
+			});
 
-	for (const path of [
-		'/blog',
-		'/stats',
-		'/resume',
-		'/this-page-does-not-exist',
-	]) {
-		test(`page ${path}`, async ({ page }) => {
-			await page.goto(path, { waitUntil: 'networkidle' });
-			await expectNoViolations(page);
-		});
-	}
+			const check = async (page: Page, path: string) => {
+				await page.goto(path, { waitUntil: 'networkidle' });
+				await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
+				await expectNoViolations(page);
+			};
 
-	test('blog post page', async ({ page }) => {
-		await page.goto('/blog', { waitUntil: 'networkidle' });
-		const href = await page
-			.locator('a[href^="/blog/"]')
-			.first()
-			.getAttribute('href');
-		await page.goto(href!, { waitUntil: 'networkidle' });
-		await expectNoViolations(page);
-	});
+			for (const path of STATIC_ROUTES) {
+				test(`page ${path}`, async ({ page }) => check(page, path));
+			}
 
-	for (const path of ['/', '/portfolio/2', '/blog', '/contact']) {
-		test(`light theme ${path}`, async ({ page }) => {
-			await page.addInitScript(() => localStorage.setItem('theme', 'light'));
-			await page.goto(path, { waitUntil: 'networkidle' });
-			await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
-			await expectNoViolations(page);
+			test('case study page', async ({ page }) => {
+				await page.goto('/');
+				const href = await page
+					.locator('a[href^="/portfolio/"]')
+					.first()
+					.getAttribute('href');
+				await check(page, href!);
+			});
+
+			test('blog post page', async ({ page }) => {
+				await page.goto('/blog');
+				const href = await page
+					.locator('a[href^="/blog/"]:not([href*="?"])')
+					.first()
+					.getAttribute('href');
+				await check(page, href!);
+			});
 		});
 	}
 });
@@ -222,7 +219,7 @@ test.describe('keyboard behavior', () => {
 	test('case study gallery: lightbox pages with arrows, Escape restores focus', async ({
 		page,
 	}) => {
-		await page.goto('/portfolio/2', { waitUntil: 'networkidle' });
+		await page.goto('/portfolio/persona', { waitUntil: 'networkidle' });
 		const opener = page.getByRole('button', { name: /^Enlarge image 1 of / });
 		await opener.focus();
 		await page.keyboard.press('Enter');

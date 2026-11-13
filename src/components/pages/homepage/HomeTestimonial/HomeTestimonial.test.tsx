@@ -65,7 +65,7 @@ describe('HomeTestimonial', () => {
 
 	it('hides controls for a single testimonial and renders nothing when empty', () => {
 		const { rerender, container } = render(
-			<HomeTestimonial testimonial={[items[0]]} />
+			<HomeTestimonial testimonial={[items[0]!]} />
 		);
 		expect(screen.queryByRole('button')).not.toBeInTheDocument();
 

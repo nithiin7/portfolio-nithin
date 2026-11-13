@@ -26,8 +26,7 @@ export const loadBlogStats = async (): Promise<BlogStats | null> => {
 		let topPosts: BlogStats['topPosts'] = [];
 
 		if (topViewed?.length) {
-			const { data } = await loadBlogPosts(100, 0);
-			const posts = data?.blogPostCollection?.items ?? [];
+			const posts = await loadBlogPosts();
 
 			topPosts = topViewed.flatMap((view) => {
 				const match = posts.find((post) => post.slug === view.slug);

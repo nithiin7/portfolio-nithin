@@ -5,18 +5,24 @@ const COLUMNS = 12;
  * fit starts a new row and the previous row's last cell stretches to close
  * the gap, so optional cards never leave holes.
  */
+const widenLast = (packed: number[], by: number): void => {
+	const last = packed.length - 1;
+	if (last >= 0) packed[last] = (packed[last] ?? 0) + by;
+};
+
+/** Packs preferred column spans into rows of `columns`, widening each row's last item to fill it. */
 export const packSpans = (spans: number[], columns = COLUMNS): number[] => {
 	const packed: number[] = [];
 	let used = 0;
 	spans.forEach((preferred) => {
 		const span = Math.min(preferred, columns);
 		if (used > 0 && used + span > columns) {
-			packed[packed.length - 1] += columns - used;
+			widenLast(packed, columns - used);
 			used = 0;
 		}
 		packed.push(span);
 		used += span;
 	});
-	if (packed.length > 0) packed[packed.length - 1] += columns - used;
+	widenLast(packed, columns - used);
 	return packed;
 };

@@ -56,3 +56,22 @@ export const commentSchema = yup.object({
 		.min(10, 'Comment must be at least 10 characters')
 		.max(1000, 'Comment must be less than 1000 characters'),
 });
+
+/** Kebab-case slug, as Contentful enforces it (CONVENTIONS §5). */
+export const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+/** Body of POST /api/comments. */
+export const commentRequestSchema = commentSchema.shape({
+	postId: yup.string().required('Post ID is required').max(100),
+	parentId: yup.string().max(100).optional(),
+	recaptchaToken: yup.string().required('reCAPTCHA verification failed'),
+});
+
+/** Body of POST /api/views. */
+export const viewRequestSchema = yup.object({
+	slug: yup
+		.string()
+		.required('Slug is required')
+		.max(120)
+		.matches(SLUG_PATTERN, 'Invalid slug'),
+});

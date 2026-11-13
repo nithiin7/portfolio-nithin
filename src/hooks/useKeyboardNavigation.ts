@@ -12,11 +12,7 @@ interface UseKeyboardNavigationOptions {
 	enabled?: boolean;
 }
 
-/**
- * Custom hook to handle keyboard navigation
- * @param options - The options for the keyboard navigation
- * @returns The ref to the element
- */
+/** Document keydown → handler for Escape/Enter/Space/arrows/Tab, ignoring keys from outside the returned ref's element. */
 export function useKeyboardNavigation({
 	onEscape,
 	onEnter,
@@ -112,11 +108,7 @@ export function useKeyboardNavigation({
 	return elementRef;
 }
 
-/**
- * Custom hook to handle focus trapping
- * @param enabled - Whether the focus trapping is enabled
- * @returns The ref to the container
- */
+/** Keeps Tab focus inside the returned container while `enabled`. */
 export function useFocusTrap(enabled = true) {
 	const containerRef = useRef<HTMLDivElement>(null);
 

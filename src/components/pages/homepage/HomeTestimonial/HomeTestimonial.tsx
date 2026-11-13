@@ -134,9 +134,8 @@ const HomeTestimonial: FC<HomeTestimonialProps> = ({
 		return () => window.clearInterval(timer);
 	}, [rotating, held, autoAdvance, go]);
 
-	if (count === 0) return null;
-
 	const current = testimonial[index];
+	if (!current) return null;
 	const multiple = count > 1;
 
 	const onDragEnd = (_: unknown, { offset, velocity }: PanInfo) => {

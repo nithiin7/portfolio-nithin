@@ -68,7 +68,7 @@ describe('buildCaseStudy', () => {
 			['approach', 'Features'],
 			['gallery', 'Gallery'],
 		]);
-		expect(sections[1].highlights).toEqual([
+		expect(sections[1]!.highlights).toEqual([
 			{ body: 'Streaming responses' },
 			{ body: 'Voice input' },
 		]);
@@ -105,16 +105,16 @@ describe('buildCaseStudy', () => {
 			'Architecture',
 			'Outcome',
 		]);
-		expect(sections[0].body?.content).toHaveLength(2);
-		expect(sections[1].highlights).toEqual([
+		expect(sections[0]!.body?.content).toHaveLength(2);
+		expect(sections[1]!.highlights).toEqual([
 			{ title: 'Local mode', body: 'nothing leaves your machine.' },
 		]);
-		expect(sections[2].diagram?.url).toBe('//images.ctfassets.net/d.png');
-		expect(sections[2].body?.content).toHaveLength(1);
-		expect(sections[3].metrics).toEqual([
+		expect(sections[2]!.diagram?.url).toBe('//images.ctfassets.net/d.png');
+		expect(sections[2]!.body?.content).toHaveLength(1);
+		expect(sections[3]!.metrics).toEqual([
 			{ value: '3×', label: 'faster onboarding' },
 		]);
-		expect(sections[3].body?.content).toHaveLength(1);
+		expect(sections[3]!.body?.content).toHaveLength(1);
 	});
 
 	it('omits empty sections and keeps unknown H2s inside the current section', () => {
@@ -131,7 +131,7 @@ describe('buildCaseStudy', () => {
 		});
 
 		expect(sections.map((s) => s.key)).toEqual(['problem']);
-		expect(sections[0].body?.content).toHaveLength(3);
+		expect(sections[0]!.body?.content).toHaveLength(3);
 	});
 });
 

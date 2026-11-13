@@ -1,0 +1,48 @@
+name: Bug report
+description: Something on the site is broken or looks wrong
+labels: [bug]
+body:
+  - type: input
+    id: url
+    attributes:
+      label: Page
+      description: URL where it happens
+      placeholder: https://portfolio-nithin.vercel.app/blog
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open …
+        2. Press ⌘K …
+  - type: input
+    id: env
+    attributes:
+      label: Browser, device and viewport width
+      placeholder: Safari 19, iPhone 16, 393px
+    validations:
+      required: true
+  - type: dropdown
+    id: theme
+    attributes:
+      label: Theme
+      options: [Dark, Light, Both]
+  - type: checkboxes
+    id: motion
+    attributes:
+      label: Accessibility settings
+      options:
+        - label: Reduce motion is on
+        - label: Using a keyboard or screen reader
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots or recording

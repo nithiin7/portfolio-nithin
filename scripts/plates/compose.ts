@@ -223,7 +223,7 @@ const mobileTrio = async (project: PlateProject, spec: Spec<'mobile-trio'>) => {
 	});
 	const layers = await Promise.all(
 		boxes.map(async (box, i) => ({
-			input: await resized(screens[i].input, box.width, box.height),
+			input: await resized(screens[i]!.input, box.width, box.height),
 			left: box.left,
 			top: box.top,
 		}))

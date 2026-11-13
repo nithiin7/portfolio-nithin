@@ -1,12 +1,11 @@
 import type { Metadata } from 'next';
-import Script from 'next/script';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
 import BlogListing from 'components/pages/blog/BlogListing/BlogListing';
+import JsonLd from 'components/utilities/JsonLd/JsonLd';
 import { absoluteUrl, personJsonLd, siteConfig, siteName } from 'config/site';
 import { categoriesFromPosts } from 'helpers/blogPosts';
 import {
-	convertContentfulBlogPost,
 	loadBlogPosts,
 	loadPageSeo,
 	loadSiteSettings,
@@ -75,13 +74,10 @@ export default async function BlogPage({
 	// Filters live in the URL and are applied client-side, but reading them here
 	// keeps the route dynamic so the filtered list is server-rendered.
 	await searchParams;
-	const [{ data }, [seo, site]] = await Promise.all([
-		loadBlogPosts(ARCHIVE_LIMIT, 0),
+	const [posts, [seo, site]] = await Promise.all([
+		loadBlogPosts(ARCHIVE_LIMIT),
 		blogSeo(),
 	]);
-	const posts = (data?.blogPostCollection?.items ?? []).map(
-		convertContentfulBlogPost
-	);
 
 	const structuredData = {
 		'@context': 'https://schema.org',
@@ -112,11 +108,7 @@ export default async function BlogPage({
 
 	return (
 		<>
-			<Script
-				id="blog-listing-structured-data"
-				type="application/ld+json"
-				dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-			/>
+			<JsonLd id="blog-listing-structured-data" data={structuredData} />
 			{/* Scoped here: /blog is the only route with URL-state filters */}
 			<NuqsAdapter>
 				<BlogListing posts={posts} categories={categoriesFromPosts(posts)} />

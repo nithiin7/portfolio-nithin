@@ -101,6 +101,12 @@
 		flex: 1;
 	}
 
+	&__metrics {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-4) var(--space-7);
+	}
+
 	&__divider {
 		margin: 0;
 		border: 0;

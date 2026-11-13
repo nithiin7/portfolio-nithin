@@ -17,7 +17,7 @@ export default async function run(client: Client): Promise<void> {
 		await client.upsertEntry(quote.sys.id, 'testimonialCard', {
 			name: `Testimonial — ${author}`,
 			review: stripQuotes(value<string>(quote, 'review')),
-			authorRole: role.trim(),
+			authorRole: role!.trim(),
 			organisation: rest.join(' - ').trim(),
 		});
 	}

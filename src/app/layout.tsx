@@ -20,6 +20,7 @@ import Preloader, {
 import CommandPalette from 'components/utilities/CommandPalette/CommandPaletteLazy';
 import FloatingChat from 'components/utilities/FloatingChat/FloatingChatLazy';
 import GridOverlay from 'components/utilities/GridOverlay/GridOverlay';
+import JsonLd from 'components/utilities/JsonLd/JsonLd';
 import SkipLink from 'components/utilities/SkipLink/SkipLink';
 import Toast from 'components/utilities/Toast/ToastLazy';
 import {
@@ -32,6 +33,7 @@ import {
 } from 'config/site';
 import { SiteSettingsProvider } from 'contexts/SiteSettingsContext';
 import { loadSiteSettings } from 'helpers/contentful';
+import { clientEnv } from 'helpers/env';
 import { palette } from 'styles/tokens';
 
 import Provider from './provider';
@@ -136,6 +138,7 @@ export default async function RootLayout({
 	children,
 }: Readonly<RootLayoutProps>): Promise<React.ReactElement> {
 	const site = await loadSiteSettings();
+	const gtmId = clientEnv.NEXT_PUBLIC_GOOGLE_GTM_ID;
 	const structuredData = {
 		'@context': 'https://schema.org',
 		...personJsonLd(site),
@@ -159,13 +162,7 @@ export default async function RootLayout({
 				<link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 			</head>
 			<body>
-				<Script
-					id="structured-data"
-					type="application/ld+json"
-					dangerouslySetInnerHTML={{
-						__html: JSON.stringify(structuredData),
-					}}
-				/>
+				<JsonLd id="structured-data" data={structuredData} />
 				<Preloader site={site} />
 				<SkipLink targetId="main-content" />
 				<SiteSettingsProvider value={site}>
@@ -194,10 +191,10 @@ export default async function RootLayout({
 						<SpeedInsights />
 					</>
 				)}
-				{process.env.NEXT_PUBLIC_GOOGLE_GTM_ID && (
+				{gtmId && (
 					// lazyOnload keeps the 120 KB container off the critical path
 					<Script id="gtm" strategy="lazyOnload">
-						{gtmSnippet(process.env.NEXT_PUBLIC_GOOGLE_GTM_ID)}
+						{gtmSnippet(gtmId)}
 					</Script>
 				)}
 			</body>

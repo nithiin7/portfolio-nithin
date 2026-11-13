@@ -75,26 +75,14 @@
 			min-width: var(--tap-min);
 		}
 
-		padding: 0;
-		background: transparent;
-		border: 1px solid var(--line-strong);
-		border-radius: var(--radius-1);
-		color: var(--fg);
-		cursor: pointer;
-		transition:
-			background-color var(--dur-1) var(--ease),
-			color var(--dur-1) var(--ease),
-			border-color var(--dur-1) var(--ease);
+		@include outline-button;
 
 		&-key {
 			display: none;
 			align-items: center;
 			padding-inline: var(--space-3);
 			border-right: 1px solid var(--line-strong);
-			font-family: var(--font-mono);
-			font-size: var(--step--1);
-			letter-spacing: var(--tracking-mono);
-			text-transform: uppercase;
+			@include mono-type;
 			transition: border-color var(--dur-1) var(--ease);
 
 			@media #{$can-hover} {
@@ -115,24 +103,9 @@
 		}
 
 		@media (hover: hover) {
-			&:hover {
-				background-color: var(--fg);
-				border-color: var(--fg);
-				color: var(--bg);
-
-				.Modal__close-key {
-					border-color: color-mix(in srgb, var(--bg) 30%, transparent);
-				}
-
-				svg {
-					transform: rotate(90deg);
-				}
+			&:hover .Modal__close-key {
+				border-color: color-mix(in srgb, var(--bg) 30%, transparent);
 			}
-		}
-
-		&:focus-visible {
-			outline: 2px solid var(--focus);
-			outline-offset: 2px;
 		}
 	}
 

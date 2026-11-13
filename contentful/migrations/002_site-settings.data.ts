@@ -167,8 +167,8 @@ export default async function run(client: Client): Promise<void> {
 		const section = await client.getEntry(sectionId);
 		const [titleLink, listLink] =
 			value<{ sys: { id: string } }[]>(section, 'contents') ?? [];
-		const heading = await client.getEntry(titleLink.sys.id);
-		const list = await client.getEntry(listLink.sys.id);
+		const heading = await client.getEntry(titleLink!.sys.id);
+		const list = await client.getEntry(listLink!.sys.id);
 		await client.upsertEntry(`capability-${slug}`, 'capability', {
 			internalName: `Capability — ${label}`,
 			title: value<string>(heading, 'title'),

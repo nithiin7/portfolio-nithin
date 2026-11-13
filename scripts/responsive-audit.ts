@@ -4,6 +4,8 @@
  *   pnpm dev   (or: pnpm build && pnpm start -p 3200)
  *   AUDIT_BASE_URL=http://localhost:3000 node scripts/responsive-audit.ts
  * Optional: AUDIT_ONLY=360,1920,3840  AUDIT_THEMES=dark  AUDIT_OUT=.responsive-audit/after
+ * AUDIT_STABLE=1 renders with reduced motion and a frozen clock, so two runs can
+ * be pixel-diffed (scramble glyphs, the live clock and pulses otherwise differ).
  * Writes .responsive-audit/{dark,light}/*.jpg, overlays/*.jpg and report.json.
  */
 import { mkdir, writeFile } from 'node:fs/promises';
@@ -13,6 +15,7 @@ import { type Browser, chromium, type Page } from '@playwright/test';
 const BASE_URL = process.env.AUDIT_BASE_URL ?? 'http://localhost:3000';
 const OUT_DIR = process.env.AUDIT_OUT ?? '.responsive-audit';
 const CONCURRENCY = Number(process.env.AUDIT_CONCURRENCY ?? 3);
+const STABLE = process.env.AUDIT_STABLE === '1';
 
 type Theme = 'dark' | 'light';
 
@@ -70,7 +73,7 @@ const measure = (touch: boolean) => {
 		const section = el.closest(
 			'section, header, footer, nav, aside, [role=dialog]'
 		);
-		return section ? label(section).split('__')[0] : 'page';
+		return section ? label(section).split('__')[0]! : 'page';
 	};
 
 	const visible = (el: Element): boolean => {
@@ -319,7 +322,16 @@ const newPage = async (
 		isMobile: viewport.touch,
 		hasTouch: viewport.touch,
 		colorScheme: theme,
+		reducedMotion: STABLE ? 'reduce' : 'no-preference',
 	});
+	// Blog view counts are a live table; don't count audit visits
+	await context.route('**/api/views', (route) =>
+		route.request().method() === 'POST'
+			? route.fulfill({ json: { success: true } })
+			: route.continue()
+	);
+	if (STABLE)
+		await context.clock.setFixedTime(new Date('2026-01-01T06:30:00Z'));
 	await context.addInitScript((t) => {
 		sessionStorage.setItem('np:visited', '1');
 		localStorage.setItem('theme', t);
@@ -330,7 +342,7 @@ const newPage = async (
 const discoverRoutes = async (
 	browser: Browser
 ): Promise<Record<string, string>> => {
-	const page = await newPage(browser, VIEWPORTS[6], 'dark');
+	const page = await newPage(browser, VIEWPORTS[6]!, 'dark');
 	await page.goto(`${BASE_URL}/`, {
 		waitUntil: 'networkidle',
 		timeout: 120_000,

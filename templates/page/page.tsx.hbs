@@ -1,16 +1,13 @@
-import { FC } from 'react';
+import type { Metadata } from 'next';
+import type { ReactElement } from 'react';
 
-import styles from './{{pascalCase name}}.module.scss';
+import {{pascalCase name}} from 'components/pages/{{camelCase route}}/{{pascalCase name}}/{{pascalCase name}}';
 
-interface {{pascalCase name}} {
-	className?: string;
-}
-
-const {{pascalCase name}}: FC<{{pascalCase name}}> = ({className = ""}) => {
-  return (
-    <div className={`${styles.{{pascalCase name}} }`}>
-    </div>
-  );
+export const metadata: Metadata = {
+	title: '{{sentenceCase route}}',
+	alternates: { canonical: '/{{dashCase route}}' },
 };
 
-export default {{pascalCase name}};
+export default function {{pascalCase route}}Route(): ReactElement {
+	return <{{pascalCase name}} />;
+}

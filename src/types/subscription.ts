@@ -28,16 +28,3 @@ export interface DatabaseNewsletterSubscriptionCreate {
 	id: string;
 	email: string;
 }
-
-/**
- * Service error type
- */
-export type ServiceError = Error | string | unknown | null;
-
-/**
- * Service response type
- */
-export interface ServiceResponse<T> {
-	data: T | null;
-	error: ServiceError;
-}

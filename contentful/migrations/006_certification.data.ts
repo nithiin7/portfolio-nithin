@@ -1,5 +1,5 @@
 /**
- * Dates from the old text fields, provider logos from public/*.svg, cleaned
+ * Dates from the old text fields, provider logos from contentful/seed-assets/*.svg, cleaned
  * credential IDs, and no highlight on expired certifications. Drafts only.
  */
 import { readFile } from 'node:fs/promises';
@@ -37,7 +37,9 @@ const isoDate = (text?: string): string | undefined =>
 
 export default async function run(client: Client): Promise<void> {
 	for (const slug of new Set(Object.values(PROVIDER_LOGO))) {
-		const bytes = await readFile(resolve(ROOT, `public/${slug}.svg`));
+		const bytes = await readFile(
+			resolve(ROOT, `contentful/seed-assets/${slug}.svg`)
+		);
 		await client.ensureAsset(
 			`cert-${slug}-logo`,
 			bytes,

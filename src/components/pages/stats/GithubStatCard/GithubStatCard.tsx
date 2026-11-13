@@ -4,6 +4,7 @@ import CountUp from 'components/pages/stats/CountUp/CountUp';
 import MeterBar from 'components/pages/stats/MeterBar/MeterBar';
 import StatCard, {
 	StatCardDivider,
+	StatCardMetrics,
 	StatCardSection,
 } from 'components/pages/stats/StatCard/StatCard';
 import StatMetric from 'components/pages/stats/StatMetric/StatMetric';
@@ -32,7 +33,7 @@ const GithubStatCard: FC<GithubStatCardProps> = ({
 			linkLabel="Profile"
 			live
 		>
-			<div className={styles.GithubStatCard__metrics}>
+			<StatCardMetrics>
 				<StatMetric
 					value={<CountUp value={stats.repoCount} />}
 					label="Repositories"
@@ -47,7 +48,7 @@ const GithubStatCard: FC<GithubStatCardProps> = ({
 						label="Followers"
 					/>
 				)}
-			</div>
+			</StatCardMetrics>
 			{stats.topLanguages.length > 0 && (
 				<>
 					<StatCardDivider />

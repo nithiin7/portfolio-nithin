@@ -35,9 +35,11 @@ export const loadSentry = (): Promise<SentryModule> => {
 	return pending;
 };
 
+/** Reports an error to Sentry, loading the SDK first if needed. */
 export const captureException = (error: unknown): void => {
 	void loadSentry().then((Sentry) => Sentry.captureException(error));
 };
 
+/** Router transition hook for Sentry tracing; a no-op until the SDK has loaded. */
 export const captureRouterTransitionStart: SentryModule['captureRouterTransitionStart'] =
 	(...args) => sentry?.captureRouterTransitionStart(...args);

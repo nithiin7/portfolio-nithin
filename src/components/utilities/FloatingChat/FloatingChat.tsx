@@ -4,6 +4,7 @@ import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import type { FC } from 'react';
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
 
+import { fadeVariants } from 'helpers/animations';
 import { duration, ease } from 'styles/tokens';
 
 import styles from './FloatingChat.module.scss';
@@ -25,12 +26,6 @@ const windowVariants: Variants = {
 		y: '1rem',
 		transition: { duration: duration.fast, ease },
 	},
-};
-
-const fadeVariants: Variants = {
-	hidden: { opacity: 0 },
-	visible: { opacity: 1 },
-	exit: { opacity: 0 },
 };
 
 const ChatIcon = () => (
@@ -150,8 +145,6 @@ const FloatingChat: FC<FloatingChatProps> = ({ chatbotUrl }) => {
 									Loading assistant<span aria-hidden="true">_</span>
 								</p>
 							)}
-							{/* onLoad only reveals the frame; it is not a user interaction */}
-							{/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
 							<iframe
 								src={chatbotUrl}
 								title="Chat with Nithin’s AI assistant"

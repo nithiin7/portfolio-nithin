@@ -121,8 +121,7 @@
 		}
 
 		&:focus-visible {
-			outline: 2px solid var(--focus);
-			outline-offset: 4px;
+			@include focus-ring(4px);
 		}
 	}
 
@@ -174,8 +173,7 @@
 		transition: background-color var(--dur-1) var(--ease);
 
 		&:focus-visible {
-			outline: 2px solid var(--focus);
-			outline-offset: -2px;
+			@include focus-ring(-2px);
 		}
 
 		&:focus-visible .HomeCertifications__logo {

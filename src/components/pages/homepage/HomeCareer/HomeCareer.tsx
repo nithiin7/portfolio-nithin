@@ -61,10 +61,12 @@ const HomeCareer: FC<HomeCareerProps> = ({
 
 	const [openId, setOpenId] = useState<string | null>(rows[0]?.id ?? null);
 
-	if (rows.length === 0) return null;
+	const latest = rows[0];
+	const earliest = rows.at(-1);
+	if (!latest || !earliest) return null;
 
-	const first = rows[rows.length - 1].period.start;
-	const span = rows[0].period.current ? `${first} — Now` : first;
+	const first = earliest.period.start;
+	const span = latest.period.current ? `${first} — Now` : first;
 
 	return (
 		<section id="career" className={`${styles.HomeCareer} ${className}`}>
@@ -176,10 +178,9 @@ const HomeCareer: FC<HomeCareerProps> = ({
 														</div>
 													)}
 												</dl>
-												<div
-													className={styles.HomeCareer__description}
-													dangerouslySetInnerHTML={{ __html: row.description }}
-												/>
+												<div className={styles.HomeCareer__description}>
+													{row.description}
+												</div>
 												{row.technologies.length > 0 && (
 													<ul
 														className={styles.HomeCareer__tags}

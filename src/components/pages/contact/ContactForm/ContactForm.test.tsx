@@ -98,7 +98,7 @@ describe('ContactForm', () => {
 		expect(screen.getByText('jane@example.com')).toBeInTheDocument();
 		expect(executeRecaptcha).toHaveBeenCalledWith('contact_form');
 
-		const form = sendForm.mock.calls[0][2] as HTMLFormElement;
+		const form = sendForm.mock.calls[0]![2] as HTMLFormElement;
 		const data = new FormData(form);
 		expect(data.get('g-recaptcha-response')).toBe('captcha-token');
 		expect(data.get('name')).toBe('Jane Doe');

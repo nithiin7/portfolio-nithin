@@ -26,10 +26,7 @@
 	&__barLabel {
 		display: flex;
 		gap: var(--space-3);
-		font-family: var(--font-mono);
-		font-size: var(--step--1);
-		letter-spacing: var(--tracking-mono);
-		text-transform: uppercase;
+		@include mono-type;
 		color: var(--fg);
 	}
 
@@ -81,10 +78,7 @@
 		display: flex;
 		gap: var(--space-3);
 		padding-block: var(--space-2);
-		font-family: var(--font-mono);
-		font-size: var(--step--1);
-		letter-spacing: var(--tracking-mono);
-		text-transform: uppercase;
+		@include mono-type;
 		color: var(--muted);
 		text-decoration: none;
 		transition:
@@ -110,8 +104,7 @@
 		}
 
 		&:focus-visible {
-			outline: 2px solid var(--focus);
-			outline-offset: 2px;
+			@include focus-ring(2px);
 		}
 	}
 

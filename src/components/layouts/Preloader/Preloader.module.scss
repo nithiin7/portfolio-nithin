@@ -86,10 +86,7 @@
 		position: absolute;
 		top: var(--grid-margin);
 		left: var(--grid-margin);
-		font-family: var(--font-mono);
-		font-size: var(--step--1);
-		letter-spacing: var(--tracking-mono);
-		text-transform: uppercase;
+		@include mono-type;
 	}
 
 	&__count {

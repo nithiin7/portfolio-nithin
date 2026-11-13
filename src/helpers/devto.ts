@@ -10,6 +10,7 @@ interface DevToArticle {
 	published_at: string;
 }
 
+/** Article, reaction and comment totals plus the latest post; null when dev.to is unreachable. */
 export const loadDevToStats = async (): Promise<DevToStats | null> => {
 	const articles = await fetchJson<DevToArticle[]>(
 		`https://dev.to/api/articles?username=${DEVTO_USERNAME}&per_page=100`,

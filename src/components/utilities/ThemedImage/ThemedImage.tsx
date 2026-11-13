@@ -53,7 +53,7 @@ const ThemedImage: FC<ThemedImageProps> = ({
 		);
 	}
 
-	const join = (variant: string) =>
+	const join = (variant: string | undefined) =>
 		[className, variant].filter(Boolean).join(' ');
 
 	return (

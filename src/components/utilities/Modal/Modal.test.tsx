@@ -78,3 +78,43 @@ describe('Modal', () => {
 		expect(onClose).not.toHaveBeenCalled();
 	});
 });
+
+describe('Modal focus', () => {
+	const Harness = ({ isOpen }: { isOpen: boolean }) => (
+		<>
+			<button type="button">Opener</button>
+			<Modal isOpen={isOpen} onClose={vi.fn()} title="Hello">
+				<a href="#first">First</a>
+				<a href="#last">Last</a>
+			</Modal>
+		</>
+	);
+
+	it('moves focus into the dialog and restores it on close', () => {
+		const { rerender } = render(<Harness isOpen={false} />);
+		const opener = screen.getByRole('button', { name: 'Opener' });
+		opener.focus();
+
+		rerender(<Harness isOpen />);
+		expect(screen.getByRole('dialog').contains(document.activeElement)).toBe(
+			true
+		);
+
+		rerender(<Harness isOpen={false} />);
+		expect(document.activeElement).toBe(opener);
+	});
+
+	it('wraps Tab from the last focusable back to the first', () => {
+		render(<Harness isOpen />);
+		const close = screen.getByRole('button', { name: /close dialog/i });
+		const last = screen.getByRole('link', { name: 'Last' });
+
+		last.focus();
+		fireEvent.keyDown(last, { key: 'Tab' });
+		expect(document.activeElement).toBe(close);
+
+		close.focus();
+		fireEvent.keyDown(close, { key: 'Tab', shiftKey: true });
+		expect(document.activeElement).toBe(last);
+	});
+});
