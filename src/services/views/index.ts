@@ -1,10 +1,6 @@
 import { baseService } from 'services/index';
-import type {
-	BlogView,
-	DatabaseBlogView,
-	ServiceError,
-	ServiceResponse,
-} from 'types/view';
+import type { ServiceError, ServiceResponse } from 'types/service';
+import type { BlogView, DatabaseBlogView } from 'types/view';
 
 /**
  * Views service providing blog view counter operations
@@ -40,32 +36,6 @@ export class ViewsService {
 		}
 
 		return { data: data?.[0]?.view_count ?? 0, error: null };
-	}
-
-	/**
-	 * Get view counts for a batch of posts, keyed by slug. Posts with no
-	 * recorded views are simply absent from the result — callers should
-	 * default missing slugs to 0.
-	 */
-	async getViewCounts(
-		slugs: string[]
-	): Promise<ServiceResponse<Record<string, number>>> {
-		const { data, error } = await baseService.getWhereIn<DatabaseBlogView>(
-			this.tableName,
-			'slug',
-			slugs,
-			{ select: 'slug,view_count' }
-		);
-
-		if (error) {
-			return { data: null, error };
-		}
-
-		const counts = (data ?? []).reduce<Record<string, number>>((acc, view) => {
-			acc[view.slug] = view.view_count;
-			return acc;
-		}, {});
-		return { data: counts, error: null };
 	}
 
 	/**
@@ -111,5 +81,4 @@ export class ViewsService {
 	}
 }
 
-// Export a singleton instance
 export const viewsService = new ViewsService();

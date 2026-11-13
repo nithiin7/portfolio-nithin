@@ -1,0 +1,19 @@
+{
+	"$schema": "https://unpkg.com/knip@5/schema.json",
+	"entry": [
+		"src/app/sw.ts",
+		"src/app/**/*.dev.{ts,tsx}",
+		"contentful/{migrate,check,publish}.ts",
+		"contentful/migrations/*.{cjs,ts}",
+		"scripts/**/*.ts"
+	],
+	"project": [
+		"src/**/*.{ts,tsx}",
+		"lib/**/*.ts",
+		"contentful/**/*.{ts,cjs}",
+		"scripts/**/*.ts",
+		"e2e/**/*.ts"
+	],
+	"ignoreExportsUsedInFile": true,
+	"ignoreDependencies": ["@svgr/webpack"]
+}

@@ -46,7 +46,6 @@ const createClientMock = (result: QueryResult) => {
 		select: vi.fn(() => query),
 		insert: vi.fn(() => query),
 		update: vi.fn(() => query),
-		delete: vi.fn(() => query),
 	};
 	const client = { from: vi.fn(() => table) };
 
@@ -109,19 +108,6 @@ describe('BaseService.get', () => {
 	});
 });
 
-describe('BaseService.getById', () => {
-	it('queries a single record by id', async () => {
-		const row = { id: '1' };
-		const { query } = createClientMock({ data: row, error: null });
-
-		const result = await baseService.getById('comments', '1');
-
-		expect(query.eq).toHaveBeenCalledWith('id', '1');
-		expect(query.single).toHaveBeenCalled();
-		expect(result).toEqual({ data: row, error: null });
-	});
-});
-
 describe('BaseService.post', () => {
 	it('inserts and returns the created row by default', async () => {
 		const row = { id: '1', content: 'hi' };
@@ -146,17 +132,5 @@ describe('BaseService.post', () => {
 		expect(table.insert).toHaveBeenCalledWith({ content: 'hi' });
 		expect(query.single).not.toHaveBeenCalled();
 		expect(result).toEqual({ data: null, error: null });
-	});
-});
-
-describe('BaseService.delete', () => {
-	it('deletes by id', async () => {
-		const { table, query } = createClientMock({ error: null });
-
-		const result = await baseService.delete('comments', '1');
-
-		expect(table.delete).toHaveBeenCalled();
-		expect(query.eq).toHaveBeenCalledWith('id', '1');
-		expect(result).toEqual({ error: null });
 	});
 });

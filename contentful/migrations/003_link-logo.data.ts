@@ -1,4 +1,4 @@
-/** Collaborator logos (from public/logos) as Links with a logo. Drafts only. */
+/** Collaborator logos (from contentful/seed-assets/logos) as Links with a logo. Drafts only. */
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 
@@ -40,7 +40,7 @@ const collaborators = [
 export default async function run(client: Client): Promise<void> {
 	for (const collaborator of collaborators) {
 		const bytes = await readFile(
-			resolve(ROOT, `public/logos/${collaborator.file}.svg`)
+			resolve(ROOT, `contentful/seed-assets/logos/${collaborator.file}.svg`)
 		);
 		await client.ensureAsset(
 			`collab-${collaborator.file}-logo`,

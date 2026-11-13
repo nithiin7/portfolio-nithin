@@ -1,55 +1,20 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 import { getSupabaseClient } from 'clients/supabase';
+import type { ServiceResponse } from 'types/service';
 
-/**
- * Service error type
- */
-type ServiceError = Error | string | unknown | null;
-
-/**
- * Service response type
- */
-interface ServiceResponse<T> {
-	data: T | null;
-	error: ServiceError;
-}
-
-/**
- * Generic filters type
- */
 type Filters = Record<string, string | number | boolean | null | undefined>;
 
 /**
- * Generic data type for database operations - accepts any DTO shape
- * (e.g. `DatabaseCommentCreate`) without requiring an index signature
- */
-type DatabaseData = object;
-
-/**
- * Supabase query builder returned by `client.from(table).select(...)`,
- * used as the input/output of a query transformation callback
- */
-type SupabaseQueryBuilder = ReturnType<
-	ReturnType<SupabaseClient['from']>['select']
->;
-
-/**
- * Query builder function type
- */
-type QueryBuilder = (query: SupabaseQueryBuilder) => SupabaseQueryBuilder;
-
-/**
- * Base service class providing generic CRUD operations for Supabase tables
+ * Thin wrapper over the Supabase client: every call resolves to
+ * `{ data, error }` and never throws, so domain services stay linear.
  */
 export class BaseService {
 	protected get client(): SupabaseClient {
 		return getSupabaseClient();
 	}
 
-	/**
-	 * Generic GET operation with optional filters
-	 */
+	/** SELECT with optional equality filters, ordering, limit and columns. */
 	async get<T = unknown>(
 		table: string,
 		filters?: Filters,
@@ -62,7 +27,6 @@ export class BaseService {
 		try {
 			let query = this.client.from(table).select(options?.select || '*');
 
-			// Apply filters
 			if (filters) {
 				Object.entries(filters).forEach(([key, value]) => {
 					if (value !== undefined && value !== null) {
@@ -71,14 +35,12 @@ export class BaseService {
 				});
 			}
 
-			// Apply ordering
 			if (options?.orderBy) {
 				query = query.order(options.orderBy.column, {
 					ascending: options.orderBy.ascending ?? true,
 				});
 			}
 
-			// Apply limit
 			if (options?.limit) {
 				query = query.limit(options.limit);
 			}
@@ -93,65 +55,12 @@ export class BaseService {
 	}
 
 	/**
-	 * Generic GET operation filtering a column against a list of values
-	 * (Supabase `.in()`), for batch lookups by slug/id.
-	 */
-	async getWhereIn<T = unknown>(
-		table: string,
-		column: string,
-		values: (string | number)[],
-		options?: { select?: string }
-	): Promise<ServiceResponse<T[]>> {
-		if (values.length === 0) {
-			return { data: [], error: null };
-		}
-
-		try {
-			const { data, error } = await this.client
-				.from(table)
-				.select(options?.select || '*')
-				.in(column, values);
-
-			return { data: error ? null : (data as T[]), error };
-		} catch (error) {
-			console.error(
-				`Error in BaseService.getWhereIn for table ${table}:`,
-				error
-			);
-			return { data: null, error };
-		}
-	}
-
-	/**
-	 * Generic GET operation for a single record by ID
-	 */
-	async getById<T = unknown>(
-		table: string,
-		id: string,
-		select?: string
-	): Promise<ServiceResponse<T>> {
-		try {
-			const { data, error } = await this.client
-				.from(table)
-				.select(select || '*')
-				.eq('id', id)
-				.single();
-
-			return { data: error ? null : (data as T), error };
-		} catch (error) {
-			console.error(`Error in BaseService.getById for table ${table}:`, error);
-			return { data: null, error };
-		}
-	}
-
-	/**
-	 * Generic POST operation for creating new records.
-	 * Pass `select: false` when the anon role cannot read the row back
-	 * (column-level grants / RLS block INSERT ... RETURNING).
+	 * INSERT one row. Pass `select: false` when the anon role cannot read the
+	 * row back (column-level grants / RLS block INSERT ... RETURNING).
 	 */
 	async post<T = unknown>(
 		table: string,
-		data: DatabaseData,
+		data: object,
 		options?: { select?: string | false }
 	): Promise<ServiceResponse<T>> {
 		try {
@@ -173,36 +82,11 @@ export class BaseService {
 		}
 	}
 
-	/**
-	 * Generic PUT operation for full updates
-	 */
-	async put<T = unknown>(
-		table: string,
-		id: string,
-		data: DatabaseData
-	): Promise<ServiceResponse<T>> {
-		try {
-			const { data: result, error } = await this.client
-				.from(table)
-				.update(data)
-				.eq('id', id)
-				.select()
-				.single();
-
-			return { data: result, error };
-		} catch (error) {
-			console.error(`Error in BaseService.put for table ${table}:`, error);
-			return { data: null, error };
-		}
-	}
-
-	/**
-	 * Generic PATCH operation for partial updates
-	 */
+	/** UPDATE one row by id and return it. */
 	async patch<T = unknown>(
 		table: string,
 		id: string,
-		data: DatabaseData
+		data: object
 	): Promise<ServiceResponse<T>> {
 		try {
 			const { data: result, error } = await this.client
@@ -212,30 +96,14 @@ export class BaseService {
 				.select()
 				.single();
 
-			return { data: result, error };
+			return { data: result as T | null, error };
 		} catch (error) {
 			console.error(`Error in BaseService.patch for table ${table}:`, error);
 			return { data: null, error };
 		}
 	}
 
-	/**
-	 * Generic DELETE operation
-	 */
-	async delete(table: string, id: string): Promise<{ error: ServiceError }> {
-		try {
-			const { error } = await this.client.from(table).delete().eq('id', id);
-
-			return { error };
-		} catch (error) {
-			console.error(`Error in BaseService.delete for table ${table}:`, error);
-			return { error };
-		}
-	}
-
-	/**
-	 * Generic RPC call for Postgres functions
-	 */
+	/** Call a Postgres function. */
 	async rpc<T = unknown>(
 		fn: string,
 		args?: Record<string, unknown>
@@ -246,26 +114,6 @@ export class BaseService {
 			return { data: error ? null : (data as T), error };
 		} catch (error) {
 			console.error(`Error in BaseService.rpc for function ${fn}:`, error);
-			return { data: null, error };
-		}
-	}
-
-	/**
-	 * Generic query operation for complex queries
-	 */
-	async query<T = unknown>(
-		table: string,
-		queryBuilder: QueryBuilder
-	): Promise<ServiceResponse<T[]>> {
-		try {
-			let query = this.client.from(table).select('*');
-			query = queryBuilder(query);
-
-			const { data, error } = await query;
-
-			return { data, error };
-		} catch (error) {
-			console.error(`Error in BaseService.query for table ${table}:`, error);
 			return { data: null, error };
 		}
 	}

@@ -58,7 +58,6 @@ const nextConfig = {
 	htmlLimitedBots: /.*/,
 	experimental: {
 		viewTransition: true,
-		optimizePackageImports: ['react-icons'],
 	},
 	images: {
 		qualities: [75],

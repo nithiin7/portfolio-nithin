@@ -18,12 +18,6 @@ export interface CommentFormData {
 	recaptchaToken?: string;
 }
 
-export interface CommentSectionProps {
-	postId: string;
-	postSlug: string;
-	className?: string;
-}
-
 /**
  * Database comment interface (snake_case columns)
  */
@@ -50,17 +44,4 @@ export interface DatabaseCommentCreate {
 	content: string;
 	parent_id: string | null;
 	is_approved: boolean;
-}
-
-/**
- * Service error type
- */
-export type ServiceError = Error | string | unknown | null;
-
-/**
- * Service response type
- */
-export interface ServiceResponse<T> {
-	data: T | null;
-	error: ServiceError;
 }

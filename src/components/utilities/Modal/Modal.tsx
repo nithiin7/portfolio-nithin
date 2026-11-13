@@ -4,7 +4,7 @@ import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import type { FC, ReactNode } from 'react';
 import { useEffect, useRef } from 'react';
 
-import { CloseIcon } from 'assets/icons';
+import CloseIcon from 'assets/icons/CloseIcon';
 import { useFocusTrap } from 'hooks/useKeyboardNavigation';
 import { duration, ease } from 'styles/tokens';
 
