@@ -161,3 +161,19 @@ knip (default config) reports 38 unused files, 18 exports and 26 types. About ha
 8. **CI/CD**, **repo docs**, **CLAUDE.md**, **ship** (steps 4–7).
 
 Every step ends with `pnpm lint && pnpm test && pnpm build` and its own commit.
+
+---
+
+## Outcome (phase 16)
+
+Approved 2026-11-13 with the recommended answers to D1–D6. Done, by commit category:
+
+- **Deps**: S1, U1, D1 (Storybook removed), react-icons, standard-version → release-please.
+- **Security**: S2–S7, S9. CSP is Report-Only (D4).
+- **Dead code**: U2–U8, D3 (Docker), D6 (seed SVGs moved), knip added.
+- **Tooling**: U9–U11, stricter ESLint.
+- **Refactors**:
+  - D-1, D-2, D-4, D-6, D-7, D-8 (blog loaders), D-10; T2, T3. Compiled CSS was compared module by module.
+  - Not done, on purpose: D-3 `kbd` (a single consumer; FloatingChat's variant differs), `toProject` for the case study (it still receives `RawProject`), and routing `loadWork` through `runQuery` (it deliberately tolerates partial data).
+- **Tests**: every gap in §8. Also fixed in passing: CommandPalette focus return, and a 400 for a malformed `/api/ask` body.
+- **Still open**: C1 (stale AI profile/RAG content, a separate PR); P2 (Sentry idle chunk size); T1 narrow parsers for third-party JSON.
