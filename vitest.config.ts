@@ -20,7 +20,7 @@ export default defineConfig({
 	resolve: {
 		alias: [
 			{
-				find: /^(assets|clients|components|config|constants|contexts|helpers|hooks|models|queries|services|styles|test|types)(\/.*)?$/,
+				find: /^(app|assets|clients|components|config|constants|contexts|helpers|hooks|queries|services|styles|test|types)(\/.*)?$/,
 				replacement: `${src}/$1$2`,
 			},
 		],

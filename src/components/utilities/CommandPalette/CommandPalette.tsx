@@ -556,6 +556,8 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 								<SearchIcon />
 								<input
 									ref={inputRef}
+									// The palette exists to be typed into; focus on open is expected
+									// eslint-disable-next-line jsx-a11y/no-autofocus
 									autoFocus
 									type="text"
 									value={query}

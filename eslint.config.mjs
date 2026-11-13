@@ -30,7 +30,7 @@ export default [
 		},
 		rules: {
 			'@next/next/no-html-link-for-pages': 'error',
-			'@next/next/no-img-element': 'warn',
+			'@next/next/no-img-element': 'error',
 			'@next/next/no-unwanted-polyfillio': 'warn',
 			'@next/next/no-page-custom-font': 'warn',
 		},
@@ -46,7 +46,7 @@ export default [
 			'react/prop-types': 'off',
 			'react/react-in-jsx-scope': 'off',
 			'react-hooks/rules-of-hooks': 'error',
-			'react-hooks/exhaustive-deps': 'warn',
+			'react-hooks/exhaustive-deps': 'error',
 		},
 		settings: {
 			react: {
@@ -105,24 +105,7 @@ export default [
 			'import/ignore': ['react-scroll'],
 		},
 	},
-	{
-		plugins: {
-			'jsx-a11y': a11yPlugin,
-		},
-		rules: {
-			'jsx-a11y/alt-text': 'warn',
-			'jsx-a11y/anchor-has-content': 'warn',
-			'jsx-a11y/anchor-is-valid': 'warn',
-			'jsx-a11y/aria-props': 'warn',
-			'jsx-a11y/aria-proptypes': 'warn',
-			'jsx-a11y/aria-role': 'warn',
-			'jsx-a11y/role-has-required-aria-props': 'warn',
-			'jsx-a11y/img-redundant-alt': 'warn',
-			'jsx-a11y/no-static-element-interactions': 'warn',
-			'jsx-a11y/no-noninteractive-element-interactions': 'warn',
-			'jsx-a11y/click-events-have-key-events': 'warn',
-		},
-	},
+	a11yPlugin.flatConfigs.recommended,
 	{
 		plugins: {
 			prettier: prettierPlugin,
@@ -145,7 +128,10 @@ export default [
 	{
 		rules: {
 			'@typescript-eslint/explicit-module-boundary-types': 'off',
-			'@typescript-eslint/no-explicit-any': 'warn',
+			'@typescript-eslint/no-explicit-any': 'error',
+			'@typescript-eslint/no-non-null-assertion': 'error',
+			// Server logs (route handlers, services) go to console.error/warn
+			'no-console': ['error', { allow: ['error', 'warn'] }],
 			'@typescript-eslint/no-unused-vars': [
 				'error',
 				{ argsIgnorePattern: '^_' },
@@ -180,5 +166,12 @@ export default [
 			// contentful-migration DSL files (CommonJS, outside the TS project)
 			'contentful/**/*.cjs',
 		],
+	},
+	{
+		files: ['scripts/**/*.ts', 'contentful/**/*.ts', 'e2e/**/*.ts'],
+		rules: {
+			'no-console': 'off',
+			'@typescript-eslint/no-non-null-assertion': 'off',
+		},
 	},
 ];

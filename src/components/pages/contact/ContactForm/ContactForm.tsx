@@ -89,7 +89,8 @@ const ContactForm: FC<ContactFormProps> = ({ className = '' }) => {
 				return;
 			}
 
-			const formElement = form.current!;
+			const formElement = form.current;
+			if (!formElement) throw new Error('Contact form is not mounted');
 			let recaptchaInput = formElement.querySelector<HTMLInputElement>(
 				'input[name="g-recaptcha-response"]'
 			);

@@ -9,6 +9,7 @@ import { BLOCKS, type Document } from '@contentful/rich-text-types';
 import type { DocumentNode } from 'graphql';
 import { cache } from 'react';
 
+import { getApolloClient } from 'clients/apollo';
 import { sortByStart, toExperience } from 'helpers/career';
 import { serverEnv } from 'helpers/env';
 import { plainText } from 'helpers/richText';
@@ -18,7 +19,7 @@ import {
 	GET_HOME,
 	GET_PAGE_SEO,
 	GET_SITE_SETTINGS,
-} from 'queries';
+} from 'queries/index';
 import {
 	GET_PROJECT,
 	GET_PROJECT_SLUG_BY_LEGACY_ID,
@@ -53,8 +54,6 @@ import type {
 import type { PortfolioItem } from 'types/portfolio';
 import type { Seo, SiteLink, SiteSettings } from 'types/site';
 import type { Testimonial } from 'types/testimony';
-
-import { getApolloClient } from '../../lib/apolloClient';
 
 type QueryResult<TData> = ApolloClient.QueryResult<TData, 'none'>;
 

@@ -104,7 +104,6 @@ const PortfolioGallery: FC<PortfolioGalleryProps> = ({
 			</ul>
 
 			{/* Arrow keys page the lightbox; Escape is native to <dialog> */}
-			{/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
 			<dialog
 				ref={dialogRef}
 				className={styles.PortfolioGallery__dialog}

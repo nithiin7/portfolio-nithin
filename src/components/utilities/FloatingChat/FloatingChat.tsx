@@ -150,8 +150,6 @@ const FloatingChat: FC<FloatingChatProps> = ({ chatbotUrl }) => {
 									Loading assistant<span aria-hidden="true">_</span>
 								</p>
 							)}
-							{/* onLoad only reveals the frame; it is not a user interaction */}
-							{/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
 							<iframe
 								src={chatbotUrl}
 								title="Chat with Nithin’s AI assistant"

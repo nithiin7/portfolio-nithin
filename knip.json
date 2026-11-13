@@ -9,7 +9,6 @@
 	],
 	"project": [
 		"src/**/*.{ts,tsx}",
-		"lib/**/*.ts",
 		"contentful/**/*.{ts,cjs}",
 		"scripts/**/*.ts",
 		"e2e/**/*.ts"
