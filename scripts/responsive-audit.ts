@@ -324,6 +324,12 @@ const newPage = async (
 		colorScheme: theme,
 		reducedMotion: STABLE ? 'reduce' : 'no-preference',
 	});
+	// Blog view counts are a live table; don't count audit visits
+	await context.route('**/api/views', (route) =>
+		route.request().method() === 'POST'
+			? route.fulfill({ json: { success: true } })
+			: route.continue()
+	);
 	if (STABLE)
 		await context.clock.setFixedTime(new Date('2026-01-01T06:30:00Z'));
 	await context.addInitScript((t) => {

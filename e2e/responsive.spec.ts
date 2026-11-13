@@ -1,18 +1,12 @@
 import { expect, test, type Page } from '@playwright/test';
 
+import { STATIC_ROUTES, isolate } from './fixtures';
+
 // Phone floor, the 1920 composition, and the scaled 4K version of it
 const WIDTHS = [
 	{ width: 320, height: 800 },
 	{ width: 1920, height: 1080 },
 	{ width: 3840, height: 2160 },
-];
-
-const STATIC_ROUTES = [
-	'/',
-	'/blog',
-	'/contact',
-	'/stats',
-	'/this-page-does-not-exist',
 ];
 
 const firstHref = async (page: Page, path: string, selector: string) => {
@@ -76,6 +70,7 @@ test.describe('no horizontal overflow', () => {
 				hasTouch: viewport.width < 768,
 				isMobile: viewport.width < 768,
 			});
+			await isolate(context);
 			// Skip the first-visit preloader overlay
 			await context.addInitScript(() =>
 				sessionStorage.setItem('np:visited', '1')
