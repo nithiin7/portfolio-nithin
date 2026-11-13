@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { ThemeProvider } from 'contexts/ThemeContext';
 
@@ -36,6 +36,22 @@ describe('ThemeToggle', () => {
 		expect(
 			screen.getByRole('button', { name: /switch to dark mode/i })
 		).toBeInTheDocument();
+		expect(document.documentElement).toHaveAttribute('data-theme', 'light');
+	});
+
+	it('calls onToggle after switching the theme', () => {
+		const onToggle = vi.fn();
+		render(
+			<ThemeProvider>
+				<ThemeToggle onToggle={onToggle} />
+			</ThemeProvider>
+		);
+
+		fireEvent.click(
+			screen.getByRole('button', { name: /switch to light mode/i })
+		);
+
+		expect(onToggle).toHaveBeenCalledOnce();
 		expect(document.documentElement).toHaveAttribute('data-theme', 'light');
 	});
 });

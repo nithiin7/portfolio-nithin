@@ -13,6 +13,10 @@
 	right: var(--grid-margin);
 	bottom: max(var(--space-4), env(safe-area-inset-bottom));
 	z-index: 1000;
+	transition:
+		opacity var(--dur-1) var(--ease),
+		transform var(--dur-1) var(--ease),
+		visibility var(--dur-1);
 
 	@media #{$md} {
 		bottom: var(--space-7);
@@ -20,6 +24,15 @@
 
 	@media #{$landscape-phone} {
 		bottom: max(var(--space-4), env(safe-area-inset-bottom));
+	}
+
+	// Clear of the footer's back-to-top at the page end; visibility also takes
+	// the launcher out of the tab order.
+	&--hidden {
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+		transform: translateY(var(--space-3));
 	}
 
 	// Square inverse tile. The label is clipped to zero width and wipes open

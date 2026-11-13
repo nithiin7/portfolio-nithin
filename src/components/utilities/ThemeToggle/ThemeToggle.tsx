@@ -8,18 +8,24 @@ import styles from './ThemeToggle.module.scss';
 
 export interface ThemeToggleProps {
 	className?: string;
+	/** Runs after the theme flips, e.g. to close the menu that hosts it. */
+	onToggle?: () => void;
 }
 
 /** Light/dark switch wired to ThemeContext. */
 const ThemeToggle = ({
 	className = '',
+	onToggle,
 }: ThemeToggleProps): React.JSX.Element => {
 	const { theme, toggleTheme } = useTheme();
 
 	return (
 		<motion.button
 			className={`${styles.ThemeToggle} ${className}`}
-			onClick={toggleTheme}
+			onClick={() => {
+				toggleTheme();
+				onToggle?.();
+			}}
 			whileHover={{ scale: 1.05 }}
 			whileTap={{ scale: 0.95 }}
 			transition={{ duration: 0.2, ease: 'easeInOut' }}
