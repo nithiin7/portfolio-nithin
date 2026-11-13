@@ -87,7 +87,41 @@ export type PlateSpec = PlateBase &
 				/** Mono label above the excerpt: file name, shell, or kicker. */
 				label?: string;
 		  }
+		| {
+				/**
+				 * Label row, an illustration in the centre and the statement below,
+				 * inset so the 4:3 phone crop keeps a margin around all of it.
+				 */
+				template: 'scene';
+				label: string;
+				/** Mono kicker at the right end of the label row. */
+				tag?: string;
+				text: string;
+				illustration: Illustration;
+		  }
 	);
+
+/** Colour role of a run of mono text in a scene. */
+export type Tone = 'fg' | 'muted' | 'accent';
+/** One line of a scene: plain text, or runs with their own tone. */
+export type SceneLine = string | [text: string, tone: Tone][];
+
+export type Illustration =
+	| {
+			kind: 'terminal';
+			/** Mono title in the window bar. */
+			title: string;
+			lines: SceneLine[];
+	  }
+	| {
+			kind: 'pipeline';
+			question: string;
+			/** Agent names, in order; the last one is drawn as the passing check. */
+			steps: string[];
+			/** Result block, one entry per line. */
+			output: SceneLine[];
+			outputLabel: string;
+	  };
 
 export interface PlateProject {
 	/** PortfolioDetails.slug in Contentful. */
