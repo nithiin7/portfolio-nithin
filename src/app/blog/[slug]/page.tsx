@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import Script from 'next/script';
 
 import BlogDetail from 'components/pages/blog/BlogDetail/BlogDetail';
+import JsonLd from 'components/utilities/JsonLd/JsonLd';
 import { getRelatedPosts } from 'helpers/blog';
 import {
 	loadBlogPostBySlug,
@@ -174,13 +174,7 @@ export default async function BlogDetails({
 
 	return (
 		<>
-			<Script
-				id="blog-post-structured-data"
-				type="application/ld+json"
-				dangerouslySetInnerHTML={{
-					__html: JSON.stringify(blogPostStructuredData),
-				}}
-			/>
+			<JsonLd id="blog-post-structured-data" data={blogPostStructuredData} />
 			<BlogDetail post={convertedPost} relatedPosts={related} />
 		</>
 	);

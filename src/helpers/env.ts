@@ -5,6 +5,9 @@ const required = (name: string, value: string | undefined): string => {
 	return value;
 };
 
+const optional = (value: string | undefined): string | undefined =>
+	value || undefined;
+
 export const clientEnv = {
 	get NEXT_PUBLIC_SUPABASE_URL(): string {
 		return required(
@@ -42,6 +45,10 @@ export const clientEnv = {
 			process.env.NEXT_PUBLIC_EMAILJS_ID
 		);
 	},
+	/** Unset: GTM isn't loaded. */
+	get NEXT_PUBLIC_GOOGLE_GTM_ID(): string | undefined {
+		return optional(process.env.NEXT_PUBLIC_GOOGLE_GTM_ID);
+	},
 };
 
 // Getters defer the reads: server-only vars don't exist in the client bundle,
@@ -76,5 +83,25 @@ export const serverEnv = {
 			'CONTENTFUL_PREVIEW_ACCESS_TOKEN',
 			process.env.CONTENTFUL_PREVIEW_ACCESS_TOKEN
 		);
+	},
+	/** Shared secret the Contentful webhook sends to /api/revalidate. */
+	get CONTENTFUL_REVALIDATE_SECRET(): string | undefined {
+		return optional(process.env.CONTENTFUL_REVALIDATE_SECRET);
+	},
+	/** Unset in local dev: comments then fail verification and /api/ask skips it. */
+	get RECAPTCHA_SECRET_KEY(): string | undefined {
+		return optional(process.env.RECAPTCHA_SECRET_KEY);
+	},
+	/** Unset: /api/ask answers 503. */
+	get OPENAI_API_KEY(): string | undefined {
+		return optional(process.env.OPENAI_API_KEY);
+	},
+	/** Unset: the WakaTime card is hidden on /stats. */
+	get WAKATIME_API_KEY(): string | undefined {
+		return optional(process.env.WAKATIME_API_KEY);
+	},
+	/** Needed to read the private HF Space status on /stats. */
+	get HUGGINGFACE_TOKEN(): string | undefined {
+		return optional(process.env.HUGGINGFACE_TOKEN);
 	},
 };

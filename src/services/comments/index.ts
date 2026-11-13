@@ -4,8 +4,6 @@ import type {
 	CommentFormData,
 	DatabaseComment,
 	DatabaseCommentCreate,
-	DatabaseCommentUpdate,
-	ServiceError,
 	ServiceResponse,
 } from 'types/comment';
 
@@ -82,29 +80,6 @@ export class CommentsService {
 	}
 
 	/**
-	 * Get a single comment by ID
-	 */
-	async getCommentById(id: string): Promise<ServiceResponse<Comment>> {
-		try {
-			const { data, error } = await baseService.getById<DatabaseComment>(
-				this.tableName,
-				id,
-				COMMENT_COLUMNS
-			);
-
-			if (error || !data) {
-				return { data: null, error };
-			}
-
-			const transformedComment = this.transformComment(data);
-			return { data: transformedComment, error: null };
-		} catch (error) {
-			console.error('Error in CommentsService.getCommentById:', error);
-			return { data: null, error };
-		}
-	}
-
-	/**
 	 * Create a new comment
 	 */
 	async createComment(
@@ -139,57 +114,6 @@ export class CommentsService {
 		} catch (error) {
 			console.error('Error in CommentsService.createComment:', error);
 			return { data: null, error };
-		}
-	}
-
-	/**
-	 * Update an existing comment
-	 */
-	async updateComment(
-		id: string,
-		commentData: Partial<CommentFormData>
-	): Promise<ServiceResponse<Comment>> {
-		try {
-			const updateData: DatabaseCommentUpdate = {};
-
-			if (commentData.authorName !== undefined) {
-				updateData.author_name = commentData.authorName;
-			}
-			if (commentData.authorEmail !== undefined) {
-				updateData.author_email = commentData.authorEmail;
-			}
-			if (commentData.content !== undefined) {
-				updateData.content = commentData.content;
-			}
-
-			const { data, error } = await baseService.patch<DatabaseComment>(
-				this.tableName,
-				id,
-				updateData
-			);
-
-			if (error || !data) {
-				return { data: null, error };
-			}
-
-			const transformedComment = this.transformComment(data);
-			return { data: transformedComment, error: null };
-		} catch (error) {
-			console.error('Error in CommentsService.updateComment:', error);
-			return { data: null, error };
-		}
-	}
-
-	/**
-	 * Delete a comment
-	 */
-	async deleteComment(id: string): Promise<{ error: ServiceError }> {
-		try {
-			const { error } = await baseService.delete(this.tableName, id);
-			return { error };
-		} catch (error) {
-			console.error('Error in CommentsService.deleteComment:', error);
-			return { error };
 		}
 	}
 

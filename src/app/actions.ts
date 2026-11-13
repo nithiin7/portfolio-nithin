@@ -1,5 +1,9 @@
 'use server';
 
+import { headers } from 'next/headers';
+
+import { createRateLimiter } from 'helpers/apiProtection';
+import { emailSchema } from 'helpers/validations';
 import { newsletterSubscriptionsService } from 'services/subscriptions';
 
 interface SubscribeActionResult {
@@ -7,11 +11,22 @@ interface SubscribeActionResult {
 	error?: string;
 }
 
+const isRateLimited = createRateLimiter({
+	max: 5,
+	windowMs: 10 * 60 * 1000,
+});
+
 export async function subscribeToNewsletter(
 	email: string
 ): Promise<SubscribeActionResult> {
-	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-	if (!emailRegex.test(email)) {
+	if (isRateLimited(await headers())) {
+		return {
+			success: false,
+			error: 'Too many requests. Please try again later.',
+		};
+	}
+
+	if (!(await emailSchema.isValid({ email }))) {
 		return { success: false, error: 'Invalid email format' };
 	}
 

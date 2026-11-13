@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
-import Script from 'next/script';
 
 import Resume from 'components/pages/resume/Resume/Resume';
+import JsonLd from 'components/utilities/JsonLd/JsonLd';
 import { absoluteUrl, personJsonLd, siteName } from 'config/site';
 import { loadHome, loadPageSeo, loadSiteSettings } from 'helpers/contentful';
 import type { Seo, SiteSettings } from 'types/site';
@@ -73,11 +73,7 @@ export default async function ResumePage() {
 
 	return (
 		<>
-			<Script
-				id="resume-structured-data"
-				type="application/ld+json"
-				dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-			/>
+			<JsonLd id="resume-structured-data" data={structuredData} />
 			<Resume
 				site={site}
 				bio={home.about.bio}

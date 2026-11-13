@@ -131,10 +131,9 @@ const Resume: FC<ResumeProps> = ({
 												.join(' · ')}
 										</p>
 									</div>
-									<div
-										className={styles.Resume__description}
-										dangerouslySetInnerHTML={{ __html: experience.description }}
-									/>
+									<div className={styles.Resume__description}>
+										{experience.description}
+									</div>
 									{experience.technologies.length > 0 && (
 										<p className={styles.Resume__mono}>
 											{experience.technologies.join(' · ')}

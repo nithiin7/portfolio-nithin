@@ -53,15 +53,6 @@ export interface DatabaseCommentCreate {
 }
 
 /**
- * Database comment update interface (partial fields)
- */
-export interface DatabaseCommentUpdate {
-	author_name?: string;
-	author_email?: string;
-	content?: string;
-}
-
-/**
  * Service error type
  */
 export type ServiceError = Error | string | unknown | null;

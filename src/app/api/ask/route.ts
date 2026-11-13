@@ -6,8 +6,11 @@ import embeddingsData from 'data/embeddings.json';
 import {
 	createRateLimiter,
 	isRecaptchaConfigured,
+	jsonError,
+	tooManyRequests,
 	verifyRecaptcha,
 } from 'helpers/apiProtection';
+import { serverEnv } from 'helpers/env';
 import { findRelevantChunks, type EmbeddingsFile } from 'helpers/rag';
 
 const isRateLimited = createRateLimiter({
@@ -78,19 +81,18 @@ const buildSystemPrompt = async (
 };
 
 export async function POST(request: NextRequest) {
-	const apiKey = process.env.OPENAI_API_KEY;
+	const apiKey = serverEnv.OPENAI_API_KEY;
 
 	if (!apiKey) {
-		return NextResponse.json(
-			{ error: 'AI is not configured yet — try the chat bubble instead.' },
-			{ status: 503 }
+		return jsonError(
+			503,
+			'AI is not configured yet — try the chat bubble instead.'
 		);
 	}
 
-	if (isRateLimited(request)) {
-		return NextResponse.json(
-			{ error: 'Too many questions — please try again in a few minutes.' },
-			{ status: 429 }
+	if (isRateLimited(request.headers)) {
+		return tooManyRequests(
+			'Too many questions — please try again in a few minutes.'
 		);
 	}
 
@@ -100,17 +102,11 @@ export async function POST(request: NextRequest) {
 			typeof body.question === 'string' ? body.question.trim() : '';
 
 		if (!question) {
-			return NextResponse.json(
-				{ error: 'Question is required' },
-				{ status: 400 }
-			);
+			return jsonError(400, 'Question is required');
 		}
 
 		if (question.length > 500) {
-			return NextResponse.json(
-				{ error: 'Question is too long (max 500 characters)' },
-				{ status: 400 }
-			);
+			return jsonError(400, 'Question is too long (max 500 characters)');
 		}
 
 		// Skipped only when no RECAPTCHA_SECRET_KEY is configured (local dev).
@@ -122,10 +118,7 @@ export async function POST(request: NextRequest) {
 				: { valid: false, score: 0 };
 
 			if (!recaptcha.valid) {
-				return NextResponse.json(
-					{ error: 'Verification failed — please try again.' },
-					{ status: 400 }
-				);
+				return jsonError(400, 'Verification failed — please try again.');
 			}
 		}
 
@@ -141,25 +134,22 @@ export async function POST(request: NextRequest) {
 			);
 		} catch (error) {
 			console.error('OpenAI error:', error);
-			return NextResponse.json(
-				{ error: 'The AI is unavailable right now. Please try again.' },
-				{ status: 502 }
+			return jsonError(
+				502,
+				'The AI is unavailable right now. Please try again.'
 			);
 		}
 
 		if (!answer) {
-			return NextResponse.json(
-				{ error: 'The AI returned an empty answer. Please try again.' },
-				{ status: 502 }
+			return jsonError(
+				502,
+				'The AI returned an empty answer. Please try again.'
 			);
 		}
 
 		return NextResponse.json({ answer });
 	} catch (error) {
 		console.error('Error in POST /api/ask:', error);
-		return NextResponse.json(
-			{ error: 'Internal server error' },
-			{ status: 500 }
-		);
+		return jsonError(500, 'Internal server error');
 	}
 }

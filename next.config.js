@@ -7,6 +7,47 @@ const withBundleAnalyzer = bundleAnalyzer({
 	enabled: process.env.ANALYZE === 'true',
 });
 
+// Report-Only until it has run clean in production; violations go to Sentry.
+// 'unsafe-inline' scripts: the theme/preloader bootstraps and Next's inline
+// RSC payload need it until nonces (which force dynamic rendering) are worth it.
+const CSP_REPORT_URI =
+	'https://o4509770183737344.ingest.de.sentry.io/api/4509770185244752/security/?sentry_key=4b6767817c03052309961462edc0e93e';
+
+const contentSecurityPolicy = [
+	"default-src 'self'",
+	"script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google.com https://www.gstatic.com",
+	"style-src 'self' 'unsafe-inline'",
+	"img-src 'self' data: blob: https://images.ctfassets.net https://www.googletagmanager.com https://*.google-analytics.com",
+	"font-src 'self' data:",
+	"connect-src 'self' https://*.ingest.de.sentry.io https://*.supabase.co https://api.emailjs.com https://www.google.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com",
+	'frame-src https://www.google.com https://*.hf.space https://www.googletagmanager.com',
+	"worker-src 'self'",
+	"manifest-src 'self'",
+	"object-src 'none'",
+	"base-uri 'self'",
+	"form-action 'self'",
+	"frame-ancestors 'none'",
+	`report-uri ${CSP_REPORT_URI}`,
+].join('; ');
+
+const securityHeaders = [
+	{
+		key: 'Content-Security-Policy-Report-Only',
+		value: contentSecurityPolicy,
+	},
+	{
+		key: 'Strict-Transport-Security',
+		value: 'max-age=63072000; includeSubDomains',
+	},
+	{ key: 'X-Content-Type-Options', value: 'nosniff' },
+	{ key: 'X-Frame-Options', value: 'DENY' },
+	{ key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+	{
+		key: 'Permissions-Policy',
+		value: 'camera=(), microphone=(), geolocation=(), browsing-topics=()',
+	},
+];
+
 /**
  * @type {import('next').NextConfig}
  */
@@ -30,6 +71,9 @@ const nextConfig = {
 				hostname: 'images.ctfassets.net',
 			},
 		],
+	},
+	async headers() {
+		return [{ source: '/:path*', headers: securityHeaders }];
 	},
 	// Slugs shortened in the phase 14 copy pass (docs/cms/COPY_REVIEW.md A14, A16)
 	async redirects() {

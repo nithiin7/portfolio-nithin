@@ -176,10 +176,9 @@ const HomeCareer: FC<HomeCareerProps> = ({
 														</div>
 													)}
 												</dl>
-												<div
-													className={styles.HomeCareer__description}
-													dangerouslySetInnerHTML={{ __html: row.description }}
-												/>
+												<div className={styles.HomeCareer__description}>
+													{row.description}
+												</div>
 												{row.technologies.length > 0 && (
 													<ul
 														className={styles.HomeCareer__tags}

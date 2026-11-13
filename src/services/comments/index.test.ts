@@ -175,14 +175,3 @@ describe('getCommentsWithReplies', () => {
 		expect(result.data?.[1]).toMatchObject({ id: 'parent-2', replies: [] });
 	});
 });
-
-describe('deleteComment', () => {
-	it('delegates to baseService.delete', async () => {
-		vi.mocked(baseService.delete).mockResolvedValue({ error: null });
-
-		const result = await commentsService.deleteComment('c1');
-
-		expect(baseService.delete).toHaveBeenCalledWith('comments', 'c1');
-		expect(result).toEqual({ error: null });
-	});
-});

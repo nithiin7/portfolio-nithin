@@ -17,7 +17,7 @@ const experience = (
 	startDate,
 	endDate,
 	position: `${company} engineer`,
-	description: `<p>${company} description</p>`,
+	description: `${company} description`,
 	technologies,
 	duration: `${startDate} – ${endDate ?? 'Present'}`,
 	location: 'Bangalore',

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
-import Script from 'next/script';
 
 import Contact from 'components/pages/contact/Contact/Contact';
+import JsonLd from 'components/utilities/JsonLd/JsonLd';
 import { absoluteUrl, personJsonLd, siteName } from 'config/site';
 import { loadPageSeo, loadSiteSettings } from 'helpers/contentful';
 
@@ -72,11 +72,7 @@ export default async function ContactPage(): Promise<React.ReactElement> {
 
 	return (
 		<>
-			<Script
-				id="contact-structured-data"
-				type="application/ld+json"
-				dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-			/>
+			<JsonLd id="contact-structured-data" data={structuredData} />
 			<Contact site={site} />
 		</>
 	);
