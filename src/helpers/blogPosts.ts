@@ -28,6 +28,7 @@ export const categoriesFromPosts = (posts: BlogPost[]): CategoryCount[] => {
 		.sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
 };
 
+/** Posts matching the category, every selected tag and the free-text query. */
 export const filterPosts = (
 	posts: BlogPost[],
 	{ category, tags = [], query = '' }: BlogFilter
@@ -43,6 +44,7 @@ export const filterPosts = (
 	});
 };
 
+/** True when any blog filter is active. */
 export const isFiltering = ({
 	category,
 	tags = [],

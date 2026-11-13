@@ -1,12 +1,6 @@
 import type { BlogPost } from 'types/blog';
 
-/**
- * Get related posts based on tags and category
- * @param currentPost - The current blog post
- * @param allPosts - Array of all blog posts
- * @param limit - Maximum number of related posts to return (default: 3)
- * @returns Array of related posts
- */
+/** Other posts ranked by shared category (3 points) and shared tags (2 each). */
 export const getRelatedPosts = (
 	currentPost: BlogPost,
 	allPosts: BlogPost[],

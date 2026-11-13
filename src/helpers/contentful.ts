@@ -145,6 +145,7 @@ export const loadSiteSettings = cache(async (): Promise<SiteSettings> => {
 	return toSiteSettings(raw);
 });
 
+/** SEO fields of the Page with this slug, if it has any. */
 export const loadPageSeo = async (slug: string): Promise<Seo | undefined> => {
 	const { data } = await runQuery<PageSeoResponse>(GET_PAGE_SEO, { slug });
 	return toSeo(data.pageCollection.items[0]?.seo);
@@ -152,6 +153,7 @@ export const loadPageSeo = async (slug: string): Promise<Seo | undefined> => {
 
 // ── Projects ───────────────────────────────────────────────────────────────
 
+/** Contentful project card → PortfolioItem (spotlight images, first four tech tags). */
 export const toPortfolioItem = (raw: RawProjectCard): PortfolioItem => ({
 	id: raw.id ?? undefined,
 	slug: raw.slug,
@@ -175,6 +177,7 @@ export const toPortfolioItem = (raw: RawProjectCard): PortfolioItem => ({
 	demo: raw.demo ?? undefined,
 });
 
+/** Full project for its case study, by slug. */
 export const loadProject = async (
 	slug: string
 ): Promise<RawProject | undefined> => {
@@ -182,6 +185,7 @@ export const loadProject = async (
 	return data.portfolioDetailsCollection.items[0];
 };
 
+/** Current slug for a legacy numeric project id, for the /portfolio/[id] redirect. */
 export const loadProjectSlugByLegacyId = async (
 	id: number
 ): Promise<string | undefined> => {
@@ -284,6 +288,7 @@ const toManifesto = (
 	};
 };
 
+/** Homepage content, with each Home Section found by its `key`. */
 export const loadHome = cache(async (): Promise<HomeContent> => {
 	const { data } = await runQuery<HomeResponse>(GET_HOME);
 	const sections = compact(

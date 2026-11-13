@@ -49,6 +49,7 @@ export interface OgFonts {
 	serif: string;
 }
 
+/** Fetches only the glyphs each OG font needs for this card. */
 export const loadOgFonts = async ({
 	display,
 	mono,
@@ -68,6 +69,7 @@ export const loadOgFonts = async ({
 	];
 };
 
+/** OG title font size that keeps longer titles inside the card. */
 export const titleSizeFor = (title: string): number => {
 	if (title.length > 60) return 60;
 	if (title.length > 40) return 72;
@@ -103,6 +105,7 @@ const Rule = ({
 	</div>
 );
 
+/** The accent dot used in OG card headers. */
 export const OgDot = (): ReactElement => (
 	<div
 		style={{

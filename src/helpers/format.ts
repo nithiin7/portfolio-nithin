@@ -1,9 +1,4 @@
-/**
- * Format date for display
- * @param dateString - ISO date string
- * @param format - Date format ('long', 'short', 'relative')
- * @returns Formatted date string
- */
+/** en-US date: long ("March 15, 2026"), short ("Mar 15, 2026") or relative ("3 days ago"). */
 export const formatDate = (
 	dateString: string,
 	format: 'long' | 'short' | 'relative' = 'long'
@@ -47,9 +42,7 @@ export const formatDate = (
 	}
 };
 
-/**
- * Format a number in compact notation (1284 → 1.3K)
- */
+/** Compact number: 1284 → "1.3K". */
 export const formatCompactNumber = (value: number): string =>
 	new Intl.NumberFormat('en-US', {
 		notation: 'compact',

@@ -8,6 +8,7 @@ const required = (name: string, value: string | undefined): string => {
 const optional = (value: string | undefined): string | undefined =>
 	value || undefined;
 
+/** Variables inlined into the browser bundle; each getter throws when a required one is unset. */
 export const clientEnv = {
 	get NEXT_PUBLIC_SUPABASE_URL(): string {
 		return required(
@@ -55,6 +56,7 @@ export const clientEnv = {
 // so eager asserts here would crash any client module importing clientEnv.
 // Server modules touch these at import time, which still fails `next build`
 // during static generation when a var is missing.
+/** Server-only variables; required ones throw on first read, optional ones return undefined. */
 export const serverEnv = {
 	get CONTENTFUL_SPACE_ID(): string {
 		return required('CONTENTFUL_SPACE_ID', process.env.CONTENTFUL_SPACE_ID);

@@ -8,6 +8,7 @@ interface HuggingFaceSpace {
 	runtime?: { stage: string };
 }
 
+/** Likes and runtime stage of the chat Space; null when it can't be read. */
 export const loadHuggingFaceStats =
 	async (): Promise<HuggingFaceStats | null> => {
 		// Private spaces 401 without a token; the card is hidden in that case.

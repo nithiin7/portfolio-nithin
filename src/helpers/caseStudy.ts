@@ -55,6 +55,7 @@ const toDocument = (content: TopLevelBlock[]): Document | undefined =>
 		? { nodeType: BLOCKS.DOCUMENT, data: {}, content }
 		: undefined;
 
+/** Groups top-level blocks under the authored H2 they follow; blocks before the first H2 are the intro. */
 export const splitByHeadings = (
 	doc: Document
 ): { intro: TopLevelBlock[] } & Partial<
@@ -109,6 +110,7 @@ const metricFromItem = (item: Block): CaseStudyMetric | null => {
 	return value && label ? { value, label } : null;
 };
 
+/** Pulls list items that open with bold text out as outcome metrics; everything else stays in `rest`. */
 export const extractMetrics = (
 	content: TopLevelBlock[]
 ): { metrics: CaseStudyMetric[]; rest: TopLevelBlock[] } => {
@@ -231,6 +233,7 @@ export const nextInOrder = <T extends { id?: number }>(
 	return item ? { item, position: nextIndex + 1, total: ids.length } : null;
 };
 
+/** 1-based position of a project in the Work order, or null when it isn't listed. */
 export const positionOf = (
 	order: { id?: number }[],
 	id: number

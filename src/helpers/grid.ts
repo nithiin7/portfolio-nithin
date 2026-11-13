@@ -10,6 +10,7 @@ const widenLast = (packed: number[], by: number): void => {
 	if (last >= 0) packed[last] = (packed[last] ?? 0) + by;
 };
 
+/** Packs preferred column spans into rows of `columns`, widening each row's last item to fill it. */
 export const packSpans = (spans: number[], columns = COLUMNS): number[] => {
 	const packed: number[] = [];
 	let used = 0;

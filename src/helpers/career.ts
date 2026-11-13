@@ -29,6 +29,7 @@ const MONTH = new Intl.DateTimeFormat('en-GB', {
 export const formatMonthYear = (iso: string): string =>
 	MONTH.format(new Date(iso));
 
+/** Contentful career role → the row shape the career list and resume render. */
 export const toExperience = (role: RawCareerRole): Experience => ({
 	id: role.sys.id,
 	year: role.startDate.slice(0, 4),

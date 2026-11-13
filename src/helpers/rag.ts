@@ -88,6 +88,7 @@ export const chunkMarkdown = (
 	return chunks;
 };
 
+/** Cosine similarity of two embedding vectors (0 when either is all zeros). */
 export const cosineSimilarity = (a: number[], b: number[]): number => {
 	let dot = 0;
 	let normA = 0;
