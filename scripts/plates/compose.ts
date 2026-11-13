@@ -481,13 +481,22 @@ const sceneText = (spec: Spec<'scene'>): string => {
 	const parts =
 		art.kind === 'terminal'
 			? [art.title, ...runs(art.lines)]
-			: [
-					art.question,
-					art.outputLabel,
-					...art.steps,
-					...runs(art.output),
-					'0123456789→·',
-				];
+			: art.kind === 'market'
+				? [
+						art.title,
+						art.symbol,
+						art.price,
+						art.change,
+						art.marker.label,
+						...runs(art.lines),
+					]
+				: [
+						art.question,
+						art.outputLabel,
+						...art.steps,
+						...runs(art.output),
+						'0123456789→·',
+					];
 	return [spec.label, spec.tag ?? '', ...parts]
 		.join('')
 		.toUpperCase()
@@ -768,6 +777,138 @@ const pipelineArt = (
 	);
 };
 
+const CHART = { width: 1240, height: 560, pad: 28 };
+
+const marketArt = (
+	art: Extract<Illustration, { kind: 'market' }>,
+	surface: Surface
+): ReactElement => {
+	const colors = surfaceColors(surface);
+	const min = Math.min(...art.points);
+	const max = Math.max(...art.points);
+	const { width, height, pad } = CHART;
+	const xy = art.points.map((p, i) => ({
+		x: pad + (i / (art.points.length - 1)) * (width - pad * 2),
+		y: pad + (1 - (p - min) / (max - min || 1)) * (height - pad * 2),
+	}));
+	const path = xy
+		.map(({ x, y }) => `${x.toFixed(1)},${y.toFixed(1)}`)
+		.join(' ');
+	const mark = xy[art.marker.index] ?? xy[0] ?? { x: 0, y: 0 };
+	const rule = hairline(surface, 1.5);
+	const gridY = [0.25, 0.5, 0.75].map((f) => pad + f * (height - pad * 2));
+
+	const chart = h(
+		'div',
+		{ style: { display: 'flex', flexDirection: 'column', gap: 28 } },
+		h(
+			'div',
+			{ style: { display: 'flex', alignItems: 'baseline', gap: 36 } },
+			h(
+				'span',
+				{ style: { fontSize: 40, letterSpacing: 2, color: colors.muted } },
+				art.symbol
+			),
+			h(
+				'span',
+				{
+					style: {
+						fontFamily: 'Inter Tight',
+						fontSize: 72,
+						letterSpacing: -2,
+						color: colors.fg,
+					},
+				},
+				art.price
+			),
+			h('span', { style: { fontSize: 40, color: palette.orange } }, art.change)
+		),
+		h(
+			'div',
+			{ style: { display: 'flex', position: 'relative', width, height } },
+			h(
+				'svg',
+				{ width, height, viewBox: `0 0 ${width} ${height}` },
+				...gridY.map((y, i) =>
+					h('line', {
+						key: `g${i}`,
+						x1: 0,
+						x2: width,
+						y1: y,
+						y2: y,
+						stroke: rule,
+						strokeWidth: 1,
+						strokeDasharray: '6 10',
+					})
+				),
+				h('polyline', {
+					points: path,
+					fill: 'none',
+					stroke: colors.fg,
+					strokeWidth: 4,
+					strokeLinejoin: 'round',
+				}),
+				h('line', {
+					x1: mark.x,
+					x2: mark.x,
+					y1: 0,
+					y2: height,
+					stroke: palette.orange,
+					strokeWidth: 2,
+					strokeDasharray: '8 8',
+				}),
+				h('circle', { cx: mark.x, cy: mark.y, r: 14, fill: palette.orange })
+			),
+			h(
+				'div',
+				{
+					style: {
+						position: 'absolute',
+						left: mark.x + 20,
+						top: 0,
+						display: 'flex',
+						padding: '8px 18px',
+						fontSize: 30,
+						letterSpacing: 2,
+						color: palette.orange,
+						border: `1px solid ${palette.orange}`,
+						backgroundColor: colors.bg,
+					},
+				},
+				art.marker.label
+			)
+		)
+	);
+
+	return h(
+		'div',
+		{ style: { ...panel(surface), width: '100%' } },
+		windowBar(art.title, surface),
+		h(
+			'div',
+			{ style: { display: 'flex', padding: '48px 56px', gap: 64 } },
+			chart,
+			h(
+				'div',
+				{
+					style: {
+						display: 'flex',
+						flexDirection: 'column',
+						justifyContent: 'center',
+						flexGrow: 1,
+						paddingLeft: 56,
+						borderLeft: `1px solid ${hairline(surface, 2)}`,
+						fontSize: 40,
+						lineHeight: 1.9,
+						color: colors.fg,
+					},
+				},
+				...art.lines.map((line, i) => sceneLine(line, colors, i))
+			)
+		)
+	);
+};
+
 const scene = async (spec: Spec<'scene'>, surface: Surface) => {
 	const colors = surfaceColors(surface);
 	const words = spec.text.split(' ');
@@ -779,7 +920,7 @@ const scene = async (spec: Spec<'scene'>, surface: Surface) => {
 			data: await loadGoogleFont(
 				'Inter+Tight',
 				'wght@500',
-				`${spec.text}${spec.illustration.kind === 'pipeline' ? spec.illustration.question : ''}`
+				`${spec.text}${spec.illustration.kind === 'pipeline' ? spec.illustration.question : ''}${spec.illustration.kind === 'market' ? spec.illustration.price : ''}`
 			),
 		},
 		{
@@ -801,10 +942,13 @@ const scene = async (spec: Spec<'scene'>, surface: Surface) => {
 		color: colors.muted,
 	};
 
+	const { illustration } = spec;
 	const art =
-		spec.illustration.kind === 'terminal'
-			? terminalArt(spec.illustration, surface)
-			: pipelineArt(spec.illustration, surface);
+		illustration.kind === 'terminal'
+			? terminalArt(illustration, surface)
+			: illustration.kind === 'market'
+				? marketArt(illustration, surface)
+				: pipelineArt(illustration, surface);
 
 	const image = new ImageResponse(
 		h(
