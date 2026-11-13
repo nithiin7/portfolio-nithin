@@ -59,6 +59,7 @@ export const GET_HOME = gql`
 						key
 						heading
 						lede
+						words
 						body {
 							json
 						}

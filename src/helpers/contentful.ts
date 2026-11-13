@@ -47,6 +47,7 @@ import type {
 	Collaborator,
 	HomeContent,
 	HomeSectionKey,
+	Manifesto,
 	SectionHeading,
 } from 'types/home';
 import type { PortfolioItem } from 'types/portfolio';
@@ -266,6 +267,24 @@ const toCollaborator = (raw: RawLink): Collaborator | null => {
 	};
 };
 
+const WORD_TOKEN = '{word}';
+
+const toManifesto = (
+	section: RawHomeSection | undefined
+): Manifesto | undefined => {
+	const statement = section?.heading ?? '';
+	const at = statement.indexOf(WORD_TOKEN);
+	const words = compact(section?.words)
+		.map((word) => word.trim())
+		.filter(Boolean);
+	if (at === -1 || words.length < 2) return undefined;
+	return {
+		before: statement.slice(0, at),
+		after: statement.slice(at + WORD_TOKEN.length),
+		words,
+	};
+};
+
 export const loadHome = cache(async (): Promise<HomeContent> => {
 	const { data } = await runQuery<HomeResponse>(GET_HOME);
 	const sections = compact(
@@ -289,6 +308,7 @@ export const loadHome = cache(async (): Promise<HomeContent> => {
 			pitch: hero?.body?.json,
 			ctas: compact(hero?.ctasCollection?.items).map(toLink),
 		},
+		manifesto: toManifesto(byKey('manifesto')),
 		work: {
 			...heading(work),
 			projects: itemsOf(work, 'PortfolioDetails').map(toPortfolioItem),
