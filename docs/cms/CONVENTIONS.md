@@ -217,7 +217,7 @@ Find assets by file-name prefix (`project-orbit-assistant--`), which the naming 
 
 ### Capitalisation and punctuation
 
-- **Sentence case** for every title, heading, label and asset title. The design applies its own uppercase where it wants it, so never type ALL CAPS. No trailing period on headings.
+- **Sentence case** for every title, heading, label and asset title. The design applies its own uppercase where it wants it, so never type ALL CAPS. Home section headings end with a period ("Selected works."), a deliberate device of the redesign; other headings and titles take none.
 - Product and tech names use their official spelling (canonical list enforced by `cms:check`): Next.js, React, TypeScript, Node.js, Python, FastAPI, LangGraph, LangChain, LlamaIndex, OpenAI, Anthropic, Claude, Ollama, Hugging Face, PostgreSQL, Supabase, Docker, Tailwind CSS, TorchVision, WordPress, Laravel, .NET, MCP, RAG.
 - Oxford comma. A spaced em dash ( — ) for asides. Curly quotes and apostrophes in prose. Straight quotes only in code.
 - Lists: each feature is one sentence. Optionally start with a short label and a colon ("Audit logging: every tool call is logged…"). Pick one style per list.
