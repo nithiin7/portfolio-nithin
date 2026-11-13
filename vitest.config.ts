@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vitest/config';
 
 const src = fileURLToPath(new URL('./src', import.meta.url));
+const data = fileURLToPath(new URL('./data', import.meta.url));
 
 export default defineConfig({
 	plugins: [
@@ -23,6 +24,7 @@ export default defineConfig({
 				find: /^(app|assets|clients|components|config|constants|contexts|helpers|hooks|queries|services|styles|test|types)(\/.*)?$/,
 				replacement: `${src}/$1$2`,
 			},
+			{ find: /^data\/(.*)$/, replacement: `${data}/$1` },
 		],
 	},
 	test: {
@@ -33,6 +35,32 @@ export default defineConfig({
 			'contentful/**/*.test.ts',
 		],
 		setupFiles: ['./vitest.setup.ts'],
+		coverage: {
+			provider: 'v8',
+			reporter: ['text-summary', 'json-summary', 'html'],
+			// Logic that has to hold: data shaping, API surface, shared UI and hooks
+			include: [
+				'src/helpers/**',
+				'src/services/**',
+				'src/app/api/**',
+				'src/app/actions.ts',
+				'src/components/utilities/**',
+				'src/hooks/**',
+			],
+			exclude: [
+				'**/*.test.{ts,tsx}',
+				// Build-time image rendering and the lazy Sentry loader are exercised
+				// by the OG smoke test and production, not unit tests
+				'src/helpers/og.tsx',
+				'src/helpers/monitoring.ts',
+			],
+			thresholds: {
+				statements: 75,
+				branches: 70,
+				functions: 75,
+				lines: 75,
+			},
+		},
 		env: {
 			CONTENTFUL_SPACE_ID: 'test-space',
 			CONTENTFUL_ENVIRONMENT: 'test-env',

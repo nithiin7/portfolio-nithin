@@ -97,10 +97,16 @@ export async function POST(request: NextRequest) {
 		);
 	}
 
+	const body: unknown = await request.json().catch(() => null);
+	if (typeof body !== 'object' || body === null) {
+		return jsonError(400, 'Invalid JSON body');
+	}
+
 	try {
-		const body = await request.json();
 		const question =
-			typeof body.question === 'string' ? body.question.trim() : '';
+			'question' in body && typeof body.question === 'string'
+				? body.question.trim()
+				: '';
 
 		if (!question) {
 			return jsonError(400, 'Question is required');
@@ -113,7 +119,9 @@ export async function POST(request: NextRequest) {
 		// Skipped only when no RECAPTCHA_SECRET_KEY is configured (local dev).
 		if (isRecaptchaConfigured()) {
 			const token =
-				typeof body.recaptchaToken === 'string' ? body.recaptchaToken : '';
+				'recaptchaToken' in body && typeof body.recaptchaToken === 'string'
+					? body.recaptchaToken
+					: '';
 			const recaptcha = token
 				? await verifyRecaptcha(token)
 				: { valid: false, score: 0 };

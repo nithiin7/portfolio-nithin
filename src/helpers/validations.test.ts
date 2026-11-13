@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vitest';
 
-import { commentSchema, contactSchema, emailSchema } from 'helpers/validations';
+import {
+	commentRequestSchema,
+	commentSchema,
+	contactSchema,
+	emailSchema,
+	viewRequestSchema,
+} from 'helpers/validations';
 
 const validContact = {
 	name: 'Nithin',
@@ -98,5 +104,45 @@ describe('commentSchema', () => {
 		],
 	])('rejects %s', async (_label, data, message) => {
 		await expect(commentSchema.validate(data)).rejects.toThrow(message);
+	});
+});
+
+describe('commentRequestSchema', () => {
+	const valid = {
+		postId: 'post-1',
+		authorName: 'Ada',
+		authorEmail: 'ada@example.com',
+		content: 'A thoughtful comment.',
+		recaptchaToken: 'token',
+	};
+
+	it('accepts a complete body', async () => {
+		await expect(commentRequestSchema.isValid(valid)).resolves.toBe(true);
+	});
+
+	it('rejects a missing reCAPTCHA token with the client-facing message', async () => {
+		await expect(
+			commentRequestSchema.validate({ ...valid, recaptchaToken: undefined })
+		).rejects.toThrow('reCAPTCHA verification failed');
+	});
+
+	it('rejects oversized names', async () => {
+		await expect(
+			commentRequestSchema.isValid({ ...valid, authorName: 'x'.repeat(51) })
+		).resolves.toBe(false);
+	});
+});
+
+describe('viewRequestSchema', () => {
+	it('accepts kebab-case slugs only', async () => {
+		await expect(
+			viewRequestSchema.isValid({ slug: 'what-is-mcp' })
+		).resolves.toBe(true);
+		await expect(viewRequestSchema.isValid({ slug: 'Bad Slug' })).resolves.toBe(
+			false
+		);
+		await expect(viewRequestSchema.isValid({ slug: '../etc' })).resolves.toBe(
+			false
+		);
 	});
 });
