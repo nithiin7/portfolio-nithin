@@ -30,16 +30,22 @@ const contentSecurityPolicy = [
 	`report-uri ${CSP_REPORT_URI}`,
 ].join('; ');
 
-const securityHeaders = [
-	{
-		key: 'Content-Security-Policy-Report-Only',
-		value: contentSecurityPolicy,
-	},
+// Sent on every response, including static assets
+const transportHeaders = [
 	{
 		key: 'Strict-Transport-Security',
 		value: 'max-age=63072000; includeSubDomains',
 	},
 	{ key: 'X-Content-Type-Options', value: 'nosniff' },
+];
+
+// Only meaningful on documents; skipping them on /_next/static keeps ~1 KB of
+// headers off every script and stylesheet request
+const documentHeaders = [
+	{
+		key: 'Content-Security-Policy-Report-Only',
+		value: contentSecurityPolicy,
+	},
 	{ key: 'X-Frame-Options', value: 'DENY' },
 	{ key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
 	{
@@ -72,7 +78,13 @@ const nextConfig = {
 		],
 	},
 	async headers() {
-		return [{ source: '/:path*', headers: securityHeaders }];
+		return [
+			{ source: '/:path*', headers: transportHeaders },
+			{
+				source: '/((?!_next/static|_next/image).*)',
+				headers: documentHeaders,
+			},
+		];
 	},
 	// Slugs shortened in the phase 14 copy pass (docs/cms/COPY_REVIEW.md A14, A16)
 	async redirects() {
