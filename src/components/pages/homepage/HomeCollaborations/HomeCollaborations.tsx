@@ -8,7 +8,7 @@ import {
 	type ReactElement,
 } from 'react';
 
-import RevealText from 'components/motion/RevealText/RevealText';
+import ScrambleText from 'components/motion/ScrambleText/ScrambleText';
 import { useLiteMotion } from 'hooks/useLiteMotion';
 import type { Collaborator } from 'types/home';
 
@@ -91,9 +91,10 @@ const HomeCollaborations: FC<HomeCollaborationsProps> = ({
 						<span className={styles.HomeCollaborations__number}>
 							{String(collaborators.length).padStart(2, '0')}
 						</span>{' '}
-						<RevealText as="span">
-							{data?.title || 'Brands I’ve built for.'}
-						</RevealText>
+						<ScrambleText
+							as="span"
+							text={data?.title || 'Brands I’ve built for.'}
+						/>
 					</h2>
 					<button
 						type="button"

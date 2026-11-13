@@ -9,6 +9,7 @@ import {
 	ViewTransition,
 } from 'react';
 
+import ScrambleText from 'components/motion/ScrambleText/ScrambleText';
 import WorksMedia from 'components/pages/homepage/WorksMedia/WorksMedia';
 import WorksPreview from 'components/pages/homepage/WorksPreview/WorksPreview';
 import type { WorksPreviewState } from 'components/pages/homepage/WorksPreview/WorksPreview';
@@ -165,9 +166,12 @@ const WorksIndex: FC<WorksIndexProps> = ({
 										update="none"
 									>
 										<span className={styles.WorksIndex__title}>
-											<span className={styles.WorksIndex__titleText}>
-												{project.title}
-											</span>
+											<ScrambleText
+												mode="hover"
+												duration={0.4}
+												text={project.title}
+												className={styles.WorksIndex__titleText}
+											/>
 										</span>
 									</ViewTransition>
 								</span>

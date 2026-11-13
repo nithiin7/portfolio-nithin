@@ -1,6 +1,6 @@
 import type { FC, ReactElement } from 'react';
 
-import RevealText from 'components/motion/RevealText/RevealText';
+import ScrambleText from 'components/motion/ScrambleText/ScrambleText';
 import WorksFeatured from 'components/pages/homepage/WorksFeatured/WorksFeatured';
 import WorksIndex from 'components/pages/homepage/WorksIndex/WorksIndex';
 import { splitFeatured } from 'helpers/portfolio';
@@ -41,9 +41,11 @@ const HomePortfolio: FC<HomePortfolioProps> = ({
 			<div className={styles.HomePortfolio__inner}>
 				<header className={styles.HomePortfolio__head}>
 					<p className={styles.HomePortfolio__label}>Selected Works</p>
-					<RevealText as="h2" className={styles.HomePortfolio__title}>
-						{data?.title || 'Selected Works'}
-					</RevealText>
+					<ScrambleText
+						as="h2"
+						className={styles.HomePortfolio__title}
+						text={data?.title || 'Selected Works'}
+					/>
 					<p className={styles.HomePortfolio__count}>
 						{String(portfolio.length).padStart(2, '0')} projects
 						{range && ` · ${range}`}

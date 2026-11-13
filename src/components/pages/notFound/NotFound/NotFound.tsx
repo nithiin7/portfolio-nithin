@@ -11,6 +11,7 @@ import {
 } from 'react';
 
 import RevealText from 'components/motion/RevealText/RevealText';
+import ScrambleText from 'components/motion/ScrambleText/ScrambleText';
 import { navLinks } from 'constants/index';
 import { usePrefersReducedMotion } from 'hooks/usePrefersReducedMotion';
 import type { LinkItem } from 'types/utils';
@@ -127,9 +128,12 @@ const NotFound: FC = (): ReactElement => {
 				<p className={styles.NotFound__code} aria-hidden="true">
 					4<span className={styles.NotFound__zero}>0</span>4
 				</p>
-				<RevealText as="h1" trigger="mount" className={styles.NotFound__title}>
-					This page isn’t in the index.
-				</RevealText>
+				<ScrambleText
+					as="h1"
+					duration={0.8}
+					className={styles.NotFound__title}
+					text="This page isn’t in the index."
+				/>
 				<RevealText
 					as="p"
 					trigger="mount"

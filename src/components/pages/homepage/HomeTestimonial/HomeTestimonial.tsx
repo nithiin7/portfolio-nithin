@@ -18,7 +18,7 @@ import {
 	type ReactElement,
 } from 'react';
 
-import RevealText from 'components/motion/RevealText/RevealText';
+import ScrambleText from 'components/motion/ScrambleText/ScrambleText';
 import { duration, ease } from 'styles/tokens';
 import type { Testimonial } from 'types/testimony';
 
@@ -162,7 +162,7 @@ const HomeTestimonial: FC<HomeTestimonialProps> = ({
 				<header className={styles.HomeTestimonial__head}>
 					<p className={styles.HomeTestimonial__label}>Testimonials</p>
 					<h2 id={titleId} className={styles.HomeTestimonial__title}>
-						<RevealText as="span">{data?.title || 'Kind words.'}</RevealText>
+						<ScrambleText as="span" text={data?.title || 'Kind words.'} />
 					</h2>
 				</header>
 

@@ -6,6 +6,7 @@ import HomeAbout from 'components/pages/homepage/HomeAbout/HomeAbout';
 import type { AboutStat } from 'components/pages/homepage/HomeAbout/HomeAbout';
 import HomeCapabilities from 'components/pages/homepage/HomeCapabilities/HomeCapabilities';
 import HomeHeader from 'components/pages/homepage/HomeHeader/HomeHeader';
+import HomeManifesto from 'components/pages/homepage/HomeManifesto/HomeManifesto';
 import HomePortfolio from 'components/pages/homepage/HomePortfolio/HomePortfolio';
 import { absoluteUrl, personJsonLd, siteName } from 'config/site';
 import { yearsOfExperience } from 'helpers/career';
@@ -45,7 +46,7 @@ export default async function Home() {
 		...home.about.stats,
 	];
 
-	const sections: Record<HomeSectionKey, ReactElement> = {
+	const sections: Record<HomeSectionKey, ReactElement | null> = {
 		hero: (
 			<HomeHeader
 				key="hero"
@@ -54,6 +55,9 @@ export default async function Home() {
 				ctas={home.hero.ctas}
 			/>
 		),
+		manifesto: home.manifesto ? (
+			<HomeManifesto key="manifesto" manifesto={home.manifesto} />
+		) : null,
 		work: (
 			<HomePortfolio
 				key="work"
