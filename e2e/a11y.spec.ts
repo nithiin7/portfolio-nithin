@@ -1,16 +1,44 @@
 import AxeBuilder from '@axe-core/playwright';
-import { expect, test, type Page } from '@playwright/test';
+import type { Page } from '@playwright/test';
+
+import { STATIC_ROUTES, expect, test } from './fixtures';
 
 const AXE_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'];
 
-const scan = (page: Page) =>
-	new AxeBuilder({ page })
-		.withTags(AXE_TAGS)
-		// Third-party embeds we don't control
-		.exclude('iframe')
-		// Known design debt, audited separately in the color-contrast test below
-		.disableRules(['color-contrast'])
-		.analyze();
+// Mid-fade text blends with the background and trips color-contrast, so let
+// every finite animation (intros, reveals, dialog entrances) finish first.
+// Infinite ones (marquee, status pulse) never settle and are skipped.
+const SETTLE_TIMEOUT = 4000;
+
+const settle = (page: Page) =>
+	page.evaluate(
+		(timeout) =>
+			Promise.race([
+				Promise.all(
+					document
+						.getAnimations()
+						.filter(
+							(animation) =>
+								animation.playState === 'running' &&
+								animation.effect?.getComputedTiming().endTime !== Infinity
+						)
+						.map((animation) => animation.finished.catch(() => undefined))
+				),
+				new Promise((resolve) => setTimeout(resolve, timeout)),
+			]),
+		SETTLE_TIMEOUT
+	);
+
+const scan = async (page: Page) => {
+	await settle(page);
+	return (
+		new AxeBuilder({ page })
+			.withTags(AXE_TAGS)
+			// Third-party embeds we don't control
+			.exclude('iframe')
+			.analyze()
+	);
+};
 
 const formatViolations = (
 	violations: Awaited<ReturnType<AxeBuilder['analyze']>>['violations']
@@ -28,10 +56,8 @@ const expectNoViolations = async (page: Page) => {
 	expect(violations, formatViolations(violations)).toEqual([]);
 };
 
-// The Menu only reveals after scrolling past the first viewport and idling
 const openMenu = async (page: Page) => {
-	await page.mouse.wheel(0, 2000);
-	const toggle = page.getByRole('button', { name: 'Toggle navigation menu' });
+	const toggle = page.getByRole('button', { name: 'Menu', exact: true });
 	await expect(toggle).toBeVisible();
 	await toggle.click();
 	await expect(
@@ -40,22 +66,13 @@ const openMenu = async (page: Page) => {
 };
 
 const openCertificationModal = async (page: Page) => {
-	const badge = page
-		.getByRole('button', { name: /^View details for / })
-		.first();
-	// The marquee keeps badges moving, so mouse actions never see a stable
-	// bounding box. Keyboard activation skips stability checks entirely.
+	const badge = page.getByRole('button', { name: /\. View details$/ }).first();
 	await badge.focus();
 	await page.keyboard.press('Enter');
-	await expect(page.getByText('Certification Details')).toBeVisible();
+	await expect(page.getByRole('dialog')).toBeVisible();
 };
 
 test.describe('axe scans', () => {
-	test('homepage (default state)', async ({ page }) => {
-		await page.goto('/', { waitUntil: 'networkidle' });
-		await expectNoViolations(page);
-	});
-
 	test('navigation menu open', async ({ page }) => {
 		await page.goto('/', { waitUntil: 'networkidle' });
 		await openMenu(page);
@@ -77,25 +94,46 @@ test.describe('axe scans', () => {
 		await expectNoViolations(page);
 	});
 
-	test('contact page', async ({ page }) => {
-		await page.goto('/contact', { waitUntil: 'networkidle' });
-		await expectNoViolations(page);
-	});
+	const THEMES = ['dark', 'light'] as const;
 
-	// Muted theme colors (--color-number/--color-year and friends) sit below
-	// WCAG AA 4.5:1. Documented design debt: remove this annotation once the
-	// palette is adjusted, and drop the disableRules exclusion above.
-	test('color contrast audit', async ({ page }) => {
-		test.fail();
-		await page.goto('/', { waitUntil: 'networkidle' });
-		const { violations } = await new AxeBuilder({ page })
-			.withTags(AXE_TAGS)
-			.exclude('iframe')
-			.include('body')
-			.withRules(['color-contrast'])
-			.analyze();
-		expect(violations, formatViolations(violations)).toEqual([]);
-	});
+	for (const theme of THEMES) {
+		test.describe(`${theme} theme`, () => {
+			test.beforeEach(async ({ page }) => {
+				await page.addInitScript(
+					(t) => localStorage.setItem('theme', t),
+					theme
+				);
+			});
+
+			const check = async (page: Page, path: string) => {
+				await page.goto(path, { waitUntil: 'networkidle' });
+				await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
+				await expectNoViolations(page);
+			};
+
+			for (const path of STATIC_ROUTES) {
+				test(`page ${path}`, async ({ page }) => check(page, path));
+			}
+
+			test('case study page', async ({ page }) => {
+				await page.goto('/');
+				const href = await page
+					.locator('a[href^="/portfolio/"]')
+					.first()
+					.getAttribute('href');
+				await check(page, href!);
+			});
+
+			test('blog post page', async ({ page }) => {
+				await page.goto('/blog');
+				const href = await page
+					.locator('a[href^="/blog/"]:not([href*="?"])')
+					.first()
+					.getAttribute('href');
+				await check(page, href!);
+			});
+		});
+	}
 });
 
 test.describe('keyboard behavior', () => {
@@ -142,7 +180,7 @@ test.describe('keyboard behavior', () => {
 		await page.goto('/', { waitUntil: 'networkidle' });
 		await openCertificationModal(page);
 
-		const modal = page.getByRole('button', { name: 'Close modal' });
+		const modal = page.getByRole('button', { name: 'Close dialog' });
 		await expect(modal).toBeVisible();
 
 		// Focus must land inside the modal, not stay on the page behind it
@@ -156,5 +194,45 @@ test.describe('keyboard behavior', () => {
 
 		await page.keyboard.press('Escape');
 		await expect(modal).toBeHidden();
+	});
+
+	test('works index: arrow keys move focus and focus opens the preview', async ({
+		page,
+	}) => {
+		await page.goto('/', { waitUntil: 'networkidle' });
+		const rows = page.locator('ul[aria-label^="All projects"] a');
+		const preview = page.locator('[class*="WorksPreview__window"]');
+
+		await rows.first().focus();
+		await page.keyboard.press('ArrowDown');
+		await expect(rows.nth(1)).toBeFocused();
+		await expect(rows.nth(1)).toHaveAttribute('tabindex', '0');
+		await expect(rows.first()).toHaveAttribute('tabindex', '-1');
+		await expect(preview).toHaveAttribute('data-open', 'true');
+
+		await expectNoViolations(page);
+
+		await page.keyboard.press('Shift+Tab');
+		await expect(preview).toHaveAttribute('data-open', 'false');
+	});
+
+	test('case study gallery: lightbox pages with arrows, Escape restores focus', async ({
+		page,
+	}) => {
+		await page.goto('/portfolio/persona', { waitUntil: 'networkidle' });
+		const opener = page.getByRole('button', { name: /^Enlarge image 1 of / });
+		await opener.focus();
+		await page.keyboard.press('Enter');
+
+		const dialog = page.getByRole('dialog', { name: /gallery$/ });
+		await expect(dialog).toBeVisible();
+		await expect(dialog.getByText(/^01\//)).toBeVisible();
+		await page.keyboard.press('ArrowRight');
+		await expect(dialog.getByText(/^02\//)).toBeVisible();
+		await expectNoViolations(page);
+
+		await page.keyboard.press('Escape');
+		await expect(dialog).toBeHidden();
+		await expect(opener).toBeFocused();
 	});
 });

@@ -2,6 +2,9 @@ import { revalidatePath } from 'next/cache';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
+import { jsonError, secretsMatch } from 'helpers/apiProtection';
+import { serverEnv } from 'helpers/env';
+
 interface ContentfulWebhookBody {
 	sys?: {
 		contentType?: {
@@ -27,7 +30,7 @@ const getTargets = (
 		case 'blogPost':
 			return [['/blog/[slug]', 'page'], ['/sitemap.xml']];
 		case 'portfolioDetails':
-			return [['/'], ['/portfolio/[id]', 'page'], ['/sitemap.xml']];
+			return [['/'], ['/portfolio/[slug]', 'page'], ['/sitemap.xml']];
 		case 'page':
 			if (slug === 'home') return [['/']];
 			if (slug) return [[`/${slug}`]];
@@ -40,12 +43,13 @@ const getTargets = (
 };
 
 export async function POST(request: NextRequest) {
-	const secret = request.headers.get('x-revalidate-secret');
 	if (
-		!process.env.CONTENTFUL_REVALIDATE_SECRET ||
-		secret !== process.env.CONTENTFUL_REVALIDATE_SECRET
+		!secretsMatch(
+			request.headers.get('x-revalidate-secret'),
+			serverEnv.CONTENTFUL_REVALIDATE_SECRET
+		)
 	) {
-		return NextResponse.json({ error: 'Invalid secret' }, { status: 401 });
+		return jsonError(401, 'Invalid secret');
 	}
 
 	let body: ContentfulWebhookBody = {};

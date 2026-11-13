@@ -1,294 +1,177 @@
-# CLAUDE.md — Portfolio Nithin
+# CLAUDE.md — portfolio-nithin
 
-Living reference for Claude sessions working in this repo. Read this before making any changes.
+The reference for working in this repo. Keep it true: when code or config changes a rule here, update this file in the same PR.
 
----
+## 1. Overview
 
-## 1. Project Overview
+Portfolio of Nithin Pradeep (AI and full-stack engineer) at https://portfolio-nithin.vercel.app. The visual direction is Editorial Swiss: a visible 12-column grid, ink and paper, one orange accent, large display type, mono labels.
 
-Personal portfolio website for **Nithin Pradeep** (Full Stack Developer). A content-driven, animation-heavy site with a blog, portfolio showcase, contact form, and comment system.
+Stack: Next.js 16 (App Router, RSC, Turbopack), React 19, strict TypeScript, SCSS Modules, Contentful (GraphQL via Apollo), Supabase, Motion/React, Lenis, React Hook Form + Yup, EmailJS, reCAPTCHA v3, Sentry, Vercel.
 
-**Tech stack:**
-
-- Next.js 16 (App Router, Turbopack in dev)
-- React 19 + TypeScript (strict mode)
-- SCSS Modules for styling
-- Contentful CMS → Apollo Client (GraphQL) for all page/blog/portfolio content
-- Supabase for comments and newsletter subscriptions
-- Motion/React (Framer Motion v12) + GSAP for animations
-- Lenis for smooth scrolling
-- React Hook Form + Yup for form validation
-- EmailJS for contact form emails
-- Google GTM + Sentry for analytics and error tracking
-- Storybook for component documentation
-- Plop for code generation, Husky + Commitlint for git hygiene
-
----
-
-## 2. Folder Structure
+## 2. Architecture and data flow
 
 ```
-portfolio-nithin/
-├── lib/                        # Apollo Client setup (Contentful GraphQL)
-├── migrations/                 # Supabase SQL migration files
-├── public/                     # Static assets (SVGs, resume PDF, favicons)
-├── src/
-│   ├── app/                    # Next.js App Router
-│   │   ├── api/                # Route handlers (comments, subscribe, revalidate)
-│   │   ├── blog/               # Blog listing + [slug] detail pages
-│   │   ├── contact/            # Contact page
-│   │   ├── portfolio/[id]/     # Portfolio detail page
-│   │   ├── layout.tsx          # Root layout — fonts, providers, persistent UI
-│   │   ├── page.tsx            # Homepage (Server Component)
-│   │   ├── provider.tsx        # Client providers (Theme, Lenis, analytics)
-│   │   └── transition.tsx      # Page transition curve (AnimatePresence)
-│   ├── assets/
-│   │   ├── icons/              # SVG icon components
-│   │   └── logos/              # Brand logo components and SVG files
-│   ├── clients/
-│   │   └── supabase.ts         # Supabase client singleton
-│   ├── components/
-│   │   ├── layouts/            # Navbar, Menu, Footer
-│   │   ├── pages/              # Page-specific components grouped by route
-│   │   │   ├── blog/
-│   │   │   ├── contact/
-│   │   │   ├── homepage/
-│   │   │   └── portfolio/
-│   │   └── utilities/          # Reusable UI primitives (Button, Modal, Tag, etc.)
-│   ├── constants/index.tsx     # Nav links, social links, contact info, song list
-│   ├── contexts/               # ThemeContext (dark/light)
-│   ├── helpers/                # Pure utility functions
-│   │   ├── analytics.ts        # GTM init
-│   │   ├── animations.ts       # Shared Motion/React Variants
-│   │   ├── blog.ts             # Related-post scoring logic
-│   │   ├── career.ts           # Career data transform
-│   │   ├── contentful.ts       # loadData / loadBlogPosts / converters
-│   │   ├── social.ts
-│   │   └── validations.ts
-│   ├── hooks/                  # Custom hooks (useScrollDirection, useKeyboardNavigation)
-│   ├── models/                 # Data models (subscription)
-│   ├── queries/                # GraphQL query definitions (Apollo gql)
-│   ├── services/               # Service layer for Supabase CRUD
-│   │   ├── index.ts            # BaseService (generic get/post/put/patch/delete)
-│   │   ├── comments/           # CommentsService extends BaseService
-│   │   └── subscriptions/
-│   ├── styles/
-│   │   ├── globals.scss        # Global resets and base styles
-│   │   ├── theme.scss          # CSS custom properties for dark/light themes
-│   │   └── shared/             # _variables.scss, _mixin.scss, _fonts.scss, _base.scss
-│   └── types/                  # TypeScript interfaces/types per domain
-├── templates/                  # Plop Handlebars templates (component, page)
-├── next.config.js              # SVGR, Sentry, image domains, env vars
-├── tsconfig.json               # Path aliases, strict mode
-└── plopfile.ts                 # Plop generators (component, page)
+Contentful ──GraphQL (ISR 1h)──▶ helpers/contentful.ts ──▶ server components (app/**/page.tsx) ──props──▶ client islands
+     │ publish webhook                (loaders + converters)                                          (palette, chat, forms, motion)
+     ▼                                                                                                        │
+/api/revalidate ◀─────────────────────────────────────────────────────────────────── /api/* route handlers ◀┘ ──▶ Supabase, OpenAI
 ```
 
----
+- **All content is in Contentful**, including site identity (the Site Settings singleton: name, role, socials, contact channels, default SEO). `loadSiteSettings()` feeds the layout and `SiteSettingsContext`.
+- **Home sections are found by `key`** (`hero`, `manifesto`, `work`, `about`, `capabilities`, `career`, `certifications`, `collaborations`, `testimonials`), never by position or name. `app/page.tsx` renders them in the order Page "home" lists them.
+- The `work` section's items are the source of truth for project routes, the sitemap and search.
+- **Loaders return app types.** Components never see raw Contentful shapes (`types/contentful.ts`); converters live in `helpers/contentful.ts` (`toPortfolioItem`, `toBlogPost`, `toLink`, `toSeo`, …). Exception: the case study still receives `RawProject`.
+- `runQuery` renders around `UNRESOLVABLE_LINK` errors (unpublished links come back nulled) and throws on any other GraphQL error. `loadWork` deliberately tolerates partial data.
+- `GET_HOME` is close to Contentful's 11,000 query-cost cap. Check `X-Contentful-Graphql-Query-Cost: true` before adding linked fields to it.
+- **Env**: read variables only through `helpers/env.ts` (`clientEnv`, `serverEnv`). `instrumentation.ts` calls `assertEnv()`: missing Contentful variables stop the server, and missing feature variables are logged.
+- **API routes** (`/api/ask`, `/api/comments`, `/api/views`, `/api/revalidate`, `/api/search`) validate bodies with yup schemas through `parseJsonBody`, rate-limit by IP and answer every error as `{ error: string }` (`helpers/apiProtection.ts`).
+- **Supabase** goes through the service layer (`services/*`, built on `BaseService`). Never call `supabase.from()` in components or routes. The anon key can't read comment emails or unapproved rows, so inserts skip `RETURNING`.
+- **Security headers and a Report-Only CSP** are set in `next.config.js`, and violations report to Sentry. Add new third-party origins there.
 
-## 3. Architecture & Patterns
-
-### Data Flow
+## 3. Folder structure
 
 ```
-Contentful CMS
-    ↓ Apollo GraphQL (SSR, InMemoryCache)
-Server Components (app/page.tsx, app/blog/page.tsx, etc.)
-    ↓ props
-Client Components (components/pages/...)
+contentful/   migrations (NNN_*.cjs + NNN_*.data.ts), cms:check rules, CMA client, seed-assets/
+data/         knowledge/*.md → embeddings.json (RAG for /api/ask)
+docs/         engineering/ (CI_CD, audits), cms/ (CONVENTIONS, HOW_TO_ADD, LAUNCH, COPY_REVIEW), redesign/ (AWWWARDS, IMAGES, plates), archive/
+e2e/          Playwright: fixtures.ts, smoke, a11y (axe), responsive (overflow)
+migrations/   Supabase SQL
+scripts/      responsive-audit, plates, icons, embed, awwwards
+src/app/      routes, route handlers, OG images, sitemap, feed, sw.ts; *.dev.tsx routes exist only under `next dev`
+src/clients/  apollo.ts (server-only), supabase.ts, openai.ts
+src/components/
+  layouts/    Navbar, Menu, Footer, PageTransition, Preloader
+  motion/     RevealText, RevealImage, ScrambleText
+  pages/      <route>/<Component>/  (homepage, portfolio, blog, contact, stats, resume, notFound)
+  utilities/  shared UI: Button, Modal, CommandPalette, FloatingChat, FormField, JsonLd, ThemedImage, …
+src/config/   site.ts (technical config), imageCrops.ts (plate crop table)
+src/helpers/  loaders/converters, env, apiProtection, animations, format, richText, caseStudy, …
+src/hooks/ src/contexts/ src/queries/ src/services/ src/types/
+src/styles/   tokens.scss (+ tokens.ts mirror), shared/_mixin.scss, _base.scss, _typography.scss, globals.scss
+templates/    Plop templates
 ```
 
-All page content lives in Contentful. `loadData('home')` fetches the full page tree via `GET_PAGE`. Sections are indexed positionally (sections[0] = header, sections[1] = services, etc.) — this order must match Contentful.
+## 4. Design system rules
 
-### Service Layer (Supabase)
+- **Tokens**: every colour, font, type step, space, radius, duration and easing is a custom property in `src/styles/tokens.scss` (dark on `:root`, light on `[data-theme='light']`). Raw colour values live only there. `tokens.ts` mirrors the few values JS needs, and `tokens.test.ts` keeps the two in sync.
+- **Type**: `--font-display` (Inter Tight), `--font-text`, `--font-serif` (Instrument Serif, italic accents), `--font-mono` (JetBrains Mono, labels). The fluid scale runs `--step--1` … `--step-7`. Set copy in sentence case; the design applies uppercase itself.
+- **Grid**: 12 columns (`grid-12`, `col()` mixins, `--grid-gutter`, `--grid-margin`, `--grid-max: 120rem`). Above 1920px the root font size scales (`_base.scss`), so rem-capped values follow and 3840 renders as a 2× 1920 layout. Give wide `next/image` `sizes` a `vw` term from 1920.
+- **Responsive**: use the breakpoint variables in `_mixin.scss` (`$xs` … `$xxxxl`, `$lm`). Gate hover with `@include hover` / `$can-hover`. Touch sizing uses `tap-target` / `tap-pad` and `--tap-min`. Everything must work from 320px to 3840px with no horizontal scroll.
+- **Shared mixins** (`@use 'styles/shared/mixin' as *;`, never `styles/shared`): `mono-type`, `mono-label`, `focus-ring($offset)`, `pill-button`, `outline-button`, `draw-underline`, `sr-only`, `tap-target`, `tap-pad`, `container*`, `section-padding`. Use them instead of repeating their declarations.
+- **z-index order** (low → high): section-local layers 1–20 · chat window 999 · navbar, chat launcher, palette hint 1000 · Modal 1050 · Menu, CommandPalette 1100 · Preloader 3000 · grain overlay (`_base.scss`) · dev GridOverlay. Fit new layers into this order. Don't invent new top values.
+- **Motion**: Motion/React only (GSAP was removed; don't re-add it). Shared variants are in `helpers/animations.ts`. Primitives:
+  - `RevealText` and `RevealImage`: line mask and clip-path reveals.
+  - `ScrambleText`: mono glyph scramble on enter, hover or scroll; used for homepage section headings.
+  - `useMagneticHover`: imperative `animate()` on the primary CTAs.
+  - Page transitions: React `<ViewTransition>` in `layouts/PageTransition`.
+  - Lenis smooth scroll in `app/provider.tsx`.
+- **Reduced motion is mandatory**: CSS durations collapse to 0 via the tokens; components use `useReducedMotion`/`usePrefersReducedMotion` and swap to `fadeVariants`. Every new effect needs a reduced-motion path.
+- **View-transition invariants**: no `loading.tsx` files, no `opacity: 0` ancestors around morph targets, the scroll reset stays in `useLayoutEffect`, and the transition wrapper stays opaque.
+- **Accessibility**: Lighthouse a11y stays at 100 and axe passes on every route in both themes (e2e enforces it). Focus is always visible (`focus-ring`). Overlays trap focus and return it to their opener. Test dark and light for every visual change.
 
-`BaseService` in `src/services/index.ts` is the generic Supabase CRUD class. Domain services (e.g. `CommentsService`) extend it, adding transforms between DB snake_case and app camelCase. Always use the singleton exports (`commentsService`, `baseService`), not direct Supabase queries.
+## 5. CMS rules
 
-### Theme System
+Read [docs/cms/CONVENTIONS.md](docs/cms/CONVENTIONS.md) (rules) and [docs/cms/HOW_TO_ADD.md](docs/cms/HOW_TO_ADD.md) (recipes) before touching Contentful or its queries.
 
-CSS custom properties on `:root` (dark, default) and `[data-theme='light']` in `theme.scss`. `ThemeContext` toggles `data-theme` on `<html>`. SCSS uses `$color-*` variables from `_variables.scss`, which are aliases to the CSS vars — never hardcode hex values.
+- **Schema changes are migrations in code**: `contentful/migrations/NNN_*.cjs` (+ optional `.data.ts`), run with `pnpm cms:migrate --env <id> [--apply]`. Never edit content types by hand, through the web app or through MCP. Expand first, contract later. The space caps at 25 content types (17 used).
+- **Never run migrations or content writes against `master` directly** without the user's OK. Try them on a cloned environment first.
+- Query, raw type and converter changes ship in the same PR as the migration that needs them. Contentful GraphQL rejects queries for fields that don't exist yet.
+- **Content writes are drafts.** Publish only with the user's explicit OK: `pnpm cms:check --env <id>` (must exit 0), then `pnpm cms:publish --env <id> --apply`.
+- Never delete entries, assets or types; tag them `deprecated` / `retired`. A published slug never changes without a redirect in `next.config.js`.
+- Every image in use needs alt text in its asset description. Project covers come from the plate pipeline (`pnpm plates`, `/dev/plates`, `pnpm plates:upload`).
+- Public information only: no confidential client names, internal systems or private figures.
+- Preview drafts with `rm -rf .next/cache/fetch-cache && CONTENTFUL_PREVIEW=true pnpm build`.
 
-### Animation Strategy
+## 6. Code standards
 
-- **Motion/React**: Declarative component animations (page transitions, scroll reveals, stagger children). Reusable variants live in `helpers/animations.ts`.
-- **GSAP**: Imperative mouse/scroll effects (MagneticButton hover tracking, HomeCertifications auto-scroll). Use GSAP only when Motion can't do it cleanly.
-- **Lenis**: Smooth scroll provider wrapping the whole app via `ReactLenis` in `provider.tsx`.
+- **Naming**: components are PascalCase (folder, file and export match: `HomeHeader/HomeHeader.tsx`); BEM classes rooted in the component name (`HomeHeader__item--active`); helpers, hooks and constants are camelCase; type files are snake/domain names (`types/blog.ts`).
+- **Imports**: path aliases only (`components/…`, `helpers/…`, `hooks/…`, `services/…`, `types/…`, `config/…`, `constants/…`, `contexts/…`, `clients/…`, `queries/…`, `styles/…`, `app/…`, `data/…`); no `../` across directories. **No barrels**: import the file directly (`components/utilities/Button/Button`). Barrel imports from server components ship every `'use client'` module in them, so the barrels were deleted. Import order is enforced by ESLint.
+- **Server first**: pages are server components that fetch and convert. Add `'use client'` only for hooks, browser APIs or handlers. Never import `@sentry/nextjs` in client code; use `helpers/monitoring.ts`, which loads it on idle.
+- **Strict types**: `strict`, `noUncheckedIndexedAccess`, `noImplicitOverride`, `noFallthroughCasesInSwitch`. No `any` and no non-null assertions in app code (both are lint errors; tests and CLI scripts may assert). Props are an `interface` above the component, and components return `ReactElement`.
+- **DRY, but no speculative abstraction**: extract on the second real copy (mixins, `helpers/animations.ts`, shared components); don't build helpers for one caller.
+- **Comments**: none by default. Write only WHY (a constraint, workaround or invariant), never WHAT. Every exported helper and hook gets a one-line TSDoc.
+- **Logging**: `console.error`/`console.warn` for server logs only. Any other `console` call fails lint in app code.
+- **Formatting**: Prettier (tabs, single quotes, 80 cols) for code, SCSS, JSON and Markdown. lint-staged runs ESLint and Prettier on staged files.
+- **Dead code**: `pnpm knip` must report nothing. It runs in CI.
 
-### Page Transitions
+## 7. Testing rules
 
-`transition.tsx` (the `Curve` component) wraps all page content in `AnimatePresence`. It renders an SVG curve overlay and a welcome text phrase per route.
+| Suite            | Command                                                                                             | Must cover                                                                                                                                                                           |
+| ---------------- | --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Unit + component | `pnpm test` (`test:coverage` enforces thresholds)                                                   | Converters and loaders, every helper with logic, schemas, env, API routes (validation, rate limit, reCAPTCHA, error shape), services, any component with keyboard or focus behaviour |
+| E2E              | `pnpm build && pnpm start -p 3200 &` then `PLAYWRIGHT_BASE_URL=http://localhost:3200 pnpm test:e2e` | A smoke test per route, user flows, axe on every route in both themes, no overflow at 320/1920/3840                                                                                  |
+| Visual baseline  | `AUDIT_STABLE=1 AUDIT_BASE_URL=… AUDIT_ONLY=360,1440,3840 node scripts/responsive-audit.ts`         | Run before and after refactors and diff; any difference must be explained                                                                                                            |
 
----
+- New logic ships with tests, and `pnpm generate` scaffolds a test with every component.
+- Tests use the aliases. Route-handler tests run in `// @vitest-environment node` with `test/api.ts` helpers, and mock services, not Supabase.
+- e2e imports `test` from `e2e/fixtures.ts`, which answers `POST /api/views` locally so runs don't inflate the live view counts.
+- Coverage thresholds (`vitest.config.ts`) only go up.
 
-## 4. Code Standards
+## 8. Git workflow
 
-### TypeScript
+- Branch from `main`: `feat/…`, `fix/…`, `chore/…`. Open a PR into `main`.
+- Conventional Commits, enforced by commitlint (lowercase subjects) and the PR-title check. Squash-merge, so the PR title becomes the commit and feeds release-please.
+- A PR merges only when CI is green (quality, tests, build, gitleaks, CodeQL) and the Vercel preview passes Playwright, axe and Lighthouse. Review the preview URL yourself for visual changes.
+- Releases: merge the release-please PR on `main`.
+- Never commit secrets (`.env` holds real credentials; `.env.example` is the template). `next dev`/`build` rewrite `next-env.d.ts`, so revert it before committing.
 
-- Strict mode on. Always type component props with an `interface` declared above the component.
-- Return type annotation on components: `: ReactElement` (for function components) or `: FC<Props>`.
-- Use `type` for unions/primitives, `interface` for object shapes.
-
-### Naming
-
-- Components: `PascalCase` — file, folder, and export name all match (e.g. `HomeHeader/HomeHeader.tsx`).
-- CSS classes: BEM-style with component name as root — `HomeHeader`, `HomeHeader__nav`, `HomeHeader__item--active`.
-- Helpers/constants/hooks: `camelCase`.
-- Types files: snake_case domain name (e.g. `types/blog.ts`, `types/comment.ts`).
-
-### Imports
-
-Always use path aliases, never relative paths for cross-directory imports:
-
-```ts
-import { loadData } from 'helpers/contentful'; // ✓
-import { Button } from 'components/utilities'; // ✓
-import { loadData } from '../../helpers/contentful'; // ✗
-```
-
-Active aliases (baseUrl = `./src/`):
-`assets/*`, `components/*`, `helpers/*`, `queries/*`, `styles/*`  
-Also directly usable: `contexts/`, `types/`, `constants/`, `hooks/`, `clients/`, `services/`
-
-### SCSS
-
-- Use `rem()` mixin from `_mixin.scss` for pixel-to-rem conversion.
-- Use breakpoint variables (`$xs`, `$sm`, `$md`, `$lg`, `$xl`, `$xxl`, `$xxxl`) from `_mixin.scss`.
-- Import shared utilities via `@use 'styles/shared'` or per-file as needed.
-
-### Comments
-
-Default to **no comments**. Only comment when the _why_ is non-obvious (hidden constraint, workaround, subtle invariant). Never explain what the code does.
-
----
-
-## 5. DRY & Clean Code Rules
-
-- **Animation variants**: If a Motion variant is used in more than one component, move it to `helpers/animations.ts` and import it.
-- **Constants**: All nav links, social links, and contact options live in `constants/index.tsx`. Never inline them in components.
-- **Barrel exports**: Every component folder group has an `index.ts`. Add new exports there; import from the barrel, not the file directly.
-- **Service layer**: Never call `supabase.from(...)` directly in components or API routes — go through `commentsService` / `subscriptionsService` / `baseService`.
-- **Content converters**: Use `convertContentfulBlogPost`, `convertContentfulCategory`, etc. from `helpers/contentful.ts` when mapping API responses to app types.
-- **Plop generators**: Use `pnpm generate` to scaffold new components or pages — it creates the `.tsx`, `.module.scss`, `index.ts`, and `.stories.ts` files from templates.
-
----
-
-## 6. Key Files
-
-| File                                                                    | Purpose                                                                                       |
-| ----------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| [src/app/layout.tsx](src/app/layout.tsx)                                | Root layout — fonts, Sentry, global providers, persistent UI elements                         |
-| [src/app/page.tsx](src/app/page.tsx)                                    | Homepage — fetches Contentful data and distributes to section components                      |
-| [src/app/provider.tsx](src/app/provider.tsx)                            | Client providers: ThemeProvider, ReactLenis, GTM init                                         |
-| [src/app/transition.tsx](src/app/transition.tsx)                        | SVG curve page transition (AnimatePresence wrapper)                                           |
-| [src/helpers/contentful.ts](src/helpers/contentful.ts)                  | All Contentful data fetching (`loadData`, `loadBlogPosts`, `loadBlogPostBySlug`) + converters |
-| [src/helpers/animations.ts](src/helpers/animations.ts)                  | Shared Motion/React animation variant definitions                                             |
-| [src/constants/index.tsx](src/constants/index.tsx)                      | Nav links, social links, footer links, contact options, song list                             |
-| [src/styles/theme.scss](src/styles/theme.scss)                          | CSS custom properties for dark + light themes                                                 |
-| [src/styles/shared/\_variables.scss](src/styles/shared/_variables.scss) | SCSS `$color-*` variables (aliases to CSS vars)                                               |
-| [src/styles/shared/\_mixin.scss](src/styles/shared/_mixin.scss)         | `rem()` function + responsive breakpoints                                                     |
-| [lib/apolloClient.ts](lib/apolloClient.ts)                              | Apollo Client singleton (SSR-aware, Contentful GraphQL endpoint)                              |
-| [src/services/index.ts](src/services/index.ts)                          | BaseService — generic Supabase CRUD operations                                                |
-| [src/queries/index.ts](src/queries/index.ts)                            | All Contentful GraphQL queries (`GET_PAGE`, blog queries)                                     |
-| [next.config.js](next.config.js)                                        | SVGR config, Sentry wrapper, allowed image hostnames, env vars                                |
-| [plopfile.ts](plopfile.ts)                                              | Plop generators for component and page scaffolding                                            |
-| [src/clients/supabase.ts](src/clients/supabase.ts)                      | Supabase client singleton                                                                     |
-
----
-
-## 7. Dev Commands
+## 9. Dev commands
 
 ```bash
-pnpm dev              # Start dev server (Next.js + Turbopack)
-pnpm build            # Production build
-pnpm start            # Start production server
-pnpm lint             # Next.js built-in lint
-pnpm eslint           # ESLint check
-pnpm eslint:fix       # ESLint auto-fix
-pnpm prettier         # Prettier check
-pnpm prettier:fix     # Prettier auto-fix
-pnpm generate         # Plop — scaffold a new component or page
-pnpm test             # Vitest unit tests (helpers + services)
-pnpm test:watch       # Vitest watch mode
-pnpm test:e2e         # Playwright smoke tests (starts dev server automatically)
-pnpm storybook        # Storybook dev server on :6006
-pnpm build-storybook  # Build Storybook static site
-pnpm release          # standard-version release (patch)
-pnpm release:minor    # minor version bump
-pnpm release:major    # major version bump
+pnpm dev | build | start           # Next.js
+pnpm lint | lint:fix               # ESLint
+pnpm format | format:fix           # Prettier
+pnpm typecheck                     # tsc --noEmit
+pnpm knip                          # unused files/exports/deps
+pnpm test | test:watch | test:coverage
+pnpm test:e2e                      # Playwright (PLAYWRIGHT_BASE_URL to target a running build)
+pnpm generate                      # Plop: component or route
+pnpm analyze                       # webpack bundle analyzer
+pnpm cms:migrate|cms:check|cms:publish --env <id> [--apply]
+pnpm plates [slug] | plates:upload --env <id>
+pnpm embed | embed:check           # RAG embeddings from data/knowledge
+pnpm icons                         # app icons
 ```
 
-Pre-commit hook runs `prettier:fix` + `eslint:fix` on staged files via lint-staged. Commit messages must follow Conventional Commits (`feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, etc.).
+## 10. Do / Don't
 
----
+**Do**
 
-## 8. Dependencies & Integrations
+- Read `helpers/contentful.ts` before touching homepage data, and look sections up by key.
+- Use tokens, mixins and `helpers/animations.ts` before writing new styles or variants.
+- Give every new effect a reduced-motion path, and check 320px, 1440px and 3840px in both themes.
+- Validate API input with a schema, rate-limit it, and answer errors as `{ error }`.
+- Add new third-party origins to the CSP in `next.config.js`.
+- Update this file and the docs when you change a rule.
 
-| Integration               | Role                                                                          |
-| ------------------------- | ----------------------------------------------------------------------------- |
-| **Contentful**            | CMS — all page content, blog posts, portfolio items fetched via GraphQL       |
-| **Apollo Client**         | GraphQL client for Contentful; SSR-aware with InMemoryCache                   |
-| **Supabase**              | Postgres DB for blog comments and newsletter subscriptions                    |
-| **EmailJS**               | Sends contact form submissions via email template                             |
-| **Google GTM**            | Tag manager for analytics (`GTM-P4D6XZ2C`)                                    |
-| **Google reCAPTCHA v3**   | Spam protection on forms                                                      |
-| **Sentry**                | Error tracking (server + edge + client configs)                               |
-| **Motion/React**          | Declarative animations (page transitions, scroll reveals)                     |
-| **GSAP**                  | Imperative animations (magnetic hover, scroll-driven effects)                 |
-| **Lenis**                 | Smooth scroll (`@studio-freight/react-lenis`)                                 |
-| **React Hook Form + Yup** | Form state management + schema validation                                     |
-| **Storybook**             | Component development and documentation                                       |
-| **Hugging Face Space**    | AI chatbot embedded via `FloatingChat` (`nithiin7-portfolio-resume.hf.space`) |
+**Don't**
 
----
+- Hard-code colours, sizes or durations, or add tokens outside `tokens.scss`.
+- Import barrels, `@sentry/nextjs` in client code, or `helpers/contentful` from client components.
+- Call Supabase outside `services/`, or read `process.env` outside `helpers/env.ts` (`NODE_ENV`, `VERCEL` and `NEXT_RUNTIME` excepted).
+- Edit Contentful schema outside migrations, publish without the user's OK, or change a published slug without a redirect.
+- Disable contact-form fields while sending (EmailJS reads the FormData).
+- Add `loading.tsx`, re-add GSAP, or leave dead code for knip to find.
 
-## 9. Do's and Don'ts
+## 11. How to make a typical change
 
-**Do:**
+**New homepage section**
 
-- Use `pnpm generate` (Plop) when creating new components — it scaffolds all required files.
-- Import from barrel `index.ts` files: `import { Button } from 'components/utilities'`.
-- Use `$color-*` SCSS variables for all colors — never hardcode hex values.
-- Keep reusable animation variants in `helpers/animations.ts`.
-- Write Server Components for pages that fetch data; pass data down as props to Client Components.
-- Add `'use client'` only when the component uses browser APIs, hooks, or event handlers.
-- Follow BEM naming in SCSS modules: `ComponentName`, `ComponentName__element`, `ComponentName--modifier`.
-- Use `rem()` for font sizes / spacing in SCSS.
-- Test dark and light theme when making visual changes (toggle via `ThemeToggle`).
+1. Write a migration: add the key to `section.key`'s allowed values and any fields → `pnpm cms:migrate --env <clone> --apply`.
+2. Extend `GET_HOME` (check the query cost), `types/contentful.ts`, `types/home.ts` and `loadHome`, with a converter test.
+3. `pnpm generate` → `pages/homepage/HomeX`; add it to the `sections` map in `app/page.tsx`.
+4. Create the Home Section entry (draft) and place it in Page "home" → `cms:check` → publish with an OK.
 
-**Don't:**
+**New project**
 
-- Don't use relative imports for anything reachable via a path alias.
-- Don't hardcode colors — everything must go through CSS custom properties.
-- Don't call Supabase directly from components or API routes — use the service layer.
-- Don't mix Motion and GSAP on the same element. Use Motion for declarative; GSAP for imperative mouse/scroll effects.
-- Don't add error handling for impossible scenarios or add fallbacks that mask real bugs.
-- Don't create helper files or abstractions speculatively — only when duplication actually exists.
-- Don't commit secrets. The `.env` file holds real credentials; `.env.example` is the safe template.
-- Don't use `any` in TypeScript unless it's a genuine last resort (and existing `any` usages are not an invitation to add more).
-- Don't write comments that explain WHAT the code does — only WHY when it's non-obvious.
+1. Create the Portfolio Project entry per HOW_TO_ADD (slug rules, alt text).
+2. Make cover plates: add it to `scripts/plates/projects.config.ts` → `pnpm plates <slug>` → check `/dev/plates` → `pnpm plates:upload --env <id> --apply`.
+3. Add it to the `work` section's items (this creates the route, sitemap and search entries) → `cms:check` → publish.
 
----
+**New blog post**
 
-## 10. Future Claude Instructions
+Create a Blog Post draft (category, tags, published date, featured image with alt text) → preview build → `cms:check` → publish. The webhook revalidates `/blog/[slug]` and the sitemap.
 
-**Tone:** Be direct and terse. No trailing summaries, no narrating your process. State what changed and what's next in one sentence.
+**New component**
 
-**Verbosity:** One sentence per update while working. Short, complete sentences — not bullets of obvious observations.
-
-**Preferred solutions:**
-
-- Animation: Use Motion/React unless mouse-tracking or GSAP-specific easing is needed.
-- Styling: SCSS Modules with `$color-*` vars. No inline styles except for Motion `style` props.
-- Data fetching: Server Components with Apollo for Contentful. Service classes for Supabase.
-- Forms: React Hook Form + Yup — don't invent alternatives.
-- Code generation: Always suggest `pnpm generate` for new components; follow the Plop template structure.
-
-**Before making changes:**
-
-1. Check `helpers/animations.ts` before defining new animation variants.
-2. Check `constants/index.tsx` before adding new nav links or social data inline.
-3. Check `components/utilities/index.ts` before building a component that might already exist.
-4. Verify Contentful section index in `src/app/page.tsx` before touching homepage data flow — section order is positional and must match the CMS.
-
-**Commit messages:** Conventional Commits format required. Husky will reject non-conforming commits.
-
-**When in doubt about a component pattern**, look at `HomeHeader` or `MagneticButton` as reference implementations for complex client components with GSAP/Motion.
+`pnpm generate` → component (utilities/layouts/motion/pages) or route. You get `.tsx`, `.module.scss` and `.test.tsx` in the house style. Import it by direct path, style it with tokens and mixins, and fill in the test.

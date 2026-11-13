@@ -1,31 +1,33 @@
 @use 'styles/shared/mixin' as *;
-@use 'styles/shared/variables' as *;
 
 .HuggingFaceStatCard {
 	&__status {
+		@include mono-label;
+
 		display: inline-flex;
 		align-items: center;
-		gap: rem(8);
-		font-size: rem(13);
-		font-weight: 500;
-		color: $color-grey-medium;
+		gap: var(--space-2);
 	}
 
 	&__dot {
-		width: rem(8);
-		height: rem(8);
-		border-radius: 50%;
-		background-color: $color-grey-medium;
+		width: rem(7);
+		height: rem(7);
+		border-radius: var(--radius-pill);
+		background-color: var(--muted);
 
 		&--running {
-			background-color: $color-accent;
+			background-color: var(--accent);
 		}
 	}
 
 	&__note {
-		font-size: rem(13);
-		line-height: 1.5;
-		color: $color-grey-medium;
+		max-width: 32ch;
+		margin: 0;
+		font-family: var(--font-serif);
+		font-size: var(--step-1);
+		font-style: italic;
+		line-height: var(--leading-snug);
+		color: var(--fg-subtle);
 		text-wrap: pretty;
 	}
 }

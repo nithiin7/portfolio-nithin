@@ -1,24 +1,15 @@
-'use client';
+import type { FC, ReactElement, ReactNode } from 'react';
 
-import { motion, useScroll, useTransform } from 'motion/react';
-import Link from 'next/link';
-import { useRef, type FC, type ReactElement, type ReactNode } from 'react';
-
-import {
-	BlogStatCard,
-	CountUp,
-	DevToStatCard,
-	GithubStatCard,
-	HuggingFaceStatCard,
-	NowActivity,
-	StatTile,
-	WakaTimeStatCard,
-} from 'components/pages';
-import {
-	MaskText,
-	PortfolioAnimations,
-	StaggeredContainer,
-} from 'components/utilities';
+import RevealText from 'components/motion/RevealText/RevealText';
+import BlogStatCard from 'components/pages/stats/BlogStatCard/BlogStatCard';
+import CountUp from 'components/pages/stats/CountUp/CountUp';
+import DevToStatCard from 'components/pages/stats/DevToStatCard/DevToStatCard';
+import GithubStatCard from 'components/pages/stats/GithubStatCard/GithubStatCard';
+import HuggingFaceStatCard from 'components/pages/stats/HuggingFaceStatCard/HuggingFaceStatCard';
+import NowActivity from 'components/pages/stats/NowActivity/NowActivity';
+import StatTile from 'components/pages/stats/StatTile/StatTile';
+import WakaTimeStatCard from 'components/pages/stats/WakaTimeStatCard/WakaTimeStatCard';
+import { packSpans } from 'helpers/grid';
 import { buildNowActivity } from 'helpers/nowActivity';
 import type { BlogStats } from 'types/blog';
 import type { DevToStats } from 'types/devto';
@@ -38,7 +29,8 @@ interface StatsProps {
 
 interface StatsCell {
 	key: string;
-	span: 'wide' | 'medium' | 'small' | 'compact';
+	/** Preferred width on the 12-column desktop grid. */
+	span: number;
 	node: ReactNode;
 }
 
@@ -49,16 +41,6 @@ const Stats: FC<StatsProps> = ({
 	huggingface,
 	blog,
 }): ReactElement => {
-	const ref = useRef(null);
-
-	const { scrollYProgress } = useScroll({
-		target: ref,
-		offset: ['start end', 'end start'],
-	});
-
-	const scale = useTransform(scrollYProgress, [0.7, 1], [1, 0.9]);
-	const y = useTransform(scrollYProgress, [0.6, 1], [0, -100]);
-
 	const codingHours = wakatime
 		? Math.round((wakatime.totalSeconds / 3600) * 10) / 10
 		: 0;
@@ -107,74 +89,76 @@ const Stats: FC<StatsProps> = ({
 	const cells: StatsCell[] = [
 		wakatime && {
 			key: 'wakatime',
-			span: 'wide' as const,
+			span: 7,
 			node: <WakaTimeStatCard stats={wakatime} />,
 		},
 		github && {
 			key: 'github',
-			span: 'medium' as const,
+			span: 5,
 			node: <GithubStatCard stats={github} />,
 		},
 		blog && {
 			key: 'blog',
-			span: 'medium' as const,
+			span: 5,
 			node: <BlogStatCard stats={blog} />,
 		},
 		devto && {
 			key: 'devto',
-			span: 'small' as const,
+			span: 4,
 			node: <DevToStatCard stats={devto} />,
 		},
 		huggingface && {
 			key: 'huggingface',
-			span: 'compact' as const,
+			span: 3,
 			node: <HuggingFaceStatCard stats={huggingface} />,
 		},
 	].filter(Boolean) as StatsCell[];
+	const spans = packSpans(cells.map((cell) => cell.span));
 
 	return (
-		<motion.div
-			ref={ref}
-			className={styles.Stats}
-			style={{ y, scale, transformStyle: 'preserve-3d' }}
-		>
-			<section>
-				<div className={styles.Stats__header}>
-					<Link href="/" className={styles.Stats__back}>
-						← &nbsp;Back home
-					</Link>
-					<span className={styles.Stats__badge}>
-						<span className={styles.Stats__badgeDot} aria-hidden="true" />
-						Live data · refreshed every 30 min
-					</span>
-					<h1>
-						<MaskText phrases={['Live Stats']} />
-					</h1>
-					<p>
-						A real-time look at what I&apos;m building, writing, and shipping —
-						pulled straight from GitHub, WakaTime, Dev.to, and this site.
+		<div className={styles.Stats}>
+			<header className={styles.Stats__hero}>
+				<div className={styles.Stats__topline}>
+					<p className={styles.Stats__kicker}>
+						<span className={styles.Stats__dot} aria-hidden="true" />
+						Live data
 					</p>
+					<p className={styles.Stats__kicker}>Refreshed every 30 min</p>
 				</div>
+				<RevealText as="h1" trigger="mount" className={styles.Stats__title}>
+					Live stats
+				</RevealText>
+				<RevealText
+					as="p"
+					trigger="mount"
+					delay={0.2}
+					className={styles.Stats__lede}
+				>
+					What I&apos;m building, writing and shipping this week — pulled
+					straight from GitHub, WakaTime, Dev.to and this site.
+				</RevealText>
+			</header>
+
+			<div className={styles.Stats__inner}>
 				<NowActivity items={nowActivity} />
 				{tiles.length > 0 && (
-					<StaggeredContainer className={styles.Stats__tiles}>
+					<section className={styles.Stats__tiles} aria-label="At a glance">
 						{tiles}
-					</StaggeredContainer>
+					</section>
 				)}
 				<div className={styles.Stats__grid}>
 					{cells.map((cell, index) => (
-						<PortfolioAnimations
+						<div
 							key={cell.key}
-							animation="slideUp"
-							delay={index * 0.08}
-							className={`${styles.Stats__cell} ${styles[`Stats__cell--${cell.span}`]}`}
+							className={styles.Stats__cell}
+							data-span={spans[index]}
 						>
 							{cell.node}
-						</PortfolioAnimations>
+						</div>
 					))}
 				</div>
-			</section>
-		</motion.div>
+			</div>
+		</div>
 	);
 };
 

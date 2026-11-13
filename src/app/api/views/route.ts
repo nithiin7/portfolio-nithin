@@ -1,61 +1,46 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-import { createRateLimiter } from 'helpers/apiProtection';
+import {
+	createRateLimiter,
+	jsonError,
+	parseJsonBody,
+	tooManyRequests,
+} from 'helpers/apiProtection';
+import { SLUG_PATTERN, viewRequestSchema } from 'helpers/validations';
 import { viewsService } from 'services/views';
 
-const checkRateLimit = createRateLimiter({
+const isRateLimited = createRateLimiter({
 	max: 60,
 	windowMs: 10 * 60 * 1000,
 });
 
 export async function GET(request: NextRequest) {
-	const { searchParams } = new URL(request.url);
-	const slug = searchParams.get('slug');
+	const slug = request.nextUrl.searchParams.get('slug');
 
-	if (!slug) {
-		return NextResponse.json({ error: 'Slug is required' }, { status: 400 });
+	if (!slug || !SLUG_PATTERN.test(slug)) {
+		return jsonError(400, 'Slug is required');
 	}
 
 	try {
 		const { data: viewCount, error } = await viewsService.getViewCount(slug);
-
-		if (error) {
-			return NextResponse.json({ viewCount: 0 });
-		}
-
-		return NextResponse.json({ viewCount: viewCount ?? 0 });
+		return NextResponse.json({ viewCount: error ? 0 : (viewCount ?? 0) });
 	} catch {
 		return NextResponse.json({ viewCount: 0 });
 	}
 }
 
 export async function POST(request: NextRequest) {
-	if (checkRateLimit(request)) {
-		return NextResponse.json(
-			{ error: 'Too many requests. Please try again later.' },
-			{ status: 429 }
-		);
-	}
+	if (isRateLimited(request.headers)) return tooManyRequests();
+
+	const { data, response } = await parseJsonBody(request, viewRequestSchema);
+	if (response) return response;
 
 	try {
-		const { slug } = await request.json();
-
-		if (!slug || typeof slug !== 'string') {
-			return NextResponse.json({ error: 'Slug is required' }, { status: 400 });
-		}
-
-		const { error } = await viewsService.incrementView(slug);
-
-		if (error) {
-			return NextResponse.json(
-				{ error: 'Failed to record view' },
-				{ status: 500 }
-			);
-		}
-
+		const { error } = await viewsService.incrementView(data.slug);
+		if (error) return jsonError(500, 'Failed to record view');
 		return NextResponse.json({ success: true });
 	} catch {
-		return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
+		return jsonError(500, 'Failed to record view');
 	}
 }

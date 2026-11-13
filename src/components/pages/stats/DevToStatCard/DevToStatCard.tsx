@@ -1,15 +1,14 @@
 import type { FC, ReactElement } from 'react';
-import { SiDevdotto } from 'react-icons/si';
 
-import {
-	CountUp,
-	StatCard,
+import CountUp from 'components/pages/stats/CountUp/CountUp';
+import StatCard, {
 	StatCardDivider,
+	StatCardMetrics,
 	StatCardSection,
-	StatMetric,
-} from 'components/pages';
+} from 'components/pages/stats/StatCard/StatCard';
+import StatMetric from 'components/pages/stats/StatMetric/StatMetric';
 import { DEVTO_USERNAME } from 'constants/index';
-import { formatDate } from 'helpers';
+import { formatDate } from 'helpers/format';
 import type { DevToStats } from 'types/devto';
 
 import styles from './DevToStatCard.module.scss';
@@ -25,13 +24,12 @@ const DevToStatCard: FC<DevToStatCardProps> = ({
 
 	return (
 		<StatCard
-			icon={<SiDevdotto />}
 			title="Dev.to"
 			subtitle={`@${DEVTO_USERNAME}`}
 			href={`https://dev.to/${DEVTO_USERNAME}`}
-			linkLabel="Open Dev.to profile"
+			linkLabel="Profile"
 		>
-			<div className={styles.DevToStatCard__metrics}>
+			<StatCardMetrics>
 				<StatMetric
 					value={<CountUp value={stats.totalArticles} />}
 					label="Articles"
@@ -44,7 +42,7 @@ const DevToStatCard: FC<DevToStatCardProps> = ({
 					value={<CountUp value={stats.totalComments} />}
 					label="Comments"
 				/>
-			</div>
+			</StatCardMetrics>
 			<StatCardDivider />
 			<StatCardSection>Latest article</StatCardSection>
 			<div className={styles.DevToStatCard__latest}>

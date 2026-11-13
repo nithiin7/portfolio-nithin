@@ -1,230 +1,188 @@
 @use 'styles/shared/mixin' as *;
-@use 'styles/shared/variables' as *;
 
-.menu {
+// Theme-independent ink panel, matching the preloader and route wipe
+.Menu {
 	position: fixed;
-	left: rem(25);
-	top: rem(25);
-	z-index: 100;
-	pointer-events: none;
+	inset: 0;
+	z-index: 1100;
+	display: grid;
+	grid-template-rows: var(--nav-height) 1fr auto;
+	background-color: var(--ink);
+	color: var(--paper);
+	overflow-y: auto;
 
-	&__backdrop {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100vw;
-		height: 100vh;
-		background-color: rgba(0, 0, 0, 0.3);
-		backdrop-filter: blur(8px);
-		-webkit-backdrop-filter: blur(8px);
-		z-index: 40;
-		cursor: pointer;
-		transition: backdrop-filter 0.3s ease;
+	a {
+		color: inherit;
 	}
 
-	&__controls {
-		pointer-events: auto;
-		display: flex;
+	@media #{$can-hover} {
+		a:hover {
+			color: inherit;
+		}
+	}
+
+	&__bar {
+		@include grid-12;
 		align-items: center;
-		gap: rem(12);
-		position: relative;
-		z-index: 120;
-		@media #{$md} {
-			gap: rem(16);
-		}
+		border-bottom: 1px solid color-mix(in srgb, var(--paper) 14%, transparent);
 	}
 
-	&__bookCallMobile {
-		margin-top: rem(32);
-		display: flex;
-		justify-content: center;
-		@media #{$md} {
-			margin-top: rem(40);
-		}
+	&__logo {
+		grid-column: 1 / span 3;
+		display: inline-flex;
+		align-items: baseline;
+		gap: rem(3);
+		font-family: var(--font-display);
+		font-size: var(--step-1);
+		font-weight: 700;
+		letter-spacing: var(--tracking-display);
 	}
 
-	&__bookCallMobileButton {
-		width: 100%;
-		justify-content: center;
-		max-width: rem(280);
+	&__dot {
+		width: rem(6);
+		height: rem(6);
+		border-radius: var(--radius-pill);
+		background-color: var(--accent);
 	}
 
-	&__toggle-inmenu {
-		position: absolute;
-		top: rem(24);
-		right: rem(32);
-		z-index: 130;
-
-		@media #{$md} {
-			top: rem(32);
-			right: rem(48);
-		}
-	}
-
-	&__button {
+	&__close {
+		grid-column: -4 / -1;
+		justify-self: end;
+		min-height: rem(44);
+		padding: 0 rem(4);
+		background: none;
+		border: 0;
+		color: inherit;
+		@include mono-type;
 		cursor: pointer;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		border-radius: rem(9999);
-		background-color: $color-grey-light;
-		height: 4rem;
-		width: 4rem;
-		gap: rem(5);
-		border: none;
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-		transition: all 0.3s ease;
-
-		@media #{$md} {
-			height: 5rem;
-			width: 5rem;
-			box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-		}
-
-		&:hover {
-			box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-			transform: translateY(-2px);
-		}
-
-		span {
-			width: 2rem;
-			height: rem(1.75);
-			background-color: $color-black;
-			pointer-events: none;
-			transition: all cubic-bezier(0.16, 1, 0.3, 1) 0.5s;
-			border-radius: rem(2);
-
-			@media #{$md} {
-				width: 2.25rem;
-				height: rem(2);
-			}
-
-			&.active {
-				transform: translate(0, rem(6)) rotate(45deg) skewX(0) skewY(0)
-					scaleX(1) scaleY(1);
-
-				&:nth-of-type(2) {
-					transform: translate(0, rem(0)) rotate(-45deg) skewX(0) skewY(0)
-						scaleX(1) scaleY(1);
-				}
-			}
-		}
-	}
-
-	&__container {
-		width: 100vw;
-		height: 100vh;
-		display: flex;
-		z-index: 110;
-		position: fixed;
-		pointer-events: none;
-		top: 0;
-		left: 0;
-	}
-
-	&__sub-container {
-		max-width: 36rem;
-		padding-top: 2.5rem;
-		padding-bottom: 2.5rem;
-		background-color: $color-secondary;
-		border-radius: 0.375rem;
-		overflow: hidden;
-		justify-content: space-between;
-		display: flex;
-		flex-direction: column;
-		margin: 0.5rem;
-		z-index: 120;
-		position: relative;
-		pointer-events: auto;
-	}
-
-	&__background {
-		opacity: 0.25;
-		position: absolute;
-		top: 0;
-		right: 0;
 	}
 
 	&__nav {
-		display: flex;
-		flex-direction: column;
-		gap: rem(10);
-		padding-left: 4rem;
-		padding-right: 4rem;
-		font-size: 2.8rem;
-		line-height: 130%;
-		position: relative;
-		height: 100%;
-		justify-content: center;
-		font-weight: 700;
+		@include grid-12;
+		align-content: center;
+		padding-block: var(--space-7);
+
+		@media #{$landscape-phone} {
+			padding-block: var(--space-4);
+		}
+	}
+
+	&__list {
+		grid-column: 1 / -1;
+		list-style: none;
+		margin: 0;
+		padding: 0;
 
 		@media #{$md} {
-			font-size: 3.5rem;
-			padding-left: 6rem;
-			padding-right: 5rem;
+			grid-column: 4 / -1;
+		}
+	}
+
+	&__item {
+		overflow: clip;
+		border-top: 1px solid color-mix(in srgb, var(--paper) 14%, transparent);
+
+		&:last-child {
+			border-bottom: 1px solid color-mix(in srgb, var(--paper) 14%, transparent);
+		}
+	}
+
+	&__itemInner {
+		display: flex;
+		align-items: baseline;
+		gap: var(--space-4);
+		padding-block: var(--space-2);
+	}
+
+	&__index {
+		font-family: var(--font-mono);
+		font-size: var(--step--1);
+		color: color-mix(in srgb, var(--paper) 60%, var(--ink));
+	}
+
+	&__link {
+		font-family: var(--font-display);
+		font-size: var(--step-5);
+		font-weight: 600;
+		line-height: 1.05;
+		letter-spacing: var(--tracking-display);
+		transition: transform var(--dur-1) var(--ease);
+
+		@include tap-target;
+
+		// Five display-size links don't fit a 390px-tall landscape phone
+		@media #{$landscape-phone} {
+			font-size: var(--step-3);
 		}
 
-		ul {
-			list-style: none;
+		&:focus-visible {
+			transform: translateX(rem(12));
 		}
 
-		a {
-			color: $color-primary;
-			text-decoration: none;
-			position: relative;
-			top: 0;
-
+		@media #{$can-hover} {
 			&:hover {
-				color: $color-accent;
-
-				&::before {
-					opacity: 1;
-				}
-			}
-
-			&::before {
-				content: '';
-				position: absolute;
-				left: rem(-20);
-				top: 50%;
-				width: rem(12);
-				height: rem(12);
-				background-color: $color-accent;
-				border-radius: 50%;
-				opacity: 0;
-				transition: all 0.3s ease;
+				transform: translateX(rem(12));
 			}
 		}
 	}
 
+	&__footer {
+		@include grid-12;
+		row-gap: var(--space-4);
+		align-items: center;
+		padding-block: var(--space-5);
+		border-top: 1px solid color-mix(in srgb, var(--paper) 14%, transparent);
+		@include mono-type;
+	}
+
 	&__socials {
+		grid-column: 1 / -1;
 		display: flex;
-		justify-content: flex-end;
-		column-gap: 2rem;
-		padding-left: 3.5rem;
-		padding-right: 3.5rem;
+		flex-wrap: wrap;
+		gap: var(--space-5);
 		list-style: none;
 		margin: 0;
+		padding: 0;
 
-		ul {
-			list-style: none;
-			display: flex;
-			gap: 2rem;
+		@media #{$md} {
+			grid-column: 1 / span 6;
 		}
 
 		a {
-			color: $color-grey-light;
-			text-decoration: none;
-			font-size: rem(14);
-			font-weight: 500;
-			text-transform: uppercase;
-			letter-spacing: rem(0.5);
-			transition: color 0.3s ease;
+			display: inline-block;
+			padding-block: rem(10);
 
-			&:hover {
-				color: $color-primary;
-			}
+			@include tap-target;
 		}
+	}
+
+	&__meta {
+		grid-column: 1 / span 8;
+		margin: 0;
+
+		@media #{$md} {
+			grid-column: 7 / span 4;
+		}
+	}
+
+	& &__theme {
+		grid-column: -3 / -1;
+		justify-self: end;
+		width: rem(44);
+		height: rem(44);
+		border: 1px solid color-mix(in srgb, var(--paper) 30%, transparent);
+		background: transparent;
+		color: var(--paper);
+		box-shadow: none;
+	}
+
+	&__srOnly {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		margin: -1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
 	}
 }

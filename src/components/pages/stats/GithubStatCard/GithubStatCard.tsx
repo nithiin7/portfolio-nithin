@@ -1,16 +1,15 @@
 import type { FC, ReactElement } from 'react';
-import { FaGithub } from 'react-icons/fa';
 
-import {
-	CountUp,
-	MeterBar,
-	StatCard,
+import CountUp from 'components/pages/stats/CountUp/CountUp';
+import MeterBar from 'components/pages/stats/MeterBar/MeterBar';
+import StatCard, {
 	StatCardDivider,
+	StatCardMetrics,
 	StatCardSection,
-	StatMetric,
-} from 'components/pages';
+} from 'components/pages/stats/StatCard/StatCard';
+import StatMetric from 'components/pages/stats/StatMetric/StatMetric';
 import { GITHUB_USERNAME } from 'constants/index';
-import { formatDate } from 'helpers';
+import { formatDate } from 'helpers/format';
 import type { GithubStats } from 'types/github';
 
 import styles from './GithubStatCard.module.scss';
@@ -28,14 +27,13 @@ const GithubStatCard: FC<GithubStatCardProps> = ({
 
 	return (
 		<StatCard
-			icon={<FaGithub />}
 			title="GitHub"
 			subtitle={`@${GITHUB_USERNAME}`}
 			href={`https://github.com/${GITHUB_USERNAME}`}
-			linkLabel="Open GitHub profile"
+			linkLabel="Profile"
 			live
 		>
-			<div className={styles.GithubStatCard__metrics}>
+			<StatCardMetrics>
 				<StatMetric
 					value={<CountUp value={stats.repoCount} />}
 					label="Repositories"
@@ -50,7 +48,7 @@ const GithubStatCard: FC<GithubStatCardProps> = ({
 						label="Followers"
 					/>
 				)}
-			</div>
+			</StatCardMetrics>
 			{stats.topLanguages.length > 0 && (
 				<>
 					<StatCardDivider />

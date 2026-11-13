@@ -4,6 +4,7 @@ import { motion, useInView } from 'motion/react';
 import type { FC, ReactElement } from 'react';
 import { useRef } from 'react';
 
+import { duration, ease } from 'styles/tokens';
 import type { WakaTimeDay } from 'types/wakatime';
 
 import styles from './ActivityChart.module.scss';
@@ -51,9 +52,9 @@ const ActivityChart: FC<ActivityChartProps> = ({ days }): ReactElement => {
 								initial={{ scaleY: 0 }}
 								animate={isInView ? { scaleY: 1 } : { scaleY: 0 }}
 								transition={{
-									duration: 0.7,
+									duration: duration.base,
 									delay: index * 0.06,
-									ease: [0.16, 1, 0.3, 1],
+									ease: [...ease],
 								}}
 							/>
 						) : (

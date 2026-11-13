@@ -1,70 +1,125 @@
-'use client';
-import { motion } from 'motion/react';
-import Link from 'next/link';
-import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
-import { FiArrowLeft } from 'react-icons/fi';
+import type { FC } from 'react';
 
-import { ContactForm } from 'components/pages';
-import { MaskText } from 'components/utilities';
-import { contactOptions } from 'constants/index';
-import { clientEnv } from 'helpers/env';
+import RevealText from 'components/motion/RevealText/RevealText';
+import ContactForm from 'components/pages/contact/ContactForm/ContactForm';
+import CopyEmail from 'components/utilities/CopyEmail/CopyEmail';
+import LocalClock from 'components/utilities/LocalClock/LocalClock';
+import type { SiteSettings } from 'types/site';
 
 import styles from './Contact.module.scss';
+import ContactRecaptcha from './ContactRecaptcha';
 
-const Contact: React.FC = () => {
+const TITLE = 'Say no more. Let’s bring your project to life.';
+
+interface ContactProps {
+	site: SiteSettings;
+}
+
+const Contact: FC<ContactProps> = ({ site }) => {
+	const { email, location, availability, socials } = site;
+	const directLines = site.contactChannels.filter(
+		(option) => !option.url.startsWith('mailto:')
+	);
+
 	return (
-		<GoogleReCaptchaProvider
-			reCaptchaKey={clientEnv.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-			scriptProps={{
-				async: true,
-				defer: true,
-				appendTo: 'body',
-				nonce: undefined,
-			}}
-		>
-			<div className={styles.contact}>
-				<motion.nav
-					className={styles.contact__breadcrumb}
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.6, delay: 0.2 }}
-				>
-					<Link href="/" className={styles.contact__backButton}>
-						<FiArrowLeft size={16} />
-						<span>Back to Home</span>
-					</Link>
-				</motion.nav>
-				<div className={styles.contact__inner}>
-					<div className={styles.contact__grid}>
-						<div className={styles.contact__left}>
-							<h1>
-								<MaskText
-									phrases={['Say No More. Lets Bring your project to life.']}
-								/>
-							</h1>
-							<div className={styles.contact__socials}>
-								<p className={styles.contact__socialsLabel}>
-									Further Enquiries or Collaboration
-								</p>
-								{contactOptions.map((option, index) => (
-									<div
-										key={`${option.subtitle}-${index}`}
-										className={styles.contact__link}
-									>
-										<Link href={option.link} title={option.subtitle}>
-											{option.subtitle}
-										</Link>
-									</div>
-								))}
-							</div>
-						</div>
-						<div className={styles.contact__right}>
-							<ContactForm />
-						</div>
-					</div>
+		<div className={styles.Contact}>
+			<header className={styles.Contact__head}>
+				<p className={styles.Contact__label}>Contact</p>
+				<RevealText as="h1" trigger="mount" className={styles.Contact__title}>
+					{TITLE}
+				</RevealText>
+			</header>
+
+			<div className={styles.Contact__body}>
+				<div className={styles.Contact__form}>
+					<ContactRecaptcha>
+						<ContactForm />
+					</ContactRecaptcha>
 				</div>
+
+				<aside
+					className={styles.Contact__aside}
+					aria-label="Other ways to reach me"
+				>
+					<dl className={styles.Contact__details}>
+						<div className={styles.Contact__row}>
+							<dt className={styles.Contact__label}>Email</dt>
+							<dd>
+								<CopyEmail email={email} className={styles.Contact__email} />
+							</dd>
+						</div>
+
+						{directLines.map((option) => (
+							<div key={option.url} className={styles.Contact__row}>
+								<dt className={styles.Contact__label}>{option.label}</dt>
+								<dd>
+									<a
+										href={option.url}
+										className={styles.Contact__link}
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										{option.detail ?? option.label}
+										<span className={styles.Contact__srOnly}>
+											{' '}
+											(opens in a new tab)
+										</span>
+									</a>
+								</dd>
+							</div>
+						))}
+
+						<div className={styles.Contact__row}>
+							<dt className={styles.Contact__label}>Local time</dt>
+							<dd>
+								<LocalClock
+									timeZone={location.timeZone}
+									zoneLabel="IST"
+									showSeconds={false}
+								/>{' '}
+								· {location.city}
+							</dd>
+						</div>
+
+						<div className={styles.Contact__row}>
+							<dt className={styles.Contact__label}>Status</dt>
+							<dd>
+								<span
+									className={styles.Contact__dot}
+									data-open={availability.open}
+									aria-hidden="true"
+								/>
+								{availability.label}
+							</dd>
+						</div>
+
+						<div className={styles.Contact__row}>
+							<dt className={styles.Contact__label}>Elsewhere</dt>
+							<dd>
+								<ul className={styles.Contact__socials}>
+									{socials.map((social) => (
+										<li key={social.url}>
+											<a
+												href={social.url}
+												className={styles.Contact__link}
+												target="_blank"
+												rel="noopener noreferrer"
+											>
+												{social.label}
+												<span className={styles.Contact__srOnly}>
+													{' '}
+													(opens in a new tab)
+												</span>
+											</a>
+										</li>
+									))}
+								</ul>
+							</dd>
+						</div>
+					</dl>
+				</aside>
 			</div>
-		</GoogleReCaptchaProvider>
+		</div>
 	);
 };
 

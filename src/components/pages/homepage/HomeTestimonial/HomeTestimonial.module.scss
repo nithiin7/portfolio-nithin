@@ -1,24 +1,291 @@
 @use 'styles/shared/mixin' as *;
-@use 'styles/shared/variables' as *;
 
 .HomeTestimonial {
-	@include section-padding;
+	width: 100%;
+	padding-block: 0 var(--section-pad);
+	background-color: var(--bg);
+	color: var(--fg);
+	overflow-x: clip;
 
-	h2 {
-		color: $color-secondary;
-		font-size: $heading-size-section;
-		font-weight: 700;
-		text-transform: uppercase;
-		padding-bottom: 0.75rem;
-		text-wrap: balance;
-		line-height: 92.5%;
-		letter-spacing: -0.025em;
-		text-align: left;
+	&__inner {
+		width: 100%;
+		max-width: var(--grid-max);
+		margin-inline: auto;
+		padding-inline: var(--grid-margin);
 	}
 
-	&__testimonial {
+	&__head,
+	&__body,
+	&__controls {
+		display: grid;
+		grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+		column-gap: var(--grid-gutter);
+	}
+
+	&__head {
+		row-gap: var(--space-4);
+		align-items: end;
+		margin-bottom: var(--space-8);
+		padding-top: var(--space-4);
+		border-top: 1px solid var(--line-strong);
+	}
+
+	&__label,
+	&__institution,
+	&__page {
+		font-family: var(--font-mono);
+		font-size: var(--step--1);
+		font-weight: 400;
+		letter-spacing: var(--tracking-mono);
+		text-transform: uppercase;
+	}
+
+	&__label {
+		grid-column: 1 / -1;
+		align-self: start;
+		margin: 0;
+		color: var(--muted);
+
+		@media #{$md} {
+			grid-column: span 3;
+		}
+	}
+
+	&__title {
+		grid-column: 1 / -1;
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: var(--step-4);
+		font-weight: 500;
+		line-height: var(--leading-tight);
+		letter-spacing: var(--tracking-display);
+
+		@media #{$md} {
+			grid-column: span 9;
+		}
+	}
+
+	&__mark {
+		display: none;
+		font-family: var(--font-serif);
+		font-size: var(--step-7);
+		line-height: 0.8;
+		color: var(--accent-text);
+
+		@media #{$md} {
+			display: block;
+			grid-column: span 3;
+		}
+	}
+
+	&__stage {
+		display: grid;
+		grid-column: 1 / -1;
+
+		@media #{$md} {
+			grid-column: span 9;
+		}
+	}
+
+	// Every quote is laid out invisibly in the same cell so the stage keeps the
+	// height of the longest one and switching never shifts the page below.
+	&__sizer,
+	&__slide {
+		grid-area: 1 / 1;
+	}
+
+	&__figure {
 		display: flex;
 		flex-direction: column;
-		row-gap: 2.5rem;
+		gap: var(--space-6);
+		margin: 0;
+	}
+
+	&__sizer {
+		visibility: hidden;
+	}
+
+	&__srOnly {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
+	}
+
+	&__slide--draggable {
+		cursor: grab;
+		touch-action: pan-y;
+		user-select: none;
+
+		&:active {
+			cursor: grabbing;
+		}
+	}
+
+	&__quote {
+		margin: 0;
+
+		p {
+			margin: 0;
+			max-width: 34ch;
+			font-family: var(--font-serif);
+			font-size: var(--step-3);
+			font-weight: 400;
+			line-height: var(--leading-snug);
+			letter-spacing: -0.01em;
+			text-wrap: pretty;
+		}
+
+		&--long p {
+			max-width: 46ch;
+			font-size: var(--step-2);
+		}
+	}
+
+	&__author {
+		display: flex;
+		align-items: center;
+		gap: var(--space-4);
+	}
+
+	&__avatar {
+		flex-shrink: 0;
+		width: rem(48);
+		height: rem(48);
+		border-radius: var(--radius-pill);
+		object-fit: cover;
+		filter: grayscale(1);
+		pointer-events: none;
+
+		@media #{$md} {
+			width: rem(56);
+			height: rem(56);
+		}
+	}
+
+	&__meta {
+		display: grid;
+		gap: var(--space-1);
+	}
+
+	&__name {
+		font-size: var(--step-0);
+		font-style: normal;
+		font-weight: 500;
+		line-height: var(--leading-snug);
+	}
+
+	&__institution {
+		color: var(--muted);
+		line-height: var(--leading-snug);
+		text-wrap: pretty;
+	}
+
+	&__controls {
+		align-items: center;
+		row-gap: var(--space-4);
+		margin-top: var(--space-8);
+		padding-top: var(--space-4);
+		border-top: 1px solid var(--line);
+	}
+
+	&__pages {
+		grid-column: 1 / span 8;
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-1);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+
+		@media #{$md} {
+			grid-column: 4 / span 6;
+		}
+	}
+
+	&__page {
+		min-width: rem(44);
+		min-height: rem(44);
+		padding: 0 var(--space-2);
+		border: 0;
+		background: none;
+		color: var(--muted);
+		font-variant-numeric: tabular-nums;
+		text-align: left;
+		cursor: pointer;
+		position: relative;
+		transition: color var(--dur-1) var(--ease);
+
+		&::after {
+			content: '';
+			position: absolute;
+			inset: auto var(--space-2) var(--space-2);
+			height: 1px;
+			background-color: currentcolor;
+			transform: scaleX(0);
+			transform-origin: right center;
+			transition: transform var(--dur-1) var(--ease);
+		}
+
+		&[aria-current='true'] {
+			color: var(--fg);
+
+			&::after {
+				transform: scaleX(1);
+				transform-origin: left center;
+			}
+		}
+
+		@media (hover: hover) {
+			&:hover {
+				color: var(--fg);
+			}
+		}
+
+		&:focus-visible {
+			@include focus-ring(-2px);
+		}
+	}
+
+	&__arrows {
+		grid-column: 9 / -1;
+		justify-self: end;
+		display: flex;
+		gap: var(--space-2);
+
+		@media #{$md} {
+			grid-column: 10 / -1;
+		}
+	}
+
+	&__arrow {
+		display: grid;
+		place-items: center;
+		width: rem(48);
+		height: rem(48);
+		border: 1px solid var(--line-strong);
+		border-radius: var(--radius-pill);
+		background: none;
+		color: var(--fg);
+		font-size: var(--step-0);
+		cursor: pointer;
+		transition:
+			background-color var(--dur-1) var(--ease),
+			color var(--dur-1) var(--ease);
+
+		@media (hover: hover) {
+			&:hover {
+				background-color: var(--fg);
+				color: var(--bg);
+			}
+		}
+
+		&:focus-visible {
+			@include focus-ring(3px);
+		}
 	}
 }

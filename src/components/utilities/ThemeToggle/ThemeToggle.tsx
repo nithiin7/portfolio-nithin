@@ -10,14 +10,7 @@ export interface ThemeToggleProps {
 	className?: string;
 }
 
-/**
- * ThemeToggle component that provides a beautiful animated toggle between light and dark modes.
- * Features smooth animations and integrates seamlessly with the existing design system.
- *
- * @component
- * @param {string} [className] - Additional CSS classes for styling.
- * @returns {React.JSX.Element} The rendered ThemeToggle component.
- */
+/** Light/dark switch wired to ThemeContext. */
 const ThemeToggle = ({
 	className = '',
 }: ThemeToggleProps): React.JSX.Element => {

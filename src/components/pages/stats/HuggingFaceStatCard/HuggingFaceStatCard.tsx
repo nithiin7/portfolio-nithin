@@ -1,12 +1,10 @@
 import type { FC, ReactElement } from 'react';
-import { SiHuggingface } from 'react-icons/si';
 
-import {
-	CountUp,
-	StatCard,
+import CountUp from 'components/pages/stats/CountUp/CountUp';
+import StatCard, {
 	StatCardDivider,
-	StatMetric,
-} from 'components/pages';
+} from 'components/pages/stats/StatCard/StatCard';
+import StatMetric from 'components/pages/stats/StatMetric/StatMetric';
 import type { HuggingFaceStats } from 'types/huggingface';
 
 import styles from './HuggingFaceStatCard.module.scss';
@@ -24,11 +22,10 @@ const HuggingFaceStatCard: FC<HuggingFaceStatCardProps> = ({
 
 	return (
 		<StatCard
-			icon={<SiHuggingface />}
 			title="Hugging Face"
 			subtitle="AI resume chatbot"
 			href={stats.url}
-			linkLabel="Open Hugging Face Space"
+			linkLabel="Space"
 			live={isRunning}
 		>
 			<StatMetric value={<CountUp value={stats.likes} />} label="Space likes" />

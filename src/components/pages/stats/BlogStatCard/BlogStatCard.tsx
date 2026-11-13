@@ -1,15 +1,14 @@
 import Link from 'next/link';
 import type { FC, ReactElement } from 'react';
-import { FaChartBar } from 'react-icons/fa';
 
-import {
-	CountUp,
-	StatCard,
+import CountUp from 'components/pages/stats/CountUp/CountUp';
+import StatCard, {
 	StatCardDivider,
+	StatCardMetrics,
 	StatCardSection,
-	StatMetric,
-} from 'components/pages';
-import { formatCompactNumber } from 'helpers';
+} from 'components/pages/stats/StatCard/StatCard';
+import StatMetric from 'components/pages/stats/StatMetric/StatMetric';
+import { formatCompactNumber } from 'helpers/format';
 import type { BlogStats } from 'types/blog';
 
 import styles from './BlogStatCard.module.scss';
@@ -24,8 +23,8 @@ const BlogStatCard: FC<BlogStatCardProps> = ({
 	if (!stats) return null;
 
 	return (
-		<StatCard icon={<FaChartBar />} title="Blog" subtitle="On this site" live>
-			<div className={styles.BlogStatCard__metrics}>
+		<StatCard title="Blog" subtitle="On this site" live>
+			<StatCardMetrics>
 				<StatMetric
 					value={<CountUp value={stats.totalViews} compact />}
 					label="Total views"
@@ -34,7 +33,7 @@ const BlogStatCard: FC<BlogStatCardProps> = ({
 					value={<CountUp value={stats.totalComments} />}
 					label="Comments"
 				/>
-			</div>
+			</StatCardMetrics>
 			{stats.topPosts.length > 0 && (
 				<>
 					<StatCardDivider />

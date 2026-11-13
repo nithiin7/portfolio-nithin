@@ -1,0 +1,52 @@
+@use 'styles/shared/mixin' as *;
+
+.WorksPreview {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 20;
+	pointer-events: none;
+	will-change: transform;
+
+	&__window {
+		position: absolute;
+		width: clamp(rem(260), 26vw, rem(420));
+		aspect-ratio: 4 / 3;
+		translate: -50% -50%;
+		overflow: hidden;
+		clip-path: inset(100% 0 0 0);
+		scale: 0.92;
+		transition:
+			clip-path var(--dur-1) var(--ease),
+			scale var(--dur-1) var(--ease);
+
+		&[data-open='true'] {
+			clip-path: inset(0);
+			scale: 1;
+		}
+	}
+
+	&__layer {
+		position: absolute;
+		inset: 0;
+		clip-path: inset(100% 0 0 0);
+
+		&[data-state='previous'] {
+			z-index: 1;
+			clip-path: inset(0);
+		}
+
+		&[data-state='active'] {
+			z-index: 2;
+			clip-path: inset(0);
+			transition: clip-path var(--dur-1) var(--ease);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		&__window,
+		&__layer {
+			transition: none;
+		}
+	}
+}

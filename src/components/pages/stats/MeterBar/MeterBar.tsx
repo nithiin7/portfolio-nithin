@@ -4,6 +4,8 @@ import { motion, useInView } from 'motion/react';
 import type { FC, ReactElement } from 'react';
 import { useRef } from 'react';
 
+import { duration, ease } from 'styles/tokens';
+
 import styles from './MeterBar.module.scss';
 
 interface MeterBarProps {
@@ -35,7 +37,7 @@ const MeterBar: FC<MeterBarProps> = ({
 					style={{ width: `${Math.max(Math.min(percent, 100), 1)}%` }}
 					initial={{ scaleX: 0 }}
 					animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
-					transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
+					transition={{ duration: duration.base, delay, ease: [...ease] }}
 				/>
 			</div>
 		</div>

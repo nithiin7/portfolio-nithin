@@ -1,17 +1,16 @@
 import type { Metadata } from 'next';
-import Script from 'next/script';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
-import { BlogListing } from 'components/pages';
-import { enrichPostsWithCounts } from 'helpers/blog';
+import BlogListing from 'components/pages/blog/BlogListing/BlogListing';
+import JsonLd from 'components/utilities/JsonLd/JsonLd';
+import { absoluteUrl, personJsonLd, siteConfig, siteName } from 'config/site';
+import { categoriesFromPosts } from 'helpers/blogPosts';
 import {
-	loadData,
-	loadFilteredBlogPosts,
-	loadBlogCategories,
-	loadBlogTags,
-	convertContentfulBlogPost,
+	loadBlogPosts,
+	loadPageSeo,
+	loadSiteSettings,
 } from 'helpers/contentful';
-import type { BlogPost } from 'types/blog';
-import type { BlogCategoryItem, BlogTagItem } from 'types/contentful';
+import type { Seo, SiteSettings } from 'types/site';
 
 interface BlogPageProps {
 	searchParams: Promise<{
@@ -20,178 +19,100 @@ interface BlogPageProps {
 	}>;
 }
 
-function resolveTagParam(tag: string | string[] | undefined): string[] {
-	if (!tag) return [];
-	const raw = Array.isArray(tag) ? tag.join(',') : tag;
-	return raw.split(',').filter(Boolean);
-}
+const ARCHIVE_LIMIT = 100;
+/** Page "blog" SEO from Contentful, falling back to the site default. */
+const blogSeo = async (): Promise<[Seo, SiteSettings]> => {
+	const [seo, site] = await Promise.all([
+		loadPageSeo('blog'),
+		loadSiteSettings(),
+	]);
+	return [seo ?? site.seo, site];
+};
+
+const firstTag = (tag: string | string[] | undefined): string | undefined =>
+	(Array.isArray(tag) ? tag.join(',') : tag)?.split(',').find(Boolean);
 
 export async function generateMetadata({
 	searchParams,
 }: BlogPageProps): Promise<Metadata> {
 	const { category, tag } = await searchParams;
-	const tags = resolveTagParam(tag);
-	const props = await loadData('blog');
-	const path = props?.data.pageCollection.items[0];
+	const [seo, site] = await blogSeo();
 
-	const titleSuffix = category
-		? ` — ${category}`
-		: tags.length > 0
-			? ` — #${tags[0]}`
-			: '';
+	const tagName = firstTag(tag);
+	const suffix = category ? ` — ${category}` : tagName ? ` — #${tagName}` : '';
+	const title = `${seo.title}${suffix}`;
+	const { description } = seo;
+	const url = absoluteUrl('/blog');
 
 	return {
-		title: `${path?.title || 'Blog - Nithin Pradeep'}${titleSuffix}`,
-		description:
-			path?.description ||
-			'Explore insights on design, development, and the intersection of creativity and technology. Read articles about web development, design trends, and industry best practices.',
+		title,
+		description,
 		openGraph: {
 			type: 'website',
 			locale: 'en_US',
-			url: 'https://portfolio-nithin.vercel.app/blog',
-			title: `${path?.title || 'Blog - Nithin Pradeep'}${titleSuffix}`,
-			description:
-				path?.description ||
-				'Explore insights on design, development, and the intersection of creativity and technology.',
-			siteName: 'Nithin Pradeep - Portfolio',
-			images: [
-				{
-					url: '/opengraph-image.jpeg',
-					width: 1200,
-					height: 630,
-					alt: 'Blog - Nithin Pradeep - Full Stack Developer',
-				},
-			],
+			url,
+			title,
+			description,
+			siteName: siteName(site),
 		},
 		twitter: {
 			card: 'summary_large_image',
-			title: `${path?.title || 'Blog - Nithin Pradeep'}${titleSuffix}`,
-			description:
-				path?.description ||
-				'Explore insights on design, development, and the intersection of creativity and technology.',
-			creator: '@nithiin7',
-			images: ['/opengraph-image.jpeg'],
-		},
-		robots: {
-			index: true,
-			follow: true,
-			googleBot: {
-				index: true,
-				follow: true,
-				'max-video-preview': -1,
-				'max-image-preview': 'large',
-				'max-snippet': -1,
-			},
+			title,
+			description,
+			creator: site.twitterHandle,
 		},
 		alternates: {
-			canonical: 'https://portfolio-nithin.vercel.app/blog',
+			canonical: url,
+			types: { 'application/rss+xml': siteConfig.rssUrl },
 		},
 	};
 }
 
-const blogListingStructuredData = {
-	'@context': 'https://schema.org',
-	'@type': 'Blog',
-	name: 'Nithin Pradeep Blog',
-	description:
-		'Insights on design, development, and the intersection of creativity and technology',
-	url: 'https://portfolio-nithin.vercel.app/blog',
-	author: {
-		'@type': 'Person',
-		name: 'Nithin Pradeep',
-		jobTitle: 'Full Stack Developer',
-		url: 'https://portfolio-nithin.vercel.app/',
-		sameAs: [
-			'https://github.com/nithiin7',
-			'https://www.linkedin.com/in/nithin-p7/',
-			'https://www.instagram.com/__nithiin__/',
-			'https://www.twitter.com/_nithiin7/',
-		],
-	},
-	publisher: {
-		'@type': 'Person',
-		name: 'Nithin Pradeep',
-		url: 'https://portfolio-nithin.vercel.app/',
-	},
-	mainEntity: {
-		'@type': 'ItemList',
-		itemListElement: [
-			{
-				'@type': 'ListItem',
-				position: 1,
-				name: 'Home',
-				item: 'https://portfolio-nithin.vercel.app/',
-			},
-			{
-				'@type': 'ListItem',
-				position: 2,
-				name: 'Blog',
-				item: 'https://portfolio-nithin.vercel.app/blog',
-			},
-		],
-	},
-	breadcrumb: {
-		'@type': 'BreadcrumbList',
-		itemListElement: [
-			{
-				'@type': 'ListItem',
-				position: 1,
-				name: 'Home',
-				item: 'https://portfolio-nithin.vercel.app/',
-			},
-			{
-				'@type': 'ListItem',
-				position: 2,
-				name: 'Blog',
-				item: 'https://portfolio-nithin.vercel.app/blog',
-			},
-		],
-	},
-};
-
 export default async function BlogPage({
 	searchParams,
 }: BlogPageProps): Promise<React.ReactElement> {
-	const { category, tag } = await searchParams;
-	const initialTags = resolveTagParam(tag);
-
-	const [blogData, categoriesData, tagsData] = await Promise.all([
-		loadFilteredBlogPosts(category, initialTags, 10, 0),
-		loadBlogCategories(),
-		loadBlogTags(),
+	// Filters live in the URL and are applied client-side, but reading them here
+	// keeps the route dynamic so the filtered list is server-rendered.
+	await searchParams;
+	const [posts, [seo, site]] = await Promise.all([
+		loadBlogPosts(ARCHIVE_LIMIT),
+		blogSeo(),
 	]);
 
-	const { total, items } = blogData.data.blogPostCollection;
-	const posts: BlogPost[] = await enrichPostsWithCounts(
-		items.map(convertContentfulBlogPost)
-	);
-
-	const allCategories: string[] = [
-		'All',
-		...categoriesData.data.blogCategoryCollection.items.map(
-			(c: BlogCategoryItem) => c.name
-		),
-	];
-
-	const allTags: string[] = tagsData.data.blogTagCollection.items.map(
-		(t: BlogTagItem) => t.name
-	);
+	const structuredData = {
+		'@context': 'https://schema.org',
+		'@type': 'Blog',
+		name: `${site.name} — ${seo.title}`,
+		description: seo.description,
+		url: absoluteUrl('/blog'),
+		author: personJsonLd(site),
+		blogPost: posts.map((post) => ({
+			'@type': 'BlogPosting',
+			headline: post.title,
+			url: absoluteUrl(`/blog/${post.slug}`),
+			datePublished: post.publishedDate,
+		})),
+		breadcrumb: {
+			'@type': 'BreadcrumbList',
+			itemListElement: [
+				{ '@type': 'ListItem', position: 1, name: 'Home', item: absoluteUrl() },
+				{
+					'@type': 'ListItem',
+					position: 2,
+					name: 'Writing',
+					item: absoluteUrl('/blog'),
+				},
+			],
+		},
+	};
 
 	return (
 		<>
-			<Script
-				id="blog-listing-structured-data"
-				type="application/ld+json"
-				dangerouslySetInnerHTML={{
-					__html: JSON.stringify(blogListingStructuredData),
-				}}
-			/>
-			<BlogListing
-				posts={posts}
-				total={total}
-				allCategories={allCategories}
-				allTags={allTags}
-			/>
+			<JsonLd id="blog-listing-structured-data" data={structuredData} />
+			{/* Scoped here: /blog is the only route with URL-state filters */}
+			<NuqsAdapter>
+				<BlogListing posts={posts} categories={categoriesFromPosts(posts)} />
+			</NuqsAdapter>
 		</>
 	);
 }

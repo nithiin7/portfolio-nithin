@@ -2,140 +2,175 @@
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./.github/assets/logo-dark.svg">
     <source media="(prefers-color-scheme: light)" srcset="./.github/assets/logo-light.svg">
-    <img src="./.github/assets/logo-light.svg" alt="NP logo" width="84" />
+    <img src="./.github/assets/logo-light.svg" alt="NP logo" width="72" />
   </picture>
 
   <h1>Nithin Pradeep — Portfolio</h1>
 
-  <p>A content-driven, animation-rich personal portfolio — blog, project showcase, and contact form — built on Next.js, Contentful, and Supabase.</p>
+  <p>An editorial, Swiss-grid portfolio for an AI and full-stack engineer: case studies, a blog, live stats and an AI assistant, with all content in Contentful.</p>
 
   <p>
-    <a href="https://portfolio-nithin.vercel.app"><img alt="Live site" src="https://img.shields.io/badge/live-portfolio--nithin.vercel.app-393632?style=flat&logo=vercel&logoColor=white" /></a>
+    <a href="https://portfolio-nithin.vercel.app"><strong>Live site</strong></a> ·
+    <a href="#awwwards">Awwwards</a> ·
+    <a href="docs/engineering/CI_CD.md">CI/CD</a> ·
+    <a href="docs/cms/HOW_TO_ADD.md">Editing content</a>
   </p>
 
   <p>
-    <img alt="Next.js" src="https://img.shields.io/badge/Next.js%2015-393632?style=flat&logo=nextdotjs&logoColor=white" />
-    <img alt="React" src="https://img.shields.io/badge/React%2019-393632?style=flat&logo=react&logoColor=white" />
-    <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-393632?style=flat&logo=typescript&logoColor=white" />
-    <img alt="Sass" src="https://img.shields.io/badge/Sass-393632?style=flat&logo=sass&logoColor=white" />
-    <img alt="Contentful" src="https://img.shields.io/badge/Contentful-393632?style=flat&logo=contentful&logoColor=white" />
-    <img alt="Apollo GraphQL" src="https://img.shields.io/badge/Apollo%20GraphQL-393632?style=flat&logo=apollographql&logoColor=white" />
-    <img alt="Supabase" src="https://img.shields.io/badge/Supabase-393632?style=flat&logo=supabase&logoColor=white" />
-    <img alt="Motion" src="https://img.shields.io/badge/Motion-393632?style=flat&logo=framer&logoColor=white" />
-    <img alt="GSAP" src="https://img.shields.io/badge/GSAP-393632?style=flat&logo=greensock&logoColor=white" />
-    <img alt="Storybook" src="https://img.shields.io/badge/Storybook-393632?style=flat&logo=storybook&logoColor=white" />
+    <a href="https://github.com/nithiin7/portfolio-nithin/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/nithiin7/portfolio-nithin/actions/workflows/ci.yml/badge.svg" /></a>
+    <img alt="Next.js 16" src="https://img.shields.io/badge/Next.js-16-111?logo=nextdotjs" />
+    <img alt="React 19" src="https://img.shields.io/badge/React-19-111?logo=react" />
+    <img alt="TypeScript strict" src="https://img.shields.io/badge/TypeScript-strict-111?logo=typescript" />
+    <img alt="MIT licence" src="https://img.shields.io/badge/licence-MIT-111" />
   </p>
 </div>
 
----
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./.github/assets/screenshot-dark.jpg">
+  <img src="./.github/assets/screenshot-light.jpg" alt="Homepage hero: the 12-column grid, a live Bangalore clock, the positioning line and the name set in large type" />
+</picture>
 
-## ✨ Overview
+<p align="center"><sub>Dark and light themes follow your system setting on GitHub.</sub></p>
 
-Source for [portfolio-nithin.vercel.app](https://portfolio-nithin.vercel.app) — a full-stack personal site for **Nithin Pradeep**, Full Stack Developer. Page, blog, and project content is served from **Contentful** via Apollo GraphQL, comments and newsletter signups are backed by **Supabase**, and the UI leans on **Motion** and **GSAP** for scroll-driven animation, page transitions, and micro-interactions.
+## Awwwards
 
-## 🧩 Features
+<a id="awwwards"></a>Submission pending: link to be added after the jury vote. Submission kit: [docs/redesign/AWWWARDS.md](docs/redesign/AWWWARDS.md).
 
-- **Dynamic content** — pages, blog posts, and portfolio items are managed in Contentful and rendered server-side
-- **Blog** — listing and detail pages with related-post scoring and a Supabase-backed comment system
-- **Project showcase** — animated portfolio grid with per-project detail pages
-- **Contact form** — validated with React Hook Form + Yup, sent via EmailJS, protected by reCAPTCHA v3
-- **Newsletter subscriptions** — stored in Supabase
-- **Dark / light theme** — CSS custom properties toggled through `ThemeContext`
-- **Rich animation** — page-transition curves, scroll reveals, and magnetic buttons via Motion, GSAP, and Lenis smooth scrolling
-- **Component documentation** — Storybook for isolated UI development
+## Highlights
 
-## 🛠 Tech Stack
+- **Editorial Swiss design system**: one token file for colour, type scale, spacing, grid and motion, dark and light themes, a visible 12-column grid, and a root size that scales up to 4K.
+- **Motion with restraint**: Motion/React reveals, a `ScrambleText` primitive for headings, a pinned manifesto, view-transition page changes and Lenis smooth scrolling. Every effect honours `prefers-reduced-motion`.
+- **Case studies** with theme-matched cover plates, a reading-progress rail, a lightbox gallery and next-project transitions.
+- **⌘K command palette**: search pages, posts and projects, toggle the theme, or ask an AI that answers from a RAG index of the résumé and projects.
+- **Blog** with client-side filters, table of contents, code blocks, share links, view counts and moderated comments.
+- **Live `/stats`**: GitHub, dev.to, WakaTime, Hugging Face and blog numbers.
+- **Content in Contentful**: every section is found by its key and ordered by the CMS. Schema changes are migrations in code, linted by `pnpm cms:check`.
+- **Built to be checked**: Lighthouse a11y 100, axe on every route in both themes, a Report-Only CSP, typed env validation, and around 290 unit/component tests plus a Playwright suite.
 
-| Layer         | Tools                                                    |
-| ------------- | -------------------------------------------------------- |
-| Framework     | Next.js 15 (App Router, Turbopack), React 19, TypeScript |
-| Styling       | SCSS Modules, CSS custom properties (theming)            |
-| Content       | Contentful CMS, Apollo Client (GraphQL)                  |
-| Data          | Supabase (comments, newsletter)                          |
-| Animation     | Motion (Framer Motion), GSAP, Lenis                      |
-| Forms         | React Hook Form, Yup, EmailJS, reCAPTCHA v3              |
-| Tooling       | Storybook, Plop, Husky, Commitlint, ESLint, Prettier     |
-| Observability | Sentry, Google Tag Manager                               |
+## Tech stack
 
-## 🚀 Getting Started
+| Layer     | Tools                                                                               |
+| --------- | ----------------------------------------------------------------------------------- |
+| Framework | Next.js 16 (App Router, RSC, Turbopack), React 19, TypeScript (strict)              |
+| Styling   | SCSS Modules, CSS custom-property tokens                                            |
+| Content   | Contentful (GraphQL via Apollo Client), `contentful-migration`                      |
+| Data      | Supabase (comments, blog views, newsletter)                                         |
+| Motion    | Motion/React, Lenis, React View Transitions                                         |
+| Forms     | React Hook Form, Yup, EmailJS, reCAPTCHA v3                                         |
+| AI        | OpenAI embeddings + chat (RAG over `data/knowledge`), Hugging Face Space chat embed |
+| Quality   | Vitest, Testing Library, Playwright, axe, Lighthouse CI, ESLint, knip, Prettier     |
+| Ops       | Vercel, GitHub Actions, Sentry, Google Tag Manager, release-please, Dependabot      |
 
-### Prerequisites
+## Architecture
 
-- Node.js v20+
-- A [Contentful](https://www.contentful.com/) space with a content model for pages, blog posts, and portfolio items
-- A [Supabase](https://supabase.com/) project for comments and newsletter subscriptions
+```mermaid
+flowchart LR
+  subgraph CMS[Contentful]
+    Site[Site Settings]
+    Home[Page home → Home Sections by key]
+    Projects[Portfolio Projects]
+    Posts[Blog Posts]
+  end
+  subgraph Next[Next.js on Vercel]
+    Loaders[helpers/contentful.ts<br/>loaders + converters]
+    RSC[Server components<br/>app/*/page.tsx]
+    Islands[Client islands<br/>palette, chat, forms, motion]
+    API[Route handlers<br/>/api/ask · comments · views · revalidate · search]
+  end
+  Supa[(Supabase)]
+  OpenAI[(OpenAI)]
+  CMS -- GraphQL, ISR 1h --> Loaders --> RSC --> Islands
+  CMS -- publish webhook --> API
+  Islands --> API
+  API --> Supa
+  API --> OpenAI
+```
 
-### Setup
+Server components fetch and convert content (components never see raw Contentful shapes) and pass plain props to small client islands. Home sections are looked up by `key`, and their order comes from the CMS. Contentful's publish webhook revalidates the affected routes.
+
+## Local setup
+
+Requires Node 24 (`.nvmrc`) and pnpm 11 (`corepack enable`).
 
 ```bash
-git clone git@github.com:nithiin7/portfolio-nithin.git
-cd portfolio-nithin
-yarn install
+git clone git@github.com:nithiin7/portfolio-nithin.git && cd portfolio-nithin
+pnpm install
+cp .env.example .env   # fill in the Contentful variables at minimum
+pnpm dev               # http://localhost:3000
 ```
 
-Create a `.env` file at the project root (see `.env.example` for the full list):
+### Environment variables
 
-```bash
-CONTENTFUL_SPACE_ID=<your_contentful_space_id>
-CONTENTFUL_ACCESS_TOKEN=<your_contentful_access_token>
+Mirrors [.env.example](.env.example). **Required** variables stop the server from starting when missing; feature variables only disable their feature.
 
-# Supabase (comments + newsletter)
-NEXT_PUBLIC_SUPABASE_URL=<your_supabase_url>
-NEXT_PUBLIC_SUPABASE_ANON_KEY=<your_supabase_anon_key>
+| Variable                          | Required   | Purpose                                         |
+| --------------------------------- | ---------- | ----------------------------------------------- |
+| `CONTENTFUL_SPACE_ID`             | ✓          | Contentful space                                |
+| `CONTENTFUL_ENVIRONMENT`          | ✓          | Environment (`master`)                          |
+| `CONTENTFUL_VERSION`              | ✓          | API version (`v1`)                              |
+| `CONTENTFUL_ACCESS_TOKEN`         | ✓          | Delivery API token (read-only)                  |
+| `CONTENTFUL_REVALIDATE_SECRET`    |            | Webhook secret for `/api/revalidate`            |
+| `CONTENTFUL_PREVIEW`              |            | `true` reads drafts                             |
+| `CONTENTFUL_PREVIEW_ACCESS_TOKEN` | in preview | Preview API token                               |
+| `CONTENTFUL_MANAGEMENT_TOKEN`     |            | Local CMS scripts only, never on Vercel         |
+| `NEXT_PUBLIC_SUPABASE_URL`        | feature    | Comments, views, newsletter                     |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY`   | feature    | Comments, views, newsletter                     |
+| `NEXT_PUBLIC_RECAPTCHA_SITE_KEY`  | feature    | reCAPTCHA v3 in the browser                     |
+| `RECAPTCHA_SECRET_KEY`            | feature    | Server-side reCAPTCHA verification              |
+| `NEXT_PUBLIC_SERVICE_ID`          | feature    | EmailJS service (contact form)                  |
+| `NEXT_PUBLIC_TEMPLATE_ID`         | feature    | EmailJS template                                |
+| `NEXT_PUBLIC_EMAILJS_ID`          | feature    | EmailJS public key                              |
+| `NEXT_PUBLIC_GOOGLE_GTM_ID`       |            | Google Tag Manager                              |
+| `OPENAI_API_KEY`                  |            | AI answers in the command palette, `pnpm embed` |
+| `WAKATIME_API_KEY`                |            | `/stats` coding activity                        |
+| `HUGGINGFACE_TOKEN`               |            | `/stats` Hugging Face card                      |
+
+## Scripts
+
+| Command                                          | What it does                                                      |
+| ------------------------------------------------ | ----------------------------------------------------------------- |
+| `pnpm dev` / `build` / `start`                   | Next.js dev server, production build, production server           |
+| `pnpm lint` / `lint:fix`                         | ESLint                                                            |
+| `pnpm format` / `format:fix`                     | Prettier check / write                                            |
+| `pnpm typecheck`                                 | `tsc --noEmit`                                                    |
+| `pnpm knip`                                      | Unused files, exports and dependencies                            |
+| `pnpm test` / `test:watch` / `test:coverage`     | Vitest unit and component tests (coverage has thresholds)         |
+| `pnpm test:e2e`                                  | Playwright; set `PLAYWRIGHT_BASE_URL` to test a running build     |
+| `pnpm generate`                                  | Plop: component, or route + page component (with SCSS and a test) |
+| `pnpm analyze`                                   | Webpack bundle analyzer                                           |
+| `pnpm cms:migrate` / `cms:check` / `cms:publish` | Contentful migrations, content lint, publish drafts               |
+| `pnpm plates` / `plates:upload`                  | Project cover plates and their upload as drafts                   |
+| `pnpm embed` / `embed:check`                     | Rebuild / verify the RAG embeddings from `data/knowledge`         |
+| `pnpm icons`                                     | Regenerate app icons                                              |
+
+## Project structure
+
 ```
-
-Start the dev server:
-
-```bash
-yarn dev
-```
-
-Then open [http://localhost:3000](http://localhost:3000).
-
-## 📜 Available Scripts
-
-| Command                     | Description                           |
-| --------------------------- | ------------------------------------- |
-| `yarn dev`                  | Start the dev server with Turbopack   |
-| `yarn build`                | Create a production build             |
-| `yarn start`                | Serve the production build            |
-| `yarn lint` / `yarn eslint` | Lint the codebase                     |
-| `yarn prettier:fix`         | Format the codebase                   |
-| `yarn storybook`            | Launch Storybook on port 6006         |
-| `yarn generate`             | Scaffold a component or page via Plop |
-| `yarn release`              | Cut a release with standard-version   |
-
-## 🗂 Project Structure
-
-```
-portfolio-nithin/
-├── lib/            # Apollo Client setup (Contentful GraphQL)
-├── migrations/     # Supabase SQL migrations
-├── public/         # Static assets
+├── contentful/        # migrations (NNN_*.cjs + data), cms:check rules, CMA client, seed assets
+├── data/knowledge/    # Markdown the AI assistant answers from → data/embeddings.json
+├── docs/              # engineering (CI/CD, audits), cms (conventions, recipes), redesign kit
+├── e2e/               # Playwright: smoke, flows, axe, overflow
+├── migrations/        # Supabase SQL
+├── scripts/           # responsive audit, plates, icons, embeddings, Awwwards images
 ├── src/
-│   ├── app/        # Next.js App Router (pages, layouts, API routes)
-│   ├── assets/     # Logos and icon components
-│   ├── components/ # Layouts, page sections, shared UI primitives
-│   ├── helpers/    # Contentful loaders, animation variants, utilities
-│   ├── queries/    # GraphQL queries (Apollo gql)
-│   ├── services/   # Supabase service layer
-│   └── styles/     # Theme tokens and global SCSS
-└── templates/      # Plop generators
+│   ├── app/           # routes, route handlers, OG images, sitemap, feed, service worker
+│   ├── clients/       # Apollo (server-only), Supabase, OpenAI
+│   ├── components/    # layouts · motion · pages/<route> · utilities
+│   ├── config/        # site constants, image crop table
+│   ├── helpers/       # loaders, converters, env, API protection, formatting
+│   ├── hooks/ contexts/ queries/ services/ types/
+│   └── styles/        # tokens.scss (+ tokens.ts), shared mixins, globals
+└── templates/         # Plop templates
 ```
 
-See [CLAUDE.md](./CLAUDE.md) for the full architectural reference.
+## Deployment
 
-## 📚 Resources
+Vercel builds a preview for every branch and deploys `main` to production. GitHub Actions runs lint/test/build on every PR, then Playwright, axe and Lighthouse against the Vercel preview. Releases come from release-please on `main`. See [docs/engineering/CI_CD.md](docs/engineering/CI_CD.md) for secrets, env vars and branch protection.
 
-- [Next.js Documentation](https://nextjs.org/docs)
-- [Contentful Documentation](https://www.contentful.com/developers/docs/)
-- [Supabase Documentation](https://supabase.com/docs)
-- [Motion Documentation](https://motion.dev/docs)
+## Contributing
 
-## 🔗 Connect
+See [CONTRIBUTING.md](CONTRIBUTING.md). Security issues: [SECURITY.md](SECURITY.md).
 
-<p>
-  <a href="https://github.com/nithiin7"><img alt="GitHub" src="https://img.shields.io/badge/GitHub-393632?style=flat&logo=github&logoColor=white" /></a>
-  <a href="https://www.linkedin.com/in/nithin-p7/"><img alt="LinkedIn" src="https://img.shields.io/badge/LinkedIn-393632?style=flat&logo=linkedin&logoColor=white" /></a>
-  <a href="mailto:nithinp150@gmail.com"><img alt="Email" src="https://img.shields.io/badge/Email-393632?style=flat&logo=gmail&logoColor=white" /></a>
-</p>
+## Credits and licence
+
+Design and code by [Nithin Pradeep](https://github.com/nithiin7). Typefaces are served through `next/font`. Content, images and the résumé are © Nithin Pradeep; the code is [MIT](LICENSE).

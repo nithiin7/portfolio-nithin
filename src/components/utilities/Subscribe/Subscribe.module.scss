@@ -1,210 +1,116 @@
 @use 'styles/shared/mixin' as *;
-@use 'styles/shared/variables' as *;
 
 .Subscribe {
-	width: 100%;
-	margin: rem(40) 0;
-	padding: rem(64) rem(24);
-	background: $color-secondary;
-	border-radius: rem(24);
-	position: relative;
-	overflow: hidden;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--space-6) var(--grid-gutter);
+	padding: var(--space-7) var(--space-5);
+	border: 1px solid var(--line);
+	background: var(--surface-1);
+	color: var(--fg);
 
 	@media #{$md} {
-		padding: rem(96) rem(60);
+		padding: var(--space-8) var(--space-7);
 	}
 
-	&__content {
-		max-width: rem(640);
-		margin: 0 auto;
-		text-align: center;
+	@media #{$lg} {
+		grid-template-columns: repeat(12, minmax(0, 1fr));
+		align-items: end;
 	}
 
-	&__label {
-		display: inline-block;
-		font-size: rem(12);
-		font-weight: 600;
-		text-transform: uppercase;
-		letter-spacing: 0.12em;
-		color: $color-accent;
-		margin-bottom: rem(16);
+	&__intro {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-4);
+
+		@media #{$lg} {
+			grid-column: 1 / span 6;
+		}
+	}
+
+	&__kicker {
+		@include mono-label;
+
+		margin: 0;
 	}
 
 	&__title {
-		color: $color-primary;
-		font-size: clamp(2rem, 1.4rem + 2.4vi, 3.5rem);
-		font-weight: 700;
-		text-transform: uppercase;
-		line-height: 92.5%;
-		letter-spacing: -0.025em;
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: var(--step-4);
+		font-weight: 500;
+		line-height: var(--leading-snug);
+		letter-spacing: var(--tracking-display);
 		text-wrap: balance;
-		margin: 0 0 rem(16);
+
+		em {
+			font-family: var(--font-serif);
+			font-weight: 400;
+			letter-spacing: 0;
+		}
 	}
 
 	&__text {
-		color: color-mix(in srgb, var(--color-primary) 65%, transparent);
-		font-size: clamp(1rem, 1.5vw + 0.7rem, 1.125rem);
-		line-height: 130%;
-		max-width: 45ch;
-		margin: 0 auto rem(40);
+		max-width: 44ch;
+		margin: 0;
+		font-size: var(--step-0);
+		line-height: var(--leading-body);
+		color: var(--fg-subtle);
+	}
+
+	&__action {
+		@media #{$lg} {
+			grid-column: 8 / span 5;
+		}
 	}
 
 	&__form {
+		@include container;
+
 		display: flex;
-		flex-direction: column;
-		gap: rem(12);
+		flex-wrap: wrap;
+		align-items: flex-end;
+		gap: var(--space-4);
+	}
 
-		@media #{$md} {
-			flex-direction: row;
-			align-items: flex-start;
+	&__field {
+		flex: 1 1 100%;
+
+		@include container-up(rem(400)) {
+			flex-basis: rem(220);
 		}
 	}
 
-	&__inputWrapper {
-		position: relative;
-		flex: 1;
-		padding-bottom: rem(22);
-	}
+	&__submit {
+		@include pill-button('.Subscribe__roll');
 
-	&__input {
-		width: 100%;
-		padding: rem(16) rem(28);
-		background: transparent;
-		border: rem(1) solid
-			color-mix(in srgb, var(--color-primary) 30%, transparent);
-		border-radius: rem(50);
-		color: $color-primary;
-		font-size: rem(15);
-		font-family: $font-primary;
-		outline: none;
-		transition:
-			border-color 0.3s ease,
-			background 0.3s ease;
-
-		&::placeholder {
-			color: color-mix(in srgb, var(--color-primary) 45%, transparent);
-		}
-
-		&:hover:not(:disabled) {
-			border-color: color-mix(in srgb, var(--color-primary) 50%, transparent);
-		}
-
-		&:focus {
-			border-color: $color-primary;
-			background: color-mix(in srgb, var(--color-primary) 6%, transparent);
-		}
-
-		&:disabled {
-			opacity: 0.5;
-			cursor: not-allowed;
-		}
-	}
-
-	&__inputError {
-		border-color: $color-error;
-
-		&:focus {
-			border-color: $color-error;
+		// FormField reserves a row for its error; when the button sits beside
+		// the field, lift it to the input line. Wrapped below, it needs no offset.
+		@include container-up(rem(400)) {
+			margin-bottom: calc(var(--step--1) * 1.5 + var(--space-2));
 		}
 	}
 
 	&__error {
-		position: absolute;
-		bottom: 0;
-		left: rem(28);
-		color: $color-error;
-		font-size: rem(13);
-		font-weight: 500;
-		text-align: left;
-	}
-
-	&__button {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		gap: rem(10);
-		padding: rem(16) rem(32);
-		background: $color-primary;
-		border: rem(1) solid $color-primary;
-		border-radius: rem(50);
-		color: $color-secondary;
-		font-size: rem(14);
-		font-weight: 600;
-		font-family: $font-primary;
-		text-transform: uppercase;
-		letter-spacing: rem(0.75);
-		white-space: nowrap;
-		cursor: pointer;
-		transition: all 0.4s cubic-bezier(0.76, 0, 0.24, 1);
-
-		svg {
-			width: rem(14);
-			height: rem(14);
-		}
-
-		&:hover:not(:disabled) {
-			background: transparent;
-			color: $color-primary;
-		}
-
-		&:active:not(:disabled) {
-			transform: scale(0.96);
-		}
-
-		&:focus-visible {
-			outline: rem(2) solid $color-primary;
-			outline-offset: rem(2);
-		}
-
-		&:disabled {
-			opacity: 0.5;
-			cursor: not-allowed;
-		}
-	}
-
-	&__success {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: rem(16);
-		padding-bottom: rem(22);
-	}
-
-	&__successIcon {
-		width: rem(56);
-		height: rem(56);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		background: $color-primary;
-		color: $color-secondary;
-		border-radius: 50%;
-		font-size: rem(22);
-		font-weight: 700;
-	}
-
-	&__successTitle {
-		color: $color-primary;
-		font-size: rem(20);
-		font-weight: 700;
-		text-transform: uppercase;
-		letter-spacing: -0.025em;
+		flex-basis: 100%;
 		margin: 0;
+		font-size: var(--step--1);
+		color: var(--danger);
 	}
 
-	&__successText {
-		color: color-mix(in srgb, var(--color-primary) 65%, transparent);
-		font-size: rem(15);
-		line-height: 150%;
-		max-width: 40ch;
+	&__done {
 		margin: 0;
-	}
+		font-family: var(--font-serif);
+		font-size: var(--step-2);
+		font-style: italic;
 
-	&__submitError {
-		margin: rem(12) 0 0;
-		color: $color-error;
-		font-size: rem(14);
-		font-weight: 500;
-		text-align: center;
+		span {
+			color: var(--accent-text);
+			font-style: normal;
+		}
+
+		&:focus {
+			outline: none;
+		}
 	}
 }

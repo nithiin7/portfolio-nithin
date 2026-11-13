@@ -1,45 +1,41 @@
 @use 'styles/shared/mixin' as *;
-@use 'styles/shared/variables' as *;
 
 .MeterBar {
 	display: flex;
 	flex-direction: column;
-	gap: rem(6);
+	gap: var(--space-2);
 	min-width: 0;
 
 	&__row {
 		display: flex;
 		align-items: baseline;
 		justify-content: space-between;
-		gap: rem(12);
+		gap: var(--space-3);
 	}
 
 	&__label {
-		font-size: rem(13);
-		font-weight: 500;
-		color: $color-grey-pale;
 		overflow: hidden;
+		font-size: var(--step-0);
+		color: var(--fg);
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
 
 	&__detail {
-		font-size: rem(12);
-		color: $color-grey-medium;
+		@include mono-label;
+
+		font-variant-numeric: tabular-nums;
 		white-space: nowrap;
 	}
 
 	&__track {
-		height: rem(6);
-		border-radius: rem(3);
-		background-color: color-mix(in srgb, #{$color-primary} 8%, transparent);
-		overflow: hidden;
+		height: rem(3);
+		background-color: var(--line);
 	}
 
 	&__fill {
 		height: 100%;
-		border-radius: rem(3);
-		background-color: $color-primary;
+		background-color: var(--fg);
 		transform-origin: left;
 	}
 }

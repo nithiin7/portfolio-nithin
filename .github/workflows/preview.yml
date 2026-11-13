@@ -1,0 +1,122 @@
+name: Preview checks
+
+# Vercel reports each deployment back to GitHub; test the live preview URL
+on:
+  deployment_status:
+
+permissions:
+  contents: read
+  pull-requests: write
+  statuses: read
+
+concurrency:
+  group: preview-${{ github.event.deployment.sha }}
+  cancel-in-progress: true
+
+env:
+  BASE_URL: ${{ github.event.deployment_status.environment_url || github.event.deployment_status.target_url }}
+  # Set when Vercel Deployment Protection is on (Settings → Deployment Protection → Protection Bypass for Automation)
+  VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+
+jobs:
+  e2e:
+    name: E2E and a11y (Playwright)
+    if: github.event.deployment_status.state == 'success' && !startsWith(github.event.deployment.environment, 'Production')
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.deployment.sha }}
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test:e2e
+        env:
+          PLAYWRIGHT_BASE_URL: ${{ env.BASE_URL }}
+          CI: true
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
+
+  lighthouse:
+    name: Lighthouse budgets
+    if: github.event.deployment_status.state == 'success' && !startsWith(github.event.deployment.environment, 'Production')
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.deployment.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - name: Run Lighthouse CI
+        id: lhci
+        run: |
+          EXTRA_HEADERS='{}'
+          if [ -n "$VERCEL_AUTOMATION_BYPASS_SECRET" ]; then
+            EXTRA_HEADERS="{\"x-vercel-protection-bypass\":\"$VERCEL_AUTOMATION_BYPASS_SECRET\"}"
+          fi
+          npx -y @lhci/cli@0.15.1 autorun \
+            --collect.url="$BASE_URL/" \
+            --collect.url="$BASE_URL/portfolio/orbit" \
+            --collect.url="$BASE_URL/blog" \
+            --collect.settings.extraHeaders="$EXTRA_HEADERS"
+      - name: Comment results on the PR
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const manifestPath = '.lighthouseci/manifest.json';
+            if (!fs.existsSync(manifestPath)) return;
+            const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
+              .filter((run) => run.isRepresentativeRun);
+            const links = fs.existsSync('.lighthouseci/links.json')
+              ? JSON.parse(fs.readFileSync('.lighthouseci/links.json', 'utf8'))
+              : {};
+            const pct = (v) => Math.round(v * 100);
+            const rows = manifest.map(({ url, summary }) => {
+              const path = new URL(url).pathname;
+              const report = links[url] ? `[report](${links[url]})` : '';
+              return `| \`${path}\` | ${pct(summary.performance)} | ${pct(summary.accessibility)} | ${pct(summary['best-practices'])} | ${pct(summary.seo)} | ${report} |`;
+            });
+            const body = [
+              '<!-- lighthouse-ci -->',
+              `### Lighthouse — ${context.payload.deployment.sha.slice(0, 7)}`,
+              '',
+              'Budgets: Performance ≥ 90 · Accessibility 100 · Best practices ≥ 95 · SEO 100',
+              '',
+              '| Page | Perf | A11y | BP | SEO | |',
+              '| --- | --- | --- | --- | --- | --- |',
+              ...rows,
+            ].join('\n');
+            const { data: prs } = await github.rest.repos.listPullRequestsAssociatedWithCommit({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              commit_sha: context.payload.deployment.sha,
+            });
+            const pr = prs.find((p) => p.state === 'open');
+            if (!pr) {
+              core.summary.addRaw(body).write();
+              return;
+            }
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number,
+            });
+            const existing = comments.find((c) => c.body?.includes('<!-- lighthouse-ci -->'));
+            const params = { owner: context.repo.owner, repo: context.repo.repo, body };
+            if (existing) await github.rest.issues.updateComment({ ...params, comment_id: existing.id });
+            else await github.rest.issues.createComment({ ...params, issue_number: pr.number });

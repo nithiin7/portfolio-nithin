@@ -1,32 +1,31 @@
 @use 'styles/shared/mixin' as *;
-@use 'styles/shared/variables' as *;
 
 .StatTile {
 	display: flex;
 	flex-direction: column;
-	gap: rem(8);
+	gap: var(--space-3);
 	height: 100%;
-	padding-left: rem(20);
-	border-left: rem(1) solid var(--color-toggle-border);
+	padding-top: var(--space-3);
+	border-top: 1px solid var(--line-strong);
 
 	&__label {
-		font-size: rem(12);
-		font-weight: 500;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-		color: $color-grey-medium;
+		@include mono-label;
 	}
 
 	&__value {
-		font-size: clamp(2.25rem, 1.8rem + 1.8vw, 3.5rem);
-		font-weight: 700;
-		line-height: 1;
-		letter-spacing: -0.02em;
-		color: $color-grey-pale;
+		font-family: var(--font-display);
+		font-size: var(--step-5);
+		font-weight: 500;
+		font-variant-numeric: tabular-nums;
+		line-height: var(--leading-tight);
+		letter-spacing: var(--tracking-display);
+		color: var(--fg);
 	}
 
 	&__note {
-		font-size: rem(13);
-		color: $color-grey-medium;
+		font-family: var(--font-serif);
+		font-size: var(--step-0);
+		font-style: italic;
+		color: var(--fg-subtle);
 	}
 }

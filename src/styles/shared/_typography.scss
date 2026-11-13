@@ -1,6 +1,3 @@
-@use './variables' as *;
-@use './mixin' as *;
-
 h1,
 h2,
 h3,
@@ -10,12 +7,11 @@ h5 {
 }
 
 a {
-	transition: $transition;
-	&:hover {
-		color: $color-white;
-	}
-}
+	transition: all var(--dur-1) ease;
 
-.text-light {
-	color: $color-light;
+	@media (hover: hover) and (pointer: fine) {
+		&:hover {
+			color: var(--fg);
+		}
+	}
 }

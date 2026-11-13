@@ -39,6 +39,7 @@ jspm_packages
 
 #env
 .env
+.env*.local
 
 # Sentry Config File
 .env.sentry-build-plugin
@@ -50,3 +51,15 @@ tsconfig.tsbuildinfo
 # Playwright
 /test-results/
 /playwright-report/
+
+# Responsive audit screenshots (scripts/responsive-audit.ts)
+/.responsive-audit/
+
+# Image plates (scripts/plates): raw screens and composed output stay local;
+# reviewed samples are copied to docs/redesign/plates/
+/scripts/plates/raw/
+/scripts/plates/out/
+
+# Contentful exports (phase 14)
+backups/
+errors-*.log

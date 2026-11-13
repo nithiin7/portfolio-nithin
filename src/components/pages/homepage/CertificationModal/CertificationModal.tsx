@@ -1,10 +1,10 @@
 'use client';
 import type { Variants } from 'motion/react';
-import { motion } from 'motion/react';
-import Image from 'next/image';
-import type { FC } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
+import type { CSSProperties, FC } from 'react';
+import { useCallback } from 'react';
 
-import { Button, Tag, TagContainer } from 'components/utilities';
+import { duration, ease } from 'styles/tokens';
 import type { Certification } from 'types/certification';
 
 import styles from './CertificationModal.module.scss';
@@ -13,173 +13,178 @@ interface CertificationModalProps {
 	certification: Certification;
 }
 
+const stagger: Variants = {
+	hidden: {},
+	visible: {
+		transition: { staggerChildren: 0.06, delayChildren: duration.fast * 0.5 },
+	},
+};
+
+const rise: Variants = {
+	hidden: { opacity: 0, y: '1rem' },
+	visible: { opacity: 1, y: 0, transition: { duration: duration.base, ease } },
+};
+
+const fade: Variants = {
+	hidden: { opacity: 0 },
+	visible: { opacity: 1 },
+};
+
+const formatDate = (dateString: string) =>
+	new Date(dateString).toLocaleDateString('en-US', {
+		month: 'short',
+		year: 'numeric',
+	});
+
 /**
- * CertificationModal component displays detailed information
- * about a certification inside a modal.
- *
- * @component
- * @param {Certification} certification - The certification data to display.
- * @returns {JSX.Element} The rendered CertificationModal component.
+ * Certification details laid out as an editorial spec sheet:
+ * logo tile + title block, hairline definition rows, skills, outbound link.
  */
 const CertificationModal: FC<CertificationModalProps> = ({ certification }) => {
-	const contentVariants: Variants = {
-		initial: {
-			opacity: 0,
-			y: 20,
-		},
-		animate: (custom: number) => ({
-			opacity: 1,
-			y: 0,
-			transition: {
-				delay: custom * 0.1,
-				duration: 0.4,
-				ease: [0.33, 1, 0.68, 1],
-			},
-		}),
-	};
-
-	const formatDate = (dateString: string) => {
-		const date = new Date(dateString);
-		return date.toLocaleDateString('en-US', {
-			month: 'long',
-			year: 'numeric',
-		});
-	};
+	const prefersReducedMotion = useReducedMotion();
+	const item = prefersReducedMotion ? fade : rise;
 
 	const isExpired = certification.expiryDate
 		? new Date(certification.expiryDate) < new Date()
 		: false;
 
+	const copyCredentialId = useCallback(async () => {
+		if (!certification.credentialId) return;
+		const { toast } = await import('sonner');
+		try {
+			await navigator.clipboard.writeText(certification.credentialId);
+			toast('Credential ID copied', {
+				description: certification.credentialId,
+			});
+		} catch {
+			toast.error('Couldn’t copy the credential ID');
+		}
+	}, [certification.credentialId]);
+
+	const rows = [
+		{ label: 'Issued', value: formatDate(certification.issuedDate) },
+		certification.expiryDate && {
+			label: isExpired ? 'Expired' : 'Expires',
+			value: formatDate(certification.expiryDate),
+		},
+	].filter(Boolean) as { label: string; value: string }[];
+
 	return (
-		<div className={styles.CertificationModal}>
-			<motion.div
+		<motion.article
+			className={styles.CertificationModal}
+			variants={stagger}
+			initial="hidden"
+			animate="visible"
+		>
+			<motion.header
 				className={styles.CertificationModal__header}
-				variants={contentVariants}
-				initial="initial"
-				animate="animate"
-				custom={0}
+				variants={item}
 			>
 				<div className={styles.CertificationModal__logo}>
-					<Image
-						src={certification.logo}
-						alt={certification.name}
-						width={72}
-						height={72}
-						unoptimized
+					<span
+						className={styles.CertificationModal__mark}
+						style={
+							{ '--logo': `url("${certification.logo}")` } as CSSProperties
+						}
+						aria-hidden="true"
 					/>
 				</div>
-				<div className={styles.CertificationModal__content}>
-					<span className={styles.CertificationModal__provider}>
-						{certification.provider}
-					</span>
-					<h3 className={styles.CertificationModal__name}>
+				<div className={styles.CertificationModal__heading}>
+					<p className={styles.CertificationModal__meta}>
+						<span className={styles.CertificationModal__provider}>
+							{certification.provider}
+						</span>
+						{certification.expiryDate && (
+							<span
+								className={`${styles.CertificationModal__status} ${
+									isExpired ? styles['CertificationModal__status--expired'] : ''
+								}`}
+							>
+								{isExpired ? 'Expired' : 'Active'}
+							</span>
+						)}
+					</p>
+					<h2 className={styles.CertificationModal__name}>
 						{certification.name}
-					</h3>
-					{certification.expiryDate && (
-						<Tag
-							variant={isExpired ? 'secondary' : 'accent'}
-							size="small"
-							animated={false}
-							className={styles.CertificationModal__status}
-						>
-							{isExpired ? 'Expired' : 'Active'}
-						</Tag>
-					)}
+					</h2>
 				</div>
-			</motion.div>
+			</motion.header>
 
-			<motion.div
-				className={styles.CertificationModal__details}
-				variants={contentVariants}
-				initial="initial"
-				animate="animate"
-				custom={1}
-			>
-				<div className={styles.CertificationModal__detailItem}>
-					<span className={styles.CertificationModal__label}>Issued</span>
-					<span className={styles.CertificationModal__value}>
-						{formatDate(certification.issuedDate)}
-					</span>
-				</div>
-
-				{certification.expiryDate && (
-					<div className={styles.CertificationModal__detailItem}>
-						<span className={styles.CertificationModal__label}>Expires</span>
-						<span className={styles.CertificationModal__value}>
-							{formatDate(certification.expiryDate)}
-						</span>
+			<motion.dl className={styles.CertificationModal__specs} variants={item}>
+				{rows.map((row) => (
+					<div key={row.label} className={styles.CertificationModal__row}>
+						<dt>{row.label}</dt>
+						<dd>{row.value}</dd>
 					</div>
-				)}
-
+				))}
 				{certification.credentialId && (
-					<div className={styles.CertificationModal__detailItem}>
-						<span className={styles.CertificationModal__label}>
-							Credential ID
-						</span>
-						<span
-							className={`${styles.CertificationModal__value} ${styles['CertificationModal__value--code']}`}
-						>
-							{certification.credentialId}
-						</span>
+					<div className={styles.CertificationModal__row}>
+						<dt>Credential ID</dt>
+						<dd>
+							<button
+								type="button"
+								className={styles.CertificationModal__copy}
+								onClick={copyCredentialId}
+								aria-label={`Copy credential ID ${certification.credentialId}`}
+							>
+								<code>{certification.credentialId}</code>
+								<span aria-hidden="true">Copy</span>
+							</button>
+						</dd>
 					</div>
 				)}
-			</motion.div>
+			</motion.dl>
 
 			{certification.description && (
-				<motion.div
-					className={styles.CertificationModal__description}
-					variants={contentVariants}
-					initial="initial"
-					animate="animate"
-					custom={2}
+				<motion.section
+					className={styles.CertificationModal__block}
+					variants={item}
 				>
-					<span className={styles.CertificationModal__sectionLabel}>About</span>
-					<p>{certification.description}</p>
-				</motion.div>
+					<h3 className={styles.CertificationModal__label}>About</h3>
+					<p className={styles.CertificationModal__text}>
+						{certification.description}
+					</p>
+				</motion.section>
 			)}
 
 			{certification.skills && certification.skills.length > 0 && (
-				<motion.div
-					className={styles.CertificationModal__skills}
-					variants={contentVariants}
-					initial="initial"
-					animate="animate"
-					custom={3}
+				<motion.section
+					className={styles.CertificationModal__block}
+					variants={item}
 				>
-					<span className={styles.CertificationModal__sectionLabel}>
-						Skills
-					</span>
-					<TagContainer animated={false}>
+					<h3 className={styles.CertificationModal__label}>
+						Skills{' '}
+						<span>
+							({String(certification.skills.length).padStart(2, '0')})
+						</span>
+					</h3>
+					<ul className={styles.CertificationModal__skills}>
 						{certification.skills.map((skill) => (
-							<Tag
-								key={skill}
-								variant="secondary"
-								size="small"
-								animated={false}
-							>
-								{skill}
-							</Tag>
+							<li key={skill}>{skill}</li>
 						))}
-					</TagContainer>
-				</motion.div>
+					</ul>
+				</motion.section>
 			)}
 
 			{certification.certificateUrl && (
-				<motion.div
-					className={styles.CertificationModal__actions}
-					variants={contentVariants}
-					initial="initial"
-					animate="animate"
-					custom={4}
+				<motion.a
+					className={styles.CertificationModal__cta}
+					href={certification.certificateUrl}
+					target="_blank"
+					rel="noopener noreferrer"
+					variants={item}
 				>
-					<Button
-						text="View Certificate"
-						onClick={() => window.open(certification.certificateUrl, '_blank')}
-						variant="primary"
-					/>
-				</motion.div>
+					<span>View certificate</span>
+					<span
+						className={styles['CertificationModal__cta-arrow']}
+						aria-hidden="true"
+					>
+						↗
+					</span>
+					<span className={styles.srOnly}>(opens in a new tab)</span>
+				</motion.a>
 			)}
-		</div>
+		</motion.article>
 	);
 };
 

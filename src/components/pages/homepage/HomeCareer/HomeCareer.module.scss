@@ -1,312 +1,373 @@
 @use 'styles/shared/mixin' as *;
-@use 'styles/shared/variables' as *;
 
-$motion: 'screen and (prefers-reduced-motion: no-preference)';
-$story: 'screen and (min-width: 1024px) and (prefers-reduced-motion: no-preference)';
+// Shared by the column header and every row so the two stay aligned.
+$columns: minmax(0, 1.4fr) minmax(0, 2.2fr) minmax(0, 2.8fr) minmax(0, 1.4fr)
+	minmax(0, 2.6fr) rem(24);
 
 .HomeCareer {
-	background-color: $color-black;
-	@include section-padding;
-	position: relative;
-	z-index: 1;
+	width: 100%;
+	padding-block: var(--section-pad);
+	background-color: var(--bg);
+	color: var(--fg);
 
-	&__intro {
-		h2 {
-			mix-blend-mode: exclusion;
-			color: $color-grey-pale;
-			line-height: 92.5%;
-			max-width: 15ch;
-			position: relative;
-			z-index: 1;
-			font-size: $heading-size-section;
-			font-weight: 700;
-			text-wrap: balance;
-			letter-spacing: -0.025em;
-			text-transform: uppercase;
-		}
+	&__inner {
+		width: 100%;
+		max-width: var(--grid-max);
+		margin-inline: auto;
+		padding-inline: var(--grid-margin);
+	}
 
-		p {
-			font-weight: 500;
-			padding-left: 0.25rem;
-			text-wrap: balance;
-			max-width: 45ch;
-			font-size: 1.25rem;
-			line-height: 130%;
-			color: $color-grey-medium;
-			margin-top: 3rem;
-			@media #{$md} {
-				font-size: 1.5rem;
-			}
+	&__head {
+		display: grid;
+		grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+		column-gap: var(--grid-gutter);
+		row-gap: var(--space-4);
+		align-items: end;
+		margin-bottom: var(--space-8);
+		padding-top: var(--space-4);
+		border-top: 1px solid var(--line-strong);
+	}
+
+	&__label,
+	&__columns,
+	&__years,
+	&__location,
+	&__stack,
+	&__facts dt,
+	&__tags li {
+		font-family: var(--font-mono);
+		font-size: var(--step--1);
+		font-weight: 400;
+		letter-spacing: var(--tracking-mono);
+		text-transform: uppercase;
+	}
+
+	&__label {
+		grid-column: 1 / -1;
+		align-self: start;
+		margin: 0;
+		color: var(--muted);
+
+		@media #{$md} {
+			grid-column: span 3;
 		}
 	}
 
-	&__stage {
-		margin-top: 4rem;
+	&__title {
+		grid-column: 1 / -1;
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: var(--step-5);
+		font-weight: 500;
+		line-height: var(--leading-tight);
+		letter-spacing: var(--tracking-display);
+
+		@media #{$md} {
+			grid-column: span 9;
+		}
+
+		@media #{$lg} {
+			grid-column: span 5;
+		}
 	}
 
-	&__meta,
-	&__rail,
-	&__stepper {
+	&__aside {
+		grid-column: 1 / -1;
+		display: grid;
+		gap: var(--space-3);
+
+		@media #{$md} {
+			grid-column: 4 / -1;
+		}
+
+		@media #{$lg} {
+			grid-column: span 4;
+		}
+
+		.HomeCareer__label {
+			grid-column: auto;
+		}
+	}
+
+	&__lede {
+		margin: 0;
+		max-width: 46ch;
+		font-size: var(--step-0);
+		line-height: var(--leading-body);
+		color: var(--fg-subtle);
+	}
+
+	&__columns {
 		display: none;
-	}
 
-	&__cards {
-		position: relative;
-		display: flex;
-		flex-direction: column;
-		gap: 4.5rem;
-		padding-left: 2.25rem;
-
-		&::before {
-			content: '';
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			left: 0;
-			width: 2px;
-			border-radius: 1px;
-			background: $color-border;
-		}
-	}
-
-	&__cardYear {
-		display: block;
-		position: relative;
-		font-size: 2rem;
-		font-weight: 700;
-		letter-spacing: -0.02em;
-		color: $color-grey-pale;
-		margin-bottom: 1.25rem;
-
-		&::before {
-			content: '';
-			position: absolute;
-			left: calc(-2.25rem + 1px);
-			top: 50%;
-			transform: translate(-50%, -50%);
-			width: rem(11);
-			height: rem(11);
-			border-radius: 50%;
-			background: $color-accent;
-			border: 2px solid $color-black;
-			box-shadow: 0 0 0 3px
-				color-mix(in srgb, #{$color-accent} 20%, transparent);
-		}
-	}
-
-	@media #{$motion} {
-		&__stage {
-			display: flex;
-			flex-direction: column;
-			gap: 1.25rem;
-			height: 100vh;
-			height: 100svh;
-			padding: 1.25rem 0 1.5rem;
-			min-height: 0;
-			margin-top: 2.5rem;
-		}
-
-		&__meta {
+		@media #{$lg} {
 			display: grid;
-			grid-template-areas:
-				'year counter'
-				'company company';
-			grid-template-columns: 1fr auto;
-			align-items: baseline;
-			gap: 0.25rem 1rem;
+			grid-template-columns: $columns;
+			column-gap: var(--grid-gutter);
+			padding-bottom: var(--space-3);
+			color: var(--muted);
 		}
+	}
 
-		&__counter {
-			grid-area: counter;
-			font-size: 0.875rem;
-			font-weight: 500;
-			letter-spacing: 0.12em;
-			color: $color-grey-pale;
-		}
+	&__table {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		border-bottom: 1px solid var(--line-strong);
+	}
 
-		&__counterTotal {
-			color: $color-grey-medium;
-		}
+	&__row {
+		position: relative;
 
-		&__year {
-			grid-area: year;
-			display: flex;
-			font-size: clamp(2.75rem, 9vw, 4rem);
-			font-weight: 700;
-			line-height: 1;
-			letter-spacing: -0.03em;
-			color: $color-grey-pale;
-			font-variant-numeric: tabular-nums;
-		}
-
-		&__yearDigit {
-			display: inline-grid;
-			overflow: hidden;
-
-			span {
-				grid-area: 1 / 1;
-				display: block;
-			}
-		}
-
-		&__company {
-			grid-area: company;
-			font-size: 1rem;
-			font-weight: 500;
-			color: $color-grey-medium;
-		}
-
-		&__stepper {
-			display: block;
-			position: relative;
-			height: 2px;
-			border-radius: 1px;
-			background: $color-border;
-			margin: 0.5rem rem(7) 0.75rem;
-		}
-
-		&__stepperFill {
+		&::before {
+			content: '';
 			position: absolute;
-			inset: 0;
-			border-radius: 1px;
-			background: $color-accent;
-			transform: scaleX(0);
+			inset: 0 0 auto;
+			height: 1px;
+			background-color: var(--line-strong);
 			transform-origin: left center;
 		}
+	}
 
-		&__node {
-			position: absolute;
-			transform: translate(-50%, -50%);
-			width: rem(13);
-			height: rem(13);
-			border-radius: 50%;
-			background: $color-black;
-			border: 2px solid $color-grey-medium;
-			transition:
-				background 0.3s ease,
-				border-color 0.3s ease,
-				box-shadow 0.3s ease;
+	&__rowHeading {
+		margin: 0;
+		font: inherit;
+	}
 
-			&--passed {
-				background: $color-accent;
-				border-color: $color-accent;
-			}
+	&__trigger {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) rem(24);
+		grid-template-areas:
+			'years toggle'
+			'company toggle'
+			'role toggle'
+			'location toggle';
+		column-gap: var(--grid-gutter);
+		row-gap: var(--space-1);
+		align-items: baseline;
+		width: 100%;
+		padding-block: var(--space-5);
+		padding-inline: 0;
+		border: 0;
+		background: none;
+		color: inherit;
+		font: inherit;
+		text-align: left;
+		cursor: pointer;
 
-			&--active {
-				box-shadow: 0 0 0 rem(6)
-					color-mix(in srgb, #{$color-accent} 18%, transparent);
-			}
+		@media #{$lg} {
+			grid-template-columns: $columns;
+			grid-template-areas: 'years company role location stack toggle';
+			row-gap: 0;
+			padding-block: var(--space-5);
 		}
 
-		&__cards {
-			display: grid;
-			gap: 0;
-			padding-left: 0;
-			flex: 1;
-			min-height: 0;
-			overflow: hidden;
-
-			&::before {
-				content: none;
-			}
-		}
-
-		&__card {
-			grid-area: 1 / 1;
-			will-change: transform, opacity;
-
-			&:not(:first-child) {
-				opacity: 0;
-				visibility: hidden;
-			}
-		}
-
-		&__cardYear {
-			display: none;
+		&:focus-visible {
+			@include focus-ring(2px);
 		}
 	}
 
-	@media #{$story} {
-		&__pin {
-			display: flex;
-			flex-direction: column;
-			height: 100vh;
-			padding: 2rem 0 2.5rem;
-			gap: 1.5rem;
-		}
+	&__years {
+		grid-area: years;
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-2);
+		color: var(--muted);
+		font-variant-numeric: tabular-nums;
+	}
 
-		&__intro {
-			p {
-				margin-top: 1.25rem;
-			}
-		}
+	&__live {
+		width: rem(6);
+		height: rem(6);
+		border-radius: var(--radius-pill);
+		background-color: var(--accent);
+	}
 
-		&__stage {
-			display: grid;
-			grid-template-columns: minmax(0, 0.85fr) rem(120) minmax(0, 1.35fr);
-			grid-template-rows: minmax(0, 1fr);
-			gap: 3rem;
-			align-items: center;
-			flex: 1;
-			height: auto;
-			padding: 0;
-			margin-top: 0;
-		}
+	&__company {
+		grid-area: company;
+		font-family: var(--font-display);
+		font-size: var(--step-2);
+		font-weight: 500;
+		line-height: var(--leading-snug);
+		letter-spacing: -0.015em;
+		transition: transform var(--dur-1) var(--ease);
+	}
 
-		&__meta {
-			display: flex;
-			flex-direction: column;
-			gap: 1.25rem;
-		}
+	&__role {
+		grid-area: role;
+		font-size: var(--step-0);
+		line-height: var(--leading-snug);
+		color: var(--fg-subtle);
+	}
 
-		&__counter {
-			font-size: 0.9375rem;
-		}
+	&__location {
+		grid-area: location;
+		color: var(--muted);
+	}
 
-		&__year {
-			font-size: clamp(4rem, 6.5vw, 7rem);
-		}
+	&__stack {
+		display: none;
 
-		&__company {
-			font-size: 1.125rem;
-		}
-
-		&__stepper {
-			display: none;
-		}
-
-		&__rail {
+		@media #{$lg} {
 			display: block;
-			position: relative;
-			align-self: stretch;
+			grid-area: stack;
+			overflow: hidden;
+			color: var(--muted);
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+	}
 
-			svg {
-				width: 100%;
-				height: 100%;
-				overflow: visible;
+	&__toggle {
+		grid-area: toggle;
+		position: relative;
+		align-self: center;
+		justify-self: end;
+		width: rem(16);
+		height: rem(16);
+
+		&::before,
+		&::after {
+			content: '';
+			position: absolute;
+			top: 50%;
+			left: 0;
+			width: 100%;
+			height: 1px;
+			background-color: currentcolor;
+			transition: transform var(--dur-1) var(--ease);
+		}
+
+		&::after {
+			transform: rotate(90deg);
+		}
+	}
+
+	&__row--open &__toggle::after {
+		transform: rotate(0deg);
+	}
+
+	&__row--open &__years,
+	&__row--open &__toggle {
+		color: var(--accent-text);
+	}
+
+	@media (hover: hover) {
+		&__trigger:hover &__company {
+			transform: translateX(var(--space-2));
+		}
+
+		&__trigger:hover &__toggle {
+			color: var(--accent-text);
+		}
+	}
+
+	&__panel {
+		overflow: hidden;
+	}
+
+	&__details {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		row-gap: var(--space-5);
+		padding-bottom: var(--space-7);
+
+		@media #{$lg} {
+			grid-template-columns: $columns;
+			column-gap: var(--grid-gutter);
+		}
+	}
+
+	&__facts {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-4) var(--space-6);
+		margin: 0;
+
+		@media #{$lg} {
+			grid-column: 1 / span 2;
+			flex-direction: column;
+			gap: var(--space-4);
+		}
+
+		dt {
+			color: var(--muted);
+		}
+
+		dd {
+			margin: var(--space-1) 0 0;
+			font-size: var(--step-0);
+		}
+	}
+
+	&__description {
+		max-width: 62ch;
+		font-size: var(--step-0);
+		line-height: var(--leading-body);
+		color: var(--fg-subtle);
+
+		@media #{$lg} {
+			grid-column: 3 / span 2;
+		}
+
+		p,
+		ul,
+		ol {
+			margin: 0 0 var(--space-3);
+		}
+
+		ul,
+		ol {
+			padding-left: var(--space-5);
+		}
+
+		li + li {
+			margin-top: var(--space-2);
+		}
+
+		a {
+			color: var(--accent-text);
+		}
+	}
+
+	&__tags {
+		display: flex;
+		flex-wrap: wrap;
+		align-content: start;
+		gap: var(--space-2);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+
+		@media #{$lg} {
+			grid-column: 5 / span 2;
+		}
+
+		li {
+			padding: var(--space-1) var(--space-2);
+			border: 1px solid var(--line-strong);
+			border-radius: var(--radius-pill);
+			color: var(--fg-subtle);
+		}
+	}
+
+	@supports (animation-timeline: view()) {
+		@media (prefers-reduced-motion: no-preference) {
+			&__row::before {
+				animation: career-hairline linear both;
+				animation-timeline: view();
+				animation-range: entry 10% cover 30%;
 			}
 		}
+	}
+}
 
-		&__railTrack,
-		&__railProgress {
-			fill: none;
-			stroke-linecap: round;
-		}
+@keyframes career-hairline {
+	from {
+		transform: scaleX(0);
+	}
 
-		&__railTrack {
-			stroke: $color-border;
-			stroke-width: 1;
-		}
-
-		&__railProgress {
-			stroke: $color-accent;
-			stroke-width: 2;
-			opacity: 0;
-		}
-
-		&__cards {
-			align-self: center;
-			max-height: 100%;
-		}
+	to {
+		transform: scaleX(1);
 	}
 }
