@@ -231,6 +231,65 @@ export const createClient = (environment: string) => {
 		throw new Error(`Asset ${id} did not finish processing`);
 	};
 
+	const getAsset = async (id: string): Promise<Asset | undefined> => {
+		try {
+			return await request<Asset>(`/assets/${id}`);
+		} catch (error) {
+			if (String(error).includes('→ 404')) return undefined;
+			throw error;
+		}
+	};
+
+	/**
+	 * Create the asset with this id, or replace its file, title and
+	 * description; process it and leave it as a draft.
+	 */
+	const putAssetFile = async (
+		id: string,
+		bytes: Uint8Array,
+		file: { fileName: string; contentType: string },
+		meta: { title: string; description: string }
+	): Promise<Asset> => {
+		const upload = await request<{ sys: { id: string } }>(
+			`${UPLOAD}/spaces/${space}/uploads`,
+			{
+				method: 'POST',
+				headers: { 'Content-Type': 'application/octet-stream' },
+				body: new Uint8Array(bytes),
+			}
+		);
+		const current = await getAsset(id);
+		const saved = await request<Asset>(`/assets/${id}`, {
+			method: 'PUT',
+			version: current?.sys.version,
+			body: JSON.stringify({
+				fields: {
+					title: { [LOCALE]: meta.title },
+					description: { [LOCALE]: meta.description },
+					file: {
+						[LOCALE]: {
+							...file,
+							uploadFrom: { sys: link(upload.sys.id, 'Upload').sys },
+						},
+					},
+				},
+			}),
+		});
+		await request(`/assets/${id}/files/${LOCALE}/process`, {
+			method: 'PUT',
+			version: saved.sys.version,
+		});
+		for (let attempt = 0; attempt < 30; attempt++) {
+			await sleep(1000);
+			const asset = await request<Asset>(`/assets/${id}`);
+			const url = asset.fields.file?.[LOCALE].url;
+			if (url && asset.fields.file?.[LOCALE].fileName === file.fileName) {
+				return asset;
+			}
+		}
+		throw new Error(`Asset ${id} did not finish processing`);
+	};
+
 	return {
 		environment,
 		request,
@@ -240,7 +299,9 @@ export const createClient = (environment: string) => {
 		tagEntry,
 		deleteEntry,
 		getAssets,
+		getAsset,
 		ensureAsset,
+		putAssetFile,
 	};
 };
 

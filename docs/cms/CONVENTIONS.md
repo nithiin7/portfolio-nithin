@@ -8,9 +8,9 @@ The standard every content type, entry and asset in space `3tceq0itz5kj` follows
 
 ## 1. Ground rules
 
-1. **Schema changes only through migrations.** Each change is a numbered script in `contentful/migrations/` (`001_shared-blocks.cjs`, `002_portfolio-project.cjs`, …) run with `contentful-migration`. Migrations expand only (§4); the contract migration runs at launch. No hand edits in the web app or through MCP, so the same scripts can be replayed on any environment.
+1. **Schema changes only through migrations.** Each change is a numbered script in `contentful/migrations/` (`001_shared-blocks.cjs`, `002_portfolio-project.cjs`, …) run with `contentful-migration`. Migrations expand first; a later contract migration removes what nothing reads any more (phase 14 ran 011–012). No hand edits in the web app or through MCP, so the same scripts can be replayed on any environment.
 2. **Content edits are drafts first.** Editing happens in the web app or through MCP. Run `pnpm cms:check` before publishing.
-3. **Never delete.** A replaced entry, asset or content type gets the `deprecated` tag (§7) and is left unpublished. Content types are only removed once nothing links to them, and only on your say-so.
+3. **Never delete.** A replaced entry, asset or content type gets the `deprecated` tag (§7) and is left unpublished. It is only deleted once nothing links to it, and only on your say-so (the phase 14 contract did this with a backup first).
 4. **One locale:** `en-US`. Every field has `localized: false` until you decide otherwise.
 5. **Public information only.** Describe the domain ("banking clients", "a regulated bank"), not client names, internal system names, or figures that aren't already public.
 
@@ -153,7 +153,7 @@ Contracted on 2026-11-13 (migrations 011–012, with the user's OK, before launc
 | Certification logo  | `cert-databricks--logo.svg`                                                   |
 | OG image            | `seo-orbit-assistant--og.png`                                                 |
 
-The plate pipeline already writes `<slug>--<name>-<surface>.png`. It gains the `project-` prefix and switches `plates:upload` from matching on asset **title** to matching on **file name**, so titles can be plain English.
+The plate pipeline writes `project-<slug>--<name>[-<surface>].png`, and `plates:upload` uses the file stem as the asset ID, so asset titles can be plain English.
 
 ### Title and description
 
@@ -181,12 +181,12 @@ Fixed sizes become `assetImageDimensions` validations on the link fields. `cms:c
 
 Contentful has no asset folders, so **tags** do the grouping. All tags are private, which means they aren't exposed in the delivery API.
 
-| Tag           | Meaning                                                                  |
-| ------------- | ------------------------------------------------------------------------ |
-| `deprecated`  | Replaced. Kept for rollback, don't link to it. Listed in DEPRECATED.md   |
-| `retired`     | A real project or post that's no longer shown (the 7 old project drafts) |
-| `needsReview` | Content drafted by Claude or a script, waiting for your read             |
-| `plate`       | Asset produced by the plate pipeline. Re-make, don't hand-edit           |
+| Tag           | Meaning                                                                         |
+| ------------- | ------------------------------------------------------------------------------- |
+| `deprecated`  | Replaced. Kept for rollback, don't link to it. `cms:check` fails on links to it |
+| `retired`     | A real project or post that's no longer shown (the 7 old project drafts)        |
+| `needsReview` | Content drafted by Claude or a script, waiting for your read                    |
+| `plate`       | Asset produced by the plate pipeline. Re-make, don't hand-edit                  |
 
 Find assets by file-name prefix (`project-orbit-assistant--`), which the naming scheme makes reliable.
 
@@ -197,7 +197,7 @@ Find assets by file-name prefix (`project-orbit-assistant--`), which the naming 
 - Every type's field order follows the page: identity (internalName, title, slug) → summary → body → media → links → relations → SEO.
 - Dropdowns for every enum, slug editors tracking the title, URL editors for links, date-only pickers, and radio buttons for booleans.
 - Help text on every field. Content type descriptions say where the content appears.
-- Preview: a content preview URL per type (`/portfolio/{slug}`, `/blog/{slug}`) once the site supports draft mode (step 5).
+- Preview: drafts are checked with a preview build (`CONTENTFUL_PREVIEW=true pnpm build`, see HOW_TO_ADD.md). Per-entry preview URLs need Next.js draft mode, which isn't built yet.
 
 ---
 
@@ -249,9 +249,9 @@ Find assets by file-name prefix (`project-orbit-assistant--`), which the naming 
 
 ## 10. Workflow
 
-1. **Schema:** write `contentful/migrations/NNN_<what>.cjs` → dry run with `pnpm cms:migrate NNN --dry-run` → run on the working environment → update queries, converters and types in the same PR → `pnpm build`.
+1. **Schema:** write `contentful/migrations/NNN_<what>.cjs` → `pnpm cms:migrate --env <id>` to list pending → `--apply` → update queries, converters and types in the same PR → `pnpm build`.
 2. **Content:** draft → `pnpm cms:check` → preview → publish. Copy rewrites go through `COPY_REVIEW.md` first.
-3. **Images:** plate pipeline → `/dev/plates` crop check → `plates:upload` (drafts) → alt text check → publish.
+3. **Images:** plate pipeline → `/dev/plates` crop check → `plates:upload --env <id> --apply` (drafts) → `cms:check` → `cms:publish`.
 
 ---
 
