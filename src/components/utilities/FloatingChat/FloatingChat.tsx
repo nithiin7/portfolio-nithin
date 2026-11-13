@@ -28,6 +28,14 @@ const windowVariants: Variants = {
 	},
 };
 
+// Within this distance of the page end the launcher would cover the footer's
+// back-to-top button, so it steps aside.
+const BOTTOM_THRESHOLD_PX = 120;
+
+const isNearPageBottom = (): boolean =>
+	window.innerHeight + window.scrollY >=
+	document.documentElement.scrollHeight - BOTTOM_THRESHOLD_PX;
+
 const ChatIcon = () => (
 	<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
 		<path
@@ -53,6 +61,7 @@ const CloseIcon = () => (
 const FloatingChat: FC<FloatingChatProps> = ({ chatbotUrl }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isLoaded, setIsLoaded] = useState(false);
+	const [atBottom, setAtBottom] = useState(false);
 	const launcherRef = useRef<HTMLButtonElement>(null);
 	const closeRef = useRef<HTMLButtonElement>(null);
 	const panelId = useId();
@@ -76,9 +85,26 @@ const FloatingChat: FC<FloatingChatProps> = ({ chatbotUrl }) => {
 		return () => window.removeEventListener('keydown', handleKeyDown);
 	}, [isOpen, close]);
 
+	useEffect(() => {
+		const update = () => setAtBottom(isNearPageBottom());
+		update();
+		window.addEventListener('scroll', update, { passive: true });
+		window.addEventListener('resize', update);
+		return () => {
+			window.removeEventListener('scroll', update);
+			window.removeEventListener('resize', update);
+		};
+	}, []);
+
+	const isHidden = atBottom && !isOpen;
+
 	return (
 		<>
-			<div className={styles.FloatingChat}>
+			<div
+				className={`${styles.FloatingChat} ${
+					isHidden ? styles['FloatingChat--hidden'] : ''
+				}`}
+			>
 				<button
 					ref={launcherRef}
 					type="button"

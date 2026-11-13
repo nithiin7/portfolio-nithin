@@ -1,6 +1,12 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import {
+	act,
+	fireEvent,
+	render,
+	screen,
+	waitFor,
+} from '@testing-library/react';
 import { MotionGlobalConfig } from 'motion/react';
-import { beforeAll, describe, expect, it } from 'vitest';
+import { afterEach, beforeAll, describe, expect, it } from 'vitest';
 
 import FloatingChat from './FloatingChat';
 
@@ -72,5 +78,52 @@ describe('FloatingChat', () => {
 		await waitFor(() =>
 			expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
 		);
+	});
+
+	describe('at the bottom of the page', () => {
+		const scrollTo = (scrollY: number) => {
+			Object.defineProperty(document.documentElement, 'scrollHeight', {
+				configurable: true,
+				value: 3000,
+			});
+			Object.defineProperty(window, 'innerHeight', {
+				configurable: true,
+				value: 800,
+			});
+			Object.defineProperty(window, 'scrollY', {
+				configurable: true,
+				value: scrollY,
+			});
+			act(() => {
+				window.dispatchEvent(new Event('scroll'));
+			});
+		};
+		const wrapper = () => launcher().parentElement as HTMLElement;
+
+		afterEach(() => scrollTo(0));
+
+		it('hides the launcher near the end and shows it again above', () => {
+			render(<FloatingChat chatbotUrl={URL} />);
+			scrollTo(0);
+			expect(wrapper().className).not.toMatch(/--hidden/);
+
+			scrollTo(2200);
+			expect(wrapper().className).toMatch(/--hidden/);
+
+			scrollTo(1500);
+			expect(wrapper().className).not.toMatch(/--hidden/);
+		});
+
+		it('keeps the launcher while the chat is open', () => {
+			render(<FloatingChat chatbotUrl={URL} />);
+			fireEvent.click(launcher());
+
+			scrollTo(2200);
+
+			expect(
+				screen.getAllByRole('button', { name: 'Close chat' })[0]?.parentElement
+					?.className
+			).not.toMatch(/--hidden/);
+		});
 	});
 });
