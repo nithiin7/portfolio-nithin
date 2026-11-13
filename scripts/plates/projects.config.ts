@@ -9,9 +9,8 @@ const NEXT_DEV_BADGE = { bottom: 64 };
 
 export default defineProjects([
 	{
-		// No PortfolioDetails entry yet; the slug is the one to give it.
 		// Imported from the repo's docs/screenshots (2560 px wide, @2x).
-		slug: 'orbit-assistant',
+		slug: 'orbit',
 		surface: ['ink', 'paper'],
 		grid: true,
 		screens: [
@@ -29,7 +28,7 @@ export default defineProjects([
 	},
 	{
 		// Imported: the existing 3024×17xx retina gallery screenshots.
-		slug: 'persona-ai-resume-builder',
+		slug: 'persona',
 		surface: ['ink', 'paper'],
 		grid: true,
 		screens: [
@@ -93,13 +92,13 @@ export default defineProjects([
 					'  credentials:     env only    # never in tool calls',
 				].join('\n'),
 				use: ['gallery'],
-				alt: 'Code excerpt listing the server’s tools (list, read, glob search, metadata) and security settings: SMB signing enforced, path traversal blocked, sensitive files denied, JSON audit log.',
+				alt: 'Code listing the server’s tools (list, read, search, metadata) and its safeguards: SMB signing, traversal blocking, denied files, audit log.',
 			},
 		],
 	},
 	{
 		// Imported from the existing gallery (@2x).
-		slug: 'repochat-codebase-intelligence',
+		slug: 'repochat',
 		surface: ['ink', 'paper'],
 		grid: true,
 		screens: [{ name: 'gallery-1', device: 'desktop', trim: NEXT_DEV_BADGE }],
@@ -114,7 +113,7 @@ export default defineProjects([
 	},
 	{
 		// Imported from the existing gallery (@2x).
-		slug: 'portfolio-plate-ai',
+		slug: 'plateai',
 		surface: ['ink', 'paper'],
 		grid: true,
 		screens: [{ name: 'gallery-1', device: 'desktop', trim: NEXT_DEV_BADGE }],
@@ -129,7 +128,7 @@ export default defineProjects([
 	},
 	{
 		// The only screenshot is an empty chat, so the cover states what it does.
-		slug: 'lang2query-agent',
+		slug: 'lang2query',
 		surface: ['ink', 'paper'],
 		grid: true,
 		plates: [
@@ -145,7 +144,7 @@ export default defineProjects([
 	},
 	{
 		// No screenshots in the repo; facts from its README.
-		slug: 'stock-market-trader',
+		slug: 'tradeit',
 		surface: ['ink', 'paper'],
 		grid: true,
 		plates: [

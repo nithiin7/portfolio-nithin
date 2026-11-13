@@ -82,7 +82,7 @@ const Quote: FC<{ item: Testimonial }> = ({ item }) => (
 			<span className={styles.HomeTestimonial__meta}>
 				<cite className={styles.HomeTestimonial__name}>{item.reviewer}</cite>
 				<span className={styles.HomeTestimonial__institution}>
-					{item.institution}
+					{[item.role, item.organisation].filter(Boolean).join(', ')}
 				</span>
 			</span>
 		</figcaption>

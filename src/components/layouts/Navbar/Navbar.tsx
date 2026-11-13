@@ -6,8 +6,8 @@ import type { MouseEvent, ReactElement } from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import Menu from 'components/layouts/Menu/Menu';
-import { siteConfig } from 'config/site';
 import { navLinks } from 'constants/index';
+import { useSiteSettings } from 'contexts/SiteSettingsContext';
 import { handleScroll } from 'helpers/scroll';
 import { useScrollDirection } from 'hooks/useScrollDirection';
 
@@ -25,6 +25,7 @@ const isActive = (pathname: string, href: string): boolean =>
  * full-screen Menu overlay (the only nav on small screens).
  */
 const Navbar = ({ className = '' }: NavbarProps): ReactElement => {
+	const { name } = useSiteSettings();
 	const pathname = usePathname();
 	const lenis = useLenis();
 	const { isVisible, isAtTop } = useScrollDirection();
@@ -62,7 +63,7 @@ const Navbar = ({ className = '' }: NavbarProps): ReactElement => {
 					<Link
 						href="/"
 						className={styles.Navbar__logo}
-						aria-label={`NP — ${siteConfig.name}, home`}
+						aria-label={`NP — ${name}, home`}
 					>
 						NP
 						<span className={styles.Navbar__dot} aria-hidden="true" />

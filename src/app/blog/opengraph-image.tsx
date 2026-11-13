@@ -1,9 +1,8 @@
 import type { ImageResponse } from 'next/og';
 
-import { siteConfig } from 'config/site';
 import { ogContentType, ogSize, renderOgCard } from 'helpers/og';
 
-export const alt = `Writing — ${siteConfig.name}`;
+export const alt = 'Writing social card';
 export const size = ogSize;
 export const contentType = ogContentType;
 

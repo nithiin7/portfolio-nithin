@@ -113,7 +113,7 @@ export const plateName = (
 	plate: PlateSpec,
 	variant?: Surface
 ): string =>
-	`${slug}--${plate.name ?? plate.template}${variant ? `-${variant}` : ''}`;
+	`project-${slug}--${plate.name ?? plate.template}${variant ? `-${variant}` : ''}`;
 
 export { MASTER };
 export const SAFE = safeZone();

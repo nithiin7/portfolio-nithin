@@ -19,7 +19,7 @@ import type {
 	CaseStudyNext,
 	CaseStudySection,
 } from 'types/caseStudy';
-import type { PortfolioDetails as PortfolioDetailsData } from 'types/contentful';
+import type { RawProject as PortfolioDetailsData } from 'types/contentful';
 
 import styles from './PortfolioDetails.module.scss';
 
@@ -131,12 +131,14 @@ const SectionBody: FC<SectionBodyProps> = ({
 		{section.key === 'gallery' && (
 			<PortfolioGallery
 				projectTitle={project.title}
-				images={(project.galleryCollection?.items ?? []).map((item, i) => ({
-					// Contentful galleries can repeat an asset
-					id: `${i}-${item.url}`,
-					url: item.url,
-					alt: item.description ?? '',
-				}))}
+				images={(project.galleryCollection?.items ?? [])
+					.filter((item) => item != null)
+					.map((item, i) => ({
+						// Contentful galleries can repeat an asset
+						id: `${i}-${item.url}`,
+						url: item.url,
+						alt: item.description ?? '',
+					}))}
 			/>
 		)}
 	</>
@@ -229,7 +231,7 @@ const PortfolioDetails: FC<PortfolioDetailsProps> = ({
 							data-wide={!project.role || undefined}
 						>
 							<dt>Stack</dt>
-							<dd>{project.tech.join(', ')}</dd>
+							<dd>{project.tech?.join(', ')}</dd>
 						</div>
 					)}
 					{links.length > 0 && (

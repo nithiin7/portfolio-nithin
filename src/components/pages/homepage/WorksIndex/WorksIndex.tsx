@@ -132,7 +132,7 @@ const WorksIndex: FC<WorksIndexProps> = ({
 								ref={(el) => {
 									links.current[index] = el;
 								}}
-								href={portfolioHref(project, position)}
+								href={portfolioHref(project)}
 								className={styles.WorksIndex__row}
 								tabIndex={index === tabStop ? 0 : -1}
 								onKeyDown={(e) => handleKeyDown(e, index)}

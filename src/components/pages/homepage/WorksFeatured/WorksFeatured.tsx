@@ -42,7 +42,7 @@ const FeaturedCard: FC<FeaturedCardProps> = ({
 			data-lead={index === 0}
 		>
 			<Link
-				href={portfolioHref(project, index)}
+				href={portfolioHref(project)}
 				className={styles.WorksFeatured__card}
 			>
 				<div ref={playRef} className={styles.WorksFeatured__frame}>

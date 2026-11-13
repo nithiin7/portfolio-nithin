@@ -59,3 +59,7 @@ tsconfig.tsbuildinfo
 # reviewed samples are copied to docs/redesign/plates/
 /scripts/plates/raw/
 /scripts/plates/out/
+
+# Contentful exports (phase 14)
+backups/
+errors-*.log

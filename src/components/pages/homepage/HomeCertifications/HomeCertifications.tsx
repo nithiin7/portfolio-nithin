@@ -10,7 +10,8 @@ import {
 
 import RevealText from 'components/motion/RevealText/RevealText';
 import Modal from 'components/utilities/Modal/Modal';
-import { siteConfig } from 'config/site';
+import { socialUrl } from 'config/site';
+import { useSiteSettings } from 'contexts/SiteSettingsContext';
 import { duration, ease } from 'styles/tokens';
 import type { Certification } from 'types/certification';
 
@@ -47,6 +48,7 @@ const HomeCertifications: FC<HomeCertificationsProps> = ({
 	data,
 	certifications = [],
 }): ReactElement | null => {
+	const credlyUrl = socialUrl(useSiteSettings(), 'credly');
 	const [selected, setSelected] = useState<Certification | null>(null);
 	const [hovered, setHovered] = useState<Certification | null>(null);
 
@@ -80,18 +82,20 @@ const HomeCertifications: FC<HomeCertificationsProps> = ({
 									{data.subtitle}
 								</p>
 							)}
-							<a
-								className={styles.HomeCertifications__link}
-								href={siteConfig.socials.credly}
-								target="_blank"
-								rel="noopener noreferrer"
-							>
-								Verify on Credly
-								<span aria-hidden="true"> ↗</span>
-								<span className={styles.HomeCertifications__srOnly}>
-									(opens in a new tab)
-								</span>
-							</a>
+							{credlyUrl && (
+								<a
+									className={styles.HomeCertifications__link}
+									href={credlyUrl}
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									Verify on Credly
+									<span aria-hidden="true"> ↗</span>
+									<span className={styles.HomeCertifications__srOnly}>
+										(opens in a new tab)
+									</span>
+								</a>
+							)}
 						</div>
 					</header>
 

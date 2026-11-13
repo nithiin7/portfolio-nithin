@@ -1,42 +1,21 @@
 import type { FC, ReactElement } from 'react';
 
 import RevealText from 'components/motion/RevealText/RevealText';
-import type { ServiceHeader, ServiceItem } from 'types/service';
+import type { Capability } from 'types/home';
 
 import styles from './HomeCapabilities.module.scss';
 
 interface HomeCapabilitiesProps {
 	className?: string;
-	data?: Partial<ServiceHeader>;
-	services?: ServiceItem[];
+	data?: { title?: string; subTitle?: string };
+	capabilities?: Capability[];
 }
-
-interface Capability {
-	title: string;
-	description: string;
-	list: string[];
-}
-
-const toCapabilities = (services: ServiceItem[]): Capability[] =>
-	services.flatMap((item) => {
-		if (item.__typename !== 'Section') return [];
-		const [heading, list] = item.contentsCollection.items;
-		if (!heading?.title) return [];
-		return [
-			{
-				title: heading.title,
-				description: heading.subTitle ?? '',
-				list: list?.list ?? [],
-			},
-		];
-	});
 
 const HomeCapabilities: FC<HomeCapabilitiesProps> = ({
 	className = '',
 	data,
-	services = [],
+	capabilities = [],
 }): ReactElement | null => {
-	const capabilities = toCapabilities(services);
 	if (capabilities.length === 0) return null;
 
 	return (
@@ -56,25 +35,27 @@ const HomeCapabilities: FC<HomeCapabilitiesProps> = ({
 				</header>
 
 				<ol className={styles.HomeCapabilities__grid}>
-					{capabilities.map(({ title, description, list }, i) => (
-						<li key={title} className={styles.HomeCapabilities__col}>
-							<span
-								className={styles.HomeCapabilities__index}
-								aria-hidden="true"
-							>
-								{String(i + 1).padStart(2, '0')}
-							</span>
-							<h3 className={styles.HomeCapabilities__name}>{title}</h3>
-							<p className={styles.HomeCapabilities__desc}>{description}</p>
-							{list.length > 0 && (
-								<ul className={styles.HomeCapabilities__list}>
-									{list.map((entry) => (
-										<li key={entry}>{entry}</li>
-									))}
-								</ul>
-							)}
-						</li>
-					))}
+					{capabilities.map(
+						({ title, summary: description, items: list }, i) => (
+							<li key={title} className={styles.HomeCapabilities__col}>
+								<span
+									className={styles.HomeCapabilities__index}
+									aria-hidden="true"
+								>
+									{String(i + 1).padStart(2, '0')}
+								</span>
+								<h3 className={styles.HomeCapabilities__name}>{title}</h3>
+								<p className={styles.HomeCapabilities__desc}>{description}</p>
+								{list.length > 0 && (
+									<ul className={styles.HomeCapabilities__list}>
+										{list.map((entry) => (
+											<li key={entry}>{entry}</li>
+										))}
+									</ul>
+								)}
+							</li>
+						)
+					)}
 				</ol>
 			</div>
 		</section>

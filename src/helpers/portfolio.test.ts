@@ -14,6 +14,7 @@ const item = (
 	extra: Partial<PortfolioItem> = {}
 ): PortfolioItem => ({
 	id,
+	slug: `project-${id}`,
 	title: `Project ${id}`,
 	image: { url: `https://images.ctfassets.net/space/${id}/img.png` },
 	...extra,
@@ -34,31 +35,21 @@ describe('contentfulBlurSrc', () => {
 });
 
 describe('enrichPortfolio', () => {
-	it('fills summary from details and attaches blur placeholders', async () => {
+	it('attaches blur placeholders for both covers', async () => {
 		const getBlur = vi.fn(async (url: string) => `blur:${url}`);
-		const [a, b] = await enrichPortfolio(
-			[item(1), item(2, { summary: 'Own summary' })],
-			new Map([
-				[1, 'From details'],
-				[2, 'Ignored'],
-			]),
+		const [a] = await enrichPortfolio(
+			[item(1, { imageDark: { url: 'https://images.ctfassets.net/d.png' } })],
 			getBlur
 		);
 
-		expect(a.summary).toBe('From details');
-		expect(b.summary).toBe('Own summary');
 		expect(a.blurDataURL).toBe(`blur:${item(1).image.url}`);
+		expect(a.blurDataURLDark).toBe('blur:https://images.ctfassets.net/d.png');
 		expect(getBlur).toHaveBeenCalledTimes(2);
 	});
 
 	it('leaves blur empty when the fetch fails', async () => {
-		const [a] = await enrichPortfolio(
-			[item(1)],
-			new Map(),
-			async () => undefined
-		);
+		const [a] = await enrichPortfolio([item(1)], async () => undefined);
 		expect(a.blurDataURL).toBeUndefined();
-		expect(a.summary).toBeUndefined();
 	});
 });
 
@@ -78,10 +69,7 @@ describe('splitFeatured', () => {
 });
 
 describe('portfolioHref', () => {
-	it('uses the Contentful id over list position', () => {
-		expect(portfolioHref(item(13), 0)).toBe('/portfolio/13');
-		expect(portfolioHref({ title: 'x', image: { url: '' } }, 4)).toBe(
-			'/portfolio/5'
-		);
+	it('links the case study by slug', () => {
+		expect(portfolioHref(item(13))).toBe('/portfolio/project-13');
 	});
 });

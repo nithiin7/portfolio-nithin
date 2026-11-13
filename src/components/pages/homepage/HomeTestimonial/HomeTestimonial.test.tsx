@@ -6,11 +6,12 @@ import type { Testimonial } from 'types/testimony';
 import HomeTestimonial from './HomeTestimonial';
 
 const testimonial = (id: number, reviewer: string): Testimonial => ({
-	id,
+	id: String(id),
 	review: `${reviewer} says hello`,
 	avatar: { url: '' },
 	reviewer,
-	institution: `${reviewer} Institute`,
+	role: 'Engineer',
+	organisation: `${reviewer} Institute`,
 });
 
 const items = [
@@ -29,7 +30,9 @@ describe('HomeTestimonial', () => {
 		const slide = activeSlide();
 		expect(slide).toHaveAccessibleName('1 of 3');
 		expect(within(slide).getByText('Ada says hello')).toBeInTheDocument();
-		expect(within(slide).getByText('Ada Institute')).toBeInTheDocument();
+		expect(
+			within(slide).getByText('Engineer, Ada Institute')
+		).toBeInTheDocument();
 		expect(screen.getAllByRole('group')).toHaveLength(1);
 	});
 

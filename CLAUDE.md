@@ -3,6 +3,7 @@
 - Plan & audit: `docs/redesign/Redesign plan.md` — read before any change.
 - Chosen direction: A — Editorial Swiss (see sections 4 and 4c of the plan).
 - Work only on `redesign` or `redesign/phase-*` branches. Never touch `main`.
+- Content model & editing: `docs/cms/CONVENTIONS.md` (rules) and `docs/cms/HOW_TO_ADD.md` (recipes) — read before touching Contentful or its queries.
 - New design tokens live in src/styles/tokens.scss; do not add new colors elsewhere.
 - Every section must: honour prefers-reduced-motion, work at 360px width, keep Lighthouse a11y = 100.
 - After each phase: run `pnpm lint && pnpm test && pnpm build`, then summarise changes.
@@ -63,14 +64,14 @@ portfolio-nithin/
 │   │   │   ├── homepage/
 │   │   │   └── portfolio/
 │   │   └── utilities/          # Reusable UI primitives (Button, Modal, Tag, etc.)
-│   ├── constants/index.tsx     # Nav links, social links, contact info, song list
+│   ├── constants/index.tsx     # Nav links, icon maps, song list (socials/contact live in Contentful)
 │   ├── contexts/               # ThemeContext (dark/light)
 │   ├── helpers/                # Pure utility functions
 │   │   ├── analytics.ts        # GTM init
 │   │   ├── animations.ts       # Shared Motion/React Variants
 │   │   ├── blog.ts             # Related-post scoring logic
 │   │   ├── career.ts           # Career data transform
-│   │   ├── contentful.ts       # loadData / loadBlogPosts / converters
+│   │   ├── contentful.ts       # loadHome / loadSiteSettings / loadProject / blog loaders + converters (server-only)
 │   │   ├── social.ts
 │   │   └── validations.ts
 │   ├── hooks/                  # Custom hooks (useScrollDirection, useKeyboardNavigation)
@@ -105,7 +106,18 @@ Server Components (app/page.tsx, app/blog/page.tsx, etc.)
 Client Components (components/pages/...)
 ```
 
-All page content lives in Contentful. `loadData('home')` fetches the full page tree via `GET_PAGE`. Sections are indexed positionally (sections[0] = header, sections[1] = services, etc.) — this order must match Contentful.
+All content lives in Contentful, including site identity (the **Site Settings** singleton: name, role, socials, contact channels, default SEO). `loadSiteSettings()` feeds the layout and client components through `SiteSettingsContext`. `loadHome()` reads Page "home": each **Home Section** is identified by its `key` (`hero`, `work`, `about`, …), never by position, and `page.tsx` renders them in the order the CMS lists them (hero first). The `work` section's items are the source of truth for project routes, sitemap and search (private Contentful tags are invisible to the delivery API).
+
+### Contentful rules
+
+- **Schema changes only through migrations**: `contentful/migrations/NNN_*.cjs` (+ optional `NNN_*.data.ts`), run with `pnpm cms:migrate --env <id> [--apply]`. Never edit content types by hand or through MCP. Expand first, contract later. The plan caps the space at 25 content types (17 used).
+- Query, raw type (`types/contentful.ts`) and converter changes ship in the same PR as the migration that needs them.
+- **Content writes are drafts.** Never publish without the user's explicit OK. Then `pnpm cms:check --env <id>` (must exit 0) → `pnpm cms:publish --env <id> --apply`.
+- Never delete entries, assets or types without asking; tag them `deprecated` / `retired`.
+- A published slug never changes without a redirect in `next.config.js` (`cms:check` enforces it).
+- Every image in use needs alt text in its asset description. Project covers come from the plate pipeline (`pnpm plates`, `pnpm plates:upload --env <id>`).
+- Queries take `$preview`. Verify drafts with `CONTENTFUL_PREVIEW=true pnpm build` after `rm -rf .next/cache/fetch-cache`.
+- Public information only: no confidential client names, internal systems or private figures in copy.
 
 ### Service Layer (Supabase)
 
@@ -147,9 +159,9 @@ Semantic CSS custom properties (`--bg`, `--fg`, `--muted`, `--line`, `--accent`,
 Always use path aliases, never relative paths for cross-directory imports:
 
 ```ts
-import { loadData } from 'helpers/contentful'; // ✓
+import { loadHome } from 'helpers/contentful'; // ✓
 import { Button } from 'components/utilities'; // ✓
-import { loadData } from '../../helpers/contentful'; // ✗
+import { loadHome } from '../../helpers/contentful'; // ✗
 ```
 
 Active aliases (baseUrl = `./src/`):
@@ -171,32 +183,33 @@ Default to **no comments**. Only comment when the _why_ is non-obvious (hidden c
 ## 5. DRY & Clean Code Rules
 
 - **Animation variants**: If a Motion variant is used in more than one component, move it to `helpers/animations.ts` and import it.
-- **Constants**: All nav links, social links, and contact options live in `constants/index.tsx`. Never inline them in components.
+- **Constants**: Nav links and icon maps live in `constants/index.tsx`. Socials, contact channels and anything an editor might change live in Contentful (Site Settings / Link entries). Never inline either in components.
 - **Barrel exports**: Every component folder group has an `index.ts` (kept for Storybook/tests). App code imports the component file directly (`import Button from 'components/utilities/Button/Button'`): importing a barrel from a server component ships every `'use client'` module in it to that page (Phase 10 cut ~100 KB gz this way). Same for `helpers` — import `helpers/format`, `helpers/scroll`, etc., never the `helpers` index (it pulls in `yup`).
 - **Service layer**: Never call `supabase.from(...)` directly in components or API routes — go through `commentsService` / `subscriptionsService` / `baseService`.
-- **Content converters**: Use `convertContentfulBlogPost`, `convertContentfulCategory`, etc. from `helpers/contentful.ts` when mapping API responses to app types.
+- **Content converters**: Map raw GraphQL responses (`types/contentful.ts`) to app types inside `helpers/contentful.ts` (`convertContentfulBlogPost`, `toPortfolioItem`, `toLink`, `toSeo`, …). Components never see raw Contentful shapes.
 - **Plop generators**: Use `pnpm generate` to scaffold new components or pages — it creates the `.tsx`, `.module.scss`, `index.ts`, and `.stories.ts` files from templates.
 
 ---
 
 ## 6. Key Files
 
-| File                                                            | Purpose                                                                                       |
-| --------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| [src/app/layout.tsx](src/app/layout.tsx)                        | Root layout — fonts, Sentry, global providers, persistent UI elements                         |
-| [src/app/page.tsx](src/app/page.tsx)                            | Homepage — fetches Contentful data and distributes to section components                      |
-| [src/app/provider.tsx](src/app/provider.tsx)                    | Client providers: ThemeProvider, ReactLenis, GTM init                                         |
-| [src/helpers/contentful.ts](src/helpers/contentful.ts)          | All Contentful data fetching (`loadData`, `loadBlogPosts`, `loadBlogPostBySlug`) + converters |
-| [src/helpers/animations.ts](src/helpers/animations.ts)          | Shared Motion/React animation variant definitions                                             |
-| [src/constants/index.tsx](src/constants/index.tsx)              | Nav links, social links, footer links, contact options, song list                             |
-| [src/styles/tokens.scss](src/styles/tokens.scss)                | Design tokens: colour, type scale, spacing, grid, motion (dark + light)                       |
-| [src/styles/shared/\_mixin.scss](src/styles/shared/_mixin.scss) | `rem()` function + responsive breakpoints                                                     |
-| [lib/apolloClient.ts](lib/apolloClient.ts)                      | Apollo Client singleton (SSR-aware, Contentful GraphQL endpoint)                              |
-| [src/services/index.ts](src/services/index.ts)                  | BaseService — generic Supabase CRUD operations                                                |
-| [src/queries/index.ts](src/queries/index.ts)                    | All Contentful GraphQL queries (`GET_PAGE`, blog queries)                                     |
-| [next.config.js](next.config.js)                                | SVGR config, Sentry wrapper, allowed image hostnames, env vars                                |
-| [plopfile.ts](plopfile.ts)                                      | Plop generators for component and page scaffolding                                            |
-| [src/clients/supabase.ts](src/clients/supabase.ts)              | Supabase client singleton                                                                     |
+| File                                                            | Purpose                                                                                                     |
+| --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| [src/app/layout.tsx](src/app/layout.tsx)                        | Root layout — fonts, Sentry, global providers, persistent UI elements                                       |
+| [src/app/page.tsx](src/app/page.tsx)                            | Homepage — fetches Contentful data and distributes to section components                                    |
+| [src/app/provider.tsx](src/app/provider.tsx)                    | Client providers: ThemeProvider, ReactLenis, GTM init                                                       |
+| [src/helpers/contentful.ts](src/helpers/contentful.ts)          | All Contentful data fetching (`loadHome`, `loadSiteSettings`, `loadProject`, blog loaders) + converters     |
+| [src/helpers/animations.ts](src/helpers/animations.ts)          | Shared Motion/React animation variant definitions                                                           |
+| [src/constants/index.tsx](src/constants/index.tsx)              | Nav links, link icon map, menu socials filter, song list                                                    |
+| [src/styles/tokens.scss](src/styles/tokens.scss)                | Design tokens: colour, type scale, spacing, grid, motion (dark + light)                                     |
+| [src/styles/shared/\_mixin.scss](src/styles/shared/_mixin.scss) | `rem()` function + responsive breakpoints                                                                   |
+| [lib/apolloClient.ts](lib/apolloClient.ts)                      | Apollo Client singleton (SSR-aware, Contentful GraphQL endpoint)                                            |
+| [src/services/index.ts](src/services/index.ts)                  | BaseService — generic Supabase CRUD operations                                                              |
+| [src/queries/index.ts](src/queries/index.ts)                    | Contentful GraphQL queries (`GET_HOME`, `GET_SITE_SETTINGS`, SEO, blog); projects in `queries/portfolio.ts` |
+| [contentful/](contentful/)                                      | Migrations, `cms:migrate` / `cms:check` / `cms:publish` scripts, CMA client                                 |
+| [next.config.js](next.config.js)                                | SVGR config, Sentry wrapper, allowed image hostnames, env vars                                              |
+| [plopfile.ts](plopfile.ts)                                      | Plop generators for component and page scaffolding                                                          |
+| [src/clients/supabase.ts](src/clients/supabase.ts)              | Supabase client singleton                                                                                   |
 
 ---
 
@@ -212,9 +225,13 @@ pnpm eslint:fix       # ESLint auto-fix
 pnpm prettier         # Prettier check
 pnpm prettier:fix     # Prettier auto-fix
 pnpm generate         # Plop — scaffold a new component or page
-pnpm test             # Vitest unit tests (helpers + services)
+pnpm test             # Vitest unit tests (helpers, services, components, cms rules)
 pnpm test:watch       # Vitest watch mode
 pnpm test:e2e         # Playwright smoke tests (starts dev server automatically)
+pnpm cms:check --env <id>            # Content lint (alt text, broken/unpublished links, slug redirects, style)
+pnpm cms:migrate --env <id> [--apply]  # Contentful schema migrations (contentful/migrations)
+pnpm cms:publish --env <id> [--apply]  # Publish pending drafts in link order
+pnpm plates [slug]    # Compose project image plates; plates:upload --env <id> links them as drafts
 pnpm storybook        # Storybook dev server on :6006
 pnpm build-storybook  # Build Storybook static site
 pnpm release          # standard-version release (patch)
@@ -289,9 +306,9 @@ Pre-commit hook runs `prettier:fix` + `eslint:fix` on staged files via lint-stag
 **Before making changes:**
 
 1. Check `helpers/animations.ts` before defining new animation variants.
-2. Check `constants/index.tsx` before adding new nav links or social data inline.
+2. Check `constants/index.tsx` (nav) and Site Settings in Contentful (socials, contact) before adding link data.
 3. Check `components/utilities/index.ts` before building a component that might already exist.
-4. Verify Contentful section index in `src/app/page.tsx` before touching homepage data flow — section order is positional and must match the CMS.
+4. Before touching homepage data flow, read `loadHome` in `helpers/contentful.ts`: sections are looked up by `key`, and their order comes from Page "home" in Contentful.
 
 **Commit messages:** Conventional Commits format required. Husky will reject non-conforming commits.
 

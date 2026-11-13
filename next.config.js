@@ -31,6 +31,25 @@ const nextConfig = {
 			},
 		],
 	},
+	// Slugs shortened in the phase 14 copy pass (docs/cms/COPY_REVIEW.md A14, A16)
+	async redirects() {
+		return [
+			[
+				'/blog/i-built-a-free-fully-local-ai-resume-builder-no-subscriptions-no-cloud-no-catch',
+				'/blog/free-local-ai-resume-builder',
+			],
+			[
+				'/blog/frontend-performance-optimization-in-2025-modern-techniques-every-developer',
+				'/blog/frontend-performance-techniques',
+			],
+			['/portfolio/persona-ai-resume-builder', '/portfolio/persona'],
+			['/portfolio/repochat-codebase-intelligence', '/portfolio/repochat'],
+		].map(([source, destination]) => ({
+			source,
+			destination,
+			permanent: true,
+		}));
+	},
 	webpack(config, { isServer }) {
 		config.module.rules.push({
 			test: /\.svg$/,

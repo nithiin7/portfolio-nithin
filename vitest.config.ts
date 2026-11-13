@@ -20,14 +20,18 @@ export default defineConfig({
 	resolve: {
 		alias: [
 			{
-				find: /^(assets|clients|components|config|constants|contexts|helpers|hooks|models|queries|services|styles|types)(\/.*)?$/,
+				find: /^(assets|clients|components|config|constants|contexts|helpers|hooks|models|queries|services|styles|test|types)(\/.*)?$/,
 				replacement: `${src}/$1$2`,
 			},
 		],
 	},
 	test: {
 		environment: 'jsdom',
-		include: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
+		include: [
+			'src/**/*.test.ts',
+			'src/**/*.test.tsx',
+			'contentful/**/*.test.ts',
+		],
 		setupFiles: ['./vitest.setup.ts'],
 		env: {
 			CONTENTFUL_SPACE_ID: 'test-space',

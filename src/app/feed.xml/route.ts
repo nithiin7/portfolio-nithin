@@ -1,5 +1,9 @@
 import { siteConfig } from 'config/site';
-import { convertContentfulBlogPost, loadBlogPosts } from 'helpers/contentful';
+import {
+	convertContentfulBlogPost,
+	loadBlogPosts,
+	loadSiteSettings,
+} from 'helpers/contentful';
 
 const baseUrl = siteConfig.url;
 
@@ -11,7 +15,10 @@ const escapeXml = (str: string): string =>
 		.replace(/"/g, '&quot;');
 
 export async function GET(): Promise<Response> {
-	const { data } = await loadBlogPosts(100, 0);
+	const [{ data }, site] = await Promise.all([
+		loadBlogPosts(100, 0),
+		loadSiteSettings(),
+	]);
 	const posts =
 		data?.blogPostCollection?.items?.map(convertContentfulBlogPost) ?? [];
 
@@ -31,9 +38,9 @@ export async function GET(): Promise<Response> {
 	const feed = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
-		<title>${siteConfig.name} — Writing</title>
+		<title>${site.name} — Writing</title>
 		<link>${baseUrl}/blog</link>
-		<description>Articles by ${siteConfig.name}, ${siteConfig.role} at ${siteConfig.company}</description>
+		<description>Articles by ${site.name}, ${site.role} at ${site.company}</description>
 		<language>en</language>
 		<atom:link href="${baseUrl}/feed.xml" rel="self" type="application/rss+xml" />${items}
 	</channel>

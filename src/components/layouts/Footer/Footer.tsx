@@ -3,8 +3,8 @@ import type { ReactElement } from 'react';
 
 import CopyEmail from 'components/utilities/CopyEmail/CopyEmail';
 import LocalClock from 'components/utilities/LocalClock/LocalClock';
-import { siteConfig } from 'config/site';
-import { navLinks, socials } from 'constants/index';
+import { navLinks } from 'constants/index';
+import type { SiteSettings } from 'types/site';
 
 import styles from './Footer.module.scss';
 import FooterBackToTop from './FooterBackToTop';
@@ -20,8 +20,12 @@ const ZONE_LABEL = 'IST';
  * Server-rendered; the route check, clock, copy button, headline and
  * back-to-top are client islands.
  */
-const Footer = (): ReactElement => {
-	const { email, location, availability, name } = siteConfig;
+interface FooterProps {
+	site: SiteSettings;
+}
+
+const Footer = ({ site }: FooterProps): ReactElement => {
+	const { email, location, availability, name, socials } = site;
 
 	const extended = (
 		<>
@@ -73,14 +77,14 @@ const Footer = (): ReactElement => {
 					<p className={styles.Footer__label}>Elsewhere</p>
 					<ul className={styles.Footer__list}>
 						{socials.map((social) => (
-							<li key={social.title}>
+							<li key={social.url}>
 								<a
-									href={social.link}
+									href={social.url}
 									className={styles.Footer__link}
 									target="_blank"
 									rel="noopener noreferrer"
 								>
-									{social.title}
+									{social.label}
 									<span className={styles.Footer__srOnly}>
 										{' '}
 										(opens in a new tab)

@@ -34,6 +34,7 @@ export interface CaseStudySection {
 
 export interface CaseStudyNext {
 	id: number;
+	slug: string;
 	title: string;
 	image?: string;
 	imageDark?: string;

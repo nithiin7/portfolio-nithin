@@ -1,18 +1,17 @@
 import dynamic from 'next/dynamic';
 import Script from 'next/script';
+import type { ReactElement } from 'react';
 
 import HomeAbout from 'components/pages/homepage/HomeAbout/HomeAbout';
 import type { AboutStat } from 'components/pages/homepage/HomeAbout/HomeAbout';
 import HomeCapabilities from 'components/pages/homepage/HomeCapabilities/HomeCapabilities';
 import HomeHeader from 'components/pages/homepage/HomeHeader/HomeHeader';
 import HomePortfolio from 'components/pages/homepage/HomePortfolio/HomePortfolio';
-import { aboutContent } from 'config/about';
-import { absoluteUrl, personJsonLd, siteConfig } from 'config/site';
-import { transformCareerData, yearsOfExperience } from 'helpers/career';
-import { loadData, loadPortfolioSummaries } from 'helpers/contentful';
+import { absoluteUrl, personJsonLd, siteName } from 'config/site';
+import { yearsOfExperience } from 'helpers/career';
+import { loadHome, loadSiteSettings } from 'helpers/contentful';
 import { enrichPortfolio } from 'helpers/portfolio';
-import { getSection } from 'helpers/sections';
-import type { Certification } from 'types/certification';
+import type { HomeSectionKey } from 'types/home';
 
 export const revalidate = 3600;
 
@@ -31,81 +30,100 @@ const HomeTestimonial = dynamic(
 	() => import('components/pages/homepage/HomeTestimonial/HomeTestimonial')
 );
 
-const homeStructuredData = {
-	'@context': 'https://schema.org',
-	'@type': 'WebSite',
-	name: siteConfig.siteName,
-	url: absoluteUrl(),
-	description: siteConfig.description,
-	author: personJsonLd,
-};
-
 export default async function Home() {
-	const [props, portfolioSummaries] = await Promise.all([
-		loadData('home'),
-		loadPortfolioSummaries(),
-	]);
-	const path = props?.data?.pageCollection?.items?.[0];
+	const [home, site] = await Promise.all([loadHome(), loadSiteSettings()]);
+	const projects = await enrichPortfolio(home.work.projects);
+	const { career, certifications } = home;
 
-	const sections = path.sectionCollection?.items || [];
-
-	const services = getSection(sections, 'services');
-	const about = getSection(sections, 'about');
-	const portfolio = getSection(sections, 'portfolio');
-	const career = getSection(sections, 'career');
-	const collaborations = getSection(sections, 'collaborations');
-	const testimonials = getSection(sections, 'testimonials');
-	const certifications = getSection(sections, 'certifications');
-
-	const servicesData = {
-		data: services.contentsCollection.items[0] || {},
-		services: services.contentsCollection.items,
-	};
-	const portfolioData = {
-		data: portfolio.contentsCollection.items[0] || {},
-		portfolio: await enrichPortfolio(
-			portfolio.contentsCollection.items[1]?.contentsCollection?.items || [],
-			portfolioSummaries
-		),
-	};
-	const careerDataProps = transformCareerData({
-		data: career.contentsCollection.items[0] || {},
-		career: career.contentsCollection.items[1]?.contentsCollection?.items || [],
-	});
-	const collaborationsData = {
-		data: collaborations.contentsCollection.items[0] || {},
-	};
-	const certificationsData = {
-		data: certifications.contentsCollection.items[0] || {},
-		certifications: (certifications.contentsCollection.items[1]
-			?.contentsCollection?.items || []) as unknown as Certification[],
-	};
 	const years = yearsOfExperience(
-		careerDataProps.experiences.map((experience) => experience.duration)
+		career.experiences.map((experience) => experience.startDate)
 	);
 	const aboutStats: AboutStat[] = [
 		...(years ? [{ value: years, suffix: '+', label: 'Years shipping' }] : []),
-		{ value: portfolioData.portfolio.length, label: 'Projects shipped' },
-		{
-			value: certificationsData.certifications.length,
-			label: 'Certifications',
-		},
-		{
-			value: aboutContent.peakConcurrentUsers,
-			compact: true,
-			suffix: '+',
-			label: 'Concurrent users served',
-		},
+		{ value: projects.length, label: 'Projects shipped' },
+		{ value: certifications.items.length, label: 'Certifications' },
+		...home.about.stats,
 	];
-	const [aboutTitle, aboutPortrait] = about.contentsCollection.items as {
-		title?: string;
-		image?: { url?: string };
-	}[];
 
-	const testimonialData = {
-		data: testimonials.contentsCollection.items[0] || {},
-		testimonial:
-			testimonials.contentsCollection.items[1]?.contentsCollection?.items || [],
+	const sections: Record<HomeSectionKey, ReactElement> = {
+		hero: (
+			<HomeHeader
+				key="hero"
+				site={site}
+				pitch={home.hero.pitch}
+				ctas={home.hero.ctas}
+			/>
+		),
+		work: (
+			<HomePortfolio
+				key="work"
+				data={{ title: home.work.heading }}
+				portfolio={projects}
+			/>
+		),
+		about: (
+			<HomeAbout
+				key="about"
+				title={home.about.heading}
+				bio={home.about.bio}
+				portrait={home.about.portrait}
+				principles={home.about.principles}
+				stats={aboutStats}
+			/>
+		),
+		capabilities: (
+			<HomeCapabilities
+				key="capabilities"
+				data={{
+					title: home.capabilities.heading,
+					subTitle: home.capabilities.lede,
+				}}
+				capabilities={home.capabilities.items}
+			/>
+		),
+		career: (
+			<HomeCareer
+				key="career"
+				data={{ title: career.heading, subtitle: career.lede }}
+				experiences={career.experiences}
+			/>
+		),
+		certifications: (
+			<HomeCertifications
+				key="certifications"
+				data={{ title: certifications.heading, subtitle: certifications.lede }}
+				certifications={certifications.items}
+			/>
+		),
+		collaborations: (
+			<HomeCollaborations
+				key="collaborations"
+				data={{ title: home.collaborations.heading }}
+				collaborators={home.collaborations.items}
+			/>
+		),
+		testimonials: (
+			<HomeTestimonial
+				key="testimonials"
+				data={{ title: home.testimonials.heading }}
+				testimonial={home.testimonials.items}
+			/>
+		),
+	};
+
+	// The hero always opens the page; the rest follow Page "home" in Contentful
+	const order: HomeSectionKey[] = [
+		'hero',
+		...home.order.filter((key) => key !== 'hero'),
+	];
+
+	const structuredData = {
+		'@context': 'https://schema.org',
+		'@type': 'WebSite',
+		name: siteName(site),
+		url: absoluteUrl(),
+		description: site.seo.description,
+		author: personJsonLd(site),
 	};
 
 	return (
@@ -113,22 +131,9 @@ export default async function Home() {
 			<Script
 				id="home-structured-data"
 				type="application/ld+json"
-				dangerouslySetInnerHTML={{
-					__html: JSON.stringify(homeStructuredData),
-				}}
+				dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
 			/>
-			<HomeHeader />
-			<HomePortfolio {...portfolioData} />
-			<HomeAbout
-				title={aboutTitle?.title}
-				portraitUrl={aboutPortrait?.image?.url}
-				stats={aboutStats}
-			/>
-			<HomeCapabilities {...servicesData} />
-			<HomeCareer {...careerDataProps} />
-			<HomeCertifications {...certificationsData} />
-			<HomeCollaborations {...collaborationsData} />
-			<HomeTestimonial {...testimonialData} />
+			{order.map((key) => sections[key])}
 		</>
 	);
 }

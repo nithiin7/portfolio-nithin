@@ -27,7 +27,7 @@ const getTargets = (
 		case 'blogPost':
 			return [['/blog/[slug]', 'page'], ['/sitemap.xml']];
 		case 'portfolioDetails':
-			return [['/'], ['/portfolio/[id]', 'page'], ['/sitemap.xml']];
+			return [['/'], ['/portfolio/[slug]', 'page'], ['/sitemap.xml']];
 		case 'page':
 			if (slug === 'home') return [['/']];
 			if (slug) return [[`/${slug}`]];

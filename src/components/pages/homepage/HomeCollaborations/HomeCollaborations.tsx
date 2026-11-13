@@ -10,6 +10,7 @@ import {
 
 import RevealText from 'components/motion/RevealText/RevealText';
 import { useLiteMotion } from 'hooks/useLiteMotion';
+import type { Collaborator } from 'types/home';
 
 import styles from './HomeCollaborations.module.scss';
 
@@ -18,67 +19,15 @@ interface HomeCollaborationsProps {
 	data?: {
 		title?: string;
 	};
+	collaborators?: Collaborator[];
 }
 
-// Logos are CSS masks over static files in public/logos (tinted by
-// currentColor), not inline SVG: the marquee renders every mark twice, which
-// put ~80 KB of path data into the HTML, the RSC payload and the JS bundle.
-// `ratio` is each file's viewBox width / height.
-const collaborators = [
-	{
-		file: 'ey',
-		ratio: '68.67 / 104.22',
-		name: 'EY',
-		url: 'https://www.ey.com/',
-		tall: true,
-	},
-	{
-		file: 'hsbc',
-		ratio: '315.9 / 85',
-		name: 'HSBC',
-		url: 'https://www.hsbc.com/',
-	},
-	{
-		file: 'morgan-stanley',
-		ratio: '360 / 90',
-		name: 'Morgan Stanley',
-		url: 'https://www.morganstanley.com/',
-	},
-	{
-		file: 'paytm-payments-bank',
-		ratio: '197.319 / 33.75',
-		name: 'Paytm Payments Bank',
-		url: 'https://www.paytmbank.com/',
-	},
-	{
-		file: 'spotify',
-		ratio: '558.427 / 167.483',
-		name: 'Spotify',
-		url: 'https://connect.spotify.com/',
-	},
-	{
-		file: 'spotify-codes',
-		ratio: '134 / 43',
-		name: 'Spotify Codes',
-		url: 'https://www.spotifycodes.com/',
-	},
-	{
-		file: 'game-awards',
-		ratio: '474 / 162',
-		name: 'The Game Awards',
-		url: 'https://thegameawards.com/',
-	},
-	{
-		file: 'white-rabbit',
-		ratio: '41 / 45',
-		name: 'White Rabbit',
-		url: 'https://whiterabbit.group/',
-	},
-];
-
-const markStyle = (file: string, ratio: string): CSSProperties =>
+// Logos are CSS masks over the Contentful SVG (tinted by currentColor), not
+// inline SVG: the marquee renders every mark twice, which put ~80 KB of path
+// data into the HTML, the RSC payload and the JS bundle.
+const markStyle = (logoUrl: string, ratio: string): CSSProperties =>
 	({
-		'--logo': `url(/logos/${file}.svg)`,
+		'--logo': `url("${logoUrl}")`,
 		'--ratio': ratio,
 	}) as CSSProperties;
 
@@ -87,6 +36,7 @@ const MAX_BOOST = 3;
 const HomeCollaborations: FC<HomeCollaborationsProps> = ({
 	className = '',
 	data,
+	collaborators = [],
 }): ReactElement => {
 	const trackRef = useRef<HTMLDivElement>(null);
 	const [paused, setPaused] = useState(false);
@@ -106,7 +56,7 @@ const HomeCollaborations: FC<HomeCollaborationsProps> = ({
 	});
 
 	const renderLogos = (copy: boolean) =>
-		collaborators.map(({ file, ratio, name, url, tall }) => (
+		collaborators.map(({ logoUrl, ratio, name, url, tall }) => (
 			<li key={name} className={styles.HomeCollaborations__item}>
 				<a
 					href={url}
@@ -119,7 +69,7 @@ const HomeCollaborations: FC<HomeCollaborationsProps> = ({
 				>
 					<span
 						className={styles.HomeCollaborations__mark}
-						style={markStyle(file, ratio)}
+						style={markStyle(logoUrl, ratio)}
 						aria-hidden="true"
 					/>
 					<span className={styles.HomeCollaborations__srOnly}>

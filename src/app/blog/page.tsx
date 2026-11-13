@@ -3,13 +3,15 @@ import Script from 'next/script';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
 import BlogListing from 'components/pages/blog/BlogListing/BlogListing';
-import { absoluteUrl, personJsonLd, siteConfig } from 'config/site';
+import { absoluteUrl, personJsonLd, siteConfig, siteName } from 'config/site';
 import { categoriesFromPosts } from 'helpers/blogPosts';
 import {
 	convertContentfulBlogPost,
 	loadBlogPosts,
-	loadData,
+	loadPageSeo,
+	loadSiteSettings,
 } from 'helpers/contentful';
+import type { Seo, SiteSettings } from 'types/site';
 
 interface BlogPageProps {
 	searchParams: Promise<{
@@ -19,8 +21,14 @@ interface BlogPageProps {
 }
 
 const ARCHIVE_LIMIT = 100;
-const DEFAULT_DESCRIPTION =
-	'Field notes on AI agents, MCP and the web platform by Nithin Pradeep.';
+/** Page "blog" SEO from Contentful, falling back to the site default. */
+const blogSeo = async (): Promise<[Seo, SiteSettings]> => {
+	const [seo, site] = await Promise.all([
+		loadPageSeo('blog'),
+		loadSiteSettings(),
+	]);
+	return [seo ?? site.seo, site];
+};
 
 const firstTag = (tag: string | string[] | undefined): string | undefined =>
 	(Array.isArray(tag) ? tag.join(',') : tag)?.split(',').find(Boolean);
@@ -29,13 +37,12 @@ export async function generateMetadata({
 	searchParams,
 }: BlogPageProps): Promise<Metadata> {
 	const { category, tag } = await searchParams;
-	const props = await loadData('blog');
-	const page = props?.data.pageCollection.items[0];
+	const [seo, site] = await blogSeo();
 
 	const tagName = firstTag(tag);
 	const suffix = category ? ` — ${category}` : tagName ? ` — #${tagName}` : '';
-	const title = `${page?.title || 'Writing'}${suffix}`;
-	const description = page?.description || DEFAULT_DESCRIPTION;
+	const title = `${seo.title}${suffix}`;
+	const { description } = seo;
 	const url = absoluteUrl('/blog');
 
 	return {
@@ -47,13 +54,13 @@ export async function generateMetadata({
 			url,
 			title,
 			description,
-			siteName: siteConfig.siteName,
+			siteName: siteName(site),
 		},
 		twitter: {
 			card: 'summary_large_image',
 			title,
 			description,
-			creator: siteConfig.twitterHandle,
+			creator: site.twitterHandle,
 		},
 		alternates: {
 			canonical: url,
@@ -68,7 +75,10 @@ export default async function BlogPage({
 	// Filters live in the URL and are applied client-side, but reading them here
 	// keeps the route dynamic so the filtered list is server-rendered.
 	await searchParams;
-	const { data } = await loadBlogPosts(ARCHIVE_LIMIT, 0);
+	const [{ data }, [seo, site]] = await Promise.all([
+		loadBlogPosts(ARCHIVE_LIMIT, 0),
+		blogSeo(),
+	]);
 	const posts = (data?.blogPostCollection?.items ?? []).map(
 		convertContentfulBlogPost
 	);
@@ -76,10 +86,10 @@ export default async function BlogPage({
 	const structuredData = {
 		'@context': 'https://schema.org',
 		'@type': 'Blog',
-		name: `${siteConfig.name} — Writing`,
-		description: DEFAULT_DESCRIPTION,
+		name: `${site.name} — ${seo.title}`,
+		description: seo.description,
 		url: absoluteUrl('/blog'),
-		author: personJsonLd,
+		author: personJsonLd(site),
 		blogPost: posts.map((post) => ({
 			'@type': 'BlogPosting',
 			headline: post.title,

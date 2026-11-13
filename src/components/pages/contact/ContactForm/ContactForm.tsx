@@ -10,7 +10,7 @@ import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
 import FormField from 'components/utilities/FormField/FormField';
-import { siteConfig } from 'config/site';
+import { useSiteSettings } from 'contexts/SiteSettingsContext';
 import { clientEnv } from 'helpers/env';
 import { contactSchema } from 'helpers/validations';
 import { duration, ease } from 'styles/tokens';
@@ -45,6 +45,7 @@ const firstName = (name: string): string => name.trim().split(/\s+/)[0];
  * FormData, which omits disabled controls.
  */
 const ContactForm: FC<ContactFormProps> = ({ className = '' }) => {
+	const { email } = useSiteSettings();
 	const [sent, setSent] = useState<SentMessage | null>(null);
 	const [submitError, setSubmitError] = useState<string | null>(null);
 	const form = useRef<HTMLFormElement>(null);
@@ -111,7 +112,7 @@ const ContactForm: FC<ContactFormProps> = ({ className = '' }) => {
 		} catch (error) {
 			console.error('Error submitting form:', error);
 			setSubmitError(
-				`Your message didn’t go through. Try again, or email me at ${siteConfig.email}.`
+				`Your message didn’t go through. Try again, or email me at ${email}.`
 			);
 		}
 	};

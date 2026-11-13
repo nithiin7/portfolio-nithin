@@ -2,91 +2,86 @@ import { describe, expect, it } from 'vitest';
 
 import {
 	careerPeriod,
-	transformCareerData,
+	formatMonthYear,
+	sortByStart,
+	toExperience,
 	yearsOfExperience,
 } from 'helpers/career';
 
-describe('transformCareerData', () => {
-	it('maps raw Contentful fields to the HomeCareer shape', () => {
-		const result = transformCareerData({
-			data: { title: 'Career', subTitle: 'My journey' },
-			career: [
-				{
-					sys: { id: 'exp-1' },
-					title: 'Full Stack Developer',
-					company: 'Acme',
-					year: '2024',
-					duration: '2 yrs',
-					location: 'Remote',
-					type: 'contract',
-					description: 'Built things',
-					technologies: 'React, Node.js',
-				},
-			],
-		});
+const role = (startDate: string, endDate?: string, type = 'full-time') => ({
+	sys: { id: `role-${startDate}` },
+	title: 'Engineer',
+	company: 'Acme',
+	location: 'Bangalore, India',
+	type,
+	startDate,
+	endDate,
+	description: 'Built things.',
+	techStack: ['React', 'Node.js'],
+});
 
-		expect(result.data).toEqual({ title: 'Career', subtitle: 'My journey' });
-		expect(result.experiences).toEqual([
-			{
-				id: 'exp-1',
-				year: '2024',
-				company: 'Acme',
-				position: 'Full Stack Developer',
-				description: 'Built things',
-				technologies: ['React', 'Node.js'],
-				duration: '2 yrs',
-				location: 'Remote',
-				type: 'contract',
-			},
-		]);
+describe('formatMonthYear', () => {
+	it('formats a Contentful date in UTC', () => {
+		expect(formatMonthYear('2026-08-01')).toBe('Aug 2026');
 	});
+});
 
-	it('falls back to title as id and defaults missing fields', () => {
-		const result = transformCareerData({
-			data: {},
-			career: [{ title: 'Developer' }],
-		});
-
-		expect(result.experiences[0]).toEqual({
-			id: 'Developer',
-			year: '',
-			company: '',
-			position: 'Developer',
-			description: '',
-			technologies: [],
-			duration: '',
-			location: undefined,
+describe('toExperience', () => {
+	it('maps a Career Role entry to the component shape', () => {
+		expect(toExperience(role('2025-07-01', '2026-08-01'))).toEqual({
+			id: 'role-2025-07-01',
+			year: '2025',
+			company: 'Acme',
+			position: 'Engineer',
+			description: 'Built things.',
+			technologies: ['React', 'Node.js'],
+			duration: 'Jul 2025 – Aug 2026',
+			startDate: '2025-07-01',
+			endDate: '2026-08-01',
+			location: 'Bangalore, India',
 			type: 'full-time',
 		});
 	});
 
-	it('handles an empty career list', () => {
-		expect(transformCareerData({ data: {}, career: [] }).experiences).toEqual(
-			[]
+	it('shows an open role as Present and defaults unknown types', () => {
+		const experience = toExperience(role('2026-08-01', undefined, 'other'));
+		expect(experience.duration).toBe('Aug 2026 – Present');
+		expect(experience.endDate).toBeUndefined();
+		expect(experience.type).toBe('full-time');
+	});
+});
+
+describe('sortByStart', () => {
+	it('puts the newest role first', () => {
+		const sorted = sortByStart(
+			['2022-07-01', '2026-08-01', '2025-07-01'].map((date) =>
+				toExperience(role(date))
+			)
 		);
+		expect(sorted.map((e) => e.startDate)).toEqual([
+			'2026-08-01',
+			'2025-07-01',
+			'2022-07-01',
+		]);
 	});
 });
 
 describe('yearsOfExperience', () => {
-	const durations = [
-		'Aug 2026 - Present ',
-		'July 2025 - Aug 2026',
-		'July 2022 - October 2023 (1 year 4 months)',
-	];
+	const starts = ['2026-08-01', '2025-07-01', '2022-07-01'];
 
 	it('counts whole years from the earliest start date', () => {
-		expect(yearsOfExperience(durations, new Date(2026, 10, 11))).toBe(4);
-		expect(yearsOfExperience(durations, new Date(2026, 5, 30))).toBe(3);
+		expect(yearsOfExperience(starts, new Date(Date.UTC(2026, 10, 11)))).toBe(4);
+		expect(yearsOfExperience(starts, new Date(Date.UTC(2026, 5, 30)))).toBe(3);
 	});
 
-	it('returns null when nothing parses', () => {
-		expect(yearsOfExperience(['', 'Present', '2 yrs'])).toBeNull();
+	it('returns null without roles', () => {
+		expect(yearsOfExperience([])).toBeNull();
 	});
 });
 
 describe('careerPeriod', () => {
-	it('marks ongoing roles as current', () => {
-		expect(careerPeriod('Aug 2026 - Present ')).toEqual({
+	it('marks a role without an end date as current', () => {
+		expect(careerPeriod({ startDate: '2026-08-01' })).toEqual({
 			start: '2026',
 			end: null,
 			current: true,
@@ -94,26 +89,14 @@ describe('careerPeriod', () => {
 	});
 
 	it('reads start and end years from a closed range', () => {
-		expect(careerPeriod('July 2022 - October 2023 (1 year 4 months)')).toEqual({
-			start: '2022',
-			end: '2023',
-			current: false,
-		});
+		expect(
+			careerPeriod({ startDate: '2022-07-01', endDate: '2023-10-01' })
+		).toEqual({ start: '2022', end: '2023', current: false });
 	});
 
 	it('collapses a same-year range to a single year', () => {
-		expect(careerPeriod('Jan 2021 - Jun 2021')).toEqual({
-			start: '2021',
-			end: null,
-			current: false,
-		});
-	});
-
-	it('falls back to the Contentful year when nothing parses', () => {
-		expect(careerPeriod('2 yrs', '2019')).toEqual({
-			start: '2019',
-			end: null,
-			current: false,
-		});
+		expect(
+			careerPeriod({ startDate: '2021-01-01', endDate: '2021-06-01' })
+		).toEqual({ start: '2021', end: null, current: false });
 	});
 });

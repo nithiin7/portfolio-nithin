@@ -8,8 +8,8 @@ import { useCallback, useEffect, useRef } from 'react';
 
 import LocalClock from 'components/utilities/LocalClock/LocalClock';
 import ThemeToggle from 'components/utilities/ThemeToggle/ThemeToggle';
-import { siteConfig } from 'config/site';
-import { navLinks, socialsMenu } from 'constants/index';
+import { MENU_SOCIALS, navLinks } from 'constants/index';
+import { useSiteSettings } from 'contexts/SiteSettingsContext';
 import {
 	useFocusTrap,
 	useKeyboardNavigation,
@@ -32,6 +32,10 @@ const panelTransition: Transition = { duration: duration.base, ease };
  * Escape, and pauses Lenis while open.
  */
 const Menu = ({ open, onClose, onLinkClick }: MenuProps): ReactElement => {
+	const { socials, location } = useSiteSettings();
+	const menuSocials = MENU_SOCIALS.flatMap((icon) =>
+		socials.filter((social) => social.icon === icon)
+	);
 	const lenis = useLenis();
 	const reduceMotion = useReducedMotion();
 	const closeRef = useRef<HTMLButtonElement>(null);
@@ -139,14 +143,14 @@ const Menu = ({ open, onClose, onLinkClick }: MenuProps): ReactElement => {
 
 					<div className={styles.Menu__footer}>
 						<ul className={styles.Menu__socials} aria-label="Social links">
-							{socialsMenu.map((social) => (
-								<li key={social.href}>
+							{menuSocials.map((social) => (
+								<li key={social.url}>
 									<a
-										href={social.href}
+										href={social.url}
 										target="_blank"
 										rel="noopener noreferrer"
 									>
-										{social.title}
+										{social.label}
 										<span className={styles.Menu__srOnly}>
 											{' '}
 											(opens in a new tab)
@@ -156,9 +160,9 @@ const Menu = ({ open, onClose, onLinkClick }: MenuProps): ReactElement => {
 							))}
 						</ul>
 						<p className={styles.Menu__meta}>
-							{siteConfig.location.city}{' '}
+							{location.city}{' '}
 							<LocalClock
-								timeZone={siteConfig.location.timeZone}
+								timeZone={location.timeZone}
 								zoneLabel="IST"
 								showSeconds={false}
 							/>

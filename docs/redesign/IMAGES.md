@@ -81,7 +81,7 @@ The master is 3840 wide because `sizes="100vw"` slots pick the 3840 rendition at
 
 ### Both themes
 
-Set `surface: ['ink', 'paper']` on a project or a plate to render it twice, as `<name>-ink.png` and `<name>-paper.png`. A cover or detail can take a different screen per surface, `screen: { ink: 'dashboard-dark', paper: 'dashboard-light' }`, when the app has its own dark mode. The site's image fields hold one image each, so `plates:upload` only links the ink variant. Add the paper one by hand until the light-theme fields exist.
+Set `surface: ['ink', 'paper']` on a project or a plate to render it twice, as `<name>-ink.png` and `<name>-paper.png`. A cover or detail can take a different screen per surface, `screen: { ink: 'dashboard-dark', paper: 'dashboard-light' }`, when the app has its own dark mode. Covers use both: `plates:upload` links the paper plate to `spotlightImage` and the ink plate to `spotlightImageDark`. Galleries take the ink variant only.
 
 ### Templates
 
@@ -98,8 +98,8 @@ Colours come only from `src/styles/tokens.ts` (`palette`, `lineAlpha`). The fram
 
 ```
 scripts/plates/out/<slug>/
-  <slug>--<name>.png         plate (name defaults to the template)
-  <slug>--<name>.debug.png   + 21:9 / 16:10 / 4:3 / 16:9 guides and the safe zone
+  project-<slug>--<name>.png         plate (name defaults to the template)
+  project-<slug>--<name>.debug.png   + 21:9 / 16:10 / 4:3 / 16:9 guides and the safe zone
   plates.json                file, template, alt, use, surface → /dev/plates + upload
 ```
 
@@ -120,16 +120,11 @@ The page is `page.dev.tsx` and `route.dev.ts`. `next.config.js` only adds the `d
 
 ## 5. Upload to Contentful
 
-1. Create a personal access token under Contentful → Settings → CMA tokens. Put it in `.env.local`, which is gitignored (`.env*.local`):
-   ```
-   CONTENTFUL_MANAGEMENT_TOKEN=CFPAT-…
-   ```
-   `CONTENTFUL_SPACE_ID` and `CONTENTFUL_ENVIRONMENT` are read from `.env`.
-2. Run `pnpm plates:upload <slug>`. This is a **dry run**. It resolves `PortfolioDetails` by `slug` and `PortfolioCard` by the same `title`, then prints each asset it would create or replace and each field it would set:
-   - `card` → `portfolioCard.image`
-   - `spotlight` → `portfolioDetails.spotlightImage`
-   - `gallery` → appended to `portfolioDetails.gallery` (never added twice)
-3. Run `pnpm plates:upload <slug> --apply`. It uploads each PNG, creates the asset or replaces the file of the asset with the same title (`<slug>--<name>`), processes it, **publishes the asset**, and saves the entries as **drafts**. Review them in Contentful.
-4. Run `pnpm plates:upload <slug> --apply --publish` to publish the entries too, or publish them by hand in Contentful.
+1. Put a personal access token (Contentful → Settings → CMA tokens) in `.env.local` as `CONTENTFUL_MANAGEMENT_TOKEN`. That file is gitignored. `CONTENTFUL_SPACE_ID` comes from `.env`.
+2. Run `pnpm plates:upload --env <id> <slug>`. This is a **dry run**. It finds the Portfolio Project by `slug` and prints each asset it would write and each field it would set:
+   - `card` / `spotlight` → the cover: the paper plate to `spotlightImage` (light theme), the ink plate to `spotlightImageDark`
+   - `gallery` → appended to `gallery`, ink variant only, never twice
+3. Run `pnpm plates:upload --env <id> <slug> --apply`. It uploads each PNG, processes it, and saves the assets and the project as **drafts**.
+4. Run `pnpm cms:check --env <id>`, check the drafts with a preview build (`CONTENTFUL_PREVIEW=true pnpm build`), then `pnpm cms:publish --env <id> --apply`.
 
-Re-running is safe. Assets are matched by title, so a new composition replaces the file in place and the links stay valid.
+Re-running is safe. A plate's asset ID is its file stem (`project-<slug>--<name>`), so a new composition replaces the file in place. A cover whose plate asset doesn't exist yet replaces the file of the asset the field already links, so its ID and links stay put.
