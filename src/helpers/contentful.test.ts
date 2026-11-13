@@ -212,6 +212,66 @@ describe('loadHome', () => {
 						},
 					},
 					{ __typename: 'Link', label: 'No logo', url: 'https://x.com' },
+					{
+						__typename: 'Company',
+						name: 'HSBC',
+						slug: 'hsbc',
+						websiteUrl: 'https://www.hsbc.com/',
+						showLogo: false,
+						logo: {
+							url: '//images.ctfassets.net/hsbc.svg',
+							width: 316,
+							height: 85,
+						},
+					},
+				],
+			},
+		},
+		{
+			key: 'career',
+			itemsCollection: {
+				items: [
+					{
+						__typename: 'CareerExperience',
+						sys: { id: 'role' },
+						title: 'Engineer',
+						companyName: 'Old text',
+						employer: {
+							name: 'White Rabbit Group',
+							slug: 'white-rabbit-group',
+						},
+						startDate: '2022-07-01',
+					},
+				],
+			},
+		},
+		{
+			key: 'testimonials',
+			itemsCollection: {
+				items: [
+					{
+						__typename: 'TestimonialCard',
+						sys: { id: 'with' },
+						review: 'Great.',
+						reviewer: 'Ada',
+						organisation: 'Pixielanes',
+						company: {
+							name: 'Pixielanes',
+							slug: 'pixielanes',
+							logo: {
+								url: '//images.ctfassets.net/p.svg',
+								width: 2,
+								height: 1,
+							},
+						},
+					},
+					{
+						__typename: 'TestimonialCard',
+						sys: { id: 'without' },
+						review: 'Kind.',
+						reviewer: 'Grace',
+						company: null,
+					},
 				],
 			},
 		},
@@ -230,6 +290,8 @@ describe('loadHome', () => {
 			'about',
 			'work',
 			'collaborations',
+			'career',
+			'testimonials',
 		]);
 		expect(home.manifesto).toEqual({
 			before: 'I build ',
@@ -246,13 +308,43 @@ describe('loadHome', () => {
 		expect(home.collaborations.items).toEqual([
 			{
 				name: 'EY',
+				slug: 'ey',
 				url: 'https://ey.com',
 				logoUrl: 'https://images.ctfassets.net/ey.svg',
-				ratio: '40 / 80',
-				tall: true,
+				ratio: 0.5,
+				showLogo: true,
+			},
+			{
+				name: 'HSBC',
+				slug: 'hsbc',
+				url: 'https://www.hsbc.com/',
+				logoUrl: 'https://images.ctfassets.net/hsbc.svg',
+				ratio: 316 / 85,
+				showLogo: false,
 			},
 		]);
-		expect(home.career.experiences).toEqual([]);
+		expect(home.career.experiences).toMatchObject([
+			{
+				company: 'White Rabbit Group',
+				employer: {
+					name: 'White Rabbit Group',
+					slug: 'white-rabbit-group',
+					logoUrl: undefined,
+					showLogo: true,
+				},
+			},
+		]);
+		expect(home.testimonials.items.map((item) => item.company)).toEqual([
+			{
+				name: 'Pixielanes',
+				slug: 'pixielanes',
+				logoUrl: 'https://images.ctfassets.net/p.svg',
+				ratio: 2,
+				showLogo: true,
+				url: undefined,
+			},
+			undefined,
+		]);
 	});
 
 	it('drops the manifesto without a {word} slot or two words', async () => {

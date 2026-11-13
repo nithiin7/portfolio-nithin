@@ -118,6 +118,7 @@ export const ASSET_SLOTS: Record<
 		label: 'logo',
 	},
 	'link.logo': { formats: ['svg+xml'], maxBytes: 20e3, label: 'logo' },
+	'company.logo': { formats: ['svg+xml'], maxBytes: 20e3, label: 'logo' },
 	'seo.ogImage': {
 		formats: ['png', 'jpeg'],
 		maxBytes: 300e3,

@@ -3,7 +3,9 @@ import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { useId, useMemo, useState, type FC, type ReactElement } from 'react';
 
 import ScrambleText from 'components/motion/ScrambleText/ScrambleText';
+import CompanyLogo from 'components/utilities/CompanyLogo/CompanyLogo';
 import { careerPeriod, type CareerPeriod } from 'helpers/career';
+import { showsLogo } from 'helpers/company';
 import { duration, ease } from 'styles/tokens';
 import type { Experience } from 'types/career';
 
@@ -127,7 +129,18 @@ const HomeCareer: FC<HomeCareerProps> = ({
 											{formatPeriod(row.period)}
 										</span>
 										<span className={styles.HomeCareer__company}>
-											{row.company}
+											{row.employer && showsLogo(row.employer) && (
+												<CompanyLogo
+													company={row.employer}
+													size="sm"
+													framed
+													decorative
+													className={styles.HomeCareer__logo}
+												/>
+											)}
+											<span className={styles.HomeCareer__companyName}>
+												{row.company}
+											</span>
 										</span>
 										<span className={styles.HomeCareer__role}>
 											{row.position}

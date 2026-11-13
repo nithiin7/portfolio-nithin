@@ -196,6 +196,47 @@ test.describe('keyboard behavior', () => {
 		await expect(modal).toBeHidden();
 	});
 
+	test('company logos: linked marks take a visible focus ring, decorative ones stay silent', async ({
+		page,
+	}) => {
+		await page.goto('/', { waitUntil: 'networkidle' });
+
+		const collaborations = page.locator('#collaborations');
+		const links = collaborations.getByRole('link', {
+			name: /\(opens in a new tab\)$/,
+		});
+		expect(await links.count()).toBeGreaterThan(0);
+
+		// Only the first marquee copy is in the tab order
+		const tabbable = collaborations.locator('a:not([tabindex="-1"])');
+		expect(await tabbable.count()).toBe(await links.count());
+
+		const first = tabbable.first();
+		await first.focus();
+		await page.keyboard.press('Shift+Tab');
+		await page.keyboard.press('Tab');
+		await expect(first).toBeFocused();
+		await expect(first).toHaveAttribute('target', '_blank');
+		await expect(first).toHaveAttribute('rel', 'noopener noreferrer');
+		const outline = await first.evaluate(
+			(el) => getComputedStyle(el).outlineStyle
+		);
+		expect(outline).not.toBe('none');
+
+		// Career and testimonial logos sit beside the printed name
+		for (const section of ['#career', '#testimonials']) {
+			const marks = page.locator(`${section} [style*="--logo"]`);
+			for (const mark of await marks.all()) {
+				expect(
+					await mark.evaluate((el) => !!el.closest('[aria-hidden="true"]'))
+				).toBe(true);
+			}
+		}
+		await expect(
+			page.locator('#career [style*="--logo"]').first()
+		).toBeAttached();
+	});
+
 	test('works index: arrow keys move focus and focus opens the preview', async ({
 		page,
 	}) => {

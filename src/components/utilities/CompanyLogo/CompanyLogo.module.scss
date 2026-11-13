@@ -1,0 +1,56 @@
+@use 'styles/shared/mixin' as *;
+
+.CompanyLogo {
+	--logo-height: var(--logo-md-height);
+	--logo-width: var(--logo-md-width);
+
+	display: inline-flex;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	max-width: 100%;
+
+	&--sm {
+		--logo-height: var(--logo-sm-height);
+		--logo-width: var(--logo-sm-width);
+	}
+
+	&--lg {
+		--logo-height: var(--logo-lg-height);
+		--logo-width: var(--logo-lg-width);
+	}
+
+	// Fixed tile, so the text beside it lines up row to row whatever the mark
+	&--framed {
+		box-sizing: content-box;
+		width: var(--logo-width);
+		min-height: calc(var(--logo-height) * 1.25);
+		padding: var(--space-2);
+		border: 1px solid var(--line-strong);
+	}
+
+	&--link {
+		transition: color var(--dur-1) var(--ease);
+
+		&:focus-visible {
+			@include focus-ring(6px);
+		}
+	}
+
+	&__mark {
+		display: block;
+		height: calc(var(--logo-height) * var(--logo-scale, 1));
+		max-width: min(var(--logo-width), 100%);
+		aspect-ratio: var(--logo-ratio, 1);
+		@include logo-mask;
+	}
+
+	&__name {
+		@include mono-type;
+
+		font-weight: 400;
+		line-height: var(--leading-snug);
+		text-align: center;
+		overflow-wrap: anywhere;
+	}
+}

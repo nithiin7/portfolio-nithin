@@ -6,7 +6,7 @@ const SLUG = '^[a-z0-9]+(?:-[a-z0-9]+)*$';
 const HTTPS = '^https://[^\\s]+$';
 const URL_OR_PATH = '^(https://[^\\s]+|mailto:[^\\s]+|/[^\\s]*)$';
 const INTERNAL_NAME =
-	'^(Project|Post|Role|Cert|Testimonial|Home|Page|SEO|Link|Media|Person|Category|Capability|Principle|Stat|Collaborator|Site) — .{2,80}$';
+	'^(Project|Post|Role|Cert|Testimonial|Home|Page|SEO|Link|Media|Person|Category|Capability|Principle|Stat|Collaborator|Company|Site) — .{2,80}$';
 
 const RICH_TEXT = [
 	{

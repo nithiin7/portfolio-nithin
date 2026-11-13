@@ -35,13 +35,11 @@
 		}
 	}
 
-	// Vendor logos mix black and white artwork; a mask tints them all in theme colour
 	&__mark {
 		display: block;
 		width: 100%;
 		height: 100%;
-		background-color: currentcolor;
-		mask: var(--logo) center / contain no-repeat;
+		@include logo-mask;
 	}
 
 	&__heading {

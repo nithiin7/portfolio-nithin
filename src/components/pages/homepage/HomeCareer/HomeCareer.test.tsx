@@ -31,6 +31,39 @@ const experiences = [
 ];
 
 describe('HomeCareer', () => {
+	it('frames each employer logo beside the company name, hidden from assistive tech', () => {
+		const withLogo: Experience = {
+			...experience('ey', 'EY', ['2026-08-01']),
+			employer: {
+				name: 'EY',
+				slug: 'ey',
+				logoUrl: 'https://images.ctfassets.net/s/ey.svg',
+				ratio: 0.66,
+				showLogo: true,
+			},
+		};
+		const nameOnly: Experience = {
+			...experience('wr', 'White Rabbit', ['2022-07-01', '2023-10-01']),
+			employer: {
+				name: 'White Rabbit',
+				slug: 'white-rabbit',
+				ratio: 1,
+				showLogo: false,
+			},
+		};
+		const { container } = render(
+			<HomeCareer experiences={[withLogo, nameOnly]} />
+		);
+
+		const marks = container.querySelectorAll('[style*="--logo"]');
+		expect(marks).toHaveLength(1);
+		expect(marks[0]?.closest('[aria-hidden="true"]')).not.toBeNull();
+		expect(screen.getAllByRole('button')[0]).toHaveAccessibleName(
+			expect.stringContaining('EY')
+		);
+		expect(screen.getAllByRole('button')[1]).toHaveTextContent(/White Rabbit/);
+	});
+
 	it('lists every role at once, current role first', () => {
 		render(<HomeCareer experiences={experiences} />);
 

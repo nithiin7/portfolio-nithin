@@ -156,6 +156,14 @@ $red-deep: #b42318;
 	--tap-min: 2.75rem;
 	// Floating triggers (search tab, chat launcher) share one square size
 	--chrome-size: clamp(3rem, 2.85rem + 0.55vw, 3.5rem);
+	// Company logos: the height a square mark gets and the widest a wordmark
+	// may run. CompanyLogo scales each mark by its aspect ratio inside the box.
+	--logo-sm-height: 1.5rem;
+	--logo-sm-width: 4.5rem;
+	--logo-md-height: 1.75rem;
+	--logo-md-width: 7rem;
+	--logo-lg-height: clamp(2rem, 1.7rem + 0.8vw, 2.75rem);
+	--logo-lg-width: 10rem;
 
 	// Radii: Swiss is mostly square; pill is for tags/availability only
 	--radius-0: 0;

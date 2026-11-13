@@ -44,8 +44,9 @@ Every type gets an internal name as its display field (Symbol, required, unique)
 | seo                              | SEO — `<owner>`                               | SEO — Project Orbit                       |
 | link / media                     | Link — `<label>` / Media — `<subject>`        | Media — Orbit agent workflow              |
 | person, blogCategory, capability | Person — / Category — / Capability — `<name>` | Category — AI Engineering                 |
+| company                          | Company — `<name>`                            | Company — Paytm Payments Bank             |
 
-Validation: `^(Project|Post|Role|Cert|Testimonial|Home|Page|SEO|Link|Media|Person|Category|Capability) — .{2,80}$`. It's never rendered. Its only job is to make reference pickers and list views readable.
+Validation: `^(Project|Post|Role|Cert|Testimonial|Home|Page|SEO|Link|Media|Person|Category|Capability|Principle|Stat|Collaborator|Company|Site) — .{2,80}$`. It's never rendered. Its only job is to make reference pickers and list views readable.
 
 ---
 
@@ -97,7 +98,7 @@ Not allowed: **H1** (the page title is the only H1), H5/H6, tables, inline entri
 | `page`             | Page              | `name` (Internal name) · `slug` · `section` (Sections, home only, links limited to Home Section)                                                                                                                                                                                                                | `seo`                                                                                                   | `title`, `description`, `ogtitle`, `ogurl`                                            |
 | `section`          | Home Section      | `name` (Internal name)                                                                                                                                                                                                                                                                                          | **`key`** (dropdown, unique) · `heading` · `lede` · `body` · `image` · `items` · `stats` · `ctas` (≤ 2) | `contents`                                                                            |
 
-`section.key` is one of `hero`, `manifesto`, `work`, `about`, `capabilities`, `career`, `certifications`, `collaborations`, `testimonials`. The code finds sections by `key`, never by position or `name`. `page.section` only sets the order. `items` keeps the editor's order, except career, which sorts by `startDate`. `items` accepts Portfolio Project, Capability, Career Role, Certification, Testimonial, Principle and Collaborator. `words` (migration 013, 2–8 × ≤ 32 chars) is manifesto only: its `heading` holds the statement with a `{word}` token, and the site scrubs through `words` in order on scroll. Without the token or with fewer than two words the section doesn't render.
+`section.key` is one of `hero`, `manifesto`, `work`, `about`, `capabilities`, `career`, `certifications`, `collaborations`, `testimonials`. The code finds sections by `key`, never by position or `name`. `page.section` only sets the order. `items` keeps the editor's order, except career, which sorts by `startDate`. `items` accepts Portfolio Project, Capability, Career Role, Certification, Testimonial, Principle, Company (collaborations) and Link (deprecated collaborators, until the next contract). `words` (migration 013, 2–8 × ≤ 32 chars) is manifesto only: its `heading` holds the statement with a `{word}` token, and the site scrubs through `words` in order on scroll. Without the token or with fewer than two words the section doesn't render.
 
 Only the 8 top-level home sections stay in use. The nested sections (the ones that held a title plus a list) are deprecated once their content has moved.
 
@@ -113,7 +114,7 @@ Only the 8 top-level home sections stay in use. The nested sections (the ones th
 | `capability`   | internalName · `title` · `summary` (≤ 200) · `items` (≤ 6 × 60)                                                                                                                                                                                                  | Home Section `capabilities`                                                  |
 | `principle`    | internalName · `title` (≤ 40) · `body` (≤ 120)                                                                                                                                                                                                                   | Home Section `about` ("How I work")                                          |
 | `stat`         | internalName · `value` (Integer) · `suffix` · `label` · `isCompact`                                                                                                                                                                                              | Home Section `about` (manual stats; years, projects and certs stay computed) |
-| `collaborator` | internalName · `name` · `url` · `logo` (monochrome SVG asset) · `isTall`                                                                                                                                                                                         | Home Section `collaborations`                                                |
+| `company`      | internalName · `name` · `slug` · `logo` (single-colour SVG asset) · `websiteUrl` · `showLogo` (migration 014)                                                                                                                                                    | Career Role `employer`, Testimonial `company`, Home Section `collaborations` |
 
 Alt text lives on the **asset description**, so one image has one alt wherever it's used. Gallery images stay plain assets. Use `media` only when an image needs a caption or video.
 
@@ -123,7 +124,9 @@ The site URL, title template, Google site verification, GTM and Sentry IDs, the 
 
 ### Removed types
 
-Contracted on 2026-11-13 (migrations 011–012, with the user's OK, before launch): `portfolioCard`, `title`, `description`, `list`, `url`, `imageCard`, `experienceCard`, `blogTag` and every deprecated field. Backup: `backups/contentful-2026-11-13-pre-contract/`. The space uses 17 of the plan's 25 content types.
+Contracted on 2026-11-13 (migrations 011–012, with the user's OK, before launch): `portfolioCard`, `title`, `description`, `list`, `url`, `imageCard`, `experienceCard`, `blogTag` and every deprecated field. Backup: `backups/contentful-2026-11-13-pre-contract/`. The space uses 17 of the plan's 25 content types; migration 014 added `company` (18).
+
+**Migration 014 (expand):** `careerExperience.company` (text) and `link.logo` are deprecated, replaced by `careerExperience.employer` and Company entries in Home — Collaborations. The next contract migration removes them, along with the Link fallback in `loadHome`.
 
 ---
 
@@ -151,6 +154,7 @@ Contracted on 2026-11-13 (migrations 011–012, with the user's OK, before launc
 | Blog inline image   | `post-what-is-mcp--protocol-diagram.webp`                                     |
 | Avatar / portrait   | `person-nithin-pradeep--avatar.jpg`, `testimonial-gokul-krishnan--avatar.jpg` |
 | Certification logo  | `cert-databricks--logo.svg`                                                   |
+| Company logo        | `company-paytm-payments-bank--logo.svg`                                       |
 | OG image            | `seo-orbit-assistant--og.png`                                                 |
 
 The plate pipeline writes `project-<slug>--<name>[-<surface>].png`, and `plates:upload` uses the file stem as the asset ID, so asset titles can be plain English.
@@ -171,6 +175,7 @@ The plate pipeline writes `project-<slug>--<name>[-<surface>].png`, and `plates:
 | About portrait                       | 1500×2000 (3:4)                                                                     | JPEG/WebP ≤ 500 KB    | —                         |
 | Avatars                              | Square, 800×800                                                                     | JPEG/WebP ≤ 200 KB    | —                         |
 | Certification logo                   | Monochrome SVG (rendered as a CSS mask)                                             | SVG ≤ 20 KB           | —                         |
+| Company logo                         | Single-colour SVG, transparent, trimmed to the mark (CSS mask)                      | SVG ≤ 20 KB           | —                         |
 | OG image (`seo.ogImage`)             | 1200×630 exactly                                                                    | PNG/JPEG ≤ 300 KB     | —                         |
 
 Fixed sizes become `assetImageDimensions` validations on the link fields. `cms:check` covers weight and format. `images.ctfassets.net` sends `Access-Control-Allow-Origin: *`, so SVG logos served from Contentful work as CSS masks.

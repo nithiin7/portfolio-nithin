@@ -11,7 +11,7 @@ import {
 const role = (startDate: string, endDate?: string, type = 'full-time') => ({
 	sys: { id: `role-${startDate}` },
 	title: 'Engineer',
-	company: 'Acme',
+	companyName: 'Acme',
 	location: 'Bangalore, India',
 	type,
 	startDate,
@@ -41,6 +41,34 @@ describe('toExperience', () => {
 			location: 'Bangalore, India',
 			type: 'full-time',
 		});
+	});
+
+	it('takes the company name and logo from the employer reference', () => {
+		const experience = toExperience({
+			...role('2026-08-01'),
+			employer: {
+				name: 'EY',
+				slug: 'ey',
+				websiteUrl: 'https://www.ey.com/',
+				showLogo: true,
+				logo: { url: '//images.ctfassets.net/ey.svg', width: 69, height: 104 },
+			},
+		});
+		expect(experience.company).toBe('EY');
+		expect(experience.employer).toEqual({
+			name: 'EY',
+			slug: 'ey',
+			logoUrl: 'https://images.ctfassets.net/ey.svg',
+			ratio: 69 / 104,
+			showLogo: true,
+			url: 'https://www.ey.com/',
+		});
+	});
+
+	it('falls back to the deprecated company text without an employer', () => {
+		const experience = toExperience(role('2026-08-01'));
+		expect(experience.company).toBe('Acme');
+		expect(experience.employer).toBeUndefined();
 	});
 
 	it('shows an open role as Present and defaults unknown types', () => {

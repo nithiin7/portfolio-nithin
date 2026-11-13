@@ -227,6 +227,13 @@ $section-top-clearance-min: rem(120);
 	}
 }
 
+// Logo SVGs mix black and white artwork; a mask paints any of them as one
+// silhouette in $color. Set --logo to url("…") on the element.
+@mixin logo-mask($color: currentcolor) {
+	background-color: $color;
+	mask: var(--logo) center / contain no-repeat;
+}
+
 @mixin sr-only {
 	position: absolute;
 	width: 1px;

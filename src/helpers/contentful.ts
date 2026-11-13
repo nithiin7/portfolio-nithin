@@ -11,7 +11,9 @@ import { cache } from 'react';
 
 import { getApolloClient } from 'clients/apollo';
 import { sortByStart, toExperience } from 'helpers/career';
+import { toCompany } from 'helpers/company';
 import { serverEnv } from 'helpers/env';
+import { httpsUrl } from 'helpers/format';
 import { plainText } from 'helpers/richText';
 import {
 	GET_ALL_BLOG_POSTS,
@@ -27,6 +29,7 @@ import {
 } from 'queries/portfolio';
 import type { BlogPost } from 'types/blog';
 import type { Certification } from 'types/certification';
+import type { Company } from 'types/company';
 import type {
 	BlogPostBySlugResponse,
 	BlogPostItem,
@@ -45,7 +48,6 @@ import type {
 	WorkResponse,
 } from 'types/contentful';
 import type {
-	Collaborator,
 	HomeContent,
 	HomeSectionKey,
 	Manifesto,
@@ -87,10 +89,6 @@ const runQuery = async <TData>(
 
 const compact = <T>(items: (T | null | undefined)[] | undefined | null): T[] =>
 	(items ?? []).filter((item): item is T => item != null);
-
-/** Contentful asset URLs are protocol-relative ("//images.ctfassets.net/…"). */
-const httpsUrl = (url: string): string =>
-	url.startsWith('//') ? `https:${url}` : url;
 
 const toSeo = (raw: RawSeo | null | undefined): Seo | undefined =>
 	raw?.title && raw.description
@@ -255,20 +253,29 @@ const toTestimonial = (
 	role: raw.authorRole ?? '',
 	organisation: raw.organisation ?? '',
 	avatar: { url: raw.avatar?.url ?? '' },
+	company: raw.company ? toCompany(raw.company) : undefined,
 });
 
-const toCollaborator = (raw: RawLink): Collaborator | null => {
-	if (!raw.logo?.url) return null;
-	const width = raw.logo.width ?? 1;
-	const height = raw.logo.height ?? 1;
-	return {
-		name: raw.label,
-		url: raw.url,
-		logoUrl: httpsUrl(raw.logo.url),
-		ratio: `${width} / ${height}`,
-		tall: width / height < 1,
-	};
-};
+// Collaborations held Links with a logo before migration 014. Read them as
+// Companies until the contract migration removes Link.logo.
+const legacyCollaborator = (raw: RawLink): Company | null =>
+	raw.logo?.url
+		? toCompany({
+				name: raw.label,
+				slug: raw.label.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+				websiteUrl: raw.url,
+				logo: raw.logo,
+			})
+		: null;
+
+const toCollaborators = (section: RawHomeSection | undefined): Company[] =>
+	compact(
+		compact(section?.itemsCollection?.items).map((item) => {
+			if (item.__typename === 'Company') return toCompany(item);
+			if (item.__typename === 'Link') return legacyCollaborator(item);
+			return null;
+		})
+	);
 
 const WORD_TOKEN = '{word}';
 
@@ -354,7 +361,7 @@ export const loadHome = cache(async (): Promise<HomeContent> => {
 		},
 		collaborations: {
 			...heading(collaborations),
-			items: compact(itemsOf(collaborations, 'Link').map(toCollaborator)),
+			items: toCollaborators(collaborations),
 		},
 		testimonials: {
 			...heading(testimonials),

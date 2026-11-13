@@ -1,6 +1,11 @@
 import { gql } from '@apollo/client';
 
-import { ASSET_FIELDS, PROJECT_CARD_FIELDS, SEO_FIELDS } from './fragments';
+import {
+	ASSET_FIELDS,
+	COMPANY_FIELDS,
+	PROJECT_CARD_FIELDS,
+	SEO_FIELDS,
+} from './fragments';
 
 export const GET_SITE_SETTINGS = gql`
 	${SEO_FIELDS}
@@ -50,6 +55,7 @@ export const GET_SITE_SETTINGS = gql`
  */
 export const GET_HOME = gql`
 	${ASSET_FIELDS}
+	${COMPANY_FIELDS}
 	${PROJECT_CARD_FIELDS}
 	query Home($preview: Boolean = false) {
 		pageCollection(where: { slug: "home" }, limit: 1, preview: $preview) {
@@ -82,7 +88,10 @@ export const GET_HOME = gql`
 										id
 									}
 									title
-									company
+									companyName: company
+									employer {
+										...CompanyFields
+									}
 									location
 									type
 									startDate
@@ -114,9 +123,15 @@ export const GET_HOME = gql`
 									reviewer
 									authorRole
 									organisation
+									company {
+										...CompanyFields
+									}
 									avatar {
 										url
 									}
+								}
+								... on Company {
+									...CompanyFields
 								}
 								... on Principle {
 									title
