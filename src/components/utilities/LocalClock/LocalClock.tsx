@@ -20,6 +20,7 @@ const getSecond = (): number => Math.floor(Date.now() / 1000);
 
 const getServerSecond = (): null => null;
 
+/** Live clock for a time zone. */
 const LocalClock = ({
 	timeZone,
 	zoneLabel,

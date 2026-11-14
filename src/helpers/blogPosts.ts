@@ -12,6 +12,7 @@ export interface CategoryCount {
 	count: number;
 }
 
+/** Categories with post counts, most used first. */
 export const categoriesFromPosts = (posts: BlogPost[]): CategoryCount[] => {
 	const counts = new Map<string, number>();
 	for (const post of posts) {
@@ -24,6 +25,7 @@ export const categoriesFromPosts = (posts: BlogPost[]): CategoryCount[] => {
 		.sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
 };
 
+/** Posts matching the category, tags and search query. */
 export const filterPosts = (
 	posts: BlogPost[],
 	{ category, tags = [], query = '' }: BlogFilter
@@ -39,6 +41,7 @@ export const filterPosts = (
 	});
 };
 
+/** Whether any blog filter is active. */
 export const isFiltering = ({
 	category,
 	tags = [],
@@ -61,6 +64,7 @@ const dateFormats = {
 	}),
 } as const;
 
+/** Formats a post date, or returns "" when invalid. */
 export const formatPostDate = (
 	iso: string,
 	style: keyof typeof dateFormats = 'short'

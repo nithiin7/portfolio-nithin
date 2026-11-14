@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 
 import { captureException } from 'helpers/monitoring';
 
+/** Last-resort error screen when the root layout fails. */
 export default function GlobalError({
 	error,
 }: {

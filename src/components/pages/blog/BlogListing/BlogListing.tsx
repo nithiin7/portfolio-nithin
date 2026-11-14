@@ -37,6 +37,7 @@ const ELSEWHERE = [
 
 const pad = (n: number): string => String(n).padStart(2, '0');
 
+/** Blog index with search, category and tag filters. */
 const BlogListing: FC<BlogListingProps> = ({
 	posts,
 	categories,

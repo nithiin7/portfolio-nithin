@@ -31,6 +31,7 @@ const HomeTestimonial = dynamic(
 	() => import('components/pages/homepage/HomeTestimonial/HomeTestimonial')
 );
 
+/** Home route, rendering sections in the order Contentful lists them. */
 export default async function Home() {
 	const [home, site] = await Promise.all([loadHome(), loadSiteSettings()]);
 	const projects = await enrichPortfolio(home.work.projects);

@@ -60,6 +60,7 @@ export async function generateMetadata(): Promise<Metadata> {
 	};
 }
 
+/** Resume route. */
 export default async function ResumePage() {
 	const [home, site] = await Promise.all([loadHome(), loadSiteSettings()]);
 

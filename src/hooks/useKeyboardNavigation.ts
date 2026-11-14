@@ -12,6 +12,7 @@ interface UseKeyboardNavigationOptions {
 	enabled?: boolean;
 }
 
+/** Calls the matching handler for keys pressed on the returned element. */
 export function useKeyboardNavigation({
 	onEscape,
 	onEnter,
@@ -106,6 +107,7 @@ export function useKeyboardNavigation({
 	return elementRef;
 }
 
+/** Traps Tab focus inside the returned container while enabled. */
 export function useFocusTrap(enabled = true) {
 	const containerRef = useRef<HTMLDivElement>(null);
 

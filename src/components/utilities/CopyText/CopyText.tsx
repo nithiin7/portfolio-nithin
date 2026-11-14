@@ -11,6 +11,7 @@ export interface CopyTextProps {
 
 const RESET_AFTER = 2400;
 
+/** Text that copies itself to the clipboard on click. */
 const CopyText = ({ text, label, className }: CopyTextProps): ReactElement => {
 	const [copied, setCopied] = useState(false);
 

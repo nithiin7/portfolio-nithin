@@ -5,11 +5,13 @@ import type { ServiceResponse } from 'types/service';
 
 type Filters = Record<string, string | number | boolean | null | undefined>;
 
+/** Supabase table wrapper that answers with `{ data, error }`. */
 export class BaseService {
 	protected get client(): SupabaseClient {
 		return getSupabaseClient();
 	}
 
+	/** Selects rows matching the filters. */
 	async get<T = unknown>(
 		table: string,
 		filters?: Filters,
@@ -49,6 +51,7 @@ export class BaseService {
 		}
 	}
 
+	/** Inserts a row. */
 	async post<T = unknown>(
 		table: string,
 		data: object,
@@ -73,6 +76,7 @@ export class BaseService {
 		}
 	}
 
+	/** Updates rows matching the filters. */
 	async patch<T = unknown>(
 		table: string,
 		id: string,
@@ -93,6 +97,7 @@ export class BaseService {
 		}
 	}
 
+	/** Calls a Postgres function. */
 	async rpc<T = unknown>(
 		fn: string,
 		args?: Record<string, unknown>

@@ -6,6 +6,7 @@ export const alt = 'Live stats social card';
 export const size = ogSize;
 export const contentType = ogContentType;
 
+/** OG image for the stats page. */
 export default function Image(): Promise<ImageResponse> {
 	return renderOgCard({
 		kicker: '/STATS',

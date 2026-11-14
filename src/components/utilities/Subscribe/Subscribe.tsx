@@ -23,6 +23,7 @@ interface SubscribeProps {
 	className?: string;
 }
 
+/** Newsletter sign-up form. */
 const Subscribe: FC<SubscribeProps> = ({ className }): ReactElement => {
 	const uid = useId();
 	const [done, setDone] = useState(false);

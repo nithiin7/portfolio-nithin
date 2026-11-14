@@ -18,6 +18,7 @@ interface GithubStatCardProps {
 	stats: GithubStats | null;
 }
 
+/** GitHub repos, stars and languages. */
 const GithubStatCard: FC<GithubStatCardProps> = ({
 	stats,
 }): ReactElement | null => {

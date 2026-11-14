@@ -36,6 +36,7 @@ const splitLongText = (text: string): string[] => {
 	return parts;
 };
 
+/** Splits markdown into heading-labelled chunks for embedding. */
 export const chunkMarkdown = (
 	markdown: string,
 	source: string
@@ -83,6 +84,7 @@ export const chunkMarkdown = (
 	return chunks;
 };
 
+/** Cosine similarity of two vectors, 0 when either is zero. */
 export const cosineSimilarity = (a: number[], b: number[]): number => {
 	let dot = 0;
 	let normA = 0;
@@ -100,6 +102,7 @@ export const cosineSimilarity = (a: number[], b: number[]): number => {
 	return denominator === 0 ? 0 : dot / denominator;
 };
 
+/** Top chunks most similar to the query, above a minimum score. */
 export const findRelevantChunks = (
 	queryVector: number[],
 	chunks: EmbeddedChunk[],

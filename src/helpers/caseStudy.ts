@@ -50,6 +50,7 @@ const toDocument = (content: TopLevelBlock[]): Document | undefined =>
 		? { nodeType: BLOCKS.DOCUMENT, data: {}, content }
 		: undefined;
 
+/** Splits a rich-text document into intro and authored sections by heading. */
 export const splitByHeadings = (
 	doc: Document
 ): { intro: TopLevelBlock[] } & Partial<
@@ -72,6 +73,7 @@ export const splitByHeadings = (
 	return result;
 };
 
+/** Splits a "Title: body" feature into a highlight. */
 export const splitHighlight = (feature: string): CaseStudyHighlight => {
 	const match = feature.match(/^([^:]{2,60}):\s+([\s\S]+)$/);
 	const [, title, body] = match ?? [];
@@ -99,6 +101,7 @@ const metricFromItem = (item: Block): CaseStudyMetric | null => {
 	return value && label ? { value, label } : null;
 };
 
+/** Pulls lists of bold-value metrics out of outcome content. */
 export const extractMetrics = (
 	content: TopLevelBlock[]
 ): { metrics: CaseStudyMetric[]; rest: TopLevelBlock[] } => {
@@ -141,6 +144,7 @@ export interface CaseStudyInput {
 	hasGallery?: boolean;
 }
 
+/** Builds the case-study sections from a project's description and features. */
 export const buildCaseStudy = ({
 	description,
 	features,
@@ -203,6 +207,7 @@ export const buildCaseStudy = ({
 	return sections;
 };
 
+/** The project after the given id, wrapping to the first. */
 export const nextInOrder = <T extends { id?: number }>(
 	order: T[],
 	id: number
@@ -215,6 +220,7 @@ export const nextInOrder = <T extends { id?: number }>(
 	return item ? { item, position: nextIndex + 1, total: ids.length } : null;
 };
 
+/** 1-based position of the given id and the total. */
 export const positionOf = (
 	order: { id?: number }[],
 	id: number

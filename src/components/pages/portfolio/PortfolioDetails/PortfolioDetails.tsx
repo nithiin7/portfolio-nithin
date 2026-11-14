@@ -144,6 +144,7 @@ const SectionBody: FC<SectionBodyProps> = ({
 	</>
 );
 
+/** Case-study page for a project. */
 const PortfolioDetails: FC<PortfolioDetailsProps> = ({
 	project,
 	position,

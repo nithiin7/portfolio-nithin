@@ -31,6 +31,7 @@ export interface FormFieldProps {
 	ref?: (node: FieldElement | null) => void;
 }
 
+/** Labelled input or textarea wired to React Hook Form. */
 const FormField = ({
 	name,
 	id: idProp,

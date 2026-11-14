@@ -15,6 +15,7 @@ interface CountUpProps {
 	className?: string;
 }
 
+/** Number that counts up when it scrolls into view. */
 const CountUp: FC<CountUpProps> = ({
 	value,
 	decimals = 0,

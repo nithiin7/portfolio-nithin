@@ -36,6 +36,7 @@ const layerState = (
 	return 'idle';
 };
 
+/** Cursor-following preview of the hovered project. */
 const WorksPreview: FC<WorksPreviewProps> = ({
 	projects,
 	state,

@@ -39,6 +39,7 @@ const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
 const MONO_ADVANCE_EM = 0.6;
 const GLYPH_SIZE_EM = 0.82;
 
+/** Resolves text from scrambled glyphs on enter, hover or scroll. */
 const ScrambleText: FC<ScrambleTextProps> = ({
 	text,
 	mode = 'enter',

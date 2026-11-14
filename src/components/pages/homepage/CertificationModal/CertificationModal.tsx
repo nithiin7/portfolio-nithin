@@ -39,6 +39,7 @@ const formatDate = (dateString: string) =>
 		timeZone: 'UTC',
 	});
 
+/** Certification card that opens its details in a modal. */
 const CertificationModal: FC<CertificationModalProps> = ({ certification }) => {
 	const prefersReducedMotion = useReducedMotion();
 	const item = prefersReducedMotion ? fade : rise;

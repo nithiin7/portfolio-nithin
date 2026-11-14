@@ -13,6 +13,7 @@ interface PreloaderProps {
 	site: Pick<SiteSettings, 'name' | 'location'>;
 }
 
+/** First-visit intro screen with the name and location. */
 const Preloader = ({ site }: PreloaderProps): ReactElement => {
 	const [first, ...rest] = site.name.split(' ');
 

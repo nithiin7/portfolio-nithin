@@ -17,6 +17,7 @@ interface WakaTimeStatCardProps {
 	stats: WakaTimeStats | null;
 }
 
+/** WakaTime coding time, languages and editors. */
 const WakaTimeStatCard: FC<WakaTimeStatCardProps> = ({
 	stats,
 }): ReactElement | null => {

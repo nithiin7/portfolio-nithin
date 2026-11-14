@@ -31,6 +31,7 @@ const renderPitch = (pitch: Document | undefined): ReactNode[] => {
 
 const stagger = (i: number): CSSProperties => ({ '--i': i }) as CSSProperties;
 
+/** Home hero: name, role, pitch and calls to action. */
 const HomeHeader = ({
 	className = '',
 	site,

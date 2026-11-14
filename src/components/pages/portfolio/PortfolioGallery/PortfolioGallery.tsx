@@ -31,6 +31,7 @@ interface PortfolioGalleryProps {
 
 const pad = (n: number): string => String(n).padStart(2, '0');
 
+/** Project gallery with a lightbox. */
 const PortfolioGallery: FC<PortfolioGalleryProps> = ({
 	images,
 	projectTitle,

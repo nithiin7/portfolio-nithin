@@ -1,5 +1,6 @@
 import type Lenis from 'lenis';
 
+/** Smooth-scrolls Lenis to the element with the given id. */
 export const handleScroll = (to: string, lenis: Lenis | undefined) => {
 	if (!lenis) return;
 

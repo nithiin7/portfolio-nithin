@@ -109,6 +109,7 @@ const richTextOptions = (assets: Map<string, BlogAsset>): Options => {
 	};
 };
 
+/** Blog post: body, contents, sharing, comments and related posts. */
 const BlogDetail: FC<BlogDetailProps> = ({
 	post,
 	relatedPosts,

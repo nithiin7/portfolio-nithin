@@ -14,6 +14,7 @@ interface PortfolioNextProps {
 
 const pad = (n: number): string => String(n).padStart(2, '0');
 
+/** Link to the next project. */
 const PortfolioNext: FC<PortfolioNextProps> = ({ next }): ReactElement => {
 	const [active, setActive] = useState(false);
 

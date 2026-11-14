@@ -96,6 +96,7 @@ const Quote: FC<{ item: Testimonial }> = ({ item }) => (
 	</>
 );
 
+/** Testimonial carousel showing one quote at a time. */
 const HomeTestimonial: FC<HomeTestimonialProps> = ({
 	className = '',
 	data,

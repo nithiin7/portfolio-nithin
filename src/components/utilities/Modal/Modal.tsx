@@ -34,6 +34,7 @@ const panel: Variants = {
 	},
 };
 
+/** Accessible modal dialog that traps focus. */
 const Modal: FC<ModalProps> = ({
 	isOpen,
 	onClose,

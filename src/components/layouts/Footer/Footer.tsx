@@ -17,6 +17,7 @@ interface FooterProps {
 	site: SiteSettings;
 }
 
+/** Site footer: headline, contact links, local time and back-to-top. */
 const Footer = ({ site }: FooterProps): ReactElement => {
 	const { email, location, availability, name, socials } = site;
 

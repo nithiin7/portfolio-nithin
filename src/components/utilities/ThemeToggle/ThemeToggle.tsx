@@ -11,6 +11,7 @@ export interface ThemeToggleProps {
 	onToggle?: () => void;
 }
 
+/** Switches between light and dark themes. */
 const ThemeToggle = ({
 	className = '',
 	onToggle,

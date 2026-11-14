@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+/** True from the frame after mount while enabled. */
 export const useRevealOnMount = (enabled: boolean): boolean => {
 	const [revealed, setRevealed] = useState(false);
 

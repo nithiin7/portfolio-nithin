@@ -26,6 +26,7 @@ export interface MenuProps {
 
 const panelTransition: Transition = { duration: duration.base, ease };
 
+/** Full-screen navigation menu. */
 const Menu = ({ open, onClose, onLinkClick }: MenuProps): ReactElement => {
 	const { socials, location } = useSiteSettings();
 	const menuSocials = MENU_SOCIALS.flatMap((icon) =>

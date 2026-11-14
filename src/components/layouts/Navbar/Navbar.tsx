@@ -20,6 +20,7 @@ export interface NavbarProps {
 const isActive = (pathname: string, href: string): boolean =>
 	!href.includes('#') && (pathname === href || pathname.startsWith(`${href}/`));
 
+/** Fixed top navigation that hides on scroll down. */
 const Navbar = ({ className = '' }: NavbarProps): ReactElement => {
 	const { name } = useSiteSettings();
 	const pathname = usePathname();

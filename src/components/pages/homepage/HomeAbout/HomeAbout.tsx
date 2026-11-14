@@ -24,6 +24,7 @@ interface HomeAboutProps {
 	stats?: AboutStat[];
 }
 
+/** About section: bio, portrait, principles and stats. */
 const HomeAbout: FC<HomeAboutProps> = ({
 	className = '',
 	title,

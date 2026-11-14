@@ -13,6 +13,7 @@ interface HuggingFaceStatCardProps {
 	stats: HuggingFaceStats | null;
 }
 
+/** Hugging Face Space likes and status. */
 const HuggingFaceStatCard: FC<HuggingFaceStatCardProps> = ({
 	stats,
 }): ReactElement | null => {

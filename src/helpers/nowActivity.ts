@@ -3,6 +3,7 @@ import type { DevToStats } from 'types/devto';
 import type { GithubStats } from 'types/github';
 import type { WakaTimeStats } from 'types/wakatime';
 
+/** The three latest coding, GitHub and dev.to activities. */
 export const buildNowActivity = (
 	wakatime: WakaTimeStats | null,
 	github: GithubStats | null,

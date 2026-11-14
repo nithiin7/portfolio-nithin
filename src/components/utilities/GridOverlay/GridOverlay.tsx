@@ -11,6 +11,7 @@ const isEditable = (target: EventTarget | null): boolean =>
 	(target.isContentEditable ||
 		['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName));
 
+/** 12-column grid overlay toggled with the G key. */
 const GridOverlay: FC = (): ReactElement | null => {
 	const [visible, setVisible] = useState(false);
 

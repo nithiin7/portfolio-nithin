@@ -14,6 +14,7 @@ const toastVars = {
 	'--border-radius': 'var(--radius-1)',
 } as CSSProperties;
 
+/** Toast container styled to the theme. */
 const Toast: FC = () => {
 	const { theme } = useTheme();
 

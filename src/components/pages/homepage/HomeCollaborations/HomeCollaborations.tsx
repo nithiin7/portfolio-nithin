@@ -36,6 +36,7 @@ const MAX_BOOST = 3;
 const LOOP_SECONDS = 48;
 const EASE_MS = 220;
 
+/** Logo marquee of collaborators. */
 const HomeCollaborations: FC<HomeCollaborationsProps> = ({
 	className = '',
 	data,

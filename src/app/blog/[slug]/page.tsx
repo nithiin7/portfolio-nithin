@@ -80,6 +80,7 @@ export async function generateMetadata({
 	};
 }
 
+/** Blog post route. */
 export default async function BlogDetails({
 	params,
 }: Readonly<BlogDetailLayoutProps>): Promise<React.ReactElement> {

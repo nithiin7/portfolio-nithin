@@ -25,6 +25,7 @@ const listFormat = new Intl.ListFormat('en-GB', {
 	type: 'conjunction',
 });
 
+/** Pinned manifesto that cycles its lines on scroll. */
 const HomeManifesto: FC<HomeManifestoProps> = ({ manifesto }): ReactElement => {
 	const { before, after, words } = manifesto;
 	const ref = useRef<HTMLElement>(null);

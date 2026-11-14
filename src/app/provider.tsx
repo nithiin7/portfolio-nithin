@@ -9,6 +9,7 @@ interface ProviderProps {
 	children: React.ReactNode;
 }
 
+/** Client providers: theme, motion config, Lenis and the service worker. */
 export default function Provider({
 	children,
 }: Readonly<ProviderProps>): React.ReactElement {

@@ -20,6 +20,7 @@ interface ResumeProps {
 
 const pad = (n: number): string => String(n).padStart(2, '0');
 
+/** Resume page. */
 const Resume: FC<ResumeProps> = ({
 	site,
 	bio,

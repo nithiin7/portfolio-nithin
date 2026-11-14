@@ -2,6 +2,7 @@ import { httpsUrl } from 'helpers/format';
 import type { Company } from 'types/company';
 import type { RawCompany } from 'types/contentful';
 
+/** Converts a Contentful company to a Company. */
 export const toCompany = (raw: RawCompany): Company => {
 	const width = raw.logo?.width ?? 1;
 	const height = raw.logo?.height ?? 1;
@@ -15,5 +16,6 @@ export const toCompany = (raw: RawCompany): Company => {
 	};
 };
 
+/** Whether the company has a logo to render. */
 export const showsLogo = (company: Company): boolean =>
 	company.showLogo && Boolean(company.logoUrl);

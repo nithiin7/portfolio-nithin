@@ -2,9 +2,11 @@ import { baseService } from 'services/index';
 import type { ServiceError, ServiceResponse } from 'types/service';
 import type { BlogView, DatabaseBlogView } from 'types/view';
 
+/** Blog post view counts in Supabase. */
 export class ViewsService {
 	private readonly tableName = 'blog_views';
 
+	/** Adds one view to a post. */
 	async incrementView(slug: string): Promise<{ error: ServiceError }> {
 		const { error } = await baseService.rpc('increment_blog_view', {
 			post_slug: slug,
@@ -13,6 +15,7 @@ export class ViewsService {
 		return { error };
 	}
 
+	/** Views of one post. */
 	async getViewCount(slug: string): Promise<ServiceResponse<number>> {
 		const { data, error } = await baseService.get<DatabaseBlogView>(
 			this.tableName,
@@ -27,6 +30,7 @@ export class ViewsService {
 		return { data: data?.[0]?.view_count ?? 0, error: null };
 	}
 
+	/** Most viewed posts. */
 	async getTopViewed(limit = 5): Promise<ServiceResponse<BlogView[]>> {
 		const { data, error } = await baseService.get<DatabaseBlogView>(
 			this.tableName,
@@ -48,6 +52,7 @@ export class ViewsService {
 		return { data: views, error: null };
 	}
 
+	/** Views across all posts. */
 	async getTotalViews(): Promise<ServiceResponse<number>> {
 		const { data, error } = await baseService.get<DatabaseBlogView>(
 			this.tableName,

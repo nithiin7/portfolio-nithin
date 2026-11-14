@@ -19,9 +19,11 @@ const OPTICAL_EXPONENT = 0.3;
 const MIN_SCALE = 0.5;
 const MAX_SCALE = 1.25;
 
+/** Scale that evens out the visual weight of wide and tall logos. */
 export const opticalScale = (ratio: number): number =>
 	Math.min(MAX_SCALE, Math.max(MIN_SCALE, ratio ** -OPTICAL_EXPONENT));
 
+/** Company logo as a text-coloured mask, falling back to the name. */
 const CompanyLogo = ({
 	company,
 	size = 'md',

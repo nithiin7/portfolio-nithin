@@ -11,6 +11,7 @@ interface PostShareProps {
 	links: ShareLink[];
 }
 
+/** Share links and a copy-link button for a post. */
 const PostShare: FC<PostShareProps> = ({ url, links }): ReactElement => {
 	const [copied, copy] = useCopyToClipboard({
 		success: 'Link copied',

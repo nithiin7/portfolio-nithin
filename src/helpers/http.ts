@@ -1,3 +1,4 @@
+/** Fetches JSON, or null on any failure. */
 export const fetchJson = async <T>(
 	url: string,
 	init?: RequestInit

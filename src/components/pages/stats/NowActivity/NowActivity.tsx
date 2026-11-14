@@ -9,6 +9,7 @@ interface NowActivityProps {
 	items: NowActivityItem[];
 }
 
+/** Latest coding, GitHub and writing activity. */
 const NowActivity: FC<NowActivityProps> = ({ items }): ReactElement | null => {
 	if (items.length === 0) return null;
 

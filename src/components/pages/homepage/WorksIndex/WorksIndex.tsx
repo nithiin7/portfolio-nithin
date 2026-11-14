@@ -24,6 +24,7 @@ const INITIAL_PREVIEW: WorksPreviewState = {
 	anchor: null,
 };
 
+/** Numbered index of the remaining projects with a hover preview. */
 const WorksIndex: FC<WorksIndexProps> = ({
 	projects,
 	offset = 0,

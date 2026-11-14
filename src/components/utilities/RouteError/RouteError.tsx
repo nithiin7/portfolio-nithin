@@ -14,6 +14,7 @@ export interface RouteErrorProps {
 	back: { href: string; label: string };
 }
 
+/** Error screen with retry and back links. */
 const RouteError: FC<RouteErrorProps> = ({
 	error,
 	reset,

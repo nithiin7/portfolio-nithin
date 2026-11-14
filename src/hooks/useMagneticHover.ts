@@ -16,6 +16,7 @@ interface UseMagneticHoverResult<
 	magneticRef: RefObject<Magnetic | null>;
 }
 
+/** Pulls an element toward the pointer while it hovers the bounds. */
 export const useMagneticHover = <
 	Bounds extends HTMLElement = HTMLElement,
 	Magnetic extends HTMLElement = HTMLElement,

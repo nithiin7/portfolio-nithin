@@ -48,6 +48,7 @@ export async function generateMetadata(): Promise<Metadata> {
 	};
 }
 
+/** Contact route. */
 export default async function ContactPage(): Promise<React.ReactElement> {
 	const [seo, site] = await Promise.all([
 		loadPageSeo('contact'),

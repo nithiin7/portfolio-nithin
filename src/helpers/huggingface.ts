@@ -8,6 +8,7 @@ interface HuggingFaceSpace {
 	runtime?: { stage: string };
 }
 
+/** Hugging Face Space likes and status, or null when unavailable. */
 export const loadHuggingFaceStats =
 	async (): Promise<HuggingFaceStats | null> => {
 		const token = serverEnv.HUGGINGFACE_TOKEN;

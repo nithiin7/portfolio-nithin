@@ -95,6 +95,7 @@ const SearchIcon = (): ReactElement => (
 
 const pad = (n: number) => String(n).padStart(2, '0');
 
+/** ⌘K palette for searching pages, projects and posts. */
 const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 	const router = useRouter();
 	const pathname = usePathname();

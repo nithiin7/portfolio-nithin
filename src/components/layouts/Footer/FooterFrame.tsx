@@ -9,6 +9,7 @@ interface FooterFrameProps {
 	children: ReactNode;
 }
 
+/** Footer shell; drops the extended block on /contact. */
 const FooterFrame = ({
 	extended,
 	children,

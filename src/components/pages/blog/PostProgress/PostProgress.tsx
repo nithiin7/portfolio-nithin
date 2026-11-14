@@ -15,6 +15,7 @@ interface PostProgressProps {
 	children: ReactNode;
 }
 
+/** Reading-progress bar that also records the post view. */
 const PostProgress: FC<PostProgressProps> = ({
 	slug,
 	children,

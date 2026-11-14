@@ -8,6 +8,7 @@ import styles from './Footer.module.scss';
 
 const CTA_LABEL = 'Let’s talk';
 
+/** Large "Let's talk" headline with a magnetic contact link. */
 const FooterHeadline = (): ReactElement => {
 	const { boundsRef, magneticRef } = useMagneticHover<
 		HTMLSpanElement,

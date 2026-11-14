@@ -15,6 +15,7 @@ interface MeterBarProps {
 	delay?: number;
 }
 
+/** Labelled percentage bar. */
 const MeterBar: FC<MeterBarProps> = ({
 	label,
 	percent,

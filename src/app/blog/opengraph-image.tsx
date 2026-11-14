@@ -6,6 +6,7 @@ export const alt = 'Writing social card';
 export const size = ogSize;
 export const contentType = ogContentType;
 
+/** OG image for the blog index. */
 export default function Image(): Promise<ImageResponse> {
 	return renderOgCard({
 		kicker: '/BLOG',

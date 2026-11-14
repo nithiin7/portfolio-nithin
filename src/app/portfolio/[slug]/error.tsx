@@ -8,6 +8,7 @@ interface ErrorProps {
 	reset: () => void;
 }
 
+/** Error screen for a case study. */
 export default function PortfolioError({
 	error,
 	reset,

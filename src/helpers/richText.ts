@@ -14,11 +14,13 @@ export interface TocItem {
 	level: 2 | 3;
 }
 
+/** Concatenated text of a rich-text node. */
 export const plainText = (node: Node | Document): string =>
 	node.nodeType === 'text'
 		? (node as Text).value
 		: (node as Block).content.map((child) => plainText(child as Node)).join('');
 
+/** URL-safe slug of a text. */
 export const slugify = (text: string): string =>
 	text
 		.normalize('NFKD')
@@ -28,6 +30,7 @@ export const slugify = (text: string): string =>
 		.trim()
 		.replace(/[\s-]+/g, '-');
 
+/** Slugifier that suffixes repeats with -2, -3, …. */
 export const createSlugger = (): ((text: string) => string) => {
 	const seen = new Map<string, number>();
 	return (text) => {
@@ -38,12 +41,14 @@ export const createSlugger = (): ((text: string) => string) => {
 	};
 };
 
+/** Table-of-contents level for each heading node type. */
 export const HEADING_LEVEL: Partial<Record<string, 2 | 3>> = {
 	[BLOCKS.HEADING_1]: 2,
 	[BLOCKS.HEADING_2]: 2,
 	[BLOCKS.HEADING_3]: 3,
 };
 
+/** Table-of-contents entries for a rich-text document. */
 export const extractHeadings = (doc: Document | undefined): TocItem[] => {
 	if (!doc?.content) return [];
 	const slug = createSlugger();
@@ -65,6 +70,7 @@ export const extractHeadings = (doc: Document | undefined): TocItem[] => {
 	return items;
 };
 
+/** Source text of a paragraph that is entirely code, or null. */
 export const codeBlockSource = (node: Block): string | null => {
 	if (node.nodeType !== BLOCKS.PARAGRAPH || node.content.length === 0) {
 		return null;

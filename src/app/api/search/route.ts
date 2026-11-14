@@ -5,6 +5,7 @@ import type { SearchIndex } from 'types/search';
 
 export const revalidate = 3600;
 
+/** Search index of projects and blog posts. */
 export async function GET(): Promise<NextResponse<SearchIndex>> {
 	const [posts, work] = await Promise.all([loadBlogPosts(), loadWork()]);
 	const portfolioItems = work.map(({ slug, title }) => ({ slug, title }));

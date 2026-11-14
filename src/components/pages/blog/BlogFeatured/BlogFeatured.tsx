@@ -11,6 +11,7 @@ interface BlogFeaturedProps {
 	post: BlogPost;
 }
 
+/** Large card for the latest post. */
 const BlogFeatured: FC<BlogFeaturedProps> = ({ post }): ReactElement => (
 	<article className={styles.BlogFeatured} aria-labelledby="featured-title">
 		{post.featuredImage?.url && (

@@ -29,9 +29,11 @@ const MONTH = new Intl.DateTimeFormat('en-GB', {
 	timeZone: 'UTC',
 });
 
+/** Formats an ISO date as "Mon YYYY". */
 export const formatMonthYear = (iso: string): string =>
 	MONTH.format(calendarDay(iso));
 
+/** Converts a Contentful career role to an Experience. */
 export const toExperience = (role: RawCareerRole): Experience => ({
 	id: role.sys.id,
 	year: role.startDate.slice(0, 4),
@@ -49,9 +51,11 @@ export const toExperience = (role: RawCareerRole): Experience => ({
 	type: EMPLOYMENT_TYPES.find((type) => type === role.type) ?? 'full-time',
 });
 
+/** Experiences sorted newest first. */
 export const sortByStart = (experiences: Experience[]): Experience[] =>
 	[...experiences].sort((a, b) => b.startDate.localeCompare(a.startDate));
 
+/** Whole years since the earliest start date, or null when there are none. */
 export const yearsOfExperience = (
 	startDates: readonly string[],
 	now: Date = new Date()
@@ -72,6 +76,7 @@ export interface CareerPeriod {
 	current: boolean;
 }
 
+/** Start and end years of a role, with end null when it matches the start. */
 export const careerPeriod = (
 	experience: Pick<Experience, 'startDate' | 'endDate'>
 ): CareerPeriod => {

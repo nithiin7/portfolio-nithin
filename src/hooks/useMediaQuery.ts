@@ -1,5 +1,6 @@
 import { useCallback, useSyncExternalStore } from 'react';
 
+/** Whether a media query matches, kept in sync. */
 export const useMediaQuery = (query: string): boolean => {
 	const subscribe = useCallback(
 		(onChange: () => void): (() => void) => {

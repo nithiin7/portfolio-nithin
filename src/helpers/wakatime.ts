@@ -24,6 +24,7 @@ const humanize = (seconds: number): string => {
 	return minutes > 0 ? `${hours}h ${minutes}m` : `${hours}h`;
 };
 
+/** WakaTime coding stats for the last week, or null when unavailable. */
 export const loadWakaTimeStats = async (): Promise<WakaTimeStats | null> => {
 	const apiKey = serverEnv.WAKATIME_API_KEY;
 	if (!apiKey) return null;

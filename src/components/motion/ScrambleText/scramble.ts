@@ -6,8 +6,10 @@ export const SWAP_INTERVAL_MS = 1000 / 30;
 
 const BLANK = /\s/;
 
+/** Splits text into characters, keeping surrogate pairs whole. */
 export const toChars = (text: string): string[] => Array.from(text);
 
+/** Progress at which each character settles, left to right with jitter. */
 export const resolveSchedule = (
 	text: string,
 	jitter = 0.3,
@@ -25,6 +27,7 @@ export const resolveSchedule = (
 	});
 };
 
+/** Random glyph per unsettled character; null once settled. */
 export const scrambleFrame = (
 	schedule: number[],
 	progress: number,

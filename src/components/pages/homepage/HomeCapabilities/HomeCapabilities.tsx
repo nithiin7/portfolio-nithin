@@ -11,6 +11,7 @@ interface HomeCapabilitiesProps {
 	capabilities?: Capability[];
 }
 
+/** Capabilities grid. */
 const HomeCapabilities: FC<HomeCapabilitiesProps> = ({
 	className = '',
 	data,

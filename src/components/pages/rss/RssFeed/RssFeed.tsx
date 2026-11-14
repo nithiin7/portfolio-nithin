@@ -12,6 +12,7 @@ interface RssFeedProps {
 	posts: Pick<BlogPost, 'id' | 'slug' | 'title' | 'publishedDate'>[];
 }
 
+/** RSS page with the feed URL and latest posts. */
 const RssFeed: FC<RssFeedProps> = ({ feedUrl, posts }): ReactElement => (
 	<div className={styles.RssFeed}>
 		<header className={styles.RssFeed__hero}>

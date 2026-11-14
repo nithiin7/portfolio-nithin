@@ -39,6 +39,7 @@ const openaiRequest = async <T>(
 	return response.json() as Promise<T>;
 };
 
+/** Embeds each input with the embedding model, in input order. */
 export const createEmbeddings = async (
 	texts: string[],
 	apiKey: string
@@ -53,6 +54,7 @@ export const createEmbeddings = async (
 		.map((item) => item.embedding);
 };
 
+/** Sends a chat completion and returns the reply text. */
 export const createChatCompletion = async (
 	messages: ChatMessage[],
 	apiKey: string

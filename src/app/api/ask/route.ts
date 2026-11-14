@@ -86,6 +86,7 @@ const buildSystemPrompt = async (
 	return `${SYSTEM_PROMPT}\n\nRETRIEVED CONTEXT (relevant to this question):\n\n${context}`;
 };
 
+/** Answers a question from the site's knowledge base. */
 export async function POST(request: NextRequest) {
 	const apiKey = serverEnv.OPENAI_API_KEY;
 

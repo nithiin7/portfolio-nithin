@@ -3,6 +3,7 @@ type SentryModule = typeof import('@sentry/nextjs');
 let sentry: SentryModule | undefined;
 let pending: Promise<SentryModule> | undefined;
 
+/** Loads and initialises Sentry once, on demand. */
 export const loadSentry = (): Promise<SentryModule> => {
 	pending ??= import('@sentry/nextjs').then((Sentry) => {
 		Sentry.init({
@@ -29,9 +30,11 @@ export const loadSentry = (): Promise<SentryModule> => {
 	return pending;
 };
 
+/** Reports an error to Sentry without blocking. */
 export const captureException = (error: unknown): void => {
 	void loadSentry().then((Sentry) => Sentry.captureException(error));
 };
 
+/** Forwards route transitions to Sentry once it has loaded. */
 export const captureRouterTransitionStart: SentryModule['captureRouterTransitionStart'] =
 	(...args) => sentry?.captureRouterTransitionStart(...args);

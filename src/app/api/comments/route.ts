@@ -19,6 +19,7 @@ const isRateLimited = createRateLimiter({
 // Lower-scoring comments are stored unapproved and wait for moderation
 const AUTO_APPROVE_SCORE = 0.8;
 
+/** Comments on a post. */
 export async function GET(request: NextRequest) {
 	const postId = request.nextUrl.searchParams.get('postId');
 
@@ -33,6 +34,7 @@ export async function GET(request: NextRequest) {
 	}
 }
 
+/** Adds a comment after the reCAPTCHA check. */
 export async function POST(request: NextRequest) {
 	if (isRateLimited(request.headers)) return tooManyRequests();
 

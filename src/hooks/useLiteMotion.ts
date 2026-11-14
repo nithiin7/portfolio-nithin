@@ -17,6 +17,7 @@ const lowPowerSnapshot = (): boolean => {
 	);
 };
 
+/** True for reduced motion, phones and low-power devices. */
 export const useLiteMotion = (): boolean => {
 	const reduced = useMediaQuery('(prefers-reduced-motion: reduce)');
 	const phone = useMediaQuery('(pointer: coarse) and (max-width: 767px)');

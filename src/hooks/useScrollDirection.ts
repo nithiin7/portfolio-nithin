@@ -10,6 +10,7 @@ interface UseScrollDirectionReturn {
 	isAtTop: boolean;
 }
 
+/** Hides on scroll down and reveals on scroll up or near the top. */
 export const useScrollDirection = ({
 	revealZone = 80,
 	tolerance = 6,

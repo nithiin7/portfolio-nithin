@@ -135,6 +135,7 @@ interface RootLayoutProps {
 	children: React.ReactNode;
 }
 
+/** Root layout: fonts, theme, chrome, providers and analytics. */
 export default async function RootLayout({
 	children,
 }: Readonly<RootLayoutProps>): Promise<React.ReactElement> {

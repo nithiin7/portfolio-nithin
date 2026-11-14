@@ -68,6 +68,7 @@ export async function generateMetadata({
 	};
 }
 
+/** Blog index route. */
 export default async function BlogPage({
 	searchParams,
 }: BlogPageProps): Promise<React.ReactElement> {

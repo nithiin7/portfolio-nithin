@@ -5,6 +5,7 @@ import type { BlogStats } from 'types/blog';
 
 const TOP_POST_COUNT = 3;
 
+/** Total views, comments and most viewed posts, or null if unavailable. */
 export const loadBlogStats = async (): Promise<BlogStats | null> => {
 	try {
 		const [{ data: totalViews }, { data: totalComments }, { data: topViewed }] =

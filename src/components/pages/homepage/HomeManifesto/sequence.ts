@@ -5,6 +5,7 @@ export interface ManifestoFrame {
 
 export const CHANGE_HALF_WIDTH = 0.3;
 
+/** Which manifesto line shows at a scroll progress, and how resolved it is. */
 export const manifestoFrame = (
 	progress: number,
 	count: number,

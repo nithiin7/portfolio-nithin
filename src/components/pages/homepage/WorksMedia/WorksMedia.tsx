@@ -15,6 +15,7 @@ interface WorksMediaProps {
 	className?: string;
 }
 
+/** Project cover image or video in the current theme. */
 const WorksMedia: FC<WorksMediaProps> = ({
 	project,
 	sizes,

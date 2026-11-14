@@ -8,6 +8,7 @@ interface CopyMessages {
 	failure: string;
 }
 
+/** Copies text with a toast; the flag resets after two seconds. */
 export const useCopyToClipboard = ({
 	success,
 	failure,

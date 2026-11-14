@@ -1,3 +1,4 @@
+/** Parses the date part of an ISO string as a UTC calendar day. */
 export const calendarDay = (iso: string): Date => {
 	const day = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso);
 	return day
@@ -5,6 +6,7 @@ export const calendarDay = (iso: string): Date => {
 		: new Date(iso);
 };
 
+/** Formats a date as long, short or relative text. */
 export const formatDate = (
 	dateString: string,
 	format: 'long' | 'short' | 'relative' = 'long'
@@ -50,11 +52,13 @@ export const formatDate = (
 	}
 };
 
+/** Formats a number compactly, e.g. 1.2K. */
 export const formatCompactNumber = (value: number): string =>
 	new Intl.NumberFormat('en-US', {
 		notation: 'compact',
 		maximumFractionDigits: 1,
 	}).format(value);
 
+/** Adds https: to protocol-relative URLs. */
 export const httpsUrl = (url: string): string =>
 	url.startsWith('//') ? `https:${url}` : url;

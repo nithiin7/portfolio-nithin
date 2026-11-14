@@ -130,6 +130,7 @@ const toSiteSettings = (raw: RawSiteSettings): SiteSettings => ({
 	twitterHandle: raw.twitterHandle ?? undefined,
 });
 
+/** Site settings singleton, cached per request. */
 export const loadSiteSettings = cache(async (): Promise<SiteSettings> => {
 	const { data } = await runQuery<SiteSettingsResponse>(GET_SITE_SETTINGS);
 	const raw = data.siteSettingsCollection.items[0];
@@ -137,11 +138,13 @@ export const loadSiteSettings = cache(async (): Promise<SiteSettings> => {
 	return toSiteSettings(raw);
 });
 
+/** SEO entry of the page with the given slug. */
 export const loadPageSeo = async (slug: string): Promise<Seo | undefined> => {
 	const { data } = await runQuery<PageSeoResponse>(GET_PAGE_SEO, { slug });
 	return toSeo(data.pageCollection.items[0]?.seo);
 };
 
+/** Converts a Contentful project card to a PortfolioItem. */
 export const toPortfolioItem = (raw: RawProjectCard): PortfolioItem => ({
 	id: raw.id ?? undefined,
 	slug: raw.slug,
@@ -165,6 +168,7 @@ export const toPortfolioItem = (raw: RawProjectCard): PortfolioItem => ({
 	demo: raw.demo ?? undefined,
 });
 
+/** Raw project with the given slug, for the case study. */
 export const loadProject = async (
 	slug: string
 ): Promise<RawProject | undefined> => {
@@ -172,6 +176,7 @@ export const loadProject = async (
 	return data.portfolioDetailsCollection.items[0];
 };
 
+/** Slug of the project with an old numeric id, for redirects. */
 export const loadProjectSlugByLegacyId = async (
 	id: number
 ): Promise<string | undefined> => {
@@ -182,6 +187,7 @@ export const loadProjectSlugByLegacyId = async (
 	return data.portfolioDetailsCollection.items[0]?.slug;
 };
 
+/** Projects listed in the home work section, in order. */
 export const loadWork = cache(async (): Promise<PortfolioItem[]> => {
 	// An unpublished project is an UNRESOLVABLE_LINK error with that item
 	// nulled; keep the rest rather than failing the case study page
@@ -278,6 +284,7 @@ const toManifesto = (
 	};
 };
 
+/** Home page content, with each section looked up by its key. */
 export const loadHome = cache(async (): Promise<HomeContent> => {
 	const { data } = await runQuery<HomeResponse>(GET_HOME);
 	const sections = compact(
@@ -352,6 +359,7 @@ export const loadHome = cache(async (): Promise<HomeContent> => {
 	};
 });
 
+/** Converts a Contentful blog post to a BlogPost. */
 export const toBlogPost = (post: BlogPostItem): BlogPost => ({
 	id: post.sys.id,
 	title: post.title,
@@ -381,6 +389,7 @@ export const toBlogPost = (post: BlogPostItem): BlogPost => ({
 
 const isDated = (post: BlogPostItem): boolean => Boolean(post.publishedDate);
 
+/** Blog posts that have a published date. */
 export const loadBlogPosts = async (limit = 100): Promise<BlogPost[]> => {
 	const { data } = await runQuery<BlogPostsResponse>(GET_ALL_BLOG_POSTS, {
 		limit,
@@ -389,6 +398,7 @@ export const loadBlogPosts = async (limit = 100): Promise<BlogPost[]> => {
 	return data.blogPostCollection.items.filter(isDated).map(toBlogPost);
 };
 
+/** Dated blog post with the given slug. */
 export const loadBlogPost = async (
 	slug: string
 ): Promise<BlogPost | undefined> => {

@@ -12,6 +12,7 @@ export const OG_PAD = 64;
 export const ogHairline = `${palette.paper}24`;
 export const ogHost = new URL(siteConfig.url).host;
 
+/** Fetches a Google Font subset with just the given text. */
 export async function loadGoogleFont(
 	family: string,
 	axis: string,
@@ -46,6 +47,7 @@ export interface OgFonts {
 	serif: string;
 }
 
+/** Loads the display, mono and serif fonts an OG card uses. */
 export const loadOgFonts = async ({
 	display,
 	mono,
@@ -65,6 +67,7 @@ export const loadOgFonts = async ({
 	];
 };
 
+/** OG title font size for the title's length. */
 export const titleSizeFor = (title: string): number => {
 	if (title.length > 60) return 60;
 	if (title.length > 40) return 72;
@@ -100,6 +103,7 @@ const Rule = ({
 	</div>
 );
 
+/** Orange accent dot for OG cards. */
 export const OgDot = (): ReactElement => (
 	<div
 		style={{
@@ -119,6 +123,7 @@ export interface OgCardProps {
 	meta?: string;
 }
 
+/** Editorial OG card layout. */
 export const OgCard = ({
 	author,
 	kicker,
@@ -192,6 +197,7 @@ export const OgCard = ({
 	);
 };
 
+/** Renders an OG card image with the site fonts and author. */
 export const renderOgCard = async (
 	props: Omit<OgCardProps, 'author'>
 ): Promise<ImageResponse> => {

@@ -6,6 +6,7 @@ import { usePrefersReducedMotion } from 'hooks/usePrefersReducedMotion';
 
 import styles from './Footer.module.scss';
 
+/** Button that scrolls back to the top of the page. */
 const FooterBackToTop = (): ReactElement => {
 	const lenis = useLenis();
 	const reduced = usePrefersReducedMotion();

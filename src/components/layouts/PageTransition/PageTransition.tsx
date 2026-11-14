@@ -10,6 +10,7 @@ interface PageTransitionProps {
 	children: ReactNode;
 }
 
+/** Wraps the page in the route-change view transition. */
 const PageTransition = ({ children }: PageTransitionProps): ReactElement => {
 	const pathname = usePathname();
 	const lenis = useLenis();

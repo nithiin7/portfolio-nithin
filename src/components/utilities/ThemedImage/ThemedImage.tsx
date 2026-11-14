@@ -19,6 +19,7 @@ const placeholder = (blur?: string) =>
 		blurDataURL: blur,
 	}) as const;
 
+/** Image that swaps to its dark source in the dark theme. */
 const ThemedImage: FC<ThemedImageProps> = ({
 	src,
 	srcDark,

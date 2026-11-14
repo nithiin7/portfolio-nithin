@@ -25,6 +25,7 @@ const relativeTime = (iso: string): string => {
 	});
 };
 
+/** A comment with its reply form. */
 const CommentCard: FC<CommentCardProps> = ({
 	comment,
 	onSubmit,

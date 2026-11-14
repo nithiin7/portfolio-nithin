@@ -90,7 +90,7 @@ Read [docs/cms/CONVENTIONS.md](docs/cms/CONVENTIONS.md) (rules) and [docs/cms/HO
 - **Server first**: pages are server components that fetch and convert. Add `'use client'` only for hooks, browser APIs or handlers. Never import `@sentry/nextjs` in client code; use `helpers/monitoring.ts`, which loads it on idle.
 - **Strict types**: `strict`, `noUncheckedIndexedAccess`, `noImplicitOverride`, `noFallthroughCasesInSwitch`. No `any` and no non-null assertions in app code (both are lint errors; tests and CLI scripts may assert). Props are an `interface` above the component, and components return `ReactElement`.
 - **DRY, but no speculative abstraction**: extract on the second real copy (mixins, `helpers/animations.ts`, shared components); don't build helpers for one caller.
-- **Comments**: none by default. Write only WHY (a constraint, workaround or invariant), never WHAT. Every exported helper and hook gets a one-line TSDoc.
+- **Comments**: none by default. Write only WHY (a constraint, workaround or invariant), never WHAT. Every exported component, hook, helper, service and route handler gets a one-line TSDoc (`/** What it renders, does or returns. */`, under 80 columns); Next.js conventions like `generateMetadata` don't.
 - **Logging**: `console.error`/`console.warn` for server logs only. Any other `console` call fails lint in app code.
 - **Formatting**: Prettier (tabs, single quotes, 80 cols) for code, SCSS, JSON and Markdown. lint-staged runs ESLint and Prettier on staged files.
 - **Dead code**: `pnpm knip` must report nothing. It runs in CI.

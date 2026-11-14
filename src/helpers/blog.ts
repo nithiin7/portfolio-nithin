@@ -1,5 +1,6 @@
 import type { BlogPost } from 'types/blog';
 
+/** Other posts ranked by shared category and tags. */
 export const getRelatedPosts = (
 	currentPost: BlogPost,
 	allPosts: BlogPost[],

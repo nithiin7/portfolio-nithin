@@ -7,6 +7,7 @@ export const alt = 'Portfolio social card';
 export const size = ogSize;
 export const contentType = ogContentType;
 
+/** OG image for the home page. */
 export default async function Image(): Promise<ImageResponse> {
 	const site = await loadSiteSettings();
 	return renderOgCard({

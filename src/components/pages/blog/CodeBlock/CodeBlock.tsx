@@ -9,6 +9,7 @@ interface CodeBlockProps {
 	code: string;
 }
 
+/** Code block with a copy button. */
 const CodeBlock: FC<CodeBlockProps> = ({ code }): ReactElement => {
 	const [copied, copy] = useCopyToClipboard({
 		success: 'Code copied',

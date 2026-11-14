@@ -8,6 +8,7 @@ const required = (name: string, value: string | undefined): string => {
 const optional = (value: string | undefined): string | undefined =>
 	value || undefined;
 
+/** Public environment variables, safe in the browser. */
 export const clientEnv = {
 	get NEXT_PUBLIC_SUPABASE_URL(): string {
 		return required(
@@ -50,6 +51,7 @@ export const clientEnv = {
 	},
 };
 
+/** Server-only environment variables. */
 export const serverEnv = {
 	get CONTENTFUL_SPACE_ID(): string {
 		return required('CONTENTFUL_SPACE_ID', process.env.CONTENTFUL_SPACE_ID);
@@ -113,6 +115,7 @@ const FEATURE_VARS = [
 	'NEXT_PUBLIC_EMAILJS_ID',
 ];
 
+/** Missing content and feature variables. */
 export const missingEnv = (
 	env: EnvSource = process.env
 ): { content: string[]; features: string[] } => ({
@@ -125,6 +128,7 @@ export const missingEnv = (
 	features: FEATURE_VARS.filter((name) => !env[name]),
 });
 
+/** Throws on missing content variables and logs missing feature ones. */
 export const assertEnv = (env: EnvSource = process.env): void => {
 	const { content, features } = missingEnv(env);
 	if (features.length > 0) {

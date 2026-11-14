@@ -7,6 +7,7 @@ import type {
 	NewsletterSubscriptionFormData,
 } from 'types/subscription';
 
+/** Newsletter subscriptions in Supabase. */
 export class NewsletterSubscriptionsService {
 	private readonly tableName = 'newsletter_subscriptions';
 
@@ -31,6 +32,7 @@ export class NewsletterSubscriptionsService {
 		};
 	}
 
+	/** Subscribes an email, reactivating it if it had unsubscribed. */
 	async subscribeEmail(
 		subscriptionData: NewsletterSubscriptionFormData
 	): Promise<ServiceResponse<NewsletterSubscription>> {

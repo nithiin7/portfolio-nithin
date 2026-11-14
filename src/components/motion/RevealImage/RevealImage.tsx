@@ -16,6 +16,7 @@ export interface RevealImageProps {
 	amount?: number;
 }
 
+/** Reveals its children with a clip-path wipe. */
 const RevealImage: FC<RevealImageProps> = ({
 	children,
 	className,

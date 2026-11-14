@@ -12,6 +12,7 @@ interface BlogRowProps {
 	headingLevel?: 'h3' | 'h4';
 }
 
+/** One post row in the blog index. */
 const BlogRow: FC<BlogRowProps> = ({
 	post,
 	headingLevel: Heading = 'h3',

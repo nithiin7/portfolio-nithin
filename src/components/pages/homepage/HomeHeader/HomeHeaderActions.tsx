@@ -15,6 +15,7 @@ interface HomeHeaderActionsProps {
 	secondary?: SiteLink;
 }
 
+/** Primary and secondary hero buttons. */
 const HomeHeaderActions = ({
 	className,
 	primary,

@@ -33,6 +33,7 @@ interface StatsCell {
 	node: ReactNode;
 }
 
+/** Stats page combining every source. */
 const Stats: FC<StatsProps> = ({
 	github,
 	wakatime,

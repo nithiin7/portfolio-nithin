@@ -10,6 +10,7 @@ const escapeXml = (str: string): string =>
 		.replace(/>/g, '&gt;')
 		.replace(/"/g, '&quot;');
 
+/** RSS feed of the blog. */
 export async function GET(): Promise<Response> {
 	const [posts, site] = await Promise.all([
 		loadBlogPosts(),

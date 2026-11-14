@@ -16,6 +16,7 @@ const isRateLimited = createRateLimiter({
 	windowMs: 10 * 60 * 1000,
 });
 
+/** Server action that subscribes an email to the newsletter. */
 export async function subscribeToNewsletter(
 	email: string
 ): Promise<SubscribeActionResult> {

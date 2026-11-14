@@ -99,6 +99,7 @@ export async function generateMetadata({
 	};
 }
 
+/** Case-study route. */
 export default async function PortfolioDetailsPage({
 	params,
 }: PortfolioDetailsPageProps) {

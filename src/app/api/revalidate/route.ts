@@ -38,6 +38,7 @@ const getTargets = (
 	}
 };
 
+/** Contentful webhook that revalidates the pages an entry affects. */
 export async function POST(request: NextRequest) {
 	if (
 		!secretsMatch(

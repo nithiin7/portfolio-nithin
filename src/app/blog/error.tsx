@@ -8,6 +8,7 @@ interface ErrorProps {
 	reset: () => void;
 }
 
+/** Error screen for the blog index. */
 export default function BlogError({ error, reset }: ErrorProps): ReactElement {
 	return (
 		<RouteError

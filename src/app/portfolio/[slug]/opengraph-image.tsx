@@ -21,6 +21,7 @@ const COVER_WIDTH = 400;
 
 const pad = (n: number): string => String(n).padStart(2, '0');
 
+/** OG image for a case study. */
 export default async function Image({
 	params,
 }: {

@@ -35,6 +35,7 @@ const httpLink = new HttpLink({
 	},
 });
 
+/** Apollo client for Contentful GraphQL, one per request. */
 export const getApolloClient = cache(
 	(): ApolloClient =>
 		new ApolloClient({

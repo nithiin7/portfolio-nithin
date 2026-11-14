@@ -25,6 +25,7 @@ const noopSubscribe = (): (() => void) => () => {};
 
 const pad = (n: number): string => String(n).padStart(2, '0');
 
+/** Index of the route closest to the path, or -1. */
 export const closestRoute = (pathname: string, routes: LinkItem[]): number => {
 	const segment = pathname.split('/')[1]?.toLowerCase() ?? '';
 	if (!segment) return -1;
@@ -37,6 +38,7 @@ export const closestRoute = (pathname: string, routes: LinkItem[]): number => {
 	});
 };
 
+/** 404 page that suggests the closest route. */
 const NotFound: FC = (): ReactElement => {
 	const pathname = useSyncExternalStore(
 		noopSubscribe,

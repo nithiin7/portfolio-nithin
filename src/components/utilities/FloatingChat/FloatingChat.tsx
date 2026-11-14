@@ -51,6 +51,7 @@ const CloseIcon = () => (
 	</svg>
 );
 
+/** Floating launcher that opens the chatbot in a panel. */
 const FloatingChat: FC<FloatingChatProps> = ({ chatbotUrl }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isLoaded, setIsLoaded] = useState(false);

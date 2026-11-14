@@ -21,6 +21,7 @@ interface TableOfContentsProps {
 
 const pad = (n: number): string => String(n).padStart(2, '0');
 
+/** Post headings as a rail or inline list, highlighting the current one. */
 const TableOfContents: FC<TableOfContentsProps> = ({
 	items,
 	variant,

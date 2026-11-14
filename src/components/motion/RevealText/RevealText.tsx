@@ -41,6 +41,7 @@ const groupIntoLines = (words: HTMLElement[]): number[] => {
 	});
 };
 
+/** Reveals text line by line from behind a mask. */
 const RevealText: FC<RevealTextProps> = ({
 	children,
 	as: Tag = 'p',

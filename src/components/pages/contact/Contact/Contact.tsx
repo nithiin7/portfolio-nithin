@@ -15,6 +15,7 @@ interface ContactProps {
 	site: SiteSettings;
 }
 
+/** Contact page: contact channels, local time and the form. */
 const Contact: FC<ContactProps> = ({ site }) => {
 	const { email, location, availability, socials } = site;
 	const directLines = site.contactChannels.filter(

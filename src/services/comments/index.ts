@@ -10,6 +10,7 @@ import type { ServiceResponse } from 'types/service';
 const COMMENT_COLUMNS =
 	'id,post_id,author_name,content,parent_id,created_at,updated_at';
 
+/** Blog comments in Supabase. */
 export class CommentsService {
 	private readonly tableName = 'comments';
 
@@ -39,6 +40,7 @@ export class CommentsService {
 		};
 	}
 
+	/** Comments on a post, oldest first. */
 	async getCommentsByPostId(
 		postId: string
 	): Promise<ServiceResponse<Comment[]>> {
@@ -65,6 +67,7 @@ export class CommentsService {
 		}
 	}
 
+	/** Saves a comment with the given approval state. */
 	async createComment(
 		commentData: CommentFormData & { postId: string; isApproved: boolean }
 	): Promise<ServiceResponse<Comment>> {
@@ -98,6 +101,7 @@ export class CommentsService {
 		}
 	}
 
+	/** Total number of comments. */
 	async getTotalCommentCount(): Promise<ServiceResponse<number>> {
 		try {
 			const { data, error } = await baseService.get<

@@ -25,6 +25,7 @@ interface CommentFormProps {
 	className?: string;
 }
 
+/** Form for a new comment or a reply. */
 const CommentForm: FC<CommentFormProps> = ({
 	onSubmit,
 	parentId,
