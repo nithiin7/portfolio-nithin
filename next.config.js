@@ -13,14 +13,20 @@ const withBundleAnalyzer = bundleAnalyzer({
 const CSP_REPORT_URI =
 	'https://o4509770183737344.ingest.de.sentry.io/api/4509770185244752/security/?sentry_key=4b6767817c03052309961462edc0e93e';
 
+// Vercel injects its toolbar (vercel.live) into preview deployments only;
+// without these origins every preview logs CSP violations, which fails the
+// Lighthouse best-practices budget and floods Sentry with reports.
+const isPreview = process.env.VERCEL_ENV === 'preview';
+const previewOrigins = (origins) => (isPreview ? ` ${origins}` : '');
+
 const contentSecurityPolicy = [
 	"default-src 'self'",
-	"script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google.com https://www.gstatic.com",
-	"style-src 'self' 'unsafe-inline'",
-	"img-src 'self' data: blob: https://images.ctfassets.net https://www.googletagmanager.com https://*.google-analytics.com",
-	"font-src 'self' data:",
-	"connect-src 'self' https://*.ingest.de.sentry.io https://*.supabase.co https://api.emailjs.com https://www.google.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com",
-	'frame-src https://www.google.com https://*.hf.space https://www.googletagmanager.com',
+	`script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google.com https://www.gstatic.com${previewOrigins('https://vercel.live')}`,
+	`style-src 'self' 'unsafe-inline'${previewOrigins('https://vercel.live')}`,
+	`img-src 'self' data: blob: https://images.ctfassets.net https://www.googletagmanager.com https://*.google-analytics.com${previewOrigins('https://vercel.live https://vercel.com')}`,
+	`font-src 'self' data:${previewOrigins('https://vercel.live https://assets.vercel.com')}`,
+	`connect-src 'self' https://*.ingest.de.sentry.io https://*.supabase.co https://api.emailjs.com https://www.google.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com${previewOrigins('https://vercel.live wss://ws-us3.pusher.com')}`,
+	`frame-src https://www.google.com https://*.hf.space https://www.googletagmanager.com${previewOrigins('https://vercel.live')}`,
 	"worker-src 'self'",
 	"manifest-src 'self'",
 	"object-src 'none'",
