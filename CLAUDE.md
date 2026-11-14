@@ -131,7 +131,7 @@ pnpm analyze                       # webpack bundle analyzer
 pnpm cms:migrate|cms:check|cms:publish --env <id> [--apply]
 pnpm plates [slug] | plates:upload --env <id>
 pnpm plates:blog [slug] | plates:blog:upload --env <id>
-pnpm embed | embed:check           # RAG embeddings from data/knowledge
+pnpm embed | embed:check           # RAG embeddings from data/knowledge (manual; not in CI or lint-staged while OpenAI is unfunded)
 pnpm icons                         # app icons
 ```
 
