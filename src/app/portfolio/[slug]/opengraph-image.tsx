@@ -52,7 +52,7 @@ export default async function Image({
 		? `${pad(position.position)}/${pad(position.total)}`
 		: '';
 	const titleSize = title.length > 40 ? 64 : title.length > 24 ? 80 : 96;
-	const monoText = `${site.name.toUpperCase()}${kicker}${year}${tech.join(' · ')}${host}—`;
+	const monoText = `${site.name.toUpperCase()}${kicker}${year}${tech.join(' · ')}${host}`;
 
 	const [display, mono, serif] = await Promise.all([
 		loadGoogleFont('Inter+Tight', 'wght@500', title),
@@ -135,7 +135,7 @@ export default async function Image({
 					}}
 				>
 					<div style={{ display: 'flex' }}>
-						{[year, tech.join(' · ')].filter(Boolean).join(' — ')}
+						{[year, tech.join(' · ')].filter(Boolean).join(' · ')}
 					</div>
 					<div
 						style={{

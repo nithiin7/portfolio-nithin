@@ -45,7 +45,7 @@ const projectDescription = (project: RawProject, author: string): string => {
 		project.shortDescription?.trim() ||
 		(firstParagraph ? plainText(firstParagraph) : '');
 	const text = source.replace(/\s+/g, ' ').trim();
-	if (!text) return `${project.title} — a case study by ${author}.`;
+	if (!text) return `${project.title}, a case study by ${author}.`;
 	return text.length > DESCRIPTION_MAX
 		? `${text.slice(0, DESCRIPTION_MAX - 1).trimEnd()}…`
 		: text;

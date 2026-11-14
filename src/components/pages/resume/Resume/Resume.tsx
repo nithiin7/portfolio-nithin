@@ -58,7 +58,7 @@ const Resume: FC<ResumeProps> = ({
 					{site.name}
 				</RevealText>
 				<p className={styles.Resume__role}>
-					{site.role}, {site.company} — {site.location.city}
+					{site.role}, {site.company} · {site.location.city}
 				</p>
 				<ul className={styles.Resume__contacts} aria-label="Contact">
 					{site.contactChannels.map((option) => (
@@ -123,7 +123,7 @@ const Resume: FC<ResumeProps> = ({
 											{experience.position}
 											<span className={styles.Resume__company}>
 												{' '}
-												— {experience.company}
+												· {experience.company}
 											</span>
 										</h3>
 										<p className={styles.Resume__mono}>

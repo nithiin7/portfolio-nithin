@@ -32,7 +32,7 @@ The homepage is built from **Home Section** entries, found by their `key`. **Pag
 | A contact channel        | Link (with `icon`) | **Site Settings** · contactChannels                            |
 | A blog post              | Blog Post          | Nothing. Every dated post is listed on /blog                   |
 
-Years of experience, the project count and the certification count are calculated, so don't add Stats for them.
+Years of experience and the certification count are calculated, so don't add Stats for them. Projects shipped is a hand-entered Stat (it counts client work that has no page on the site).
 
 ## Recipes
 

@@ -145,7 +145,7 @@ const BlogListing: FC<BlogListingProps> = ({
 					delay={0.2}
 					className={styles.Blog__lede}
 				>
-					Field notes on AI agents, MCP and the web platform — what I learned
+					Field notes on AI agents, MCP and the web platform: what I learned
 					shipping them, written for whoever builds next.
 				</RevealText>
 			</header>

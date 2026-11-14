@@ -39,7 +39,7 @@ export async function generateMetadata({
 	const [seo, site] = await blogSeo();
 
 	const tagName = firstTag(tag);
-	const suffix = category ? ` — ${category}` : tagName ? ` — #${tagName}` : '';
+	const suffix = category ? ` · ${category}` : tagName ? ` · #${tagName}` : '';
 	const title = `${seo.title}${suffix}`;
 	const { description } = seo;
 	const url = absoluteUrl('/blog');
@@ -82,7 +82,7 @@ export default async function BlogPage({
 	const structuredData = {
 		'@context': 'https://schema.org',
 		'@type': 'Blog',
-		name: `${site.name} — ${seo.title}`,
+		name: `${site.name} · ${seo.title}`,
 		description: seo.description,
 		url: absoluteUrl('/blog'),
 		author: personJsonLd(site),

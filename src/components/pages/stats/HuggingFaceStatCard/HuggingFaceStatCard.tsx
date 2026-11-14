@@ -40,7 +40,7 @@ const HuggingFaceStatCard: FC<HuggingFaceStatCardProps> = ({
 			</div>
 			<StatCardDivider />
 			<p className={styles.HuggingFaceStatCard__note}>
-				An AI chatbot trained on my resume — ask it anything via the chat bubble
+				An AI chatbot trained on my resume. Ask it anything via the chat bubble
 				in the corner.
 			</p>
 		</StatCard>

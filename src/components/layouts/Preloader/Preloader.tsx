@@ -40,7 +40,7 @@ const Preloader = ({ site }: PreloaderProps): ReactElement => {
 				</span>
 			</p>
 			<p className={styles.Preloader__meta}>
-				{site.location.city} — Portfolio ©{new Date().getFullYear()}
+				{site.location.city} · Portfolio ©{new Date().getFullYear()}
 			</p>
 			<p className={styles.Preloader__count} />
 		</div>

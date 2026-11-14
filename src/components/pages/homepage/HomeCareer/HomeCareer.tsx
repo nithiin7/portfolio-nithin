@@ -34,8 +34,8 @@ const TYPE_LABEL: Record<Experience['type'], string> = {
 };
 
 const formatPeriod = ({ start, end, current }: CareerPeriod): string => {
-	if (current) return `${start} — Now`;
-	return end ? `${start} — ${end}` : start;
+	if (current) return `${start} to Now`;
+	return end ? `${start} to ${end}` : start;
 };
 
 const HomeCareer: FC<HomeCareerProps> = ({
@@ -68,7 +68,7 @@ const HomeCareer: FC<HomeCareerProps> = ({
 	if (!latest || !earliest) return null;
 
 	const first = earliest.period.start;
-	const span = latest.period.current ? `${first} — Now` : first;
+	const span = latest.period.current ? `${first} to Now` : first;
 
 	return (
 		<section id="career" className={`${styles.HomeCareer} ${className}`}>

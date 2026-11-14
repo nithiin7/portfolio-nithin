@@ -95,6 +95,10 @@ describe('bannedPhrases', () => {
 		).toEqual(['seamless', 'leverage', 'unfair advantage']);
 	});
 
+	it('flags em dashes', () => {
+		expect(bannedPhrases('Agents — and the apps around them')).toEqual(['—']);
+	});
+
 	it('leaves plain copy alone', () => {
 		expect(bannedPhrases('Orbit runs on your own server.')).toEqual([]);
 	});

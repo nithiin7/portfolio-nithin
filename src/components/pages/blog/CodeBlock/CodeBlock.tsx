@@ -12,7 +12,7 @@ interface CodeBlockProps {
 const CodeBlock: FC<CodeBlockProps> = ({ code }): ReactElement => {
 	const [copied, copy] = useCopyToClipboard({
 		success: 'Code copied',
-		failure: 'Couldn’t copy — select the code by hand',
+		failure: 'Couldn’t copy. Select the code by hand',
 	});
 	const lines = code.split('\n').length;
 

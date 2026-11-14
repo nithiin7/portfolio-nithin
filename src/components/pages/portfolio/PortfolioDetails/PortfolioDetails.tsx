@@ -285,7 +285,7 @@ const PortfolioDetails: FC<PortfolioDetailsProps> = ({
 						>
 							<header className={styles.CaseStudy__sectionHead}>
 								<span className={styles.CaseStudy__index} aria-hidden="true">
-									{pad(i + 1)} —
+									{pad(i + 1)} /
 								</span>
 								<RevealText as="h2" className={styles.CaseStudy__heading}>
 									{section.label}

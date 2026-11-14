@@ -64,7 +64,7 @@ const Navbar = ({ className = '' }: NavbarProps): ReactElement => {
 					<Link
 						href="/"
 						className={styles.Navbar__logo}
-						aria-label={`NP — ${name}, home`}
+						aria-label={`NP, ${name}, home`}
 					>
 						NP
 						<span className={styles.Navbar__dot} aria-hidden="true" />

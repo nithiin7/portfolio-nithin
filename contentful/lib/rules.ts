@@ -65,6 +65,7 @@ const BANNED_PHRASES: RegExp[] = [
 	/\bfast-paced world\b/i,
 	/\bunfair advantage\b/i,
 	/\bwhether you['’]re\b/i,
+	/—/,
 ];
 
 /** Format and weight per asset slot (`<contentType>.<field>`). */

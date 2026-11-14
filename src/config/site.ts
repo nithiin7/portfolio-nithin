@@ -17,7 +17,7 @@ export const absoluteUrl = (path = '/'): string =>
 	new URL(path, siteConfig.url).toString();
 
 export const siteName = (site: Pick<SiteSettings, 'name'>): string =>
-	`${site.name} — Portfolio`;
+	`${site.name} · Portfolio`;
 
 export const titleTemplate = (site: Pick<SiteSettings, 'name'>): string =>
 	`%s | ${site.name}`;

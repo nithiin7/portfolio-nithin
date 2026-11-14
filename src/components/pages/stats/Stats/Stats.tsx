@@ -134,7 +134,7 @@ const Stats: FC<StatsProps> = ({
 					delay={0.2}
 					className={styles.Stats__lede}
 				>
-					What I&apos;m building, writing and shipping this week — pulled
+					What I&apos;m building, writing and shipping this week, pulled
 					straight from GitHub, WakaTime, Dev.to and this site.
 				</RevealText>
 			</header>

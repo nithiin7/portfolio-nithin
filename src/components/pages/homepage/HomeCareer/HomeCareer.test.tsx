@@ -70,12 +70,12 @@ describe('HomeCareer', () => {
 		const triggers = screen.getAllByRole('button');
 		expect(triggers).toHaveLength(3);
 		expect(triggers.map((t) => t.textContent)).toEqual([
-			expect.stringContaining('2026 — NowEY'),
-			expect.stringContaining('2023 — 2025Paytm'),
-			expect.stringContaining('2022 — 2023White Rabbit'),
+			expect.stringContaining('2026 to NowEY'),
+			expect.stringContaining('2023 to 2025Paytm'),
+			expect.stringContaining('2022 to 2023White Rabbit'),
 		]);
 		expect(triggers[0]).toHaveTextContent('React, Python, MCP +1');
-		expect(screen.getByText('03 roles · 2022 — Now')).toBeInTheDocument();
+		expect(screen.getByText('03 roles · 2022 to Now')).toBeInTheDocument();
 	});
 
 	it('opens the latest role by default and toggles one row at a time', () => {

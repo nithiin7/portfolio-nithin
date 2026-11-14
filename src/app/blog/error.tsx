@@ -14,7 +14,7 @@ export default function BlogError({ error, reset }: ErrorProps): ReactElement {
 			error={error}
 			reset={reset}
 			title="Failed to load articles"
-			message="Something went wrong fetching the blog. It’s usually temporary — try again or head back home."
+			message="Something went wrong fetching the blog. It’s usually temporary, so try again or head back home."
 			back={{ href: '/', label: 'Go home' }}
 		/>
 	);
