@@ -4,10 +4,8 @@ export interface PortfolioMedia {
 }
 
 export interface PortfolioItem {
-	/** Legacy numeric id: stable key for list positions and old URLs. */
 	id?: number;
 	slug: string;
-	/** Light-theme cover; also the fallback when there is no dark one. */
 	image: {
 		url: string;
 		description?: string | null;
@@ -19,11 +17,9 @@ export interface PortfolioItem {
 	year?: string;
 	color?: string;
 	type?: string;
-	/** e.g. "Solo — design, build, deploy". */
 	role?: string;
 	summary?: string;
 	coverVideo?: PortfolioMedia | null;
-	/** Tiny base64 JPEG built server-side from the Contentful Images API. */
 	blurDataURL?: string;
 	blurDataURLDark?: string;
 }

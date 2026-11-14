@@ -15,13 +15,11 @@ interface ModalProps {
 	isOpen: boolean;
 	onClose: () => void;
 	title?: string;
-	/** Small mono label shown before the title, e.g. "03 / 14" */
 	eyebrow?: string;
 	children: ReactNode;
 	className?: string;
 }
 
-// The panel wipes open from its bottom edge, matching RevealImage.
 const panel: Variants = {
 	hidden: { clipPath: 'inset(100% 0% 0% 0%)', y: '1.5rem' },
 	visible: {
@@ -36,10 +34,6 @@ const panel: Variants = {
 	},
 };
 
-/**
- * Editorial modal: hairline frame, mono header, clip-path reveal.
- * Renders as a bottom sheet below the md breakpoint.
- */
 const Modal: FC<ModalProps> = ({
 	isOpen,
 	onClose,

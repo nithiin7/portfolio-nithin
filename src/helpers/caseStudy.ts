@@ -18,11 +18,6 @@ import type {
 
 type Node = Block | Inline | Text;
 
-/**
- * Case studies are authored in the existing PortfolioDetails `description`
- * rich-text field: an H2 whose text matches one of these starts that section.
- * Unrecognised H2s stay inside the section they appear in.
- */
 const HEADING_ALIASES: Record<
 	Exclude<CaseStudySectionKey, 'gallery'>,
 	RegExp
@@ -55,7 +50,6 @@ const toDocument = (content: TopLevelBlock[]): Document | undefined =>
 		? { nodeType: BLOCKS.DOCUMENT, data: {}, content }
 		: undefined;
 
-/** Groups top-level blocks under the authored H2 they follow; blocks before the first H2 are the intro. */
 export const splitByHeadings = (
 	doc: Document
 ): { intro: TopLevelBlock[] } & Partial<
@@ -78,7 +72,6 @@ export const splitByHeadings = (
 	return result;
 };
 
-/** "Paywall-free by design: Every feature unlocked…" → title + body. */
 export const splitHighlight = (feature: string): CaseStudyHighlight => {
 	const match = feature.match(/^([^:]{2,60}):\s+([\s\S]+)$/);
 	const [, title, body] = match ?? [];
@@ -87,10 +80,6 @@ export const splitHighlight = (feature: string): CaseStudyHighlight => {
 		: { body: feature.trim() };
 };
 
-/**
- * Outcome list items that open with bold text are metrics:
- * "**3×** faster indexing" → { value: '3×', label: 'faster indexing' }.
- */
 const metricFromItem = (item: Block): CaseStudyMetric | null => {
 	const paragraph = item.content[0] as Block | undefined;
 	const [first, ...rest] = (paragraph?.content ?? []) as Node[];
@@ -110,7 +99,6 @@ const metricFromItem = (item: Block): CaseStudyMetric | null => {
 	return value && label ? { value, label } : null;
 };
 
-/** Pulls list items that open with bold text out as outcome metrics; everything else stays in `rest`. */
 export const extractMetrics = (
 	content: TopLevelBlock[]
 ): { metrics: CaseStudyMetric[]; rest: TopLevelBlock[] } => {
@@ -153,11 +141,6 @@ export interface CaseStudyInput {
 	hasGallery?: boolean;
 }
 
-/**
- * Problem → Approach → Architecture → Outcome → Gallery. Entries that have
- * not been restructured with H2s still render honestly: the description
- * becomes "Overview" and the feature list becomes "Features".
- */
 export const buildCaseStudy = ({
 	description,
 	features,
@@ -220,7 +203,6 @@ export const buildCaseStudy = ({
 	return sections;
 };
 
-/** The project after `id` in the homepage works order, wrapping to the first. */
 export const nextInOrder = <T extends { id?: number }>(
 	order: T[],
 	id: number
@@ -233,7 +215,6 @@ export const nextInOrder = <T extends { id?: number }>(
 	return item ? { item, position: nextIndex + 1, total: ids.length } : null;
 };
 
-/** 1-based position of a project in the Work order, or null when it isn't listed. */
 export const positionOf = (
 	order: { id?: number }[],
 	id: number

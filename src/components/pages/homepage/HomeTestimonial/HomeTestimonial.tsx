@@ -31,7 +31,6 @@ interface HomeTestimonialProps {
 		title?: string;
 	};
 	testimonial?: Testimonial[];
-	/** Milliseconds between slides. Off unless set; never runs under reduced motion. */
 	autoAdvance?: number;
 }
 
@@ -53,8 +52,6 @@ const fade: Variants = {
 
 const pad = (n: number): string => String(n).padStart(2, '0');
 
-// Contentful reviews carry their own straight quotes; the section draws one
-// typographic mark instead.
 const unquote = (text: string): string =>
 	text.trim().replace(/^["“]+|["”]+$/g, '');
 

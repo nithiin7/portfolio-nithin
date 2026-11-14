@@ -35,8 +35,6 @@ const httpLink = new HttpLink({
 	},
 });
 
-// cache() shares one client per server request, so repeated queries
-// (e.g. loadData('home') in both layout and page) hit the in-memory cache
 export const getApolloClient = cache(
 	(): ApolloClient =>
 		new ApolloClient({

@@ -7,20 +7,12 @@ import type {
 } from 'types/comment';
 import type { ServiceResponse } from 'types/service';
 
-// Columns the anon role can SELECT — `*` fails because author_email is
-// excluded via column-level grants (migrations/supabase-security-fix.sql)
 const COMMENT_COLUMNS =
 	'id,post_id,author_name,content,parent_id,created_at,updated_at';
 
-/**
- * Comments service providing comment-specific operations
- */
 export class CommentsService {
 	private readonly tableName = 'comments';
 
-	/**
-	 * Transform database comment to Comment interface
-	 */
 	private transformComment(dbComment: DatabaseComment): Comment {
 		return {
 			id: dbComment.id,
@@ -33,9 +25,6 @@ export class CommentsService {
 		};
 	}
 
-	/**
-	 * Transform Comment interface to database format
-	 */
 	private transformToDatabase(
 		comment: CommentFormData & { postId: string; isApproved: boolean }
 	): DatabaseCommentCreate {
@@ -50,9 +39,6 @@ export class CommentsService {
 		};
 	}
 
-	/**
-	 * Get all comments for a specific post
-	 */
 	async getCommentsByPostId(
 		postId: string
 	): Promise<ServiceResponse<Comment[]>> {
@@ -79,17 +65,12 @@ export class CommentsService {
 		}
 	}
 
-	/**
-	 * Create a new comment
-	 */
 	async createComment(
 		commentData: CommentFormData & { postId: string; isApproved: boolean }
 	): Promise<ServiceResponse<Comment>> {
 		try {
 			const dbData = this.transformToDatabase(commentData);
 
-			// No INSERT ... RETURNING: unapproved rows fail the moderation RLS
-			// SELECT policy, so the row is built locally from a client-generated id
 			const { error } = await baseService.post(this.tableName, dbData, {
 				select: false,
 			});
@@ -117,11 +98,6 @@ export class CommentsService {
 		}
 	}
 
-	/**
-	 * Get the total number of comments across every post, for site-wide
-	 * stats. RLS already restricts anon SELECT to approved rows, so this
-	 * is naturally an approved-only count.
-	 */
 	async getTotalCommentCount(): Promise<ServiceResponse<number>> {
 		try {
 			const { data, error } = await baseService.get<

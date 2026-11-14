@@ -11,7 +11,6 @@ interface SiteSettingsProviderProps {
 	children: ReactNode;
 }
 
-/** Hands the server-fetched Contentful Site Settings to client components. */
 export const SiteSettingsProvider = ({
 	value,
 	children,

@@ -10,7 +10,6 @@ export const revalidate = 3600;
 
 const url = absoluteUrl('/resume');
 
-/** Page "resume" SEO from Contentful, or one built from Site Settings. */
 const resumeSeo = async (): Promise<[Seo, SiteSettings]> => {
 	const [seo, site] = await Promise.all([
 		loadPageSeo('resume'),

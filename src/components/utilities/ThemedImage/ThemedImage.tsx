@@ -7,7 +7,6 @@ export interface ThemedImageProps extends Omit<
 	ImageProps,
 	'src' | 'blurDataURL' | 'placeholder'
 > {
-	/** Light-theme image; also the fallback when there is no dark one. */
 	src: string;
 	srcDark?: string;
 	blurDataURL?: string;
@@ -20,12 +19,6 @@ const placeholder = (blur?: string) =>
 		blurDataURL: blur,
 	}) as const;
 
-/**
- * Renders the image matching `data-theme` on <html>. Both are in the markup so a
- * theme toggle swaps instantly; the hidden one is display: none and lazy, so the
- * browser never fetches it. Only the dark image (the server-rendered default) is
- * ever preloaded.
- */
 const ThemedImage: FC<ThemedImageProps> = ({
 	src,
 	srcDark,

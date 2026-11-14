@@ -26,7 +26,6 @@ const files = (dir: string, name: string) => [
 ];
 
 export default function (plop: NodePlopAPI): void {
-	// Generated line lengths depend on the name, so format the output once
 	plop.setActionType('format', (answers, config, plopApi) => {
 		const { dir } = config.data as { dir: string };
 		const path = plopApi.renderString(dir, answers);

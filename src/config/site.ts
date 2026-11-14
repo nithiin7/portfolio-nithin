@@ -2,10 +2,6 @@ import type { SiteSettings } from 'types/site';
 
 const url = 'https://portfolio-nithin.vercel.app';
 
-/**
- * Technical config only. Everything a visitor reads (name, role, socials,
- * copy) comes from Contentful Site Settings via loadSiteSettings().
- */
 export const siteConfig = {
 	url,
 	rssUrl: `${url}/feed.xml`,

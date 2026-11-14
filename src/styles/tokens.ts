@@ -1,8 +1,3 @@
-// JS mirror of the values in tokens.scss that cannot be read from CSS:
-// <meta theme-color>, the web manifest, generated OG images, image plates and
-// Motion/JS easing.
-// tokens.test.ts fails if these drift from the SCSS source.
-
 export const palette = {
 	ink: '#0b0b0b',
 	paper: '#f2f1ec',
@@ -10,7 +5,6 @@ export const palette = {
 	orange: '#ff4d00',
 } as const;
 
-/** Alpha of the --line hairline: paper-on-ink (dark) and ink-on-paper (light). */
 export const lineAlpha = {
 	onInk: 0.14,
 	onPaper: 0.12,

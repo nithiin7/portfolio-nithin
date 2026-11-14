@@ -6,7 +6,6 @@ import styles from './LocalClock.module.scss';
 
 export interface LocalClockProps {
 	timeZone: string;
-	/** Short zone label rendered after the time, e.g. "IST". */
 	zoneLabel?: string;
 	showSeconds?: boolean;
 	className?: string;
@@ -19,7 +18,6 @@ const subscribe = (onTick: () => void): (() => void) => {
 
 const getSecond = (): number => Math.floor(Date.now() / 1000);
 
-// The page is ISR-cached for an hour, so a server-rendered time would be stale.
 const getServerSecond = (): null => null;
 
 const LocalClock = ({

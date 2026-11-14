@@ -8,11 +8,9 @@ import styles from './ThemeToggle.module.scss';
 
 export interface ThemeToggleProps {
 	className?: string;
-	/** Runs after the theme flips, e.g. to close the menu that hosts it. */
 	onToggle?: () => void;
 }
 
-/** Light/dark switch wired to ThemeContext. */
 const ThemeToggle = ({
 	className = '',
 	onToggle,

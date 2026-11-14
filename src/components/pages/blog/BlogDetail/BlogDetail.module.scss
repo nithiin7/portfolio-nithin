@@ -1,8 +1,5 @@
 @use 'styles/shared/mixin' as *;
 
-// Long-form reading scale. Body sits a notch above --step-0 (17→19px) with a
-// 70ch measure; headings step down the global scale so the page title stays
-// the only display-size type.
 $prose-size: calc(var(--step-0) * 1.0625);
 $prose-measure: 70ch;
 
@@ -16,8 +13,6 @@ $prose-measure: 70ch;
 	&__sr {
 		@include sr-only;
 	}
-
-	// Hero
 
 	&__hero {
 		@include grid-12;
@@ -136,8 +131,6 @@ $prose-measure: 70ch;
 			object-fit: cover;
 		}
 	}
-
-	// Body
 
 	&__layout {
 		@include grid-12;
@@ -463,8 +456,6 @@ $prose-measure: 70ch;
 			@include focus-ring;
 		}
 	}
-
-	// After the article
 
 	&__after {
 		display: flex;

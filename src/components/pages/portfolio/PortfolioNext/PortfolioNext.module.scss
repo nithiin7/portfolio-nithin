@@ -122,7 +122,6 @@
 		}
 	}
 
-	// Touch: no hover to reveal on, so the cover sits under the title
 	@media (hover: none), (pointer: coarse) {
 		&__link {
 			min-height: 0;

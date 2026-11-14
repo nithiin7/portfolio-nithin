@@ -84,8 +84,6 @@
 	&__submit {
 		@include pill-button('.Subscribe__roll');
 
-		// FormField reserves a row for its error; when the button sits beside
-		// the field, lift it to the input line. Wrapped below, it needs no offset.
 		@include container-up(rem(400)) {
 			margin-bottom: calc(var(--step--1) * 1.5 + var(--space-2));
 		}

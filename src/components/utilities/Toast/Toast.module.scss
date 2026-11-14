@@ -1,5 +1,3 @@
-// Sonner injects attribute selectors at runtime (up to three attributes deep),
-// so these rules carry the matching attributes to win on specificity.
 .Toast[data-sonner-toast][data-styled='true'] {
 	gap: var(--space-3);
 	font-family: var(--font-text);

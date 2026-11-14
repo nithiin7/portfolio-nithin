@@ -14,7 +14,6 @@ export interface StatCardProps {
 	className?: string;
 }
 
-/** Numbered by a CSS counter on the Stats grid, so cards stay index-free. */
 const StatCard: FC<StatCardProps> = ({
 	title,
 	subtitle,
@@ -55,7 +54,6 @@ const StatCard: FC<StatCardProps> = ({
 	</article>
 );
 
-/** Row of headline StatMetrics at the top of a card. */
 export const StatCardMetrics: FC<{ children: ReactNode }> = ({
 	children,
 }): ReactElement => <div className={styles.StatCard__metrics}>{children}</div>;

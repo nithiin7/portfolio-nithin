@@ -9,15 +9,9 @@ import styles from './BlogRow.module.scss';
 
 interface BlogRowProps {
 	post: BlogPost;
-	/** Heading level for the title, so the row fits the surrounding outline. */
 	headingLevel?: 'h3' | 'h4';
 }
 
-/**
- * One line of the article index: date, title, category, reading time and a
- * small cover. The cover carries the `blog-image-{slug}` name so it morphs
- * into the post hero.
- */
 const BlogRow: FC<BlogRowProps> = ({
 	post,
 	headingLevel: Heading = 'h3',

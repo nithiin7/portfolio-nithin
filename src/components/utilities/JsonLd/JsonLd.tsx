@@ -6,7 +6,6 @@ interface JsonLdProps {
 	data: object;
 }
 
-/** Serialises schema.org data; `<` is escaped so CMS text can't close the tag. */
 export const serializeJsonLd = (data: object): string =>
 	JSON.stringify(data).replace(/</g, '\\u003c');
 

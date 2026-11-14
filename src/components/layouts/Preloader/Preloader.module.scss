@@ -1,7 +1,5 @@
 @use 'styles/shared/mixin' as *;
 
-// Timeline (1.2s): hairlines + counter 0→0.8s, name rises 0.2→0.7s,
-// overlay wipes up 0.8→1.2s. Only rendered when html[data-preload].
 .Preloader {
 	display: none;
 	position: fixed;
@@ -14,8 +12,6 @@
 
 	:global(html[data-preload='true']) & {
 		display: block;
-		// `none` → inset() can't interpolate, so without a start shape the wipe
-		// snaps away at 50% instead of sweeping up.
 		clip-path: inset(0 0 0 0);
 		animation: preloader-wipe var(--dur-1) var(--ease) var(--dur-2) forwards;
 	}

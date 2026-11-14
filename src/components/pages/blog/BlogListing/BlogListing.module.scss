@@ -98,8 +98,6 @@
 	}
 
 	&__index {
-		// A short filtered list must not shrink the page below the filter bar's
-		// pinned position, or the browser clamps the scroll and it jumps anyway.
 		min-height: 100svh;
 		padding-top: var(--space-7);
 	}
@@ -257,7 +255,6 @@
 		list-style: none;
 	}
 
-	// Works-style focus: other rows dim while one is hovered
 	@media (hover: hover) {
 		&__list:has(article:hover) article:not(:hover) {
 			opacity: 0.4;

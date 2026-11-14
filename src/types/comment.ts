@@ -18,9 +18,6 @@ export interface CommentFormData {
 	recaptchaToken?: string;
 }
 
-/**
- * Database comment interface (snake_case columns)
- */
 export interface DatabaseComment {
 	id: string;
 	post_id: string;
@@ -33,9 +30,6 @@ export interface DatabaseComment {
 	is_approved: boolean;
 }
 
-/**
- * Database comment creation interface (id generated client-side, no timestamps)
- */
 export interface DatabaseCommentCreate {
 	id: string;
 	post_id: string;

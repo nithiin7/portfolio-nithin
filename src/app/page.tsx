@@ -114,7 +114,6 @@ export default async function Home() {
 		),
 	};
 
-	// The hero always opens the page; the rest follow Page "home" in Contentful
 	const order: HomeSectionKey[] = [
 		'hero',
 		...home.order.filter((key) => key !== 'hero'),

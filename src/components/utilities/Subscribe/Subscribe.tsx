@@ -23,10 +23,6 @@ interface SubscribeProps {
 	className?: string;
 }
 
-/**
- * Newsletter sign-up. Swaps to a confirmation in place on success and moves
- * focus to it, so screen-reader users hear the result.
- */
 const Subscribe: FC<SubscribeProps> = ({ className }): ReactElement => {
 	const uid = useId();
 	const [done, setDone] = useState(false);

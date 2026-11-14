@@ -161,7 +161,6 @@
 		}
 	}
 
-	// Hairlines draw in as each column scrolls in; unsupported browsers just show the line.
 	@supports (animation-timeline: view()) {
 		@media (prefers-reduced-motion: no-preference) {
 			&__col::before {

@@ -8,8 +8,6 @@ const data = fileURLToPath(new URL('./data', import.meta.url));
 export default defineConfig({
 	plugins: [
 		{
-			// next.config turns *.svg into React components via SVGR; mirror that
-			// with a bare <svg> so components importing logos can render in jsdom.
 			name: 'svg-component-stub',
 			enforce: 'pre',
 			load(id) {
@@ -38,7 +36,6 @@ export default defineConfig({
 		coverage: {
 			provider: 'v8',
 			reporter: ['text-summary', 'json-summary', 'html'],
-			// Logic that has to hold: data shaping, API surface, shared UI and hooks
 			include: [
 				'src/helpers/**',
 				'src/services/**',
@@ -49,8 +46,6 @@ export default defineConfig({
 			],
 			exclude: [
 				'**/*.test.{ts,tsx}',
-				// Build-time image rendering and the lazy Sentry loader are exercised
-				// by the OG smoke test and production, not unit tests
 				'src/helpers/og.tsx',
 				'src/helpers/monitoring.ts',
 			],

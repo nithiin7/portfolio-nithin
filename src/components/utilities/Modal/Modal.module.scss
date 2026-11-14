@@ -3,7 +3,6 @@
 .Modal {
 	position: fixed;
 	inset: 0;
-	// Above the floating chat + search triggers (1000), below the palette (1100)
 	z-index: 1050;
 	display: flex;
 	align-items: flex-end;

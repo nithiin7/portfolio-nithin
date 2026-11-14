@@ -1,6 +1,5 @@
 @use 'styles/shared/mixin' as *;
 
-// Shared by the column header and every row so the two stay aligned.
 $columns: minmax(0, 1.4fr) minmax(0, 2.2fr) minmax(0, 2.8fr) minmax(0, 1.4fr)
 	minmax(0, 2.6fr) rem(24);
 
@@ -196,8 +195,6 @@ $columns: minmax(0, 1.4fr) minmax(0, 2.2fr) minmax(0, 2.8fr) minmax(0, 1.4fr)
 		letter-spacing: -0.015em;
 		transition: transform var(--dur-1) var(--ease);
 
-		// Beside the name the tile would cost the narrow column a line of
-		// wrapping, so from lg it sits above the name at the column's start.
 		@media #{$lg} {
 			flex-direction: column;
 			align-items: flex-start;

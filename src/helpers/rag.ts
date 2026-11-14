@@ -36,11 +36,6 @@ const splitLongText = (text: string): string[] => {
 	return parts;
 };
 
-/**
- * Split a markdown document into retrieval chunks, one per heading section.
- * Each chunk is prefixed with "document title — section heading" so it stays
- * meaningful when read in isolation by the model.
- */
 export const chunkMarkdown = (
 	markdown: string,
 	source: string
@@ -88,7 +83,6 @@ export const chunkMarkdown = (
 	return chunks;
 };
 
-/** Cosine similarity of two embedding vectors (0 when either is all zeros). */
 export const cosineSimilarity = (a: number[], b: number[]): number => {
 	let dot = 0;
 	let normA = 0;
@@ -106,10 +100,6 @@ export const cosineSimilarity = (a: number[], b: number[]): number => {
 	return denominator === 0 ? 0 : dot / denominator;
 };
 
-/**
- * Return the topK chunks most similar to the query vector, dropping anything
- * below minSimilarity so unrelated questions get no padding context.
- */
 export const findRelevantChunks = (
 	queryVector: number[],
 	chunks: EmbeddedChunk[],

@@ -1,7 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
 
-// PLAYWRIGHT_BASE_URL points the suite at an already-running server (e.g. a
-// `pnpm start -p 3200` build) and skips the managed dev server
 const externalBaseURL = process.env.PLAYWRIGHT_BASE_URL;
 
 export default defineConfig({
@@ -15,7 +13,6 @@ export default defineConfig({
 		baseURL: externalBaseURL ?? 'http://localhost:3000',
 		trace: 'retain-on-failure',
 		screenshot: 'only-on-failure',
-		// Vercel Deployment Protection: lets CI reach protected previews
 		extraHTTPHeaders: process.env.VERCEL_AUTOMATION_BYPASS_SECRET
 			? {
 					'x-vercel-protection-bypass':

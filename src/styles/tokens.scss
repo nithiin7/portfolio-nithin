@@ -1,9 +1,3 @@
-// Design tokens: direction A (Editorial Swiss).
-// The only place raw colour values may live. Everything else references the
-// semantic custom properties below. tokens.ts mirrors the few values JS needs
-// (meta theme-color, motion easing) and tokens.test.ts keeps the two in sync.
-
-// Primitives (not emitted)
 $ink: #0b0b0b;
 $ink-900: #141413;
 $ink-850: #1c1c1a;
@@ -66,7 +60,6 @@ $red-deep: #b42318;
 
 	--accent: #{$orange};
 	--accent-fg: #{$ink};
-	// #ff4d00 on paper is 2.94:1, below AA for text and focus rings
 	--accent-text: #{$orange-deep};
 
 	--focus: var(--accent-text);
@@ -88,11 +81,9 @@ $red-deep: #b42318;
 }
 
 :root {
-	// Theme-independent ink/paper for blocks that never flip (transition panel).
 	--ink: #{$ink};
 	--paper: #{$paper};
 
-	// Type: next/font exposes --font-inter-tight / --font-instrument-serif / --font-jetbrains-mono
 	--font-display:
 		var(--font-inter-tight, 'Inter Tight'), 'Helvetica Neue', arial, sans-serif;
 	--font-text:
@@ -102,7 +93,6 @@ $red-deep: #b42318;
 	--font-mono:
 		var(--font-jetbrains-mono, 'JetBrains Mono'), ui-monospace, monospace;
 
-	// Fluid type scale, 360px → 1440px viewport, 16→18px base, ratio 1.2 → 1.4
 	--step--1: clamp(0.8125rem, 0.7917rem + 0.0926vw, 0.875rem);
 	--step-0: clamp(1rem, 0.9583rem + 0.1852vw, 1.125rem);
 	--step-1: clamp(1.2rem, 1.075rem + 0.5556vw, 1.575rem);
@@ -119,7 +109,6 @@ $red-deep: #b42318;
 	--tracking-display: -0.035em;
 	--tracking-mono: 0.02em;
 
-	// Spacing (4px base)
 	--space-1: 0.25rem;
 	--space-2: 0.5rem;
 	--space-3: 0.75rem;
@@ -132,8 +121,6 @@ $red-deep: #b42318;
 	--space-10: 8rem;
 	--section-pad: clamp(6rem, 14vw, 12.5rem);
 
-	// Grid. Above 1920px the root font-size tracks the viewport (see _base.scss),
-	// so every rem cap here grows with it and 3840 renders as a 2x 1920 layout.
 	--grid-columns: 12;
 	--grid-gutter: clamp(0.75rem, 0.5rem + 1.1vw, 1.5rem);
 	--grid-margin: max(
@@ -144,10 +131,7 @@ $red-deep: #b42318;
 	--grid-max: 120rem;
 	--nav-height: 4rem;
 	--tap-min: 2.75rem;
-	// Floating triggers (search tab, chat launcher) share one square size
 	--chrome-size: clamp(3rem, 2.85rem + 0.55vw, 3.5rem);
-	// Company logos: the height a square mark gets and the widest a wordmark
-	// may run. CompanyLogo scales each mark by its aspect ratio inside the box.
 	--logo-sm-height: 1.5rem;
 	--logo-sm-width: 4.5rem;
 	--logo-md-height: 1.75rem;
@@ -155,11 +139,9 @@ $red-deep: #b42318;
 	--logo-lg-height: clamp(2rem, 1.7rem + 0.8vw, 2.75rem);
 	--logo-lg-width: 10rem;
 
-	// Radii: Swiss is mostly square
 	--radius-1: 0.125rem;
 	--radius-pill: 999px;
 
-	// Motion
 	--ease: cubic-bezier(0.7, 0, 0.2, 1);
 	--ease-out: cubic-bezier(0.2, 0, 0, 1);
 	--dur-1: 0.4s;

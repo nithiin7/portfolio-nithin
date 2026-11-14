@@ -20,10 +20,6 @@ interface ResumeProps {
 
 const pad = (n: number): string => String(n).padStart(2, '0');
 
-/**
- * The PDF résumé as crawlable, deep-linkable HTML; the PDF stays available as
- * a download rather than the only way to read it.
- */
 const Resume: FC<ResumeProps> = ({
 	site,
 	bio,

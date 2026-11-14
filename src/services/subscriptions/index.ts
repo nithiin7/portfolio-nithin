@@ -7,15 +7,9 @@ import type {
 	NewsletterSubscriptionFormData,
 } from 'types/subscription';
 
-/**
- * Newsletter subscriptions service providing subscription-specific operations
- */
 export class NewsletterSubscriptionsService {
 	private readonly tableName = 'newsletter_subscriptions';
 
-	/**
-	 * Transform database subscription to NewsletterSubscription interface
-	 */
 	private transformSubscription(
 		dbSubscription: DatabaseNewsletterSubscription
 	): NewsletterSubscription {
@@ -28,9 +22,6 @@ export class NewsletterSubscriptionsService {
 		};
 	}
 
-	/**
-	 * Transform NewsletterSubscriptionFormData to database format
-	 */
 	private transformToDatabase(
 		subscriptionData: NewsletterSubscriptionFormData
 	): DatabaseNewsletterSubscriptionCreate {
@@ -40,9 +31,6 @@ export class NewsletterSubscriptionsService {
 		};
 	}
 
-	/**
-	 * Subscribe a new email to the newsletter
-	 */
 	async subscribeEmail(
 		subscriptionData: NewsletterSubscriptionFormData
 	): Promise<ServiceResponse<NewsletterSubscription>> {
@@ -78,8 +66,6 @@ export class NewsletterSubscriptionsService {
 
 			const dbData = this.transformToDatabase(subscriptionData);
 
-			// No INSERT ... RETURNING: anon has no SELECT policy on this table
-			// (supabase-security-fix.sql), so the row is built locally
 			const { error } = await baseService.post(this.tableName, dbData, {
 				select: false,
 			});

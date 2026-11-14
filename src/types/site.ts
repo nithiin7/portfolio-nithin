@@ -14,7 +14,6 @@ export interface SiteLink {
 	label: string;
 	url: string;
 	icon?: LinkIcon;
-	/** Second line, e.g. the address shown under "Email". */
 	detail?: string;
 	openInNewTab?: boolean;
 }
@@ -26,7 +25,6 @@ export interface Seo {
 	noIndex?: boolean;
 }
 
-/** The Contentful Site Settings singleton, flattened for components. */
 export interface SiteSettings {
 	name: string;
 	role: string;

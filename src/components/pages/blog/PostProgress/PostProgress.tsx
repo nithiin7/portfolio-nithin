@@ -15,11 +15,6 @@ interface PostProgressProps {
 	children: ReactNode;
 }
 
-/**
- * Wraps the article body: draws a reading-progress hairline under the nav
- * (scroll-linked, so it stays on under reduced motion) and records one view
- * per page load.
- */
 const PostProgress: FC<PostProgressProps> = ({
 	slug,
 	children,
@@ -32,7 +27,6 @@ const PostProgress: FC<PostProgressProps> = ({
 	});
 
 	useEffect(() => {
-		// Ref guard: StrictMode runs effects twice in dev
 		if (tracked.current === slug) return;
 		tracked.current = slug;
 		fetch('/api/views', {

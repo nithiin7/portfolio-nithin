@@ -25,10 +25,6 @@ const relativeTime = (iso: string): string => {
 	});
 };
 
-/**
- * One comment and its replies. Comments are fetched after mount, so the
- * relative timestamps never take part in hydration.
- */
 const CommentCard: FC<CommentCardProps> = ({
 	comment,
 	onSubmit,

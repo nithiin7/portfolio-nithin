@@ -17,11 +17,6 @@ const lowPowerSnapshot = (): boolean => {
 	);
 };
 
-/**
- * True when scroll-scrubbed and velocity-driven effects should be skipped:
- * reduced motion, phones (small + touch), Save-Data, or low-memory devices.
- * Server snapshot is false, so SSR markup matches the full-motion render.
- */
 export const useLiteMotion = (): boolean => {
 	const reduced = useMediaQuery('(prefers-reduced-motion: reduce)');
 	const phone = useMediaQuery('(pointer: coarse) and (max-width: 767px)');

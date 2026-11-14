@@ -6,7 +6,6 @@ import type { RawCompany } from 'types/contentful';
 export interface RawCareerRole {
 	sys: { id: string };
 	title: string;
-	/** Deprecated text name, read only when the role has no employer. */
 	companyName?: string | null;
 	employer?: RawCompany | null;
 	location?: string | null;
@@ -30,11 +29,9 @@ const MONTH = new Intl.DateTimeFormat('en-GB', {
 	timeZone: 'UTC',
 });
 
-/** "2026-08-01" → "Aug 2026", whatever the stored time zone. */
 export const formatMonthYear = (iso: string): string =>
 	MONTH.format(calendarDay(iso));
 
-/** Contentful career role → the row shape the career list and resume render. */
 export const toExperience = (role: RawCareerRole): Experience => ({
 	id: role.sys.id,
 	year: role.startDate.slice(0, 4),
@@ -52,11 +49,9 @@ export const toExperience = (role: RawCareerRole): Experience => ({
 	type: EMPLOYMENT_TYPES.find((type) => type === role.type) ?? 'full-time',
 });
 
-/** Newest role first. */
 export const sortByStart = (experiences: Experience[]): Experience[] =>
 	[...experiences].sort((a, b) => b.startDate.localeCompare(a.startDate));
 
-/** Whole years since the earliest start date, or null with no roles. */
 export const yearsOfExperience = (
 	startDates: readonly string[],
 	now: Date = new Date()
@@ -77,7 +72,6 @@ export interface CareerPeriod {
 	current: boolean;
 }
 
-/** Start/end years for a role, e.g. 2025 → 2026, or 2026 → current. */
 export const careerPeriod = (
 	experience: Pick<Experience, 'startDate' | 'endDate'>
 ): CareerPeriod => {

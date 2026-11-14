@@ -18,7 +18,6 @@ type CommentFields = Pick<
 >;
 
 interface CommentFormProps {
-	/** Resolves true once the comment is accepted, so the form only clears on success. */
 	onSubmit: (data: CommentFormData) => Promise<boolean>;
 	parentId?: string;
 	replyingTo?: string;

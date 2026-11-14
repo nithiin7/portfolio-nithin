@@ -39,10 +39,6 @@ const formatDate = (dateString: string) =>
 		timeZone: 'UTC',
 	});
 
-/**
- * Certification details laid out as an editorial spec sheet:
- * logo tile + title block, hairline definition rows, skills, outbound link.
- */
 const CertificationModal: FC<CertificationModalProps> = ({ certification }) => {
 	const prefersReducedMotion = useReducedMotion();
 	const item = prefersReducedMotion ? fade : rise;

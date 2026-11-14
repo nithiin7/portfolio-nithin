@@ -3,10 +3,6 @@ import type { DevToStats } from 'types/devto';
 import type { GithubStats } from 'types/github';
 import type { WakaTimeStats } from 'types/wakatime';
 
-/**
- * Combines the most recent signal from each already-fetched stats source
- * into a single "what I'm doing this week" feed, newest first.
- */
 export const buildNowActivity = (
 	wakatime: WakaTimeStats | null,
 	github: GithubStats | null,

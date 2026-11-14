@@ -19,8 +19,6 @@
 	}
 }
 
-// Entrance timings are all offset by --intro-delay, which the Preloader
-// raises on first visit so the intro plays as the overlay wipes away.
 .HomeHeader {
 	--intro-delay: 0s;
 
@@ -155,8 +153,6 @@
 		animation: hero-fade-up var(--dur-2) var(--ease-out) both;
 		animation-delay: calc(var(--intro-delay) + 0.45s);
 
-		// On phones the lede outsizes a name line and becomes the LCP element;
-		// like the name, it is already in place when the preloader wipes away.
 		:global(html[data-preload='true']) & {
 			animation-delay: -10s;
 		}
@@ -180,7 +176,6 @@
 			font-style: italic;
 			font-weight: 400;
 			letter-spacing: 0;
-			// Italic overhang otherwise eats the following space
 			margin-inline-end: 0.08em;
 			color: var(--accent-text);
 		}
@@ -237,7 +232,6 @@
 		}
 	}
 
-	// Label rolls up to an identical copy on hover
 	&__roll {
 		position: relative;
 		display: inline-block;
@@ -323,8 +317,6 @@
 		padding-inline: var(--grid-margin);
 		padding-bottom: var(--space-4);
 
-		// Where the name runs edge to edge (portrait phones/tablets), lift it
-		// clear of the fixed chat launcher
 		@media (max-width: 1023.98px) and (orientation: portrait) {
 			padding-bottom: calc(var(--chrome-size) + var(--space-6));
 		}
@@ -339,7 +331,6 @@
 		margin: 0;
 		padding-top: var(--space-3);
 		font-family: var(--font-display);
-		// Width-bound on phones, height-bound on short laptop screens
 		font-size: min(21vw, 26svh, 22rem);
 		font-weight: 600;
 		line-height: 0.86;
@@ -349,7 +340,6 @@
 	&__line {
 		display: block;
 		overflow: clip;
-		// Room for descenders ("p") inside the clip
 		padding-bottom: 0.06em;
 		margin-bottom: -0.06em;
 
@@ -358,8 +348,6 @@
 			animation: hero-rise var(--dur-3) var(--ease) both;
 			animation-delay: calc(0.1s + 0.12s * var(--i));
 
-			// Under the preloader the name is already in place (and is the
-			// LCP element): a negative delay jumps the animation to its end.
 			:global(html[data-preload='true']) & {
 				animation-delay: -10s;
 			}

@@ -26,37 +26,19 @@ export type ScrambleMode = 'enter' | 'scroll' | 'hover';
 
 export interface ScrambleTextProps {
 	text: string;
-	/**
-	 * `enter` plays once when scrolled into view, `hover` replays on pointer
-	 * enter / keyboard focus of the closest link or button, `scroll` follows
-	 * `progress`.
-	 */
 	mode?: ScrambleMode;
-	/** Seconds to resolve (enter and hover). */
 	duration?: number;
-	/** Seconds before resolving starts (enter). */
 	delay?: number;
 	glyphs?: string;
 	as?: ScrambleTextTag;
 	className?: string;
-	/** Scroll mode: 0 = all glyphs, 1 = final text. */
 	progress?: MotionValue<number>;
 }
 
 const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
-/** JetBrains Mono's advance width, in em. */
 const MONO_ADVANCE_EM = 0.6;
-/** Stand-in size relative to the text; matches the SCSS `font-size`. */
 const GLYPH_SIZE_EM = 0.82;
 
-/**
- * Glyphs cycle and resolve left to right into the final text. Every
- * character is its own inline span holding the real glyph, so the final
- * text sets the width and line breaks; unresolved characters only turn the
- * glyph transparent and draw a mono stand-in over it (a pseudo-element, out
- * of flow), so nothing ever reflows. Frames are written straight to the DOM
- * from one rAF loop, throttled to ~30fps and paused off-screen.
- */
 const ScrambleText: FC<ScrambleTextProps> = ({
 	text,
 	mode = 'enter',
@@ -68,7 +50,6 @@ const ScrambleText: FC<ScrambleTextProps> = ({
 	progress,
 }): ReactElement => {
 	const rootRef = useRef<HTMLElement | null>(null);
-	// Subscribed so the effect re-runs when the preference flips
 	const reduced = usePrefersReducedMotion();
 
 	const setRootRef = useCallback((node: HTMLElement | null) => {
@@ -98,8 +79,6 @@ const ScrambleText: FC<ScrambleTextProps> = ({
 		let lastSwap = Number.NEGATIVE_INFINITY;
 		let inView = mode === 'hover';
 
-		// Squeeze each stand-in to its cell so narrow letters (i, l, t) don't
-		// collide. Read every width first, then write, to avoid layout thrash.
 		let fitted = false;
 		const fit = (): void => {
 			fitted = true;
@@ -132,7 +111,6 @@ const ScrambleText: FC<ScrambleTextProps> = ({
 			frameId = 0;
 		};
 
-		// ── scroll: follow the progress value ─────────────────────────────
 		if (mode === 'scroll') {
 			const target = (): number => progress?.get() ?? 1;
 
@@ -154,7 +132,6 @@ const ScrambleText: FC<ScrambleTextProps> = ({
 				if (!frameId && inView) frameId = requestAnimationFrame(tick);
 			};
 
-			// Paint before the browser does, so a new word never flashes resolved
 			if (target() >= 1) finish();
 			else {
 				root.dataset.state = 'running';
@@ -176,7 +153,6 @@ const ScrambleText: FC<ScrambleTextProps> = ({
 			};
 		}
 
-		// ── enter / hover: time-based ─────────────────────────────────────
 		const totalMs = Math.max(duration, 0.05) * 1000;
 		const delayMs = Math.max(delay, 0) * 1000;
 		let running = false;

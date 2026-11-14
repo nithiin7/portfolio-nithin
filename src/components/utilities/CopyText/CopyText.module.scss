@@ -19,7 +19,6 @@
 		position: relative;
 		overflow-wrap: anywhere;
 
-		// Underline draws in from the left and exits to the right
 		&::after {
 			content: '';
 			position: absolute;

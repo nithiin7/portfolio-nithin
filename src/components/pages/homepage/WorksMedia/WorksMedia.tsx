@@ -11,8 +11,6 @@ import styles from './WorksMedia.module.scss';
 interface WorksMediaProps {
 	project: PortfolioItem;
 	sizes: string;
-	/** Preloads the image; reserve for the single above-the-fold candidate. */
-	/** Plays the cover video when one exists. */
 	playing?: boolean;
 	className?: string;
 }
@@ -32,7 +30,6 @@ const WorksMedia: FC<WorksMediaProps> = ({
 		const el = videoRef.current;
 		if (!el) return;
 		if (shouldPlay) {
-			// play() rejects when interrupted by a pause; that is expected here
 			el.play().catch(() => undefined);
 		} else {
 			el.pause();

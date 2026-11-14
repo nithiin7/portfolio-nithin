@@ -66,7 +66,6 @@ const RecaptchaBridge = ({
 	return null;
 };
 
-// Drops in from the top edge like a sheet of paper being pulled down.
 const panelVariants: Variants = {
 	hidden: { clipPath: 'inset(0% 0% 100% 0%)', y: '-1rem' },
 	visible: {
@@ -147,7 +146,6 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 		return () => window.removeEventListener('scroll', handleScroll);
 	}, []);
 
-	// Recorded before opening: the search field's autoFocus moves focus first.
 	const rememberOpener = useCallback(
 		(fallback?: HTMLElement | null) => {
 			const active = document.activeElement;
@@ -206,9 +204,6 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 			});
 	}, [isOpen]);
 
-	// Return focus to whatever opened the palette. The hint button unmounts while
-	// the palette is open, so its fresh replacement takes focus instead; after a
-	// route change focus is left to the new page.
 	useEffect(() => {
 		isOpenRef.current = isOpen;
 		if (isOpen) return;
@@ -376,8 +371,6 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 				return next;
 			});
 			try {
-				// The script loads when the palette opens; wait briefly if the
-				// user asks before it is ready.
 				for (let i = 0; i < 20 && !executeRecaptchaRef.current; i++) {
 					await new Promise((resolve) => setTimeout(resolve, 100));
 				}
@@ -499,7 +492,6 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 				</GoogleReCaptchaProvider>
 			)}
 			<AnimatePresence>
-				{/* The home hero's name runs to the fold, so the hint waits for the first scroll there */}
 				{!isOpen &&
 					!pathname?.startsWith('/blog/') &&
 					!(pathname === '/' && isAtTop) && (
@@ -583,7 +575,6 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 								<SearchIcon />
 								<input
 									ref={inputRef}
-									// The palette exists to be typed into; focus on open is expected
 									// eslint-disable-next-line jsx-a11y/no-autofocus
 									autoFocus
 									type="text"

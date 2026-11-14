@@ -15,18 +15,12 @@ import styles from './TableOfContents.module.scss';
 
 interface TableOfContentsProps {
 	items: TocItem[];
-	/** `rail` is the sticky desktop column; `inline` is a disclosure above the article. */
 	variant: 'rail' | 'inline';
 	className?: string;
 }
 
 const pad = (n: number): string => String(n).padStart(2, '0');
 
-/**
- * Article contents built from the rich-text headings on the server, so it is
- * in the HTML on first paint. A band across the upper viewport decides which
- * heading is current.
- */
 const TableOfContents: FC<TableOfContentsProps> = ({
 	items,
 	variant,

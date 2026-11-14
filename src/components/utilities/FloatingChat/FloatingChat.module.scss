@@ -27,8 +27,6 @@
 		bottom: max(var(--space-4), env(safe-area-inset-bottom));
 	}
 
-	// Clear of the footer's back-to-top at the page end; visibility also takes
-	// the launcher out of the tab order.
 	&--hidden {
 		opacity: 0;
 		visibility: hidden;
@@ -36,8 +34,6 @@
 		transform: translateY(var(--space-3));
 	}
 
-	// Square inverse tile. The label is clipped to zero width and wipes open
-	// to the left on hover/focus.
 	&__launcher {
 		position: relative;
 		display: flex;
@@ -151,7 +147,6 @@
 		}
 	}
 
-	// Sits above the launcher and never under the nav, whatever the height
 	&__window {
 		--chat-bottom: calc(
 			max(var(--space-4), env(safe-area-inset-bottom)) + var(--chrome-size) +

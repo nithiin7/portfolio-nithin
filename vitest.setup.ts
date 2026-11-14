@@ -20,11 +20,6 @@ if (typeof window !== 'undefined' && !window.matchMedia) {
 	});
 }
 
-/**
- * Node's built-in `localStorage` global (backed by an unset `--localstorage-file`)
- * shadows jsdom's own implementation and throws on every write, so tests that
- * touch localStorage need an in-memory stand-in instead.
- */
 function createMemoryStorage(): Storage {
 	const store = new Map<string, string>();
 

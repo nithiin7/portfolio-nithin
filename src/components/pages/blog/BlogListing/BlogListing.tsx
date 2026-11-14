@@ -37,14 +37,6 @@ const ELSEWHERE = [
 
 const pad = (n: number): string => String(n).padStart(2, '0');
 
-/**
- * Article index. All posts arrive from the server (the archive is small), so
- * category, tag and search filtering run locally and only sync to the URL.
- * The featured slot shows only while unfiltered, and that post is left out of
- * the list so its `blog-image-{slug}` view-transition name stays unique.
- * Because that slot sits above the filters, every filter change pins the
- * filter bar to its viewport position so the page doesn't jump.
- */
 const BlogListing: FC<BlogListingProps> = ({
 	posts,
 	categories,
@@ -85,8 +77,6 @@ const BlogListing: FC<BlogListingProps> = ({
 		if (Math.abs(delta) < 1) return;
 		const target = window.scrollY + delta;
 		if (lenis) {
-			// resize() first: Lenis clamps to its cached limit, which is stale
-			// when the featured slot has just come back and the page grew.
 			lenis.resize();
 			lenis.scrollTo(target, { immediate: true, force: true });
 		} else {

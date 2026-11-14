@@ -9,7 +9,6 @@ interface FooterFrameProps {
 	children: ReactNode;
 }
 
-/** The only route-aware part of the footer: /contact drops the `extended` block. */
 const FooterFrame = ({
 	extended,
 	children,

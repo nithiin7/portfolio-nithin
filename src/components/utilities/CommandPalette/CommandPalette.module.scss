@@ -154,7 +154,6 @@
 		cursor: pointer;
 		transition: background-color var(--dur-1) var(--ease);
 
-		// Accent rule drawn on the active row, Works-index style
 		&::before {
 			content: '';
 			position: absolute;
@@ -316,7 +315,6 @@
 			margin-left: auto;
 		}
 
-		// Arrow/enter hints are noise on touch devices
 		@media (hover: none) {
 			> span:not(.CommandPalette__footer-ai) {
 				display: none;
@@ -324,11 +322,6 @@
 		}
 	}
 
-	// Floating trigger: a hairline-framed tab, collapsed to its icon once the
-	// page scrolls and expanded on hover/focus.
-	// Phones: bottom-left, mirroring the chat launcher, so it never sits over
-	// the middle of the content. md+: centred (CSS translate composes with
-	// Motion's y transform).
 	&__hint {
 		position: fixed;
 		left: max(var(--space-4), env(safe-area-inset-left));

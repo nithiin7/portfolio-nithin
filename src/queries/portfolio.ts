@@ -2,7 +2,6 @@ import { gql } from '@apollo/client';
 
 import { ASSET_FIELDS, PROJECT_CARD_FIELDS, SEO_FIELDS } from './fragments';
 
-/** Case study by slug. */
 export const GET_PROJECT = gql`
 	${ASSET_FIELDS}
 	${PROJECT_CARD_FIELDS}
@@ -47,7 +46,6 @@ export const GET_PROJECT = gql`
 	}
 `;
 
-/** Old numeric URL (/portfolio/<id>) → slug, for the permanent redirect. */
 export const GET_PROJECT_SLUG_BY_LEGACY_ID = gql`
 	query ProjectSlugByLegacyId($id: Int!, $preview: Boolean = false) {
 		portfolioDetailsCollection(
@@ -62,11 +60,6 @@ export const GET_PROJECT_SLUG_BY_LEGACY_ID = gql`
 	}
 `;
 
-/**
- * The homepage Work list: the curated set and order of live projects. Routes,
- * the sitemap, search and "Next project" all follow it, so a retired project
- * drops out everywhere by being removed from this list.
- */
 export const GET_WORK = gql`
 	${PROJECT_CARD_FIELDS}
 	query Work($preview: Boolean = false) {

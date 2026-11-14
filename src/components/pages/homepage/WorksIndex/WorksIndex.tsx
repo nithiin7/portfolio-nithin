@@ -15,7 +15,6 @@ import styles from './WorksIndex.module.scss';
 
 interface WorksIndexProps {
 	projects: PortfolioItem[];
-	/** Number of projects shown before this list, so numbering continues. */
 	offset?: number;
 }
 
@@ -59,7 +58,6 @@ const WorksIndex: FC<WorksIndexProps> = ({
 		[]
 	);
 
-	// Mount every preview before the first hover so covers are decoded and each swap animates
 	useEffect(() => {
 		const list = listRef.current;
 		if (!canHover || warm || !list) return;
@@ -146,7 +144,6 @@ const WorksIndex: FC<WorksIndexProps> = ({
 								}}
 								onFocus={(e) => {
 									setTabStop(index);
-									// Click focus must not yank the preview off the cursor mid-navigation
 									if (e.currentTarget.matches(':focus-visible'))
 										activate(index, e.currentTarget);
 								}}

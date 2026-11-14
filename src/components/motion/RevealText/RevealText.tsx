@@ -21,15 +21,10 @@ export interface RevealTextProps {
 	children: string;
 	as?: RevealTextTag;
 	className?: string;
-	/** Seconds before the first line starts. */
 	delay?: number;
-	/** Seconds between consecutive lines. */
 	stagger?: number;
-	/** `inView` waits for the element to scroll into view; `mount` plays immediately. */
 	trigger?: 'inView' | 'mount';
-	/** Replay when the element re-enters the viewport. */
 	once?: boolean;
-	/** Fraction of the element that must be visible before revealing. */
 	amount?: number;
 }
 
@@ -46,12 +41,6 @@ const groupIntoLines = (words: HTMLElement[]): number[] => {
 	});
 };
 
-/**
- * Line-by-line mask reveal. Lines are found by measuring where the browser
- * actually wrapped each word, so the effect survives any width or font size.
- * Under prefers-reduced-motion the text is rendered static (CSS-only, so SSR
- * and hydration markup never diverge).
- */
 const RevealText: FC<RevealTextProps> = ({
 	children,
 	as: Tag = 'p',

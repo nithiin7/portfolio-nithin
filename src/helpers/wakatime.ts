@@ -24,10 +24,6 @@ const humanize = (seconds: number): string => {
 	return minutes > 0 ? `${hours}h ${minutes}m` : `${hours}h`;
 };
 
-/**
- * Derived entirely from the summaries endpoint — stats/last_7_days
- * intermittently reports zeroed aggregates while summaries stays accurate.
- */
 export const loadWakaTimeStats = async (): Promise<WakaTimeStats | null> => {
 	const apiKey = serverEnv.WAKATIME_API_KEY;
 	if (!apiKey) return null;
