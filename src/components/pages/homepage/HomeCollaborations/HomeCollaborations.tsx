@@ -1,10 +1,25 @@
 'use client';
-import { useMotionValueEvent, useScroll, useVelocity } from 'motion/react';
-import { useRef, useState, type FC, type ReactElement } from 'react';
+import {
+	motion,
+	useAnimationFrame,
+	useInView,
+	useMotionValue,
+	useScroll,
+	useVelocity,
+} from 'motion/react';
+import {
+	useEffect,
+	useRef,
+	useState,
+	type FC,
+	type FocusEvent,
+	type ReactElement,
+} from 'react';
 
 import ScrambleText from 'components/motion/ScrambleText/ScrambleText';
 import CompanyLogo from 'components/utilities/CompanyLogo/CompanyLogo';
 import { useLiteMotion } from 'hooks/useLiteMotion';
+import { usePrefersReducedMotion } from 'hooks/usePrefersReducedMotion';
 import type { Company } from 'types/company';
 
 import styles from './HomeCollaborations.module.scss';
@@ -18,28 +33,66 @@ interface HomeCollaborationsProps {
 }
 
 const MAX_BOOST = 3;
+/** Seconds for one full set of logos to pass at rest. */
+const LOOP_SECONDS = 48;
+/** Time constant (ms) for easing between speeds, so pauses and boosts glide. */
+const EASE_MS = 220;
 
 const HomeCollaborations: FC<HomeCollaborationsProps> = ({
 	className = '',
 	data,
 	collaborators = [],
 }): ReactElement => {
-	const trackRef = useRef<HTMLDivElement>(null);
+	const marqueeRef = useRef<HTMLDivElement>(null);
+	const listRef = useRef<HTMLUListElement>(null);
 	const [paused, setPaused] = useState(false);
+	const [held, setHeld] = useState(false);
 	const lite = useLiteMotion();
+	const reducedMotion = usePrefersReducedMotion();
+	const inView = useInView(marqueeRef);
 
 	const { scrollY } = useScroll();
 	const velocity = useVelocity(scrollY);
+	const x = useMotionValue(0);
+	const progress = useRef(0);
+	const rate = useRef(1);
+	const loopWidth = useRef(0);
 
-	useMotionValueEvent(velocity, 'change', (v) => {
-		if (lite || paused) return;
+	useEffect(() => {
+		const list = listRef.current;
+		if (!list) return;
+		const measure = (): void => {
+			loopWidth.current = list.offsetWidth;
+		};
+		measure();
+		const observer = new ResizeObserver(measure);
+		observer.observe(list);
+		return () => observer.disconnect();
+	}, []);
+
+	// Progress is a fraction of one logo set, so the wrap is seamless and late
+	// logo loads that change the width never make the row jump back
+	useAnimationFrame((_, delta) => {
+		if (reducedMotion || !inView || !loopWidth.current) return;
+		const dt = Math.min(delta, 100);
 		// Viewports per second, so the same flick feels the same at 1080p and 4K
-		const rate =
-			1 + Math.min(Math.abs(v) / (window.innerHeight * 1.6), MAX_BOOST);
-		trackRef.current?.getAnimations().forEach((animation) => {
-			animation.playbackRate = rate;
-		});
+		const boost = lite
+			? 0
+			: Math.min(
+					Math.abs(velocity.get()) / (window.innerHeight * 1.6),
+					MAX_BOOST
+				);
+		const target = paused || held ? 0 : 1 + boost;
+		rate.current += (target - rate.current) * (1 - Math.exp(-dt / EASE_MS));
+		progress.current =
+			(progress.current + (dt / 1000 / LOOP_SECONDS) * rate.current) % 1;
+		x.set(-progress.current * loopWidth.current);
 	});
+
+	const handleBlur = (e: FocusEvent<HTMLDivElement>): void => {
+		if (!e.currentTarget.contains(e.relatedTarget as Node | null))
+			setHeld(false);
+	};
 
 	const renderLogos = (copy: boolean) =>
 		collaborators.map((company) => (
@@ -87,12 +140,25 @@ const HomeCollaborations: FC<HomeCollaborationsProps> = ({
 			</div>
 
 			<div
-				className={`${styles.HomeCollaborations__marquee} ${
-					paused ? styles['HomeCollaborations__marquee--paused'] : ''
-				}`}
+				ref={marqueeRef}
+				className={styles.HomeCollaborations__marquee}
+				// Pointermove, not pointerenter: scrolling the row under a resting
+				// cursor fires enter, and pausing mid-scroll reads as a glitch
+				onPointerMove={(e) => {
+					if (e.pointerType === 'mouse' && (e.movementX || e.movementY))
+						setHeld(true);
+				}}
+				onPointerLeave={(e) => {
+					if (e.pointerType === 'mouse') setHeld(false);
+				}}
+				onFocus={() => setHeld(true)}
+				onBlur={handleBlur}
 			>
-				<div ref={trackRef} className={styles.HomeCollaborations__track}>
-					<ul className={styles.HomeCollaborations__list}>
+				<motion.div
+					className={styles.HomeCollaborations__track}
+					style={reducedMotion ? undefined : { x }}
+				>
+					<ul ref={listRef} className={styles.HomeCollaborations__list}>
 						{renderLogos(false)}
 					</ul>
 					<ul
@@ -101,7 +167,7 @@ const HomeCollaborations: FC<HomeCollaborationsProps> = ({
 					>
 						{renderLogos(true)}
 					</ul>
-				</div>
+				</motion.div>
 			</div>
 		</section>
 	);
