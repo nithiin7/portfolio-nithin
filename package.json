@@ -1,6 +1,6 @@
 {
 	"name": "portfolio-nithin",
-	"version": "4.0.1",
+	"version": "4.1.0",
 	"description": "Portfolio of Nithin Pradeep, AI and full-stack engineer: editorial Swiss design, Contentful case studies, a blog, live stats and a RAG assistant. Next.js 16, React 19, TypeScript.",
 	"keywords": [
 		"portfolio",
@@ -82,7 +82,7 @@
 		"react-google-recaptcha-v3": "^1.11.0",
 		"react-hook-form": "^7.91.0",
 		"react-intersection-observer": "^9.16.0",
-		"sass": "^1.108.2",
+		"sass": "^1.108.1",
 		"server-only": "^0.0.1",
 		"sharp": "^0.35.5",
 		"sonner": "^2.0.8",
