@@ -130,3 +130,24 @@ The page is `page.dev.tsx` and `route.dev.ts`. `next.config.js` only adds the `d
 4. Run `pnpm cms:check --env <id>`, check the drafts with a preview build (`CONTENTFUL_PREVIEW=true pnpm build`), then `pnpm cms:publish --env <id> --apply`.
 
 Re-running is safe. A plate's asset ID is its file stem (`project-<slug>--<name>`), so a new composition replaces the file in place. A cover whose plate asset doesn't exist yet replaces the file of the asset the field already links, so its ID and links stay put.
+
+## 6. Blog covers
+
+Blog featured images come from [`scripts/plates/blog.ts`](../../scripts/plates/blog.ts): one drawn figure per post (no screenshots, no headline: the title is always printed beside the image), on ink and paper, built from the same tokens, fonts and hairline grid as the project plates.
+
+```bash
+pnpm plates:blog [slug…]                         # → scripts/plates/out/blog/<slug>/
+pnpm plates:blog:upload --env <id> [slug…]       # Contentful plan (dry run); add --apply to write
+```
+
+| Slot                 | Crop                             | `sizes`                                                    |
+| -------------------- | -------------------------------- | ---------------------------------------------------------- |
+| BlogRow · thumb      | 1:1 (< 768), 4:3                 | `(min-width: 1920px) 10vw, (min-width: 768px) 12rem, 6rem` |
+| BlogFeatured · image | 16:10                            | `(min-width: 1024px) 58vw, 100vw`                          |
+| BlogDetail · cover   | 4:3 (< 768), 16:9 (< 1024), 21:9 | `100vw`                                                    |
+
+The 1:1 thumbnail is the binding crop, so **every element, labels and caption included, sits inside the centre 2160×2160 square** (x 840–3000), and vertically inside the 21:9 band (y 257–1902). The `.debug.png` beside each cover draws those crops.
+
+Each cover is a `BlogCover` in `BLOG_COVERS`: `label` and `tag` (mono kickers), `caption` (the figure line), `alt`, and an `art(kit)` function that lays out the figure in a 2160×1250 box. Boxes are absolute `div`s rendered by Satori; connector lines, arrows and arcs go through `kit.draw()` and are drawn underneath as SVG, so opaque boxes cover them. Keep one orange element per figure: it is what still reads at thumbnail size.
+
+Output is a 3840×2160 PNG, a WebP (~60 KB, the file that's uploaded) and a debug PNG per surface. Upload puts the paper WebP in `featuredImage` (light theme, OG, RSS, JSON-LD) and the ink WebP in `featuredImageDark` as assets `post-<slug>--featured-<surface>`, saves the post as a draft, and leaves the previously linked image alone. Then `cms:check`, preview build, `cms:publish`.

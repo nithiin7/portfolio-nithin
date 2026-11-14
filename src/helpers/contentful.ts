@@ -380,6 +380,9 @@ export const toBlogPost = (post: BlogPostItem): BlogPost => ({
 	excerpt: post.excerpt,
 	content: post.content || { json: {} as Document },
 	featuredImage: post.featuredImage ?? { url: '', title: '', description: '' },
+	...(post.featuredImageDark?.url && {
+		featuredImageDark: { url: post.featuredImageDark.url },
+	}),
 	category: post.blogCategory?.name ?? '',
 	tags: post.tags ?? [],
 	authorName: post.author?.name ?? '',

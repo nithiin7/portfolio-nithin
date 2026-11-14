@@ -21,6 +21,7 @@ import PostProgress from 'components/pages/blog/PostProgress/PostProgress';
 import PostShare from 'components/pages/blog/PostShare/PostShare';
 import TableOfContents from 'components/pages/blog/TableOfContents/TableOfContents';
 import Subscribe from 'components/utilities/Subscribe/Subscribe';
+import ThemedImage from 'components/utilities/ThemedImage/ThemedImage';
 import { absoluteUrl, siteConfig } from 'config/site';
 import { formatPostDate } from 'helpers/blogPosts';
 import {
@@ -192,8 +193,9 @@ const BlogDetail: FC<BlogDetailProps> = ({
 
 			{post.featuredImage?.url && (
 				<div className={styles.Post__cover}>
-					<Image
+					<ThemedImage
 						src={post.featuredImage.url}
+						srcDark={post.featuredImageDark?.url}
 						alt={post.featuredImage.description || ''}
 						fill
 						priority

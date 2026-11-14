@@ -1,7 +1,7 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import type { FC, ReactElement } from 'react';
 
+import ThemedImage from 'components/utilities/ThemedImage/ThemedImage';
 import { formatPostDate } from 'helpers/blogPosts';
 import type { BlogPost } from 'types/blog';
 
@@ -21,8 +21,9 @@ const BlogFeatured: FC<BlogFeaturedProps> = ({ post }): ReactElement => (
 		{post.featuredImage?.url && (
 			<div className={styles.BlogFeatured__media} aria-hidden="true">
 				<div className={styles.BlogFeatured__image}>
-					<Image
+					<ThemedImage
 						src={post.featuredImage.url}
+						srcDark={post.featuredImageDark?.url}
 						alt=""
 						fill
 						priority

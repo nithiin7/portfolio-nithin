@@ -413,4 +413,15 @@ describe('blog loaders', () => {
 			'2026-02-01'
 		);
 	});
+
+	it('toBlogPost passes the dark cover through only when it has a url', () => {
+		expect(
+			toBlogPost(post({ featuredImageDark: { url: '//img/dark.webp' } }))
+				.featuredImageDark
+		).toEqual({ url: '//img/dark.webp' });
+		expect(toBlogPost(post()).featuredImageDark).toBeUndefined();
+		expect(
+			toBlogPost(post({ featuredImageDark: null })).featuredImageDark
+		).toBeUndefined();
+	});
 });

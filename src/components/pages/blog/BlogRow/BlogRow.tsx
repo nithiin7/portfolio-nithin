@@ -1,7 +1,7 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import type { FC, ReactElement } from 'react';
 
+import ThemedImage from 'components/utilities/ThemedImage/ThemedImage';
 import { formatPostDate } from 'helpers/blogPosts';
 import type { BlogPost } from 'types/blog';
 
@@ -51,8 +51,9 @@ const BlogRow: FC<BlogRowProps> = ({
 			<div className={styles.BlogRow__thumb} aria-hidden="true">
 				{post.featuredImage?.url && (
 					<div className={styles.BlogRow__thumbInner}>
-						<Image
+						<ThemedImage
 							src={post.featuredImage.url}
+							srcDark={post.featuredImageDark?.url}
 							alt=""
 							fill
 							sizes="(min-width: 1920px) 10vw, (min-width: 768px) 12rem, 6rem"

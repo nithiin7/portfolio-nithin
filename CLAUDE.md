@@ -130,6 +130,7 @@ pnpm generate                      # Plop: component or route
 pnpm analyze                       # webpack bundle analyzer
 pnpm cms:migrate|cms:check|cms:publish --env <id> [--apply]
 pnpm plates [slug] | plates:upload --env <id>
+pnpm plates:blog [slug] | plates:blog:upload --env <id>
 pnpm embed | embed:check           # RAG embeddings from data/knowledge
 pnpm icons                         # app icons
 ```
@@ -171,7 +172,7 @@ pnpm icons                         # app icons
 
 **New blog post**
 
-Create a Blog Post draft (category, tags, published date, featured image with alt text) → preview build → `cms:check` → publish. The webhook revalidates `/blog/[slug]` and the sitemap.
+Create a Blog Post draft (category, tags, published date) → add its cover to `scripts/plates/blog.ts`, `pnpm plates:blog <slug>`, `pnpm plates:blog:upload --env <id> <slug> --apply` (light + dark featured image, alt text) → preview build → `cms:check` → publish. The webhook revalidates `/blog/[slug]` and the sitemap.
 
 **New component**
 

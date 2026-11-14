@@ -27,6 +27,8 @@ export interface BlogPost {
 		title?: string;
 		description?: string;
 	};
+	/** Dark-theme variant of the featured image; absent = one image for both. */
+	featuredImageDark?: { url: string };
 	category: string;
 	tags: string[];
 	publishedAt: string;

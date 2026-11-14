@@ -50,6 +50,8 @@
 		"plates": "node scripts/plates/index.ts",
 		"plates:capture": "node scripts/plates/capture.ts",
 		"plates:compose": "node scripts/plates/compose.ts",
+		"plates:blog": "node scripts/plates/blog.ts",
+		"plates:blog:upload": "node --env-file-if-exists=.env --env-file-if-exists=.env.local scripts/plates/blog-upload.ts",
 		"plates:upload": "node --env-file-if-exists=.env --env-file-if-exists=.env.local scripts/plates/upload.ts",
 		"cms:migrate": "node --env-file-if-exists=.env --env-file-if-exists=.env.local contentful/migrate.ts",
 		"cms:check": "node --env-file-if-exists=.env --env-file-if-exists=.env.local contentful/check.ts",

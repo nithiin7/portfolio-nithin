@@ -92,6 +92,11 @@ export const ASSET_SLOTS: Record<
 		maxBytes: 400e3,
 		label: 'blog featured image',
 	},
+	'blogPost.featuredImageDark': {
+		formats: ['webp'],
+		maxBytes: 400e3,
+		label: 'blog featured image (dark)',
+	},
 	'blogPost.content': {
 		formats: ['webp'],
 		maxBytes: 400e3,

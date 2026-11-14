@@ -203,6 +203,7 @@ export interface BlogPostItem {
 		};
 	};
 	featuredImage?: Maybe<{ url: string; title?: string; description?: string }>;
+	featuredImageDark?: Maybe<{ url: string }>;
 	blogCategory?: Maybe<{ name: string }>;
 	tags?: Maybe<string[]>;
 	author?: Maybe<{

@@ -45,18 +45,18 @@ const COVER_WIDTH = 0.8;
 const MAX_HEIGHT = 0.9;
 const GRID_COLUMNS = 12;
 
-const rgba = (hex: string, alpha: number): string => {
+export const rgba = (hex: string, alpha: number): string => {
 	const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
 	return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 };
 
-const hairline = (surface: Surface, strength = 1): string =>
+export const hairline = (surface: Surface, strength = 1): string =>
 	rgba(
 		surfaceColors(surface).fg,
 		(surface === 'ink' ? lineAlpha.onInk : lineAlpha.onPaper) * strength
 	);
 
-const svg = (body: string): OverlayOptions => ({
+export const svg = (body: string): OverlayOptions => ({
 	input: Buffer.from(
 		`<svg xmlns="http://www.w3.org/2000/svg" width="${MASTER.width}" height="${MASTER.height}" shape-rendering="crispEdges">${body}</svg>`
 	),
@@ -64,7 +64,7 @@ const svg = (body: string): OverlayOptions => ({
 	top: 0,
 });
 
-const gridLines = (surface: Surface): string => {
+export const gridLines = (surface: Surface): string => {
 	const stroke = hairline(surface, 0.5);
 	const column = SAFE.width / GRID_COLUMNS;
 	const verticals = Array.from({ length: GRID_COLUMNS + 1 }, (_, i) => {
@@ -101,7 +101,7 @@ const fit = (
 	};
 };
 
-const centred = (size: { width: number; height: number }): Placed => ({
+export const centred = (size: { width: number; height: number }): Placed => ({
 	...size,
 	left: Math.round((MASTER.width - size.width) / 2),
 	top: Math.round((MASTER.height - size.height) / 2),
@@ -237,7 +237,7 @@ const mobileTrio = async (project: PlateProject, spec: Spec<'mobile-trio'>) => {
 const UA =
 	'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8) AppleWebKit/533.21.1 (KHTML, like Gecko) Version/5.0.5 Safari/533.21.1';
 
-const loadGoogleFont = async (
+export const loadGoogleFont = async (
 	family: string,
 	axes: string,
 	text: string
@@ -456,7 +456,7 @@ const SCENE_MONO = 52;
 const CHECK = '✓';
 
 // Google's JetBrains Mono subset has no ✓, so the check is drawn
-const checkMark = (size: number, key?: number): ReactElement =>
+export const checkMark = (size: number, key?: number): ReactElement =>
 	h(
 		'svg',
 		{
@@ -539,7 +539,7 @@ const sceneLine = (
 	);
 };
 
-const windowBar = (title: string, surface: Surface): ReactElement => {
+export const windowBar = (title: string, surface: Surface): ReactElement => {
 	const colors = surfaceColors(surface);
 	const square = {
 		width: 22,
@@ -578,7 +578,7 @@ const windowBar = (title: string, surface: Surface): ReactElement => {
 	);
 };
 
-const panel = (surface: Surface) => ({
+export const panel = (surface: Surface) => ({
 	display: 'flex',
 	flexDirection: 'column' as const,
 	border: `1px solid ${hairline(surface, 2.5)}`,

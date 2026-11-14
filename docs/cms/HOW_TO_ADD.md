@@ -69,7 +69,7 @@ To **retire** a project, remove it from Home — Work, unpublish it, and add the
    - `blogCategory`, and `author` = **Person — Nithin Pradeep**.
    - `content`, `readTime` (minutes), `tags` (up to 8, no near-duplicates).
 2. **`publishedDate` decides whether the post is shown.** Undated drafts are skipped even in preview builds. `updatedDate` is optional.
-3. `featuredImage`: 2400×1260 WebP under 400 KB, subject central (the list crops it to 16:10 and 4:3). Inline images are at least 1600 wide, WebP, with alt text.
+3. `featuredImage` (light) and `featuredImageDark`: add the post to `scripts/plates/blog.ts`, run `pnpm plates:blog <slug>`, then `pnpm plates:blog:upload --env <id> <slug> --apply` (see [IMAGES.md §6](../redesign/IMAGES.md#6-blog-covers)). Inline images are at least 1600 wide, WebP, with alt text.
 4. SEO (optional): `SEO — Post <short title>`. The title is up to 60 characters and the description 50–160. Without one, the post's title and excerpt are used.
 5. Check, preview (`/blog/<slug>`), publish.
 
