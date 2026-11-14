@@ -43,7 +43,7 @@ src/components/
   layouts/    Navbar, Menu, Footer, PageTransition, Preloader
   motion/     RevealText, RevealImage, ScrambleText
   pages/      <route>/<Component>/  (homepage, portfolio, blog, contact, stats, resume, notFound)
-  utilities/  shared UI: Button, Modal, CommandPalette, FloatingChat, FormField, JsonLd, ThemedImage, …
+  utilities/  shared UI: Modal, CommandPalette, FloatingChat, FormField, JsonLd, ThemedImage, …
 src/config/   site.ts (technical config), imageCrops.ts (plate crop table)
 src/helpers/  loaders/converters, env, apiProtection, animations, format, richText, caseStudy, …
 src/hooks/ src/contexts/ src/queries/ src/services/ src/types/
@@ -57,7 +57,7 @@ templates/    Plop templates
 - **Type**: `--font-display` (Inter Tight), `--font-text`, `--font-serif` (Instrument Serif, italic accents), `--font-mono` (JetBrains Mono, labels). The fluid scale runs `--step--1` … `--step-7`. Set copy in sentence case; the design applies uppercase itself.
 - **Grid**: 12 columns (`grid-12`, `col()` mixins, `--grid-gutter`, `--grid-margin`, `--grid-max: 120rem`). Above 1920px the root font size scales (`_base.scss`), so rem-capped values follow and 3840 renders as a 2× 1920 layout. Give wide `next/image` `sizes` a `vw` term from 1920.
 - **Responsive**: use the breakpoint variables in `_mixin.scss` (`$xs` … `$xxxxl`, `$lm`). Gate hover with `@include hover` / `$can-hover`. Touch sizing uses `tap-target` / `tap-pad` and `--tap-min`. Everything must work from 320px to 3840px with no horizontal scroll.
-- **Shared mixins** (`@use 'styles/shared/mixin' as *;`, never `styles/shared`): `mono-type`, `mono-label`, `focus-ring($offset)`, `pill-button`, `outline-button`, `draw-underline`, `logo-mask($color)`, `sr-only`, `tap-target`, `tap-pad`, `container*`, `section-padding`, `transition-layer($name, $class)`. Use them instead of repeating their declarations.
+- **Shared mixins** (`@use 'styles/shared/mixin' as *;`, never `styles/shared`): `mono-type`, `mono-label`, `focus-ring($offset)`, `pill-button`, `outline-button`, `draw-underline`, `logo-mask($color)`, `sr-only`, `tap-target`, `tap-pad`, `container*`, `transition-layer($name, $class)`. Use them instead of repeating their declarations.
 - **z-index order** (low → high): section-local layers 1–20 · chat window 999 · navbar, chat launcher, palette hint 1000 · Modal 1050 · Menu, CommandPalette 1100 · Preloader 3000 · grain overlay (`_base.scss`) · dev GridOverlay. Fit new layers into this order. Don't invent new top values.
 - **Motion**: Motion/React only (GSAP was removed; don't re-add it). Shared variants are in `helpers/animations.ts`. Primitives:
   - `RevealText` and `RevealImage`: line mask and clip-path reveals.
@@ -86,7 +86,7 @@ Read [docs/cms/CONVENTIONS.md](docs/cms/CONVENTIONS.md) (rules) and [docs/cms/HO
 ## 6. Code standards
 
 - **Naming**: components are PascalCase (folder, file and export match: `HomeHeader/HomeHeader.tsx`); BEM classes rooted in the component name (`HomeHeader__item--active`); helpers, hooks and constants are camelCase; type files are snake/domain names (`types/blog.ts`).
-- **Imports**: path aliases only (`components/…`, `helpers/…`, `hooks/…`, `services/…`, `types/…`, `config/…`, `constants/…`, `contexts/…`, `clients/…`, `queries/…`, `styles/…`, `app/…`, `data/…`); no `../` across directories. **No barrels**: import the file directly (`components/utilities/Button/Button`). Barrel imports from server components ship every `'use client'` module in them, so the barrels were deleted. Import order is enforced by ESLint.
+- **Imports**: path aliases only (`components/…`, `helpers/…`, `hooks/…`, `services/…`, `types/…`, `config/…`, `constants/…`, `contexts/…`, `clients/…`, `queries/…`, `styles/…`, `app/…`, `data/…`); no `../` across directories. **No barrels**: import the file directly (`components/utilities/Modal/Modal`). Barrel imports from server components ship every `'use client'` module in them, so the barrels were deleted. Import order is enforced by ESLint.
 - **Server first**: pages are server components that fetch and convert. Add `'use client'` only for hooks, browser APIs or handlers. Never import `@sentry/nextjs` in client code; use `helpers/monitoring.ts`, which loads it on idle.
 - **Strict types**: `strict`, `noUncheckedIndexedAccess`, `noImplicitOverride`, `noFallthroughCasesInSwitch`. No `any` and no non-null assertions in app code (both are lint errors; tests and CLI scripts may assert). Props are an `interface` above the component, and components return `ReactElement`.
 - **DRY, but no speculative abstraction**: extract on the second real copy (mixins, `helpers/animations.ts`, shared components); don't build helpers for one caller.

@@ -1,5 +1,4 @@
 $bodySize: 16;
-$bodyFontSize: 16px;
 
 @function rem($value) {
 	$newValue: calc($value / $bodySize * 1rem);
@@ -18,18 +17,6 @@ $xxxxl: 'screen and (min-width:' + (2560px) + ')';
 $can-hover: '(hover: hover) and (pointer: fine)';
 $coarse: '(pointer: coarse)';
 $landscape-phone: 'screen and (orientation: landscape) and (max-height: 500px)';
-
-$section-spacing-y: 5%;
-$section-spacing-x: 4%;
-$section-spacing-y-min: rem(56);
-$section-spacing-x-min: rem(24);
-$section-top-clearance-min: rem(120);
-
-@mixin section-padding {
-	padding: max(#{$section-spacing-y-min}, #{$section-spacing-y})
-		max(#{$section-spacing-x-min}, #{$section-spacing-x});
-	padding-top: max(#{$section-top-clearance-min}, #{$section-spacing-y});
-}
 
 @mixin grid-12 {
 	display: grid;
