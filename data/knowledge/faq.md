@@ -6,7 +6,7 @@ Nithin Pradeep's largest-scale professional work is on Spotify Connect and The G
 
 ## Is Nithin open to relocation?
 
-Yes. Nithin Pradeep's preferred work locations are Bangalore/Bengaluru, Kochi/Cochin, Chennai, Remote, and Trivandrum/Thiruvananthapuram. He currently works in a hybrid arrangement based in Noida, Uttar Pradesh, for his role at Paytm Payments Bank.
+Yes. Nithin Pradeep's preferred work locations are Bangalore/Bengaluru, Kochi/Cochin, Chennai, Remote, and Trivandrum/Thiruvananthapuram. He is currently based in Bangalore, Karnataka, for his role at EY.
 
 ## Does Nithin need visa sponsorship?
 
@@ -14,11 +14,7 @@ Nithin Pradeep is eligible to work in India without any additional work permit. 
 
 ## Is Nithin currently looking for a new job?
 
-Yes. Nithin Pradeep is currently serving his notice period at Paytm Payments Bank and is actively looking for Senior Software Engineer, Software Engineer, Full Stack Engineer, or AI Engineer roles, ideally at product-first companies building at scale.
-
-## What are Nithin's salary expectations?
-
-Nithin Pradeep's current annual salary is Rs 15,00,000 and his preferred annual salary is Rs 18,00,000.
+No. Nithin Pradeep is currently engaged on client projects as a Senior Technical Consultant at EY, where he works with Morgan Stanley. For opportunities or collaborations, reach out through the contact page at /contact.
 
 ## Does Nithin have leadership or mentorship experience?
 
@@ -26,11 +22,11 @@ Yes. As a Software Engineer at White Rabbit Group, Nithin Pradeep served as Squa
 
 ## How much AI/LLM experience does Nithin have?
 
-Nithin Pradeep has approximately 1 year of hands-on LangGraph and Python experience as of 2026, and has built numerous production and personal AI systems: enterprise RAG pipelines and MCP servers at Paytm Payments Bank, a Text-to-SQL agent (Lang2Query), and personal projects including Arcwise, Persona, Aether AI, PlateAI, and the open-source Remote File Server MCP server.
+Nithin Pradeep has approximately 1 year of hands-on LangGraph and Python experience as of 2026, and has built numerous production and personal AI systems: generative AI apps, internal automations and automated KYC for Morgan Stanley at EY, enterprise RAG pipelines and MCP servers at Paytm Payments Bank, a Text-to-SQL agent (Lang2Query), and personal projects including Arcwise, Persona, Aether AI, PlateAI, and the open-source Remote File Server MCP server.
 
 ## What is Nithin's total professional experience?
 
-Nithin Pradeep has 4 years of total professional experience as of 2026, spanning White Rabbit Group (Jul 2022 – Jul 2025) and Paytm Payments Bank (Jul 2025 – present).
+Nithin Pradeep has 4 years of total professional experience as of 2026, spanning White Rabbit Group (Jul 2022 to Jul 2025), Paytm Payments Bank (Jul 2025 to Aug 2026) and EY (Aug 2026 to present).
 
 ## Does Nithin prefer full-time roles or freelance/contract work?
 

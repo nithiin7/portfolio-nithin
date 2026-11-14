@@ -6,15 +6,15 @@ Nithin Pradeep is a Full Stack Software Engineer with 4 years of professional ex
 
 ## Current Role and Location
 
-As of Jul 2025, Nithin Pradeep works as a Software Engineer at Paytm Payments Bank. LinkedIn lists his current work location as Noida, Uttar Pradesh, India, in a hybrid arrangement. Earlier in his career, Nithin worked on-site in Kochi, Kerala, India for White Rabbit Group (Jul 2022 – Jul 2025).
+Since Aug 2026, Nithin Pradeep has worked as a Senior Technical Consultant at EY in Bangalore, Karnataka, India. At EY he collaborates with Morgan Stanley, building generative AI apps, internal automations and automated KYC. Before EY he was a Software Engineer at Paytm Payments Bank in Noida (Jul 2025 to Aug 2026), and before that he worked on-site in Kochi, Kerala, India for White Rabbit Group (Jul 2022 to Jul 2025).
 
 ## Career Focus
 
-At Paytm Payments Bank, Nithin Pradeep architects internal AI tooling, including RAG pipelines, MCP servers, and LLM-based query agents, serving cross-functional teams across compliance, finance, and operations. He has worked on platforms serving 1M+ concurrent users (Spotify, The Game Awards), delivered 50% performance improvements via SSR and CDN optimization, and led company-wide AI access strategy in a banking environment. Nithin is actively looking for Senior Software Engineer, Software Engineer, Full Stack Engineer, or AI Engineer roles, ideally at product-first companies building at scale.
+At EY, Nithin Pradeep builds generative AI applications, internal automations and automated KYC for Morgan Stanley, using RAG, LangGraph and MCP. At Paytm Payments Bank he architected internal AI tooling, including RAG pipelines, MCP servers, and LLM-based query agents, serving cross-functional teams across compliance, finance, and operations, and led company-wide AI access strategy in a banking environment. He has also worked on platforms serving 1M+ concurrent users (Spotify, The Game Awards) and delivered 50% performance improvements via SSR and CDN optimization.
 
-## Job Search Status and Notice Period
+## Availability
 
-Nithin Pradeep is currently serving his notice period at Paytm Payments Bank and is actively open to new opportunities. His desired job type is Permanent, Full Time. His preferred job roles are AI/ML Engineer, Fullstack Developer, and Software Engineer.
+Nithin Pradeep is currently engaged on client projects at EY and is not actively job hunting. For collaborations or questions, the best route is the contact page at /contact.
 
 ## Work Authorization
 
