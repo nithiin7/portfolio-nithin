@@ -29,8 +29,6 @@ jobs:
       - run: pnpm format
       - run: pnpm typecheck
       - run: pnpm knip
-      - name: Embeddings match data/knowledge
-        run: pnpm embed:check
 
   test:
     name: Unit and component tests

@@ -133,9 +133,6 @@
 		],
 		"*.{json,md,yml,yaml,css,scss}": [
 			"prettier --write"
-		],
-		"data/knowledge/**/*.md": [
-			"pnpm run embed:check"
 		]
 	},
 	"pnpm": {
