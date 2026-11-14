@@ -1,7 +1,15 @@
 'use client';
+import { useLenis } from 'lenis/react';
 import Link from 'next/link';
 import { parseAsArrayOf, parseAsString, useQueryState } from 'nuqs';
-import { useId, useMemo, type FC, type ReactElement } from 'react';
+import {
+	useId,
+	useLayoutEffect,
+	useMemo,
+	useRef,
+	type FC,
+	type ReactElement,
+} from 'react';
 
 import RevealText from 'components/motion/RevealText/RevealText';
 import BlogFeatured from 'components/pages/blog/BlogFeatured/BlogFeatured';
@@ -34,12 +42,17 @@ const pad = (n: number): string => String(n).padStart(2, '0');
  * category, tag and search filtering run locally and only sync to the URL.
  * The featured slot shows only while unfiltered, and that post is left out of
  * the list so its `blog-image-{slug}` view-transition name stays unique.
+ * Because that slot sits above the filters, every filter change pins the
+ * filter bar to its viewport position so the page doesn't jump.
  */
 const BlogListing: FC<BlogListingProps> = ({
 	posts,
 	categories,
 }): ReactElement => {
 	const searchId = useId();
+	const lenis = useLenis();
+	const filtersRef = useRef<HTMLDivElement>(null);
+	const anchorTop = useRef<number | null>(null);
 	const [category, setCategory] = useQueryState('category', parseAsString);
 	const [tags, setTags] = useQueryState(
 		'tag',
@@ -59,7 +72,30 @@ const BlogListing: FC<BlogListingProps> = ({
 	const featured = filtering ? undefined : posts[0];
 	const list = featured ? matches.slice(1) : matches;
 
+	const anchorFilters = (): void => {
+		anchorTop.current = filtersRef.current?.getBoundingClientRect().top ?? null;
+	};
+
+	useLayoutEffect(() => {
+		const before = anchorTop.current;
+		const filters = filtersRef.current;
+		anchorTop.current = null;
+		if (before === null || !filters) return;
+		const delta = filters.getBoundingClientRect().top - before;
+		if (Math.abs(delta) < 1) return;
+		const target = window.scrollY + delta;
+		if (lenis) {
+			// resize() first: Lenis clamps to its cached limit, which is stale
+			// when the featured slot has just come back and the page grew.
+			lenis.resize();
+			lenis.scrollTo(target, { immediate: true, force: true });
+		} else {
+			window.scrollTo(0, target);
+		}
+	}, [category, tags, query, lenis]);
+
 	const clearAll = (): void => {
+		anchorFilters();
 		void setCategory(null);
 		void setTags(null);
 		void setQuery(null);
@@ -127,7 +163,7 @@ const BlogListing: FC<BlogListingProps> = ({
 						</p>
 					</div>
 
-					<div className={styles.Blog__filters}>
+					<div ref={filtersRef} className={styles.Blog__filters}>
 						<div
 							className={styles.Blog__categories}
 							role="group"
@@ -137,7 +173,10 @@ const BlogListing: FC<BlogListingProps> = ({
 								type="button"
 								className={styles.Blog__chip}
 								aria-pressed={!category}
-								onClick={() => void setCategory(null)}
+								onClick={() => {
+									anchorFilters();
+									void setCategory(null);
+								}}
 							>
 								All{' '}
 								<span className={styles.Blog__chipCount}>{posts.length}</span>
@@ -148,9 +187,10 @@ const BlogListing: FC<BlogListingProps> = ({
 									type="button"
 									className={styles.Blog__chip}
 									aria-pressed={category === item.name}
-									onClick={() =>
-										void setCategory(category === item.name ? null : item.name)
-									}
+									onClick={() => {
+										anchorFilters();
+										void setCategory(category === item.name ? null : item.name);
+									}}
 								>
 									{item.name}{' '}
 									<span className={styles.Blog__chipCount}>{item.count}</span>
@@ -168,7 +208,10 @@ const BlogListing: FC<BlogListingProps> = ({
 								className={styles.Blog__searchInput}
 								placeholder="Search articles"
 								value={query}
-								onChange={(event) => void setQuery(event.target.value || null)}
+								onChange={(event) => {
+									anchorFilters();
+									void setQuery(event.target.value || null);
+								}}
 								autoComplete="off"
 								spellCheck={false}
 							/>
@@ -185,6 +228,7 @@ const BlogListing: FC<BlogListingProps> = ({
 										aria-pressed
 										aria-label={`Remove tag filter ${tag}`}
 										onClick={() => {
+											anchorFilters();
 											const next = tags.filter((t) => t !== tag);
 											void setTags(next.length ? next : null);
 										}}
