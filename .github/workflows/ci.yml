@@ -18,7 +18,7 @@ jobs:
     name: Lint, format, typecheck, knip
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
@@ -36,7 +36,7 @@ jobs:
     name: Unit and component tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
@@ -82,7 +82,7 @@ jobs:
       - name: Check for Contentful credentials
         id: secrets
         run: echo "available=${{ env.CONTENTFUL_SPACE_ID != '' }}" >> "$GITHUB_OUTPUT"
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         if: steps.secrets.outputs.available == 'true'
       - uses: pnpm/action-setup@v4
         if: steps.secrets.outputs.available == 'true'
