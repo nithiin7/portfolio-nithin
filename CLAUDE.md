@@ -26,7 +26,7 @@ Contentful ──GraphQL (ISR 1h)──▶ helpers/contentful.ts ──▶ serve
 - **Env**: read variables only through `helpers/env.ts` (`clientEnv`, `serverEnv`). `instrumentation.ts` calls `assertEnv()`: missing Contentful variables stop the server, and missing feature variables are logged.
 - **API routes** (`/api/ask`, `/api/comments`, `/api/views`, `/api/revalidate`, `/api/search`) validate bodies with yup schemas through `parseJsonBody`, rate-limit by IP and answer every error as `{ error: string }` (`helpers/apiProtection.ts`).
 - **Supabase** goes through the service layer (`services/*`, built on `BaseService`). Never call `supabase.from()` in components or routes. The anon key can't read comment emails or unapproved rows, so inserts skip `RETURNING`.
-- **Security headers and a Report-Only CSP** are set in `next.config.js`, and violations report to Sentry. Add new third-party origins there.
+- **Security headers and a Report-Only CSP** are set in `next.config.js`, and violations report to Sentry. Add new third-party origins there. Vercel toolbar origins (`vercel.live`, …) are added only when `VERCEL_ENV === 'preview'`; without them preview Lighthouse fails best-practices on CSP console errors.
 
 ## 3. Folder structure
 

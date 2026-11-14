@@ -72,6 +72,10 @@ jobs:
             --collect.url="$BASE_URL/portfolio/orbit" \
             --collect.url="$BASE_URL/blog" \
             --collect.settings.extraHeaders="$EXTRA_HEADERS"
+      # The PR comment reads manifest.json, which only the filesystem target writes
+      - name: Write Lighthouse manifest
+        if: always()
+        run: npx -y @lhci/cli@0.15.1 upload --target=filesystem --outputDir=.lighthouseci
       - name: Comment results on the PR
         if: always()
         uses: actions/github-script@v9
