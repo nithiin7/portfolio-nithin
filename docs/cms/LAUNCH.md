@@ -47,7 +47,7 @@ pnpm cms:check --env <id>
 pnpm cms:publish --env <id> --apply
 ```
 
-The data scripts save drafts with deterministic IDs, so re-running one is safe. Migration 011 deletes the deprecated entries, but stops if it finds more than 55 of them. If a schema half stops part-way (for example on the content type cap), trim the `.cjs` to what ran and finish with `--apply NNN --data-only`.
+The data scripts save drafts with deterministic IDs, so re-running one is safe. Migrations 003 and 006 upload logo files from `contentful/seed-assets/`, which was removed once `master` held those assets. Before replaying them, restore the folder with `git checkout 738444b -- contentful/seed-assets` (any commit before its removal works), and delete it again afterwards. Migration 011 deletes the deprecated entries, but stops if it finds more than 55 of them. If a schema half stops part-way (for example on the content type cap), trim the `.cjs` to what ran and finish with `--apply NNN --data-only`.
 
 ## Rollback
 

@@ -31,7 +31,7 @@ Contentful ──GraphQL (ISR 1h)──▶ helpers/contentful.ts ──▶ serve
 ## 3. Folder structure
 
 ```
-contentful/   migrations (NNN_*.cjs + NNN_*.data.ts), cms:check rules, CMA client, seed-assets/
+contentful/   migrations (NNN_*.cjs + NNN_*.data.ts), cms:check rules, CMA client
 data/         knowledge/*.md → embeddings.json (RAG for /api/ask)
 docs/         engineering/ (CI_CD, audits), cms/ (CONVENTIONS, HOW_TO_ADD, LAUNCH, COPY_REVIEW), redesign/ (AWWWARDS, IMAGES, plates), archive/
 e2e/          Playwright: fixtures.ts, smoke, a11y (axe), responsive (overflow)
