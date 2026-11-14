@@ -20,13 +20,18 @@ const PageTransition = ({ children }: PageTransitionProps): ReactElement => {
 	const lenis = useLenis();
 
 	// Must be a layout effect: the scroll reset has to land before React
-	// captures the new snapshot, or shared-element morphs whose target is
-	// off-viewport at capture are dropped.
+	// captures the new snapshot, or the new page wipes in at the old offset.
 	useLayoutEffect(() => {
+		if (!lenis) return;
+		// Reset before resize(): resize syncs targetScroll to the live position,
+		// after which scrollTo() returns early and leaves a smooth scroll started
+		// on the old page running on the new one. `force` because the menu may
+		// still have Lenis stopped when the route commits.
+		lenis.scrollTo(0, { immediate: true, force: true });
+		lenis.resize();
 		const targetId = window.location.hash.slice(1);
 		const target = targetId ? document.getElementById(targetId) : null;
-		lenis?.resize();
-		lenis?.scrollTo(target ?? 0, { immediate: true });
+		if (target) lenis.scrollTo(target, { immediate: true, force: true });
 	}, [pathname, lenis]);
 
 	return (

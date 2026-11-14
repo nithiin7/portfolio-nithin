@@ -1,13 +1,7 @@
 'use client';
 import Link from 'next/link';
 import type { FC, FocusEvent, KeyboardEvent, ReactElement } from 'react';
-import {
-	useCallback,
-	useEffect,
-	useRef,
-	useState,
-	ViewTransition,
-} from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import ScrambleText from 'components/motion/ScrambleText/ScrambleText';
 import WorksMedia from 'components/pages/homepage/WorksMedia/WorksMedia';
@@ -122,7 +116,6 @@ const WorksIndex: FC<WorksIndexProps> = ({
 			>
 				{projects.map((project, index) => {
 					const position = offset + index;
-					const id = project.id ?? position + 1;
 					return (
 						<li
 							key={project.id ?? project.title}
@@ -158,22 +151,14 @@ const WorksIndex: FC<WorksIndexProps> = ({
 									{String(position + 1).padStart(2, '0')}
 								</span>
 								<span className={styles.WorksIndex__colTitle}>
-									<ViewTransition
-										name={`portfolio-title-${id}`}
-										share="portfolio-title-morph"
-										enter="none"
-										exit="none"
-										update="none"
-									>
-										<span className={styles.WorksIndex__title}>
-											<ScrambleText
-												mode="hover"
-												duration={0.4}
-												text={project.title}
-												className={styles.WorksIndex__titleText}
-											/>
-										</span>
-									</ViewTransition>
+									<span className={styles.WorksIndex__title}>
+										<ScrambleText
+											mode="hover"
+											duration={0.4}
+											text={project.title}
+											className={styles.WorksIndex__titleText}
+										/>
+									</span>
 								</span>
 								{hasType && (
 									<span className={styles.WorksIndex__colType}>
@@ -191,9 +176,7 @@ const WorksIndex: FC<WorksIndexProps> = ({
 					);
 				})}
 			</ul>
-			{canHover && (
-				<WorksPreview projects={projects} state={preview} offset={offset} />
-			)}
+			{canHover && <WorksPreview projects={projects} state={preview} />}
 		</div>
 	);
 };

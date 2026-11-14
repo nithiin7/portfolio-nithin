@@ -28,7 +28,7 @@ settle, and hides the floating chat bubble and ⌘K pill (app chrome, not design
 > agents, guardrails and MCP infrastructure. An editorial Swiss system of
 > oversized grotesk, mono metadata and a visible twelve-column grid carries
 > case studies, a journal and live stats. A cursor-following works
-> index, shared-element page morphs and a ⌘K palette that answers questions
+> index, wipe page transitions and a ⌘K palette that answers questions
 > about my work keep it fast, accessible.
 
 ## Tags

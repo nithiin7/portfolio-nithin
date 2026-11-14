@@ -1,12 +1,6 @@
 'use client';
 import type { FC, ReactElement } from 'react';
-import {
-	useCallback,
-	useEffect,
-	useLayoutEffect,
-	useRef,
-	ViewTransition,
-} from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 
 import WorksMedia from 'components/pages/homepage/WorksMedia/WorksMedia';
 import { usePrefersReducedMotion } from 'hooks/usePrefersReducedMotion';
@@ -26,8 +20,6 @@ export interface WorksPreviewState {
 interface WorksPreviewProps {
 	projects: PortfolioItem[];
 	state: WorksPreviewState;
-	/** Index offset so view-transition fallbacks match list positions. */
-	offset: number;
 }
 
 const LERP = 0.14;
@@ -49,7 +41,6 @@ const layerState = (
 const WorksPreview: FC<WorksPreviewProps> = ({
 	projects,
 	state,
-	offset,
 }): ReactElement => {
 	const frameRef = useRef<HTMLDivElement>(null);
 	const target = useRef({ x: 0, y: 0 });
@@ -118,26 +109,18 @@ const WorksPreview: FC<WorksPreviewProps> = ({
 				{projects.map((project, index) => {
 					if (!state.seen.has(index)) return null;
 					const layer = layerState(index, state);
-					const id = project.id ?? offset + index + 1;
 					return (
-						<ViewTransition
+						<div
 							key={project.id ?? project.title}
-							name={
-								open && layer === 'active' ? `portfolio-image-${id}` : undefined
-							}
-							share="portfolio-image-morph"
-							enter="none"
-							exit="none"
-							update="none"
+							className={styles.WorksPreview__layer}
+							data-state={layer}
 						>
-							<div className={styles.WorksPreview__layer} data-state={layer}>
-								<WorksMedia
-									project={project}
-									sizes="(min-width: 1920px) 22vw, (min-width: 1616px) 420px, (min-width: 1000px) 26vw, 260px"
-									playing={open && layer === 'active'}
-								/>
-							</div>
-						</ViewTransition>
+							<WorksMedia
+								project={project}
+								sizes="(min-width: 1920px) 22vw, (min-width: 1616px) 420px, (min-width: 1000px) 26vw, 260px"
+								playing={open && layer === 'active'}
+							/>
+						</div>
 					);
 				})}
 			</div>

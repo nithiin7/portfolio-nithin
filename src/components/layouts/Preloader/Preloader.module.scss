@@ -14,6 +14,9 @@
 
 	:global(html[data-preload='true']) & {
 		display: block;
+		// `none` → inset() can't interpolate, so without a start shape the wipe
+		// snaps away at 50% instead of sweeping up.
+		clip-path: inset(0 0 0 0);
 		animation: preloader-wipe var(--dur-1) var(--ease) var(--dur-2) forwards;
 	}
 

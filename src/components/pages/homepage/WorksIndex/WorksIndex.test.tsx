@@ -1,16 +1,9 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import type { ReactNode } from 'react';
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import type { PortfolioItem } from 'types/portfolio';
 
 import WorksIndex from './WorksIndex';
-
-// ViewTransition only ships in the React canary bundled by Next, not the npm build vitest resolves
-vi.mock('react', async (importOriginal) => ({
-	...(await importOriginal<typeof import('react')>()),
-	ViewTransition: ({ children }: { children: ReactNode }) => children,
-}));
 
 const projects: PortfolioItem[] = [4, 5, 6].map((id) => ({
 	id,

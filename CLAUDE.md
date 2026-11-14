@@ -63,10 +63,10 @@ templates/    Plop templates
   - `RevealText` and `RevealImage`: line mask and clip-path reveals.
   - `ScrambleText`: mono glyph scramble on enter, hover or scroll; used for homepage section headings.
   - `useMagneticHover`: imperative `animate()` on the primary CTAs.
-  - Page transitions: React `<ViewTransition>` in `layouts/PageTransition`.
+  - Page transitions: one React `<ViewTransition>` in `layouts/PageTransition` (old page fades, ink panel, new page wipes in). No shared-element morphs; they were removed for looking unstable.
   - Lenis smooth scroll in `app/provider.tsx`.
 - **Reduced motion is mandatory**: CSS durations collapse to 0 via the tokens; components use `useReducedMotion`/`usePrefersReducedMotion` and swap to `fadeVariants`. Every new effect needs a reduced-motion path.
-- **View-transition invariants**: no `loading.tsx` files, no `opacity: 0` ancestors around morph targets, the scroll reset stays in `useLayoutEffect`, and the transition wrapper stays opaque.
+- **View-transition invariants**: no `loading.tsx` files, the scroll reset stays in `useLayoutEffect` (and resets Lenis before `resize()`, or an in-flight smooth scroll carries over to the new page), and the transition wrapper stays opaque.
 - **Logos**: every company logo (career, testimonials, collaborations) renders through `components/utilities/CompanyLogo` from a Contentful Company entry: a CSS mask in the current text colour, sized by the `--logo-*` tokens with optical scaling by aspect ratio, falling back to the name in mono. Pass `decorative` when the name is printed beside it.
 - **Accessibility**: Lighthouse a11y stays at 100 and axe passes on every route in both themes (e2e enforces it). Focus is always visible (`focus-ring`). Overlays trap focus and return it to their opener. Test dark and light for every visual change.
 

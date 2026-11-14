@@ -1,7 +1,6 @@
 'use client';
 import Link from 'next/link';
 import type { FC, ReactElement } from 'react';
-import { ViewTransition } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import RevealImage from 'components/motion/RevealImage/RevealImage';
@@ -27,41 +26,23 @@ const FeaturedCard: FC<FeaturedCardProps> = ({
 	project,
 	index,
 }): ReactElement => {
-	const id = project.id ?? index + 1;
-	const { ref: revealRef, inView: revealed } = useInView({
-		threshold: 0.25,
-		triggerOnce: true,
-	});
 	const { ref: playRef, inView: playing } = useInView({ threshold: 0.5 });
 	const meta = [project.type, project.role, project.year].filter(Boolean);
 
 	return (
-		<li
-			ref={revealRef}
-			className={styles.WorksFeatured__item}
-			data-lead={index === 0}
-		>
+		<li className={styles.WorksFeatured__item} data-lead={index === 0}>
 			<Link
 				href={portfolioHref(project)}
 				className={styles.WorksFeatured__card}
 			>
 				<div ref={playRef} className={styles.WorksFeatured__frame}>
 					<RevealImage className={styles.WorksFeatured__reveal}>
-						{/* Named only once revealed: a still-clipped image would blank the morph back from the detail page. */}
-						<ViewTransition
-							name={revealed ? `portfolio-image-${id}` : undefined}
-							share="portfolio-image-morph"
-							enter="none"
-							exit="none"
-							update="none"
-						>
-							<WorksMedia
-								project={project}
-								sizes={index === 0 ? LEAD_SIZES : CARD_SIZES}
-								playing={playing}
-								className={styles.WorksFeatured__media}
-							/>
-						</ViewTransition>
+						<WorksMedia
+							project={project}
+							sizes={index === 0 ? LEAD_SIZES : CARD_SIZES}
+							playing={playing}
+							className={styles.WorksFeatured__media}
+						/>
 					</RevealImage>
 				</div>
 				<div className={styles.WorksFeatured__body}>
@@ -69,19 +50,11 @@ const FeaturedCard: FC<FeaturedCardProps> = ({
 						{String(index + 1).padStart(2, '0')}
 					</span>
 					<div className={styles.WorksFeatured__text}>
-						<ViewTransition
-							name={`portfolio-title-${id}`}
-							share="portfolio-title-morph"
-							enter="none"
-							exit="none"
-							update="none"
-						>
-							<h3 className={styles.WorksFeatured__title}>
-								<span className={styles.WorksFeatured__titleText}>
-									{project.title}
-								</span>
-							</h3>
-						</ViewTransition>
+						<h3 className={styles.WorksFeatured__title}>
+							<span className={styles.WorksFeatured__titleText}>
+								{project.title}
+							</span>
+						</h3>
 						{project.summary && (
 							<p className={styles.WorksFeatured__summary}>{project.summary}</p>
 						)}
