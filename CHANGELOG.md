@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.2.0](https://github.com/nithiin7/portfolio-nithin/compare/v4.1.0...v4.2.0) (2026-11-14)
+
+
+### Features
+
+* code standard updates ([1d1448d](https://github.com/nithiin7/portfolio-nithin/commit/1d1448d41c8c7fa06b5f50386d26664112fa6ebc))
+
+
+### Documentation
+
+* add one-line tsdoc to exported components and functions ([321b84e](https://github.com/nithiin7/portfolio-nithin/commit/321b84e54a52ef975108277f6706ed8640aa3029))
+* **cms:** restore conventions and how-to-add ([aa86c3d](https://github.com/nithiin7/portfolio-nithin/commit/aa86c3dcc14be1c660e850ddbcbcb549ff44f264))
+* remove the docs folder ([df15cdc](https://github.com/nithiin7/portfolio-nithin/commit/df15cdcfadb7f3efd7d978fe08b2cdab672e924a))
+* update readme logo to the np monogram ([2afb91a](https://github.com/nithiin7/portfolio-nithin/commit/2afb91a392238d31065bf9b9b786edd0729401fa))
+
 ## [4.1.0](https://github.com/nithiin7/portfolio-nithin/compare/v4.0.1...v4.1.0) (2026-11-14)
 
 
