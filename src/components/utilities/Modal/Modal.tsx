@@ -116,11 +116,9 @@ const Modal: FC<ModalProps> = ({
 								type="button"
 								className={styles.Modal__close}
 								onClick={onClose}
-								aria-label="Close dialog"
 							>
-								<span className={styles['Modal__close-key']} aria-hidden="true">
-									Esc
-								</span>
+								<span className={styles['Modal__close-key']}>Esc</span>
+								<span className={styles.Modal__srOnly}>, close dialog</span>
 								<span className={styles['Modal__close-icon']}>
 									<CloseIcon />
 								</span>

@@ -528,7 +528,6 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 								y: '1rem',
 								transition: { duration: duration.fast, ease },
 							}}
-							aria-label={`Search and ask AI, ${modKey} K`}
 							aria-keyshortcuts="Meta+K Control+K"
 						>
 							<span className={styles['CommandPalette__hint-icon']}>
@@ -572,9 +571,11 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 										type="button"
 										className={styles.CommandPalette__esc}
 										onClick={close}
-										aria-label="Close command palette"
 									>
 										Esc
+										<span className={styles.CommandPalette__srOnly}>
+											, close command palette
+										</span>
 									</button>
 								</span>
 							</div>

@@ -128,10 +128,12 @@ const CertificationModal: FC<CertificationModalProps> = ({ certification }) => {
 								type="button"
 								className={styles.CertificationModal__copy}
 								onClick={copyCredentialId}
-								aria-label={`Copy credential ID ${certification.credentialId}`}
 							>
 								<code>{certification.credentialId}</code>
-								<span aria-hidden="true">Copy</span>
+								<span>
+									Copy
+									<span className={styles.srOnly}> credential ID</span>
+								</span>
 							</button>
 						</dd>
 					</div>

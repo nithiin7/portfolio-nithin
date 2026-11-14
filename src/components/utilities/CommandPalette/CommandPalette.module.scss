@@ -407,6 +407,10 @@
 			padding-left: var(--space-4);
 		}
 	}
+
+	&__srOnly {
+		@include sr-only;
+	}
 }
 
 @keyframes palette-caret {
