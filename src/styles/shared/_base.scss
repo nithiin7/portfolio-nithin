@@ -1,3 +1,5 @@
+@use './mixin' as *;
+
 * {
 	margin: 0;
 	padding: 0;
@@ -42,6 +44,8 @@ body {
 		pointer-events: none;
 		opacity: 20%;
 		transition: opacity 0.3s ease;
+
+		@include transition-layer(grain);
 	}
 }
 

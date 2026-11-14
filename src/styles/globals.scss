@@ -44,9 +44,47 @@ html.lenis {
 	animation: page-wipe var(--dur-2) var(--ease-out) var(--dur-1) both;
 }
 
+// Chrome layers (the transition-layer mixin) sit above the page groups. The
+// z-index is needed because the page's enter group only exists in the new
+// state, so it is stacked after them by default.
+::view-transition-group(.chrome),
+::view-transition-group(.page-chrome) {
+	z-index: 1;
+	animation: none;
+}
+
+// `chrome` (grain, launchers) holds still and swaps at once.
+::view-transition-new(.chrome) {
+	animation: none;
+}
+
+::view-transition-old(.chrome) {
+	display: none;
+}
+
+// `page-chrome` (navbar) leaves and arrives with the page: the ink panel's
+// edge covers it, then it wipes in with the new page.
+::view-transition-old(.page-chrome) {
+	animation: page-cover var(--dur-1) var(--ease) both;
+}
+
+::view-transition-new(.page-chrome) {
+	animation: page-wipe var(--dur-2) var(--ease-out) var(--dur-1) both;
+}
+
 @keyframes page-fade-out {
 	to {
 		opacity: 0;
+	}
+}
+
+// Hides from the left in step with the ink panel's page-wipe edge.
+@keyframes page-cover {
+	from {
+		clip-path: inset(0 0 0 0);
+	}
+	to {
+		clip-path: inset(0 0 0 100%);
 	}
 }
 
