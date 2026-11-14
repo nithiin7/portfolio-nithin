@@ -68,6 +68,7 @@ export async function generateMetadata({
 	};
 }
 
+/** Blog index route. */
 export default async function BlogPage({
 	searchParams,
 }: BlogPageProps): Promise<React.ReactElement> {
@@ -109,7 +110,6 @@ export default async function BlogPage({
 	return (
 		<>
 			<JsonLd id="blog-listing-structured-data" data={structuredData} />
-			{/* Scoped here: /blog is the only route with URL-state filters */}
 			<NuqsAdapter>
 				<BlogListing posts={posts} categories={categoriesFromPosts(posts)} />
 			</NuqsAdapter>

@@ -25,6 +25,7 @@ const weekdayLetter = (date: string): string =>
 		.toLocaleDateString('en-US', { weekday: 'narrow' })
 		.toUpperCase();
 
+/** Daily coding-time bars. */
 const ActivityChart: FC<ActivityChartProps> = ({ days }): ReactElement => {
 	const ref = useRef<HTMLDivElement>(null);
 

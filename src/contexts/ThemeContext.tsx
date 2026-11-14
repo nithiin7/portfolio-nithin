@@ -13,6 +13,7 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
+/** Holds the light/dark theme and syncs it to the document and storage. */
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
 	const [theme, setTheme] = useState<Theme>('dark');
 	const [mounted, setMounted] = useState(false);
@@ -26,8 +27,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 	}, []);
 
 	useEffect(() => {
-		// Before the saved theme is read, `theme` is the server default; writing
-		// it would undo themeScript and flash a light-theme visitor dark.
 		if (!mounted) return;
 		document.documentElement.setAttribute('data-theme', theme);
 		document
@@ -47,6 +46,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 	);
 }
 
+/** Current theme and its setters. */
 export function useTheme() {
 	const context = useContext(ThemeContext);
 	if (context === undefined) {

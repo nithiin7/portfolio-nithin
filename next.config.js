@@ -1,21 +1,14 @@
 import bundleAnalyzer from '@next/bundle-analyzer';
 import { withSentryConfig } from '@sentry/nextjs';
 import { withSerwist } from '@serwist/turbopack';
-import { PHASE_DEVELOPMENT_SERVER } from 'next/constants.js';
 
 const withBundleAnalyzer = bundleAnalyzer({
 	enabled: process.env.ANALYZE === 'true',
 });
 
-// Report-Only until it has run clean in production; violations go to Sentry.
-// 'unsafe-inline' scripts: the theme/preloader bootstraps and Next's inline
-// RSC payload need it until nonces (which force dynamic rendering) are worth it.
 const CSP_REPORT_URI =
 	'https://o4509770183737344.ingest.de.sentry.io/api/4509770185244752/security/?sentry_key=4b6767817c03052309961462edc0e93e';
 
-// Vercel injects its toolbar (vercel.live) into preview deployments only;
-// without these origins every preview logs CSP violations, which fails the
-// Lighthouse best-practices budget and floods Sentry with reports.
 const isPreview = process.env.VERCEL_ENV === 'preview';
 const previewOrigins = (origins) => (isPreview ? ` ${origins}` : '');
 
@@ -36,7 +29,6 @@ const contentSecurityPolicy = [
 	`report-uri ${CSP_REPORT_URI}`,
 ].join('; ');
 
-// Sent on every response, including static assets
 const transportHeaders = [
 	{
 		key: 'Strict-Transport-Security',
@@ -45,8 +37,6 @@ const transportHeaders = [
 	{ key: 'X-Content-Type-Options', value: 'nosniff' },
 ];
 
-// Only meaningful on documents; skipping them on /_next/static keeps ~1 KB of
-// headers off every script and stylesheet request
 const documentHeaders = [
 	{
 		key: 'Content-Security-Policy-Report-Only',
@@ -65,16 +55,12 @@ const documentHeaders = [
  */
 const nextConfig = {
 	reactStrictMode: true,
-	// Dynamic routes (/blog) otherwise stream <meta> into <body> for any UA not
-	// on Next's bot list, which SEO crawlers and Lighthouse then miss
 	htmlLimitedBots: /.*/,
 	experimental: {
 		viewTransition: true,
 	},
 	images: {
 		qualities: [75],
-		// Default list plus 2560 so 1440p and 4K get a close match instead of
-		// jumping straight to 3840; mobile picks are unchanged.
 		deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 2560, 3840],
 		remotePatterns: [
 			{
@@ -92,7 +78,6 @@ const nextConfig = {
 			},
 		];
 	},
-	// Slugs shortened in the phase 14 copy pass (docs/cms/COPY_REVIEW.md A14, A16)
 	async redirects() {
 		return [
 			[
@@ -174,8 +159,6 @@ const nextConfig = {
 	},
 };
 
-const DEFAULT_PAGE_EXTENSIONS = ['tsx', 'ts', 'jsx', 'js'];
-
 const SENTRY_OPTIONS = {
 	org: 'personal-tn1',
 	project: 'javascript-nextjs',
@@ -187,21 +170,7 @@ const SENTRY_OPTIONS = {
 	},
 };
 
-// `page.dev.tsx` / `route.dev.ts` (e.g. /dev/plates) only exist under `next dev`,
-// so production builds never compile, route or sitemap them.
-export default (phase) =>
-	withSentryConfig(
-		withBundleAnalyzer(
-			withSerwist({
-				...nextConfig,
-				pageExtensions:
-					phase === PHASE_DEVELOPMENT_SERVER
-						? [
-								...DEFAULT_PAGE_EXTENSIONS.map((ext) => `dev.${ext}`),
-								...DEFAULT_PAGE_EXTENSIONS,
-							]
-						: DEFAULT_PAGE_EXTENSIONS,
-			})
-		),
-		SENTRY_OPTIONS
-	);
+export default withSentryConfig(
+	withBundleAnalyzer(withSerwist(nextConfig)),
+	SENTRY_OPTIONS
+);

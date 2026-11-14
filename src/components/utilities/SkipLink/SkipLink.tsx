@@ -6,6 +6,7 @@ interface SkipLinkProps {
 	targetId: string;
 }
 
+/** "Skip to content" link for keyboard users. */
 const SkipLink: FC<SkipLinkProps> = ({ targetId }): ReactElement => (
 	<a href={`#${targetId}`} className={styles.SkipLink}>
 		Skip to content

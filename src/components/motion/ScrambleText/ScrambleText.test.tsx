@@ -18,7 +18,6 @@ const mockReducedMotion = (reduce: boolean) =>
 			}) as unknown as MediaQueryList
 	);
 
-/** An observer that reports every target as on screen straight away. */
 const mockVisible = () =>
 	vi.spyOn(window, 'IntersectionObserver').mockImplementation(function (
 		this: unknown,

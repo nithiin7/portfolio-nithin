@@ -10,9 +10,6 @@ export interface NewsletterSubscriptionFormData {
 	email: string;
 }
 
-/**
- * Database newsletter subscription interface (snake_case columns)
- */
 export interface DatabaseNewsletterSubscription {
 	id: string;
 	email: string;
@@ -21,9 +18,6 @@ export interface DatabaseNewsletterSubscription {
 	updated_at: string;
 }
 
-/**
- * Database newsletter subscription creation interface (id generated client-side, no timestamps)
- */
 export interface DatabaseNewsletterSubscriptionCreate {
 	id: string;
 	email: string;

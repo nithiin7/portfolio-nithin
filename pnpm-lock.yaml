@@ -28,7 +28,7 @@ importers:
         version: 3.10.0(react-hook-form@7.91.0(@types/react@19.3.0)(react@19.3.1))
       '@sentry/nextjs':
         specifier: ^10.78.0
-        version: 10.78.0(@opentelemetry/core@2.9.0(@opentelemetry/api@1.9.1))(@opentelemetry/sdk-trace-base@2.9.0(@opentelemetry/api@1.9.1))(next@16.4.6(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.65.0)(@types/node@24.19.2)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(sass@1.108.2))(react@19.3.1)(webpack@5.108.4(esbuild@0.28.2)(sharp@0.35.5(@types/node@24.19.2)))
+        version: 10.78.0(@opentelemetry/core@2.9.0(@opentelemetry/api@1.9.1))(@opentelemetry/sdk-trace-base@2.9.0(@opentelemetry/api@1.9.1))(next@16.4.6(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.65.0)(@types/node@24.19.2)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(sass@1.108.2))(react@19.3.1)(webpack@5.108.4(esbuild@0.28.2))
       '@supabase/supabase-js':
         specifier: ^2.119.0
         version: 2.119.0(@opentelemetry/api@1.9.1)
@@ -77,9 +77,6 @@ importers:
       server-only:
         specifier: ^0.0.1
         version: 0.0.1
-      sharp:
-        specifier: ^0.35.5
-        version: 0.35.5(@types/node@24.19.2)
       sonner:
         specifier: ^2.0.8
         version: 2.0.8(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -7303,7 +7300,8 @@ snapshots:
 
   '@humanwhocodes/retry@0.4.3': {}
 
-  '@img/colour@1.1.0': {}
+  '@img/colour@1.1.0':
+    optional: true
 
   '@img/sharp-darwin-arm64@0.35.5':
     optionalDependencies:
@@ -7864,7 +7862,7 @@ snapshots:
       '@sentry/replay': 10.78.0
       '@sentry/replay-canvas': 10.78.0
 
-  '@sentry/bundler-plugins@10.78.0(rollup@4.62.2)(webpack@5.108.4(esbuild@0.28.2)(sharp@0.35.5(@types/node@24.19.2)))':
+  '@sentry/bundler-plugins@10.78.0(rollup@4.62.2)(webpack@5.108.4(esbuild@0.28.2))':
     dependencies:
       '@babel/core': 7.29.7
       '@sentry/cli': 2.58.6
@@ -7875,7 +7873,7 @@ snapshots:
       magic-string: 0.30.21
     optionalDependencies:
       rollup: 4.62.2
-      webpack: 5.108.4(esbuild@0.28.2)(sharp@0.35.5(@types/node@24.19.2))
+      webpack: 5.108.4(esbuild@0.28.2)
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -7934,12 +7932,12 @@ snapshots:
     dependencies:
       '@sentry/core': 10.78.0
 
-  '@sentry/nextjs@10.78.0(@opentelemetry/core@2.9.0(@opentelemetry/api@1.9.1))(@opentelemetry/sdk-trace-base@2.9.0(@opentelemetry/api@1.9.1))(next@16.4.6(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.65.0)(@types/node@24.19.2)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(sass@1.108.2))(react@19.3.1)(webpack@5.108.4(esbuild@0.28.2)(sharp@0.35.5(@types/node@24.19.2)))':
+  '@sentry/nextjs@10.78.0(@opentelemetry/core@2.9.0(@opentelemetry/api@1.9.1))(@opentelemetry/sdk-trace-base@2.9.0(@opentelemetry/api@1.9.1))(next@16.4.6(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.65.0)(@types/node@24.19.2)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(sass@1.108.2))(react@19.3.1)(webpack@5.108.4(esbuild@0.28.2))':
     dependencies:
       '@opentelemetry/api': 1.9.1
       '@rollup/plugin-commonjs': 28.0.1(rollup@4.62.2)
       '@sentry/browser-utils': 10.78.0
-      '@sentry/bundler-plugins': 10.78.0(rollup@4.62.2)(webpack@5.108.4(esbuild@0.28.2)(sharp@0.35.5(@types/node@24.19.2)))
+      '@sentry/bundler-plugins': 10.78.0(rollup@4.62.2)(webpack@5.108.4(esbuild@0.28.2))
       '@sentry/conventions': 0.16.0
       '@sentry/core': 10.78.0
       '@sentry/node': 10.78.0(@opentelemetry/core@2.9.0(@opentelemetry/api@1.9.1))
@@ -7947,7 +7945,7 @@ snapshots:
       '@sentry/react': 10.78.0(react@19.3.1)
       '@sentry/server-utils': 10.78.0
       '@sentry/vercel-edge': 10.78.0
-      '@sentry/webpack-plugin': 5.4.1(rollup@4.62.2)(webpack@5.108.4(esbuild@0.28.2)(sharp@0.35.5(@types/node@24.19.2)))
+      '@sentry/webpack-plugin': 5.4.1(rollup@4.62.2)(webpack@5.108.4(esbuild@0.28.2))
       next: 16.4.6(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.65.0)(@types/node@24.19.2)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(sass@1.108.2)
       rollup: 4.62.2
       stacktrace-parser: 0.1.11
@@ -8023,10 +8021,10 @@ snapshots:
       '@opentelemetry/api': 1.9.1
       '@sentry/core': 10.78.0
 
-  '@sentry/webpack-plugin@5.4.1(rollup@4.62.2)(webpack@5.108.4(esbuild@0.28.2)(sharp@0.35.5(@types/node@24.19.2)))':
+  '@sentry/webpack-plugin@5.4.1(rollup@4.62.2)(webpack@5.108.4(esbuild@0.28.2))':
     dependencies:
-      '@sentry/bundler-plugins': 10.78.0(rollup@4.62.2)(webpack@5.108.4(esbuild@0.28.2)(sharp@0.35.5(@types/node@24.19.2)))
-      webpack: 5.108.4(esbuild@0.28.2)(sharp@0.35.5(@types/node@24.19.2))
+      '@sentry/bundler-plugins': 10.78.0(rollup@4.62.2)(webpack@5.108.4(esbuild@0.28.2))
+      webpack: 5.108.4(esbuild@0.28.2)
     transitivePeerDependencies:
       - encoding
       - rollup
@@ -9366,7 +9364,8 @@ snapshots:
 
   detect-file@1.0.0: {}
 
-  detect-libc@2.1.2: {}
+  detect-libc@2.1.2:
+    optional: true
 
   didyoumean2@7.0.4:
     dependencies:
@@ -10729,15 +10728,14 @@ snapshots:
 
   minimist@1.2.8: {}
 
-  minimizer-webpack-plugin@5.14.0(esbuild@0.28.2)(sharp@0.35.5(@types/node@24.19.2))(webpack@5.108.4(esbuild@0.28.2)(sharp@0.35.5(@types/node@24.19.2))):
+  minimizer-webpack-plugin@5.14.0(esbuild@0.28.2)(webpack@5.108.4(esbuild@0.28.2)):
     dependencies:
       jest-worker: 27.5.1
-      schema-utils: 4.8.3(webpack@5.108.4(esbuild@0.28.2)(sharp@0.35.5(@types/node@24.19.2)))
+      schema-utils: 4.8.3(webpack@5.108.4(esbuild@0.28.2))
       terser: 5.51.2
-      webpack: 5.108.4(esbuild@0.28.2)(sharp@0.35.5(@types/node@24.19.2))
+      webpack: 5.108.4(esbuild@0.28.2)
     optionalDependencies:
       esbuild: 0.28.2
-      sharp: 0.35.5(@types/node@24.19.2)
 
   minipass@7.1.3: {}
 
@@ -11438,14 +11436,14 @@ snapshots:
 
   scheduler@0.28.0: {}
 
-  schema-utils@4.8.3(webpack@5.108.4(esbuild@0.28.2)(sharp@0.35.5(@types/node@24.19.2))):
+  schema-utils@4.8.3(webpack@5.108.4(esbuild@0.28.2)):
     dependencies:
       '@types/json-schema': 7.0.15
       ajv: 8.20.0
       ajv-formats: 3.0.1(ajv@8.20.0)
       ajv-keywords: 5.1.0(ajv@8.20.0)
     optionalDependencies:
-      webpack: 5.108.4(esbuild@0.28.2)(sharp@0.35.5(@types/node@24.19.2))
+      webpack: 5.108.4(esbuild@0.28.2)
 
   semver@6.3.1: {}
 
@@ -11537,6 +11535,7 @@ snapshots:
       '@img/sharp-win32-ia32': 0.35.5
       '@img/sharp-win32-x64': 0.35.5
       '@types/node': 24.19.2
+    optional: true
 
   shebang-command@2.0.0:
     dependencies:
@@ -12090,7 +12089,7 @@ snapshots:
 
   webpack-sources@3.7.0: {}
 
-  webpack@5.108.4(esbuild@0.28.2)(sharp@0.35.5(@types/node@24.19.2)):
+  webpack@5.108.4(esbuild@0.28.2):
     dependencies:
       '@types/estree': 1.0.10
       '@types/json-schema': 7.0.15
@@ -12108,9 +12107,9 @@ snapshots:
       graceful-fs: 4.2.11
       loader-runner: 4.3.2
       mime-db: 1.54.0
-      minimizer-webpack-plugin: 5.14.0(esbuild@0.28.2)(sharp@0.35.5(@types/node@24.19.2))(webpack@5.108.4(esbuild@0.28.2)(sharp@0.35.5(@types/node@24.19.2)))
+      minimizer-webpack-plugin: 5.14.0(esbuild@0.28.2)(webpack@5.108.4(esbuild@0.28.2))
       neo-async: 2.6.2
-      schema-utils: 4.8.3(webpack@5.108.4(esbuild@0.28.2)(sharp@0.35.5(@types/node@24.19.2)))
+      schema-utils: 4.8.3(webpack@5.108.4(esbuild@0.28.2))
       tapable: 2.3.3
       watchpack: 2.6.4
       webpack-sources: 3.7.0

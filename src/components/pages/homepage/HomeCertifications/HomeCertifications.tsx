@@ -44,6 +44,7 @@ const tile: Variants = {
 	visible: { opacity: 1, transition: { duration: duration.fast, ease } },
 };
 
+/** Certifications strip. */
 const HomeCertifications: FC<HomeCertificationsProps> = ({
 	className = '',
 	data,

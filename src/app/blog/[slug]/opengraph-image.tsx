@@ -7,6 +7,7 @@ export const alt = 'Article social card';
 export const size = ogSize;
 export const contentType = ogContentType;
 
+/** OG image for a blog post. */
 export default async function Image({
 	params,
 }: {

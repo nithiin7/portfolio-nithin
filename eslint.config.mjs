@@ -66,8 +66,6 @@ export default [
 		},
 		rules: {
 			'import/no-unresolved': 'error',
-			// TypeScript validates named imports; the import plugin cannot follow
-			// motion/react's export-map re-exports and false-positives in CI.
 			'import/named': 'off',
 			'import/default': 'error',
 			'import/export': 'error',
@@ -130,7 +128,6 @@ export default [
 			'@typescript-eslint/explicit-module-boundary-types': 'off',
 			'@typescript-eslint/no-explicit-any': 'error',
 			'@typescript-eslint/no-non-null-assertion': 'error',
-			// Server logs (route handlers, services) go to console.error/warn
 			'no-console': ['error', { allow: ['error', 'warn'] }],
 			'@typescript-eslint/no-unused-vars': [
 				'error',
@@ -163,7 +160,6 @@ export default [
 			'postcss.config.js',
 			'tailwind.config.js',
 			'tailwind.config.ts',
-			// contentful-migration DSL files (CommonJS, outside the TS project)
 			'contentful/**/*.cjs',
 		],
 	},

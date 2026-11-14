@@ -50,9 +50,8 @@ Years of experience and the certification count are calculated, so don't add Sta
    - `github` / `demo`: https URLs. Leave `demo` empty rather than repeating the repo URL.
    - `id`: the next integer. The highest today is **13**. It only exists for the old `/portfolio/<id>` URLs.
 2. **Covers** (`spotlightImage` for the light theme, `spotlightImageDark` for the dark theme). Both are required and must be exactly 3840×2160.
-   - Make them with the plate pipeline: add a recipe with the new slug to `scripts/plates/projects.config.ts`, run `pnpm plates <slug>`, and check the crops at `/dev/plates` (see [IMAGES.md](../redesign/IMAGES.md)).
-   - Then run `pnpm plates:upload --env master <slug>`, check the plan, and run it again with `--apply`. It uploads the plates with their alt text and links them as drafts.
-3. **Gallery** (optional, up to 12): more plates with `use: ['gallery']`, uploaded the same way. Screenshots must use dummy data: no phone numbers, real applications or client names.
+   - Keep text inside the 2880×1645 safe zone ([CONVENTIONS.md §6](CONVENTIONS.md#6-assets) has the sizes). Upload both as draft assets with alt text in the description, then link them.
+3. **Gallery** (optional, up to 12): 3840×2160 images, uploaded the same way. Screenshots must use dummy data: no phone numbers, real applications or client names.
 4. **SEO** (optional): link an SEO entry named `SEO — Project <name>`. Without one, the page uses the title and the summary.
 5. Add the project to **Home — Work · items** in the position it should take.
 6. Check, preview (`/portfolio/<slug>`), publish.
@@ -69,7 +68,7 @@ To **retire** a project, remove it from Home — Work, unpublish it, and add the
    - `blogCategory`, and `author` = **Person — Nithin Pradeep**.
    - `content`, `readTime` (minutes), `tags` (up to 8, no near-duplicates).
 2. **`publishedDate` decides whether the post is shown.** Undated drafts are skipped even in preview builds. `updatedDate` is optional.
-3. `featuredImage` (light) and `featuredImageDark`: add the post to `scripts/plates/blog.ts`, run `pnpm plates:blog <slug>`, then `pnpm plates:blog:upload --env <id> <slug> --apply` (see [IMAGES.md §6](../redesign/IMAGES.md#6-blog-covers)). Inline images are at least 1600 wide, WebP, with alt text.
+3. `featuredImage` (light) and `featuredImageDark`: 3840×2160 WebP under 400 KB with the figure inside the centre 2160×2160 square, uploaded as draft assets with alt text. Inline images are at least 1600 wide, WebP, with alt text.
 4. SEO (optional): `SEO — Post <short title>`. The title is up to 60 characters and the description 50–160. Without one, the post's title and excerpt are used.
 5. Check, preview (`/blog/<slug>`), publish.
 

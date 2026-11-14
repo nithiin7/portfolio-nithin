@@ -11,11 +11,7 @@ interface BlogFeaturedProps {
 	post: BlogPost;
 }
 
-/**
- * The latest article, given a full-width editorial slot above the index.
- * The cover is never clip-revealed: a clipped element at snapshot time would
- * blank the morph back from the post page.
- */
+/** Large card for the latest post. */
 const BlogFeatured: FC<BlogFeaturedProps> = ({ post }): ReactElement => (
 	<article className={styles.BlogFeatured} aria-labelledby="featured-title">
 		{post.featuredImage?.url && (

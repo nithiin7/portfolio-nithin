@@ -117,7 +117,6 @@
 	&__marquee {
 		--marquee-gap: clamp(2.5rem, 1.5rem + 4vw, 6rem);
 
-		// Skips rendering (and the logo-mask fetches) until the marquee nears the viewport
 		content-visibility: auto;
 		contain-intrinsic-block-size: auto rem(160);
 		overflow: hidden;
@@ -174,8 +173,6 @@
 		flex-shrink: 0;
 	}
 
-	// CompanyLogo sizes the mark; this keeps every item a 44px+ hit area and
-	// the tallest mark's height so the row doesn't jump between logos.
 	&__logo {
 		min-block-size: max(var(--tap-min), calc(var(--logo-lg-height) * 1.25));
 		min-inline-size: var(--tap-min);

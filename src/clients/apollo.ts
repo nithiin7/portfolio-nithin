@@ -35,8 +35,7 @@ const httpLink = new HttpLink({
 	},
 });
 
-// cache() shares one client per server request, so repeated queries
-// (e.g. loadData('home') in both layout and page) hit the in-memory cache
+/** Apollo client for Contentful GraphQL, one per request. */
 export const getApolloClient = cache(
 	(): ApolloClient =>
 		new ApolloClient({

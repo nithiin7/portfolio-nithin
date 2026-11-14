@@ -31,6 +31,7 @@ const HomeTestimonial = dynamic(
 	() => import('components/pages/homepage/HomeTestimonial/HomeTestimonial')
 );
 
+/** Home route, rendering sections in the order Contentful lists them. */
 export default async function Home() {
 	const [home, site] = await Promise.all([loadHome(), loadSiteSettings()]);
 	const projects = await enrichPortfolio(home.work.projects);
@@ -114,7 +115,6 @@ export default async function Home() {
 		),
 	};
 
-	// The hero always opens the page; the rest follow Page "home" in Contentful
 	const order: HomeSectionKey[] = [
 		'hero',
 		...home.order.filter((key) => key !== 'hero'),

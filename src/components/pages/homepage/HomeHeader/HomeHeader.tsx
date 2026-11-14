@@ -11,12 +11,10 @@ import HomeHeaderCompress from './HomeHeaderCompress';
 interface HomeHeaderProps {
 	className?: string;
 	site: SiteSettings;
-	/** Home Section "hero" body: one paragraph; italic renders as the accent. */
 	pitch?: Document;
 	ctas: SiteLink[];
 }
 
-/** The pitch's first paragraph, keeping italic (the serif accent). */
 const renderPitch = (pitch: Document | undefined): ReactNode[] => {
 	const paragraph = pitch?.content.find(
 		(node) => node.nodeType === BLOCKS.PARAGRAPH
@@ -33,11 +31,7 @@ const renderPitch = (pitch: Document | undefined): ReactNode[] => {
 
 const stagger = (i: number): CSSProperties => ({ '--i': i }) as CSSProperties;
 
-/**
- * Server-rendered hero. All entrance motion is CSS keyed off first paint, so
- * the <h1> (the LCP element) never waits on hydration. Client islands: the
- * live clock, the scroll compress on the name, and the CTA row.
- */
+/** Home hero: name, role, pitch and calls to action. */
 const HomeHeader = ({
 	className = '',
 	site,

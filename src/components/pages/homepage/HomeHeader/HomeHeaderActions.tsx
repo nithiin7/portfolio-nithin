@@ -15,7 +15,7 @@ interface HomeHeaderActionsProps {
 	secondary?: SiteLink;
 }
 
-/** Primary CTA (magnetic, rolling label) + Lenis-driven link to Works. */
+/** Primary and secondary hero buttons. */
 const HomeHeaderActions = ({
 	className,
 	primary,

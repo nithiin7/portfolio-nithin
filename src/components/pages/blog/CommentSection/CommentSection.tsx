@@ -20,6 +20,7 @@ type LoadState = 'loading' | 'ready' | 'error';
 const countAll = (comments: Comment[]): number =>
 	comments.reduce((sum, c) => sum + 1 + countAll(c.replies ?? []), 0);
 
+/** Loads and lists a post's comments and takes new ones. */
 const CommentSection: FC<CommentSectionProps> = ({
 	postId,
 	className,

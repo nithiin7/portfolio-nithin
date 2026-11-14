@@ -87,16 +87,11 @@
 		}
 	}
 
-	// Every quote is laid out invisibly in the same cell so the stage keeps the
-	// height of the longest one and switching never shifts the page below.
 	&__sizer,
 	&__slide {
 		grid-area: 1 / 1;
 	}
 
-	// The logo sits at the end of the author row on phones and in the empty
-	// right-hand column beside the quote from md up. Without one, the auto
-	// column collapses and the card is unchanged.
 	&__figure {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr) auto;

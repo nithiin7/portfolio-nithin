@@ -27,11 +27,7 @@ interface CaseStudyProgressProps {
 
 const pad = (n: number): string => String(n).padStart(2, '0');
 
-/**
- * Sticky in-page progress. Desktop: a section rail with a hairline that fills
- * as you read. Below lg: a slim bar with the current section. The fill is
- * driven directly by scroll position, so it stays on under reduced motion.
- */
+/** Section progress rail for a case study. */
 const CaseStudyProgress: FC<CaseStudyProgressProps> = ({
 	sections,
 	children,
@@ -52,7 +48,6 @@ const CaseStudyProgress: FC<CaseStudyProgressProps> = ({
 			.map(({ id }) => root.querySelector<HTMLElement>(`#${CSS.escape(id)}`))
 			.filter((el): el is HTMLElement => el !== null);
 
-		// A thin band across the middle of the viewport decides the active section
 		const observer = new IntersectionObserver(
 			(entries) => {
 				const hit = entries.find((entry) => entry.isIntersecting);

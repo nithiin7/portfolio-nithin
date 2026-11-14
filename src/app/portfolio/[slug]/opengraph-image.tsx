@@ -21,6 +21,7 @@ const COVER_WIDTH = 400;
 
 const pad = (n: number): string => String(n).padStart(2, '0');
 
+/** OG image for a case study. */
 export default async function Image({
 	params,
 }: {
@@ -35,7 +36,6 @@ export default async function Image({
 
 	const title = project?.title ?? 'Selected works';
 	const year = project?.year ?? '';
-	// Keep the footer row on one line next to the host name
 	const tech = (project?.tech ?? [])
 		.slice(0, 3)
 		.reduce<string[]>(
@@ -43,7 +43,7 @@ export default async function Image({
 				[...kept, item].join(' · ').length <= 22 ? [...kept, item] : kept,
 			[]
 		);
-	// The OG card is ink, so it takes the dark plate when there is one
+
 	const cover =
 		project?.spotlightImageDark?.url ?? project?.spotlightImage?.url;
 	const position = project?.id != null ? positionOf(order, project.id) : null;

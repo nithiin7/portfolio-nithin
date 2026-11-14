@@ -14,10 +14,7 @@ interface PortfolioNextProps {
 
 const pad = (n: number): string => String(n).padStart(2, '0');
 
-/**
- * Full-bleed "Next project" link. On hover/focus the next cover clip-wipes up
- * behind the title; on touch the cover sits under the title instead.
- */
+/** Link to the next project. */
 const PortfolioNext: FC<PortfolioNextProps> = ({ next }): ReactElement => {
 	const [active, setActive] = useState(false);
 

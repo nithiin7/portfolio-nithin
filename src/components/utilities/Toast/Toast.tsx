@@ -7,8 +7,6 @@ import { useTheme } from 'contexts/ThemeContext';
 
 import styles from './Toast.module.scss';
 
-// Sonner reads its palette from these custom properties; pointing them at the
-// inverse tokens gives an ink-on-paper / paper-on-ink slip in either theme.
 const toastVars = {
 	'--normal-bg': 'var(--inverse-bg)',
 	'--normal-text': 'var(--inverse-fg)',
@@ -16,6 +14,7 @@ const toastVars = {
 	'--border-radius': 'var(--radius-1)',
 } as CSSProperties;
 
+/** Toast container styled to the theme. */
 const Toast: FC = () => {
 	const { theme } = useTheme();
 

@@ -14,7 +14,7 @@ export interface StatCardProps {
 	className?: string;
 }
 
-/** Numbered by a CSS counter on the Stats grid, so cards stay index-free. */
+/** Card frame for one stats source. */
 const StatCard: FC<StatCardProps> = ({
 	title,
 	subtitle,
@@ -55,15 +55,17 @@ const StatCard: FC<StatCardProps> = ({
 	</article>
 );
 
-/** Row of headline StatMetrics at the top of a card. */
+/** Row of metrics in a stat card. */
 export const StatCardMetrics: FC<{ children: ReactNode }> = ({
 	children,
 }): ReactElement => <div className={styles.StatCard__metrics}>{children}</div>;
 
+/** Divider between stat card sections. */
 export const StatCardDivider: FC = (): ReactElement => (
 	<hr className={styles.StatCard__divider} />
 );
 
+/** Titled section inside a stat card. */
 export const StatCardSection: FC<{ children: ReactNode }> = ({
 	children,
 }): ReactElement => <h3 className={styles.StatCard__section}>{children}</h3>;

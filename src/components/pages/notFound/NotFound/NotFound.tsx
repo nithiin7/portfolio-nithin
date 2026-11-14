@@ -25,7 +25,7 @@ const noopSubscribe = (): (() => void) => () => {};
 
 const pad = (n: number): string => String(n).padStart(2, '0');
 
-/** Index of the route sharing the longest first segment with the missing path. */
+/** Index of the route closest to the path, or -1. */
 export const closestRoute = (pathname: string, routes: LinkItem[]): number => {
 	const segment = pathname.split('/')[1]?.toLowerCase() ?? '';
 	if (!segment) return -1;
@@ -38,14 +38,8 @@ export const closestRoute = (pathname: string, routes: LinkItem[]): number => {
 	});
 };
 
-/**
- * Plays on the Works index: the same dimming rows and cursor-following
- * preview, except every "image" is a for-position-only placeholder, because
- * there is nothing here to show.
- */
+/** 404 page that suggests the closest route. */
 const NotFound: FC = (): ReactElement => {
-	// The 404 is prerendered once for every missing URL, so the path is only
-	// known in the browser; an empty server snapshot keeps hydration in sync.
 	const pathname = useSyncExternalStore(
 		noopSubscribe,
 		() => window.location.pathname,

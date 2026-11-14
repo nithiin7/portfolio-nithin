@@ -7,28 +7,23 @@ import styles from './CompanyLogo.module.scss';
 
 interface CompanyLogoProps {
 	company: Company;
-	/** sm: career rows · md: testimonials · lg: collaborations. */
 	size?: 'sm' | 'md' | 'lg';
-	/** The name is already printed next to the logo, so assistive tech skips it. */
 	decorative?: boolean;
-	/** Link to the company website (new tab) when it has one. */
 	linked?: boolean;
-	/** Hairline tile around the logo. */
 	framed?: boolean;
 	tabIndex?: number;
 	className?: string;
 }
 
-// Wide wordmarks shrink and tall marks grow, so marks of any shape carry about
-// the same visual weight; the box (tokens) still caps both directions.
 const OPTICAL_EXPONENT = 0.3;
 const MIN_SCALE = 0.5;
 const MAX_SCALE = 1.25;
 
-/** Height multiplier for a logo of this aspect ratio (width / height). */
+/** Scale that evens out the visual weight of wide and tall logos. */
 export const opticalScale = (ratio: number): number =>
 	Math.min(MAX_SCALE, Math.max(MIN_SCALE, ratio ** -OPTICAL_EXPONENT));
 
+/** Company logo as a text-coloured mask, falling back to the name. */
 const CompanyLogo = ({
 	company,
 	size = 'md',

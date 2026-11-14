@@ -11,14 +11,12 @@ import styles from './WorksPreview.module.scss';
 export interface WorksPreviewState {
 	current: number | null;
 	previous: number | null;
-	/** Row to anchor to when driven by keyboard focus instead of the pointer. */
 	anchor: HTMLElement | null;
 }
 
 interface WorksPreviewProps {
 	projects: PortfolioItem[];
 	state: WorksPreviewState;
-	/** Mounts every layer's media; until then nothing loads. */
 	warm: boolean;
 }
 
@@ -38,6 +36,7 @@ const layerState = (
 	return 'idle';
 };
 
+/** Cursor-following preview of the hovered project. */
 const WorksPreview: FC<WorksPreviewProps> = ({
 	projects,
 	state,
@@ -91,7 +90,6 @@ const WorksPreview: FC<WorksPreviewProps> = ({
 		};
 	}, [moveTo]);
 
-	// Layout effect so an opening preview is placed before its reveal paints
 	useLayoutEffect(() => {
 		if (state.anchor) {
 			const { x, y } = anchorPoint(state.anchor);

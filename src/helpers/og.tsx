@@ -1,4 +1,3 @@
-// Server-only (fetches fonts at render time); keep out of the helpers barrel.
 import { ImageResponse } from 'next/og';
 import type { ReactElement } from 'react';
 
@@ -13,7 +12,7 @@ export const OG_PAD = 64;
 export const ogHairline = `${palette.paper}24`;
 export const ogHost = new URL(siteConfig.url).host;
 
-/** `axis` is the Google Fonts css2 axis spec, e.g. `wght@500` or `ital@1`. */
+/** Fetches a Google Font subset with just the given text. */
 export async function loadGoogleFont(
 	family: string,
 	axis: string,
@@ -24,7 +23,6 @@ export async function loadGoogleFont(
 			`https://fonts.googleapis.com/css2?family=${family}:${axis}&text=${encodeURIComponent(text)}`,
 			{
 				headers: {
-					// An old UA makes Google serve TTF, which Satori can read (it can't read WOFF2)
 					'User-Agent':
 						'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8) AppleWebKit/533.21.1 (KHTML, like Gecko) Version/5.0.5 Safari/533.21.1',
 				},
@@ -49,7 +47,7 @@ export interface OgFonts {
 	serif: string;
 }
 
-/** Fetches only the glyphs each OG font needs for this card. */
+/** Loads the display, mono and serif fonts an OG card uses. */
 export const loadOgFonts = async ({
 	display,
 	mono,
@@ -69,7 +67,7 @@ export const loadOgFonts = async ({
 	];
 };
 
-/** OG title font size that keeps longer titles inside the card. */
+/** OG title font size for the title's length. */
 export const titleSizeFor = (title: string): number => {
 	if (title.length > 60) return 60;
 	if (title.length > 40) return 72;
@@ -105,7 +103,7 @@ const Rule = ({
 	</div>
 );
 
-/** The accent dot used in OG card headers. */
+/** Orange accent dot for OG cards. */
 export const OgDot = (): ReactElement => (
 	<div
 		style={{
@@ -118,18 +116,14 @@ export const OgDot = (): ReactElement => (
 );
 
 export interface OgCardProps {
-	/** Top-left mono label (the site owner's name). */
 	author: string;
-	/** Top-right mono label, e.g. a section number or `/blog`. */
 	kicker: string;
-	/** Serif italic line above the title. */
 	eyebrow: string;
 	title: string;
-	/** Bottom-left mono line. */
 	meta?: string;
 }
 
-/** The text-only editorial card shared by every route's opengraph-image. */
+/** Editorial OG card layout. */
 export const OgCard = ({
 	author,
 	kicker,
@@ -203,7 +197,7 @@ export const OgCard = ({
 	);
 };
 
-/** Renders an OgCard with exactly the glyphs it needs subset from Google Fonts. */
+/** Renders an OG card image with the site fonts and author. */
 export const renderOgCard = async (
 	props: Omit<OgCardProps, 'author'>
 ): Promise<ImageResponse> => {

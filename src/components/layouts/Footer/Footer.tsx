@@ -13,17 +13,11 @@ import FooterHeadline from './FooterHeadline';
 
 const ZONE_LABEL = 'IST';
 
-/**
- * Global footer. Everywhere except /contact it opens with the giant
- * "GET IN TOUCH" CTA and a details row (email, local time, socials, index);
- * /contact already presents all of that, so it only gets the closing bar.
- * Server-rendered; the route check, clock, copy button, headline and
- * back-to-top are client islands.
- */
 interface FooterProps {
 	site: SiteSettings;
 }
 
+/** Site footer: headline, contact links, local time and back-to-top. */
 const Footer = ({ site }: FooterProps): ReactElement => {
 	const { email, location, availability, name, socials } = site;
 

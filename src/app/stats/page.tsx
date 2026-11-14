@@ -63,6 +63,7 @@ const statsStructuredData = {
 	},
 };
 
+/** Stats route. */
 export default async function StatsPage(): Promise<React.ReactElement> {
 	const [github, wakatime, devto, huggingface, blog] = await Promise.all([
 		loadGithubStats(),

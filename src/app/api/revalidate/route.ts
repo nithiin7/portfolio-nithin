@@ -20,8 +20,6 @@ interface ContentfulWebhookBody {
 
 type RevalidateTarget = [path: string, type?: 'page' | 'layout'];
 
-// Blog listing (/blog) renders dynamically via searchParams and feed.xml is an
-// uncached route handler, so neither needs revalidation here.
 const getTargets = (
 	contentType: string | undefined,
 	slug: string | undefined
@@ -36,12 +34,11 @@ const getTargets = (
 			if (slug) return [[`/${slug}`]];
 			return [['/', 'layout']];
 		default:
-			// Nested section/content entries don't identify their parent page,
-			// so revalidate everything under the root layout
 			return [['/', 'layout']];
 	}
 };
 
+/** Contentful webhook that revalidates the pages an entry affects. */
 export async function POST(request: NextRequest) {
 	if (
 		!secretsMatch(

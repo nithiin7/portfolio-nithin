@@ -2,7 +2,6 @@ import { describe, expect, it } from 'vitest';
 
 import { resolveSchedule, scrambleFrame, toChars } from './scramble';
 
-/** Deterministic rng: cycles through the given values. */
 const sequence = (...values: number[]) => {
 	let i = 0;
 	return () => values[i++ % values.length] ?? 0;

@@ -6,10 +6,11 @@ interface JsonLdProps {
 	data: object;
 }
 
-/** Serialises schema.org data; `<` is escaped so CMS text can't close the tag. */
+/** JSON for a script tag, with < escaped. */
 export const serializeJsonLd = (data: object): string =>
 	JSON.stringify(data).replace(/</g, '\\u003c');
 
+/** Structured-data script tag. */
 const JsonLd = ({ id, data }: JsonLdProps): ReactElement => (
 	<Script
 		id={id}

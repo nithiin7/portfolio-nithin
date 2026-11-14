@@ -12,11 +12,7 @@ export interface CategoryCount {
 	count: number;
 }
 
-/**
- * Categories as they appear on posts, most-used first. Derived from the posts
- * rather than the BlogCategory collection, whose names don't match the
- * free-text `category` field authors actually fill in.
- */
+/** Categories with post counts, most used first. */
 export const categoriesFromPosts = (posts: BlogPost[]): CategoryCount[] => {
 	const counts = new Map<string, number>();
 	for (const post of posts) {
@@ -29,7 +25,7 @@ export const categoriesFromPosts = (posts: BlogPost[]): CategoryCount[] => {
 		.sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
 };
 
-/** Posts matching the category, every selected tag and the free-text query. */
+/** Posts matching the category, tags and search query. */
 export const filterPosts = (
 	posts: BlogPost[],
 	{ category, tags = [], query = '' }: BlogFilter
@@ -45,7 +41,7 @@ export const filterPosts = (
 	});
 };
 
-/** True when any blog filter is active. */
+/** Whether any blog filter is active. */
 export const isFiltering = ({
 	category,
 	tags = [],
@@ -68,7 +64,7 @@ const dateFormats = {
 	}),
 } as const;
 
-/** The day as written in Contentful, the same on server and client. */
+/** Formats a post date, or returns "" when invalid. */
 export const formatPostDate = (
 	iso: string,
 	style: keyof typeof dateFormats = 'short'

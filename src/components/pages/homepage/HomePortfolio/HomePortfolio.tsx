@@ -26,6 +26,7 @@ const yearRange = (projects: PortfolioItem[]): string | null => {
 	return min === max ? `${min}` : `${min}–${max}`;
 };
 
+/** Work section: featured projects and the index. */
 const HomePortfolio: FC<HomePortfolioProps> = ({
 	className = '',
 	data,

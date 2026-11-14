@@ -8,10 +8,9 @@ interface HuggingFaceSpace {
 	runtime?: { stage: string };
 }
 
-/** Likes and runtime stage of the chat Space; null when it can't be read. */
+/** Hugging Face Space likes and status, or null when unavailable. */
 export const loadHuggingFaceStats =
 	async (): Promise<HuggingFaceStats | null> => {
-		// Private spaces 401 without a token; the card is hidden in that case.
 		const token = serverEnv.HUGGINGFACE_TOKEN;
 
 		const space = await fetchJson<HuggingFaceSpace>(

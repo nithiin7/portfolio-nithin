@@ -10,7 +10,7 @@ interface HomeHeaderCompressProps {
 	className?: string;
 }
 
-/** Scales the hero name 1 → 0.92 as it scrolls out of view. */
+/** Scales the hero down as it scrolls away. */
 const HomeHeaderCompress = ({
 	children,
 	className,

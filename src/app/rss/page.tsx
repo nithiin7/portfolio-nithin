@@ -18,6 +18,7 @@ export const metadata: Metadata = {
 	},
 };
 
+/** RSS info route. */
 export default async function RssRoute(): Promise<ReactElement> {
 	const posts = await loadBlogPosts(LATEST);
 	return <RssFeed feedUrl={siteConfig.rssUrl} posts={posts} />;

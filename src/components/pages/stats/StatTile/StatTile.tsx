@@ -8,6 +8,7 @@ interface StatTileProps {
 	note?: string;
 }
 
+/** Headline stat tile with an optional note. */
 const StatTile: FC<StatTileProps> = ({ label, value, note }): ReactElement => (
 	<div className={styles.StatTile}>
 		<span className={styles.StatTile__label}>{label}</span>

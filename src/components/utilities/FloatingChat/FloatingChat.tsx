@@ -13,7 +13,6 @@ interface FloatingChatProps {
 	chatbotUrl: string;
 }
 
-// Wipes up from the launcher's edge, same language as Modal and RevealImage.
 const windowVariants: Variants = {
 	hidden: { clipPath: 'inset(100% 0% 0% 0%)', y: '1rem' },
 	visible: {
@@ -28,8 +27,6 @@ const windowVariants: Variants = {
 	},
 };
 
-// Within this distance of the page end the launcher would cover the footer's
-// back-to-top button, so it steps aside.
 const BOTTOM_THRESHOLD_PX = 120;
 
 const isNearPageBottom = (): boolean =>
@@ -54,10 +51,7 @@ const CloseIcon = () => (
 	</svg>
 );
 
-/**
- * Launcher + panel for the Hugging Face chatbot iframe.
- * The iframe mounts only while the panel is open, so it never costs page load.
- */
+/** Floating launcher that opens the chatbot in a panel. */
 const FloatingChat: FC<FloatingChatProps> = ({ chatbotUrl }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isLoaded, setIsLoaded] = useState(false);

@@ -34,7 +34,6 @@ export interface Principle {
 	body: string;
 }
 
-/** A hand-entered About stat (counted ones are added on the page). */
 export interface ManualStat {
 	value: number;
 	suffix?: string;
@@ -42,7 +41,6 @@ export interface ManualStat {
 	compact?: boolean;
 }
 
-/** "I build {word} that…" split around the token the words cycle through. */
 export interface Manifesto {
 	before: string;
 	after: string;
@@ -50,10 +48,8 @@ export interface Manifesto {
 }
 
 export interface HomeContent {
-	/** Section keys in the order Page "home" lists them. */
 	order: HomeSectionKey[];
 	hero: { pitch?: Document; ctas: SiteLink[] };
-	/** Absent until the statement has a {word} token and at least two words. */
 	manifesto?: Manifesto;
 	work: SectionHeading & { projects: PortfolioItem[] };
 	about: SectionHeading & {

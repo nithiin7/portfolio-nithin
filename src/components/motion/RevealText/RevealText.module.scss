@@ -10,7 +10,6 @@
 		white-space: nowrap;
 	}
 
-	// Extra block padding keeps descenders and italic overhang outside the clip
 	&__mask {
 		display: inline-block;
 		overflow: clip;

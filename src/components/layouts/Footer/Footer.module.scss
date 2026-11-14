@@ -2,7 +2,6 @@
 
 .Footer {
 	position: relative;
-	// Legacy pages still paint light backgrounds; the footer must stay opaque.
 	background-color: var(--bg);
 	color: var(--fg);
 	overflow-x: clip;
@@ -101,8 +100,6 @@
 		}
 	}
 
-	// Container for the giant line: font size is a fraction of this width, so
-	// the words always fill the measure without overflowing at any viewport.
 	&__measure {
 		container-type: inline-size;
 		width: 100%;
@@ -160,7 +157,6 @@
 			background-color var(--dur-1) var(--ease),
 			color var(--dur-1) var(--ease);
 
-		// Filling with the ink colour completes the word on hover
 		@media #{$can-hover} {
 			&:hover {
 				background-color: var(--fg);
@@ -173,7 +169,6 @@
 		}
 	}
 
-	// Too small to hold a label until large screens; it stays in the a11y name.
 	&__discLabel {
 		position: absolute;
 		width: 1px;
@@ -264,7 +259,6 @@
 		list-style: none;
 	}
 
-	// Underline draws in from the left and exits to the right
 	&__link,
 	&__underline {
 		background-image: linear-gradient(currentColor, currentColor);
@@ -298,8 +292,6 @@
 		@include tap-pad;
 	}
 
-	// A fallback-font glyph must not grow its row, or Elsewhere and Index
-	// drift out of line.
 	&__arrow {
 		line-height: 1;
 	}

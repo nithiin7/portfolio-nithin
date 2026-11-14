@@ -8,10 +8,7 @@ interface CopyMessages {
 	failure: string;
 }
 
-/**
- * Copies text and reports the result as a toast. `copied` flips back after a
- * moment so buttons can show a transient "Copied" state.
- */
+/** Copies text with a toast; the flag resets after two seconds. */
 export const useCopyToClipboard = ({
 	success,
 	failure,

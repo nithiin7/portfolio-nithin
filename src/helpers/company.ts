@@ -2,7 +2,7 @@ import { httpsUrl } from 'helpers/format';
 import type { Company } from 'types/company';
 import type { RawCompany } from 'types/contentful';
 
-/** Contentful Company → app Company (logo URL made absolute, ratio from the asset). */
+/** Converts a Contentful company to a Company. */
 export const toCompany = (raw: RawCompany): Company => {
 	const width = raw.logo?.width ?? 1;
 	const height = raw.logo?.height ?? 1;
@@ -16,6 +16,6 @@ export const toCompany = (raw: RawCompany): Company => {
 	};
 };
 
-/** True when the company's mark is drawn (not replaced by its name). */
+/** Whether the company has a logo to render. */
 export const showsLogo = (company: Company): boolean =>
 	company.showLogo && Boolean(company.logoUrl);

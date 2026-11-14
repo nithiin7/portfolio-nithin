@@ -9,6 +9,7 @@ export const metadata: Metadata = {
 	robots: { index: false },
 };
 
+/** 404 route. */
 export default function NotFoundPage(): ReactElement {
 	return <NotFound />;
 }

@@ -81,6 +81,7 @@ const FeaturedCard: FC<FeaturedCardProps> = ({
 	);
 };
 
+/** Featured project cards. */
 const WorksFeatured: FC<WorksFeaturedProps> = ({ projects }): ReactElement => (
 	<ul className={styles.WorksFeatured} aria-label="Featured projects">
 		{projects.map((project, index) => (

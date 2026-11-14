@@ -12,10 +12,7 @@ interface RssFeedProps {
 	posts: Pick<BlogPost, 'id' | 'slug' | 'title' | 'publishedDate'>[];
 }
 
-/**
- * The human face of /feed.xml: browsers render a raw feed as an unstyled wall
- * of XML (or nothing), so the visible RSS link lands here instead.
- */
+/** RSS page with the feed URL and latest posts. */
 const RssFeed: FC<RssFeedProps> = ({ feedUrl, posts }): ReactElement => (
 	<div className={styles.RssFeed}>
 		<header className={styles.RssFeed__hero}>

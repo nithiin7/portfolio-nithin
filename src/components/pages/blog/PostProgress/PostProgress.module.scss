@@ -13,8 +13,6 @@
 		pointer-events: none;
 		transition: translate var(--dur-1) var(--ease);
 
-		// Mirrors the Navbar's hide rule so the bar rides up with it to the
-		// viewport top instead of floating where the nav used to be
 		:root:has([data-navbar][data-hidden='true']:not(:focus-within)) & {
 			translate: 0 calc(-1 * var(--nav-height));
 		}

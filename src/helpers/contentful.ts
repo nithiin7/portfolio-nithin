@@ -67,9 +67,6 @@ const runQuery = async <TData>(
 	query: DocumentNode,
 	variables: OperationVariables = {}
 ): Promise<QueryResult<TData>> => {
-	// A link to an unpublished entry (e.g. one still failing validation) comes
-	// back as an UNRESOLVABLE_LINK error with that field nulled. Render without
-	// it; any other GraphQL error still fails the request.
 	const { data, error } = await getApolloClient().query({
 		query: query as TypedDocumentNode<TData, OperationVariables>,
 		variables: { ...variables, preview: serverEnv.CONTENTFUL_PREVIEW },
@@ -108,8 +105,6 @@ const toLink = (raw: RawLink): SiteLink => ({
 	openInNewTab: raw.openInNewTab ?? true,
 });
 
-// ── Site settings ──────────────────────────────────────────────────────────
-
 const toSiteSettings = (raw: RawSiteSettings): SiteSettings => ({
 	name: raw.name,
 	role: raw.role,
@@ -135,7 +130,7 @@ const toSiteSettings = (raw: RawSiteSettings): SiteSettings => ({
 	twitterHandle: raw.twitterHandle ?? undefined,
 });
 
-/** The Site Settings singleton, fetched once per request. */
+/** Site settings singleton, cached per request. */
 export const loadSiteSettings = cache(async (): Promise<SiteSettings> => {
 	const { data } = await runQuery<SiteSettingsResponse>(GET_SITE_SETTINGS);
 	const raw = data.siteSettingsCollection.items[0];
@@ -143,15 +138,13 @@ export const loadSiteSettings = cache(async (): Promise<SiteSettings> => {
 	return toSiteSettings(raw);
 });
 
-/** SEO fields of the Page with this slug, if it has any. */
+/** SEO entry of the page with the given slug. */
 export const loadPageSeo = async (slug: string): Promise<Seo | undefined> => {
 	const { data } = await runQuery<PageSeoResponse>(GET_PAGE_SEO, { slug });
 	return toSeo(data.pageCollection.items[0]?.seo);
 };
 
-// ── Projects ───────────────────────────────────────────────────────────────
-
-/** Contentful project card → PortfolioItem (spotlight images, first four tech tags). */
+/** Converts a Contentful project card to a PortfolioItem. */
 export const toPortfolioItem = (raw: RawProjectCard): PortfolioItem => ({
 	id: raw.id ?? undefined,
 	slug: raw.slug,
@@ -175,7 +168,7 @@ export const toPortfolioItem = (raw: RawProjectCard): PortfolioItem => ({
 	demo: raw.demo ?? undefined,
 });
 
-/** Full project for its case study, by slug. */
+/** Raw project with the given slug, for the case study. */
 export const loadProject = async (
 	slug: string
 ): Promise<RawProject | undefined> => {
@@ -183,7 +176,7 @@ export const loadProject = async (
 	return data.portfolioDetailsCollection.items[0];
 };
 
-/** Current slug for a legacy numeric project id, for the /portfolio/[id] redirect. */
+/** Slug of the project with an old numeric id, for redirects. */
 export const loadProjectSlugByLegacyId = async (
 	id: number
 ): Promise<string | undefined> => {
@@ -194,7 +187,7 @@ export const loadProjectSlugByLegacyId = async (
 	return data.portfolioDetailsCollection.items[0]?.slug;
 };
 
-/** The homepage Work list (curated set and order of live projects). */
+/** Projects listed in the home work section, in order. */
 export const loadWork = cache(async (): Promise<PortfolioItem[]> => {
 	// An unpublished project is an UNRESOLVABLE_LINK error with that item
 	// nulled; keep the rest rather than failing the case study page
@@ -207,8 +200,6 @@ export const loadWork = cache(async (): Promise<PortfolioItem[]> => {
 		data?.sectionCollection?.items?.[0]?.itemsCollection?.items
 	).map(toPortfolioItem);
 });
-
-// ── Homepage ───────────────────────────────────────────────────────────────
 
 const heading = (section: RawHomeSection | undefined): SectionHeading => ({
 	heading: section?.heading ?? undefined,
@@ -256,8 +247,6 @@ const toTestimonial = (
 	company: raw.company ? toCompany(raw.company) : undefined,
 });
 
-// Collaborations held Links with a logo before migration 014. Read them as
-// Companies until the contract migration removes Link.logo.
 const legacyCollaborator = (raw: RawLink): Company | null =>
 	raw.logo?.url
 		? toCompany({
@@ -295,7 +284,7 @@ const toManifesto = (
 	};
 };
 
-/** Homepage content, with each Home Section found by its `key`. */
+/** Home page content, with each section looked up by its key. */
 export const loadHome = cache(async (): Promise<HomeContent> => {
 	const { data } = await runQuery<HomeResponse>(GET_HOME);
 	const sections = compact(
@@ -370,9 +359,7 @@ export const loadHome = cache(async (): Promise<HomeContent> => {
 	};
 });
 
-// ── Blog ───────────────────────────────────────────────────────────────────
-
-/** Contentful blog post → app BlogPost (empty strings for missing optional media). */
+/** Converts a Contentful blog post to a BlogPost. */
 export const toBlogPost = (post: BlogPostItem): BlogPost => ({
 	id: post.sys.id,
 	title: post.title,
@@ -400,10 +387,9 @@ export const toBlogPost = (post: BlogPostItem): BlogPost => ({
 	seoDescription: post.seo?.description ?? '',
 });
 
-/** Drafts read in preview mode can be half-written; skip undated ones. */
 const isDated = (post: BlogPostItem): boolean => Boolean(post.publishedDate);
 
-/** Published (dated) posts, newest first, converted. */
+/** Blog posts that have a published date. */
 export const loadBlogPosts = async (limit = 100): Promise<BlogPost[]> => {
 	const { data } = await runQuery<BlogPostsResponse>(GET_ALL_BLOG_POSTS, {
 		limit,
@@ -412,7 +398,7 @@ export const loadBlogPosts = async (limit = 100): Promise<BlogPost[]> => {
 	return data.blogPostCollection.items.filter(isDated).map(toBlogPost);
 };
 
-/** One post by slug, or undefined when it doesn't exist or is undated. */
+/** Dated blog post with the given slug. */
 export const loadBlogPost = async (
 	slug: string
 ): Promise<BlogPost | undefined> => {

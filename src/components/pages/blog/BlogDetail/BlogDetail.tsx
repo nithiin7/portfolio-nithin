@@ -44,7 +44,6 @@ const isInternal = (uri: string): boolean =>
 	uri.startsWith('/') || uri.startsWith('#') || uri.startsWith(siteConfig.url);
 
 const richTextOptions = (assets: Map<string, BlogAsset>): Options => {
-	// Must walk headings in the same order as extractHeadings so ids match the TOC
 	const slug = createSlugger();
 	const heading =
 		(Tag: 'h2' | 'h3' | 'h4') =>
@@ -110,6 +109,7 @@ const richTextOptions = (assets: Map<string, BlogAsset>): Options => {
 	};
 };
 
+/** Blog post: body, contents, sharing, comments and related posts. */
 const BlogDetail: FC<BlogDetailProps> = ({
 	post,
 	relatedPosts,

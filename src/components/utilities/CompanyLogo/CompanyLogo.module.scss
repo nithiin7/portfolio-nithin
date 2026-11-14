@@ -20,7 +20,6 @@
 		--logo-width: var(--logo-lg-width);
 	}
 
-	// Fixed tile, so the text beside it lines up row to row whatever the mark
 	&--framed {
 		box-sizing: content-box;
 		width: var(--logo-width);

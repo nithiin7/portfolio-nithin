@@ -12,7 +12,7 @@ interface UseKeyboardNavigationOptions {
 	enabled?: boolean;
 }
 
-/** Document keydown → handler for Escape/Enter/Space/arrows/Tab, ignoring keys from outside the returned ref's element. */
+/** Calls the matching handler for keys pressed on the returned element. */
 export function useKeyboardNavigation({
 	onEscape,
 	onEnter,
@@ -32,7 +32,6 @@ export function useKeyboardNavigation({
 		const handleKeyDown = (event: KeyboardEvent) => {
 			const { key, target } = event;
 
-			// Only handle events if the target is within our element
 			if (elementRef.current && !elementRef.current.contains(target as Node)) {
 				return;
 			}
@@ -108,7 +107,7 @@ export function useKeyboardNavigation({
 	return elementRef;
 }
 
-/** Keeps Tab focus inside the returned container while `enabled`. */
+/** Traps Tab focus inside the returned container while enabled. */
 export function useFocusTrap(enabled = true) {
 	const containerRef = useRef<HTMLDivElement>(null);
 

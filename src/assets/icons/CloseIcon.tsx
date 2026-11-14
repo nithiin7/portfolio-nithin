@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 
+/** Close (×) icon. */
 const CloseIcon: FC = () => (
 	<svg
 		width="24"

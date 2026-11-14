@@ -1,5 +1,5 @@
 import { useMediaQuery } from 'hooks/useMediaQuery';
 
-/** Live `prefers-reduced-motion: reduce` match; false during SSR. */
+/** Whether the user prefers reduced motion. */
 export const usePrefersReducedMotion = (): boolean =>
 	useMediaQuery('(prefers-reduced-motion: reduce)');

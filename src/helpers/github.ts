@@ -32,7 +32,7 @@ const loadFollowers = async (): Promise<number | null> => {
 	return user?.followers ?? null;
 };
 
-/** Repo count, stars, followers, top languages and recent repos; null when GitHub is unreachable. */
+/** GitHub profile and repo stats, or null when unavailable. */
 export const loadGithubStats = async (): Promise<GithubStats | null> => {
 	const [allRepos, followers] = await Promise.all([
 		fetchJson<GithubRepo[]>(

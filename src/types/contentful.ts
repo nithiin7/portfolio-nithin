@@ -1,7 +1,3 @@
-/**
- * Raw Contentful GraphQL response shapes (src/queries). Converters in
- * helpers/contentful.ts turn these into the app types components use.
- */
 import type { Document } from '@contentful/rich-text-types';
 
 import type { CaseStudyAsset } from 'types/caseStudy';

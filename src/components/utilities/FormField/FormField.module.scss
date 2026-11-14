@@ -37,7 +37,6 @@
 		color: var(--accent-text);
 	}
 
-	// The 1px rule is the field; focus draws an accent rule over it.
 	&__frame {
 		position: relative;
 
@@ -91,7 +90,6 @@
 			opacity: 1;
 		}
 
-		// The drawn accent rule is the focus indicator
 		&:focus,
 		&:focus-visible {
 			outline: none;

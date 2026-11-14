@@ -1,5 +1,4 @@
 $bodySize: 16;
-$bodyFontSize: 16px;
 
 @function rem($value) {
 	$newValue: calc($value / $bodySize * 1rem);
@@ -19,18 +18,6 @@ $can-hover: '(hover: hover) and (pointer: fine)';
 $coarse: '(pointer: coarse)';
 $landscape-phone: 'screen and (orientation: landscape) and (max-height: 500px)';
 
-$section-spacing-y: 5%;
-$section-spacing-x: 4%;
-$section-spacing-y-min: rem(56);
-$section-spacing-x-min: rem(24);
-$section-top-clearance-min: rem(120);
-
-@mixin section-padding {
-	padding: max(#{$section-spacing-y-min}, #{$section-spacing-y})
-		max(#{$section-spacing-x-min}, #{$section-spacing-x});
-	padding-top: max(#{$section-top-clearance-min}, #{$section-spacing-y});
-}
-
 @mixin grid-12 {
 	display: grid;
 	grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
@@ -45,7 +32,6 @@ $section-top-clearance-min: rem(120);
 	grid-column: #{$start} / span #{$span};
 }
 
-// The mono caps used for labels, dates and indices; colour and weight are the caller's.
 @mixin mono-type {
 	font-family: var(--font-mono);
 	font-size: var(--step--1);
@@ -59,8 +45,6 @@ $section-top-clearance-min: rem(120);
 	color: var(--muted);
 }
 
-// Hover styles only for devices that really hover; touch gets the resting state
-// (or an inline equivalent) instead of a sticky hover after tap.
 @mixin hover {
 	@media #{$can-hover} {
 		&:hover {
@@ -69,7 +53,6 @@ $section-top-clearance-min: rem(120);
 	}
 }
 
-// 44px minimum hit area on touch without changing the desktop rhythm.
 @mixin tap-target($display: inline-flex) {
 	@media #{$coarse} {
 		display: $display;
@@ -79,8 +62,6 @@ $section-top-clearance-min: rem(120);
 	}
 }
 
-// 44px hit area for text links that draw their underline as a background:
-// padding grows the box, content-box keeps the underline under the text.
 @mixin tap-pad {
 	@media #{$coarse} {
 		min-block-size: 0;
@@ -91,7 +72,6 @@ $section-top-clearance-min: rem(120);
 	}
 }
 
-// Content-driven sizing for components that sit in different column widths.
 @mixin container($name: null) {
 	container-type: inline-size;
 	@if $name {
@@ -125,8 +105,6 @@ $section-top-clearance-min: rem(120);
 	}
 }
 
-// Solid pill with a vertical text roll; expects
-// <button><span class="roll"><span>Label</span><span aria-hidden>Label</span></span></button>
 @mixin pill-button($roll-selector: '.roll') {
 	display: inline-flex;
 	align-items: center;
@@ -176,8 +154,6 @@ $section-top-clearance-min: rem(120);
 	}
 }
 
-// Hairline-outlined square control (overlay close buttons). Inverts on hover
-// and turns its icon; the caller sets size and layout.
 @mixin outline-button {
 	padding: 0;
 	background: transparent;
@@ -207,10 +183,6 @@ $section-top-clearance-min: rem(120);
 	}
 }
 
-// Gives fixed chrome its own view-transition layer above the route wipe, so it
-// never pops in when the swap ends. globals.scss styles the classes: `chrome`
-// holds still, `page-chrome` fades and wipes with the page. Passed through
-// custom properties because CSS Modules hash these idents.
 @mixin transition-layer($name, $class: chrome) {
 	--vt-name: #{$name};
 	--vt-class: #{$class};
@@ -218,7 +190,6 @@ $section-top-clearance-min: rem(120);
 	view-transition-class: var(--vt-class);
 }
 
-// Hairline underline that draws in left→right and exits right.
 @mixin draw-underline($thickness: 1px) {
 	text-decoration: none;
 	background-image: linear-gradient(currentcolor, currentcolor);
@@ -238,8 +209,6 @@ $section-top-clearance-min: rem(120);
 	}
 }
 
-// Logo SVGs mix black and white artwork; a mask paints any of them as one
-// silhouette in $color. Set --logo to url("…") on the element.
 @mixin logo-mask($color: currentcolor) {
 	background-color: $color;
 	mask: var(--logo) center / contain no-repeat;

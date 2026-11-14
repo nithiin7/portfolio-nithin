@@ -135,7 +135,6 @@ const SectionBody: FC<SectionBodyProps> = ({
 				images={(project.galleryCollection?.items ?? [])
 					.filter((item) => item != null)
 					.map((item, i) => ({
-						// Contentful galleries can repeat an asset
 						id: `${i}-${item.url}`,
 						url: item.url,
 						alt: item.description ?? '',
@@ -145,6 +144,7 @@ const SectionBody: FC<SectionBodyProps> = ({
 	</>
 );
 
+/** Case-study page for a project. */
 const PortfolioDetails: FC<PortfolioDetailsProps> = ({
 	project,
 	position,
@@ -257,7 +257,6 @@ const PortfolioDetails: FC<PortfolioDetailsProps> = ({
 			</header>
 
 			{project.spotlightImage?.url && (
-				// Not wrapped in RevealImage: a clipped cover at capture would blank the morph in from the works list
 				<div className={styles.CaseStudy__cover}>
 					<ThemedImage
 						src={project.spotlightImage.url}

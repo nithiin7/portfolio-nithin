@@ -44,8 +44,6 @@ $touch: '(hover: none), (pointer: coarse)';
 
 	&__item {
 		border-bottom: 1px solid var(--line);
-		// Inactive rows dim by colour (see __title), not opacity: 40% opacity
-		// dropped the already-muted meta columns below WCAG AA
 	}
 
 	&__row {
@@ -162,7 +160,6 @@ $touch: '(hover: none), (pointer: coarse)';
 	}
 
 	&__title {
-		// Block (not inline-block) so the row aligns on the title's first baseline
 		display: block;
 		width: fit-content;
 		font-family: var(--font-display);

@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 
 interface UseScrollDirectionOptions {
-	/** Scroll distance from the top within which the target always stays visible. */
 	revealZone?: number;
-	/** Minimum scroll delta (px) before the direction is considered changed. */
 	tolerance?: number;
 }
 
@@ -12,10 +10,7 @@ interface UseScrollDirectionReturn {
 	isAtTop: boolean;
 }
 
-/**
- * Hide-on-scroll-down / show-on-scroll-up. State only changes when the
- * visibility actually flips, so consumers do not re-render every frame.
- */
+/** Hides on scroll down and reveals on scroll up or near the top. */
 export const useScrollDirection = ({
 	revealZone = 80,
 	tolerance = 6,

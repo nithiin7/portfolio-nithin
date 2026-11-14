@@ -13,13 +13,10 @@
 		transform var(--dur-1) var(--ease),
 		border-color var(--dur-1) var(--ease);
 
-	// Solid even at the top: legacy pages paint their own backgrounds, and a
-	// transparent bar would put nav text on an unknown colour.
 	&[data-at-top='true'] {
 		border-bottom-color: transparent;
 	}
 
-	// Keyboard users tabbing into a hidden nav must be able to see it
 	&[data-hidden='true']:not(:focus-within) {
 		transform: translateY(-100%);
 	}
@@ -88,7 +85,6 @@
 		font-weight: 500;
 		color: inherit;
 
-		// Tablets show the inline nav to touch too
 		@media #{$coarse} {
 			display: inline-flex;
 			align-items: center;
@@ -97,7 +93,6 @@
 			min-inline-size: var(--tap-min);
 		}
 
-		// Underline draws in from the left and exits to the right
 		&::after {
 			content: '';
 			position: absolute;

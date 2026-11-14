@@ -29,11 +29,11 @@ interface StatsProps {
 
 interface StatsCell {
 	key: string;
-	/** Preferred width on the 12-column desktop grid. */
 	span: number;
 	node: ReactNode;
 }
 
+/** Stats page combining every source. */
 const Stats: FC<StatsProps> = ({
 	github,
 	wakatime,

@@ -48,11 +48,6 @@ export const GET_SITE_SETTINGS = gql`
 	}
 `;
 
-/**
- * Every homepage section, typed by `key`. Keep the item limits tight: the
- * query sits under Contentful's 11 000 complexity cap only because each
- * collection is bounded (check with header X-Contentful-Graphql-Query-Cost).
- */
 export const GET_HOME = gql`
 	${ASSET_FIELDS}
 	${COMPANY_FIELDS}

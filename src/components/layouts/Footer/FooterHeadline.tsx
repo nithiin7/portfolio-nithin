@@ -8,11 +8,7 @@ import styles from './Footer.module.scss';
 
 const CTA_LABEL = 'Let’s talk';
 
-/**
- * "GET IN TOUCH" set to the full measure. The O is the magnetic CTA disc, so
- * the letters are decorative (aria-hidden) and the section's sr-only <h2>
- * carries the heading.
- */
+/** Large "Let's talk" headline with a magnetic contact link. */
 const FooterHeadline = (): ReactElement => {
 	const { boundsRef, magneticRef } = useMagneticHover<
 		HTMLSpanElement,

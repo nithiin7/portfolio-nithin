@@ -15,6 +15,7 @@ interface CountUpProps {
 	className?: string;
 }
 
+/** Number that counts up when it scrolls into view. */
 const CountUp: FC<CountUpProps> = ({
 	value,
 	decimals = 0,
@@ -40,7 +41,6 @@ const CountUp: FC<CountUpProps> = ({
 		return () => controls.stop();
 	}, [isInView, reduceMotion, value]);
 
-	// Round first so integer counts never flash a decimal ("164.9") mid-count
 	const factor = 10 ** decimals;
 	const shown = Math.round(current * factor) / factor;
 	const formatted = compact

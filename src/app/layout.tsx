@@ -135,6 +135,7 @@ interface RootLayoutProps {
 	children: React.ReactNode;
 }
 
+/** Root layout: fonts, theme, chrome, providers and analytics. */
 export default async function RootLayout({
 	children,
 }: Readonly<RootLayoutProps>): Promise<React.ReactElement> {
@@ -186,7 +187,6 @@ export default async function RootLayout({
 						<feColorMatrix type="saturate" values="0" />
 					</filter>
 				</svg>
-				{/* The /_vercel/* endpoints only exist on Vercel; elsewhere they 404 */}
 				{process.env.VERCEL && (
 					<>
 						<Analytics />
@@ -194,7 +194,6 @@ export default async function RootLayout({
 					</>
 				)}
 				{gtmId && (
-					// lazyOnload keeps the 120 KB container off the critical path
 					<Script id="gtm" strategy="lazyOnload">
 						{gtmSnippet(gtmId)}
 					</Script>

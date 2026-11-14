@@ -20,10 +20,7 @@ export interface NavbarProps {
 const isActive = (pathname: string, href: string): boolean =>
 	!href.includes('#') && (pathname === href || pathname.startsWith(`${href}/`));
 
-/**
- * Sticky site nav: hides on scroll down, returns on scroll up, and owns the
- * full-screen Menu overlay (the only nav on small screens).
- */
+/** Fixed top navigation that hides on scroll down. */
 const Navbar = ({ className = '' }: NavbarProps): ReactElement => {
 	const { name } = useSiteSettings();
 	const pathname = usePathname();

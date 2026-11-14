@@ -9,19 +9,14 @@ import styles from './RevealImage.module.scss';
 
 export interface RevealImageProps {
 	children: ReactNode;
-	/** Size the frame here (aspect-ratio / width); the media fills it. */
 	className?: string;
-	/** Seconds before the reveal starts. */
 	delay?: number;
 	trigger?: 'inView' | 'mount';
 	once?: boolean;
 	amount?: number;
 }
 
-/**
- * Clip-path reveal (bottom → top) with the media settling from 1.15 → 1
- * scale. Under prefers-reduced-motion the media is shown immediately.
- */
+/** Reveals its children with a clip-path wipe. */
 const RevealImage: FC<RevealImageProps> = ({
 	children,
 	className,
@@ -45,7 +40,6 @@ const RevealImage: FC<RevealImageProps> = ({
 			data-revealed={revealed}
 			style={{ '--reveal-delay': `${delay}s` } as CSSProperties}
 		>
-			{/* The clip lives one level down: Chromium's IntersectionObserver reports a fully clipped target as never intersecting */}
 			<div className={styles.RevealImage__mask}>
 				<div className={styles.RevealImage__media}>{children}</div>
 			</div>

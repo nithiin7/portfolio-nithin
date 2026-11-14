@@ -5,16 +5,13 @@ import type { ServiceResponse } from 'types/service';
 
 type Filters = Record<string, string | number | boolean | null | undefined>;
 
-/**
- * Thin wrapper over the Supabase client: every call resolves to
- * `{ data, error }` and never throws, so domain services stay linear.
- */
+/** Supabase table wrapper that answers with `{ data, error }`. */
 export class BaseService {
 	protected get client(): SupabaseClient {
 		return getSupabaseClient();
 	}
 
-	/** SELECT with optional equality filters, ordering, limit and columns. */
+	/** Selects rows matching the filters. */
 	async get<T = unknown>(
 		table: string,
 		filters?: Filters,
@@ -54,10 +51,7 @@ export class BaseService {
 		}
 	}
 
-	/**
-	 * INSERT one row. Pass `select: false` when the anon role cannot read the
-	 * row back (column-level grants / RLS block INSERT ... RETURNING).
-	 */
+	/** Inserts a row. */
 	async post<T = unknown>(
 		table: string,
 		data: object,
@@ -82,7 +76,7 @@ export class BaseService {
 		}
 	}
 
-	/** UPDATE one row by id and return it. */
+	/** Updates rows matching the filters. */
 	async patch<T = unknown>(
 		table: string,
 		id: string,
@@ -103,7 +97,7 @@ export class BaseService {
 		}
 	}
 
-	/** Call a Postgres function. */
+	/** Calls a Postgres function. */
 	async rpc<T = unknown>(
 		fn: string,
 		args?: Record<string, unknown>

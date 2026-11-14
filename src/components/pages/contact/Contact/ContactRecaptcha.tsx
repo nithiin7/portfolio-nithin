@@ -8,6 +8,7 @@ interface ContactRecaptchaProps {
 	children: ReactNode;
 }
 
+/** Provides reCAPTCHA v3 to the contact form. */
 const ContactRecaptcha = ({
 	children,
 }: ContactRecaptchaProps): ReactElement => (

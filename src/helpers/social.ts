@@ -8,7 +8,7 @@ export interface ShareLink {
 	href: string;
 }
 
-/** Plain intent URLs, so share links render on the server and work without JS. */
+/** Share links for a page on social networks. */
 export const shareLinks = ({ url, title }: ShareData): ShareLink[] => {
 	const u = encodeURIComponent(url);
 	const t = encodeURIComponent(title);

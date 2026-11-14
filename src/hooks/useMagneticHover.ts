@@ -16,12 +16,7 @@ interface UseMagneticHoverResult<
 	magneticRef: RefObject<Magnetic | null>;
 }
 
-/**
- * Tracks the pointer within `boundsRef` and nudges `magneticRef` toward it,
- * snapping back on leave. Two refs so the hit area (bounds) can be larger than the
- * element that actually visually moves (magnetic). Pointer-only: skipped under
- * reduced motion and on touch, where there is no hover to follow.
- */
+/** Pulls an element toward the pointer while it hovers the bounds. */
 export const useMagneticHover = <
 	Bounds extends HTMLElement = HTMLElement,
 	Magnetic extends HTMLElement = HTMLElement,

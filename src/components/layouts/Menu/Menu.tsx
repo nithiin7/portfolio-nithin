@@ -20,17 +20,13 @@ import styles from './Menu.module.scss';
 
 export interface MenuProps {
 	open: boolean;
-	/** `restoreFocus` is true when closed via Escape or the close button. */
 	onClose: (restoreFocus: boolean) => void;
 	onLinkClick: (href: string, e: MouseEvent<HTMLAnchorElement>) => void;
 }
 
 const panelTransition: Transition = { duration: duration.base, ease };
 
-/**
- * Full-screen menu overlay. Controlled by Navbar; traps focus, closes on
- * Escape, and pauses Lenis while open.
- */
+/** Full-screen navigation menu. */
 const Menu = ({ open, onClose, onLinkClick }: MenuProps): ReactElement => {
 	const { socials, location } = useSiteSettings();
 	const menuSocials = MENU_SOCIALS.flatMap((icon) =>

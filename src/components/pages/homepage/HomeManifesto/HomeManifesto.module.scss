@@ -1,6 +1,5 @@
 @use 'styles/shared/mixin' as *;
 
-// Pin length = section height − one viewport: ~100vh on phones, ~150vh above.
 .HomeManifesto {
 	position: relative;
 	width: 100%;
@@ -63,8 +62,6 @@
 		display: block;
 	}
 
-	// Every word sits in the same grid cell, so the slot is always the size of
-	// the longest one (at any width, wrapped or not) and the sentence never moves.
 	&__slot {
 		display: grid;
 		padding-block: 0.08em;

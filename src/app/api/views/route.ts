@@ -15,6 +15,7 @@ const isRateLimited = createRateLimiter({
 	windowMs: 10 * 60 * 1000,
 });
 
+/** View count of a post. */
 export async function GET(request: NextRequest) {
 	const slug = request.nextUrl.searchParams.get('slug');
 
@@ -30,6 +31,7 @@ export async function GET(request: NextRequest) {
 	}
 }
 
+/** Records a view of a post. */
 export async function POST(request: NextRequest) {
 	if (isRateLimited(request.headers)) return tooManyRequests();
 

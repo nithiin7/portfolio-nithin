@@ -17,6 +17,7 @@ interface BlogStatCardProps {
 	stats: BlogStats | null;
 }
 
+/** Blog views, comments and most read posts. */
 const BlogStatCard: FC<BlogStatCardProps> = ({
 	stats,
 }): ReactElement | null => {

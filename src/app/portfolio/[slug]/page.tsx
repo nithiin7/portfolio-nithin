@@ -29,7 +29,6 @@ interface PortfolioDetailsPageProps {
 
 const DESCRIPTION_MAX = 155;
 
-/** /portfolio/<legacy id> → /portfolio/<slug> (old links and search results). */
 const redirectLegacyId = async (slug: string): Promise<void> => {
 	if (!/^\d+$/.test(slug)) return;
 	const target = await loadProjectSlugByLegacyId(Number(slug));
@@ -100,6 +99,7 @@ export async function generateMetadata({
 	};
 }
 
+/** Case-study route. */
 export default async function PortfolioDetailsPage({
 	params,
 }: PortfolioDetailsPageProps) {

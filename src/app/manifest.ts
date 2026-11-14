@@ -4,6 +4,7 @@ import { siteName } from 'config/site';
 import { loadSiteSettings } from 'helpers/contentful';
 import { palette } from 'styles/tokens';
 
+/** Web app manifest. */
 export default async function manifest(): Promise<MetadataRoute.Manifest> {
 	const site = await loadSiteSettings();
 	return {

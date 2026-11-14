@@ -24,7 +24,6 @@ export interface CaseStudyHighlight {
 
 export interface CaseStudySection {
 	key: CaseStudySectionKey;
-	/** "Problem", or "Overview" when the entry has no explicit Problem heading. */
 	label: string;
 	body?: Document;
 	highlights?: CaseStudyHighlight[];

@@ -137,7 +137,6 @@
 	}
 
 	&__strip {
-		// Skips rendering (and the logo-mask fetches) until the strip nears the viewport
 		content-visibility: auto;
 		contain-intrinsic-block-size: auto rem(240);
 		display: grid;
@@ -152,7 +151,6 @@
 			grid-template-columns: repeat(auto-fill, minmax(rem(72), 1fr));
 		}
 
-		// One full-width row: empty auto-fill tracks left a blank strip at the end
 		@media #{$lg} {
 			grid-template-columns: repeat(var(--count), minmax(0, 1fr));
 		}

@@ -31,20 +31,20 @@ Contentful ──GraphQL (ISR 1h)──▶ helpers/contentful.ts ──▶ serve
 ## 3. Folder structure
 
 ```
-contentful/   migrations (NNN_*.cjs + NNN_*.data.ts), cms:check rules, CMA client, seed-assets/
+contentful/   migrations (NNN_*.cjs + NNN_*.data.ts), cms:check rules, CMA client
 data/         knowledge/*.md → embeddings.json (RAG for /api/ask)
-docs/         engineering/ (CI_CD, audits), cms/ (CONVENTIONS, HOW_TO_ADD, LAUNCH, COPY_REVIEW), redesign/ (AWWWARDS, IMAGES, plates), archive/
+docs/         cms/ (CONVENTIONS, HOW_TO_ADD)
 e2e/          Playwright: fixtures.ts, smoke, a11y (axe), responsive (overflow)
 migrations/   Supabase SQL
-scripts/      responsive-audit, plates, icons, embed, awwwards
-src/app/      routes, route handlers, OG images, sitemap, feed, sw.ts; *.dev.tsx routes exist only under `next dev`
+scripts/      responsive-audit, icons, embed
+src/app/      routes, route handlers, OG images, sitemap, feed, sw.ts
 src/clients/  apollo.ts (server-only), supabase.ts, openai.ts
 src/components/
   layouts/    Navbar, Menu, Footer, PageTransition, Preloader
   motion/     RevealText, RevealImage, ScrambleText
   pages/      <route>/<Component>/  (homepage, portfolio, blog, contact, stats, resume, notFound)
-  utilities/  shared UI: Button, Modal, CommandPalette, FloatingChat, FormField, JsonLd, ThemedImage, …
-src/config/   site.ts (technical config), imageCrops.ts (plate crop table)
+  utilities/  shared UI: Modal, CommandPalette, FloatingChat, FormField, JsonLd, ThemedImage, …
+src/config/   site.ts (technical config)
 src/helpers/  loaders/converters, env, apiProtection, animations, format, richText, caseStudy, …
 src/hooks/ src/contexts/ src/queries/ src/services/ src/types/
 src/styles/   tokens.scss (+ tokens.ts mirror), shared/_mixin.scss, _base.scss, _typography.scss, globals.scss
@@ -57,7 +57,7 @@ templates/    Plop templates
 - **Type**: `--font-display` (Inter Tight), `--font-text`, `--font-serif` (Instrument Serif, italic accents), `--font-mono` (JetBrains Mono, labels). The fluid scale runs `--step--1` … `--step-7`. Set copy in sentence case; the design applies uppercase itself.
 - **Grid**: 12 columns (`grid-12`, `col()` mixins, `--grid-gutter`, `--grid-margin`, `--grid-max: 120rem`). Above 1920px the root font size scales (`_base.scss`), so rem-capped values follow and 3840 renders as a 2× 1920 layout. Give wide `next/image` `sizes` a `vw` term from 1920.
 - **Responsive**: use the breakpoint variables in `_mixin.scss` (`$xs` … `$xxxxl`, `$lm`). Gate hover with `@include hover` / `$can-hover`. Touch sizing uses `tap-target` / `tap-pad` and `--tap-min`. Everything must work from 320px to 3840px with no horizontal scroll.
-- **Shared mixins** (`@use 'styles/shared/mixin' as *;`, never `styles/shared`): `mono-type`, `mono-label`, `focus-ring($offset)`, `pill-button`, `outline-button`, `draw-underline`, `logo-mask($color)`, `sr-only`, `tap-target`, `tap-pad`, `container*`, `section-padding`, `transition-layer($name, $class)`. Use them instead of repeating their declarations.
+- **Shared mixins** (`@use 'styles/shared/mixin' as *;`, never `styles/shared`): `mono-type`, `mono-label`, `focus-ring($offset)`, `pill-button`, `outline-button`, `draw-underline`, `logo-mask($color)`, `sr-only`, `tap-target`, `tap-pad`, `container*`, `transition-layer($name, $class)`. Use them instead of repeating their declarations.
 - **z-index order** (low → high): section-local layers 1–20 · chat window 999 · navbar, chat launcher, palette hint 1000 · Modal 1050 · Menu, CommandPalette 1100 · Preloader 3000 · grain overlay (`_base.scss`) · dev GridOverlay. Fit new layers into this order. Don't invent new top values.
 - **Motion**: Motion/React only (GSAP was removed; don't re-add it). Shared variants are in `helpers/animations.ts`. Primitives:
   - `RevealText` and `RevealImage`: line mask and clip-path reveals.
@@ -79,18 +79,18 @@ Read [docs/cms/CONVENTIONS.md](docs/cms/CONVENTIONS.md) (rules) and [docs/cms/HO
 - Query, raw type and converter changes ship in the same PR as the migration that needs them. Contentful GraphQL rejects queries for fields that don't exist yet.
 - **Content writes are drafts.** Publish only with the user's explicit OK: `pnpm cms:check --env <id>` (must exit 0), then `pnpm cms:publish --env <id> --apply`.
 - Retire content by tagging it `deprecated` / `retired`. Delete only on the user's say-so, once nothing links to it (unpublish first). A published slug never changes without a redirect in `next.config.js`.
-- Every image in use needs alt text in its asset description. Project covers come from the plate pipeline (`pnpm plates`, `/dev/plates`, `pnpm plates:upload`).
+- Every image in use needs alt text in its asset description. Covers follow the size rules in CONVENTIONS.md (3840×2160, light and dark).
 - Public information only: no confidential client names, internal systems or private figures.
 - Preview drafts with `rm -rf .next/cache/fetch-cache && CONTENTFUL_PREVIEW=true pnpm build`.
 
 ## 6. Code standards
 
 - **Naming**: components are PascalCase (folder, file and export match: `HomeHeader/HomeHeader.tsx`); BEM classes rooted in the component name (`HomeHeader__item--active`); helpers, hooks and constants are camelCase; type files are snake/domain names (`types/blog.ts`).
-- **Imports**: path aliases only (`components/…`, `helpers/…`, `hooks/…`, `services/…`, `types/…`, `config/…`, `constants/…`, `contexts/…`, `clients/…`, `queries/…`, `styles/…`, `app/…`, `data/…`); no `../` across directories. **No barrels**: import the file directly (`components/utilities/Button/Button`). Barrel imports from server components ship every `'use client'` module in them, so the barrels were deleted. Import order is enforced by ESLint.
+- **Imports**: path aliases only (`components/…`, `helpers/…`, `hooks/…`, `services/…`, `types/…`, `config/…`, `constants/…`, `contexts/…`, `clients/…`, `queries/…`, `styles/…`, `app/…`, `data/…`); no `../` across directories. **No barrels**: import the file directly (`components/utilities/Modal/Modal`). Barrel imports from server components ship every `'use client'` module in them, so the barrels were deleted. Import order is enforced by ESLint.
 - **Server first**: pages are server components that fetch and convert. Add `'use client'` only for hooks, browser APIs or handlers. Never import `@sentry/nextjs` in client code; use `helpers/monitoring.ts`, which loads it on idle.
 - **Strict types**: `strict`, `noUncheckedIndexedAccess`, `noImplicitOverride`, `noFallthroughCasesInSwitch`. No `any` and no non-null assertions in app code (both are lint errors; tests and CLI scripts may assert). Props are an `interface` above the component, and components return `ReactElement`.
 - **DRY, but no speculative abstraction**: extract on the second real copy (mixins, `helpers/animations.ts`, shared components); don't build helpers for one caller.
-- **Comments**: none by default. Write only WHY (a constraint, workaround or invariant), never WHAT. Every exported helper and hook gets a one-line TSDoc.
+- **Comments**: none by default. Write only WHY (a constraint, workaround or invariant), never WHAT. Every exported component, hook, helper, service and route handler gets a one-line TSDoc (`/** What it renders, does or returns. */`, under 80 columns); Next.js conventions like `generateMetadata` don't.
 - **Logging**: `console.error`/`console.warn` for server logs only. Any other `console` call fails lint in app code.
 - **Formatting**: Prettier (tabs, single quotes, 80 cols) for code, SCSS, JSON and Markdown. lint-staged runs ESLint and Prettier on staged files.
 - **Dead code**: `pnpm knip` must report nothing. It runs in CI.
@@ -129,8 +129,6 @@ pnpm test:e2e                      # Playwright (PLAYWRIGHT_BASE_URL to target a
 pnpm generate                      # Plop: component or route
 pnpm analyze                       # webpack bundle analyzer
 pnpm cms:migrate|cms:check|cms:publish --env <id> [--apply]
-pnpm plates [slug] | plates:upload --env <id>
-pnpm plates:blog [slug] | plates:blog:upload --env <id>
 pnpm embed | embed:check           # RAG embeddings from data/knowledge (manual; not in CI or lint-staged while OpenAI is unfunded)
 pnpm icons                         # app icons
 ```
@@ -167,12 +165,12 @@ pnpm icons                         # app icons
 **New project**
 
 1. Create the Portfolio Project entry per HOW_TO_ADD (slug rules, alt text).
-2. Make cover plates: add it to `scripts/plates/projects.config.ts` → `pnpm plates <slug>` → check `/dev/plates` → `pnpm plates:upload --env <id> --apply`.
+2. Upload the light and dark covers (3840×2160, alt text in the description) as draft assets and link them.
 3. Add it to the `work` section's items (this creates the route, sitemap and search entries) → `cms:check` → publish.
 
 **New blog post**
 
-Create a Blog Post draft (category, tags, published date) → add its cover to `scripts/plates/blog.ts`, `pnpm plates:blog <slug>`, `pnpm plates:blog:upload --env <id> <slug> --apply` (light + dark featured image, alt text) → preview build → `cms:check` → publish. The webhook revalidates `/blog/[slug]` and the sitemap.
+Create a Blog Post draft (category, tags, published date) → upload the light and dark featured images (3840×2160 WebP, alt text) as draft assets → preview build → `cms:check` → publish. The webhook revalidates `/blog/[slug]` and the sitemap.
 
 **New component**
 

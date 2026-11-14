@@ -7,6 +7,7 @@ interface StatMetricProps {
 	label: string;
 }
 
+/** Value with a label. */
 const StatMetric: FC<StatMetricProps> = ({ value, label }): ReactElement => (
 	<div className={styles.StatMetric}>
 		<span className={styles.StatMetric__value}>{value}</span>

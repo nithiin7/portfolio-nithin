@@ -17,6 +17,7 @@ interface DevToStatCardProps {
 	stats: DevToStats | null;
 }
 
+/** dev.to articles and reactions. */
 const DevToStatCard: FC<DevToStatCardProps> = ({
 	stats,
 }): ReactElement | null => {

@@ -12,9 +12,6 @@ interface QueryResult {
 	error?: unknown;
 }
 
-/**
- * Chainable thenable mimicking the Supabase query builder
- */
 const createQueryMock = (result: QueryResult) => {
 	const query: {
 		select: ReturnType<typeof vi.fn>;

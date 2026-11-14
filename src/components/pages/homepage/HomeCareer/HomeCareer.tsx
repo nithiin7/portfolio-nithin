@@ -38,6 +38,7 @@ const formatPeriod = ({ start, end, current }: CareerPeriod): string => {
 	return end ? `${start} to ${end}` : start;
 };
 
+/** Career table of roles. */
 const HomeCareer: FC<HomeCareerProps> = ({
 	className = '',
 	data,

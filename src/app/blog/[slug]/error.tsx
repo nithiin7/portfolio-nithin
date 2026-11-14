@@ -8,6 +8,7 @@ interface ErrorProps {
 	reset: () => void;
 }
 
+/** Error screen for a blog post. */
 export default function BlogDetailError({
 	error,
 	reset,

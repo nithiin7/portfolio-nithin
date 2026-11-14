@@ -1,7 +1,6 @@
 import type { LinkIcon } from 'types/site';
 import type { LinkItem } from 'types/utils';
 
-/** External-link arrow; U+FE0E stops iOS from drawing ↗ as an emoji. */
 export const EXTERNAL_ARROW = '↗\uFE0E';
 
 export const GITHUB_USERNAME = 'nithiin7';
@@ -25,5 +24,4 @@ export const navLinks: LinkItem[] = [
 	{ title: 'Contact', href: '/contact' },
 ];
 
-/** Socials shown in the full-screen menu, in this order. */
 export const MENU_SOCIALS: LinkIcon[] = ['linkedin', 'instagram', 'github'];

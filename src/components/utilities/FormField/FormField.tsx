@@ -11,10 +11,8 @@ type FieldElement = HTMLInputElement | HTMLTextAreaElement;
 
 export interface FormFieldProps {
 	name: string;
-	/** Defaults to `field-{name}`; pass one when the same form renders twice. */
 	id?: string;
 	label: string;
-	/** Mono prefix before the label, e.g. "01". */
 	index?: string;
 	type?: 'text' | 'email';
 	multiline?: boolean;
@@ -23,7 +21,6 @@ export interface FormFieldProps {
 	autoComplete?: HTMLInputAutoCompleteAttribute;
 	inputMode?: 'text' | 'email';
 	maxLength?: number;
-	/** Current length, shown against maxLength when both are set. */
 	count?: number;
 	error?: string;
 	valid?: boolean;
@@ -34,11 +31,7 @@ export interface FormFieldProps {
 	ref?: (node: FieldElement | null) => void;
 }
 
-/**
- * Hairline form field. Built for react-hook-form's `register()` spread; the
- * error slot is always rendered (and polite-live) so validation on blur is
- * announced without the layout jumping when the message appears.
- */
+/** Labelled input or textarea wired to React Hook Form. */
 const FormField = ({
 	name,
 	id: idProp,

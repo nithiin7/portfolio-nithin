@@ -3,7 +3,6 @@ import type { ReactElement, ReactNode } from 'react';
 import { SiteSettingsProvider } from 'contexts/SiteSettingsContext';
 import type { SiteSettings } from 'types/site';
 
-/** Site Settings as Contentful returns them, for component tests. */
 export const siteFixture: SiteSettings = {
 	name: 'Nithin Pradeep',
 	role: 'Senior Technical Consultant',

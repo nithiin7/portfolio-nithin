@@ -4,6 +4,7 @@ import { clientEnv } from 'helpers/env';
 
 let supabaseInstance: SupabaseClient | null = null;
 
+/** Shared Supabase client using the anon key. */
 export function getSupabaseClient(): SupabaseClient {
 	if (!supabaseInstance) {
 		supabaseInstance = createClient(

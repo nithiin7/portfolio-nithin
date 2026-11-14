@@ -1,8 +1,4 @@
-/**
- * The calendar day an ISO date string names, as UTC midnight. Format it with
- * `timeZone: 'UTC'`: Contentful stores date-only fields at the editor's
- * midnight (2026-11-11T00:00+05:30), which is still the 10th in UTC.
- */
+/** Parses the date part of an ISO string as a UTC calendar day. */
 export const calendarDay = (iso: string): Date => {
 	const day = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso);
 	return day
@@ -10,7 +6,7 @@ export const calendarDay = (iso: string): Date => {
 		: new Date(iso);
 };
 
-/** en-US date: long ("March 15, 2026"), short ("Mar 15, 2026") or relative ("3 days ago"). */
+/** Formats a date as long, short or relative text. */
 export const formatDate = (
 	dateString: string,
 	format: 'long' | 'short' | 'relative' = 'long'
@@ -56,13 +52,13 @@ export const formatDate = (
 	}
 };
 
-/** Compact number: 1284 → "1.3K". */
+/** Formats a number compactly, e.g. 1.2K. */
 export const formatCompactNumber = (value: number): string =>
 	new Intl.NumberFormat('en-US', {
 		notation: 'compact',
 		maximumFractionDigits: 1,
 	}).format(value);
 
-/** Contentful asset URLs are protocol-relative ("//images.ctfassets.net/…"). */
+/** Adds https: to protocol-relative URLs. */
 export const httpsUrl = (url: string): string =>
 	url.startsWith('//') ? `https:${url}` : url;

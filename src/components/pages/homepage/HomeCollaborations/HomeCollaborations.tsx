@@ -33,11 +33,10 @@ interface HomeCollaborationsProps {
 }
 
 const MAX_BOOST = 3;
-/** Seconds for one full set of logos to pass at rest. */
 const LOOP_SECONDS = 48;
-/** Time constant (ms) for easing between speeds, so pauses and boosts glide. */
 const EASE_MS = 220;
 
+/** Logo marquee of collaborators. */
 const HomeCollaborations: FC<HomeCollaborationsProps> = ({
 	className = '',
 	data,
@@ -70,12 +69,9 @@ const HomeCollaborations: FC<HomeCollaborationsProps> = ({
 		return () => observer.disconnect();
 	}, []);
 
-	// Progress is a fraction of one logo set, so the wrap is seamless and late
-	// logo loads that change the width never make the row jump back
 	useAnimationFrame((_, delta) => {
 		if (reducedMotion || !inView || !loopWidth.current) return;
 		const dt = Math.min(delta, 100);
-		// Viewports per second, so the same flick feels the same at 1080p and 4K
 		const boost = lite
 			? 0
 			: Math.min(
@@ -142,8 +138,6 @@ const HomeCollaborations: FC<HomeCollaborationsProps> = ({
 			<div
 				ref={marqueeRef}
 				className={styles.HomeCollaborations__marquee}
-				// Pointermove, not pointerenter: scrolling the row under a resting
-				// cursor fires enter, and pausing mid-scroll reads as a glitch
 				onPointerMove={(e) => {
 					if (e.pointerType === 'mouse' && (e.movementX || e.movementY))
 						setHeld(true);
