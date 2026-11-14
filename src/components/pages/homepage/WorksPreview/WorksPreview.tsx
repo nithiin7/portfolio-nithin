@@ -11,8 +11,6 @@ import styles from './WorksPreview.module.scss';
 export interface WorksPreviewState {
 	current: number | null;
 	previous: number | null;
-	/** Indices that have been shown at least once; only these mount media. */
-	seen: ReadonlySet<number>;
 	/** Row to anchor to when driven by keyboard focus instead of the pointer. */
 	anchor: HTMLElement | null;
 }
@@ -20,6 +18,8 @@ export interface WorksPreviewState {
 interface WorksPreviewProps {
 	projects: PortfolioItem[];
 	state: WorksPreviewState;
+	/** Mounts every layer's media; until then nothing loads. */
+	warm: boolean;
 }
 
 const LERP = 0.14;
@@ -41,6 +41,7 @@ const layerState = (
 const WorksPreview: FC<WorksPreviewProps> = ({
 	projects,
 	state,
+	warm,
 }): ReactElement => {
 	const frameRef = useRef<HTMLDivElement>(null);
 	const target = useRef({ x: 0, y: 0 });
@@ -107,7 +108,7 @@ const WorksPreview: FC<WorksPreviewProps> = ({
 		<div ref={frameRef} className={styles.WorksPreview} aria-hidden="true">
 			<div className={styles.WorksPreview__window} data-open={open}>
 				{projects.map((project, index) => {
-					if (!state.seen.has(index)) return null;
+					if (!warm) return null;
 					const layer = layerState(index, state);
 					return (
 						<div

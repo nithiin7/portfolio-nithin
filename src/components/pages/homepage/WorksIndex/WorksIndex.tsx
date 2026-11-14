@@ -22,7 +22,6 @@ interface WorksIndexProps {
 const INITIAL_PREVIEW: WorksPreviewState = {
 	current: null,
 	previous: null,
-	seen: new Set(),
 	anchor: null,
 };
 
@@ -32,6 +31,7 @@ const WorksIndex: FC<WorksIndexProps> = ({
 }): ReactElement => {
 	const canHover = useMediaQuery('(hover: hover) and (pointer: fine)');
 	const [preview, setPreview] = useState<WorksPreviewState>(INITIAL_PREVIEW);
+	const [warm, setWarm] = useState(false);
 	const [tabStop, setTabStop] = useState(0);
 	const links = useRef<(HTMLAnchorElement | null)[]>([]);
 	const listRef = useRef<HTMLUListElement>(null);
@@ -40,13 +40,9 @@ const WorksIndex: FC<WorksIndexProps> = ({
 		(index: number, anchor: HTMLElement | null) =>
 			setPreview((prev) => {
 				if (prev.current === index && prev.anchor === anchor) return prev;
-				const seen = prev.seen.has(index)
-					? prev.seen
-					: new Set(prev.seen).add(index);
 				return {
 					current: index,
 					previous: prev.current ?? prev.previous,
-					seen,
 					anchor,
 				};
 			}),
@@ -62,6 +58,20 @@ const WorksIndex: FC<WorksIndexProps> = ({
 			),
 		[]
 	);
+
+	// Mount every preview before the first hover so covers are decoded and each swap animates
+	useEffect(() => {
+		const list = listRef.current;
+		if (!canHover || warm || !list) return;
+		const observer = new IntersectionObserver(
+			(entries) => {
+				if (entries.some((entry) => entry.isIntersecting)) setWarm(true);
+			},
+			{ rootMargin: '50% 0px' }
+		);
+		observer.observe(list);
+		return () => observer.disconnect();
+	}, [canHover, warm]);
 
 	useEffect(() => {
 		const list = listRef.current;
@@ -176,7 +186,13 @@ const WorksIndex: FC<WorksIndexProps> = ({
 					);
 				})}
 			</ul>
-			{canHover && <WorksPreview projects={projects} state={preview} />}
+			{canHover && (
+				<WorksPreview
+					projects={projects}
+					state={preview}
+					warm={warm || isActive}
+				/>
+			)}
 		</div>
 	);
 };
