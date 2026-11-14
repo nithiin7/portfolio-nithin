@@ -74,11 +74,11 @@ templates/    Plop templates
 
 Read [docs/cms/CONVENTIONS.md](docs/cms/CONVENTIONS.md) (rules) and [docs/cms/HOW_TO_ADD.md](docs/cms/HOW_TO_ADD.md) (recipes) before touching Contentful or its queries.
 
-- **Schema changes are migrations in code**: `contentful/migrations/NNN_*.cjs` (+ optional `.data.ts`), run with `pnpm cms:migrate --env <id> [--apply]`. Never edit content types by hand, through the web app or through MCP. Expand first, contract later. The space caps at 25 content types (18 used).
+- **Schema changes are migrations in code**: `contentful/migrations/NNN_*.cjs` (+ optional `.data.ts`), run with `pnpm cms:migrate --env <id> [--apply]`. Never edit content types by hand, through the web app or through MCP. Expand first, contract later. The space caps at 25 content types (17 used).
 - **Never run migrations or content writes against `master` directly** without the user's OK. Try them on a cloned environment first.
 - Query, raw type and converter changes ship in the same PR as the migration that needs them. Contentful GraphQL rejects queries for fields that don't exist yet.
 - **Content writes are drafts.** Publish only with the user's explicit OK: `pnpm cms:check --env <id>` (must exit 0), then `pnpm cms:publish --env <id> --apply`.
-- Never delete entries, assets or types; tag them `deprecated` / `retired`. A published slug never changes without a redirect in `next.config.js`.
+- Retire content by tagging it `deprecated` / `retired`. Delete only on the user's say-so, once nothing links to it (unpublish first). A published slug never changes without a redirect in `next.config.js`.
 - Every image in use needs alt text in its asset description. Project covers come from the plate pipeline (`pnpm plates`, `/dev/plates`, `pnpm plates:upload`).
 - Public information only: no confidential client names, internal systems or private figures.
 - Preview drafts with `rm -rf .next/cache/fetch-cache && CONTENTFUL_PREVIEW=true pnpm build`.

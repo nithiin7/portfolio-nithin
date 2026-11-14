@@ -10,7 +10,7 @@ The standard every content type, entry and asset in space `3tceq0itz5kj` follows
 
 1. **Schema changes only through migrations.** Each change is a numbered script in `contentful/migrations/` (`001_shared-blocks.cjs`, `002_portfolio-project.cjs`, …) run with `contentful-migration`. Migrations expand first; a later contract migration removes what nothing reads any more (phase 14 ran 011–012). No hand edits in the web app or through MCP, so the same scripts can be replayed on any environment.
 2. **Content edits are drafts first.** Editing happens in the web app or through MCP. Run `pnpm cms:check` before publishing.
-3. **Never delete.** A replaced entry, asset or content type gets the `deprecated` tag (§7) and is left unpublished. It is only deleted once nothing links to it, and only on your say-so (the phase 14 contract did this with a backup first).
+3. **Retire before deleting.** A replaced entry, asset or content type gets the `deprecated` tag (§7) and is left unpublished. It is only deleted once nothing links to it, and only on your say-so (the phase 14 contract and the November 2026 cleanup did this).
 4. **One locale:** `en-US`. Every field has `localized: false` until you decide otherwise.
 5. **Public information only.** Describe the domain ("banking clients", "a regulated bank"), not client names, internal system names, or figures that aren't already public.
 
@@ -42,7 +42,7 @@ Every type gets an internal name as its display field (Symbol, required, unique)
 | homeSection                      | Home — `<key>`                                | Home — Career                             |
 | page                             | Page — `<slug>`                               | Page — contact                            |
 | seo                              | SEO — `<owner>`                               | SEO — Project Orbit                       |
-| link / media                     | Link — `<label>` / Media — `<subject>`        | Media — Orbit agent workflow              |
+| link                             | Link — `<label>`                              | Link — GitHub                             |
 | person, blogCategory, capability | Person — / Category — / Capability — `<name>` | Category — AI Engineering                 |
 | company                          | Company — `<name>`                            | Company — Paytm Payments Bank             |
 
@@ -108,7 +108,6 @@ Only the 8 top-level home sections stay in use. The nested sections (the ones th
 | -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
 | `seo`          | internalName · `title` (≤ 60) · `description` (50–160) · `ogImage` (1200×630) · `noIndex`                                                                                                                                                                        | page, project, blog post, site settings                                      |
 | `link`         | internalName · `label` (≤ 40) · `url` · `detail` (≤ 60, e.g. the address shown under "Email") · `icon` (dropdown: github, linkedin, instagram, x, bitbucket, credly, devto, email, whatsapp, messenger) · `openInNewTab`                                         | socials, contact channels, section CTAs                                      |
-| `media`        | internalName · `image` · `video` (mp4/webm) · `caption` (≤ 200) · `isDecorative`                                                                                                                                                                                 | rich-text embeds, future pages                                               |
 | `person`       | internalName · `name` · `role` · `avatar`                                                                                                                                                                                                                        | blog post author                                                             |
 | `siteSettings` | Singleton. internalName · `name` · `role` · `company` · `city` · `region` · `countryCode` · `timeZone` · `isAvailable` · `availabilityLabel` · `email` · `socials` (→ link) · `contactChannels` (→ link) · `knowsAbout` · `seo` (site default) · `twitterHandle` | layout, hero, menu, footer, JSON-LD, OG images, manifest                     |
 | `capability`   | internalName · `title` · `summary` (≤ 200) · `items` (≤ 6 × 60)                                                                                                                                                                                                  | Home Section `capabilities`                                                  |
@@ -116,7 +115,7 @@ Only the 8 top-level home sections stay in use. The nested sections (the ones th
 | `stat`         | internalName · `value` (Integer) · `suffix` · `label` · `isCompact`                                                                                                                                                                                              | Home Section `about` (manual stats; years, projects and certs stay computed) |
 | `company`      | internalName · `name` · `slug` · `logo` (single-colour SVG asset) · `websiteUrl` · `showLogo` (migration 014)                                                                                                                                                    | Career Role `employer`, Testimonial `company`, Home Section `collaborations` |
 
-Alt text lives on the **asset description**, so one image has one alt wherever it's used. Gallery images stay plain assets. Use `media` only when an image needs a caption or video.
+Alt text lives on the **asset description**, so one image has one alt wherever it's used. Gallery images stay plain assets.
 
 ### What stays in code (technical config, not content)
 
