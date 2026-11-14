@@ -120,4 +120,8 @@
 			padding: var(--space-6);
 		}
 	}
+
+	&__srOnly {
+		@include sr-only;
+	}
 }
