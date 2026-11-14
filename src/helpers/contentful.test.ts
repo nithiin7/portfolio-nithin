@@ -130,7 +130,7 @@ describe('loadSiteSettings', () => {
 		]);
 		expect(site.availability).toEqual({ open: false, label: 'Available' });
 		expect(site.seo).toEqual({
-			title: 'Nithin Pradeep — Engineer @ EY',
+			title: 'Nithin Pradeep · Engineer @ EY',
 			description: 'Engineer at EY.',
 		});
 	});

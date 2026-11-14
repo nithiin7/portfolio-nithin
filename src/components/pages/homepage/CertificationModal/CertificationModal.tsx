@@ -5,6 +5,7 @@ import type { CSSProperties, FC } from 'react';
 import { useCallback } from 'react';
 
 import { EXTERNAL_ARROW } from 'constants/index';
+import { calendarDay } from 'helpers/format';
 import { duration, ease } from 'styles/tokens';
 import type { Certification } from 'types/certification';
 
@@ -32,9 +33,10 @@ const fade: Variants = {
 };
 
 const formatDate = (dateString: string) =>
-	new Date(dateString).toLocaleDateString('en-US', {
+	calendarDay(dateString).toLocaleDateString('en-US', {
 		month: 'short',
 		year: 'numeric',
+		timeZone: 'UTC',
 	});
 
 /**

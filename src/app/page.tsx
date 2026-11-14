@@ -41,7 +41,6 @@ export default async function Home() {
 	);
 	const aboutStats: AboutStat[] = [
 		...(years ? [{ value: years, suffix: '+', label: 'Years shipping' }] : []),
-		{ value: projects.length, label: 'Projects shipped' },
 		{ value: certifications.items.length, label: 'Certifications' },
 		...home.about.stats,
 	];

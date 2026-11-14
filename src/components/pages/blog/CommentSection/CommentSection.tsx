@@ -55,7 +55,7 @@ const CommentSection: FC<CommentSectionProps> = ({
 				await response.json();
 
 			if (result.pending) {
-				toast('Thanks — your comment is awaiting review', {
+				toast('Thanks, your comment is awaiting review', {
 					description: 'It will appear here once approved.',
 				});
 				return true;
@@ -103,8 +103,8 @@ const CommentSection: FC<CommentSectionProps> = ({
 				>
 					<div className={styles.CommentSection__compose}>
 						<p className={styles.CommentSection__note}>
-							Questions, corrections, war stories — all welcome. Some comments
-							are held for review; your email is never published.
+							Questions, corrections and war stories are all welcome. Some
+							comments are held for review; your email is never published.
 						</p>
 						<CommentForm onSubmit={submit} />
 					</div>

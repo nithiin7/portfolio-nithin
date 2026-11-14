@@ -34,7 +34,7 @@ export const BLOG_OUT_DIR = resolve(OUT_DIR, 'blog');
  * caption share it, so the 1:1 index thumbnail never cuts text.
  */
 const ART = { left: 840, top: 470, width: 2160, height: 1250 };
-const FRAME_X = ART.left;
+const FRAME_X = ART.left + 40;
 const SURFACES: Surface[] = ['ink', 'paper'];
 const WEBP_QUALITY = 88;
 
@@ -635,6 +635,103 @@ const agenticArt = (k: Kit): ReactElement => {
 	);
 };
 
+// 05 · Orbit: ten apps as modules on three orbits around one self-hosted core.
+const ORBITS = [
+	{ rx: 380, ry: 230 },
+	{ rx: 620, ry: 380 },
+	{ rx: 880, ry: 520 },
+];
+const MODULES: [name: string, orbit: number, angle: number][] = [
+	['Tasks', 0, 205],
+	['Calendar', 0, 25],
+	['Finance', 1, -40],
+	['Notes', 1, 140],
+	['Habits', 1, -125],
+	['Documents', 2, -15],
+	['Health', 2, 60],
+	['Watchlist', 2, 165],
+	['Saved', 2, -100],
+	['Places', 2, 110],
+];
+
+const orbitArt = (k: Kit): ReactElement => {
+	const cx = ART.width / 2;
+	const cy = 625;
+	const core = 160;
+	const at = (orbit: number, angle: number) => {
+		const { rx, ry } = ORBITS[orbit] ?? { rx: 0, ry: 0 };
+		const rad = (angle * Math.PI) / 180;
+		return { x: cx + rx * Math.cos(rad), y: cy + ry * Math.sin(rad) };
+	};
+	const rings = ORBITS.map(
+		({ rx, ry }, i) =>
+			`<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="none" stroke="${k.strong}" stroke-width="${i === 2 ? 3 : 4}"${i === 2 ? ' stroke-dasharray="18 14"' : ''} />`
+	).join('');
+
+	return h(
+		'div',
+		{
+			style: {
+				display: 'flex',
+				position: 'relative',
+				width: ART.width,
+				height: ART.height,
+			},
+		},
+		k.draw(
+			`${rings}<circle cx="${cx}" cy="${cy}" r="${core}" fill="${palette.orange}" />`
+		),
+		abs(
+			cx - core,
+			cy - core,
+			core * 2,
+			core * 2,
+			{
+				flexDirection: 'column',
+				alignItems: 'center',
+				justifyContent: 'center',
+				gap: 10,
+			},
+			display('Orbit', 84, palette.ink),
+			label('your server', palette.ink, 26)
+		),
+		...MODULES.map(([name, orbit, angle]) => {
+			const p = at(orbit, angle);
+			return abs(
+				p.x - 200,
+				p.y - 40,
+				400,
+				80,
+				{ justifyContent: 'center', alignItems: 'center' },
+				h(
+					'div',
+					{
+						style: {
+							display: 'flex',
+							alignItems: 'center',
+							gap: 16,
+							padding: '0 30px',
+							height: 80,
+							border: `3px solid ${k.strong}`,
+							backgroundColor: k.bg,
+						},
+					},
+					h('div', {
+						style: {
+							display: 'flex',
+							width: 14,
+							height: 14,
+							borderRadius: 7,
+							backgroundColor: k.fg,
+						},
+					}),
+					label(name, k.fg, 34)
+				)
+			);
+		})
+	);
+};
+
 export const BLOG_COVERS: BlogCover[] = [
 	{
 		slug: 'free-local-ai-resume-builder',
@@ -670,6 +767,14 @@ export const BLOG_COVERS: BlogCover[] = [
 			'Fig. — an agent loops until the goal is met, not until the reply ends.',
 		alt: 'The agent loop: plan, act, observe and reflect circling a goal, with the act step running a tool call that returns 42 rows.',
 		art: agenticArt,
+	},
+	{
+		slug: 'meet-orbit-self-hosted-assistant',
+		label: 'Field notes · Self-hosting',
+		tag: 'Open source · Apache 2.0',
+		caption: 'Fig. — ten apps in one orbit, on a server you own.',
+		alt: 'Orbit at the centre of three orbits carrying its modules: tasks, calendar, finance, notes, habits, documents, health, watchlist, saved and places.',
+		art: orbitArt,
 	},
 ];
 

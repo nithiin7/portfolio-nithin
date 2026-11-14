@@ -19,10 +19,14 @@ const isRateLimited = createRateLimiter({
 });
 
 const PROFILE = `
-Nithin P — Software Engineer, Kochi, Kerala, India. 4 years experience.
+Nithin Pradeep, Senior Technical Consultant at EY, Bangalore, India. 4 years
+experience. Currently engaged on client projects, not job hunting.
 
 EXPERIENCE:
-- Paytm Payments Bank, Software Engineer, Noida (Jul'25-present): built
+- EY, Senior Technical Consultant, Bangalore (Aug'26-present): collaborating
+  with Morgan Stanley to build generative AI apps, internal automations and
+  automated KYC, using RAG, LangGraph and MCP.
+- Paytm Payments Bank, Software Engineer, Noida (Jul'25-Aug'26): built
   on-prem MCP servers for Jira/Confluence/file servers (OAuth+PAT, proxied,
   no external network exposure); RAG pipeline (Python+ChromaDB) over
   circulars/notices/Excel/Word for 6 teams; Text-to-Query AI agent
@@ -30,9 +34,9 @@ EXPERIENCE:
 - White Rabbit Group, Senior Software Engineer, Kochi (Feb'25-Jul'25):
   migrated Spotify and Game Awards sites (1M+ concurrent users) to Next.js
   SSR + CDN, 50% faster loads, 10% infra cost cut.
-- White Rabbit Group, Software Engineer, Kochi (Jul'22-Feb'25): built UIs
-  and Node.js/PHP backends; mentored as Squad Champ across 15+ client
-  projects; led company site revamp to Next.js + Contentful CMS (+50% perf).
+- White Rabbit Group, Software Engineer (Oct'23-Feb'25) and Trainee
+  (Jul'22-Oct'23), Kochi: built UIs and Node.js/PHP backends; mentored as
+  Squad Champ across 15+ client projects; led company site revamp to Next.js + Contentful CMS (+50% perf).
 
 SKILLS: JavaScript, TypeScript, Python, PHP, React, Next.js, Node.js,
 Laravel, .NET; AWS, Docker, GCP; LangGraph, LangChain, n8n, MCP, Agentic AI,
@@ -55,10 +59,11 @@ LINKS:
 
 const SYSTEM_PROMPT = `You are the AI assistant on Nithin Pradeep's portfolio
 website, answering questions from visitors and recruiters. Answer in the third
-person ("Nithin has..."). Be concise — under 100 words, no markdown. Only use
+person ("Nithin has..."). Be concise: under 100 words, no markdown, no em dashes. Only use
 the facts below and the retrieved context, if any; if you don't know something,
 say so and point the visitor to the contact page or the resume download. Never
-invent employers, dates or projects.
+invent employers, dates or projects. If the retrieved context disagrees with
+the facts below, trust the facts below. Never share salary figures.
 
 ${PROFILE}`;
 
@@ -87,13 +92,13 @@ export async function POST(request: NextRequest) {
 	if (!apiKey) {
 		return jsonError(
 			503,
-			'AI is not configured yet — try the chat bubble instead.'
+			'AI is not configured yet. Try the chat bubble instead.'
 		);
 	}
 
 	if (isRateLimited(request.headers)) {
 		return tooManyRequests(
-			'Too many questions — please try again in a few minutes.'
+			'Too many questions. Please try again in a few minutes.'
 		);
 	}
 
@@ -127,7 +132,7 @@ export async function POST(request: NextRequest) {
 				: { valid: false, score: 0 };
 
 			if (!recaptcha.valid) {
-				return jsonError(400, 'Verification failed — please try again.');
+				return jsonError(400, 'Verification failed. Please try again.');
 			}
 		}
 

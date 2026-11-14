@@ -11,6 +11,6 @@ export default function Image(): Promise<ImageResponse> {
 		kicker: '/STATS',
 		eyebrow: 'Refreshed every 30 min',
 		title: 'Live stats',
-		meta: 'GITHUB — WAKATIME — DEV.TO — THIS SITE',
+		meta: 'GITHUB · WAKATIME · DEV.TO · THIS SITE',
 	});
 }

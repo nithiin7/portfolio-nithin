@@ -12,7 +12,7 @@ export const revalidate = 1800;
 
 const title = 'Live Stats | Nithin Pradeep';
 const description =
-	'A real-time look at what Nithin Pradeep is building, coding, and writing — pulled live from GitHub, WakaTime, Dev.to, and more.';
+	'A real-time look at what Nithin Pradeep is building, coding, and writing, pulled live from GitHub, WakaTime, Dev.to, and more.';
 
 export async function generateMetadata(): Promise<Metadata> {
 	return {

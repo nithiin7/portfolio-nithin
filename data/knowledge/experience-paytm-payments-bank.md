@@ -2,7 +2,7 @@
 
 ## Role Overview
 
-Nithin Pradeep has worked as a Software Engineer at Paytm Payments Bank (full-time) since Jul 2025, and is currently serving his notice period there. Paytm Payments Bank is in the banking industry; his department is Engineering - Software & QA, in the Full Stack Developer role category. Per LinkedIn, his location for this role is Noida, Uttar Pradesh, India (Hybrid).
+Nithin Pradeep worked as a Software Engineer at Paytm Payments Bank (full-time) from Jul 2025 to Aug 2026, before joining EY as a Senior Technical Consultant. Paytm Payments Bank is in the banking industry; his department is Engineering - Software & QA, in the Full Stack Developer role category. Per LinkedIn, his location for this role is Noida, Uttar Pradesh, India (Hybrid).
 
 ## MCP Servers and Enterprise AI Access
 

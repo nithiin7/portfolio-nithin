@@ -129,7 +129,7 @@ const toSiteSettings = (raw: RawSiteSettings): SiteSettings => ({
 	contactChannels: compact(raw.contactChannelsCollection?.items).map(toLink),
 	knowsAbout: raw.knowsAbout ?? [],
 	seo: toSeo(raw.seo) ?? {
-		title: `${raw.name} — ${raw.role} @ ${raw.company}`,
+		title: `${raw.name} · ${raw.role} @ ${raw.company}`,
 		description: `${raw.role} at ${raw.company}.`,
 	},
 	twitterHandle: raw.twitterHandle ?? undefined,

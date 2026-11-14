@@ -11,6 +11,6 @@ export default function Image(): Promise<ImageResponse> {
 		kicker: '/BLOG',
 		eyebrow: 'Journal',
 		title: 'Field notes on AI agents, MCP and the web',
-		meta: 'ESSAYS — TUTORIALS — NOTES',
+		meta: 'ESSAYS · TUTORIALS · NOTES',
 	});
 }

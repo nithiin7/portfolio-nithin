@@ -1,3 +1,15 @@
+/**
+ * The calendar day an ISO date string names, as UTC midnight. Format it with
+ * `timeZone: 'UTC'`: Contentful stores date-only fields at the editor's
+ * midnight (2026-11-11T00:00+05:30), which is still the 10th in UTC.
+ */
+export const calendarDay = (iso: string): Date => {
+	const day = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso);
+	return day
+		? new Date(Date.UTC(Number(day[1]), Number(day[2]) - 1, Number(day[3])))
+		: new Date(iso);
+};
+
 /** en-US date: long ("March 15, 2026"), short ("Mar 15, 2026") or relative ("3 days ago"). */
 export const formatDate = (
 	dateString: string,
@@ -11,16 +23,18 @@ export const formatDate = (
 
 	switch (format) {
 		case 'long':
-			return date.toLocaleDateString('en-US', {
+			return calendarDay(dateString).toLocaleDateString('en-US', {
 				year: 'numeric',
 				month: 'long',
 				day: 'numeric',
+				timeZone: 'UTC',
 			});
 		case 'short':
-			return date.toLocaleDateString('en-US', {
+			return calendarDay(dateString).toLocaleDateString('en-US', {
 				month: 'short',
 				day: 'numeric',
 				year: 'numeric',
+				timeZone: 'UTC',
 			});
 		case 'relative': {
 			if (diffInDays === 0) return 'Today';

@@ -32,7 +32,7 @@ export async function GET(): Promise<Response> {
 	const feed = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
-		<title>${site.name} — Writing</title>
+		<title>${site.name} · Writing</title>
 		<link>${baseUrl}/blog</link>
 		<description>Articles by ${site.name}, ${site.role} at ${site.company}</description>
 		<language>en</language>

@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { formatCompactNumber, formatDate } from 'helpers/format';
+import { calendarDay, formatCompactNumber, formatDate } from 'helpers/format';
 
 describe('formatDate', () => {
 	afterEach(() => {
@@ -15,6 +15,12 @@ describe('formatDate', () => {
 		expect(formatDate('2026-03-15', 'short')).toBe('Mar 15, 2026');
 	});
 
+	it('keeps the written day for Contentful dates at a local midnight', () => {
+		expect(formatDate('2026-11-11T00:00:00.000+05:30', 'long')).toBe(
+			'November 11, 2026'
+		);
+	});
+
 	it('formats relative dates', () => {
 		vi.useFakeTimers();
 		vi.setSystemTime(new Date('2026-03-15T12:00:00Z'));
@@ -25,6 +31,21 @@ describe('formatDate', () => {
 		expect(formatDate('2026-03-01T12:00:00Z', 'relative')).toBe('2 weeks ago');
 		expect(formatDate('2026-01-10T12:00:00Z', 'relative')).toBe('2 months ago');
 		expect(formatDate('2024-03-01T12:00:00Z', 'relative')).toBe('2 years ago');
+	});
+});
+
+describe('calendarDay', () => {
+	it('is UTC midnight of the date as written', () => {
+		expect(calendarDay('2026-11-11T00:00:00.000+05:30').toISOString()).toBe(
+			'2026-11-11T00:00:00.000Z'
+		);
+		expect(calendarDay('2025-01-01T00:00:00.000Z').toISOString()).toBe(
+			'2025-01-01T00:00:00.000Z'
+		);
+	});
+
+	it('falls back to Date parsing for other formats', () => {
+		expect(Number.isNaN(calendarDay('nope').getTime())).toBe(true);
 	});
 });
 

@@ -27,6 +27,6 @@ export default async function Image({
 			site.name.toUpperCase(),
 		]
 			.filter(Boolean)
-			.join(' — '),
+			.join(' · '),
 	});
 }

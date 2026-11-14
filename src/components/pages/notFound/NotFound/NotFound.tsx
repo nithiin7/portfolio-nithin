@@ -208,7 +208,7 @@ const NotFound: FC = (): ReactElement => {
 							</svg>
 							<span className={styles.NotFound__fpo}>FPO</span>
 							<span className={styles.NotFound__caption}>
-								Fig. {pad(index + 1)} — image not found either
+								Fig. {pad(index + 1)}: image not found either
 							</span>
 						</div>
 					))}

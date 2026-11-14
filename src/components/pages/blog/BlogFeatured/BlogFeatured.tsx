@@ -38,7 +38,7 @@ const BlogFeatured: FC<BlogFeaturedProps> = ({ post }): ReactElement => (
 			<p className={styles.BlogFeatured__kicker}>
 				<span className={styles.BlogFeatured__dot} aria-hidden="true" />
 				Latest
-				<span aria-hidden="true"> — </span>
+				<span aria-hidden="true"> · </span>
 				<time dateTime={post.publishedAt}>
 					{formatPostDate(post.publishedAt, 'long')}
 				</time>

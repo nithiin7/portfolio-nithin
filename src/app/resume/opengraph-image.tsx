@@ -13,6 +13,6 @@ export default async function Image(): Promise<ImageResponse> {
 		kicker: '/RESUME',
 		eyebrow: 'Résumé',
 		title: site.name,
-		meta: `${site.role.toUpperCase()} @ ${site.company} — ${site.location.city.toUpperCase()}`,
+		meta: `${site.role.toUpperCase()} @ ${site.company} · ${site.location.city.toUpperCase()}`,
 	});
 }

@@ -15,7 +15,6 @@ import { createClient, type Asset, type Entry } from './lib/cma.ts';
 const ORDER = [
 	'seo',
 	'link',
-	'media',
 	'person',
 	'principle',
 	'stat',
