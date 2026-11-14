@@ -1,6 +1,6 @@
 {
 	"name": "portfolio-nithin",
-	"version": "4.2.0",
+	"version": "4.2.1",
 	"description": "Portfolio of Nithin Pradeep, AI and full-stack engineer: editorial Swiss design, Contentful case studies, a blog, live stats and a RAG assistant. Next.js 16, React 19, TypeScript.",
 	"keywords": [
 		"portfolio",

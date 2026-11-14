@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.2.1](https://github.com/nithiin7/portfolio-nithin/compare/v4.2.0...v4.2.1) (2026-11-14)
+
+
+### Bug Fixes
+
+* align sass specifier with lockfile ([51c4f93](https://github.com/nithiin7/portfolio-nithin/commit/51c4f930043d45e79ec58b579ce771d515aab0cf))
+* align sass specifier with lockfile ([b1ad4d8](https://github.com/nithiin7/portfolio-nithin/commit/b1ad4d8c4bb555c6df3dbdb64ff8e4a53fb64ce7))
+
 ## [4.2.0](https://github.com/nithiin7/portfolio-nithin/compare/v4.1.0...v4.2.0) (2026-11-14)
 
 
