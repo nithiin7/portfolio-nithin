@@ -8,6 +8,7 @@ import BlogFeatured from 'components/pages/blog/BlogFeatured/BlogFeatured';
 import BlogRow from 'components/pages/blog/BlogRow/BlogRow';
 import Subscribe from 'components/utilities/Subscribe/Subscribe';
 import { siteConfig } from 'config/site';
+import { EXTERNAL_ARROW } from 'constants/index';
 import {
 	filterPosts,
 	isFiltering,
@@ -87,7 +88,7 @@ const BlogListing: FC<BlogListingProps> = ({
 									className={styles.Blog__mono}
 								>
 									{item.label}
-									<span aria-hidden="true"> ↗</span>
+									<span aria-hidden="true"> {EXTERNAL_ARROW}</span>
 									<span className={styles.Blog__sr}> (opens in a new tab)</span>
 								</a>
 							</li>

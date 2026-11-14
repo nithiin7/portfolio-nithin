@@ -1,6 +1,7 @@
 import type { FC, ReactElement } from 'react';
 
 import RevealText from 'components/motion/RevealText/RevealText';
+import { EXTERNAL_ARROW } from 'constants/index';
 import type { Experience } from 'types/career';
 import type { Certification } from 'types/certification';
 import type { Capability } from 'types/home';
@@ -82,7 +83,7 @@ const Resume: FC<ResumeProps> = ({
 								rel="noopener noreferrer"
 							>
 								{social.label}
-								<span aria-hidden="true"> ↗</span>
+								<span aria-hidden="true"> {EXTERNAL_ARROW}</span>
 							</a>
 						</li>
 					))}
