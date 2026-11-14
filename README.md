@@ -2,7 +2,7 @@
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./.github/assets/logo-dark.svg">
     <source media="(prefers-color-scheme: light)" srcset="./.github/assets/logo-light.svg">
-    <img src="./.github/assets/logo-light.svg" alt="NP logo" width="72" />
+    <img src="./.github/assets/logo-light.svg" alt="NP monogram" width="96" />
   </picture>
 
   <h1>Nithin Pradeep — Portfolio</h1>
