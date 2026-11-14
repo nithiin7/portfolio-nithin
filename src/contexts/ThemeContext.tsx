@@ -1,6 +1,7 @@
 'use client';
 import { createContext, useContext, useEffect, useState } from 'react';
 
+import { THEME_STORAGE_KEY } from 'helpers/theme';
 import { palette } from 'styles/tokens';
 
 type Theme = 'dark' | 'light';
@@ -18,20 +19,21 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
 	useEffect(() => {
 		setMounted(true);
-		const savedTheme = localStorage.getItem('theme') as Theme;
+		const savedTheme = localStorage.getItem(THEME_STORAGE_KEY) as Theme;
 		if (savedTheme) {
 			setTheme(savedTheme);
 		}
 	}, []);
 
 	useEffect(() => {
+		// Before the saved theme is read, `theme` is the server default; writing
+		// it would undo themeScript and flash a light-theme visitor dark.
+		if (!mounted) return;
 		document.documentElement.setAttribute('data-theme', theme);
 		document
 			.querySelector('meta[name="theme-color"]')
 			?.setAttribute('content', theme === 'dark' ? palette.ink : palette.paper);
-		if (mounted) {
-			localStorage.setItem('theme', theme);
-		}
+		localStorage.setItem(THEME_STORAGE_KEY, theme);
 	}, [theme, mounted]);
 
 	const toggleTheme = () => {

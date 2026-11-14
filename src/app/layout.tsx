@@ -34,6 +34,7 @@ import {
 import { SiteSettingsProvider } from 'contexts/SiteSettingsContext';
 import { loadSiteSettings } from 'helpers/contentful';
 import { clientEnv } from 'helpers/env';
+import { themeScript } from 'helpers/theme';
 import { palette } from 'styles/tokens';
 
 import Provider from './provider';
@@ -152,6 +153,7 @@ export default async function RootLayout({
 			suppressHydrationWarning
 		>
 			<head>
+				<script dangerouslySetInnerHTML={{ __html: themeScript }} />
 				<script dangerouslySetInnerHTML={{ __html: preloaderScript }} />
 				<link
 					rel="preconnect"
