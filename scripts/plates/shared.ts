@@ -121,6 +121,19 @@ export type Illustration =
 			/** Result block, one entry per line. */
 			output: SceneLine[];
 			outputLabel: string;
+	  }
+	| {
+			kind: 'market';
+			title: string;
+			symbol: string;
+			price: string;
+			change: string;
+			/** Price series, oldest first; drawn as a line scaled to its range. */
+			points: number[];
+			/** Index into `points` where the agent acted, with its label. */
+			marker: { index: number; label: string };
+			/** Agent log beside the chart. */
+			lines: SceneLine[];
 	  };
 
 export interface PlateProject {

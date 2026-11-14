@@ -1,10 +1,9 @@
 'use client';
 import Link from 'next/link';
-import { useState, ViewTransition, type FC, type ReactElement } from 'react';
+import { useState, type FC, type ReactElement } from 'react';
 
 import RevealText from 'components/motion/RevealText/RevealText';
 import ThemedImage from 'components/utilities/ThemedImage/ThemedImage';
-import { useMediaQuery } from 'hooks/useMediaQuery';
 import type { CaseStudyNext } from 'types/caseStudy';
 
 import styles from './PortfolioNext.module.scss';
@@ -17,15 +16,10 @@ const pad = (n: number): string => String(n).padStart(2, '0');
 
 /**
  * Full-bleed "Next project" link. On hover/focus the next cover clip-wipes up
- * behind the title; on touch the cover sits under the title instead. The
- * cover morphs into the next page's hero via the shared view-transition name.
+ * behind the title; on touch the cover sits under the title instead.
  */
 const PortfolioNext: FC<PortfolioNextProps> = ({ next }): ReactElement => {
 	const [active, setActive] = useState(false);
-	const canHover = useMediaQuery('(hover: hover) and (pointer: fine)');
-	// Named only while visible: a clipped cover at capture would blank the morph
-	const imageName =
-		!canHover || active ? `portfolio-image-${next.id}` : undefined;
 
 	return (
 		<section className={styles.PortfolioNext} aria-labelledby="next-project">
@@ -40,25 +34,17 @@ const PortfolioNext: FC<PortfolioNextProps> = ({ next }): ReactElement => {
 			>
 				{next.image && (
 					<div className={styles.PortfolioNext__media}>
-						<ViewTransition
-							name={imageName}
-							share="portfolio-image-morph"
-							enter="none"
-							exit="none"
-							update="none"
-						>
-							<div className={styles.PortfolioNext__image}>
-								<ThemedImage
-									src={next.image}
-									srcDark={next.imageDark}
-									alt=""
-									fill
-									sizes="100vw"
-									blurDataURL={next.blurDataURL}
-									blurDataURLDark={next.blurDataURLDark}
-								/>
-							</div>
-						</ViewTransition>
+						<div className={styles.PortfolioNext__image}>
+							<ThemedImage
+								src={next.image}
+								srcDark={next.imageDark}
+								alt=""
+								fill
+								sizes="100vw"
+								blurDataURL={next.blurDataURL}
+								blurDataURLDark={next.blurDataURLDark}
+							/>
+						</div>
 					</div>
 				)}
 
@@ -72,17 +58,9 @@ const PortfolioNext: FC<PortfolioNextProps> = ({ next }): ReactElement => {
 				</div>
 
 				<div className={styles.PortfolioNext__titleRow}>
-					<ViewTransition
-						name={`portfolio-title-${next.id}`}
-						share="portfolio-title-morph"
-						enter="none"
-						exit="none"
-						update="none"
-					>
-						<span className={styles.PortfolioNext__title}>
-							<RevealText as="span">{next.title}</RevealText>
-						</span>
-					</ViewTransition>
+					<span className={styles.PortfolioNext__title}>
+						<RevealText as="span">{next.title}</RevealText>
+					</span>
 					<span className={styles.PortfolioNext__arrow} aria-hidden="true">
 						→
 					</span>

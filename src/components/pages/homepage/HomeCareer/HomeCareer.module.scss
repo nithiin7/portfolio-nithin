@@ -143,10 +143,10 @@ $columns: minmax(0, 1.4fr) minmax(0, 2.2fr) minmax(0, 2.8fr) minmax(0, 1.4fr)
 			'role toggle'
 			'location toggle';
 		column-gap: var(--grid-gutter);
-		row-gap: var(--space-1);
+		row-gap: var(--space-3);
 		align-items: baseline;
 		width: 100%;
-		padding-block: var(--space-5);
+		padding-block: var(--space-6);
 		padding-inline: 0;
 		border: 0;
 		background: none;
@@ -293,12 +293,13 @@ $columns: minmax(0, 1.4fr) minmax(0, 2.2fr) minmax(0, 2.8fr) minmax(0, 1.4fr)
 	&__details {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr);
-		row-gap: var(--space-5);
+		row-gap: var(--space-6);
 		padding-bottom: var(--space-7);
 
 		@media #{$lg} {
 			grid-template-columns: $columns;
 			column-gap: var(--grid-gutter);
+			row-gap: var(--space-5);
 		}
 	}
 
@@ -358,13 +359,14 @@ $columns: minmax(0, 1.4fr) minmax(0, 2.2fr) minmax(0, 2.8fr) minmax(0, 1.4fr)
 		display: flex;
 		flex-wrap: wrap;
 		align-content: start;
-		gap: var(--space-2);
+		gap: var(--space-3) var(--space-2);
 		margin: 0;
 		padding: 0;
 		list-style: none;
 
 		@media #{$lg} {
 			grid-column: 5 / span 2;
+			gap: var(--space-2);
 		}
 
 		li {

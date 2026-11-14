@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import type { ReactElement } from 'react';
 
-import CopyEmail from 'components/utilities/CopyEmail/CopyEmail';
+import CopyText from 'components/utilities/CopyText/CopyText';
 import LocalClock from 'components/utilities/LocalClock/LocalClock';
-import { navLinks } from 'constants/index';
+import { navLinks, EXTERNAL_ARROW } from 'constants/index';
 import type { SiteSettings } from 'types/site';
 
 import styles from './Footer.module.scss';
@@ -53,7 +53,11 @@ const Footer = ({ site }: FooterProps): ReactElement => {
 			<div className={styles.Footer__details}>
 				<div className={styles.Footer__cell} data-cell="email">
 					<p className={styles.Footer__label}>Email</p>
-					<CopyEmail email={email} className={styles.Footer__email} />
+					<CopyText
+						text={email}
+						label="Email"
+						className={styles.Footer__email}
+					/>
 				</div>
 
 				<div className={styles.Footer__cell} data-cell="time">
@@ -89,7 +93,10 @@ const Footer = ({ site }: FooterProps): ReactElement => {
 										{' '}
 										(opens in a new tab)
 									</span>
-									<span aria-hidden="true"> ↗</span>
+									<span aria-hidden="true" className={styles.Footer__arrow}>
+										{' '}
+										{EXTERNAL_ARROW}
+									</span>
 								</a>
 							</li>
 						))}

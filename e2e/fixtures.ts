@@ -30,6 +30,7 @@ export const STATIC_ROUTES = [
 	'/blog',
 	'/contact',
 	'/resume',
+	'/rss',
 	'/stats',
 	'/this-page-does-not-exist',
 ];

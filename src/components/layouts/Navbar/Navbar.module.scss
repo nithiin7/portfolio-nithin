@@ -5,6 +5,7 @@
 	inset: 0 0 auto;
 	z-index: 1000;
 	height: var(--nav-height);
+	@include transition-layer(navbar, page-chrome);
 	color: var(--fg);
 	background-color: var(--bg);
 	border-bottom: 1px solid var(--line);

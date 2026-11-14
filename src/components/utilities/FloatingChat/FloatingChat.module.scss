@@ -13,6 +13,7 @@
 	right: var(--grid-margin);
 	bottom: max(var(--space-4), env(safe-area-inset-bottom));
 	z-index: 1000;
+	@include transition-layer(chat-launcher);
 	transition:
 		opacity var(--dur-1) var(--ease),
 		transform var(--dur-1) var(--ease),

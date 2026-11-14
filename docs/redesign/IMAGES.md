@@ -62,7 +62,7 @@ The master is 3840 wide because `sizes="100vw"` slots pick the 3840 rendition at
 		{ template: 'detail', screen: 'desktop-2', region: { x: 46, y: 150, width: 552, height: 270 }, zoom: 2.5, use: ['gallery'], alt: '…' },
 		{ template: 'mobile-trio', screens: ['m-1', 'm-2', 'm-3'], use: ['gallery'], alt: '…' },
 		{ template: 'type-plate', variant: 'statement' | 'code' | 'terminal', label: '…', text: '…', alt: '…' },
-		{ template: 'scene', label: '…', tag: '…', text: '…', illustration: { kind: 'terminal' | 'pipeline', … }, alt: '…' },
+		{ template: 'scene', label: '…', tag: '…', text: '…', illustration: { kind: 'terminal' | 'pipeline' | 'market', … }, alt: '…' },
 	],
 }
 ```
@@ -86,13 +86,13 @@ Set `surface: ['ink', 'paper']` on a project or a plate to render it twice, as `
 
 ### Templates
 
-| Template      | Layout                                                                                                                                                                                                                                                                                                                                           |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `cover`       | One screen, centred, 80% of the safe-zone width (2304 px; 90% of its height is the cap), 1px hairline frame, square corners.                                                                                                                                                                                                                     |
-| `detail`      | `region` in **CSS px** of the screen, drawn at `zoom` plate px per CSS px (default = the screen's DPR, i.e. 1:1 source pixels). Shrinks to fit the safe zone. Warns past ×1.3 upscaling.                                                                                                                                                         |
-| `mobile-trio` | Three phone screens at 88% of the safe-zone height, 5% gaps, each framed.                                                                                                                                                                                                                                                                        |
-| `type-plate`  | For projects without UI. `statement`: Inter Tight with the last word in Instrument Serif italic, accent colour. `code` / `terminal`: JetBrains Mono panel with a label bar; `#`/`//` comments are muted and `$ ` prompts use the accent colour.                                                                                                  |
-| `scene`       | Cover for projects without UI. Label row, a terminal or agent-pipeline illustration in the centre, and the statement below, all inset 9% inside the safe zone so the 4:3 phone crop keeps a margin. Lines are runs of `[text, 'fg' \| 'muted' \| 'accent']`; a lone `✓` run is drawn as a check, since the mono font subset has no glyph for it. |
+| Template      | Layout                                                                                                                                                                                                                                                                                                                                                         |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `cover`       | One screen, centred, 80% of the safe-zone width (2304 px; 90% of its height is the cap), 1px hairline frame, square corners.                                                                                                                                                                                                                                   |
+| `detail`      | `region` in **CSS px** of the screen, drawn at `zoom` plate px per CSS px (default = the screen's DPR, i.e. 1:1 source pixels). Shrinks to fit the safe zone. Warns past ×1.3 upscaling.                                                                                                                                                                       |
+| `mobile-trio` | Three phone screens at 88% of the safe-zone height, 5% gaps, each framed.                                                                                                                                                                                                                                                                                      |
+| `type-plate`  | For projects without UI. `statement`: Inter Tight with the last word in Instrument Serif italic, accent colour. `code` / `terminal`: JetBrains Mono panel with a label bar; `#`/`//` comments are muted and `$ ` prompts use the accent colour.                                                                                                                |
+| `scene`       | Cover for projects without UI. Label row, a terminal, agent-pipeline or market-chart illustration in the centre, and the statement below, all inset 9% inside the safe zone so the 4:3 phone crop keeps a margin. Lines are runs of `[text, 'fg' \| 'muted' \| 'accent']`; a lone `✓` run is drawn as a check, since the mono font subset has no glyph for it. |
 
 Colours come only from `src/styles/tokens.ts` (`palette`, `lineAlpha`). The frame uses the `--line-strong` alpha and the grid uses half the `--line` alpha. Fonts are fetched from Google Fonts with a text subset when a type plate is rendered, which needs network access.
 
@@ -130,3 +130,24 @@ The page is `page.dev.tsx` and `route.dev.ts`. `next.config.js` only adds the `d
 4. Run `pnpm cms:check --env <id>`, check the drafts with a preview build (`CONTENTFUL_PREVIEW=true pnpm build`), then `pnpm cms:publish --env <id> --apply`.
 
 Re-running is safe. A plate's asset ID is its file stem (`project-<slug>--<name>`), so a new composition replaces the file in place. A cover whose plate asset doesn't exist yet replaces the file of the asset the field already links, so its ID and links stay put.
+
+## 6. Blog covers
+
+Blog featured images come from [`scripts/plates/blog.ts`](../../scripts/plates/blog.ts): one drawn figure per post (no screenshots, no headline: the title is always printed beside the image), on ink and paper, built from the same tokens, fonts and hairline grid as the project plates.
+
+```bash
+pnpm plates:blog [slug…]                         # → scripts/plates/out/blog/<slug>/
+pnpm plates:blog:upload --env <id> [slug…]       # Contentful plan (dry run); add --apply to write
+```
+
+| Slot                 | Crop                             | `sizes`                                                    |
+| -------------------- | -------------------------------- | ---------------------------------------------------------- |
+| BlogRow · thumb      | 1:1 (< 768), 4:3                 | `(min-width: 1920px) 10vw, (min-width: 768px) 12rem, 6rem` |
+| BlogFeatured · image | 16:10                            | `(min-width: 1024px) 58vw, 100vw`                          |
+| BlogDetail · cover   | 4:3 (< 768), 16:9 (< 1024), 21:9 | `100vw`                                                    |
+
+The 1:1 thumbnail is the binding crop, so **every element, labels and caption included, sits inside the centre 2160×2160 square** (x 840–3000), and vertically inside the 21:9 band (y 257–1902). The `.debug.png` beside each cover draws those crops.
+
+Each cover is a `BlogCover` in `BLOG_COVERS`: `label` and `tag` (mono kickers), `caption` (the figure line), `alt`, and an `art(kit)` function that lays out the figure in a 2160×1250 box. Boxes are absolute `div`s rendered by Satori; connector lines, arrows and arcs go through `kit.draw()` and are drawn underneath as SVG, so opaque boxes cover them. Keep one orange element per figure: it is what still reads at thumbnail size.
+
+Output is a 3840×2160 PNG, a WebP (~60 KB, the file that's uploaded) and a debug PNG per surface. Upload puts the paper WebP in `featuredImage` (light theme, OG, RSS, JSON-LD) and the ink WebP in `featuredImageDark` as assets `post-<slug>--featured-<surface>`, saves the post as a draft, and leaves the previously linked image alone. Then `cms:check`, preview build, `cms:publish`.

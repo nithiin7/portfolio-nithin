@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from 'motion/react';
 import type { CSSProperties, FC } from 'react';
 import { useCallback } from 'react';
 
+import { EXTERNAL_ARROW } from 'constants/index';
 import { duration, ease } from 'styles/tokens';
 import type { Certification } from 'types/certification';
 
@@ -179,7 +180,7 @@ const CertificationModal: FC<CertificationModalProps> = ({ certification }) => {
 						className={styles['CertificationModal__cta-arrow']}
 						aria-hidden="true"
 					>
-						↗
+						{EXTERNAL_ARROW}
 					</span>
 					<span className={styles.srOnly}>(opens in a new tab)</span>
 				</motion.a>

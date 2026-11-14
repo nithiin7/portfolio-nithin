@@ -11,6 +11,7 @@ import {
 import ScrambleText from 'components/motion/ScrambleText/ScrambleText';
 import Modal from 'components/utilities/Modal/Modal';
 import { socialUrl } from 'config/site';
+import { EXTERNAL_ARROW } from 'constants/index';
 import { useSiteSettings } from 'contexts/SiteSettingsContext';
 import { duration, ease } from 'styles/tokens';
 import type { Certification } from 'types/certification';
@@ -89,7 +90,7 @@ const HomeCertifications: FC<HomeCertificationsProps> = ({
 									rel="noopener noreferrer"
 								>
 									Verify on Credly
-									<span aria-hidden="true"> ↗</span>
+									<span aria-hidden="true"> {EXTERNAL_ARROW}</span>
 									<span className={styles.HomeCertifications__srOnly}>
 										(opens in a new tab)
 									</span>

@@ -1,5 +1,7 @@
 import type { FC, ReactElement, ReactNode } from 'react';
 
+import { EXTERNAL_ARROW } from 'constants/index';
+
 import styles from './StatCard.module.scss';
 
 export interface StatCardProps {
@@ -43,7 +45,7 @@ const StatCard: FC<StatCardProps> = ({
 						className={styles.StatCard__link}
 					>
 						{linkLabel ?? `Open ${title}`}
-						<span aria-hidden="true"> ↗</span>
+						<span aria-hidden="true"> {EXTERNAL_ARROW}</span>
 						<span className={styles.StatCard__sr}> (opens in a new tab)</span>
 					</a>
 				)}

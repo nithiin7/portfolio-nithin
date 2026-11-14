@@ -28,7 +28,7 @@ const getTargets = (
 ): RevalidateTarget[] => {
 	switch (contentType) {
 		case 'blogPost':
-			return [['/blog/[slug]', 'page'], ['/sitemap.xml']];
+			return [['/blog/[slug]', 'page'], ['/rss'], ['/sitemap.xml']];
 		case 'portfolioDetails':
 			return [['/'], ['/portfolio/[slug]', 'page'], ['/sitemap.xml']];
 		case 'page':

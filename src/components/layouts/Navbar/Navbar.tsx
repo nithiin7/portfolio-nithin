@@ -56,6 +56,7 @@ const Navbar = ({ className = '' }: NavbarProps): ReactElement => {
 		<>
 			<header
 				className={[styles.Navbar, className].join(' ')}
+				data-navbar
 				data-hidden={!isVisible && !isMenuOpen}
 				data-at-top={isAtTop}
 			>

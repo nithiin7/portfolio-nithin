@@ -1,6 +1,9 @@
 import type { LinkIcon } from 'types/site';
 import type { LinkItem } from 'types/utils';
 
+/** External-link arrow; U+FE0E stops iOS from drawing ↗ as an emoji. */
+export const EXTERNAL_ARROW = '↗\uFE0E';
+
 export const GITHUB_USERNAME = 'nithiin7';
 export const DEVTO_USERNAME = 'nithiin7';
 export const HUGGINGFACE_SPACE_ID = 'nithiin7/Portfolio_Resume';

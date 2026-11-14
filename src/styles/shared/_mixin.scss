@@ -207,6 +207,17 @@ $section-top-clearance-min: rem(120);
 	}
 }
 
+// Gives fixed chrome its own view-transition layer above the route wipe, so it
+// never pops in when the swap ends. globals.scss styles the classes: `chrome`
+// holds still, `page-chrome` fades and wipes with the page. Passed through
+// custom properties because CSS Modules hash these idents.
+@mixin transition-layer($name, $class: chrome) {
+	--vt-name: #{$name};
+	--vt-class: #{$class};
+	view-transition-name: var(--vt-name);
+	view-transition-class: var(--vt-class);
+}
+
 // Hairline underline that draws in left→right and exits right.
 @mixin draw-underline($thickness: 1px) {
 	text-decoration: none;

@@ -220,12 +220,59 @@ export default defineProjects([
 		grid: true,
 		plates: [
 			{
-				template: 'type-plate',
-				variant: 'statement',
+				// Illustrative run in a simulated account; the tools and models are
+				// the ones the README lists.
+				template: 'scene',
+				name: 'scene',
 				label: 'AI Stock Market Trader',
-				text: 'Trading agents that read live market data and act through MCP tools — on the model you choose.',
+				tag: 'OpenAI Agents SDK · Polygon',
+				text: 'Autonomous trading agents on live market data — with the model you choose.',
+				illustration: {
+					kind: 'market',
+					title: 'tradeit · simulated account',
+					symbol: 'NVDA',
+					price: '$142.18',
+					change: '+2.4%',
+					points: [
+						131, 133, 132, 135, 134, 137, 136, 133, 130.5, 129, 131, 130, 132.5,
+						135, 134, 137.5, 139, 138, 140.5, 139.5, 141, 143, 142,
+					],
+					marker: { index: 9, label: 'BUY 40' },
+					lines: [
+						[
+							['→ ', 'muted'],
+							['market_data  ', 'fg'],
+							['polygon', 'muted'],
+						],
+						[
+							['→ ', 'muted'],
+							['model        ', 'fg'],
+							['deepseek', 'muted'],
+						],
+						[
+							['→ ', 'muted'],
+							['decide       ', 'fg'],
+							['buy 40 @ 129.00', 'muted'],
+						],
+						[
+							['✓ ', 'accent'],
+							['execute      ', 'fg'],
+							['filled', 'accent'],
+						],
+						[
+							['→ ', 'muted'],
+							['stop_loss    ', 'fg'],
+							['122.55', 'muted'],
+						],
+						[
+							['→ ', 'muted'],
+							['portfolio    ', 'fg'],
+							['+$527.20', 'fg'],
+						],
+					],
+				},
 				use: ['card', 'spotlight'],
-				alt: 'Statement: trading agents that read live market data and act through MCP tools, on the model you choose.',
+				alt: 'Trading dashboard in a simulated account: a price chart with the agent’s buy point marked, beside its log of market data, chosen model, decision, filled order and stop loss.',
 			},
 		],
 	},

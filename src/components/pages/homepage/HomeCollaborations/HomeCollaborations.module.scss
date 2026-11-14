@@ -130,21 +130,6 @@
 			transparent
 		);
 
-		&:focus-within,
-		&--paused {
-			.HomeCollaborations__track {
-				animation-play-state: paused;
-			}
-		}
-
-		@media #{$can-hover} {
-			&:hover {
-				.HomeCollaborations__track {
-					animation-play-state: paused;
-				}
-			}
-		}
-
 		@media (prefers-reduced-motion: reduce) {
 			mask-image: none;
 		}
@@ -153,11 +138,11 @@
 	&__track {
 		display: flex;
 		width: max-content;
-		animation: marquee 48s linear infinite;
+		will-change: transform;
 
 		@media (prefers-reduced-motion: reduce) {
 			width: 100%;
-			animation: none;
+			will-change: auto;
 		}
 	}
 
@@ -205,11 +190,5 @@
 		&:focus-visible {
 			color: var(--fg);
 		}
-	}
-}
-
-@keyframes marquee {
-	to {
-		transform: translateX(-50%);
 	}
 }

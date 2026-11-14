@@ -7,10 +7,6 @@
 	color: var(--fg);
 	overflow-x: clip;
 
-	&[data-variant='full'] {
-		padding-top: var(--section-pad);
-	}
-
 	&__intro,
 	&__details {
 		@include grid-12;
@@ -301,6 +297,12 @@
 		line-height: var(--leading-snug);
 
 		@include tap-pad;
+	}
+
+	// A fallback-font glyph must not grow its row, or Elsewhere and Index
+	// drift out of line.
+	&__arrow {
+		line-height: 1;
 	}
 
 	&__bar {

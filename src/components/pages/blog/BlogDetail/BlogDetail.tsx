@@ -11,12 +11,7 @@ import {
 } from '@contentful/rich-text-types';
 import Image from 'next/image';
 import Link from 'next/link';
-import {
-	ViewTransition,
-	type FC,
-	type ReactElement,
-	type ReactNode,
-} from 'react';
+import { type FC, type ReactElement, type ReactNode } from 'react';
 
 import RevealText from 'components/motion/RevealText/RevealText';
 import BlogRow from 'components/pages/blog/BlogRow/BlogRow';
@@ -26,6 +21,7 @@ import PostProgress from 'components/pages/blog/PostProgress/PostProgress';
 import PostShare from 'components/pages/blog/PostShare/PostShare';
 import TableOfContents from 'components/pages/blog/TableOfContents/TableOfContents';
 import Subscribe from 'components/utilities/Subscribe/Subscribe';
+import ThemedImage from 'components/utilities/ThemedImage/ThemedImage';
 import { absoluteUrl, siteConfig } from 'config/site';
 import { formatPostDate } from 'helpers/blogPosts';
 import {
@@ -196,24 +192,16 @@ const BlogDetail: FC<BlogDetailProps> = ({
 			</header>
 
 			{post.featuredImage?.url && (
-				// Not clip-revealed: a clipped cover at capture would blank the morph from the index
-				<ViewTransition
-					name={`blog-image-${post.slug}`}
-					share="blog-image-morph"
-					enter="none"
-					exit="none"
-					update="none"
-				>
-					<div className={styles.Post__cover}>
-						<Image
-							src={post.featuredImage.url}
-							alt={post.featuredImage.description || ''}
-							fill
-							priority
-							sizes="100vw"
-						/>
-					</div>
-				</ViewTransition>
+				<div className={styles.Post__cover}>
+					<ThemedImage
+						src={post.featuredImage.url}
+						srcDark={post.featuredImageDark?.url}
+						alt={post.featuredImage.description || ''}
+						fill
+						priority
+						sizes="100vw"
+					/>
+				</div>
 			)}
 
 			<PostProgress slug={post.slug}>

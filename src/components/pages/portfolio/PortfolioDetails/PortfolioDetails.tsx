@@ -5,7 +5,7 @@ import {
 import { BLOCKS, INLINES, type Document } from '@contentful/rich-text-types';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ViewTransition, type FC, type ReactElement } from 'react';
+import type { FC, ReactElement } from 'react';
 
 import RevealImage from 'components/motion/RevealImage/RevealImage';
 import RevealText from 'components/motion/RevealText/RevealText';
@@ -13,6 +13,7 @@ import CaseStudyProgress from 'components/pages/portfolio/CaseStudyProgress/Case
 import PortfolioGallery from 'components/pages/portfolio/PortfolioGallery/PortfolioGallery';
 import PortfolioNext from 'components/pages/portfolio/PortfolioNext/PortfolioNext';
 import ThemedImage from 'components/utilities/ThemedImage/ThemedImage';
+import { EXTERNAL_ARROW } from 'constants/index';
 import { buildCaseStudy } from 'helpers/caseStudy';
 import type {
 	CaseStudyAsset,
@@ -191,15 +192,7 @@ const PortfolioDetails: FC<PortfolioDetailsProps> = ({
 					)}
 				</div>
 
-				<ViewTransition
-					name={`portfolio-title-${project.id}`}
-					share="portfolio-title-morph"
-					enter="none"
-					exit="none"
-					update="none"
-				>
-					<h1 className={styles.CaseStudy__title}>{project.title}</h1>
-				</ViewTransition>
+				<h1 className={styles.CaseStudy__title}>{project.title}</h1>
 
 				{project.shortDescription && (
 					<RevealText
@@ -248,7 +241,7 @@ const PortfolioDetails: FC<PortfolioDetailsProps> = ({
 												className={styles.CaseStudy__link}
 											>
 												{link.label}
-												<span aria-hidden="true"> ↗</span>
+												<span aria-hidden="true"> {EXTERNAL_ARROW}</span>
 												<span className={styles.CaseStudy__sr}>
 													{' '}
 													(opens in a new tab)
@@ -265,25 +258,17 @@ const PortfolioDetails: FC<PortfolioDetailsProps> = ({
 
 			{project.spotlightImage?.url && (
 				// Not wrapped in RevealImage: a clipped cover at capture would blank the morph in from the works list
-				<ViewTransition
-					name={`portfolio-image-${project.id}`}
-					share="portfolio-image-morph"
-					enter="none"
-					exit="none"
-					update="none"
-				>
-					<div className={styles.CaseStudy__cover}>
-						<ThemedImage
-							src={project.spotlightImage.url}
-							srcDark={project.spotlightImageDark?.url}
-							alt=""
-							fill
-							priority
-							fetchPriority="high"
-							sizes="100vw"
-						/>
-					</div>
-				</ViewTransition>
+				<div className={styles.CaseStudy__cover}>
+					<ThemedImage
+						src={project.spotlightImage.url}
+						srcDark={project.spotlightImageDark?.url}
+						alt=""
+						fill
+						priority
+						fetchPriority="high"
+						sizes="100vw"
+					/>
+				</div>
 			)}
 
 			{sections.length > 0 && (

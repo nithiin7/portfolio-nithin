@@ -197,6 +197,9 @@ const BLOG_POST_SUMMARY = gql`
 			title
 			description
 		}
+		featuredImageDark {
+			url
+		}
 		blogCategory {
 			name
 		}

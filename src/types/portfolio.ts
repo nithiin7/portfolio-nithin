@@ -4,7 +4,7 @@ export interface PortfolioMedia {
 }
 
 export interface PortfolioItem {
-	/** Legacy numeric id: stable key for view-transition names and old URLs. */
+	/** Legacy numeric id: stable key for list positions and old URLs. */
 	id?: number;
 	slug: string;
 	/** Light-theme cover; also the fallback when there is no dark one. */

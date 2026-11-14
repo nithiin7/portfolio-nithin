@@ -1,7 +1,7 @@
-import Image from 'next/image';
 import Link from 'next/link';
-import { ViewTransition, type FC, type ReactElement } from 'react';
+import type { FC, ReactElement } from 'react';
 
+import ThemedImage from 'components/utilities/ThemedImage/ThemedImage';
 import { formatPostDate } from 'helpers/blogPosts';
 import type { BlogPost } from 'types/blog';
 
@@ -50,22 +50,15 @@ const BlogRow: FC<BlogRowProps> = ({
 
 			<div className={styles.BlogRow__thumb} aria-hidden="true">
 				{post.featuredImage?.url && (
-					<ViewTransition
-						name={`blog-image-${post.slug}`}
-						share="blog-image-morph"
-						enter="none"
-						exit="none"
-						update="none"
-					>
-						<div className={styles.BlogRow__thumbInner}>
-							<Image
-								src={post.featuredImage.url}
-								alt=""
-								fill
-								sizes="(min-width: 1920px) 10vw, (min-width: 768px) 12rem, 6rem"
-							/>
-						</div>
-					</ViewTransition>
+					<div className={styles.BlogRow__thumbInner}>
+						<ThemedImage
+							src={post.featuredImage.url}
+							srcDark={post.featuredImageDark?.url}
+							alt=""
+							fill
+							sizes="(min-width: 1920px) 10vw, (min-width: 768px) 12rem, 6rem"
+						/>
+					</div>
 				)}
 			</div>
 		</div>

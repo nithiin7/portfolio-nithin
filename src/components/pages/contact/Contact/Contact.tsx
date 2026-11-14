@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import RevealText from 'components/motion/RevealText/RevealText';
 import ContactForm from 'components/pages/contact/ContactForm/ContactForm';
-import CopyEmail from 'components/utilities/CopyEmail/CopyEmail';
+import CopyText from 'components/utilities/CopyText/CopyText';
 import LocalClock from 'components/utilities/LocalClock/LocalClock';
 import type { SiteSettings } from 'types/site';
 
@@ -45,7 +45,11 @@ const Contact: FC<ContactProps> = ({ site }) => {
 						<div className={styles.Contact__row}>
 							<dt className={styles.Contact__label}>Email</dt>
 							<dd>
-								<CopyEmail email={email} className={styles.Contact__email} />
+								<CopyText
+									text={email}
+									label="Email"
+									className={styles.Contact__email}
+								/>
 							</dd>
 						</div>
 

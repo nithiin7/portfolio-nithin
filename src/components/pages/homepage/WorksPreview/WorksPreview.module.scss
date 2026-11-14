@@ -30,10 +30,14 @@
 		position: absolute;
 		inset: 0;
 		clip-path: inset(100% 0 0 0);
+		// Layers leave only once the incoming reveal has covered them, so a fast
+		// sweep across rows never exposes an empty window
+		transition: clip-path 0s linear var(--dur-1);
 
 		&[data-state='previous'] {
 			z-index: 1;
 			clip-path: inset(0);
+			transition: clip-path var(--dur-1) var(--ease);
 		}
 
 		&[data-state='active'] {

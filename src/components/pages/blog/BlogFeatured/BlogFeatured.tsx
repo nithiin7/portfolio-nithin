@@ -1,7 +1,7 @@
-import Image from 'next/image';
 import Link from 'next/link';
-import { ViewTransition, type FC, type ReactElement } from 'react';
+import type { FC, ReactElement } from 'react';
 
+import ThemedImage from 'components/utilities/ThemedImage/ThemedImage';
 import { formatPostDate } from 'helpers/blogPosts';
 import type { BlogPost } from 'types/blog';
 
@@ -20,24 +20,17 @@ const BlogFeatured: FC<BlogFeaturedProps> = ({ post }): ReactElement => (
 	<article className={styles.BlogFeatured} aria-labelledby="featured-title">
 		{post.featuredImage?.url && (
 			<div className={styles.BlogFeatured__media} aria-hidden="true">
-				<ViewTransition
-					name={`blog-image-${post.slug}`}
-					share="blog-image-morph"
-					enter="none"
-					exit="none"
-					update="none"
-				>
-					<div className={styles.BlogFeatured__image}>
-						<Image
-							src={post.featuredImage.url}
-							alt=""
-							fill
-							priority
-							fetchPriority="high"
-							sizes="(min-width: 1024px) 58vw, 100vw"
-						/>
-					</div>
-				</ViewTransition>
+				<div className={styles.BlogFeatured__image}>
+					<ThemedImage
+						src={post.featuredImage.url}
+						srcDark={post.featuredImageDark?.url}
+						alt=""
+						fill
+						priority
+						fetchPriority="high"
+						sizes="(min-width: 1024px) 58vw, 100vw"
+					/>
+				</div>
 			</div>
 		)}
 
