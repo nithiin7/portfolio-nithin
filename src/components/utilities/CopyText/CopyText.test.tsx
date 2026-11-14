@@ -2,7 +2,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { toast } from 'sonner';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import CopyEmail from './CopyEmail';
+import CopyText from './CopyText';
 
 vi.mock('sonner', () => ({
 	toast: Object.assign(vi.fn(), { error: vi.fn() }),
@@ -14,14 +14,14 @@ const stubClipboard = (writeText: (text: string) => Promise<void>) =>
 		configurable: true,
 	});
 
-describe('CopyEmail', () => {
+describe('CopyText', () => {
 	afterEach(() => {
 		vi.clearAllMocks();
 	});
 
 	it('copies the address and confirms with a toast', async () => {
 		stubClipboard(() => Promise.resolve());
-		render(<CopyEmail email="hi@example.com" />);
+		render(<CopyText text="hi@example.com" label="Email" />);
 
 		fireEvent.click(screen.getByRole('button', { name: /hi@example.com/ }));
 
@@ -36,7 +36,7 @@ describe('CopyEmail', () => {
 
 	it('reports a failed copy instead of claiming success', async () => {
 		stubClipboard(() => Promise.reject(new Error('denied')));
-		render(<CopyEmail email="hi@example.com" />);
+		render(<CopyText text="hi@example.com" label="Email" />);
 
 		fireEvent.click(screen.getByRole('button'));
 

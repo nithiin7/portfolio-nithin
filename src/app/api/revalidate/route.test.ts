@@ -34,7 +34,7 @@ describe('POST /api/revalidate', () => {
 	});
 
 	it.each([
-		['blogPost', undefined, ['/blog/[slug]', '/sitemap.xml']],
+		['blogPost', undefined, ['/blog/[slug]', '/rss', '/sitemap.xml']],
 		['portfolioDetails', undefined, ['/', '/portfolio/[slug]', '/sitemap.xml']],
 		['page', 'home', ['/']],
 		['page', 'contact', ['/contact']],

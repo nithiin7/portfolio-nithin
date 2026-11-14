@@ -7,7 +7,6 @@ import RevealText from 'components/motion/RevealText/RevealText';
 import BlogFeatured from 'components/pages/blog/BlogFeatured/BlogFeatured';
 import BlogRow from 'components/pages/blog/BlogRow/BlogRow';
 import Subscribe from 'components/utilities/Subscribe/Subscribe';
-import { siteConfig } from 'config/site';
 import { EXTERNAL_ARROW } from 'constants/index';
 import {
 	filterPosts,
@@ -94,9 +93,9 @@ const BlogListing: FC<BlogListingProps> = ({
 							</li>
 						))}
 						<li>
-							<a href={siteConfig.rssUrl} className={styles.Blog__mono}>
+							<Link href="/rss" className={styles.Blog__mono}>
 								RSS
-							</a>
+							</Link>
 						</li>
 					</ul>
 				</div>
