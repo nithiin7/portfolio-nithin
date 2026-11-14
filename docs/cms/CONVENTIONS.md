@@ -135,7 +135,6 @@ Contracted on 2026-11-13 (migrations 011–012, with the user's OK, before launc
 - A slug is the project's or post's name, never its full title. Keep it under ~6 words (the current 81-character blog slug is too long).
 - **Once published, a slug doesn't change.** If it has to, add a redirect in `next.config.js` in the same PR.
 - Projects move to `/portfolio/[slug]`. `/portfolio/[id]` returns a 301 to the slug via `legacyId`.
-- The plate pipeline's slug matches the Contentful slug (`scripts/plates/projects.config.ts`).
 
 ---
 
@@ -156,26 +155,26 @@ Contracted on 2026-11-13 (migrations 011–012, with the user's OK, before launc
 | Company logo        | `company-paytm-payments-bank--logo.svg`                                       |
 | OG image            | `seo-orbit-assistant--og.png`                                                 |
 
-The plate pipeline writes `project-<slug>--<name>[-<surface>].png`, and `plates:upload` uses the file stem as the asset ID, so asset titles can be plain English.
+Name asset files `project-<slug>--<name>[-<surface>].png` and use the file stem as the asset ID, so asset titles can be plain English.
 
 ### Title and description
 
 - **Title:** plain English, sentence case, `<Subject> — <what>`: "Orbit — dashboard cover, dark", "Gokul Krishnan — avatar". It's what an editor searches for.
-- **Description = alt text, required on every asset that's used anywhere.** Contentful can't require asset fields, so `cms:check` blocks it instead. The rules are in IMAGES.md §4: say what the image shows and why it matters, under ~150 characters, never "screenshot of" or "image of". A purely decorative asset gets the description `Decorative`, and the code renders `alt=""` for it.
+- **Description = alt text, required on every asset that's used anywhere.** Contentful can't require asset fields, so `cms:check` blocks it instead. Say what the image shows and why it matters, under ~150 characters, never "screenshot of" or "image of". A purely decorative asset gets the description `Decorative`, and the code renders `alt=""` for it.
 
 ### Sizes and formats
 
-| Slot                                 | Size                                                                               | Format, max weight    | Source                    |
-| ------------------------------------ | ---------------------------------------------------------------------------------- | --------------------- | ------------------------- |
-| Project cover (`cover`, `coverDark`) | **3840×2160** exactly; text inside the 2880×1645 safe zone                         | PNG ≤ 1.5 MB (plates) | Plate pipeline, IMAGES.md |
-| Project gallery                      | 3840×2160                                                                          | PNG/WebP ≤ 1.5 MB     | Plate pipeline            |
-| Blog featured image (+ `Dark`)       | 3840×2160; figure inside the centre 2160×2160 square (1:1, 4:3, 16:10, 21:9 crops) | WebP ≤ 400 KB         | `pnpm plates:blog`        |
-| Blog inline image                    | ≥ 1600 wide                                                                        | WebP ≤ 400 KB         | —                         |
-| About portrait                       | 1500×2000 (3:4)                                                                    | JPEG/WebP ≤ 500 KB    | —                         |
-| Avatars                              | Square, 800×800                                                                    | JPEG/WebP ≤ 200 KB    | —                         |
-| Certification logo                   | Monochrome SVG (rendered as a CSS mask)                                            | SVG ≤ 20 KB           | —                         |
-| Company logo                         | Single-colour SVG, transparent, trimmed to the mark (CSS mask)                     | SVG ≤ 20 KB           | —                         |
-| OG image (`seo.ogImage`)             | 1200×630 exactly                                                                   | PNG/JPEG ≤ 300 KB     | —                         |
+| Slot                                 | Size                                                                               | Format, max weight | Source |
+| ------------------------------------ | ---------------------------------------------------------------------------------- | ------------------ | ------ |
+| Project cover (`cover`, `coverDark`) | **3840×2160** exactly; text inside the 2880×1645 safe zone                         | PNG ≤ 1.5 MB       | —      |
+| Project gallery                      | 3840×2160                                                                          | PNG/WebP ≤ 1.5 MB  | —      |
+| Blog featured image (+ `Dark`)       | 3840×2160; figure inside the centre 2160×2160 square (1:1, 4:3, 16:10, 21:9 crops) | WebP ≤ 400 KB      | —      |
+| Blog inline image                    | ≥ 1600 wide                                                                        | WebP ≤ 400 KB      | —      |
+| About portrait                       | 1500×2000 (3:4)                                                                    | JPEG/WebP ≤ 500 KB | —      |
+| Avatars                              | Square, 800×800                                                                    | JPEG/WebP ≤ 200 KB | —      |
+| Certification logo                   | Monochrome SVG (rendered as a CSS mask)                                            | SVG ≤ 20 KB        | —      |
+| Company logo                         | Single-colour SVG, transparent, trimmed to the mark (CSS mask)                     | SVG ≤ 20 KB        | —      |
+| OG image (`seo.ogImage`)             | 1200×630 exactly                                                                   | PNG/JPEG ≤ 300 KB  | —      |
 
 Fixed sizes become `assetImageDimensions` validations on the link fields. `cms:check` covers weight and format. `images.ctfassets.net` sends `Access-Control-Allow-Origin: *`, so SVG logos served from Contentful work as CSS masks.
 
@@ -254,8 +253,8 @@ Find assets by file-name prefix (`project-orbit-assistant--`), which the naming 
 ## 10. Workflow
 
 1. **Schema:** write `contentful/migrations/NNN_<what>.cjs` → `pnpm cms:migrate --env <id>` to list pending → `--apply` → update queries, converters and types in the same PR → `pnpm build`.
-2. **Content:** draft → `pnpm cms:check` → preview → publish. Copy rewrites go through `COPY_REVIEW.md` first.
-3. **Images:** plate pipeline → `/dev/plates` crop check → `plates:upload --env <id> --apply` (drafts) → `cms:check` → `cms:publish`.
+2. **Content:** draft → `pnpm cms:check` → preview → publish.
+3. **Images:** upload as draft assets with alt text → `cms:check` → `cms:publish`.
 
 ---
 

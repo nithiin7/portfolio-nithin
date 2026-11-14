@@ -2,7 +2,6 @@
 	"$schema": "https://unpkg.com/knip@5/schema.json",
 	"entry": [
 		"src/app/sw.ts",
-		"src/app/**/*.dev.{ts,tsx}",
 		"contentful/{migrate,check,publish}.ts",
 		"contentful/migrations/*.{cjs,ts}",
 		"scripts/**/*.ts"

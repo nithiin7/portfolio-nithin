@@ -12,7 +12,6 @@
   <p>
     <a href="https://portfolio-nithin.vercel.app"><strong>Live site</strong></a> ·
     <a href="#awwwards">Awwwards</a> ·
-    <a href="docs/engineering/CI_CD.md">CI/CD</a> ·
     <a href="docs/cms/HOW_TO_ADD.md">Editing content</a>
   </p>
 
@@ -34,7 +33,7 @@
 
 ## Awwwards
 
-<a id="awwwards"></a>Submission pending: link to be added after the jury vote. Submission kit: [docs/redesign/AWWWARDS.md](docs/redesign/AWWWARDS.md).
+<a id="awwwards"></a>Submission pending: link to be added after the jury vote.
 
 ## Highlights
 
@@ -139,7 +138,6 @@ Mirrors [.env.example](.env.example). **Required** variables stop the server fro
 | `pnpm generate`                                  | Plop: component, or route + page component (with SCSS and a test) |
 | `pnpm analyze`                                   | Webpack bundle analyzer                                           |
 | `pnpm cms:migrate` / `cms:check` / `cms:publish` | Contentful migrations, content lint, publish drafts               |
-| `pnpm plates` / `plates:upload`                  | Project cover plates and their upload as drafts                   |
 | `pnpm embed` / `embed:check`                     | Rebuild / verify the RAG embeddings from `data/knowledge`         |
 | `pnpm icons`                                     | Regenerate app icons                                              |
 
@@ -151,7 +149,7 @@ Mirrors [.env.example](.env.example). **Required** variables stop the server fro
 ├── docs/              # engineering (CI/CD, audits), cms (conventions, recipes), redesign kit
 ├── e2e/               # Playwright: smoke, flows, axe, overflow
 ├── migrations/        # Supabase SQL
-├── scripts/           # responsive audit, plates, icons, embeddings, Awwwards images
+├── scripts/           # responsive audit, icons, embeddings
 ├── src/
 │   ├── app/           # routes, route handlers, OG images, sitemap, feed, service worker
 │   ├── clients/       # Apollo (server-only), Supabase, OpenAI
@@ -165,7 +163,7 @@ Mirrors [.env.example](.env.example). **Required** variables stop the server fro
 
 ## Deployment
 
-Vercel builds a preview for every branch and deploys `main` to production. GitHub Actions runs lint/test/build on every PR, then Playwright, axe and Lighthouse against the Vercel preview. Releases come from release-please on `main`. See [docs/engineering/CI_CD.md](docs/engineering/CI_CD.md) for secrets, env vars and branch protection.
+Vercel builds a preview for every branch and deploys `main` to production. GitHub Actions runs lint/test/build on every PR, then Playwright, axe and Lighthouse against the Vercel preview. Releases come from release-please on `main`.
 
 ## Contributing
 

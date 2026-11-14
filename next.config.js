@@ -1,7 +1,6 @@
 import bundleAnalyzer from '@next/bundle-analyzer';
 import { withSentryConfig } from '@sentry/nextjs';
 import { withSerwist } from '@serwist/turbopack';
-import { PHASE_DEVELOPMENT_SERVER } from 'next/constants.js';
 
 const withBundleAnalyzer = bundleAnalyzer({
 	enabled: process.env.ANALYZE === 'true',
@@ -92,7 +91,7 @@ const nextConfig = {
 			},
 		];
 	},
-	// Slugs shortened in the phase 14 copy pass (docs/cms/COPY_REVIEW.md A14, A16)
+	// Slugs shortened in the phase 14 copy pass
 	async redirects() {
 		return [
 			[
@@ -174,8 +173,6 @@ const nextConfig = {
 	},
 };
 
-const DEFAULT_PAGE_EXTENSIONS = ['tsx', 'ts', 'jsx', 'js'];
-
 const SENTRY_OPTIONS = {
 	org: 'personal-tn1',
 	project: 'javascript-nextjs',
@@ -187,21 +184,7 @@ const SENTRY_OPTIONS = {
 	},
 };
 
-// `page.dev.tsx` / `route.dev.ts` (e.g. /dev/plates) only exist under `next dev`,
-// so production builds never compile, route or sitemap them.
-export default (phase) =>
-	withSentryConfig(
-		withBundleAnalyzer(
-			withSerwist({
-				...nextConfig,
-				pageExtensions:
-					phase === PHASE_DEVELOPMENT_SERVER
-						? [
-								...DEFAULT_PAGE_EXTENSIONS.map((ext) => `dev.${ext}`),
-								...DEFAULT_PAGE_EXTENSIONS,
-							]
-						: DEFAULT_PAGE_EXTENSIONS,
-			})
-		),
-		SENTRY_OPTIONS
-	);
+export default withSentryConfig(
+	withBundleAnalyzer(withSerwist(nextConfig)),
+	SENTRY_OPTIONS
+);

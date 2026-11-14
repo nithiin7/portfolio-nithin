@@ -33,18 +33,18 @@ Contentful ──GraphQL (ISR 1h)──▶ helpers/contentful.ts ──▶ serve
 ```
 contentful/   migrations (NNN_*.cjs + NNN_*.data.ts), cms:check rules, CMA client
 data/         knowledge/*.md → embeddings.json (RAG for /api/ask)
-docs/         engineering/ (CI_CD, audits), cms/ (CONVENTIONS, HOW_TO_ADD, LAUNCH, COPY_REVIEW), redesign/ (AWWWARDS, IMAGES, plates), archive/
+docs/         cms/ (CONVENTIONS, HOW_TO_ADD)
 e2e/          Playwright: fixtures.ts, smoke, a11y (axe), responsive (overflow)
 migrations/   Supabase SQL
-scripts/      responsive-audit, plates, icons, embed, awwwards
-src/app/      routes, route handlers, OG images, sitemap, feed, sw.ts; *.dev.tsx routes exist only under `next dev`
+scripts/      responsive-audit, icons, embed
+src/app/      routes, route handlers, OG images, sitemap, feed, sw.ts
 src/clients/  apollo.ts (server-only), supabase.ts, openai.ts
 src/components/
   layouts/    Navbar, Menu, Footer, PageTransition, Preloader
   motion/     RevealText, RevealImage, ScrambleText
   pages/      <route>/<Component>/  (homepage, portfolio, blog, contact, stats, resume, notFound)
   utilities/  shared UI: Modal, CommandPalette, FloatingChat, FormField, JsonLd, ThemedImage, …
-src/config/   site.ts (technical config), imageCrops.ts (plate crop table)
+src/config/   site.ts (technical config)
 src/helpers/  loaders/converters, env, apiProtection, animations, format, richText, caseStudy, …
 src/hooks/ src/contexts/ src/queries/ src/services/ src/types/
 src/styles/   tokens.scss (+ tokens.ts mirror), shared/_mixin.scss, _base.scss, _typography.scss, globals.scss
@@ -79,7 +79,7 @@ Read [docs/cms/CONVENTIONS.md](docs/cms/CONVENTIONS.md) (rules) and [docs/cms/HO
 - Query, raw type and converter changes ship in the same PR as the migration that needs them. Contentful GraphQL rejects queries for fields that don't exist yet.
 - **Content writes are drafts.** Publish only with the user's explicit OK: `pnpm cms:check --env <id>` (must exit 0), then `pnpm cms:publish --env <id> --apply`.
 - Retire content by tagging it `deprecated` / `retired`. Delete only on the user's say-so, once nothing links to it (unpublish first). A published slug never changes without a redirect in `next.config.js`.
-- Every image in use needs alt text in its asset description. Project covers come from the plate pipeline (`pnpm plates`, `/dev/plates`, `pnpm plates:upload`).
+- Every image in use needs alt text in its asset description. Covers follow the size rules in CONVENTIONS.md (3840×2160, light and dark).
 - Public information only: no confidential client names, internal systems or private figures.
 - Preview drafts with `rm -rf .next/cache/fetch-cache && CONTENTFUL_PREVIEW=true pnpm build`.
 
@@ -129,8 +129,6 @@ pnpm test:e2e                      # Playwright (PLAYWRIGHT_BASE_URL to target a
 pnpm generate                      # Plop: component or route
 pnpm analyze                       # webpack bundle analyzer
 pnpm cms:migrate|cms:check|cms:publish --env <id> [--apply]
-pnpm plates [slug] | plates:upload --env <id>
-pnpm plates:blog [slug] | plates:blog:upload --env <id>
 pnpm embed | embed:check           # RAG embeddings from data/knowledge (manual; not in CI or lint-staged while OpenAI is unfunded)
 pnpm icons                         # app icons
 ```
@@ -167,12 +165,12 @@ pnpm icons                         # app icons
 **New project**
 
 1. Create the Portfolio Project entry per HOW_TO_ADD (slug rules, alt text).
-2. Make cover plates: add it to `scripts/plates/projects.config.ts` → `pnpm plates <slug>` → check `/dev/plates` → `pnpm plates:upload --env <id> --apply`.
+2. Upload the light and dark covers (3840×2160, alt text in the description) as draft assets and link them.
 3. Add it to the `work` section's items (this creates the route, sitemap and search entries) → `cms:check` → publish.
 
 **New blog post**
 
-Create a Blog Post draft (category, tags, published date) → add its cover to `scripts/plates/blog.ts`, `pnpm plates:blog <slug>`, `pnpm plates:blog:upload --env <id> <slug> --apply` (light + dark featured image, alt text) → preview build → `cms:check` → publish. The webhook revalidates `/blog/[slug]` and the sitemap.
+Create a Blog Post draft (category, tags, published date) → upload the light and dark featured images (3840×2160 WebP, alt text) as draft assets → preview build → `cms:check` → publish. The webhook revalidates `/blog/[slug]` and the sitemap.
 
 **New component**
 
