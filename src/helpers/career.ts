@@ -1,4 +1,5 @@
 import { toCompany } from 'helpers/company';
+import { calendarDay } from 'helpers/format';
 import type { EmploymentType, Experience } from 'types/career';
 import type { RawCompany } from 'types/contentful';
 
@@ -29,9 +30,9 @@ const MONTH = new Intl.DateTimeFormat('en-GB', {
 	timeZone: 'UTC',
 });
 
-/** "2026-08-01" → "Aug 2026". Contentful Date fields are UTC. */
+/** "2026-08-01" → "Aug 2026", whatever the stored time zone. */
 export const formatMonthYear = (iso: string): string =>
-	MONTH.format(new Date(iso));
+	MONTH.format(calendarDay(iso));
 
 /** Contentful career role → the row shape the career list and resume render. */
 export const toExperience = (role: RawCareerRole): Experience => ({

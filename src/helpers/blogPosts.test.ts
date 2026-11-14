@@ -93,11 +93,12 @@ describe('isFiltering', () => {
 });
 
 describe('formatPostDate', () => {
-	it('formats in UTC regardless of the runtime zone', () => {
+	it('shows the calendar day as written, whatever its offset', () => {
 		expect(formatPostDate('2025-03-01T23:30:00.000Z')).toBe('01 Mar 2025');
-		expect(formatPostDate('2025-03-01T00:30:00+05:30', 'long')).toBe(
-			'28 February 2025'
+		expect(formatPostDate('2026-11-11T00:00:00.000+05:30', 'long')).toBe(
+			'11 November 2026'
 		);
+		expect(formatPostDate('2025-03-01T00:30:00-08:00')).toBe('01 Mar 2025');
 	});
 
 	it('returns an empty string for invalid dates', () => {

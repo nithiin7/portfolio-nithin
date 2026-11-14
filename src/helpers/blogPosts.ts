@@ -1,3 +1,4 @@
+import { calendarDay } from 'helpers/format';
 import type { BlogPost } from 'types/blog';
 
 export interface BlogFilter {
@@ -67,11 +68,11 @@ const dateFormats = {
 	}),
 } as const;
 
-/** UTC so server and client render the same day and hydration matches. */
+/** The day as written in Contentful, the same on server and client. */
 export const formatPostDate = (
 	iso: string,
 	style: keyof typeof dateFormats = 'short'
 ): string => {
-	const date = new Date(iso);
+	const date = calendarDay(iso);
 	return Number.isNaN(date.getTime()) ? '' : dateFormats[style].format(date);
 };

@@ -24,6 +24,10 @@ describe('formatMonthYear', () => {
 	it('formats a Contentful date in UTC', () => {
 		expect(formatMonthYear('2026-08-01')).toBe('Aug 2026');
 	});
+
+	it('keeps the month for a first-of-month date at a local midnight', () => {
+		expect(formatMonthYear('2026-08-01T00:00:00.000+05:30')).toBe('Aug 2026');
+	});
 });
 
 describe('toExperience', () => {
