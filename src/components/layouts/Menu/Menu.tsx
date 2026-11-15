@@ -110,6 +110,7 @@ const Menu = ({ open, onClose, onLinkClick }: MenuProps): ReactElement => {
 							onClick={() => onClose(true)}
 						>
 							Close
+							<span className={styles.Menu__closeIcon} aria-hidden="true" />
 						</button>
 					</div>
 
