@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.3.0](https://github.com/nithiin7/portfolio-nithin/compare/v4.2.1...v4.3.0) (2026-11-23)
+
+
+### Features
+
+* add hover animation to menu close button ([bd4b1ba](https://github.com/nithiin7/portfolio-nithin/commit/bd4b1ba0bbb20592f4c3c1023793586e58250b8a))
+* add new hover animation for close button ([9bac63a](https://github.com/nithiin7/portfolio-nithin/commit/9bac63a5f5f107ecc2c0c20e0a7c014307560953))
+
+
+### Bug Fixes
+
+* skip release-please files in prettier check ([12fb706](https://github.com/nithiin7/portfolio-nithin/commit/12fb7064ea68ffacefc805067bdb9b94a8d7fd90))
+
 ## [4.2.1](https://github.com/nithiin7/portfolio-nithin/compare/v4.2.0...v4.2.1) (2026-11-14)
 
 
