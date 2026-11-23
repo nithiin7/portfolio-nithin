@@ -47,6 +47,9 @@
 	&__close {
 		grid-column: -4 / -1;
 		justify-self: end;
+		display: inline-flex;
+		align-items: center;
+		gap: rem(10);
 		min-height: rem(44);
 		padding: 0 rem(4);
 		background: none;
@@ -54,6 +57,38 @@
 		color: inherit;
 		@include mono-type;
 		cursor: pointer;
+	}
+
+	&__closeIcon {
+		position: relative;
+		width: rem(12);
+		height: rem(12);
+		transition: transform var(--dur-1) var(--ease);
+
+		&::before,
+		&::after {
+			content: '';
+			position: absolute;
+			top: 50%;
+			left: 0;
+			width: 100%;
+			height: 1px;
+			background-color: currentColor;
+		}
+
+		&::before {
+			transform: rotate(45deg);
+		}
+
+		&::after {
+			transform: rotate(-45deg);
+		}
+	}
+
+	@media #{$can-hover} {
+		&__close:hover &__closeIcon {
+			transform: rotate(90deg);
+		}
 	}
 
 	&__nav {
