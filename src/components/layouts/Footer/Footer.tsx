@@ -8,6 +8,7 @@ import type { SiteSettings } from 'types/site';
 
 import styles from './Footer.module.scss';
 import FooterBackToTop from './FooterBackToTop';
+import FooterConsent from './FooterConsent';
 import FooterFrame from './FooterFrame';
 import FooterHeadline from './FooterHeadline';
 
@@ -120,9 +121,12 @@ const Footer = ({ site }: FooterProps): ReactElement => {
 	return (
 		<FooterFrame extended={extended}>
 			<div className={styles.Footer__bar}>
-				<small suppressHydrationWarning>
-					© {new Date().getFullYear()} {name}
-				</small>
+				<div className={styles.Footer__legal}>
+					<small suppressHydrationWarning>
+						© {new Date().getFullYear()} {name}
+					</small>
+					<FooterConsent />
+				</div>
 				<FooterBackToTop />
 			</div>
 		</FooterFrame>

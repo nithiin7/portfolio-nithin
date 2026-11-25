@@ -314,6 +314,13 @@
 		}
 	}
 
+	&__legal {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		column-gap: var(--space-5);
+	}
+
 	&[data-variant='full'] &__bar {
 		margin-top: var(--space-9);
 	}

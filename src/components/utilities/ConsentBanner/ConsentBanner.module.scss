@@ -1,0 +1,244 @@
+@use 'styles/shared/mixin' as *;
+
+$bottom-mobile: max(var(--space-4), env(safe-area-inset-bottom));
+
+// Sits above the chat launcher and palette hint until the viewport is wide
+// enough for it to share their row without touching the centred hint.
+.ConsentBanner {
+	--consent-bottom: calc(
+		#{$bottom-mobile} + var(--chrome-size) + var(--space-3)
+	);
+
+	position: fixed;
+	left: max(var(--grid-margin), env(safe-area-inset-left));
+	bottom: var(--consent-bottom);
+	z-index: 1000;
+	@include transition-layer(consent-banner);
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-3);
+	inline-size: min(calc(100% - 2 * var(--grid-margin)), 24rem);
+	max-block-size: calc(100dvh - var(--consent-bottom) - var(--space-4));
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	padding: var(--space-4);
+	background-color: color-mix(in srgb, var(--surface-1) 94%, transparent);
+	backdrop-filter: blur(12px);
+	color: var(--fg);
+	border: 1px solid var(--line-strong);
+	border-radius: var(--radius-1);
+	box-shadow: 0 rem(12) rem(32) rem(-12) var(--shadow-strong);
+
+	@media #{$md} {
+		--consent-bottom: calc(
+			var(--space-7) + var(--chrome-size) + var(--space-3)
+		);
+		padding: var(--space-5);
+	}
+
+	@media #{$xl} {
+		--consent-bottom: var(--space-7);
+	}
+
+	@media #{$landscape-phone} {
+		--consent-bottom: calc(
+			#{$bottom-mobile} + var(--chrome-size) + var(--space-3)
+		);
+	}
+
+	p {
+		margin: 0;
+	}
+
+	&__head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--space-3);
+	}
+
+	&__label {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-2);
+		@include mono-label;
+	}
+
+	&__dot {
+		inline-size: var(--space-2);
+		block-size: var(--space-2);
+		background-color: var(--accent);
+	}
+
+	&__text {
+		padding: 0;
+		border: 0;
+		background: none;
+		color: var(--fg);
+		cursor: pointer;
+		@include mono-type;
+		@include draw-underline;
+		@include tap-pad;
+
+		&:focus-visible {
+			@include focus-ring(2px);
+		}
+	}
+
+	&__title {
+		font-family: var(--font-display);
+		font-size: var(--step-1);
+		font-weight: 500;
+		line-height: var(--leading-snug);
+		letter-spacing: -0.02em;
+		text-wrap: balance;
+
+		em {
+			font-family: var(--font-serif);
+			font-style: italic;
+			font-weight: 400;
+			letter-spacing: 0;
+			color: var(--accent-text);
+		}
+	}
+
+	&__body {
+		font-size: var(--step--1);
+		line-height: var(--leading-body);
+		color: var(--fg-subtle);
+		text-wrap: pretty;
+	}
+
+	&__panel {
+		overflow: hidden;
+	}
+
+	&__options {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		border-top: 1px solid var(--line);
+	}
+
+	&__option {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--space-4);
+		padding-block: var(--space-3);
+		border-bottom: 1px solid var(--line);
+	}
+
+	&__name {
+		font-size: var(--step-0);
+		font-weight: 500;
+	}
+
+	&__detail {
+		font-size: var(--step--1);
+		line-height: var(--leading-snug);
+		color: var(--muted);
+	}
+
+	&__always {
+		flex: none;
+		@include mono-label;
+	}
+
+	&__switch {
+		position: relative;
+		flex: none;
+		inline-size: rem(40);
+		block-size: rem(22);
+		padding: 0;
+		border: 1px solid var(--line-strong);
+		border-radius: var(--radius-pill);
+		background-color: transparent;
+		cursor: pointer;
+		transition:
+			background-color var(--dur-1) var(--ease),
+			border-color var(--dur-1) var(--ease);
+
+		// Widens the hit area to the touch minimum without changing the layout.
+		&::before {
+			content: '';
+			position: absolute;
+			inset: calc((var(--tap-min) - #{rem(22)}) / -2)
+				calc((var(--tap-min) - #{rem(40)}) / -2);
+		}
+
+		&::after {
+			content: '';
+			position: absolute;
+			top: rem(2);
+			left: rem(2);
+			inline-size: rem(16);
+			block-size: rem(16);
+			border-radius: 50%;
+			background-color: var(--muted);
+			transition:
+				translate var(--dur-1) var(--ease),
+				background-color var(--dur-1) var(--ease);
+		}
+
+		&[aria-checked='true'] {
+			background-color: var(--accent);
+			border-color: var(--accent);
+
+			&::after {
+				translate: rem(18) 0;
+				background-color: var(--accent-fg);
+			}
+		}
+
+		&:focus-visible {
+			@include focus-ring(2px);
+		}
+	}
+
+	&__actions {
+		display: flex;
+		gap: var(--space-2);
+		margin-top: var(--space-1);
+	}
+
+	&__button {
+		flex: 1 1 0;
+		min-block-size: rem(40);
+		padding-inline: var(--space-4);
+		border: 1px solid var(--line-strong);
+		border-radius: var(--radius-1);
+		background-color: transparent;
+		color: var(--fg);
+		cursor: pointer;
+		@include mono-type;
+		@include tap-target(inline-flex);
+		justify-content: center;
+		transition:
+			background-color var(--dur-1) var(--ease),
+			border-color var(--dur-1) var(--ease),
+			color var(--dur-1) var(--ease);
+
+		@include hover {
+			background-color: var(--fg);
+			border-color: var(--fg);
+			color: var(--bg);
+		}
+
+		&:focus-visible {
+			@include focus-ring(2px);
+		}
+
+		&--primary {
+			background-color: var(--fg);
+			border-color: var(--fg);
+			color: var(--bg);
+
+			@include hover {
+				background-color: var(--accent);
+				border-color: var(--accent);
+				color: var(--accent-fg);
+			}
+		}
+	}
+}
