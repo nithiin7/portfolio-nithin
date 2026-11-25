@@ -12,10 +12,28 @@ export const isolate = async (context: BrowserContext): Promise<void> => {
 	);
 };
 
-export const test = base.extend<{ isolated: void }>({
+/**
+ * Records a declined consent choice so the banner stays out of the way and
+ * test runs never reach Google Analytics. Set `consent: 'unset'` to test it.
+ */
+const declineConsent = async (context: BrowserContext): Promise<void> => {
+	await context.addInitScript(() => {
+		localStorage.setItem(
+			'consent',
+			JSON.stringify({ v: 1, ts: Date.now(), analytics: false })
+		);
+	});
+};
+
+export const test = base.extend<{
+	consent: 'declined' | 'unset';
+	isolated: void;
+}>({
+	consent: ['declined', { option: true }],
 	isolated: [
-		async ({ context }, use) => {
+		async ({ context, consent }, use) => {
 			await isolate(context);
+			if (consent === 'declined') await declineConsent(context);
 			await use();
 		},
 		{ auto: true },

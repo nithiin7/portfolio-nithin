@@ -1,6 +1,8 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render as rtlRender, screen } from '@testing-library/react';
+import type { ReactElement } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { ConsentProvider } from 'contexts/ConsentContext';
 import { siteFixture } from 'test/fixtures';
 
 import Footer from './Footer';
@@ -12,6 +14,9 @@ const { pathname, lenis } = vi.hoisted(() => ({
 
 vi.mock('next/navigation', () => ({ usePathname: () => pathname.current }));
 vi.mock('lenis/react', () => ({ useLenis: () => lenis }));
+
+const render = (ui: ReactElement) =>
+	rtlRender(<ConsentProvider>{ui}</ConsentProvider>);
 
 describe('Footer', () => {
 	beforeEach(() => {

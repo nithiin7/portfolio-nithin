@@ -1,12 +1,9 @@
-import { Analytics } from '@vercel/analytics/next';
-import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata, Viewport } from 'next';
 import {
 	Instrument_Serif,
 	Inter_Tight,
 	JetBrains_Mono,
 } from 'next/font/google';
-import Script from 'next/script';
 
 import 'styles/tokens.scss';
 import 'styles/globals.scss';
@@ -18,6 +15,8 @@ import Preloader, {
 	preloaderScript,
 } from 'components/layouts/Preloader/Preloader';
 import CommandPalette from 'components/utilities/CommandPalette/CommandPaletteLazy';
+import ConsentBanner from 'components/utilities/ConsentBanner/ConsentBannerLazy';
+import ConsentScripts from 'components/utilities/ConsentScripts/ConsentScripts';
 import FloatingChat from 'components/utilities/FloatingChat/FloatingChatLazy';
 import GridOverlay from 'components/utilities/GridOverlay/GridOverlay';
 import JsonLd from 'components/utilities/JsonLd/JsonLd';
@@ -31,7 +30,9 @@ import {
 	socialUrl,
 	titleTemplate,
 } from 'config/site';
+import { ConsentProvider } from 'contexts/ConsentContext';
 import { SiteSettingsProvider } from 'contexts/SiteSettingsContext';
+import { consentScript } from 'helpers/consent';
 import { loadSiteSettings } from 'helpers/contentful';
 import { clientEnv } from 'helpers/env';
 import { themeScript } from 'helpers/theme';
@@ -128,9 +129,6 @@ export async function generateMetadata(): Promise<Metadata> {
 	};
 }
 
-const gtmSnippet = (id: string): string =>
-	`(function(w,d,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':Date.now(),event:'gtm.js'});var j=d.createElement('script');j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i;d.head.appendChild(j);})(window,document,'dataLayer','${id}');`;
-
 interface RootLayoutProps {
 	children: React.ReactNode;
 }
@@ -154,6 +152,7 @@ export default async function RootLayout({
 			suppressHydrationWarning
 		>
 			<head>
+				<script dangerouslySetInnerHTML={{ __html: consentScript }} />
 				<script dangerouslySetInnerHTML={{ __html: themeScript }} />
 				<script dangerouslySetInnerHTML={{ __html: preloaderScript }} />
 				<link
@@ -170,15 +169,22 @@ export default async function RootLayout({
 				<SkipLink targetId="main-content" />
 				<SiteSettingsProvider value={site}>
 					<Provider>
-						<Navbar />
-						<main id="main-content" tabIndex={-1}>
-							<PageTransition>{children}</PageTransition>
-						</main>
-						<Footer site={site} />
-						<FloatingChat chatbotUrl="https://nithiin7-portfolio-resume.hf.space" />
-						<CommandPalette resumeUrl="/resume.pdf" />
-						<Toast />
-						{process.env.NODE_ENV === 'development' && <GridOverlay />}
+						<ConsentProvider>
+							<Navbar />
+							<main id="main-content" tabIndex={-1}>
+								<PageTransition>{children}</PageTransition>
+							</main>
+							<Footer site={site} />
+							<FloatingChat chatbotUrl="https://nithiin7-portfolio-resume.hf.space" />
+							<CommandPalette resumeUrl="/resume.pdf" />
+							<Toast />
+							<ConsentBanner />
+							<ConsentScripts
+								gtmId={gtmId}
+								vercel={Boolean(process.env.VERCEL)}
+							/>
+							{process.env.NODE_ENV === 'development' && <GridOverlay />}
+						</ConsentProvider>
 					</Provider>
 				</SiteSettingsProvider>
 				<svg className="grainy__filter pointer-events-none absolute cursor-none">
@@ -187,17 +193,6 @@ export default async function RootLayout({
 						<feColorMatrix type="saturate" values="0" />
 					</filter>
 				</svg>
-				{process.env.VERCEL && (
-					<>
-						<Analytics />
-						<SpeedInsights />
-					</>
-				)}
-				{gtmId && (
-					<Script id="gtm" strategy="lazyOnload">
-						{gtmSnippet(gtmId)}
-					</Script>
-				)}
 			</body>
 		</html>
 	);

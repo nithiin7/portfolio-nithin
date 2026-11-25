@@ -335,6 +335,10 @@ const newPage = async (
 	await context.addInitScript((t) => {
 		sessionStorage.setItem('np:visited', '1');
 		localStorage.setItem('theme', t);
+		localStorage.setItem(
+			'consent',
+			JSON.stringify({ v: 1, ts: Date.now(), analytics: false })
+		);
 	}, theme);
 	return context.newPage();
 };
