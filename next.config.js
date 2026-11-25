@@ -1,5 +1,5 @@
 import bundleAnalyzer from '@next/bundle-analyzer';
-import { withSentryConfig } from '@sentry/nextjs';
+import { withSentryConfig } from '@sentry/nextjs/config';
 import { withSerwist } from '@serwist/turbopack';
 
 const withBundleAnalyzer = bundleAnalyzer({
@@ -56,9 +56,6 @@ const documentHeaders = [
 const nextConfig = {
 	reactStrictMode: true,
 	htmlLimitedBots: /.*/,
-	experimental: {
-		viewTransition: true,
-	},
 	images: {
 		qualities: [75],
 		deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 2560, 3840],
