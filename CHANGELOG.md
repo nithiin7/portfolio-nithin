@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.4.0](https://github.com/nithiin7/portfolio-nithin/compare/v4.3.0...v4.4.0) (2026-11-25)
+
+
+### Features
+
+* **privacy:** gate analytics behind a cookie consent banner ([d21293c](https://github.com/nithiin7/portfolio-nithin/commit/d21293c8fedfa936305dee41837d50479a0814cd))
+* **privacy:** gate analytics behind a cookie consent banner ([d24adb3](https://github.com/nithiin7/portfolio-nithin/commit/d24adb319fe8fe331507c105b3ac37730bbcfcf1))
+* **privacy:** replace the recaptcha badge with an inline notice ([6b5352c](https://github.com/nithiin7/portfolio-nithin/commit/6b5352cb26b3e1cf497928eda2ba4e4e302268be))
+* **privacy:** replace the recaptcha badge with an inline notice ([4fbb552](https://github.com/nithiin7/portfolio-nithin/commit/4fbb55230d7aa5f732eec041353f7a6e4144efb9))
+
 ## [4.3.0](https://github.com/nithiin7/portfolio-nithin/compare/v4.2.1...v4.3.0) (2026-11-23)
 
 
