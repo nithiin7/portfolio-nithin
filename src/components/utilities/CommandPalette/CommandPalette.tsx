@@ -9,6 +9,7 @@ import {
 	useGoogleReCaptcha,
 } from 'react-google-recaptcha-v3';
 
+import RecaptchaNotice from 'components/utilities/RecaptchaNotice/RecaptchaNotice';
 import { links } from 'constants/index';
 import { useTheme } from 'contexts/ThemeContext';
 import { fadeVariants, overlayVariants } from 'helpers/animations';
@@ -705,6 +706,9 @@ const CommandPalette = ({ resumeUrl }: CommandPaletteProps): ReactElement => {
 												{ask.answer}
 											</p>
 										)}
+										<RecaptchaNotice
+											className={styles['CommandPalette__answer-notice']}
+										/>
 									</motion.div>
 								)}
 							</AnimatePresence>

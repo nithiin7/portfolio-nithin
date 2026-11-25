@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 
 import CommentCard from 'components/pages/blog/CommentCard/CommentCard';
 import CommentForm from 'components/pages/blog/CommentForm/CommentForm';
+import RecaptchaNotice from 'components/utilities/RecaptchaNotice/RecaptchaNotice';
 import { clientEnv } from 'helpers/env';
 import type { Comment, CommentFormData } from 'types/comment';
 
@@ -108,6 +109,7 @@ const CommentSection: FC<CommentSectionProps> = ({
 							comments are held for review; your email is never published.
 						</p>
 						<CommentForm onSubmit={submit} />
+						<RecaptchaNotice />
 					</div>
 
 					<div className={styles.CommentSection__thread}>
