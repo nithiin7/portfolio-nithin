@@ -1,0 +1,24 @@
+@use 'styles/shared/mixin' as *;
+
+.RecaptchaNotice {
+	max-width: 60ch;
+	margin: 0;
+	@include mono-label;
+	line-height: var(--leading-snug);
+
+	&__link {
+		color: inherit;
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.2em;
+		transition: color var(--dur-1) var(--ease);
+
+		@include hover {
+			color: var(--fg);
+		}
+
+		&:focus-visible {
+			@include focus-ring(2px);
+		}
+	}
+}

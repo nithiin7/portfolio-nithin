@@ -49,6 +49,12 @@ body {
 	}
 }
 
+// Google permits hiding the badge only while RecaptchaNotice is shown in every
+// protected flow; display: none would break reCAPTCHA's scoring.
+.grecaptcha-badge {
+	visibility: hidden;
+}
+
 :focus-visible {
 	outline: 2px solid var(--focus);
 	outline-offset: 2px;

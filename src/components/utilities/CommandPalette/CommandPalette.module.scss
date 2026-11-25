@@ -278,6 +278,10 @@
 			color: var(--danger);
 		}
 
+		&-notice {
+			padding: 0 var(--space-5) var(--space-4);
+		}
+
 		&-loading {
 			margin: 0;
 			padding: var(--space-3) var(--space-5) var(--space-5);

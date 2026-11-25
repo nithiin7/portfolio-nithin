@@ -10,6 +10,7 @@ import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
 import FormField from 'components/utilities/FormField/FormField';
+import RecaptchaNotice from 'components/utilities/RecaptchaNotice/RecaptchaNotice';
 import { useSiteSettings } from 'contexts/SiteSettingsContext';
 import { clientEnv } from 'helpers/env';
 import { contactSchema } from 'helpers/validations';
@@ -234,6 +235,8 @@ const ContactForm: FC<ContactFormProps> = ({ className = '' }) => {
 						<p className={styles.ContactForm__error} role="alert">
 							{submitError}
 						</p>
+
+						<RecaptchaNotice />
 					</motion.form>
 				)}
 			</AnimatePresence>
